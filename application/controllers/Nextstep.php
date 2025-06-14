@@ -18,8 +18,7 @@ class Nextstep extends MY_Controller
 		if ($rowKelas->num_rows() > 0) {
 			$rowKelas = $rowKelas->row();
 		} else {
-			$this->load->view('nextstep/notfound', $data);
-			exit();
+			return redirect('nextstep');
 		}
 
 		$tglsekarang = date('Y-m-d H:i:00');
@@ -80,17 +79,17 @@ class Nextstep extends MY_Controller
 			echo json_encode(array('msg' => "Gagal registrasi kelas"));
 		}
 	}
-	public function index($idmenu =null){
-		$data['title']= 'NEXTSTEP';
-		if($idmenu !==null){
-			$idmenu-->$this->encrypt->decode($idmenu);
+	public function index($idmenu = null)
+	{
+		$data['title'] = 'NEXTSTEP';
+		if ($idmenu !== null) {
+			$idmenu-- > $this->encrypt->decode($idmenu);
 			$data['menu'] = $idmenu;
-		
-	} else {
-		$data['menu'] = 'NEXTSTEP';
-	}
-	$data["rowinfogereja"] = $this->Home_model->get_infogereja();	
-		$this->load->view('nextstep/aboutnextstep',$data);
+		} else {
+			$data['menu'] = 'NEXTSTEP';
+		}
+		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
+		$this->load->view('nextstep/aboutnextstep', $data);
 	}
 }
 
