@@ -143,7 +143,7 @@ T e m p l a t e M o
             width: 50%;
             height: 50%;
             z-index: 9999;
-            background: url('<?php echo base_url("images/Spinner-3.gif") ?>') 100% 100% no-repeat;
+            background: url('<?php echo base_url("myesc.id/images/Spinner-3.gif") ?>') 100% 100% no-repeat;
         }
     </style>
     <div class="loader"></div>
