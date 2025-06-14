@@ -25,14 +25,14 @@
     <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/templatemo-festava-live.css" rel="stylesheet">
 
     <!-- Font Awesome Icons 5.1 -->
-    <link rel="stylesheet" href="<?php echo (base_url()) ?>admin/assets/adminlte/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo (base_url()) ?>myesc.id/admin/assets/adminlte/plugins/fontawesome-free/css/all.min.css">
 
     <!-- custom -->
-    <link href="<?php echo (base_url()) ?>admin/assets/custom/custom.css" rel="stylesheet" />
+    <link href="<?php echo (base_url()) ?>myesc.id/admin/assets/custom/custom.css" rel="stylesheet" />
 
 
     <!-- select2 -->
-    <link href="<?php echo (base_url()) ?>admin/assets/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="<?php echo (base_url()) ?>myesc.id/admin/assets/select2/css/select2.min.css" rel="stylesheet" />
     <style>
         /*** Navbar ***/
 
