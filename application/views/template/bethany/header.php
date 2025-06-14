@@ -6,7 +6,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="<?php echo base_url('images/icon.png') ?>" rel="icon">
+  <link href="<?php echo base_url('myesc.id/images/icon.png') ?>" rel="icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -37,7 +37,7 @@
 
   <!-- Google Font: Source Sans Pro -->
   <link href="<?php echo (base_url()) ?>admin/assets/googleapis/googleapis.css" rel="stylesheet">
-  
+
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
   <!-- select2 -->

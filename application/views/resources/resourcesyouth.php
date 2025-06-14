@@ -16,7 +16,7 @@ $this->load->view('template/festavalive/header'); ?>
     #hero {
       width: 100%;
       height: 40vh;
-      background: url("<?php echo base_url('images/banner2.jpg') ?>") center center;
+      background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center;
       background-size: cover;
       position: relative;
     }
@@ -2883,11 +2883,11 @@ $this->load->view('template/festavalive/header'); ?>
                   <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
                 </ul> -->
                 <p class="fst-italic">
-                Kami menyediakan beragam aset untuk mendukung berbagai kebutuhan pelayanan di gereja Anda, mulai dari bahan presentasi, video, gambar ilustrasi, hingga panduan liturgi dan materi ajar. Semua aset ini dirancang untuk membantu memperkaya dan mempermudah pelayanan Anda, serta dapat diunduh secara bebas sesuai kebutuhan. Kami berharap aset-aset ini dapat menjadi berkat dalam setiap kegiatan ibadah, pengajaran, dan pelayanan di gereja Anda.
+                  Kami menyediakan beragam aset untuk mendukung berbagai kebutuhan pelayanan di gereja Anda, mulai dari bahan presentasi, video, gambar ilustrasi, hingga panduan liturgi dan materi ajar. Semua aset ini dirancang untuk membantu memperkaya dan mempermudah pelayanan Anda, serta dapat diunduh secara bebas sesuai kebutuhan. Kami berharap aset-aset ini dapat menjadi berkat dalam setiap kegiatan ibadah, pengajaran, dan pelayanan di gereja Anda.
                 </p>
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="<?php echo base_url('assets/gambar/alkitab1.jpg'); ?> " alt="" class="img-fluid">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/alkitab1.jpg'); ?> " alt="" class="img-fluid">
               </div>
 
             </div>
@@ -2988,7 +2988,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </ul>
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="<?php echo base_url('assets/gambar/alkitab2.jpg'); ?> " alt="" class="img-fluid">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/alkitab2.jpg'); ?> " alt="" class="img-fluid">
               </div>
             </div>
             <div class="row">
@@ -3062,7 +3062,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </ul>
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="<?php echo base_url('assets/gambar/alkitab.jpg'); ?>">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/alkitab.jpg'); ?>">
               </div>
             </div>
           </div><!-- End Tab Content Item -->
@@ -3079,7 +3079,7 @@ $this->load->view('template/festavalive/header'); ?>
     <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-         
+
           <div class="modal-body" style="padding: 20px;">
             <div class="row">
               <div class="col-4">
@@ -3093,10 +3093,10 @@ $this->load->view('template/festavalive/header'); ?>
                   <p>Versi dari ESC Youth membawa interpretasi modern dengan aransemen musik yang lebih segar, cocok untuk generasi muda yang ingin merasakan keindahan Natal dengan cara yang baru. ESC Youth menggunakan gaya harmoni vokal yang khas dan instrumen modern seperti gitar elektrik dan drum untuk menghidupkan kembali pesan sukacita dan harapan Natal dalam lagu ini.</p>
                   <div class="row">
                     <div class="col-6" style="display: flex; align-items: center; justify-content: center;">
-                      <a href="<?php echo base_url('assets/audio/youth/THE FIRST NOEL.pdf'); ?>" download style="margin-right: 10px;"> Download Lirik </a>
+                      <a href="<?php echo base_url('myesc.id/assets/audio/youth/THE FIRST NOEL.pdf'); ?>" download style="margin-right: 10px;"> Download Lirik </a>
                     </div>
                     <div class="col-4" style="display: flex; align-items: center; justify-content: flex-end;">
-                      <a href="<?php echo base_url('assets/audio/youth/THE FIRST NOEL.pdf'); ?>" target="_blank"> Lihat Lirik </a>
+                      <a href="<?php echo base_url('myesc.id/assets/audio/youth/THE FIRST NOEL.pdf'); ?>" target="_blank"> Lihat Lirik </a>
                     </div>
                   </div>
 
@@ -3114,13 +3114,13 @@ $this->load->view('template/festavalive/header'); ?>
             </div>
 
 
+          </div>
         </div>
       </div>
-    </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
   </main>
 

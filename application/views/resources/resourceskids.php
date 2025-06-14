@@ -16,7 +16,7 @@ $this->load->view('template/festavalive/header'); ?>
     #hero {
       width: 100%;
       height: 40vh;
-      background: url("<?php echo base_url('images/banner2.jpg') ?>") center center;
+      background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center;
       background-size: cover;
       position: relative;
     }
@@ -225,7 +225,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     /* PHP Email Form Messages
 ------------------------------*/
-    
+
 
     @keyframes php-email-form-loading {
       0% {
@@ -377,7 +377,7 @@ $this->load->view('template/festavalive/header'); ?>
       font-family: var(--heading-font);
     }
 
-  
+
 
     @keyframes move-forever2 {
       0% {
@@ -2271,7 +2271,7 @@ $this->load->view('template/festavalive/header'); ?>
 
       <div class="container ">
 
-        <ul class="nav nav-tabs1 row  d-flex" style="display: flex; align-items: center; justify-content: space-between;"  data-aos="fade-up" data-aos-delay="100">
+        <ul class="nav nav-tabs1 row  d-flex" style="display: flex; align-items: center; justify-content: space-between;" data-aos="fade-up" data-aos-delay="100">
           <li class="nav-item col-2">
             <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
               <i class="bi bi-stickies"></i>
@@ -2292,7 +2292,7 @@ $this->load->view('template/festavalive/header'); ?>
           </li>
           <li class="nav-item col-2">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-4">
-            <i class="bi bi-pencil"></i>
+              <i class="bi bi-pencil"></i>
               <h4 class="d-none d-lg-block">Lembar Aktifitas</h4>
             </a>
           </li>
@@ -2329,7 +2329,7 @@ $this->load->view('template/festavalive/header'); ?>
 
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="<?php echo base_url('assets/gambar/kids_play.png'); ?> " alt="" class="img-fluid">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/kids_play.png'); ?> " alt="" class="img-fluid">
               </div>
 
             </div>
@@ -2339,7 +2339,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/jesus.jpg');?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/jesus.jpg'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2355,7 +2355,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/jesus2.jpg');?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/jesus2.jpg'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2371,7 +2371,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/ss.jpg');?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/ss.jpg'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2387,7 +2387,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/jesus$kids.png');?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/jesus$kids.png'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2405,7 +2405,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/jesuslanscape.jpg');?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/jesuslanscape.jpg'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2421,7 +2421,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/jesuslanscape2.png');?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/jesuslanscape2.png'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2437,7 +2437,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/jesuslanscape3.png'); ?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/jesuslanscape3.png'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2453,7 +2453,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="col-12 col-sm-3">
                   <div class="card-sl">
                     <div class="card-image">
-                      <img src="<?php echo base_url('assets/gambar/jesuslanscape4.jpg'); ?>" alt="" class="img-fluid">
+                      <img src="<?php echo base_url('myesc.id/assets/gambar/jesuslanscape4.jpg'); ?>" alt="" class="img-fluid">
                     </div>
                     <div style="padding: 15px;">
                       <h6>Air Bah</h6>
@@ -2493,7 +2493,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </ul>
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="<?php echo base_url('assets/gambar/alkitab2.jpg'); ?> " alt="" class="img-fluid">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/alkitab2.jpg'); ?> " alt="" class="img-fluid">
               </div>
             </div>
             <div class="row">
@@ -2567,7 +2567,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </ul>
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="<?php echo base_url('assets/gambar/alkitab.jpg'); ?>">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/alkitab.jpg'); ?>">
               </div>
             </div>
           </div><!-- End Tab Content Item -->

@@ -12,7 +12,7 @@
         #hero {
             width: 100%;
             height: 40vh;
-            background: url("<?php echo base_url('images/banner2.jpg') ?>") center center;
+            background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center;
             background-size: cover;
             position: relative;
         }
@@ -910,7 +910,7 @@
                                         if (!empty($row->fotodm)) {
                                             $fotodm = base_url('admin/uploads/jemaat/' . $row->fotodm);
                                         } else {
-                                            $fotodm = base_url('images/bg-dc.png');
+                                            $fotodm = base_url('myesc.id/images/bg-dc.png');
                                         }
 
                                         echo '

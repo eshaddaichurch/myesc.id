@@ -748,7 +748,7 @@
 
   <section>
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('<?php echo base_url('assets/gambar/back.jpg'); ?>'); height: 400px; background-size: cover; background-position: center;">
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/back.jpg'); ?>'); height: 400px; background-size: cover; background-position: center;">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2><?php echo $title ?></h2>
@@ -792,7 +792,7 @@
     <div class="row justify-content-center">
       <div class="col-6 mb-3">
         <div class="card bg-dark text-white" style="height: 200px;">
-          <img src="<?php echo base_url('assets/assetku/img/blog/kids.png'); ?>" class="card-img" style="height:100%; object-fit:cover" alt="...">
+          <img src="<?php echo base_url('myesc.id/assets/assetku/img/blog/kids.png'); ?>" class="card-img" style="height:100%; object-fit:cover" alt="...">
           <div class="card-img-overlay">
             <h5 class="card-title text-white m-3">GOLD</h5>
             <p class="card-text text-white"> This is a wider card with supporting text below as a natural</p>
@@ -802,7 +802,7 @@
       </div>
       <div class="col-6 mb-3">
         <div class="card bg-dark text-white" style="height: 200px;">
-          <img src="<?php echo base_url('assets/assetku/img/blog/kids.png'); ?>" class="card-img" style="height:100%; object-fit:cover" alt="...">
+          <img src="<?php echo base_url('myesc.id/assets/assetku/img/blog/kids.png'); ?>" class="card-img" style="height:100%; object-fit:cover" alt="...">
           <div class="card-img-overlay">
             <h5 class="card-title text-white m-3">KIDS</h5>
             <p class="card-text text-white"> This is a wider card with supporting text below as a natural</p>

@@ -51,39 +51,39 @@
                     <h5 class="site-footer-title mb-3">Social</h5>
 
                     <p class="text-white d-flex mb-1">
-                         <ul style="list-style: none; padding: 0; margin: 0; display: flex;">
-                            <li class="social-icon-item" style="margin-right: 10px;">
-                                <a href=https://www.instagram.com/elshaddai_church/ class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
-                                    <span class="bi-instagram"></span>
-                                </a>
-                            </li>
-                         </ul>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex;">
+                        <li class="social-icon-item" style="margin-right: 10px;">
+                            <a href=https://www.instagram.com/elshaddai_church/ class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                                <span class="bi-instagram"></span>
+                            </a>
+                        </li>
+                    </ul>
 
                     </p>
-                    
+
                     <p class="text-white d-flex mb-1">
-                         <ul style="list-style: none; padding: 0; margin: 0; display: flex;">
-                            <li class="social-icon-item" style="margin-right: 10px;">
-                                <a href=https://open.spotify.com/intl-id/artist/0ttHVHLE08tW3WQJySwIOz class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
-                                    <span class="bi bi-spotify"></span>
-                                </a>
-                            </li>
-                         </ul>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex;">
+                        <li class="social-icon-item" style="margin-right: 10px;">
+                            <a href=https://open.spotify.com/intl-id/artist/0ttHVHLE08tW3WQJySwIOz class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                                <span class="bi bi-spotify"></span>
+                            </a>
+                        </li>
+                    </ul>
 
                     </p>
-                    
 
-                        
+
+
                     <p class="text-white d-flex mb-1">
                         <li class="social-icon-item">
-                                <a href="https://www.youtube.com/@elshaddaichurchpontianak" class="social-icon-link" target="_blank">
-                                    <span class="bi-youtube"></span>
-                                </a>
-                            </li>
+                            <a href="https://www.youtube.com/@elshaddaichurchpontianak" class="social-icon-link" target="_blank">
+                                <span class="bi-youtube"></span>
+                            </a>
+                        </li>
                     </p>
-                    
-                   
-                    
+
+
+
                 </div>
             </div>
         </div>
@@ -138,16 +138,16 @@ T e m p l a t e M o
 
 
     <!-- JAVASCRIPT FILES -->
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/jquery.min.js"></script>
-    <!-- <script src="<?php echo base_url('assets/FestavaLive/') ?>js/bootstrap.min.js"></script> -->
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/jquery.min.js"></script>
+    <!-- <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/bootstrap.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/jquery.sticky.js"></script>
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/click-scroll.js"></script>
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/custom.js"></script>
-    
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/jquery.sticky.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/click-scroll.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/custom.js"></script>
+
     <!-- AOS animation JS -->
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    
+
 
 
 
@@ -177,7 +177,9 @@ T e m p l a t e M o
     <script src="<?php echo base_url(); ?>admin/assets/ckeditor/ckeditor.js"></script>
 
     <script src="<?php echo (base_url()) ?>admin/assets/sweetalert/sweetalert.min.js"></script>
-    <script>AOS.init();</script>
+    <script>
+        AOS.init();
+    </script>
 
 
     <script>

@@ -2,7 +2,7 @@
 
 use PhpParser\Node\Stmt\Echo_;
 
- $this->load->view('template/festavalive/header'); ?>
+$this->load->view('template/festavalive/header'); ?>
 
 <body>
 
@@ -32,63 +32,63 @@ use PhpParser\Node\Stmt\Echo_;
             .dark {
                 background: #110f16;
             }
-            
-                   /*--------------------------------------------------------------
+
+            /*--------------------------------------------------------------
                     # Breadcrumbs
                     --------------------------------------------------------------*/
-                        .breadcrumbs {
-                          padding: 140px 0 60px 0;
-                          min-height: 30vh;
-                          position: relative;
-                          background-size: cover;
-                          background-position: center;
-                          background-repeat: no-repeat;
-                        }
-                    
-                        .breadcrumbs:before {
-                          content: "";
-                          background-color: rgba(0, 0, 0, 0.6);
-                          position: absolute;
-                          inset: 0;
-                        }
-                    
-                        .breadcrumbs h2 {
-                          font-size: 56px;
-                          font-weight: 500;
-                          color: #fff;
-                          font-family: var(--font-secondary);
-                        }
-                    
-                        .breadcrumbs ol {
-                          display: flex;
-                          flex-wrap: wrap;
-                          list-style: none;
-                          padding: 0 0 10px 0;
-                          margin: 0;
-                          font-size: 16px;
-                          font-weight: 600;
-                          color: var(--color-primary);
-                        }
-                    
-                        .breadcrumbs ol a {
-                          color: rgba(255, 255, 255, 0.8);
-                          transition: 0.3s;
-                        }
-                    
-                        .breadcrumbs ol a:hover {
-                          text-decoration: underline;
-                        }
-                    
-                        .breadcrumbs ol li+li {
-                          padding-left: 10px;
-                        }
-                    
-                        .breadcrumbs ol li+li::before {
-                          display: inline-block;
-                          padding-right: 10px;
-                          color: #fff;
-                          content: "/";
-                        }
+            .breadcrumbs {
+                padding: 140px 0 60px 0;
+                min-height: 30vh;
+                position: relative;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            .breadcrumbs:before {
+                content: "";
+                background-color: rgba(0, 0, 0, 0.6);
+                position: absolute;
+                inset: 0;
+            }
+
+            .breadcrumbs h2 {
+                font-size: 56px;
+                font-weight: 500;
+                color: #fff;
+                font-family: var(--font-secondary);
+            }
+
+            .breadcrumbs ol {
+                display: flex;
+                flex-wrap: wrap;
+                list-style: none;
+                padding: 0 0 10px 0;
+                margin: 0;
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--color-primary);
+            }
+
+            .breadcrumbs ol a {
+                color: rgba(255, 255, 255, 0.8);
+                transition: 0.3s;
+            }
+
+            .breadcrumbs ol a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumbs ol li+li {
+                padding-left: 10px;
+            }
+
+            .breadcrumbs ol li+li::before {
+                display: inline-block;
+                padding-right: 10px;
+                color: #fff;
+                content: "/";
+            }
 
 
             .light {
@@ -195,7 +195,7 @@ use PhpParser\Node\Stmt\Echo_;
                     justify-content: center;
 
                     .tag__item {
-                       
+
                         display: inline-block;
                         background: #FAF0E6;
                         border-radius: 3px;
@@ -313,364 +313,381 @@ use PhpParser\Node\Stmt\Echo_;
                     }
                 }
             }
-        
         </style>
-        
-
-        
-
-<style>
-     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-        font-family: 'Figtree', sans-serif;
-    }
-
-    h1, h2, h3, h4, h5, h6, p, a, span, div, li, strong, em {
-            font-family: 'Figtree', sans-serif !important;
-    }
-
-    .parallax-section {
-      background-image: url('<?php echo base_url("assets/gambar/baptisan11.jpg"); ?>');
-      height: 90vh;
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
-    }
-
-    /* Tambahkan ini untuk tampilan mobile */
-    @media (max-width: 768px) {
-        .parallax-section {
-            height: 60vh; /* Lebih pendek di layar kecil */
-        }
-    }
-
-    .parallax-section h1 {
-      font-size: 48px;
-      /* background: rgba(0,0,0,0.5); */
-      padding: 20px 40px;
-      border-radius: 10px;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #000000;
-      color: #444;
-    }
-
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-    }
 
 
-    h1, h2 {
-      color: #ffffff;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 26px;
-      font-weight: 700;
-    }
-
-    h2 {
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto 20px;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 10px 24px;
-      border: 1px solid #999;
-      border-radius: 24px;
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: #ef5008;
-      background-color: transparent;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .button:hover {
-      background-color: #ef5008;
-      color: #fff;
-    }
-
-    /* Child Dedication Section */
-    .section.light.dedication {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    padding: 60px 20px;
-    }
-
-    .dedication-text {
-    flex: 1 1 400px;
-    max-width: 600px;
-    text-align: left;
-    }
-
-    .dedication-text blockquote {
-    font-style: italic;
-    color: #333;
-    margin-top: 20px;
-    border-left: 4px solid #ef5008;
-    padding-left: 16px;
-    }
-
-    .dedication-video {
-    flex: 1 1 400px;
-    max-width: 560px;
-    }
-
-    .dedication-video iframe {
-    width: 100%;
-    height: 315px;
-    border: none;
-    }
-
-    /*konseling*/
-    .konseling {
-    background-color: #e8e3d6;
-    padding: 60px 20px;
-    }
-
-    .konseling .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 1200px;
-    margin: auto;
-    gap: 40px;
-    flex-wrap: wrap;
-    }
-
-    .konseling .image img {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 4px;
-    }
-
-    .konseling .text {
-    max-width: 500px;
-    }
-
-    .konseling h2 {
-    font-size: 2rem;
-    margin-bottom: 16px;
-    color: #000;
-    }
-
-    .konseling p {
-    font-size: 1.1rem;
-    margin-bottom: 24px;
-    color: #111;
-    }
-
-    .konseling .btn {
-    background-color: #000;
-    color: #fff;
-    padding: 12px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    transition: background 0.3s;
-    }
-
-    .konseling .btn:hover {
-    background-color: #333;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-    .konseling .container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .konseling .text {
-        max-width: 100%;
-    }
-
-    .konseling .btn {
-        margin-top: 10px;
-    }
-    }
-    /*kunjugan*/
-
-    .esc-section {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding: 60px 40px;
-    max-width: 1200px;
-    margin: auto;
-    }
-
-    .esc-text-content {
-    flex: 1 1 55%;
-    padding-right: 30px;
-    }
-
-    .esc-text-content h1 {
-    font-size: 40px;
-    font-weight: bold;
-    margin-bottom: 25px;
-    }
-
-    .esc-text-content h2 {
-    font-size: 24px;
-    font-weight: normal;
-    margin-bottom: 25px;
-    line-height: 1.5;
-    }
-
-    .esc-text-content p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #ffffff;
-    margin-bottom: 30px;
-    }
-
-    .esc-buttons {
-    display: flex;
-    gap: 15px;
-    }
-
-    .esc-buttons a {
-    padding: 12px 24px;
-    text-decoration: none;
-    font-weight: 500;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    display: inline-block;
-    }
-
-    .esc-btn-dark {
-    background-color: #000;
-    color: #fff;
-    }
-
-    .esc-btn-dark:hover {
-    background-color: #333;
-    }
-
-    .esc-btn-light {
-    background-color: #f1f1f1;
-    color: #000;
-    }
-
-    .esc-btn-light:hover {
-    background-color: #ddd;
-    }
-
-    .esc-image-content {
-    flex: 1 1 40%;
-    }
-
-    .esc-image-content img {
-    width: 100%;
-    border-radius: 8px;
-    }
-
-    @media (max-width: 768px) {
-    .esc-section {
-        flex-direction: column;
-        padding: 30px 20px;
-    }
-
-    .esc-text-content, .esc-image-content {
-        flex: 1 1 100%;
-        padding-right: 0;
-    }
-
-    .esc-text-content h1 {
-        font-size: 32px;
-    }
-
-    .esc-text-content h2 {
-        font-size: 20px;
-    }
-    }
-  </style>
-</head>
-<body>
-
- <!-- Konten -->
-
-    <!-- Parallax Header -->
-  <div class="parallax-section">
-    <h1 style="color: #ffffff;"> Pelayanan Baptisan</h1>
-  </div>
-
- <!-- Konten -->
-
-     <!-- Section: Child Dedication -->
-     <div class="section dedication">
-        <h1 style="color: #ffffff;">
-            "Pergilah ke seluruh dunia, beritakanlah Injil kepada segala makhluk. Siapa yang percaya dan dibaptis akan diselamatkan, tetapi siapa yang tidak percaya akan dihukum." 
-            <p>
-                - Markus 16:15-16
-            </p>
-
-        </h1>
-    </div>
 
 
-    <section class="konseling">
-        <div class="container">
-            <div class="dedication-video">
-                <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen>
-                        </iframe>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body,
+            html {
+                font-family: 'Figtree', sans-serif;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p,
+            a,
+            span,
+            div,
+            li,
+            strong,
+            em {
+                font-family: 'Figtree', sans-serif !important;
+            }
+
+            .parallax-section {
+                background-image: url('<?php echo base_url("assets/gambar/baptisan11.jpg"); ?>');
+                height: 90vh;
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                text-align: center;
+            }
+
+            /* Tambahkan ini untuk tampilan mobile */
+            @media (max-width: 768px) {
+                .parallax-section {
+                    height: 60vh;
+                    /* Lebih pendek di layar kecil */
+                }
+            }
+
+            .parallax-section h1 {
+                font-size: 48px;
+                /* background: rgba(0,0,0,0.5); */
+                padding: 20px 40px;
+                border-radius: 10px;
+            }
+
+            body {
+                margin: 0;
+                font-family: 'Helvetica Neue', sans-serif;
+                background-color: #000000;
+                color: #444;
+            }
+
+            .section {
+                padding: 60px 20px;
+                text-align: center;
+            }
+
+
+            h1,
+            h2 {
+                color: #ffffff;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+                font-weight: 700;
+            }
+
+            h2 {
+                font-size: 22px;
+                font-weight: 700;
+            }
+
+            p {
+                font-size: 16px;
+                line-height: 1.6;
+                max-width: 800px;
+                margin: 0 auto 20px;
+            }
+
+            .button {
+                display: inline-block;
+                padding: 10px 24px;
+                border: 1px solid #999;
+                border-radius: 24px;
+                text-transform: uppercase;
+                font-size: 12px;
+                letter-spacing: 1px;
+                color: #ef5008;
+                background-color: transparent;
+                transition: all 0.3s ease;
+                text-decoration: none;
+            }
+
+            .button:hover {
+                background-color: #ef5008;
+                color: #fff;
+            }
+
+            /* Child Dedication Section */
+            .section.light.dedication {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: center;
+                gap: 40px;
+                padding: 60px 20px;
+            }
+
+            .dedication-text {
+                flex: 1 1 400px;
+                max-width: 600px;
+                text-align: left;
+            }
+
+            .dedication-text blockquote {
+                font-style: italic;
+                color: #333;
+                margin-top: 20px;
+                border-left: 4px solid #ef5008;
+                padding-left: 16px;
+            }
+
+            .dedication-video {
+                flex: 1 1 400px;
+                max-width: 560px;
+            }
+
+            .dedication-video iframe {
+                width: 100%;
+                height: 315px;
+                border: none;
+            }
+
+            /*konseling*/
+            .konseling {
+                background-color: #e8e3d6;
+                padding: 60px 20px;
+            }
+
+            .konseling .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                max-width: 1200px;
+                margin: auto;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .konseling .image img {
+                width: 100%;
+                max-width: 500px;
+                border-radius: 4px;
+            }
+
+            .konseling .text {
+                max-width: 500px;
+            }
+
+            .konseling h2 {
+                font-size: 2rem;
+                margin-bottom: 16px;
+                color: #000;
+            }
+
+            .konseling p {
+                font-size: 1.1rem;
+                margin-bottom: 24px;
+                color: #111;
+            }
+
+            .konseling .btn {
+                background-color: #000;
+                color: #fff;
+                padding: 12px 20px;
+                text-decoration: none;
+                font-weight: bold;
+                display: inline-block;
+                transition: background 0.3s;
+            }
+
+            .konseling .btn:hover {
+                background-color: #333;
+            }
+
+            /* RESPONSIVE */
+            @media (max-width: 768px) {
+                .konseling .container {
+                    flex-direction: column;
+                    text-align: center;
+                }
+
+                .konseling .text {
+                    max-width: 100%;
+                }
+
+                .konseling .btn {
+                    margin-top: 10px;
+                }
+            }
+
+            /*kunjugan*/
+
+            .esc-section {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 60px 40px;
+                max-width: 1200px;
+                margin: auto;
+            }
+
+            .esc-text-content {
+                flex: 1 1 55%;
+                padding-right: 30px;
+            }
+
+            .esc-text-content h1 {
+                font-size: 40px;
+                font-weight: bold;
+                margin-bottom: 25px;
+            }
+
+            .esc-text-content h2 {
+                font-size: 24px;
+                font-weight: normal;
+                margin-bottom: 25px;
+                line-height: 1.5;
+            }
+
+            .esc-text-content p {
+                font-size: 16px;
+                line-height: 1.6;
+                color: #ffffff;
+                margin-bottom: 30px;
+            }
+
+            .esc-buttons {
+                display: flex;
+                gap: 15px;
+            }
+
+            .esc-buttons a {
+                padding: 12px 24px;
+                text-decoration: none;
+                font-weight: 500;
+                border-radius: 5px;
+                transition: all 0.3s ease;
+                display: inline-block;
+            }
+
+            .esc-btn-dark {
+                background-color: #000;
+                color: #fff;
+            }
+
+            .esc-btn-dark:hover {
+                background-color: #333;
+            }
+
+            .esc-btn-light {
+                background-color: #f1f1f1;
+                color: #000;
+            }
+
+            .esc-btn-light:hover {
+                background-color: #ddd;
+            }
+
+            .esc-image-content {
+                flex: 1 1 40%;
+            }
+
+            .esc-image-content img {
+                width: 100%;
+                border-radius: 8px;
+            }
+
+            @media (max-width: 768px) {
+                .esc-section {
+                    flex-direction: column;
+                    padding: 30px 20px;
+                }
+
+                .esc-text-content,
+                .esc-image-content {
+                    flex: 1 1 100%;
+                    padding-right: 0;
+                }
+
+                .esc-text-content h1 {
+                    font-size: 32px;
+                }
+
+                .esc-text-content h2 {
+                    font-size: 20px;
+                }
+            }
+        </style>
+        </head>
+
+        <body>
+
+            <!-- Konten -->
+
+            <!-- Parallax Header -->
+            <div class="parallax-section">
+                <h1 style="color: #ffffff;"> Pelayanan Baptisan</h1>
             </div>
-        
-        </div>
-    </section>
 
-    <section class="esc-section">
-        <div class="esc-text-content">
-          <h1>Pelayanan Sakramen Baptisan.</h1>
-          <h2>Baptisan Air (Selam) adalah tindakan iman yang menyatakan kepercayaan penuh kepada Injil, yaitu bahwa Yesus Kristus telah mati karena dosa-dosa kita, dikuburkan, dan bangkit pada hari yang ketiga, sesuai dengan Kitab Suci (1 Korintus 15:3–4).</h2>
-          <p>Melalui baptisan, kita menyatakan komitmen untuk hidup sebagai ciptaan baru, terlepas dari kuasa dosa, dan hidup dalam kemenangan untuk memuliakan Tuhan dalam seluruh aspek kehidupan kita.
-          </p>
-          <div class="esc-buttons">
-            <a href="<?php echo site_url('baptisan/tambah'); ?>" class="esc-btn-light">Ajukan Permohonan →</a>
-            <!--<a href="#" class="esc-btn-dark">Ikuti Kelas Fc 1 →</a>-->
-          </div>
-        </div>
-        <div class="esc-image-content">
-          <img src="<?php echo base_url('assets/gambar/baptis1.jpg'); ?>"  alt="Praying people">
-        </div>
-    </section>
-    
+            <!-- Konten -->
 
-<?php $this->load->view('template/festavalive/footer'); ?>
+            <!-- Section: Child Dedication -->
+            <div class="section dedication">
+                <h1 style="color: #ffffff;">
+                    "Pergilah ke seluruh dunia, beritakanlah Injil kepada segala makhluk. Siapa yang percaya dan dibaptis akan diselamatkan, tetapi siapa yang tidak percaya akan dihukum."
+                    <p>
+                        - Markus 16:15-16
+                    </p>
+
+                </h1>
+            </div>
+
+
+            <section class="konseling">
+                <div class="container">
+                    <div class="dedication-video">
+                        <iframe width="560" height="315"
+                            src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="esc-section">
+                <div class="esc-text-content">
+                    <h1>Pelayanan Sakramen Baptisan.</h1>
+                    <h2>Baptisan Air (Selam) adalah tindakan iman yang menyatakan kepercayaan penuh kepada Injil, yaitu bahwa Yesus Kristus telah mati karena dosa-dosa kita, dikuburkan, dan bangkit pada hari yang ketiga, sesuai dengan Kitab Suci (1 Korintus 15:3–4).</h2>
+                    <p>Melalui baptisan, kita menyatakan komitmen untuk hidup sebagai ciptaan baru, terlepas dari kuasa dosa, dan hidup dalam kemenangan untuk memuliakan Tuhan dalam seluruh aspek kehidupan kita.
+                    </p>
+                    <div class="esc-buttons">
+                        <a href="<?php echo site_url('baptisan/tambah'); ?>" class="esc-btn-light">Ajukan Permohonan →</a>
+                        <!--<a href="#" class="esc-btn-dark">Ikuti Kelas Fc 1 →</a>-->
+                    </div>
+                </div>
+                <div class="esc-image-content">
+                    <img src="<?php echo base_url('myesc.id/assets/gambar/baptis1.jpg'); ?>" alt="Praying people">
+                </div>
+            </section>
+
+
+            <?php $this->load->view('template/festavalive/footer'); ?>

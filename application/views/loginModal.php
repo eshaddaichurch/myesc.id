@@ -11,7 +11,7 @@
                 <div class="col-12">
                   <div class="form-group row">
                     <div class="col-4 col-md-2">
-                      <img src="<?php echo base_url('images/icon.png') ?>" alt="" style="width: 50px;">
+                      <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="" style="width: 50px;">
                     </div>
                     <div class="col-8 col-md-10">
                       <h4>Welcome</h4>

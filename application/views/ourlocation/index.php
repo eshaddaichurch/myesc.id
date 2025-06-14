@@ -12,7 +12,7 @@
     #hero {
       width: 100%;
       height: 40vh;
-      background: url("<?php echo base_url('images/banner2.jpg') ?>") center center;
+      background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center;
       background-size: cover;
       position: relative;
     }
@@ -283,7 +283,7 @@
         if (icon == "" || icon == null) {
 
           var iconWarna = L.icon({
-            iconUrl: '<?php echo base_url('images/pin2.png') ?>',
+            iconUrl: '<?php echo base_url('myesc.id/images/pin2.png') ?>',
             iconSize: [28, 30],
           });
         } else {

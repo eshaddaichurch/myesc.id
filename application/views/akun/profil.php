@@ -57,7 +57,7 @@
                                                     ';
                                             } else {
                                                 echo '
-                                                        <img src="' . base_url('images/nofoto.png') . '" alt="" style="width: 50%;" class="rounded-circle">
+                                                        <img src="' . base_url('myesc.id/images/nofoto.png') . '" alt="" style="width: 50%;" class="rounded-circle">
                                                     ';
                                             }
                                             ?>

@@ -191,39 +191,39 @@
             <div class="card" data-aos="zoom-in">
               <div class="card-body">
                 <div class="row">
-    
+
                   <?php
                   if ($rsJadwal->num_rows() > 0) {
                     foreach ($rsJadwal->result() as $rowJadwal) {
                       $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
                       $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
-    
+
                       $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
                       $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
-    
+
                       $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai s/d $tglselesai";
                       $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB s/d $jamSelesai WIB";
-    
+
                       $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
-    
+
                       $nJumlah = $this->db->query("
                         SELECT COUNT(*) AS jlh FROM jadwaleventregistrasi
                         WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND statuskonfirmasi<>'Ditolak'
                       ")->row()->jlh;
-    
+
                       $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : (
                         $nJumlah == $maxJemaat ?
-                          '<span class="text-danger">' . $nJumlah . '/' . $maxJemaat . '</span>' :
-                          $nJumlah . '/' . $maxJemaat
+                        '<span class="text-danger">' . $nJumlah . '/' . $maxJemaat . '</span>' :
+                        $nJumlah . '/' . $maxJemaat
                       );
-    
+
                       $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
-    
+
                       $button = $sudahPernahDaftar ? '' : '<a href="#" class="btn btn-success btn-sm" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '" id="btnDaftar">Daftar Sekarang</a>';
-    
+
                       $rsLokasi = $this->db->query("SELECT * FROM jadwaleventdetailtanggal WHERE idjadwalevent = '" . $rowJadwal->idjadwalevent . "' LIMIT 1");
                       $namaLokasi = ($rsLokasi->num_rows() > 0) ? $rsLokasi->row()->lokasievent : '';
-    
+
                       echo '
                         <div class="col-12" data-aos="fade-up">
                           <h5>' . $rowJadwal->namaevent . '
@@ -235,7 +235,7 @@
                         <div class="col-12"><i class="far fa-clock me-2"></i> ' . $jamEvent . '</div>
                         <div class="col-12"><i class="fas fa-user-check me-2"></i> ' . $jumlahPeserta . '</div>
                       ';
-    
+
                       if ($sudahPernahDaftar) {
                         $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND idjemaat='" . $this->session->userdata('idjemaat') . "'");
                         if ($rsDaftar->num_rows() > 0) {
@@ -243,7 +243,7 @@
                             $status = $rowDaftar->statuskonfirmasi;
                             $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
                             $pesan = '';
-    
+
                             if ($status == 'Menunggu') {
                               $pesan = 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!';
                             } elseif ($status == 'Disetujui') {
@@ -251,7 +251,7 @@
                             } elseif ($status == 'Ditolak') {
                               $pesan = 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi;
                             }
-    
+
                             echo '
                               <div class="col-12 mt-3 ps-3">
                                 <div class="alert alert-' . $alertClass . '" role="alert">
@@ -261,7 +261,7 @@
                           }
                         }
                       }
-    
+
                       echo '
                         <div class="col-12 mt-3">' . $button . '</div>
                         <hr class="my-4">';
@@ -270,7 +270,7 @@
                     echo '<div class="text-center">Jadwal kelas belum dibuka...</div>';
                   }
                   ?>
-    
+
                 </div>
               </div>
             </div>
@@ -279,100 +279,101 @@
       </div>
     </section>
 
-    
-    
+
+
     <section class="page-content promo-section d-none d-md-block">
-  <div class="container">
-    <div class="row justify-content-center">
+      <div class="container">
+        <div class="row justify-content-center">
 
-      <div class="col-12 py-4">
-        <?php echo $rowKelas->deskripsi ?>
-      </div>
+          <div class="col-12 py-4">
+            <?php echo $rowKelas->deskripsi ?>
+          </div>
 
-      <div class="col-12 mb-4 text-center">
-        <h2 class="promo-title">Jadwal Pendaftaran Kelas</h2>
-        <hr class="w-25 mx-auto">
-      </div>
+          <div class="col-12 mb-4 text-center">
+            <h2 class="promo-title">Jadwal Pendaftaran Kelas</h2>
+            <hr class="w-25 mx-auto">
+          </div>
 
-      <?php
-      if ($rsJadwal->num_rows() > 0) {
-        foreach ($rsJadwal->result() as $rowJadwal) {
-          $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
-          $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
-          $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
-          $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
+          <?php
+          if ($rsJadwal->num_rows() > 0) {
+            foreach ($rsJadwal->result() as $rowJadwal) {
+              $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
+              $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
+              $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
+              $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
 
-          $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai <br><small class='text-muted'>s/d</small><br> $tglselesai";
-          $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB <br><small class='text-muted'>s/d</small><br> $jamSelesai WIB";
+              $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai <br><small class='text-muted'>s/d</small><br> $tglselesai";
+              $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB <br><small class='text-muted'>s/d</small><br> $jamSelesai WIB";
 
-          $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
-          $nJumlah = $this->db->query("SELECT COUNT(*) as jlh FROM jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND statuskonfirmasi<>'Ditolak'")->row()->jlh;
-          $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : ($nJumlah == $maxJemaat ? "<span class='text-danger'>$nJumlah/$maxJemaat</span>" : "$nJumlah/$maxJemaat");
+              $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
+              $nJumlah = $this->db->query("SELECT COUNT(*) as jlh FROM jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND statuskonfirmasi<>'Ditolak'")->row()->jlh;
+              $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : ($nJumlah == $maxJemaat ? "<span class='text-danger'>$nJumlah/$maxJemaat</span>" : "$nJumlah/$maxJemaat");
 
-          $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
+              $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
 
-          $button = !$sudahPernahDaftar
-              ? '<a href="#" class="btn btn-success btn-lg w-100" id="btnDaftar" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '">Daftar Sekarang</a>'
-              : '';
+              $button = !$sudahPernahDaftar
+                ? '<a href="#" class="btn btn-success btn-lg w-100" id="btnDaftar" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '">Daftar Sekarang</a>'
+                : '';
 
-      ?>
+          ?>
 
-        <div class="col-md-6 col-lg-5 mb-5">
-          <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-            <img src="<?php echo base_url('assets/gambar/bgkelas.jpg'); ?>" class="card-img-top" alt="Banner Event" style="object-fit: cover; height: 220px;">
+              <div class="col-md-6 col-lg-5 mb-5">
+                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                  <img src="<?php echo base_url('myesc.id/assets/gambar/bgkelas.jpg'); ?>" class="card-img-top" alt="Banner Event" style="object-fit: cover; height: 220px;">
 
-            <div class="card-body p-4">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold"><i class="bi bi-calendar-event me-2"></i> <?php echo $rowJadwal->namaevent ?></h4>
-                <span class="badge bg-secondary fs-6">Peserta: <?php echo $jumlahPeserta ?></span>
-              </div>
+                  <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h4 class="fw-bold"><i class="bi bi-calendar-event me-2"></i> <?php echo $rowJadwal->namaevent ?></h4>
+                      <span class="badge bg-secondary fs-6">Peserta: <?php echo $jumlahPeserta ?></span>
+                    </div>
 
-              <p class="fs-5 mb-2"><strong>📆 Tanggal:</strong><br><?php echo $tglEvent ?></p>
-              <p class="fs-5 mb-2"><strong>⏰ Jam:</strong><br><?php echo $jamEvent ?></p>
+                    <p class="fs-5 mb-2"><strong>📆 Tanggal:</strong><br><?php echo $tglEvent ?></p>
+                    <p class="fs-5 mb-2"><strong>⏰ Jam:</strong><br><?php echo $jamEvent ?></p>
 
-              <div class="mt-4">
-                <?php echo $button ?>
-              </div>
-            </div>
-
-            <?php if ($sudahPernahDaftar): ?>
-              <?php
-              $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND idjemaat='{$this->session->userdata('idjemaat')}'");
-              if ($rsDaftar->num_rows() > 0):
-                foreach ($rsDaftar->result() as $rowDaftar):
-                  $status = $rowDaftar->statuskonfirmasi;
-                  $tglDaftar = date('d-m-Y H:i:s', strtotime($rowDaftar->tglregistrasi));
-                  $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
-                  $pesan = $status == 'Menunggu' ? 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!'
-                    : ($status == 'Disetujui' ? 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>! Silahkan datang pada waktu jadwal yang telah ditentukan.'
-                    : 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi);
-              ?>
-                  <div class="card-footer bg-light">
-                    <div class="alert alert-<?php echo $alertClass ?> mb-0" style="font-size: 0.9rem;">
-                      <strong>👤 Nama Jemaat:</strong> <?php echo $rowDaftar->namalengkap ?><br>
-                      <strong>🗓️ Tgl Pengajuan:</strong> <?php echo $tglDaftar ?><br>
-                      <strong>Status:</strong> <?php echo $status ?><br><br>
-                      <?php echo $pesan ?>
+                    <div class="mt-4">
+                      <?php echo $button ?>
                     </div>
                   </div>
-                <?php endforeach; endif; ?>
-            <?php endif; ?>
-          </div>
-        </div>
 
-      <?php
-        }
-      } else {
-        echo '
+                  <?php if ($sudahPernahDaftar): ?>
+                    <?php
+                    $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND idjemaat='{$this->session->userdata('idjemaat')}'");
+                    if ($rsDaftar->num_rows() > 0):
+                      foreach ($rsDaftar->result() as $rowDaftar):
+                        $status = $rowDaftar->statuskonfirmasi;
+                        $tglDaftar = date('d-m-Y H:i:s', strtotime($rowDaftar->tglregistrasi));
+                        $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
+                        $pesan = $status == 'Menunggu' ? 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!'
+                          : ($status == 'Disetujui' ? 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>! Silahkan datang pada waktu jadwal yang telah ditentukan.'
+                            : 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi);
+                    ?>
+                        <div class="card-footer bg-light">
+                          <div class="alert alert-<?php echo $alertClass ?> mb-0" style="font-size: 0.9rem;">
+                            <strong>👤 Nama Jemaat:</strong> <?php echo $rowDaftar->namalengkap ?><br>
+                            <strong>🗓️ Tgl Pengajuan:</strong> <?php echo $tglDaftar ?><br>
+                            <strong>Status:</strong> <?php echo $status ?><br><br>
+                            <?php echo $pesan ?>
+                          </div>
+                        </div>
+                    <?php endforeach;
+                    endif; ?>
+                  <?php endif; ?>
+                </div>
+              </div>
+
+          <?php
+            }
+          } else {
+            echo '
         <div class="col-12 text-center">
           <div class="alert alert-info">Jadwal kelas ' . $rowKelas->namakelas . ' belum dibuka.</div>
         </div>';
-      }
-      ?>
+          }
+          ?>
 
-    </div>
-  </div>
-</section>
+        </div>
+      </div>
+    </section>
 
 
 

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="<?php echo base_url('images/icon.png') ?>" rel="icon">
+    <link href="<?php echo base_url('myesc.id/images/icon.png') ?>" rel="icon">
     <title>El Shaddai Church</title>
 
     <!-- CSS FILES -->
@@ -18,11 +18,11 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;400;700&display=swap" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/bootstrap-icons.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/templatemo-festava-live.css" rel="stylesheet">
+    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/templatemo-festava-live.css" rel="stylesheet">
 
     <!-- Font Awesome Icons 5.1 -->
     <link rel="stylesheet" href="<?php echo (base_url()) ?>admin/assets/adminlte/plugins/fontawesome-free/css/all.min.css">

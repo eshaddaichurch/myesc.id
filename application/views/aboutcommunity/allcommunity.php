@@ -2,7 +2,7 @@
 
 use PhpParser\Node\Stmt\Echo_;
 
- $this->load->view('template/festavalive/header'); ?>
+$this->load->view('template/festavalive/header'); ?>
 
 <body>
 
@@ -16,7 +16,7 @@ use PhpParser\Node\Stmt\Echo_;
 
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-             @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
             $main-green: #79dd09 !default;
             $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
             $main-yellow: #bdbb49 !default;
@@ -32,63 +32,63 @@ use PhpParser\Node\Stmt\Echo_;
             .dark {
                 background: #110f16;
             }
-            
-                   /*--------------------------------------------------------------
+
+            /*--------------------------------------------------------------
                     # Breadcrumbs
                     --------------------------------------------------------------*/
-                        .breadcrumbs {
-                          padding: 140px 0 60px 0;
-                          min-height: 30vh;
-                          position: relative;
-                          background-size: cover;
-                          background-position: center;
-                          background-repeat: no-repeat;
-                        }
-                    
-                        .breadcrumbs:before {
-                          content: "";
-                          background-color: rgba(0, 0, 0, 0.6);
-                          position: absolute;
-                          inset: 0;
-                        }
-                    
-                        .breadcrumbs h2 {
-                          font-size: 56px;
-                          font-weight: 500;
-                          color: #fff;
-                          font-family: var(--font-secondary);
-                        }
-                    
-                        .breadcrumbs ol {
-                          display: flex;
-                          flex-wrap: wrap;
-                          list-style: none;
-                          padding: 0 0 10px 0;
-                          margin: 0;
-                          font-size: 16px;
-                          font-weight: 600;
-                          color: var(--color-primary);
-                        }
-                    
-                        .breadcrumbs ol a {
-                          color: rgba(255, 255, 255, 0.8);
-                          transition: 0.3s;
-                        }
-                    
-                        .breadcrumbs ol a:hover {
-                          text-decoration: underline;
-                        }
-                    
-                        .breadcrumbs ol li+li {
-                          padding-left: 10px;
-                        }
-                    
-                        .breadcrumbs ol li+li::before {
-                          display: inline-block;
-                          padding-right: 10px;
-                          color: #fff;
-                          content: "/";
-                        }
+            .breadcrumbs {
+                padding: 140px 0 60px 0;
+                min-height: 30vh;
+                position: relative;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            .breadcrumbs:before {
+                content: "";
+                background-color: rgba(0, 0, 0, 0.6);
+                position: absolute;
+                inset: 0;
+            }
+
+            .breadcrumbs h2 {
+                font-size: 56px;
+                font-weight: 500;
+                color: #fff;
+                font-family: var(--font-secondary);
+            }
+
+            .breadcrumbs ol {
+                display: flex;
+                flex-wrap: wrap;
+                list-style: none;
+                padding: 0 0 10px 0;
+                margin: 0;
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--color-primary);
+            }
+
+            .breadcrumbs ol a {
+                color: rgba(255, 255, 255, 0.8);
+                transition: 0.3s;
+            }
+
+            .breadcrumbs ol a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumbs ol li+li {
+                padding-left: 10px;
+            }
+
+            .breadcrumbs ol li+li::before {
+                display: inline-block;
+                padding-right: 10px;
+                color: #fff;
+                content: "/";
+            }
 
 
             .light {
@@ -195,7 +195,7 @@ use PhpParser\Node\Stmt\Echo_;
                     justify-content: center;
 
                     .tag__item {
-                       
+
                         display: inline-block;
                         background: #FAF0E6;
                         border-radius: 3px;
@@ -313,485 +313,504 @@ use PhpParser\Node\Stmt\Echo_;
                     }
                 }
             }
-        
         </style>
 
 
-<style>
-      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
 
-    body, html {
-        font-family: 'Figtree', sans-serif;
-    }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-    h1, h2, h3, h4, h5, h6, p, a, span, div, li, strong, em {
-            font-family: 'Figtree', sans-serif !important;
-    }
+            body,
+            html {
+                font-family: 'Figtree', sans-serif;
+            }
 
-
-    .parallax-section h1 {
-      font-size: 48px;
-      /* background: rgba(0,0,0,0.5); */
-      padding: 20px 40px;
-      border-radius: 10px;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #fff;
-      color: #444;
-    }
-
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .section.light {
-      background-color: #141414;
-    }
-
-    h1, h2 {
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 26px;
-      font-weight: 700;
-    }
-
-    h2 {
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto 20px;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 15px 35px;
-      border: 1px solid #999;
-      border-radius: 24px;
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: #ef5008;
-      background-color: transparent;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-    
-    @media (max-width: 768px) {
-        .button {
-        display: inline-block;
-        padding: 15px 80px;
-        border: 1px solid #999;
-        border-radius: 24px;
-        text-transform: uppercase;
-        font-size: 12px;
-        letter-spacing: 1px;
-        color: #ef5008;
-        background-color: transparent;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        }
-    }
-
-    .button:hover {
-      background-color: #ef5008;
-      color: #fff;
-    }
-
-    /* Child Dedication Section */
-    .section.light.dedication {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    padding: 60px 20px;
-    }
-
-    .dedication-text {
-    flex: 1 1 400px;
-    max-width: 600px;
-    text-align: left;
-    }
-
-    .dedication-text blockquote {
-    font-style: italic;
-    color: #333;
-    margin-top: 20px;
-    border-left: 4px solid #ef5008;
-    padding-left: 16px;
-    }
-
-    .dedication-video {
-    flex: 1 1 400px;
-    max-width: 560px;
-    }
-
-    .dedication-video iframe {
-    width: 100%;
-    height: 315px;
-    border: none;
-    }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p,
+            a,
+            span,
+            div,
+            li,
+            strong,
+            em {
+                font-family: 'Figtree', sans-serif !important;
+            }
 
 
+            .parallax-section h1 {
+                font-size: 48px;
+                /* background: rgba(0,0,0,0.5); */
+                padding: 20px 40px;
+                border-radius: 10px;
+            }
 
-    /*aboutcommunity*/
-     /*aboutcare*/
-     .musik-section {
-  padding: 60px 20px;
-  text-align: center;
-  background-color: #ffffff;
-}
+            body {
+                margin: 0;
+                font-family: 'Helvetica Neue', sans-serif;
+                background-color: #fff;
+                color: #444;
+            }
 
-.musik-section h2 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #ef5008;
-}
+            .section {
+                padding: 60px 20px;
+                text-align: center;
+            }
 
-.subjudul {
-  font-size: 1.3rem;
-  color: #666;
-  margin-bottom: 40px;
-}
+            .section.light {
+                background-color: #141414;
+            }
 
-.musik-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
+            h1,
+            h2 {
+                color: #333;
+                margin-bottom: 20px;
+            }
 
-.musik-card {
-  overflow: hidden;
-  width: 500px;
-  background: #f9f9f9;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease;
-}
+            h1 {
+                font-size: 26px;
+                font-weight: 700;
+            }
 
-.musik-card:hover {
-  transform: translateY(-5px);
-}
+            h2 {
+                font-size: 22px;
+                font-weight: 700;
+            }
 
-.musik-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
+            p {
+                font-size: 16px;
+                line-height: 1.6;
+                max-width: 800px;
+                margin: 0 auto 20px;
+            }
 
-.musik-content {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 150px;
-}
+            .button {
+                display: inline-block;
+                padding: 15px 35px;
+                border: 1px solid #999;
+                border-radius: 24px;
+                text-transform: uppercase;
+                font-size: 12px;
+                letter-spacing: 1px;
+                color: #ef5008;
+                background-color: transparent;
+                transition: all 0.3s ease;
+                text-decoration: none;
+            }
 
-.musik-card h3 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 0 0 20px;
-  color: #333;
-}
+            @media (max-width: 768px) {
+                .button {
+                    display: inline-block;
+                    padding: 15px 80px;
+                    border: 1px solid #999;
+                    border-radius: 24px;
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    letter-spacing: 1px;
+                    color: #ef5008;
+                    background-color: transparent;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                }
+            }
 
-.visit-btn {
-  padding: 12px 40px;
-  border-radius: 30px;
-  background-color: transparent;
-  border: 2px solid #000000;
-  color: #ef5008;
-  font-size: 0.9rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+            .button:hover {
+                background-color: #ef5008;
+                color: #fff;
+            }
 
-.visit-btn:hover {
-  background-color: #ef5008;
-  color: #fff;
-}
+            /* Child Dedication Section */
+            .section.light.dedication {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: center;
+                gap: 40px;
+                padding: 60px 20px;
+            }
 
-    /*aboutcare*/
-    /*aboutcommunity*/
+            .dedication-text {
+                flex: 1 1 400px;
+                max-width: 600px;
+                text-align: left;
+            }
 
-    /*whatiscare*/
-    .who-is-care {
-    background-color: #000000;
-    color: #fff;
-    padding: 200px 20px;
-    text-align: center;
-    font-family: 'Helvetica Neue', sans-serif;
-    }
+            .dedication-text blockquote {
+                font-style: italic;
+                color: #333;
+                margin-top: 20px;
+                border-left: 4px solid #ef5008;
+                padding-left: 16px;
+            }
 
-    .who-is-care h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 40px;
-    color: #ef5008;
-    }
+            .dedication-video {
+                flex: 1 1 400px;
+                max-width: 560px;
+            }
 
-    .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    }
+            .dedication-video iframe {
+                width: 100%;
+                height: 315px;
+                border: none;
+            }
 
-    .content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    }
 
-    .left, .right {
-    flex: 1 1 500px;
-    max-width: 600px;
-    text-align: left;
-    }
 
-    .left p, .right p {
-    margin-bottom: 20px;
-    line-height: 1.8;
-    color: #ccc;
-    }
-    /*whatiscare*/
+            /*aboutcommunity*/
+            /*aboutcare*/
+            .musik-section {
+                padding: 60px 20px;
+                text-align: center;
+                background-color: #ffffff;
+            }
 
-    .class-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-}
+            .musik-section h2 {
+                font-size: 2.5rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #ef5008;
+            }
 
-.class-card {
-    width: 380px;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #f5f5f5;
-    display: flex;
-    flex-direction: column;
-}
+            .subjudul {
+                font-size: 1.3rem;
+                color: #666;
+                margin-bottom: 40px;
+            }
 
-.card-image {
-    height: 400px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+            .musik-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+            }
 
- /* Tambahkan ini untuk tampilan mobile */
- @media (max-width: 768px) {
-        .card-image {
-            height: 260px; /* Lebih pendek di layar kecil */
-        }
-    }
+            .musik-card {
+                overflow: hidden;
+                width: 500px;
+                background: #f9f9f9;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                transition: transform 0.3s ease;
+            }
 
-.card-title {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-    text-align: center;
-}
+            .musik-card:hover {
+                transform: translateY(-5px);
+            }
 
-.card-info {
-    padding: 20px;
-}
+            .musik-card img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
 
-.class-time {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-}
+            .musik-content {
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 150px;
+            }
 
-.class-name {
-    font-size: 15px;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
+            .musik-card h3 {
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin: 0 0 20px;
+                color: #333;
+            }
 
-.class-description {
-    font-size: 14px;
-    color: #333;
-    text-align: justify;
-}
-  </style>
-</head>
-<body>
+            .visit-btn {
+                padding: 12px 40px;
+                border-radius: 30px;
+                background-color: transparent;
+                border: 2px solid #000000;
+                color: #ef5008;
+                font-size: 0.9rem;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
 
-  <!-- Parallax Header -->
-  <!--<div class="parallax-section">-->
-  <!--  <h1 style="color: #fff;">Permohonan Doa</h1>-->
-  <!--</div>-->
+            .visit-btn:hover {
+                background-color: #ef5008;
+                color: #fff;
+            }
 
- <!-- Konten -->
+            /*aboutcare*/
+            /*aboutcommunity*/
 
-     <section class="who-is-care">
-        <div class="container">
-          <h2>Apa Itu Community?</h2>
-          <div class="content">
-            <div class="left">
-              <p>
-                ESC Community adalah wadah komunitas di El Shaddai Church yang dirancang untuk menjawab kebutuhan jemaat sesuai dengan demografi usia dan musim kehidupan yang belum dapat disentuh secara spesifik dalam ibadah umum. 
-              <p>
-                Masing-masing komunitas difokuskan untuk membangun pertumbuhan rohani yang relevan, membentuk karakter Kristus, dan memperlengkapi jemaat agar hidup dalam panggilan mereka.
-              </p>
-              <p>
-                Melalui ESC Community, ESC mengaktualisasikan visi: “Membangun Generasi yang Menghidupi Amanat Agung” dengan menciptakan lingkungan komunitas yang membina, mengutus, dan memperlengkapi setiap generasi untuk menjadi murid Kristus yang berdampak.
-              </p>
-            </div>
-            <div class="right">
-                <div class="dedication-video">
-                    <iframe width="560" height="315"
-                    src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen>
-                    </iframe>
+            /*whatiscare*/
+            .who-is-care {
+                background-color: #000000;
+                color: #fff;
+                padding: 200px 20px;
+                text-align: center;
+                font-family: 'Helvetica Neue', sans-serif;
+            }
 
+            .who-is-care h2 {
+                font-size: 2.5rem;
+                font-weight: bold;
+                margin-bottom: 40px;
+                color: #ef5008;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .content {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 40px;
+                justify-content: center;
+            }
+
+            .left,
+            .right {
+                flex: 1 1 500px;
+                max-width: 600px;
+                text-align: left;
+            }
+
+            .left p,
+            .right p {
+                margin-bottom: 20px;
+                line-height: 1.8;
+                color: #ccc;
+            }
+
+            /*whatiscare*/
+
+            .class-cards {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 30px;
+                justify-content: center;
+            }
+
+            .class-card {
+                width: 380px;
+                border-radius: 8px;
+                overflow: hidden;
+                background-color: #f5f5f5;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .card-image {
+                height: 400px;
+                background-size: cover;
+                background-position: center;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Tambahkan ini untuk tampilan mobile */
+            @media (max-width: 768px) {
+                .card-image {
+                    height: 260px;
+                    /* Lebih pendek di layar kecil */
+                }
+            }
+
+            .card-title {
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+                text-align: center;
+            }
+
+            .card-info {
+                padding: 20px;
+            }
+
+            .class-time {
+                font-size: 12px;
+                color: #999;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+
+            .class-name {
+                font-size: 15px;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            .class-description {
+                font-size: 14px;
+                color: #333;
+                text-align: justify;
+            }
+        </style>
+        </head>
+
+        <body>
+
+            <!-- Parallax Header -->
+            <!--<div class="parallax-section">-->
+            <!--  <h1 style="color: #fff;">Permohonan Doa</h1>-->
+            <!--</div>-->
+
+            <!-- Konten -->
+
+            <section class="who-is-care">
+                <div class="container">
+                    <h2>Apa Itu Community?</h2>
+                    <div class="content">
+                        <div class="left">
+                            <p>
+                                ESC Community adalah wadah komunitas di El Shaddai Church yang dirancang untuk menjawab kebutuhan jemaat sesuai dengan demografi usia dan musim kehidupan yang belum dapat disentuh secara spesifik dalam ibadah umum.
+                            <p>
+                                Masing-masing komunitas difokuskan untuk membangun pertumbuhan rohani yang relevan, membentuk karakter Kristus, dan memperlengkapi jemaat agar hidup dalam panggilan mereka.
+                            </p>
+                            <p>
+                                Melalui ESC Community, ESC mengaktualisasikan visi: “Membangun Generasi yang Menghidupi Amanat Agung” dengan menciptakan lingkungan komunitas yang membina, mengutus, dan memperlengkapi setiap generasi untuk menjadi murid Kristus yang berdampak.
+                            </p>
+                        </div>
+                        <div class="right">
+                            <div class="dedication-video">
+                                <iframe width="560" height="315"
+                                    src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
+                                    title="YouTube video player"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen>
+                                </iframe>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
+            </section>
 
 
-      <section style="padding: 60px; background-color: #ffffff;">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">Community</h2>
-            <p style="font-size: 16px; color: #555;">Seluruh Bidang Community</p>
-        </div>
-    
-        <div class="class-cards">
-            <!-- Card 1 -->
-            <div class="class-card">
-                <div class="card-image" style="background-image: url('<?php echo base_url('assets/gambar/Artboard\ 1.png'); ?>');">
-                    <!-- <div class="card-title">KIDS</div> -->
+
+            <section style="padding: 60px; background-color: #ffffff;">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">Community</h2>
+                    <p style="font-size: 16px; color: #555;">Seluruh Bidang Community</p>
                 </div>
-                <div class="card-info">
-                    <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
+
+                <div class="class-cards">
+                    <!-- Card 1 -->
+                    <div class="class-card">
+                        <div class="card-image" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/Artboard\ 1.png'); ?>');">
+                            <!-- <div class="card-title">KIDS</div> -->
+                        </div>
+                        <div class="card-info">
+                            <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
                     <p class="class-time">SUNDAYS AT 10:30 AM</p>
                     <p class="class-time">SUNDAYS AT 16:00 PM</p> -->
-                    <h3 class="class-name">ESC KIDS</h3>
-                    <!-- <p class="class-description">
+                            <h3 class="class-name">ESC KIDS</h3>
+                            <!-- <p class="class-description">
                         Taught by Dann Farrelly, Deeper Life is a 12-week course exploring our faith and life in a revival culture.
                     </p> -->
-                    <a href="<?php echo site_url('esckids/index'); ?>" class="button">Visit</a>
-                </div>
-            </div>
-    
-            <div class="class-card">
-                <div class="card-image" style="background-image: url('<?php echo base_url('assets/gambar/Artboard\ 2.png'); ?>');">
-                    <!-- <div class="card-title">KIDS</div> -->
-                </div>
-                <div class="card-info">
-                    <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
+                            <a href="<?php echo site_url('esckids/index'); ?>" class="button">Visit</a>
+                        </div>
+                    </div>
+
+                    <div class="class-card">
+                        <div class="card-image" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/Artboard\ 2.png'); ?>');">
+                            <!-- <div class="card-title">KIDS</div> -->
+                        </div>
+                        <div class="card-info">
+                            <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
                     <p class="class-time">SUNDAYS AT 10:30 AM</p>
                     <p class="class-time">SUNDAYS AT 16:00 PM</p> -->
-                    <h3 class="class-name">ESC YOUTH</h3>
-                    <!-- <p class="class-description">
+                            <h3 class="class-name">ESC YOUTH</h3>
+                            <!-- <p class="class-description">
                         Taught by Dann Farrelly, Deeper Life is a 12-week course exploring our faith and life in a revival culture.
                     </p> -->
-                    <a href="<?php echo site_url('youth/index'); ?>" class="button">Visit</a>
-                </div>
-            </div>
+                            <a href="<?php echo site_url('youth/index'); ?>" class="button">Visit</a>
+                        </div>
+                    </div>
 
-            <div class="class-card">
-                <div class="card-image" style="background-image: url('<?php echo base_url('assets/gambar/Artboard\ 5.png'); ?>');">
-                    <!-- <div class="card-title">KIDS</div> -->
-                </div>
-                <div class="card-info">
-                    <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
+                    <div class="class-card">
+                        <div class="card-image" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/Artboard\ 5.png'); ?>');">
+                            <!-- <div class="card-title">KIDS</div> -->
+                        </div>
+                        <div class="card-info">
+                            <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
                     <p class="class-time">SUNDAYS AT 10:30 AM</p>
                     <p class="class-time">SUNDAYS AT 16:00 PM</p> -->
-                    <h3 class="class-name">ESC YOUNG ADULT</h3>
-                    <!-- <p class="class-description">
+                            <h3 class="class-name">ESC YOUNG ADULT</h3>
+                            <!-- <p class="class-description">
                         Taught by Dann Farrelly, Deeper Life is a 12-week course exploring our faith and life in a revival culture.
                     </p> -->
-                    <a href="<?php echo site_url('youngadult/index'); ?>" class="button">Visit</a>
-                </div>
-            </div>
+                            <a href="<?php echo site_url('youngadult/index'); ?>" class="button">Visit</a>
+                        </div>
+                    </div>
 
-            <div class="class-card">
-                <div class="card-image" style="background-image: url('<?php echo base_url ('assets/gambar/Artboard\ 6.png'); ?>');">
-                    <!-- <div class="card-title">KIDS</div> -->
-                </div>
-                <div class="card-info">
-                    <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
+                    <div class="class-card">
+                        <div class="card-image" style="background-image: url('<?php echo base_url('assets/gambar/Artboard\ 6.png'); ?>');">
+                            <!-- <div class="card-title">KIDS</div> -->
+                        </div>
+                        <div class="card-info">
+                            <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
                     <p class="class-time">SUNDAYS AT 10:30 AM</p>
                     <p class="class-time">SUNDAYS AT 16:00 PM</p> -->
-                    <h3 class="class-name">ESC WOMEN</h3>
-                    <!-- <p class="class-description">
+                            <h3 class="class-name">ESC WOMEN</h3>
+                            <!-- <p class="class-description">
                         Taught by Dann Farrelly, Deeper Life is a 12-week course exploring our faith and life in a revival culture.
                     </p> -->
-                    <a href="<?php echo site_url('escwomen/index'); ?>" class="button">Visit</a>
-                </div>
-            </div>
+                            <a href="<?php echo site_url('escwomen/index'); ?>" class="button">Visit</a>
+                        </div>
+                    </div>
 
-            <div class="class-card">
-                <div class="card-image" style="background-image: url('<?php echo base_url('assets/gambar/Artboard\ 3.png'); ?>');">
-                    <!-- <div class="card-title">KIDS</div> -->
-                </div>
-                <div class="card-info">
-                    <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
+                    <div class="class-card">
+                        <div class="card-image" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/Artboard\ 3.png'); ?>');">
+                            <!-- <div class="card-title">KIDS</div> -->
+                        </div>
+                        <div class="card-info">
+                            <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
                     <p class="class-time">SUNDAYS AT 10:30 AM</p>
                     <p class="class-time">SUNDAYS AT 16:00 PM</p> -->
-                    <h3 class="class-name">ESC GOLD</h3>
-                    <!-- <p class="class-description">
+                            <h3 class="class-name">ESC GOLD</h3>
+                            <!-- <p class="class-description">
                         Taught by Dann Farrelly, Deeper Life is a 12-week course exploring our faith and life in a revival culture.
                     </p> -->
-                    <a href="<?php echo site_url('baptisan/index'); ?>" class="button">Visit</a>
-                </div>
-            </div>
+                            <a href="<?php echo site_url('baptisan/index'); ?>" class="button">Visit</a>
+                        </div>
+                    </div>
 
-            <div class="class-card">
-                <!--<div class="card-image" style="background-image: url('assets/gambar/Artboard\ 4.png');">-->
-                <div class="card-image" style="background-image: url('<?php echo base_url('assets/gambar/Artboard\ 4.png'); ?>');">
-                    <!-- <div class="card-title">KIDS</div> -->
-                </div>
-                <div class="card-info">
-                    <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
+                    <div class="class-card">
+                        <!--<div class="card-image" style="background-image: url('assets/gambar/Artboard\ 4.png');">-->
+                        <div class="card-image" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/Artboard\ 4.png'); ?>');">
+                            <!-- <div class="card-title">KIDS</div> -->
+                        </div>
+                        <div class="card-info">
+                            <!-- <p class="class-time">SUNDAYS AT 8:00 AM</p>
                     <p class="class-time">SUNDAYS AT 10:30 AM</p>
                     <p class="class-time">SUNDAYS AT 16:00 PM</p> -->
-                    <h3 class="class-name">ESC DISCIPLES COMMUNITY</h3>
-                    <!-- <p class="class-description">
+                            <h3 class="class-name">ESC DISCIPLES COMMUNITY</h3>
+                            <!-- <p class="class-description">
                         Taught by Dann Farrelly, Deeper Life is a 12-week course exploring our faith and life in a revival culture.
                     </p> -->
-                    
-                         <a href="<?php echo site_url('disciples_community/index'); ?>" class="button">Visit</a>
-                    
-                    
+
+                            <a href="<?php echo site_url('disciples_community/index'); ?>" class="button">Visit</a>
+
+
+                        </div>
+                    </div>
+
+
                 </div>
-            </div>
+            </section>
 
-            
-        </div>
-    </section>
-
-<?php $this->load->view('template/festavalive/footer'); ?>
+            <?php $this->load->view('template/festavalive/footer'); ?>

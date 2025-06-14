@@ -6,35 +6,35 @@
 
 
 <!-- scholar CSS Files -->
-<!-- <link href="<?php echo base_url('assets/scholar/') ?>assets/css/bootstrap.min.css" rel="stylesheet"> -->
-<link href="<?php echo base_url('assets/scholar/') ?>assets/css/fontawesome.css" rel="stylesheet">
-<link href="<?php echo base_url('assets/scholar/') ?>assets/css/templatemo-scholar.css" rel="stylesheet">
-<!-- <link href="<?php echo base_url('assets/scholar/') ?>assets/css/owl.css" rel="stylesheet"> -->
-<!-- <link href="<?php echo base_url('assets/scholar/') ?>assets/css/animate.css" rel="stylesheet"> -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/css/bootstrap.min.css" rel="stylesheet"> -->
+<link href="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/css/fontawesome.css" rel="stylesheet">
+<link href="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/css/templatemo-scholar.css" rel="stylesheet">
+<!-- <link href="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/css/owl.css" rel="stylesheet"> -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/css/animate.css" rel="stylesheet"> -->
 
 <!-- Edu CSS Files -->
-<link href="<?php echo base_url('assets/edu/') ?>css/fontawesome-edu.css" rel="stylesheet">
-<link href="<?php echo base_url('assets/edu/') ?>css/templatemo-edu-meeting.css" rel="stylesheet">
-<!-- <link href="<?php echo base_url('assets/edu/') ?>css/owl-edu.css" rel="stylesheet"> -->
-<!-- <link href="<?php echo base_url('assets/edu/') ?>css/lightbox-edu.css" rel="stylesheet"> -->
+<link href="<?php echo base_url('myesc.id/assets/edu/') ?>css/fontawesome-edu.css" rel="stylesheet">
+<link href="<?php echo base_url('myesc.id/assets/edu/') ?>css/templatemo-edu-meeting.css" rel="stylesheet">
+<!-- <link href="<?php echo base_url('myesc.id/assets/edu/') ?>css/owl-edu.css" rel="stylesheet"> -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/edu/') ?>css/lightbox-edu.css" rel="stylesheet"> -->
 
 <!-- Environs CSS Fles -->
 
 <!-- Libraries Stylesheet -->
-<!-- <link href="<?php echo base_url('assets/Environs/') ?>lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet"> -->
-<!-- <link href="<?php echo base_url('assets/Environs/') ?>lib/lightbox/css/lightbox.min.css" rel="stylesheet">    -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/Environs/') ?>lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet"> -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/Environs/') ?>lib/lightbox/css/lightbox.min.css" rel="stylesheet">    -->
 <!-- Customized Bootstrap Stylesheet -->
-<!-- <link href="<?php echo base_url('assets/Environs/') ?>css/bootstrap.min.css" rel="stylesheet"> -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/Environs/') ?>css/bootstrap.min.css" rel="stylesheet"> -->
 <!-- Template Stylesheet -->
-<link href="<?php echo base_url('assets/Environs/') ?>css/style.css" rel="stylesheet">
+<link href="<?php echo base_url('myesc.id/assets/Environs/') ?>css/style.css" rel="stylesheet">
 
 
 
 <!-- TheEvent CSS Files -->
-<!-- <link href="<?php echo base_url('assets/TheEvent/') ?>vendor/aos/aos.css" rel="stylesheet"> -->
-<!-- <link href="<?php echo base_url('assets/TheEvent/') ?>vendor/glightbox/css/glightbox.min.css" rel="stylesheet"> -->
-<!-- <link href="<?php echo base_url('assets/TheEvent/') ?>vendor/swiper/swiper-bundle.min.css" rel="stylesheet"> -->
-<link href="<?php echo base_url('assets/TheEvent/') ?>css/style.css" rel="stylesheet">
+<!-- <link href="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/aos/aos.css" rel="stylesheet"> -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/glightbox/css/glightbox.min.css" rel="stylesheet"> -->
+<!-- <link href="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/swiper/swiper-bundle.min.css" rel="stylesheet"> -->
+<link href="<?php echo base_url('myesc.id/assets/TheEvent/') ?>css/style.css" rel="stylesheet">
 
 
 
@@ -318,7 +318,7 @@
 
       <div class="video-wrap">
         <video autoplay="" loop="" muted="" class="custom-video" poster="">
-          <source src="<?php echo base_url('assets/FestavaLive/') ?>video/pexels-2022395.mp4" type="video/mp4">
+          <source src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>video/pexels-2022395.mp4" type="video/mp4">
 
           Your browser does not support the video tag.
         </video>
@@ -345,7 +345,7 @@
 
           <div class="col-lg-6 col-12">
             <div class="about-text-wrap">
-              <img src="<?php echo base_url('assets/FestavaLive/') ?>images/pexels-alexander-suhorucov-6457579.jpg" class="about-image img-fluid">
+              <img src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>images/pexels-alexander-suhorucov-6457579.jpg" class="about-image img-fluid">
 
               <div class="about-text-info d-flex">
                 <div class="d-flex">
@@ -387,7 +387,7 @@
                           foreach ($rsOurservice->result() as $rowOurService) {
 
                             if (empty($rowOurService->gambarsampul)) {
-                              $gambarsampul = base_url('images/nofoto.png');
+                              $gambarsampul = base_url('myesc.id/images/nofoto.png');
                             } else {
                               $gambarsampul = base_url('admin/uploads/ourservice/' . $rowOurService->gambarsampul);
                             }
@@ -1570,36 +1570,36 @@
 
     <?php $this->load->view('template/festavalive/footer'); ?>
 
-    <!-- <script src="<?php echo base_url('assets/scholar/') ?>vendor/jquery/js/jquery.min.js"></script> -->
-    <!-- <script src="<?php echo base_url('assets/scholar/') ?>vendor/bootstrap/js/jquery.min.js"></script> -->
-    <!-- <script src="<?php echo base_url('assets/scholar/') ?>assets/js/isotope.min.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/scholar/') ?>vendor/jquery/js/jquery.min.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/scholar/') ?>vendor/bootstrap/js/jquery.min.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/js/isotope.min.js"></script> -->
 
-    <!-- <script src="<?php echo base_url('assets/scholar/') ?>assets/js/counter.js"></script>
-    <script src="<?php echo base_url('assets/scholar/') ?>assets/js/custom.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/js/counter.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/scholar/') ?>assets/js/custom.js"></script> -->
 
     <!-- TheEvent JS Files -->
-    <script src="<?php echo base_url('assets/TheEvent/') ?>vendor/aos/aos.js"></script>
-    <script src="<?php echo base_url('assets/TheEvent/') ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo base_url('assets/TheEvent/') ?>vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="<?php echo base_url('assets/TheEvent/') ?>vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="<?php echo base_url('assets/TheEvent/') ?>vendor/php-email-form/validate.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/aos/aos.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/TheEvent/') ?>vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <!-- <script src="<?php echo base_url('assets/TheEvent/') ?>js/main.jss"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/TheEvent/') ?>js/main.jss"></script> -->
 
     <!-- <script src="assets/js/main.js"></script> -->
 
 
     <!-- edu JS -->
-    <!-- <script src="<?php echo base_url('assets/edu/') ?>vendor/jquery/jquery.min-edu.js"></script> -->
-    <!-- <script src="<?php echo base_url('assets/edu/') ?>vendor/bootstrap/js/bootstrap.bundle.min-edu.js"></script> -->
-    <!-- <script src="<?php echo base_url('assets/edu/') ?>js/isotope.min-edu.js"></script> -->
-    <!-- <script src="<?php echo base_url('assets/edu/') ?>js/owl-carousel-edu.js"></script>
-    <script src="<?php echo base_url('assets/edu/') ?>js/lightbox-edu.js"></script>
-    <script src="<?php echo base_url('assets/edu/') ?>js/tabs-edu.js"></script> -->
-    <!-- <script src="<?php echo base_url('assets/edu/') ?>js/video-edu.js"></script> -->
-    <!-- <script src="<?php echo base_url('assets/edu/') ?>js/slick-slider-edu.js"></script>
-    <script src="<?php echo base_url('assets/edu/') ?>js/custome_edu.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/edu/') ?>vendor/jquery/jquery.min-edu.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/edu/') ?>vendor/bootstrap/js/bootstrap.bundle.min-edu.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/edu/') ?>js/isotope.min-edu.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/edu/') ?>js/owl-carousel-edu.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/edu/') ?>js/lightbox-edu.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/edu/') ?>js/tabs-edu.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/edu/') ?>js/video-edu.js"></script> -->
+    <!-- <script src="<?php echo base_url('myesc.id/assets/edu/') ?>js/slick-slider-edu.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/edu/') ?>js/custome_edu.js"></script> -->
 
 
 

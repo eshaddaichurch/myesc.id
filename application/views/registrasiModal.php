@@ -1,9 +1,9 @@
 <!-- Animate CSS for the css animation support if needed -->
-<link href="<?php echo base_url('assets/animate/animate.min.css') ?>" rel="stylesheet" />
+<link href="<?php echo base_url('myesc.id/assets/animate/animate.min.css') ?>" rel="stylesheet" />
 
 <!-- Include SmartWizard CSS -->
-<!-- <link href="<?php echo base_url('assets/jquery-smartwizard-master/dist') ?>/css/demo.css" rel="stylesheet" type="text/css" /> -->
-<link href="<?php echo base_url('assets/jquery-smartwizard-master/dist') ?>/css/smart_wizard_all.css" rel="stylesheet" type="text/css" />
+<!-- <link href="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/css/demo.css" rel="stylesheet" type="text/css" /> -->
+<link href="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/css/smart_wizard_all.css" rel="stylesheet" type="text/css" />
 
 <style>
   .help-block {
@@ -87,13 +87,13 @@
                       <div class="row">
                         <div class="col-12">
                           <h5 class="">Already have an ESC Membership Card?</h5>
-                         
+
                         </div>
                         <div class="col-12">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="sudahpernahfondationclass1" value="1">
                             <label class="form-check-label" for="sudahpernahfondationclass1">
-                            Already
+                              Already
                             </label>
                           </div>
                         </div>
@@ -101,7 +101,7 @@
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="sudahpernahfondationclass2" checked value="2">
                             <label class="form-check-label" for="sudahpernahfondationclass2">
-                            Not Yet
+                              Not Yet
                             </label>
                           </div>
 
@@ -297,7 +297,7 @@
 
 
 <!-- Include SmartWizard JavaScript source -->
-<script type="text/javascript" src="<?php echo base_url('assets/jquery-smartwizard-master/dist') ?>/js/jquery.smartWizard.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/js/jquery.smartWizard.min.js"></script>
 
 
 <script type="text/javascript">

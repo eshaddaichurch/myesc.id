@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg d-none d-md-block">
     <div class="container">
         <!-- Tambahkan logo -->
-      <img src="<?php echo base_url('assets/FestavaLive/video/esc10.png'); ?>" 
-     alt="Logo" 
-     style="width: 40px; height: 40px; margin-right: 20px;">
+        <img src="<?php echo base_url('myesc.id/assets/FestavaLive/video/esc10.png'); ?>"
+            alt="Logo"
+            style="width: 40px; height: 40px; margin-right: 20px;">
         <a class="navbar-brand" href="<?php echo site_url() ?>">
             El Shaddai Church
         </a>

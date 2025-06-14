@@ -7,15 +7,15 @@
 
     <meta name="description" content="">
     <meta name="author" content="">
-    
+
     <!-- AOS animation CSS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/gambar/esc10.png') ?>" rel="icon">
+    <link href="<?php echo base_url('myesc.id/assets/gambar/esc10.png') ?>" rel="icon">
     <title>El Shaddai Church</title>
 
 
-  
+
 
 
     <!-- CSS FILES -->
@@ -25,11 +25,11 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;400;700&display=swap" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/bootstrap-icons.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/templatemo-festava-live.css" rel="stylesheet">
+    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/templatemo-festava-live.css" rel="stylesheet">
 
     <!-- Font Awesome Icons 5.1 -->
     <link rel="stylesheet" href="<?php echo (base_url()) ?>admin/assets/adminlte/plugins/fontawesome-free/css/all.min.css">
@@ -126,52 +126,54 @@
         .card-mobile .isi-content {
             font-size: 12px;
         }
-        
+
         .card .badge {
             font-size: 0.95rem;
             padding: 0.5em 0.75em;
-          }
-          .card-title {
+        }
+
+        .card-title {
             font-size: 1.5rem;
-          }
-          .promo-title {
+        }
+
+        .promo-title {
             font-weight: bold;
             font-size: 2rem;
-          }
-          
-               .card {
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;
-                    border-radius: 15px;
-                    overflow: hidden;
-                }
-            
-              .card:hover {
-                transform: scale(1.01);
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-              }
-            
-              .card-body {
-                background: #fff;
-                padding: 20px;
-              }
-            
-              #btnDaftar {
-                transition: all 0.3s ease;
-              }
-            
-              #btnDaftar:hover {
-                transform: translateY(-2px);
-                background-color: #218838 !important;
-              }
-            
-              .col-12:not(:last-child) {
-                margin-bottom: 10px;
-              }
-            
-              .badge-status {
-                font-size: 0.8rem;
-                margin-left: 10px;
-              }
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            background: #fff;
+            padding: 20px;
+        }
+
+        #btnDaftar {
+            transition: all 0.3s ease;
+        }
+
+        #btnDaftar:hover {
+            transform: translateY(-2px);
+            background-color: #218838 !important;
+        }
+
+        .col-12:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        .badge-status {
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
     </style>
 
 

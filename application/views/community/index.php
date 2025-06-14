@@ -702,7 +702,7 @@
 
   <section>
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('<?php echo base_url('assets/gambar/back.jpg'); ?>'); height: 300px; background-size: cover; background-position: center;">
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/back.jpg'); ?>'); height: 300px; background-size: cover; background-position: center;">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2><?php echo $title ?> </h2>
@@ -721,7 +721,7 @@
           <div class="post-item position-relative h-100">
 
             <div class="post-img position-relative overflow-hidden">
-              <img src="<?php echo base_url('assets/assetku/') ?>img/blog/dc.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url('myesc.id/assets/assetku/') ?>img/blog/dc.png" class="img-fluid" alt="">
               <span class="post-date">Disciples Community</span>
             </div>
 
@@ -748,7 +748,7 @@
           <div class="post-item position-relative h-100">
 
             <div class="post-img position-relative overflow-hidden">
-              <img src="<?php echo base_url('assets/assetku/') ?>img/blog/kids.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url('myesc.id/assets/assetku/') ?>img/blog/kids.png" class="img-fluid" alt="">
               <span class="post-date">ESC KIDS</span>
             </div>
 
@@ -764,7 +764,7 @@
 
               <hr>
 
-              <a href="<?php echo base_url('kids/index/'. $this->encrypt->encode($menu)); ?>" class="readmore stretched-link"><span>Read More</span><i
+              <a href="<?php echo base_url('kids/index/' . $this->encrypt->encode($menu)); ?>" class="readmore stretched-link"><span>Read More</span><i
                   class="bi bi-arrow-right"></i></a>
 
             </div>
@@ -776,7 +776,7 @@
           <div class="post-item position-relative h-100">
 
             <div class="post-img position-relative overflow-hidden">
-              <img src="<?php echo base_url('assets/assetku/') ?>img/blog/youth.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url('myesc.id/assets/assetku/') ?>img/blog/youth.png" class="img-fluid" alt="">
               <span class="post-date">ESC YOUTH</span>
             </div>
 
@@ -791,7 +791,7 @@
 
               <hr>
 
-              <a href="<?php echo base_url('youth/index/'. $this->encrypt->encode($menu)); ?>" class="readmore stretched-link"><span>Read More</span><i
+              <a href="<?php echo base_url('youth/index/' . $this->encrypt->encode($menu)); ?>" class="readmore stretched-link"><span>Read More</span><i
                   class="bi bi-arrow-right"></i></a>
 
             </div>
@@ -803,7 +803,7 @@
           <div class="post-item position-relative h-100">
 
             <div class="post-img position-relative overflow-hidden">
-              <img src="<?php echo base_url('assets/assetku/') ?>img/blog/dc.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url('myesc.id/assets/assetku/') ?>img/blog/dc.png" class="img-fluid" alt="">
               <span class="post-date">ESC Young Adult</span>
             </div>
 
@@ -813,7 +813,7 @@
 
 
               <p>
-              ESC Young Adult adalah sebuah komunitas yang ditujukan bagi para dewasa muda, umumnya berusia dari masa kuliah hingga mereka yang sudah bekerja tetapi belum menikah...
+                ESC Young Adult adalah sebuah komunitas yang ditujukan bagi para dewasa muda, umumnya berusia dari masa kuliah hingga mereka yang sudah bekerja tetapi belum menikah...
               </p>
 
               <hr>
@@ -829,7 +829,7 @@
           <div class="post-item position-relative h-100">
 
             <div class="post-img position-relative overflow-hidden">
-              <img src="<?php echo base_url('assets/assetku/') ?>img/blog/dc.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url('myesc.id/assets/assetku/') ?>img/blog/dc.png" class="img-fluid" alt="">
               <span class="post-date">ESC GOLD</span>
             </div>
 
@@ -839,7 +839,7 @@
 
 
               <p>
-              ESC GOLD adalah sebuah komunitas yang berada di bawah naungan Gereja GBI Elshaddai, khusus diperuntukkan bagi anggota berusia 50 tahun ke atas. Komunitas ini hadir sebagai wadah bagi para senior untuk tetap aktif, bersosialisasi, dan bertumbuh secara rohani di tengah tahap kehidupan yang penuh kebijaksanaan dan pengalaman.
+                ESC GOLD adalah sebuah komunitas yang berada di bawah naungan Gereja GBI Elshaddai, khusus diperuntukkan bagi anggota berusia 50 tahun ke atas. Komunitas ini hadir sebagai wadah bagi para senior untuk tetap aktif, bersosialisasi, dan bertumbuh secara rohani di tengah tahap kehidupan yang penuh kebijaksanaan dan pengalaman.
               </p>
 
               <hr>

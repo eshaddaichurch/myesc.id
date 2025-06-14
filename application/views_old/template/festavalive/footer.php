@@ -150,12 +150,12 @@ T e m p l a t e M o
 
 
     <!-- JAVASCRIPT FILES -->
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/jquery.min.js"></script>
-    <!-- <script src="<?php echo base_url('assets/FestavaLive/') ?>js/bootstrap.min.js"></script> -->
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/jquery.min.js"></script>
+    <!-- <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/bootstrap.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/jquery.sticky.js"></script>
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/click-scroll.js"></script>
-    <script src="<?php echo base_url('assets/FestavaLive/') ?>js/custom.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/jquery.sticky.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/click-scroll.js"></script>
+    <script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/custom.js"></script>
 
 
 
