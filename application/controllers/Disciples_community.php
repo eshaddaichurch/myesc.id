@@ -71,7 +71,7 @@ class Disciples_community extends MY_Controller
 
 		$data = array();
 
-		if ($query->num_rows()>0) {
+		if ($query->num_rows() > 0) {
 			foreach ($query->result() as $row) {
 				array_push($data, array(
 					'iddc' => $row->iddc,
@@ -145,6 +145,18 @@ class Disciples_community extends MY_Controller
 
 		$this->session->set_flashdata('pesan', $pesan);
 		redirect('disciples_community/list');
+	}
+
+	public function getInformasiDC()
+	{
+		$iddc = $this->input->get('iddc');
+		$dataDC = $this->Disciples_community_model->getDC($iddc);
+
+		if ($dataDC) {
+			echo json_encode(['status' => 'success', 'data' => $dataDC->result()]);
+		} else {
+			echo json_encode(['status' => 'fail']);
+		}
 	}
 }
 

@@ -236,7 +236,7 @@
                         <?php
                         $gambarsampul = base_url('myesc.id/images/nofoto.png');
                         if (!empty($rowCabang->gambarsampul)) {
-                          $gambarsampul = base_url('admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
+                          $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
                         }
                         ?>
                         <!-- <img src="<?php echo $gambarsampul ?>" class="img-thumbnail" alt="" width="90%"> -->
@@ -252,7 +252,7 @@
                             foreach ($rsGallery->result() as $rowGallery) {
                               $filegallery = base_url('myesc.id/images/nofoto.png');
                               if (!empty($rowGallery->filegallery)) {
-                                $filegallery = base_url('admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
+                                $filegallery = base_url('myesc.id/admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
                                 // echo $filegallery;
 
                           ?>
@@ -279,7 +279,7 @@
                             foreach ($rsGallery->result() as $rowGallery) {
                               $filegallery = base_url('myesc.id/images/nofoto.png');
                               if (!empty($rowGallery->filegallery)) {
-                                $filegallery = base_url('admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
+                                $filegallery = base_url('myesc.id/admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
 
                           ?>
 

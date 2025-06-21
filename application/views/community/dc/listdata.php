@@ -285,7 +285,6 @@
 
         .profile-card-2 .profile-buttons {
             position: absolute;
-            left: 30px;
             bottom: 30px;
             font-size: 14px;
             color: #FFF;
@@ -908,7 +907,7 @@
                                     foreach ($rsDC->result() as $row) {
 
                                         if (!empty($row->fotodm)) {
-                                            $fotodm = base_url('admin/uploads/jemaat/' . $row->fotodm);
+                                            $fotodm = base_url('myesc.id/admin/uploads/jemaat/' . $row->fotodm);
                                         } else {
                                             $fotodm = base_url('myesc.id/images/bg-dc.png');
                                         }
@@ -918,11 +917,17 @@
                                                     <div class="profile-card-2 d-flex justify-content-center"><img src="' . $fotodm . '" class="img img-responsive">
                                                         <div class="profile-name">' . $row->namadc . '</div>
                                                         <div class="profile-username">' . $row->namadm . '</div>
-                                                        <div class="profile-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
-                                                        <a href="' . site_url('disciples_community/bergabung/' . $this->encrypt->encode($row->iddc)) . '" class="btn btn-primary profile-buttons">Bergabung Sekarang</a>
+                                                        <div class="profile-icons">
+                                                            <a href="#"><i class="fa fa-facebook"></i></a>
+                                                            <a href="#"><i class="fa fa-twitter"></i></a>
+                                                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                                                        </div>
+                                                        <a href="#" class="btn btn-success profile-buttons" data-iddc="' .$row->iddc. '" id="btninformasidc"><i class="fa fa-search mr-1"></i> Lihat Informasi DC</a>
                                                     </div>
                                                 </div>
                                                 ';
+
+                                                // <a href="' . site_url('disciples_community/bergabung/' . $this->encrypt->encode($row->iddc)) . '" class="btn btn-primary profile-buttons">Lihat Informasi DC</a>
                                     }
                                 }
                                 ?>
@@ -947,6 +952,36 @@
 
     </main>
 
+
+    <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="modalInfoDC">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Informasi Disciples Community</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="namadc">NAMA DC</h5>
+                                <span>Nama DM: <span class="namadm"></span></span>
+                            </div>
+                            <div class="col-12">
+                                Alamat: <span class="alamatdc"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
 
     <?php $this->load->view('template/festavalive/footer'); ?>
 
@@ -1057,6 +1092,33 @@
                     $('#divListDC').html('<p>Terjadi kesalahan saat memuat data</p>');
                 });
         }
+
+        $('#btninformasidc').click(function(e){
+            var iddc = $(this).attr('data-iddc');
+
+            e.preventDefault();
+            
+            $.ajax({
+                url: '<?= site_url('disciples_community/getInformasiDC') ?>',
+                type: 'GET',
+                dataType: 'json',
+                data: {'iddc': iddc},
+            })
+            .done(function(response) {
+                console.log(response);
+                if (response['status'] == 'success') {
+                    console.log('1');
+                    $('#modalInfoDC').modal('show');
+                    $('.namadc').html(response['data'][0]['namadc']);
+                    $('.namadm').html(response['data'][0]['namadm']);
+                }else{
+                    swal('Informasi', 'Data dc tidak ditemukan!', 'info');
+                }
+            })
+            .fail(function() {
+                console.log('error getInformasiDC');
+            });
+        })
     </script>
 
 </body>
