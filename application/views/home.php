@@ -284,8 +284,8 @@
 
       <div class="video-wrap">
         <video autoplay="" loop="" muted="" class="custom-video" poster="">
-          <source src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>video/vdo01.mp4" type="video/mp4">
-
+          <!-- <source src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>video/vdo01.mp4" type="video/mp4"> -->
+          <source src="<?php echo base_url('myesc.id/admin/uploads/infogereja/') . $rowinfogereja->gambarhomepage ?>" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
