@@ -233,7 +233,7 @@
             <?php
             if (!empty($rowinfogereja->urlbuttonhomepage)) {
               echo '
-                                    <a class="btn custom-btn smoothscroll" href="' . $rowinfogereja->urlbuttonhomepage . '">Watch</a>
+                                    <a class="btn custom-btn smoothscroll" href="' . $rowinfogereja->urlbuttonhomepage . '" target="_blank">Watch</a>
                                 ';
             } else {
             }

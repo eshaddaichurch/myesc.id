@@ -1,24 +1,25 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Infogereja extends MY_Controller {
+class Infogereja extends MY_Controller
+{
 
-	public function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->islogin();
         $this->load->model('Infogereja_model');
         $this->load->library('image_lib');
-        $this->session->set_userdata( 'IDMENUSELECTED', '0002' );
+        $this->session->set_userdata('IDMENUSELECTED', '0002');
         $this->cekOtorisasi();
     }
 
     public function index()
     {
-    	$data['rowinfogereja'] = $this->Infogereja_model->get_infogereja()->row();
+        $data['rowinfogereja'] = $this->Infogereja_model->get_infogereja()->row();
         $data['menu'] = 'infogereja';
         $this->load->view('infogereja/form', $data);
-    }   
+    }
 
     // ini simpan
 
@@ -27,9 +28,9 @@ class Infogereja extends MY_Controller {
 	=============================================================================================================
 		Keterangan: ini adalah fungsi untuk menyimpan data
 	=============================================================================================================
-    **/
+     **/
     public function simpan()
-    {       
+    {
         $namagereja             = $this->input->post('namagereja');
         $alamatgereja             = $this->input->post('alamatgereja');
         $emailgereja             = $this->input->post('emailgereja');
@@ -43,26 +44,26 @@ class Infogereja extends MY_Controller {
         $subjudulhomepage             = $this->input->post('subjudulhomepage');
         $urlbuttonhomepage             = $this->input->post('urlbuttonhomepage');
         $opennewtabbuttonhomepage             = $this->input->post('opennewtabbuttonhomepage');
-        
+
         $gambarhomepage_lama = $this->input->post('gambarhomepage_lama');
         $gambarhomepage = $this->update_upload_foto($_FILES, "gambarhomepage", $gambarhomepage_lama);
-        	
+
         $data = array(
-                            'namagereja'   => $namagereja, 
-                            'alamatgereja'   => $alamatgereja, 
-                            'emailgereja'   => $emailgereja, 
-                            'notelpgereja'   => $notelpgereja, 
-                            'urltwittergereja'   => $urltwittergereja, 
-                            'urlfacebookgereja'   => $urlfacebookgereja, 
-                            'urlinstagramgereja'   => $urlinstagramgereja, 
-                            'urlskipegereja'   => $urlskipegereja, 
-                            'urlgooglemaps'   => $urlgooglemaps, 
-                            'gambarhomepage'   => $gambarhomepage, 
-                            'judulhomepage'   => $judulhomepage, 
-                            'subjudulhomepage'   => $subjudulhomepage, 
-                            'urlbuttonhomepage'   => $urlbuttonhomepage, 
-                            'opennewtabbuttonhomepage'   => $opennewtabbuttonhomepage, 
-                        );
+            'namagereja'   => $namagereja,
+            'alamatgereja'   => $alamatgereja,
+            'emailgereja'   => $emailgereja,
+            'notelpgereja'   => $notelpgereja,
+            'urltwittergereja'   => $urltwittergereja,
+            'urlfacebookgereja'   => $urlfacebookgereja,
+            'urlinstagramgereja'   => $urlinstagramgereja,
+            'urlskipegereja'   => $urlskipegereja,
+            'urlgooglemaps'   => $urlgooglemaps,
+            'gambarhomepage'   => $gambarhomepage,
+            'judulhomepage'   => $judulhomepage,
+            'subjudulhomepage'   => $subjudulhomepage,
+            'urlbuttonhomepage'   => $urlbuttonhomepage,
+            'opennewtabbuttonhomepage'   => $opennewtabbuttonhomepage,
+        );
         $simpan = $this->Infogereja_model->update($data);
 
         if ($simpan) {
@@ -72,19 +73,19 @@ class Infogereja extends MY_Controller {
                             <strong>Berhasil!</strong> Data berhasil disimpan!
                         </div>
                     </div>';
-        }else{
-            $eror = $this->db->error();         
+        } else {
+            $eror = $this->db->error();
             $pesan = '<div>
                         <div class="alert alert-danger alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
                             <strong>Gagal!</strong> Data gagal disimpan! <br>
-                            Pesan Error : '.$eror['code'].' '.$eror['message'].'
+                            Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
                         </div>
                     </div>';
         }
 
         $this->session->set_flashdata('pesan', $pesan);
-        redirect('infogereja');   
+        redirect('infogereja');
     }
 
 
@@ -98,16 +99,15 @@ class Infogereja extends MY_Controller {
             $config['max_size']             = '2000KB';
 
             $this->load->library('upload', $config);
-            
+
             if ($this->upload->do_upload($nama)) {
                 $foto = $this->upload->data('file_name');
                 $size = $this->upload->data('file_size');
-                $ext  = $this->upload->data('file_ext'); 
-             }else{
-                 $foto = "";
-             }
-
-        }else{
+                $ext  = $this->upload->data('file_ext');
+            } else {
+                $foto = "";
+            }
+        } else {
             $foto = "";
         }
         return $foto;
@@ -117,27 +117,25 @@ class Infogereja extends MY_Controller {
     {
         if (!empty($file[$nama]['name'])) {
             $config['upload_path']          = 'uploads/infogereja/';
-            $config['allowed_types']        = 'gif|jpg|png|jpeg';
+            $config['allowed_types']        = 'gif|jpg|png|jpeg|mp4';
             $config['remove_space']         = TRUE;
-            $config['max_size']            = '2000KB';
-            
+            $config['max_size']            = '10240KB';
 
-            $this->load->library('upload', $config);           
+
+            $this->load->library('upload', $config);
             if ($this->upload->do_upload($nama)) {
                 $foto = $this->upload->data('file_name');
                 $size = $this->upload->data('file_size');
-                $ext  = $this->upload->data('file_ext'); 
-            }else{
+                $ext  = $this->upload->data('file_ext');
+            } else {
                 $foto = $file_lama;
-            }          
-        }else{          
+            }
+        } else {
             $foto = $file_lama;
         }
 
         return $foto;
     }
-    
-
 }
 
 /* End of file Infogereja.php */
