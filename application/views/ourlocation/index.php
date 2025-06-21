@@ -93,7 +93,7 @@
 
   <style>
     #map {
-      height: 700px;
+      height: 80vh;
     }
 
     .link-popup {
