@@ -96,6 +96,14 @@
       height: 80vh;
     }
 
+    /* Untuk tampilan mobile (lebar layar maksimal 768px) */
+    @media (max-width: 768px) {
+      #map {
+        height: 40vh;
+        /* Atur sesuai kebutuhan */
+      }
+    }
+
     .link-popup {
       font-size: 14px;
       float: right;
@@ -117,6 +125,17 @@
     }
   </style>
 
+
+  <style>
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1050;
+      /* Harus lebih tinggi dari leaflet */
+    }
+  </style>
   <main>
 
 
