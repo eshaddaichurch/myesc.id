@@ -500,7 +500,7 @@ $this->load->view('template/festavalive/header'); ?>
         position: absolute;
         width: 70%;
         height: 100%;
-        background-image: url('<?php echo base_url('myesc.id/assets/gambar/dc1.jpeg'); ?>');
+        background-image: url('<?php echo base_url('myesc.id/assets/gambar/dc2.JPG'); ?>');
         background-size: cover;
         background-position: center;
         z-index: 1;
