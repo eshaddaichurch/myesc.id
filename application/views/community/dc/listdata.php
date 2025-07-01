@@ -953,7 +953,7 @@
     </main>
 
 
-    <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="modalInfoDC">
+    <!-- <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="modalInfoDC">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -988,7 +988,40 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+
+
+    <div class="modal fade" id="modalInfoDC" tabindex="-1" aria-labelledby="modalInfoDCTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- gunakan modal-lg agar tetap responsif -->
+            <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="modalInfoDCTitle">Informasi Disciples Community</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="container-fluid">
+                <div class="row gy-3">
+                    <div class="col-12">
+                    <h5 class="namadc text-primary fw-semibold">Nama Disciples Community</h5>
+                    <p class="mb-1">Nama DM: <span class="namadm fw-medium text-dark"></span></p>
+                    </div>
+                    <div class="col-12">
+                    <p class="mb-1"><i class="bi bi-geo-alt-fill me-1 text-secondary"></i>Alamat: <span class="alamatdc text-dark"></span></p>
+                    <p class="mb-1"><i class="bi bi-calendar-event me-1 text-secondary"></i>Hari: <span class="haridc text-dark"></span></p>
+                    <p class="mb-1"><i class="bi bi-clock-fill me-1 text-secondary"></i>Jam: <span class="jamdc text-dark"></span></p>
+                    <p class="mb-1"><i class="bi bi-tags-fill me-1 text-secondary"></i>Kategori: <span class="kategoridc text-dark"></span></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">Tutup</button>
+            </div>
+            </div>
+        </div>
     </div>
+
 
         
 
