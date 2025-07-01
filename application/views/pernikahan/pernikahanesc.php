@@ -18,14 +18,14 @@ $this->load->view('template/festavalive/header'); ?>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
       @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Georgia&display=swap");
-      /* $main-green: #79dd09 !default;
+      $main-green: #ff6db8 !default; /*#79dd09*/
       $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
       $main-yellow: #bdbb49 !default;
       $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
       $main-red: #bd150b !default;
       $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
       $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default; */
+      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
 
       /* This pen */
 
@@ -768,16 +768,16 @@ $this->load->view('template/festavalive/header'); ?>
         opacity: 1;
         transform: translateY(0);
     }
+
     </style>
     </head>
 
     <body>
 
-     
-  <!-- Parallax Header -->
-  <div class="parallax-section">
-    <h1 style="color: #fefefe;">Pemberkatan Pernikahan</h1>
-  </div>
+       <!-- Parallax Header -->
+    <div class="parallax-section">
+      <h1 style="color: #fefefe;">Pemberkatan Pernikahan</h1>
+    </div>
 
  <!-- Konten -->
 
@@ -833,7 +833,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <p>
                   Dalam momen ini, gereja bukan hanya menjadi saksi, tetapi juga mendoakan dan meneguhkan pernikahan sebagai perjanjian kudus yang diberkati Tuhan.
                 </p>
-                    <a href="#" class="button">Ajukan Permohonan</a>
+                  <a href="<?php echo site_url('pernikahan/tambah'); ?>" class="button">Ajukan Permohonan</a>
                 </p>
               </div>
           </div>
@@ -864,7 +864,7 @@ $this->load->view('template/festavalive/header'); ?>
           <p><strong>3:</strong> Formulir akan diterima jika sudah lengkap.</p>
           <p><strong>4:</strong> Silahkan Ajukan Pemberkatan Pernikahan Pada Tombol Ajukan Permohonan.</p>
           <br>
-          <a href="<?php echo base_url('assets/gambar/formulir.pdf'); ?>" class="download-btn" style="margin-left: 0px;" download>
+          <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" class="download-btn" style="margin-left: 0px;" download>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 16l4-5h-3V4h-2v7H8z"/><path d="M20 18H4v-2h16v2z"/></svg>
             Download Formulir
           </a>     
@@ -873,9 +873,8 @@ $this->load->view('template/festavalive/header'); ?>
     </section>
 
    
+
     
-
-
       <script>
         
         let currentSlide = 0;
@@ -908,28 +907,28 @@ $this->load->view('template/festavalive/header'); ?>
             }
         });
 
-        function toggleDetails(element) {
-          const details = element.nextElementSibling;
-          const icon = element.querySelector('.toggle-icon');
-      
-          element.classList.toggle('active');
-          details.style.display = details.style.display === 'block' ? 'none' : 'block';
-        }
+      function toggleDetails(element) {
+        const details = element.nextElementSibling;
+        const icon = element.querySelector('.toggle-icon');
+    
+        element.classList.toggle('active');
+        details.style.display = details.style.display === 'block' ? 'none' : 'block';
+      }
 
 
-        const scrollElements = document.querySelectorAll('.scroll-animate');
+      const scrollElements = document.querySelectorAll('.scroll-animate');
 
-        function handleScrollAnimation() {
-          scrollElements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 100) {
-              el.classList.add('visible');
-            }
-          });
-        }
+      function handleScrollAnimation() {
+        scrollElements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) {
+            el.classList.add('visible');
+          }
+        });
+      }
 
-        window.addEventListener('scroll', handleScrollAnimation);
-        window.addEventListener('load', handleScrollAnimation); // untuk saat pertama kali tampil
+      window.addEventListener('scroll', handleScrollAnimation);
+      window.addEventListener('load', handleScrollAnimation); // untuk saat pertama kali tampil
 
 
       </script>
