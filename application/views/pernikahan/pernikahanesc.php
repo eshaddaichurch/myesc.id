@@ -330,7 +330,8 @@ $this->load->view('template/festavalive/header'); ?>
     }
 
     .parallax-section {
-    background-image: url('myesc.id/assets/gambar/pernikahan1.jpg');
+    /* background-image: url('myesc.id/assets/gambar/pernikahan1.jpg'); */
+    background-image: url('<?php echo base_url("myesc.id/assets/gambar/pernikahan1.jpg"); ?>');
     height: 70vh; /* Default untuk desktop */
     background-attachment: fixed;
     background-position: center;
@@ -355,7 +356,7 @@ $this->load->view('template/festavalive/header'); ?>
     .parallax-divider {
     position: relative;
     height: 400px; /* default untuk desktop */
-    background-image: url('myesc.id/assets/gambar/bgpernikahan1.jpg');
+    background-image: url('<?php echo base_url("myesc.id/assets/gambar/bgpernikahan1.jpg"); ?>');
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -821,7 +822,8 @@ $this->load->view('template/festavalive/header'); ?>
             <div class="right">
               <div class="right scroll-animate">
                 <div class="dedication-slideshow" style="width: 560px; height: 315px; overflow: hidden; position: relative; border-radius: 8px;">
-                  <img src="myesc.id/assets/gambar/marriage2.jpg" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                  <!-- <img src="myesc.id/assets/gambar/marriage2.jpg" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;"> -->
+                  <img src="<?php echo base_url('myesc.id/assets/gambar/marriage2.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
                 </div>
               </div>
                
