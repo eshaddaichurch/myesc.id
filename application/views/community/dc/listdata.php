@@ -1006,8 +1006,13 @@
                 </div>
                 </div>
             </div>
-            <div class="modal-footer border-0 pt-0">
-                <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">Tutup</button>
+            <!-- <div class="modal-footer border-0 pt-0"> -->
+            <div class="modal-footer border-0 pt-0 justify-content-between">
+                <button type="button" class="btn btn-outline-secondary w-50" data-bs-dismiss="modal">Tutup</button>
+                <a href="#" id="btnModalBergabung" class="btn btn-primary w-50">Bergabung Sekarang</a>
+            </div>
+
+                <!-- <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">Tutup</button> -->
             </div>
             </div>
         </div>
@@ -1100,20 +1105,21 @@
                             }
 
                             var addText = `
-                    <div class="col-md-4">
-                        <div class="profile-card-2 d-flex justify-content-center">
-                            <img src="${fotodm}" class="img img-responsive">
-                            <div class="profile-name">${response.data[i]['namadc']}</div>
-                            <div class="profile-username">${response.data[i]['namadm']}</div>
-                            <div class="profile-icons">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                            </div>
-                            <a href="${baseURL}disciples_community/bergabung/`+ response['data'][i]['iddcEncrypt']+`" class="btn btn-primary profile-buttons">Bergabung Sekarang</a>
-                        </div>
-                    </div>
-                `;
+                                <div class="col-md-4">
+                                    <div class="profile-card-2 d-flex justify-content-center">
+                                        <img src="${fotodm}" class="img img-responsive">
+                                        <div class="profile-name">${response.data[i]['namadc']}</div>
+                                        <div class="profile-username">${response.data[i]['namadm']}</div>
+                                        <div class="profile-icons">
+                                            <a href="#"><i class="fa fa-facebook"></i></a>
+                                            <a href="#"><i class="fa fa-twitter"></i></a>
+                                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                                        </div>
+                                        <a href="#" class="btn btn-outline-info profile-buttons btn-informasi-dc" data-iddc="${response.data[i]['iddc']}">Lihat Informasi DC</a>
+                                    </div>
+                                </div>
+                            `;
+
 
                             $('#divListDC').append(addText);
                         }
@@ -1147,6 +1153,11 @@
                     $('.haridc').html(response['data'][0]['haridc']);
                     $('.jamdc').html(response['data'][0]['jamdc']);
                     $('.kategoridc').html(response['data'][0]['kategoridc']);
+
+                    // Isi tombol "Bergabung Sekarang" dalam modal
+                    var baseURL = "<?= base_url() ?>";
+                    $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['data'][0]['iddcEncrypt']);
+                    
                 } else {
                     swal('Informasi', 'Data DC tidak ditemukan!', 'info');
                 }
