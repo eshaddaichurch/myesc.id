@@ -785,7 +785,7 @@ $this->load->view('template/festavalive/header'); ?>
                             <!-- <p class="class-description">
                         Taught by Dann Farrelly, Deeper Life is a 12-week course exploring our faith and life in a revival culture.
                     </p> -->
-                            <a href="<?php echo site_url('baptisan/index'); ?>" class="button">Visit</a>
+                            <a href="<?php echo site_url('gold/index'); ?>" class="button">Visit</a>
                         </div>
                     </div>
 

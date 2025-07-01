@@ -20,7 +20,7 @@ class Gold extends CI_Controller {
 		$data['menu'] = 'Community';
 	}
 	$data["rowinfogereja"] = $this->Home_model->get_infogereja();	
-	$this->load->view('community/gold/index',$data);
+	$this->load->view('community/gold/escgold',$data);
 }
 	
 
