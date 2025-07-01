@@ -812,6 +812,57 @@
         .profile-card-10:hover img {
             transform: scale(1.1);
         }
+
+        .modal-content {
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #fff;
+            border: none;
+        }
+
+        .modal-header {
+            background-color: #ff5008;
+            color: #fff;
+            padding: 1.5rem;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            background-color: #fffaf7;
+        }
+
+        .modal-footer {
+            background-color: #fffaf7;
+            padding: 1.5rem 2rem;
+            gap: 1rem;
+        }
+
+        .btn-outline-secondary {
+            border-color: #000;
+            color: #000;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .btn-black {
+            background-color: #000;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-black:hover {
+            background-color: #333;
+        }
+
     </style>
 
     <main>
@@ -982,38 +1033,33 @@
     </div> -->
 
 
-
     <div class="modal fade" id="modalInfoDC" tabindex="-1" aria-labelledby="modalInfoDCTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- gunakan modal-lg agar tetap responsif -->
-            <div class="modal-content shadow-lg rounded-4">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold" id="modalInfoDCTitle">Informasi Disciples Community</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-            </div>
-            <div class="modal-body pt-0">
-                <div class="container-fluid">
-                <div class="row gy-3">
-                    <div class="col-12">
-                    <h5 class="namadc text-primary fw-semibold">Nama Disciples Community</h5>
-                    <p class="mb-1">Nama DM: <span class="namadm fw-medium text-dark"></span></p>
-                    </div>
-                    <div class="col-12">
-                    <p class="mb-1"><i class="bi bi-geo-alt-fill me-1 text-secondary"></i>Alamat: <span class="alamatdc text-dark"></span></p>
-                    <p class="mb-1"><i class="bi bi-calendar-event me-1 text-secondary"></i>Hari: <span class="haridc text-dark"></span></p>
-                    <p class="mb-1"><i class="bi bi-clock-fill me-1 text-secondary"></i>Jam: <span class="jamdc text-dark"></span></p>
-                    <p class="mb-1"><i class="bi bi-tags-fill me-1 text-secondary"></i>Kategori: <span class="kategoridc text-dark"></span></p>
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalInfoDCTitle">Informasi Disciples Community</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row gy-3">
+                            <div class="col-12">
+                                <h5 class="namadc text-dark fw-bold mb-2">Nama Disciples Community</h5>
+                                <p class="mb-1">Nama DM: <span class="namadm fw-medium text-dark"></span></p>
+                            </div>
+                            <div class="col-12">
+                                <p class="mb-1"><i class="bi bi-geo-alt-fill me-1 text-secondary"></i>Alamat: <span class="alamatdc text-dark"></span></p>
+                                <p class="mb-1"><i class="bi bi-calendar-event me-1 text-secondary"></i>Hari: <span class="haridc text-dark"></span></p>
+                                <p class="mb-1"><i class="bi bi-clock-fill me-1 text-secondary"></i>Jam: <span class="jamdc text-dark"></span></p>
+                                <p class="mb-1"><i class="bi bi-tags-fill me-1 text-secondary"></i>Kategori: <span class="kategoridc text-dark"></span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="modal-footer justify-content-between">
+                    <!-- <button type="button" class="btn btn-outline-secondary w-50" data-bs-dismiss="modal">Tutup</button> -->
+                    <a href="#" id="btnModalBergabung" class="btn btn-black w-50">Bergabung Sekarang</a>
                 </div>
-            </div>
-            <!-- <div class="modal-footer border-0 pt-0"> -->
-            <div class="modal-footer border-0 pt-0 justify-content-between">
-                <button type="button" class="btn btn-outline-secondary w-50" data-bs-dismiss="modal">Tutup</button>
-                <a href="#" id="btnModalBergabung" class="btn btn-primary w-50">Bergabung Sekarang</a>
-            </div>
-
-                <!-- <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">Tutup</button> -->
-            </div>
             </div>
         </div>
     </div>
@@ -1157,7 +1203,7 @@
                     // Isi tombol "Bergabung Sekarang" dalam modal
                     var baseURL = "<?= base_url() ?>";
                     $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['data'][0]['iddcEncrypt']);
-                    
+
                 } else {
                     swal('Informasi', 'Data DC tidak ditemukan!', 'info');
                 }
