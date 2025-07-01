@@ -73,14 +73,27 @@ class Disciples_community extends MY_Controller
 
 		if ($query->num_rows() > 0) {
 			foreach ($query->result() as $row) {
+				// array_push($data, array(
+				// 	'iddc' => $row->iddc,
+				// 	'namadc' => $row->namadc,
+				// 	'kategoridc' => $row->kategoridc,
+				// 	'alamatdc' => $row->alamatdc,
+				// 	'fotodc' => $row->fotodc,
+				// 	'iddcEncrypt' => $this->encrypt->encode($row->iddc),
+				// ));
+
 				array_push($data, array(
 					'iddc' => $row->iddc,
 					'namadc' => $row->namadc,
-					'kategoridc' => $row->kategoridc,
+					'namadm' => $row->namadm, // Tambahkan ini
 					'alamatdc' => $row->alamatdc,
-					'fotodc' => $row->fotodc,
+					'haridc' => $row->haridc, // Optional kalau perlu di modal
+					'jamdc' => $row->jamdc,   // Optional kalau perlu di modal
+					'kategoridc' => $row->kategoridc,
+					'fotodm' => $row->fotodm, // Ini yang benar (bukan fotodc)
 					'iddcEncrypt' => $this->encrypt->encode($row->iddc),
 				));
+				
 			}
 		}
 
