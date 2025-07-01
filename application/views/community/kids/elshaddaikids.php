@@ -772,7 +772,7 @@ $this->load->view('template/festavalive/header'); ?>
       }
 
       .event-card {
-        background-color: #000000;
+        background-color: #f7a18d;
         color: #ffffff;
         padding: 70px;
         border-radius: 6px;
