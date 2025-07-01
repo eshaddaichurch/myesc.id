@@ -1476,7 +1476,7 @@ $this->load->view('template/festavalive/header'); ?>
       <div class="kindy-image-slider">
         <img src="<?php echo base_url('myesc.id/assets/gambar/gbi1.jpg'); ?>" alt="Foto 1">    
         <img src="<?php echo base_url('myesc.id/assets/gambar/gbi2.jpg'); ?>" alt="Foto 2">
-        <img src="<?php echo base_url('myesc.id/assets/gambar/gold4.JPG'); ?>" alt="Foto 3">
+        <img src="<?php echo base_url('myesc.id/assets/gambar/gold4.jpg'); ?>" alt="Foto 3">
       </div>
     </section>
     
