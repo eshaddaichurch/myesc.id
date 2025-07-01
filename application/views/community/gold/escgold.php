@@ -1439,7 +1439,7 @@ $this->load->view('template/festavalive/header'); ?>
           
             <div class="about">
                 <h1>ESC GOLD</h1>
-                <p>
+                <p style="color: #000000;">
                   ESC Gold adalah komunitas yang menghormati dan merayakan kehidupan orang tua dari usia 55 tahun sampai lansia sebagai teladan hikmat, iman dan pilar rohani dalam tubuh Kristus. Kami percaya bahwa masa tua bukanlah masa akhir tetapi musim yang penuh tujuan untuk terus bertumbuh, dan menyelesaikan panggilan Tuhan dengan setia bahkan turut serta dalam memperkuat generasi dibawahnya. Bersama EL Shaddai Church, kami membangun komunitas Gold yang aktif, berpengaruh, dan tetap menyala dalam iman hingga garis akhir. 
                 </p>
               </div>
