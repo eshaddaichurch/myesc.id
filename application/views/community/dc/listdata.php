@@ -1145,9 +1145,9 @@
                         for (var i = 0; i < response.data.length; i++) {
                             var fotodm;
                             if (response.data[i]['fotodm'] && response.data[i]['fotodm'] !== "") {
-                                fotodm = baseURL + "admin/uploads/jemaat/" + response.data[i]['fotodm'];
+                                fotodm = baseURL + "myesc.id/admin/uploads/jemaat/" + response.data[i]['fotodm'];
                             } else {
-                                fotodm = baseURL + "images/bg-dc.png";
+                                fotodm = baseURL + "myesc.id/images/bg-dc.png";
                             }
 
                             var addText = `
@@ -1161,11 +1161,12 @@
                                             <a href="#"><i class="fa fa-twitter"></i></a>
                                             <a href="#"><i class="fa fa-linkedin"></i></a>
                                         </div>
-                                        <a href="#" class="btn btn-outline-info profile-buttons btn-informasi-dc" data-iddc="${response.data[i]['iddc']}">Lihat Informasi DC</a>
+                                        <a href="#" class="btn btn-success profile-buttons btn-informasi-dc" data-iddc="${response.data[i]['iddc']}">
+                                            <i class="fa fa-search mr-1"></i> Lihat Informasi DC
+                                        </a>
                                     </div>
                                 </div>
                             `;
-
 
                             $('#divListDC').append(addText);
                         }
@@ -1173,6 +1174,7 @@
                         $('#divListDC').html('<p>Tidak ada data ditemukan</p>');
                     }
                 })
+
                 .fail(function(xhr, status, error) {
                     console.error('Error:', error);
                     $('#divListDC').html('<p>Terjadi kesalahan saat memuat data</p>');
