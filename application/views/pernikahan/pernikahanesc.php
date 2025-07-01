@@ -821,7 +821,7 @@ $this->load->view('template/festavalive/header'); ?>
             <div class="right">
               <div class="right scroll-animate">
                 <div class="dedication-slideshow" style="width: 560px; height: 315px; overflow: hidden; position: relative; border-radius: 8px;">
-                  <img src="assets/gambar/marriage2.jpg" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                  <img src="myesc.id/assets/gambar/marriage2.jpg" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
                 </div>
               </div>
                
