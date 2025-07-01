@@ -922,7 +922,7 @@
                                                             <a href="#"><i class="fa fa-twitter"></i></a>
                                                             <a href="#"><i class="fa fa-linkedin"></i></a>
                                                         </div>
-                                                        <a href="#" class="btn btn-success profile-buttons" data-iddc="' .$row->iddc. '" id="btninformasidc"><i class="fa fa-search mr-1"></i> Lihat Informasi DC</a>
+                                                       <a href="#" class="btn btn-success profile-buttons btn-informasi-dc" data-iddc="' .$row->iddc. '"><i class="fa fa-search mr-1"></i> Lihat Informasi DC</a>
                                                     </div>
                                                 </div>
                                                 ';
@@ -1136,21 +1136,19 @@
                 });
         }
 
-        $('#btninformasidc').click(function(e){
-            var iddc = $(this).attr('data-iddc');
-
+        $(document).on('click', '.btn-informasi-dc', function(e) {
             e.preventDefault();
-            
+            var iddc = $(this).data('iddc');
+
             $.ajax({
                 url: '<?= site_url('disciples_community/getInformasiDC') ?>',
                 type: 'GET',
                 dataType: 'json',
-                data: {'iddc': iddc},
+                data: { 'iddc': iddc },
             })
             .done(function(response) {
                 console.log(response);
                 if (response['status'] == 'success') {
-                    console.log('1');
                     $('#modalInfoDC').modal('show');
                     $('.namadc').html(response['data'][0]['namadc']);
                     $('.namadm').html(response['data'][0]['namadm']);
@@ -1158,14 +1156,15 @@
                     $('.haridc').html(response['data'][0]['haridc']);
                     $('.jamdc').html(response['data'][0]['jamdc']);
                     $('.kategoridc').html(response['data'][0]['kategoridc']);
-                }else{
-                    swal('Informasi', 'Data dc tidak ditemukan!', 'info');
+                } else {
+                    swal('Informasi', 'Data DC tidak ditemukan!', 'info');
                 }
             })
             .fail(function() {
                 console.log('error getInformasiDC');
             });
-        })
+        });
+
     </script>
 
 </body>
