@@ -970,6 +970,15 @@
                             <div class="col-12">
                                 Alamat: <span class="alamatdc"></span>
                             </div>
+                            <div class="col-12">
+                                Hari: <span class="haridc"></span>
+                            </div>
+                            <div class="col-12">
+                                Jam: <span class="jamdc"></span>
+                            </div>
+                            <div class="col-12">
+                                Kategori: <span class="kategoridc"></span>
+                            </div>
                         </div>
                     </div>
                     
@@ -1051,6 +1060,7 @@
                         'idkategoridc': idkategoridc,
                         'idkabupaten': idkabupaten,
                         'idkecamatan': idkecamatan,
+
                         'cari': cari,
                     },
                 })
@@ -1111,7 +1121,11 @@
                     $('#modalInfoDC').modal('show');
                     $('.namadc').html(response['data'][0]['namadc']);
                     $('.namadm').html(response['data'][0]['namadm']);
-                }else{
+                    $('.alamatdc').html(response['data'][0]['alamatdc']);
+                    $('.haridc').html(response['data'][0]['haridc']);
+                    $('.jamdc').html(response['data'][0]['jamdc']);
+                    $('.kategoridc').html(response['data'][0]['kategoridc']);
+
                     swal('Informasi', 'Data dc tidak ditemukan!', 'info');
                 }
             })
