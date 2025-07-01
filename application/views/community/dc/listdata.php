@@ -1125,7 +1125,7 @@
                     $('.haridc').html(response['data'][0]['haridc']);
                     $('.jamdc').html(response['data'][0]['jamdc']);
                     $('.kategoridc').html(response['data'][0]['kategoridc']);
-
+                }else{
                     swal('Informasi', 'Data dc tidak ditemukan!', 'info');
                 }
             })
