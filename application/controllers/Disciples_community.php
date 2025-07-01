@@ -54,8 +54,8 @@ class Disciples_community extends MY_Controller
 		$this->db->where('statusaktif', 'Aktif');
 
 		if (!empty($idkategoridc)) {
-			$this->db->where('idkategoridc', $idkategoridc);
-		}
+			$this->db->where('kategoridc', $idkategoridc); // BUKAN idkategoridc
+		}		
 		if (!empty($idkabupaten)) {
 			$this->db->where('idkabupaten', $idkabupaten);
 		}

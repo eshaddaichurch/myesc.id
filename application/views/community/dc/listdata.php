@@ -854,8 +854,7 @@
                                         <option value="Dewasa Muda">Dewasa Muda (Kuliah, Kerja, Single)</option>
                                         <option value="Adult">Adult</option>
                                         <option value="Kids">Kids</option>
-                                        <option value="Keluarga">Keluarga (Menikah/Cerai)
-</option>
+                                        <option value="Keluarga">Keluarga (Menikah/Cerai)</option>
                                     </select>
                                 </div>
 
@@ -935,13 +934,6 @@
                             </div>
                         </div>
                         
-        
-
-
-
-
-
-
                     </div>
         </section>
 
