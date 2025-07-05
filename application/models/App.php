@@ -54,7 +54,7 @@ class App extends CI_Model
         $this->load->library('image_lib');
 
         if (!empty($file[$namaFile]['name'])) {
-            $config['upload_path']          = 'admin/uploads/' . $foldername . '/';
+            $config['upload_path']          = 'myesc.id/admin/uploads/' . $foldername . '/';
             $config['allowed_types']        = 'gif|jpg|png|jpeg';
             $config['remove_space']         = TRUE;
             $config['max_size']            = '2000KB';

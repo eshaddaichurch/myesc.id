@@ -152,47 +152,148 @@ class Akun extends MY_Controller
     }
 
 
-    public function simpanjemaat()
+    public function simpanJemaat()
     {
-        $nohp = $this->input->post('nohp');
-        $alamatrumah = $this->input->post('alamatrumah');
-        $namadarurat = $this->input->post('namadarurat');
-        $hubungan = $this->input->post('hubungan');
-        $notelpdarurat = $this->input->post('notelpdarurat');
-        $instagram = $this->input->post('instagram');
-        $facebook = $this->input->post('facebook');
+        $idjemaat             = $this->session->userdata('idjemaat');
+        $nik        = $this->input->post('nikprofil');
+        $kewarganegaraan        = $this->input->post('kewarganegaraan');
+        $namalengkap        = $this->input->post('namalengkapprofil');
+        $namapanggilan        = $this->input->post('namapanggilan');
+        $tempatlahir        = $this->input->post('tempatlahirprofil');
+        $tanggallahir        = $this->input->post('tanggallahirprofil');
+        $jeniskelamin        = $this->input->post('jeniskelaminprofil');
+        $statuspernikahan        = $this->input->post('statuspernikahan');
+        $golongandarah        = $this->input->post('golongandarah');
+        if (empty($golongandarah)) {
+            $golongandarah = null;
+        }
+        $notelp        = $this->input->post('notelp');
+        $nohp        = $this->input->post('nohpprofil');
+        $email        = $this->input->post('emailprofil');
+        $facebook        = $this->input->post('facebook');
+        $instagram        = $this->input->post('instagram');
+        $alamatrumah        = $this->input->post('alamatrumahprofil');
+        $rtrw        = $this->input->post('rtrw');
+        $kelurahan        = $this->input->post('kelurahan');
+        $kecamatan        = $this->input->post('kecamatan');
+        $kotakabupaten        = $this->input->post('kotakabupaten');
+        $propinsi        = $this->input->post('propinsi');
+        $kodepos        = $this->input->post('kodepos');
 
-        if ($this->Akun_model->hpSudahTerdaftar($nohp)) {
-            $pesan = "<script>
-                        swal('Gagal', 'Nomor HP sudah terdaftar.', 'warning');
-                    </script>";
-            $this->session->set_flashdata('pesan', $pesan);
-            redirect('akun/ubahprofil');
+        $namadarurat        = $this->input->post('namadarurat');
+        $hubungan        = $this->input->post('hubungan');
+        if (empty($hubungan)) {
+            $hubungan = null;
+        }
+        $notelpdarurat        = $this->input->post('notelpdarurat');
+        $pendidikanterakhir        = $this->input->post('pendidikanterakhir');
+        if (empty($pendidikanterakhir)) {
+            $pendidikanterakhir = null;
+        }
+        $namasekolah        = $this->input->post('namasekolah');
+        $pekerjaan        = $this->input->post('pekerjaan');
+        if (empty($pekerjaan)) {
+            $pekerjaan = null;
+        }
+        $namaperusahaan        = $this->input->post('namaperusahaan');
+        $sektorindustri        = $this->input->post('sektorindustri');
+        $alamatkantor        = $this->input->post('alamatkantor');
+        $notelpkantor        = $this->input->post('notelpkantor');
+        $tanggalupdate        = date('Y-m-d H:i:s');
+
+        $foto_lama = $this->input->post('foto_lama');
+        $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
+
+
+        $rowJemaat = $this->db->query(
+            "select * from v_jemaat where idjemaat = '$idjemaat'"
+        )->row();
+
+        if ($rowJemaat->statusjemaat = 'Registered') {
+            $data = array(
+                'nik'   => $nik,
+                'kewarganegaraan'   => $kewarganegaraan,
+                'namalengkap'   => $namalengkap,
+                'namapanggilan'   => $namapanggilan,
+                'tempatlahir'   => $tempatlahir,
+                'tanggallahir'   => $tanggallahir,
+                'jeniskelamin'   => $jeniskelamin,
+                'statuspernikahan'   => $statuspernikahan,
+                'golongandarah'   => $golongandarah,
+                'notelp'   => $notelp,
+                'nohp'   => $nohp,
+                'facebook'   => $facebook,
+                'instagram'   => $instagram,
+                'namadarurat'   => $namadarurat,
+                'hubungan'   => $hubungan,
+                'notelpdarurat'   => $notelpdarurat,
+                'pendidikanterakhir'   => $pendidikanterakhir,
+                'namasekolah'   => $namasekolah,
+                'pekerjaan'   => $pekerjaan,
+                'namaperusahaan'   => $namaperusahaan,
+                'sektorindustri'   => $sektorindustri,
+                'alamatkantor'   => $alamatkantor,
+                'notelpkantor'   => $notelpkantor,
+                'alamatrumah'   => $alamatrumah,
+                'rtrw'   => $rtrw,
+                'kelurahan'   => $kelurahan,
+                'kecamatan'   => $kecamatan,
+                'kotakabupaten'   => $kotakabupaten,
+                'propinsi'   => $propinsi,
+                'kodepos'   => $kodepos,
+                'tanggalupdate'   => $tanggalupdate,
+                'foto'   => $foto,
+            );
+        } else {
+            $data = array(
+                'notelp'   => $notelp,
+                'nohp'   => $nohp,
+                'facebook'   => $facebook,
+                'instagram'   => $instagram,
+                'namadarurat'   => $namadarurat,
+                'hubungan'   => $hubungan,
+                'notelpdarurat'   => $notelpdarurat,
+                'pendidikanterakhir'   => $pendidikanterakhir,
+                'namasekolah'   => $namasekolah,
+                'pekerjaan'   => $pekerjaan,
+                'namaperusahaan'   => $namaperusahaan,
+                'sektorindustri'   => $sektorindustri,
+                'alamatkantor'   => $alamatkantor,
+                'notelpkantor'   => $notelpkantor,
+                'alamatrumah'   => $alamatrumah,
+                'rtrw'   => $rtrw,
+                'kelurahan'   => $kelurahan,
+                'kecamatan'   => $kecamatan,
+                'kotakabupaten'   => $kotakabupaten,
+                'propinsi'   => $propinsi,
+                'kodepos'   => $kodepos,
+                'tanggalupdate'   => $tanggalupdate,
+                'foto'   => $foto,
+            );
         }
 
-        $data = array(
-            'nohp' => htmlspecialchars($nohp),
-            'alamatrumah' => htmlspecialchars($alamatrumah),
-            'namadarurat' => htmlspecialchars($namadarurat),
-            'hubungan' => $hubungan,
-            'notelpdarurat' => htmlspecialchars($notelpdarurat),
-            'instagram' => htmlspecialchars($instagram),
-            'facebook' => htmlspecialchars($facebook),
-        );
 
-        $simpan = $this->Akun_model->update($data);
+
+        $simpan = $this->Akun_model->update($data, $idjemaat);
+
         if ($simpan) {
-            $pesan = "<script>
-                            swal('Berhasil', 'Data berhasil disimpan.', 'success');
-                        </script>";
+            $pesan = '<div>
+                        <div class="alert alert-success alert-dismissable">
+                            <strong>Berhasil!</strong> Data berhasil disimpan!
+                        </div>
+                    </div>';
         } else {
-            $pesan = "<script>
-                            swal('Gagal', 'Data gagal disimpan.', 'warning');
-                        </script>";
+            $eror = $this->db->error();
+            $pesan = '<div>
+                        <div class="alert alert-danger alert-dismissable">
+                            <strong>Gagal!</strong> Data gagal disimpan! <br>
+                            Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
+                        </div>
+                    </div>';
         }
 
         $this->session->set_flashdata('pesan', $pesan);
-        redirect('akun/profil');
+        redirect('akun/ubahprofil');
     }
 
 
@@ -254,6 +355,43 @@ class Akun extends MY_Controller
 
         $this->session->set_flashdata('pesan', $pesan);
         redirect('akun/profil');
+    }
+
+    public function getJemaatId()
+    {
+        $idjemaat = $this->session->userdata('idjemaat');
+        $RsData = $this->db->query(
+            "select * from v_jemaat where idjemaat = '$idjemaat'"
+        )->row();
+        echo (json_encode($RsData));
+    }
+
+
+    public function getKabupaten()
+    {
+        $idprovinsi = $this->input->get('idprovinsi');
+        $query = $this->db->query("
+            select * from kabupaten where idprovinsi='$idprovinsi' order by namakabupaten
+        ");
+        echo json_encode($query->result());
+    }
+
+    public function getKecamatan()
+    {
+        $idkabupaten = $this->input->get('idkabupaten');
+        $query = $this->db->query("
+            select * from kecamatan where idkabupaten='$idkabupaten' order by namakecamatan
+        ");
+        echo json_encode($query->result());
+    }
+
+    public function getKelurahan()
+    {
+        $idkecamatan = $this->input->get('idkecamatan');
+        $query = $this->db->query("
+            select * from desa where idkecamatan='$idkecamatan' order by namadesa
+        ");
+        echo json_encode($query->result());
     }
 }
 

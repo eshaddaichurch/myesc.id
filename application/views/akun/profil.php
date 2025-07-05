@@ -53,20 +53,17 @@
                                             <?php
                                             if (!empty($rowProfil->foto)) {
                                                 echo '
-                                                        <img src="' . base_url('admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="" style="width: 50%;" class="rounded-circle">
+                                                        <img src="' . base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="" style="width: 80%;" class="">
                                                     ';
                                             } else {
                                                 echo '
-                                                        <img src="' . base_url('myesc.id/images/nofoto.png') . '" alt="" style="width: 50%;" class="rounded-circle">
+                                                        <img src="' . base_url('myesc.id/images/nofoto.png') . '" alt="" style="width: 80%;" class="">
                                                     ';
                                             }
                                             ?>
 
                                         </div>
-                                        <div class="col-12 text-center mt-3">
-                                            <input type="file" class="btn btn-sm btn-primary" id="foto" name="foto">
-                                            <input type="hidden" id="foto_lama" name="foto_lama">
-                                        </div>
+
                                     </div>
                                 </form>
 
