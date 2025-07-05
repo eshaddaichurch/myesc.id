@@ -264,7 +264,7 @@
 
         .profile-card-2 {
             max-width: 300px;
-             height: 270px;
+            height: 270px;
             background-color: #FFF;
             box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
             background-position: center;
@@ -278,7 +278,7 @@
         .profile-card-2 img {
             transition: all linear 0.25s;
             width: 100%;
-           
+
 
         }
 
@@ -319,6 +319,8 @@
             color: #FFF;
             font-size: 13px;
             transition: all linear 0.25s;
+            text-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+            /* x y blur color */
         }
 
         .profile-card-2 .profile-icons .fa {
@@ -862,7 +864,6 @@
         .btn-black:hover {
             background-color: #333;
         }
-
     </style>
 
     <main>
@@ -908,34 +909,6 @@
                                     </select>
                                 </div>
 
-                                <!--<div class="col-md-3">-->
-                                <!--    <div class="form-group">-->
-                                <!--        <label for="">Kabupaten/ Kota</label>-->
-                                <!--        <select name="idkabupaten" id="idkabupaten" class="form-control select2">-->
-                                <!--            <option value="">Pilih kabupaten</option>-->
-                                <!--            <?php-->
-                                <!--            $rsKabupaten = $this->db->query("-->
-                                <!--                                    select * from kabupaten where idprovinsi='001' and deleted_at is null order by namakabupaten-->
-                                <!--                                ");-->
-                                <!--            if ($rsKabupaten->num_rows() > 0) {-->
-                                <!--                foreach ($rsKabupaten->result() as $row) {-->
-                                <!--                    echo '-->
-                                <!--                            <option value="' . $row->idkabupaten . '">' . $row->namakabupaten . '</option>-->
-                                <!--                    ';-->
-                                <!--                }-->
-                                <!--            }-->
-                                <!--            ?>-->
-                                <!--        </select>-->
-                                <!--    </div>-->
-                                <!--</div>-->
-
-                                <!--<div class="col-md-3">-->
-                                <!--    <label for="" class="">Kecamatan</label>-->
-                                <!--    <select name="idkecamatan" id="idkecamatan" class="form-control select2">-->
-                                <!--        <option value="">Pilih kecamatan ...</option>-->
-                                <!--    </select>-->
-                                <!--</div>-->
-
                                 <div class="col-md-3">
                                     <label for="" class="">Cari Nama DC</label>
                                     <input type="text" name="carinamadc" id="carinamadc" class="form-control" placeholder="Cari berdasarkan nama dc">
@@ -971,19 +944,19 @@
                                                             <a href="#"><i class="fa fa-twitter"></i></a>
                                                             <a href="#"><i class="fa fa-linkedin"></i></a>
                                                         </div>
-                                                       <a href="#" class="btn btn-success profile-buttons btn-informasi-dc" data-iddc="' .$row->iddc. '"><i class="fa fa-search mr-1"></i> Lihat Informasi DC</a>
+                                                       <a href="#" class="btn btn-success profile-buttons btn-informasi-dc" data-iddc="' . $row->iddc . '"><i class="fa fa-search mr-1"></i> Lihat Informasi DC</a>
                                                     </div>
                                                 </div>
                                                 ';
 
-                                                // <a href="' . site_url('disciples_community/bergabung/' . $this->encrypt->encode($row->iddc)) . '" class="btn btn-primary profile-buttons">Lihat Informasi DC</a>
+                                        // <a href="' . site_url('disciples_community/bergabung/' . $this->encrypt->encode($row->iddc)) . '" class="btn btn-primary profile-buttons">Lihat Informasi DC</a>
                                     }
                                 }
                                 ?>
 
                             </div>
                         </div>
-                        
+
                     </div>
         </section>
 
@@ -1065,7 +1038,7 @@
     </div>
 
 
-        
+
 
     <?php $this->load->view('template/festavalive/footer'); ?>
 
@@ -1186,35 +1159,36 @@
             var iddc = $(this).data('iddc');
 
             $.ajax({
-                url: '<?= site_url('disciples_community/getInformasiDC') ?>',
-                type: 'GET',
-                dataType: 'json',
-                data: { 'iddc': iddc },
-            })
-            .done(function(response) {
-                console.log(response);
-                if (response['status'] == 'success') {
-                    $('#modalInfoDC').modal('show');
-                    $('.namadc').html(response['data'][0]['namadc']);
-                    $('.namadm').html(response['data'][0]['namadm']);
-                    $('.alamatdc').html(response['data'][0]['alamatdc']);
-                    $('.haridc').html(response['data'][0]['haridc']);
-                    $('.jamdc').html(response['data'][0]['jamdc']);
-                    $('.kategoridc').html(response['data'][0]['kategoridc']);
+                    url: '<?= site_url('disciples_community/getInformasiDC') ?>',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        'iddc': iddc
+                    },
+                })
+                .done(function(response) {
+                    console.log(response);
+                    if (response['status'] == 'success') {
+                        $('#modalInfoDC').modal('show');
+                        $('.namadc').html(response['data'][0]['namadc']);
+                        $('.namadm').html(response['data'][0]['namadm']);
+                        $('.alamatdc').html(response['data'][0]['alamatdc']);
+                        $('.haridc').html(response['data'][0]['haridc']);
+                        $('.jamdc').html(response['data'][0]['jamdc']);
+                        $('.kategoridc').html(response['data'][0]['kategoridc']);
 
-                    // Isi tombol "Bergabung Sekarang" dalam modal
-                    var baseURL = "<?= base_url() ?>";
-                    $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['data'][0]['iddcEncrypt']);
+                        // Isi tombol "Bergabung Sekarang" dalam modal
+                        var baseURL = "<?= base_url() ?>";
+                        $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['data'][0]['iddcEncrypt']);
 
-                } else {
-                    swal('Informasi', 'Data DC tidak ditemukan!', 'info');
-                }
-            })
-            .fail(function() {
-                console.log('error getInformasiDC');
-            });
+                    } else {
+                        swal('Informasi', 'Data DC tidak ditemukan!', 'info');
+                    }
+                })
+                .fail(function() {
+                    console.log('error getInformasiDC');
+                });
         });
-
     </script>
 
 </body>
