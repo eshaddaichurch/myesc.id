@@ -209,7 +209,7 @@ class Akun extends MY_Controller
             "select * from v_jemaat where idjemaat = '$idjemaat'"
         )->row();
 
-        if ($rowJemaat->statusjemaat = 'Registered') {
+        if ($rowJemaat->statusjemaat == 'Registered') {
             $data = array(
                 'nik'   => $nik,
                 'kewarganegaraan'   => $kewarganegaraan,
