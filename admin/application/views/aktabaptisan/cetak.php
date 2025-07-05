@@ -30,9 +30,9 @@
 
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF {}
-
+$legalFormat = array(215.9, 355.6);
 // create new PDF document
-$pdf = new MYPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new MYPDF('P', 'mm', $legalFormat, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -49,11 +49,13 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 // set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetHeaderMargin(0);
+$pdf->SetHeaderMargin(-1);
 $pdf->SetFooterMargin(0);
 
 // remove default footer
 $pdf->setPrintFooter(false);
+
+$pdf->setPrintHeader(false); // Tambahkan ini setelah inisialisasi
 
 // set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -109,58 +111,56 @@ $css = '
 
 
 $html = $css . '<span class="default-text">' . $rsakta->noakta . '</span>';
-$pdf->SetXY(10, 20);
+$pdf->SetXY(53, 92);
 $pdf->writeHTML($html, true, false, true, false, '');
-
 
 
 
 $html = $css . '<span class="default-text">' . hari($rsakta->tglakta) . ', ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
-$pdf->SetXY(60, 110);
+$pdf->SetXY(81, 143);
 $pdf->writeHTML($html, true, false, true, false, '');
 $html = $css . '<span class="default-text">EL SHADDAI</span>';
-$pdf->SetXY(60, 120);
+$pdf->SetXY(81, 158);
 $pdf->writeHTML($html, true, false, true, false, '');
 
+
 $html = $css . '<span class="nama-jemaat">' . $rsakta->namalengkap . '</span>';
-$pdf->SetXY(60, 140);
+$pdf->SetXY(81, 179);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->tempatlahir . '</span>';
-$pdf->SetXY(60, 150);
+$pdf->SetXY(81, 188);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . tglindonesia($rsakta->tanggallahir) . '</span>';
-$pdf->SetXY(150, 150);
+$pdf->SetXY(130, 188);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->namaayah . '</span>';
-$pdf->SetXY(60, 160);
+$pdf->SetXY(81, 195);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
 $html = $css . '<span class="default-text">' . $rsakta->namaibu . '</span>';
-$pdf->SetXY(60, 170);
+$pdf->SetXY(81, 202);
 $pdf->writeHTML($html, true, false, true, false, '');
-
 
 $html = $css . '<span class="default-text">' . $rsakta->dilakukanoleh . '</span>';
-$pdf->SetXY(60, 190);
+$pdf->SetXY(90, 229);
 $pdf->writeHTML($html, true, false, true, false, '');
-
 
 $html = $css . '<span class="default-text">Pontianak, ' . tglindonesia($rsakta->tglakta) . '</span>';
-$pdf->SetXY(100, 210);
+$pdf->SetXY(112, 254);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-$html = $css . '<span class="default-text">Pontianak, ' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(100, 230);
+$html = $css . '<span class="default-text">' . GEMBALAGEREJA . '</span>';
+$pdf->SetXY(120, 279);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_051.pdf', 'I');
+$pdf->Output('AktaBaptis.pdf', 'I');
 
 //============================================================+
 // END OF FILE
