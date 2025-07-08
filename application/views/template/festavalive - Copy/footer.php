@@ -1,5 +1,5 @@
     <footer class="site-footer">
-        <div class="site-footer-top">
+        <!-- <div class="site-footer-top">
             <div class="container">
                 <div class="row">
 
@@ -9,16 +9,16 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="container">
             <div class="row">
 
                 <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
-                    <h5 class="site-footer-title mb-3">Contact Us?</h5>
+                    <h5 class="site-footer-title mb-3">Hubungi Kami?</h5>
 
                     <p class="text-white d-flex mb-1">
-                        <a href="tel: 090-080-0760" class="site-footer-link">
+                        <a href="https://wa.me/6285550001187" class="site-footer-link">
                             +62 855 5000 1187
                         </a>
                     </p>
@@ -71,8 +71,6 @@
                     </ul>
 
                     </p>
-
-
 
                     <p class="text-white d-flex mb-1">
                         <li class="social-icon-item">

@@ -350,12 +350,12 @@
       .done(function(response) {
         console.log(response);
         if (response.success) {
-          swal("Berhasil", "Data berhasil disimpan! Silahkan buka email dan verifikasi email anda. Apabila tidak ada di dalam folder kotak masuk, coba periksa di dalam folder spam.", "success")
+          swal("Berhasil", "Pendaftaran Anda berhasil! Silahkan cek kotak masuk atau spam Email Anda untuk verifikasi Email.", "success")
             .then(function() {
               $('#registrasiModal').modal('hide');
             });
         } else {
-          swal("Upss!", response.msg, "info");
+          swal("Hubungi Hotline Gereja!", response.msg, "info");
         }
       })
       .fail(function() {
