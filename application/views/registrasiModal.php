@@ -61,15 +61,15 @@
                     </div>
                     <div class="col-12">
                       <div class="row">
-                        <div class="col-12" style="display: none;">
+                        <!-- <div class="col-12" style="display: none;">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="alasanmembuatakun" id="alasanmembuatakun1" value="1">
                             <label class="form-check-label" for="alasanmembuatakun1">
                               I'm just here to visit
                             </label>
                           </div>
-                        </div>
-                        <div class="col-12">
+                        </div> -->
+                        <div class="col-12" style="display: none;">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="alasanmembuatakun" id="alasanmembuatakun2" checked value="2">
                             <label class="form-check-label" for="alasanmembuatakun2">
