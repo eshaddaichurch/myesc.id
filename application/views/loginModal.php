@@ -26,13 +26,13 @@
                   <div class="form-group row mt-5 p-1">
                     <label for="" class="col-md-4 col-form-label">Email</label>
                     <div class="col-md-8">
-                      <input type="text" name="emaillogin" id="emaillogin" class="form-control" placeholder="example@gmail.com">
+                      <input type="text" name="emaillogin" id="emaillogin" class="form-control" placeholder="Masukan Email">
                     </div>
                   </div>
                   <div class="form-group row p-1">
                     <label for="" class="col-md-4 col-form-label">Password</label>
                     <div class="col-md-8">
-                      <input type="password" name="passwordlogin" id="passwordlogin" class="form-control" placeholder="************">
+                      <input type="password" name="passwordlogin" id="passwordlogin" class="form-control" placeholder="Masukan Password">
                     </div>
                   </div>
 
