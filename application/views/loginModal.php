@@ -37,9 +37,9 @@
                   </div>
 
                 </div>
-                <!-- <div class="col-12 mt-5 mb-3" style="font-size: 12px;">
-                  <a href="">Lupa Password?</a>
-                </div> -->
+                <div class="col-12 mt-5 mb-3" style="font-size: 12px;">
+                  <a href=""></a>
+                </div>
 
                 <div class="col-12 mb-3" style="font-size: 12px;">
                   <a href="#" class="show-form-registrasi">Belum Punya Akun? Daftar Sekarang</a>
