@@ -61,14 +61,14 @@
                     </div>
                     <div class="col-12">
                       <div class="row">
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="alasanmembuatakun" id="alasanmembuatakun1" value="1">
                             <label class="form-check-label" for="alasanmembuatakun1">
                               I'm just here to visit
                             </label>
                           </div>
-                        </div>
+                        </div> -->
                         <div class="col-12">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="alasanmembuatakun" id="alasanmembuatakun2" checked value="2">

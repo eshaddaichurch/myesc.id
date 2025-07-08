@@ -154,8 +154,8 @@
             padding-bottom: 25px;
         }
 
-        @charset "utf-8";
-        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900|Open Sans:400,600,800');
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900|Open+Sans:400,600,800');
 
         h1,
         h2,
