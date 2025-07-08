@@ -14,8 +14,8 @@
                       <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="" style="width: 50px;">
                     </div>
                     <div class="col-8 col-md-10">
-                      <h4>Welcome</h4>
-                      <p>Login to myesc </p>
+                      <h4>MYESC</h4>
+                      <p>Login</p>
                     </div>
                   </div>
                 </div>
@@ -37,12 +37,12 @@
                   </div>
 
                 </div>
-                <div class="col-12 mt-5 mb-3" style="font-size: 12px;">
-                  <a href="">Forgot Password?</a>
-                </div>
+                <!-- <div class="col-12 mt-5 mb-3" style="font-size: 12px;">
+                  <a href="">Lupa Password?</a>
+                </div> -->
 
                 <div class="col-12 mb-3" style="font-size: 12px;">
-                  <a href="#" class="show-form-registrasi">Not a member yet? Register now.</a>
+                  <a href="#" class="show-form-registrasi">Belum Punya Akun? Daftar Sekarang</a>
                 </div>
 
                 <div class="col-12" style="font-size: 12px;" id="divAlert">
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary float-end" id="btnLogin">Login Now</button>
+                  <button type="submit" class="btn btn-primary float-end" id="btnLogin">Login</button>
                   <button type="button" class="btn btn-secondary float-end me-2" data-bs-dismiss="modal">Cancel</button>
                 </div>
               </div>
