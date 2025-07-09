@@ -47,7 +47,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+                <!-- <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
                     <h5 class="site-footer-title mb-3">Social</h5>
 
                     <p class="text-white d-flex mb-1">
@@ -82,7 +82,30 @@
 
 
 
+                </div> -->
+
+                <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+                <h5 class="site-footer-title mb-3">Social</h5>
+
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; gap: 12px;">
+                    <li class="social-icon-item">
+                    <a href="https://www.instagram.com/elshaddai_church/" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    </li>
+                    <li class="social-icon-item">
+                    <a href="https://open.spotify.com/intl-id/artist/0ttHVHLE08tW3WQJySwIOz" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                        <i class="bi bi-spotify"></i>
+                    </a>
+                    </li>
+                    <li class="social-icon-item">
+                    <a href="https://www.youtube.com/@elshaddaichurchpontianak" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                        <i class="bi bi-youtube"></i>
+                    </a>
+                    </li>
+                </ul>
                 </div>
+
             </div>
         </div>
 
@@ -97,17 +120,6 @@
 
                     <div class="col-lg-8 col-12 mt-lg-5">
                         <ul class="site-footer-links">
-                            <!-- <li class="site-footer-link-item">
-                                <a href="#" class="site-footer-link">Terms &amp; Conditions</a>
-                            </li> -->
-
-                            <!-- <li class="site-footer-link-item">
-                                <a href="#" class="site-footer-link">Privacy Policy</a>
-                            </li>
-
-                            <li class="site-footer-link-item">
-                                <a href="#" class="site-footer-link">Your Feedback</a>
-                            </li> -->
                         </ul>
                     </div>
                 </div>
