@@ -496,6 +496,7 @@ $this->load->view('template/festavalive/header'); ?>
         color: #fff;
         padding: 200px 20px;
         text-align: center;
+        /* font-family: 'Helvetica Neue', sans-serif; */
       }
 
       /* @media (max-width: 768px) {
@@ -510,7 +511,7 @@ $this->load->view('template/festavalive/header'); ?>
       .who-is-care h2 {
         font-size: 2.5rem;
         font-weight: bold;
-        margin-bottom: 150px;
+        margin-bottom: 40px;
         color: #ef5008;
       }
 
@@ -560,7 +561,7 @@ $this->load->view('template/festavalive/header'); ?>
       <!-- Konten -->
       <section class="who-is-care">
         <div class="container">
-          <h2>ESC NEXT STEP</h2>
+          <h2>Apa Itu Next Step?</h2>
           <div class="content">
             <div class="left">
               <p>
