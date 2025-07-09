@@ -342,10 +342,11 @@ $this->load->view('template/festavalive/header'); ?>
     .wrapper {
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* ✅ ubah ini */
-      min-height: 175vh;
+      align-items: flex-start; /* ⬅️ WAJIB: agar tidak floating naik */
       padding: 1rem;
+      min-height: 100vh;
     }
+
 
 
     .persembahan-container {
@@ -355,11 +356,11 @@ $this->load->view('template/festavalive/header'); ?>
       border-radius: 1rem;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       padding: 1.5rem 1.5rem 3rem;
-      margin-bottom: 500px; /* ✅ ubah jadi 500px */
-      min-height: 750px; /* ✅ cukup untuk konten 2 card + logo */
-      transition: all 0.3s ease-in-out;
-      overflow: hidden; /* opsional: cegah overflow horizontal */
+      margin-bottom: 100px;         /* ⬅️ cukup 100px */
+      min-height: 650px;            /* ⬅️ cukup untuk 2 card */
+      transition: min-height 0.3s ease-in-out;
     }
+
 
 
     .label {
