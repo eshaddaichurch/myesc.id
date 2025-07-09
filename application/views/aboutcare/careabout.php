@@ -522,7 +522,7 @@ $this->load->view('template/festavalive/header'); ?>
         color: #fff;
         padding: 200px 20px;
         text-align: center;
-        font-family: 'Helvetica Neue', sans-serif;
+        /* font-family: 'Helvetica Neue', sans-serif; */
       }
 
       .who-is-care h2 {
