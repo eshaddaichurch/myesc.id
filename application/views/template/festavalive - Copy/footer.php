@@ -1,20 +1,20 @@
     <footer class="site-footer">
-        <!-- <div class="site-footer-top">
+        <div class="site-footer-top">
             <div class="container">
                 <div class="row">
 
-                    <div class="col-lg-6 col-12">
-                        <h2 class="text-white mb-lg-0">El Shaddai Church</h2>
+                    <div style="text-align: center;" class="col-lg-6 col-12">
+                        <h3 class="text-white mb-lg-0">Terhubung Dengan ESC</h3>
                     </div>
 
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+                <!-- <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
                     <h5 class="site-footer-title mb-3">Hubungi Kami?</h5>
 
                     <p class="text-white d-flex mb-1">
@@ -28,7 +28,7 @@
                             elshaddaichurch@gmail.com
                         </a>
                     </p>
-                </div>
+                </div> -->
 
                 <div class="col-lg-3 col-md-6 col-11 mb-4 mb-lg-0 mb-md-0">
                     <h5 class="site-footer-title mb-3">Location</h5>
@@ -85,25 +85,47 @@
                 </div> -->
 
                 <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
-                <h5 class="site-footer-title mb-3">Social</h5>
+                <h5 class="site-footer-title mb-3"></h5>
 
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; gap: 12px;">
-                    <li class="social-icon-item">
-                    <a href="https://www.instagram.com/elshaddai_church/" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
-                        <i class="bi bi-instagram"></i>
-                    </a>
-                    </li>
-                    <li class="social-icon-item">
-                    <a href="https://open.spotify.com/intl-id/artist/0ttHVHLE08tW3WQJySwIOz" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
-                        <i class="bi bi-spotify"></i>
-                    </a>
-                    </li>
-                    <li class="social-icon-item">
-                    <a href="https://www.youtube.com/@elshaddaichurchpontianak" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
-                        <i class="bi bi-youtube"></i>
-                    </a>
-                    </li>
-                </ul>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; gap: 12px;">
+
+                        <li class="social-icon-item">
+                        <a href="https://wa.me/6285550001187" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                        <i class="bi bi-whatsapp"></i>
+                        </a>
+                        </li>
+
+                        <li class="social-icon-item">
+                        <a href="mailto:connect@myesc.id" class="social-icon-link" style="text-decoration: none; color: white; font-size: 24px;">
+                            <i class="bi bi-envelope"></i>
+                        </a>
+                        </li>
+
+
+                        <li class="social-icon-item">
+                        <a href="https://www.instagram.com/elshaddai_church/" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        </li>
+
+                        <li class="social-icon-item">
+                        <a href="https://open.spotify.com/intl-id/artist/0ttHVHLE08tW3WQJySwIOz" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                            <i class="bi bi-spotify"></i>
+                        </a>
+                        </li>
+
+                        <li class="social-icon-item">
+                        <a href="https://www.youtube.com/@elshaddaichurchpontianak" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                        </li>
+
+                        <li class="social-icon-item">
+                        <a href="https://www.threads.com/@elshaddai_church" class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
+                            <i class="bi bi-threads"></i>
+                        </a>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
