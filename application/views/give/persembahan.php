@@ -43,6 +43,7 @@ $this->load->view('template/festavalive/header'); ?>
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        margin-bottom: 2rem; /* tambahkan ini */
       }
 
       .breadcrumbs:before {
@@ -319,209 +320,166 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <style>
-      /* GENERAL RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+     * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  font-family: 'Figtree', sans-serif;
-  background-color: #e8d5a7;
-  margin: 0;
-}
+    body {
+      font-family: 'Figtree', sans-serif;
+      background-color: #e8d5a7;
+      padding: 0;
+    }
 
-/* WRAPPER */
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0rem 1rem 5rem;  /* ⬅️ hapus padding-top */
-  min-height: 100vh;
-}
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 1rem 5rem;
+    }
 
+    .persembahan-container {
+      width: 100%;
+      max-width: 48rem;
+      background-color: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+    }
 
-/* PERSEMBAHAN CONTAINER */
-.persembahan-container {
-  width: 100%;
-  max-width: 48rem;
-  background-color: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  padding: 1.5rem 1.5rem 2rem;
-  margin-bottom: 100px;      /* cukup */
-  min-height: auto;          /* ini yang penting! */
-  transition: all 0.3s ease-in-out;
-}
+    .label {
+      font-size: 0.875rem;
+      font-weight: 800;
+      color: #374151;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
 
-/* LABEL & BUTTON */
-.label {
-  font-size: 0.875rem;
-  font-weight: 800;
-  color: #374151;
-  margin-bottom: 0.75rem;
-}
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
 
-.button-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 0.5rem;
-  margin-bottom: 2.5rem;
-}
+    .btn {
+      background-color: #ff8100;
+      color: white;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-.btn {
-  background-color: #ff8100;
-  color: white;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 1.5rem;
-  font-weight: 200;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+    .btn:hover {
+      background-color: #e46f00;
+    }
 
-.btn:hover {
-  background-color: #e46f00;
-}
+    .output-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
 
-/* OUTPUT AREA */
-.output-area {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 20px;
-  transition: all 0.3s ease-in-out;
-  min-height: 400px;
-}
+    .card {
+      background-color: #e8d5a7;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease-out;
+    }
 
-/* CARD STYLE */
-.card {
-  background-color: #e8d5a7;
-  padding: 2rem; /* lebih kecil dari 5rem */
-  border-radius: 2rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  animation: fadeIn 0.5s ease-out;
-}
+    .account-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
 
-/* RESPONSIVE CARD */
-@media (max-width: 768px) {
-  .card {
-    padding: 1.5rem;
-    border-radius: 1.5rem;
-    background-color: #fff;
-  }
-}
+    .account-info {
+      flex: 1;
+    }
 
-/* ACCOUNT INFO */
-.account-header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-}
+    .account-info h2 {
+      font-size: 1.125rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
 
-.account-info {
-  flex: 1;
-}
+    .rekening {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ea580c;
+      margin-right: 0.5rem;
+    }
 
-.account-info h2 {
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: #1f2937;
-  margin-bottom: 0.25rem;
-}
+    .copy-btn {
+      background: #e0e0e0;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
 
-@media (max-width: 768px) {
-  .account-info h2 {
-    font-size: 15px;
-    margin-bottom: 45px;
-  }
-}
+    .qr {
+      flex-shrink: 0;
+    }
 
-/* REKENING & BUTTON */
-.rekening {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ea580c;
-  margin-right: 0.5rem;
-}
+    .qr img {
+      width: 140px;
+      height: 140px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
 
-.copy-btn {
-  background: #e0e0e0;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-left: 10px;
-}
+    .logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
 
-/* QR IMAGE */
-.qr {
-  margin-left: 2rem;
-  flex-shrink: 0;
-}
+    .logo-box {
+      background-color: #f3f4f6;
+      padding: 0.75rem;
+      border-radius: 100rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
 
-.qr img {
-  width: 15rem;
-  height: 15rem;
-  border-radius: 10.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: opacity 0.3s;
-  max-width: 100%;
-}
+    .logo-box img {
+      width: 40px;
+      height: auto;
+      object-fit: contain;
+    }
 
-.qr img:hover {
-  opacity: 0.8;
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-@media (max-width: 768px) {
-  .qr img {
-    width: 5rem;
-    height: 5rem;
-  }
-}
-
-/* LOGO LIST */
-.logos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 1.5rem;
-}
-
-.logo-box {
-  background-color: #f3f4f6;
-  padding: 0.75rem;
-  border-radius: 100rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.logo-box img {
-  width: 40px;
-  height: auto;
-  object-fit: contain;
-}
-
-/* ANIMASI MASUK */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-    </style>
-    </head>
-
-    <body>
-
-    <div class="wrapper">
+    @media (max-width: 768px) {
+      .card {
+        padding: 1.5rem;
+        border-radius: 1rem;
+      }
+      .qr img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
     <div class="persembahan-container">
       <label class="label">Pilih Jenis Persembahan</label>
       <div class="button-grid">
@@ -532,8 +490,8 @@ body {
       <div id="output" class="output-area"></div>
     </div>
   </div>
+
   <script>
-    
     const baseImage = "<?php echo base_url('myesc.id/assets/gambar/'); ?>";
     const dataPersembahan = {
       persepuluhan: {
@@ -602,8 +560,7 @@ body {
         ]
       }
     };
-  </script>
-  <script>
+
     function tampilkanData(jenis) {
       const data = dataPersembahan[jenis];
       const container = document.getElementById("output");
@@ -613,8 +570,10 @@ body {
             <div class="account-info">
               <h2>${acc.bank}</h2>
               ${acc.namaqr || acc.akunbank ? `<div><b>${acc.namaqr || ''}</b><br>${acc.akunbank || ''}</div>` : ''}
-              <div><span class="rekening">${acc.rekening}</span>
-              <button class="copy-btn" onclick="copyToClipboard('${acc.rekening.replace(/'/g, "\\'")}')">Salin</button></div>
+              <div>
+                <span class="rekening">${acc.rekening}</span>
+                <button class="copy-btn" onclick="copyToClipboard('${acc.rekening.replace(/'/g, "\\'")}')">Salin</button>
+              </div>
             </div>
             <div class="qr">
               <a href="${acc.qrcode}" download title="Unduh QR Code">
@@ -639,11 +598,13 @@ body {
       `).join("");
       container.innerHTML = `<h2 style="font-size: 15px; font-weight: bold; color: #374151; margin-bottom: 10px;">${data.title}</h2>${accountHtml}`;
     }
+
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text)
         .then(() => alert("Nomor rekening telah disalin ke clipboard."))
         .catch(() => alert("Gagal menyalin nomor rekening."));
     }
+
     tampilkanData('persepuluhan');
   </script>
 
