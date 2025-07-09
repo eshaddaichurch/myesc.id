@@ -80,14 +80,14 @@
           <p class="text-muted small mb-4"></p>
 
           <div class="form-group position-relative mb-3">
-            <input type="text" name="emaillogin" id="emaillogin" class="form-control rounded-pill ps-5" placeholder="USER NAME">
+            <input type="text" name="emaillogin" id="emaillogin" class="form-control rounded-pill ps-5" placeholder="Masukan Email">
             <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
               <i class="fas fa-user"></i>
             </span>
           </div>
 
           <div class="form-group position-relative mb-4">
-            <input type="password" name="passwordlogin" id="passwordlogin" class="form-control rounded-pill ps-5" placeholder="PASSWORD">
+            <input type="password" name="passwordlogin" id="passwordlogin" class="form-control rounded-pill ps-5" placeholder="Masukan Password">
             <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
               <i class="fas fa-lock"></i>
             </span>
@@ -104,15 +104,15 @@
 
           <div class="d-flex align-items-center my-3">
             <hr class="flex-grow-1">
-            <span class="mx-2 small text-muted">OR</span>
+            <span class="mx-2 small text-muted"></span>
             <hr class="flex-grow-1">
           </div>
 
-          <p class="small text-muted mb-2">Sign Up with social media</p>
+          <p class="small text-muted mb-2"></p>
           <div class="d-flex justify-content-center gap-3">
-            <a href="#" class="text-orange"><i class="fab fa-facebook-f"></i></a>
+            <!-- <a href="#" class="text-orange"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="text-orange"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-orange"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-orange"><i class="fab fa-twitter"></i></a> -->
           </div>
 
         </form>
@@ -174,14 +174,14 @@
         emaillogin: {
           validators: {
             notEmpty: {
-              message: "Please enter your email"
+              message: "Silahkan masukan email yang terverifikasi"
             },
           }
         },
         passwordlogin: {
           validators: {
             notEmpty: {
-              message: "Please  enter your password"
+              message: "Silahkan masukan password"
             },
           }
         },
