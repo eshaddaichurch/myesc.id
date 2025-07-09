@@ -498,14 +498,14 @@ $this->load->view('template/festavalive/header'); ?>
         text-align: center;
       }
 
-      @media (max-width: 768px) {
+      /* @media (max-width: 768px) {
         .who-is-care {
           background-color: #1c1c1c;
           color: #fff;
           padding: 130px 20px;
           text-align: center;
         }
-      }
+      } */
 
       .who-is-care h2 {
         font-size: 2.5rem;
@@ -514,14 +514,14 @@ $this->load->view('template/festavalive/header'); ?>
         color: #ef5008;
       }
 
-      @media (max-width: 768px) {
+      /* @media (max-width: 768px) {
         .who-is-care h2 {
           font-size: 2.5rem;
           font-weight: bold;
           margin-bottom: 70px;
           color: #ef5008;
         }
-      }
+      } */
 
       .container {
         max-width: 1200px;
@@ -563,10 +563,10 @@ $this->load->view('template/festavalive/header'); ?>
           <h2>ESC NEXT STEP</h2>
           <div class="content">
             <div class="left">
-              <p style="text-align: justify;">
+              <p>
                 ESC Next Step adalah Wadah Bidang Pengajaran di El Shaddai Church (ESC) yang bertujuan mempersiapkan jemaat untuk bertumbuh dalam iman, sehingga mereka dapat menjadi serupa dengan Kristus, sebagaimana dinyatakan dalam Roma 8:29, “Sebab semua orang yang dipilih-Nya dari semula, mereka juga ditentukanNya dari semula untuk menjadi serupa dengan gambaran Anak-Nya.
               </p>
-              <p style="text-align: justify;">
+              <p>
                 Dengan Visi ESC "Menjadi Jemaat yang Serupa dengan Kristus Yesus" dan Misi ESC untuk menyelamatkan jiwa-jiwa, menjadi murid Kristus yang memuridkan, serta hidup saling mengasihi (Yohanes 13:34-35), Next Step menawarkan serangkaian Tahap atau Langkah yang terarah untuk menuntun jemaat ke dalam kedewasaan rohani sesuai Visi dan Misi ESC.
               </p>
             </div>
