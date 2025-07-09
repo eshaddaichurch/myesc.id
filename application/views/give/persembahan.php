@@ -319,33 +319,38 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
+     * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Figtree', sans-serif;
       background-color: #e8d5a7;
+      margin: 0;
     }
+
     .wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 175vh;
       padding: 1rem;
-      box-sizing: border-box;
     }
+
     .persembahan-container {
       width: 100%;
       max-width: 48rem;
       background-color: #fff;
       border-radius: 1rem;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      padding: 1.5rem;
+      padding: 1.5rem 1.5rem 3rem; /* tambahan padding-bottom */
       margin-bottom: 20px;
+      min-height: 600px;
+      transition: min-height 0.3s ease-in-out;
     }
+
     .label {
       font-size: 0.875rem;
       font-weight: 800;
@@ -353,12 +358,14 @@ $this->load->view('template/festavalive/header'); ?>
       margin-bottom: 0.75rem;
       display: block;
     }
+
     .button-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: 0.5rem;
       margin-bottom: 2.5rem;
     }
+
     .btn {
       background-color: #ff8100;
       color: white;
@@ -369,17 +376,20 @@ $this->load->view('template/festavalive/header'); ?>
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     .btn:hover {
       background-color: #e46f00;
     }
+
     .output-area {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      min-height: 400px; /* atau 500px tergantung kebutuhan */
-      transition: all 0.3s ease-in-out;
       margin-top: 20px;
+      min-height: 400px;
+      transition: all 0.3s ease-in-out;
     }
+
     .card {
       background-color: #e8d5a7;
       padding: 5rem;
@@ -388,31 +398,27 @@ $this->load->view('template/festavalive/header'); ?>
       animation: fadeIn 0.5s ease-out;
     }
 
-
     @media (max-width: 768px) {
       .card {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 2rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      animation: fadeIn 0.5s ease-out;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 2rem;
+      }
     }
-    }
-
 
     .account-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      width: 100%;
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
     }
+
     .account-info {
       flex: 1;
     }
+
     .account-info h2 {
       font-size: 1.125rem;
       font-weight: bold;
@@ -423,17 +429,17 @@ $this->load->view('template/festavalive/header'); ?>
     @media (max-width: 768px) {
       .account-info h2 {
         font-size: 15px;
-        font-weight: bold;
-        color: #1f2937;
         margin-bottom: 45px;
       }
     }
+
     .rekening {
       font-size: 1rem;
       font-weight: 600;
       color: #ea580c;
       margin-right: 0.5rem;
     }
+
     .copy-btn {
       background: #e0e0e0;
       border: none;
@@ -442,33 +448,40 @@ $this->load->view('template/festavalive/header'); ?>
       cursor: pointer;
       margin-left: 10px;
     }
+
     .qr {
       margin-left: 2rem;
       flex-shrink: 0;
     }
+
     .qr img {
-      max-width: 120px;
-      border-radius: 8px;
       width: 15rem;
       height: 15rem;
       border-radius: 10.5rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       cursor: pointer;
       transition: opacity 0.3s;
+      max-width: 100%;
     }
+
     .qr img:hover {
       opacity: 0.8;
     }
+
+    @media (max-width: 768px) {
+      .qr img {
+        width: 5rem;
+        height: 5rem;
+      }
+    }
+
     .logos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-      gap: 1.5rem;
-      margin-top: 5rem;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 1.5rem;
     }
+
     .logo-box {
       background-color: #f3f4f6;
       padding: 0.75rem;
@@ -478,25 +491,18 @@ $this->load->view('template/festavalive/header'); ?>
       justify-content: center;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
+
     .logo-box img {
-      object-fit: contain;
       width: 40px;
       height: auto;
+      object-fit: contain;
     }
 
-
-
-
-    @media (max-width: 768px) {
-      .qr img {
-        width: 5rem;
-        height: 5rem;
-      }
-    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     </style>
     </head>
 
