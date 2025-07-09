@@ -1,20 +1,14 @@
 <?php $this->load->view('template/festavalive/header'); ?>
 
-<body>
-  <style>
-    /* Navbar Fixed */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1050;
-      background-color: #ffffffcc;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
 
-    /* Hero Section */
+
+<body>
+
+
+  <style>
+    /*--------------------------------------------------------------
+        # Hero Section
+        --------------------------------------------------------------*/
     #hero {
       width: 100%;
       height: 40vh;
@@ -23,30 +17,35 @@
       position: relative;
     }
 
+    #hero .container {
+      padding-top: 80px;
+    }
+
     #hero:before {
       content: "";
       background: rgba(0, 0, 0, 0.6);
       position: absolute;
-      inset: 0;
-    }
-
-    #hero h1,
-    #hero h2 {
-      color: #fff;
-      text-align: center;
-      z-index: 1;
-      position: relative;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
     }
 
     #hero h1 {
+      margin: 0 0 10px 0;
       font-size: 48px;
-      margin-top: 100px;
       font-weight: 700;
+      line-height: 56px;
+      color: #fff;
     }
 
     #hero h2 {
-      font-size: 16px;
-      letter-spacing: 1px;
+      color: #eee;
+      margin-bottom: 40px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: "Open Sans", sans-serif;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
     }
 
@@ -60,11 +59,9 @@
       padding: 8px 28px;
       border-radius: 50px;
       transition: 0.5s;
-      margin: 10px auto;
+      margin: 10px;
       border: 2px solid #fff;
       color: #fff;
-      display: block;
-      width: fit-content;
     }
 
     #hero .btn-get-started:hover {
@@ -72,133 +69,111 @@
       border: 2px solid #EE6F09;
     }
 
+    @media (min-width: 1024px) {
+      #hero {
+        background-attachment: fixed;
+      }
+    }
+
     @media (max-width: 768px) {
       #hero {
-        height: 60vh;
+        height: 100vh;
+      }
+
+      #hero .container {
+        padding-top: 60px;
       }
 
       #hero h1 {
         font-size: 32px;
-        margin-top: 80px;
+        line-height: 36px;
       }
     }
+  </style>
 
-    /* About Section */
-    .about-section {
-      background-color: #f9f9f9;
-    }
-
-    .page-content {
-      padding: 2rem 0;
-    }
-
-    .card {
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease;
-      overflow: hidden;
-      background-color: #fff;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card-body {
-      padding: 1.5rem;
-    }
-
+  <style>
     #map {
-      height: 60vh;
-      border-radius: 1rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      height: 80vh;
     }
 
+    /* Untuk tampilan mobile (lebar layar maksimal 768px) */
     @media (max-width: 768px) {
       #map {
         height: 40vh;
+        /* Atur sesuai kebutuhan */
       }
     }
 
-    .ulCabang {
-      list-style: none;
-      padding-left: 0;
+    .link-popup {
+      font-size: 14px;
+      float: right;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
+  </style>
 
+  <style>
     .ulCabang li {
-      margin-bottom: 10px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
 
     .ulCabang li a {
       text-decoration: none;
       color: #243EAE;
       font-size: 16px;
-      display: block;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-    }
-
-    .ulCabang li a:hover {
-      background-color: #eef2ff;
-    }
-
-    .link-popup {
-      font-size: 14px;
-      color: #243EAE;
-      text-decoration: underline;
-    }
-
-    .card-header-title {
-      font-weight: bold;
-      font-size: 18px;
-      color: #333;
-    }
-
-    .row {
-      gap: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .row {
-        flex-direction: column-reverse;
-      }
     }
   </style>
 
+
+  <style>
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1050;
+      /* Harus lebih tinggi dari leaflet */
+    }
+  </style>
   <main>
+
+
+
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-    <!-- Hero Section -->
-    <section id="hero">
-      <div class="container text-center">
-        <h1>Our Location</h1>
-        <h2>Find Us Nearby</h2>
-        <a href="#locations" class="btn-get-started">Explore Locations</a>
+
+    <section class="about-section section-padding">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-12 mb-4 mb-lg-0">
+            <h2 class="text-white text-center mb-4 mt-3">OUR LOCATION</h2>
+          </div>
+
+        </div>
       </div>
     </section>
 
-    <!-- Map and List Section -->
-    <section class="page-content section-padding" id="locations">
+
+
+    <section class="page-content section-padding">
       <div class="container">
         <div class="row justify-content-center">
-
-          <!-- Map Column -->
-          <div class="col-md-9">
+          <div class="col-md-9 ps-5">
             <div class="card">
               <div class="card-body">
                 <div id="map"></div>
+
               </div>
             </div>
           </div>
-
-          <!-- Branch List Column -->
-          <div class="col-md-3">
+          <div class="col-md-3 pe-5">
             <div class="card">
               <div class="card-body">
                 <div class="row">
-                  <div class="col-12 text-center mb-3">
-                    <h5 class="card-header-title">Cabang Gereja Elshaddai</h5>
+                  <div class="col-12 text-center">
+                    <h5>CABANG GEREJA ELSHADDAI</h5>
                   </div>
                   <div class="col-12">
                     <hr>
@@ -213,80 +188,150 @@
             </div>
           </div>
 
+
+
+
+
+
         </div>
       </div>
     </section>
+
+
+
+
+
+
   </main>
+
 
   <?php $this->load->view('template/festavalive/footer'); ?>
 
-  <!-- Leaflet JS/CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet @1.9.4/dist/leaflet.css"
+
+
+  <!-- 
+      Make sure you put this AFTER Leaflet's CSS 
+      source: https://leafletjs.com/reference.html#map-example
+        -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin="" />
-  <script src="https://unpkg.com/leaflet @1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-  <!-- Script for Map -->
+
+
   <script>
     var idmenu = "<?php echo $this->encrypt->encode($menu) ?>";
 
+
     const centerMap = [0.03718835906169617, 110.35766601562501];
-    var map;
+    var map = L.map('map').setView(centerMap, 8);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+
+    $(document).ready(function() {
+      initMap();
+    });
+
+
+
+    //event click
+    function onMapClick(e) {
+      alert("You clicked the map at " + e.latlng);
+    }
+
+
 
     function initMap() {
+      const myLatLng = {
+        lat: 0.461323,
+        lng: 127.843268
+      };
+
+      map.remove();
       map = L.map('map').setView(centerMap, 8);
-      L.tileLayer('https://tile.openstreetmap.org/ {z}/{x}/{y}.png', {
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
       }).addTo(map);
 
+
       $.ajax({
-        url: '<?php echo site_url('ourlocation/getcabang') ?>',
-        type: 'GET',
-        dataType: 'json',
-      })
+          url: '<?php echo site_url('ourlocation/getcabang') ?>',
+          type: 'GET',
+          dataType: 'json',
+        })
         .done(function(getcabangresult) {
+          console.log(getcabangresult);
+          var dataCabang = getcabangresult;
           $('#ulCabang').empty();
 
-          if (getcabangresult.length > 0) {
-            getcabangresult.forEach(function(cabang) {
-              var latitude = cabang.latitude;
-              var longitude = cabang.longitude;
+          if (dataCabang.length > 0) {
+            var nourut = 1;
+            for (var i = dataCabang.length - 1; i >= 0; i--) {
+
+              var latitude = dataCabang[i]['latitude'];
+              var longitude = dataCabang[i]['longitude'];
               var lokasi = [latitude, longitude];
 
-              setMarker(lokasi, cabang.idcabang, cabang.namacabang, cabang.namacabang_slug, cabang.namagembala, cabang.gambarsampul, cabang.alamatlengkap, cabang.icon);
+              // console.log(lokasi);
 
-              var addText = `<li><a href="<?php echo site_url('ourlocation/detail/') ?>${cabang.namacabang_slug}/${idmenu}">${cabang.namacabang}</a></li>`;
+              setMarker(lokasi, dataCabang[i]['idcabang'], dataCabang[i]['namacabang'], dataCabang[i]['namacabang_slug'], dataCabang[i]['namagembala'], dataCabang[i]['gambarsampul'], dataCabang[i]['alamatlengkap'], dataCabang[i]['icon']);
+
+              var addText = `<li><a href="<?php echo site_url('ourlocation/detail/') ?>` + dataCabang[i]['namacabang_slug'] + `/` + idmenu + `">` + dataCabang[i]['namacabang'] + `</a></li>`;
+
               $('#ulCabang').append(addText);
-            });
+              nourut++;
+            }
           }
+
+
         })
         .fail(function() {
-          console.log("Error fetching branch data");
+          console.log("error getcabang");
         });
     }
 
     function setMarker(lokasi, idcabang, namacabang, namacabang_slug, namagembala, gambarsampul, alamatlengkap, icon) {
       try {
-        var iconUrl = icon ? '<?php echo base_url('uploads/cabanggereja/') ?>' + icon : '<?php echo base_url('myesc.id/images/pin2.png') ?>';
 
-        var iconWarna = L.icon({
-          iconUrl: iconUrl,
-          iconSize: [28, 30],
-        });
+        if (icon == "" || icon == null) {
 
-        var marker = L.marker(lokasi, { icon: iconWarna }).addTo(map);
-        marker.bindPopup(`<b>${namacabang}</b><hr><small>Nama Gembala: ${namagembala}</small><br><a href="<?php echo site_url('ourlocation/detail/') ?>${namacabang_slug}/${idmenu}" class="link-popup">Lihat Selengkapnya</a>`);
+          var iconWarna = L.icon({
+            iconUrl: '<?php echo base_url('myesc.id/images/pin2.png') ?>',
+            iconSize: [28, 30],
+          });
+        } else {
+
+          var iconWarna = L.icon({
+            iconUrl: '<?php echo base_url('uploads/cabanggereja/') ?>' + icon,
+            iconSize: [28, 30],
+          });
+
+
+        }
+
+
+
+        // var marker = L.marker(lokasi).addTo(map);
+        var marker = L.marker(lokasi, {
+          icon: iconWarna
+        }).addTo(map);
+        //adding popup
+        marker.bindPopup("<b>" + namacabang + "</b><hr><small>Nama Gembala: " + namagembala + '</small><br><a href="<?php echo site_url('ourlocation/detail/') ?>' + namacabang_slug + '/' + idmenu + '" class="link-popup">Lihat Selengkapnya</a> <br><br>');
       } catch (e) {
-        console.log("Lokasi tidak ditemukan!");
+        console.log("Lokasi " + lokasi + " tidak ditemukan!");
       }
     }
 
-    $(document).ready(function () {
-      initMap();
-    });
+
+    // window.initMap = initMap;
   </script>
+
 </body>
+
 </html>
