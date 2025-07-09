@@ -13,12 +13,54 @@
             font-weight: bold;
         }
 
-        .informasi-akun label {
+        /* .informasi-akun label {
             font-size: 13px;
             color: #6c757d;
         }
         .informasi-akun div {
             font-size: 15px;
+        } */
+
+        .info-card {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+            transition: 0.3s ease;
+        }
+
+        .info-card:hover {
+            background-color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .info-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .text-orange {
+            color: #fd661f;
         }
     </style>
     <main>
@@ -116,28 +158,53 @@
                                         </div> -->
 
                                         <div class="col-12 informasi-akun">
-                                        <h5 class="mb-4">Data Pribadi</h5>
+                                        <h5 class="mb-4 fw-bold text-orange">🧍 Data Pribadi</h5>
 
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                            <label class="fw-bold text-muted">Nama Lengkap</label>
-                                            <div><?php echo $rowProfil->namalengkap; ?></div>
-                                            </div>
-                                            <div class="col-md-6">
-                                            <label class="fw-bold text-muted">Email</label>
-                                            <div><?php echo $rowProfil->email; ?></div>
-                                            </div>
+                                        <div class="row g-4">
 
                                             <div class="col-md-6">
-                                            <label class="fw-bold text-muted">Jenis Kelamin</label>
-                                            <div><?php echo $rowProfil->jeniskelamin; ?></div>
+                                            <div class="info-card">
+                                                <div class="info-icon bg-primary"><i class="fas fa-user text-white"></i></div>
+                                                <div>
+                                                <div class="info-label">Nama Lengkap</div>
+                                                <div class="info-value"><?php echo $rowProfil->namalengkap; ?></div>
+                                                </div>
                                             </div>
+                                            </div>
+
                                             <div class="col-md-6">
-                                            <label class="fw-bold text-muted">Nomor HP</label>
-                                            <div><?php echo $rowProfil->nohp; ?></div>
+                                            <div class="info-card">
+                                                <div class="info-icon bg-warning"><i class="fas fa-envelope text-white"></i></div>
+                                                <div>
+                                                <div class="info-label">Email</div>
+                                                <div class="info-value"><?php echo $rowProfil->email; ?></div>
+                                                </div>
                                             </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                            <div class="info-card">
+                                                <div class="info-icon bg-success"><i class="fas fa-venus-mars text-white"></i></div>
+                                                <div>
+                                                <div class="info-label">Jenis Kelamin</div>
+                                                <div class="info-value"><?php echo $rowProfil->jeniskelamin; ?></div>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                            <div class="info-card">
+                                                <div class="info-icon bg-danger"><i class="fas fa-phone text-white"></i></div>
+                                                <div>
+                                                <div class="info-label">Nomor HP</div>
+                                                <div class="info-value"><?php echo $rowProfil->nohp; ?></div>
+                                                </div>
+                                            </div>
+                                            </div>
+
                                         </div>
                                         </div>
+
 
 
                                     <?php } else { ?>
