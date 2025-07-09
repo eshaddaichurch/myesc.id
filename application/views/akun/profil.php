@@ -12,6 +12,14 @@
             color: #655f62;
             font-weight: bold;
         }
+
+        .informasi-akun label {
+            font-size: 13px;
+            color: #6c757d;
+        }
+        .informasi-akun div {
+            font-size: 15px;
+        }
     </style>
     <main>
 
@@ -82,7 +90,7 @@
 
                                     <?php
                                     if ($rowProfil->statusjemaat == 'Registered') { ?>
-                                        <div class="col-12 informasi-akun">
+                                        <!-- <div class="col-12 informasi-akun">
                                             <h5>Data Pribadi</h5>
                                             <table class="table">
                                                 <tbody>
@@ -105,7 +113,32 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                        </div> -->
+
+                                        <div class="col-12 informasi-akun">
+                                        <h5 class="mb-4">Data Pribadi</h5>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                            <label class="fw-bold text-muted">Nama Lengkap</label>
+                                            <div><?php echo $rowProfil->namalengkap; ?></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                            <label class="fw-bold text-muted">Email</label>
+                                            <div><?php echo $rowProfil->email; ?></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                            <label class="fw-bold text-muted">Jenis Kelamin</label>
+                                            <div><?php echo $rowProfil->jeniskelamin; ?></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                            <label class="fw-bold text-muted">Nomor HP</label>
+                                            <div><?php echo $rowProfil->nohp; ?></div>
+                                            </div>
                                         </div>
+                                        </div>
+
 
                                     <?php } else { ?>
 
