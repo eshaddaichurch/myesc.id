@@ -317,7 +317,6 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <style>
-       @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
       * {
         margin: 0;
         padding: 0;
@@ -355,7 +354,7 @@ $this->load->view('template/festavalive/header'); ?>
 
       body {
         margin: 0;
-        font-family: 'Helvetica Neue', sans-serif;
+        font-family: 'Figtree', sans-serif;
         background-color: #fff;
         color: #444;
       }
