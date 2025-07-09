@@ -7,14 +7,14 @@
     /*--------------------------------------------------------------
         # Hero Section
     --------------------------------------------------------------*/
-    #hero {
+    /* #hero {
       width: 100%;
       height: 50vh;
       background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center no-repeat;
       background-size: cover;
       position: relative;
       box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.6);
-    }
+    } */
 
     #hero h1 {
       font-size: 2.5rem;
