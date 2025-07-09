@@ -376,6 +376,9 @@ $this->load->view('template/festavalive/header'); ?>
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      min-height: 400px; /* atau 500px tergantung kebutuhan */
+      transition: all 0.3s ease-in-out;
+      margin-top: 20px;
     }
     .card {
       background-color: #e8d5a7;
@@ -402,6 +405,10 @@ $this->load->view('template/festavalive/header'); ?>
       justify-content: space-between;
       align-items: flex-start;
       width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
     }
     .account-info {
       flex: 1;
@@ -428,19 +435,20 @@ $this->load->view('template/festavalive/header'); ?>
       margin-right: 0.5rem;
     }
     .copy-btn {
-      background-color: #ff8100;
-      color: white;
+      background: #e0e0e0;
       border: none;
-      padding: 0.25rem 0.5rem;
-      font-size: 0.75rem;
-      border-radius: 0.25rem;
+      padding: 5px 10px;
+      border-radius: 6px;
       cursor: pointer;
+      margin-left: 10px;
     }
     .qr {
       margin-left: 2rem;
       flex-shrink: 0;
     }
     .qr img {
+      max-width: 120px;
+      border-radius: 8px;
       width: 15rem;
       height: 15rem;
       border-radius: 10.5rem;
@@ -456,6 +464,10 @@ $this->load->view('template/festavalive/header'); ?>
       grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
       gap: 1.5rem;
       margin-top: 5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
     }
     .logo-box {
       background-color: #f3f4f6;
@@ -467,10 +479,14 @@ $this->load->view('template/festavalive/header'); ?>
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .logo-box img {
-      width: 80%;
-      height: 80%;
       object-fit: contain;
+      width: 40px;
+      height: auto;
     }
+
+
+
+
     @media (max-width: 768px) {
       .qr img {
         width: 5rem;
