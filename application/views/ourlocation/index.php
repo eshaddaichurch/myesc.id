@@ -7,15 +7,7 @@
     /*--------------------------------------------------------------
         # Hero Section
     --------------------------------------------------------------*/
-    /* #hero {
-      width: 100%;
-      height: 50vh;
-      background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center no-repeat;
-      background-size: cover;
-      position: relative;
-      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.6);
-    } */
-
+    
     #hero h1 {
       font-size: 2.5rem;
       font-weight: bold;
@@ -119,13 +111,6 @@
   <main>
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-    <!-- Hero Section -->
-    <section id="hero">
-      <div class="container">
-        <h1>Our Location</h1>
-        <h2>Find our church locations easily</h2>
-      </div>
-    </section>
 
     <!-- About Section -->
     <section class="about-section">
