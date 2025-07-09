@@ -550,7 +550,7 @@ $this->load->view('template/festavalive/header'); ?>
 
             /*whatiscare*/
             .who-is-care {
-                background-color: #000000;
+                background-color: #1c1c1c;
                 color: #fff;
                 padding: 200px 20px;
                 text-align: center;

@@ -16,6 +16,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
       $main-green: #79dd09 !default;
       $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
       $main-yellow: #bdbb49 !default;
@@ -519,9 +520,9 @@ $this->load->view('template/festavalive/header'); ?>
       .who-is-care {
         background-color: #1c1c1c;
         color: #fff;
-        padding: 280px 20px;
-        /*text-align: center;*/
-        /*font-family: 'Helvetica Neue', sans-serif;*/
+        padding: 200px 20px;
+        text-align: center;
+        font-family: 'Helvetica Neue', sans-serif;
       }
 
       .who-is-care h2 {
