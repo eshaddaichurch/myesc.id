@@ -86,7 +86,7 @@
             </span>
           </div>
 
-          <div class="form-group position-relative mb-4">
+          <!-- <div class="form-group position-relative mb-4">
             <input type="password" name="passwordlogin" id="passwordlogin" class="form-control rounded-pill ps-5" placeholder="Masukan Password">
             <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
               <i class="fas fa-lock"></i>
@@ -94,7 +94,18 @@
             <span class="position-absolute top-50 end-0 translate-middle-y pe-3 text-muted" style="cursor: pointer;">
               <i class="fas fa-eye"></i>
             </span>
+          </div> -->
+
+          <div class="form-group position-relative mb-4">
+            <input type="password" name="passwordlogin" id="passwordlogin" class="form-control rounded-pill ps-5" placeholder="Masukan Password">
+            <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
+              <i class="fas fa-lock"></i>
+            </span>
+            <span class="position-absolute top-50 end-0 translate-middle-y pe-3 text-muted" style="cursor: pointer;">
+              <i class="fas fa-eye" id="togglePassword"></i>
+            </span>
           </div>
+
 
           <div id="divAlert" class="mb-3"></div>
 
@@ -222,6 +233,17 @@
               `;
           $('#divAlert').html(addText)
         })
+    });
+
+
+    document.getElementById("togglePassword").addEventListener("click", function () {
+      const passwordInput = document.getElementById("passwordlogin");
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+
+      // Toggle icon
+      this.classList.toggle("fa-eye");
+      this.classList.toggle("fa-eye-slash");
     });
 
 
