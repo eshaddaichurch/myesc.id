@@ -336,10 +336,11 @@ body {
 .wrapper {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* pastikan tidak center */
-  padding: 2rem 1rem 5rem;
+  align-items: flex-start;
+  padding: 0rem 1rem 5rem;  /* ⬅️ hapus padding-top */
   min-height: 100vh;
 }
+
 
 /* PERSEMBAHAN CONTAINER */
 .persembahan-container {
