@@ -1,4 +1,4 @@
-  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="loginModal">
+  <!-- <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="loginModal">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
 
@@ -63,7 +63,104 @@
 
       </div>
     </div>
+  </div> -->
+
+
+
+  <!-- Modal Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow-sm">
+
+      <div class="modal-body px-5 py-4 text-center">
+        <form action="<?php echo site_url('login/cek_login') ?>" method="post" id="formLogin">
+
+          <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="Logo" width="50" class="mb-3">
+          <h4 class="fw-bold text-orange">MYESC</h4>
+          <p class="text-muted small mb-4"></p>
+
+          <div class="form-group position-relative mb-3">
+            <input type="text" name="emaillogin" id="emaillogin" class="form-control rounded-pill ps-5" placeholder="USER NAME">
+            <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+
+          <div class="form-group position-relative mb-4">
+            <input type="password" name="passwordlogin" id="passwordlogin" class="form-control rounded-pill ps-5" placeholder="PASSWORD">
+            <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
+              <i class="fas fa-lock"></i>
+            </span>
+            <span class="position-absolute top-50 end-0 translate-middle-y pe-3 text-muted" style="cursor: pointer;">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+
+          <div id="divAlert" class="mb-3"></div>
+
+          <button type="submit" class="btn btn-orange rounded-pill w-100 mb-2" id="btnLogin">LOGIN</button>
+
+          <p class="small mt-2">Belum Punya Akun? <a href="#" class="show-form-registrasi text-decoration-none fw-bold">Daftar Sekarang</a></p>
+
+          <div class="d-flex align-items-center my-3">
+            <hr class="flex-grow-1">
+            <span class="mx-2 small text-muted">OR</span>
+            <hr class="flex-grow-1">
+          </div>
+
+          <p class="small text-muted mb-2">Sign Up with social media</p>
+          <div class="d-flex justify-content-center gap-3">
+            <a href="#" class="text-orange"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-orange"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-orange"><i class="fab fa-twitter"></i></a>
+          </div>
+
+        </form>
+      </div>
+    </div>
   </div>
+</div>
+
+<!-- CSS di file yang sama -->
+<style>
+  .text-orange {
+    color: #ff5008;
+  }
+
+  .btn-orange {
+    background-color: #ff5008;
+    color: #fff;
+    border: none;
+    transition: 0.3s;
+  }
+
+  .btn-orange:hover {
+    background-color: #ff5008;
+  }
+
+  .form-control {
+    height: 48px;
+    background: #f8f8f8;
+    border: none;
+    font-size: 14px;
+  }
+
+  input::placeholder {
+    color: #bbb;
+  }
+
+  .form-group {
+    position: relative;
+  }
+
+  .form-group i {
+    font-size: 16px;
+  }
+
+  .gap-3 > * {
+    margin-right: 10px;
+  }
+</style>
 
 
   <script>
