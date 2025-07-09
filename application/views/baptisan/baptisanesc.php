@@ -347,7 +347,7 @@ $this->load->view('template/festavalive/header'); ?>
             }
 
             .parallax-section {
-                background-image: url('<?php echo base_url("assets/gambar/baptisan11.jpg"); ?>');
+                background-image: url('<?php echo base_url("myesc.id/assets/gambar/baptisan11.jpg"); ?>');
                 height: 90vh;
                 background-attachment: fixed;
                 background-position: center;

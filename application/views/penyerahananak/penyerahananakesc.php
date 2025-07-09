@@ -330,7 +330,7 @@ $this->load->view('template/festavalive/header'); ?>
       }
 
       .parallax-section {
-        background-image: url('<?php echo base_url("assets/gambar/penyerahan12.jpg"); ?>');
+        background-image: url('<?php echo base_url("myesc.id/assets/gambar/penyerahan12.jpg"); ?>');
         height: 70vh;
         background-attachment: fixed;
         background-position: center;
@@ -344,7 +344,7 @@ $this->load->view('template/festavalive/header'); ?>
       }
 
       .parallax-divider {
-        background-image: url('<?php echo base_url("assets/gambar/penyerahan12.JPG"); ?>');
+        background-image: url('<?php echo base_url("myesc.id/assets/gambar/penyerahan12.JPG"); ?>');
         height: 170px;
         /* Tinggi pemisah */
         background-attachment: fixed;

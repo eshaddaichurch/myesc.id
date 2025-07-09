@@ -335,7 +335,7 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     .parallax-section {
-      background-image: url('<?php echo base_url("assets/gambar/kedukaan2.jpg"); ?>');
+      background-image: url('<?php echo base_url("myesc.id/assets/gambar/kedukaan2.jpg"); ?>');
       height: 85vh;
       background-position: center;
       background-repeat: no-repeat;
