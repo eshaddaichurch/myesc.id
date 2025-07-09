@@ -120,7 +120,7 @@
     </section> -->
 
     <!-- Page Content Section -->
-    <section class="page-content section-padding">
+    <section class="page-content section-padding" style="background-color: #e9d6a8;">
       <div class="container">
         <div class="row justify-content-center">
           <!-- Map Section -->
