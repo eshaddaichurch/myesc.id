@@ -610,7 +610,7 @@ $this->load->view('template/festavalive/header'); ?>
       <section class="musik-section">
       <div style="text-align: center; margin-bottom: 40px;">
             <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Care</h2>
-            <p style="font-size: 16px; color: #555;">Seluruh Bidang Care</p>
+            <p style="font-size: 16px; color: #555;">Seluruh bidang care</p>
         </div>
         <div class="musik-container">
           <div class="musik-card">

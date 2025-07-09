@@ -28,6 +28,8 @@ $this->load->view('template/festavalive/header'); ?>
 
             /* This pen */
 
+            /*dengan keterangan*/
+
 
             .dark {
                 background: #110f16;
@@ -548,72 +550,6 @@ $this->load->view('template/festavalive/header'); ?>
             /*aboutcare*/
             /*aboutcommunity*/
 
-            .musik-section {
-                padding: 60px 20px;
-                text-align: center;
-                background-color: #ffffff;
-            }
-
-            .musik-section h2 {
-                font-size: 2.5rem;
-                font-weight: bold;
-                margin-bottom: 10px;
-                color: #ef5008;
-            }
-
-            .subjudul {
-                font-size: 1.3rem;
-                color: #666;
-                margin-bottom: 40px;
-            }
-
-            .musik-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 30px;
-            }
-
-            .musik-card {
-                border-radius: 12px;
-                width: 300px;
-                text-align: center;
-            }
-
-            .musik-card img {
-                width: 100%;
-                margin-bottom: 15px;
-            }
-
-            .musik-card h3 {
-                font-size: 1.2rem;
-                font-weight: bold;
-                margin: 10px 0 10px;
-            }
-
-            .musik-card p {
-                font-size: 0.95rem;
-                color: #555;
-                margin-bottom: 15px;
-            }
-
-            .musik-card button {
-                border: 1px solid #ccc;
-                padding: 15px 70px;
-                border-radius: 30px;
-                background: transparent;
-                font-weight: bold;
-                color: #555;
-                cursor: pointer;
-                transition: all 0.3s;
-            }
-
-            .musik-card button:hover {
-                background-color: #ef5008;
-                color: white;
-                border-color: #555;
-            }
-
             /*whatiscare*/
             .who-is-care {
                 background-color: #1c1c1c;
@@ -767,15 +703,45 @@ $this->load->view('template/festavalive/header'); ?>
 
 
 
+            <section style="padding: 60px; background-color: #ffffff;">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Community</h2>
+                    <p style="font-size: 16px; color: #555;">Seluruh Bidang Community</p>
+                </div>
+
+                <div class="class-cards">
+                    <!-- Card 1 -->
+
+                    <div class="class-card">
+                        
+                        <div class="card-image" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/Artboard\ 4.png'); ?>');">
+                            <!-- <div class="card-title">KIDS</div> -->
+                        </div>
+                        <div class="card-info">
+                            
+                            <h3 class="class-name">ESC DISCIPLES COMMUNITY</h3>
+                            
+
+                            <a href="<?php echo site_url('disciples_community/index'); ?>" class="button">Visit</a>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+
+
             <section class="musik-section">
                 <div style="text-align: center; margin-bottom: 40px;">
-                    <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Next Step</h2>
-                    <p style="font-size: 16px; color: #555;">Seluruh Kelas Next Step</p>
+                    <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Community</h2>
+                    <p style="font-size: 16px; color: #555;">Seluruh bidang community</p>
                 </div>
             <div class="musik-container">
             <div class="musik-card">
 
-                <img src="<?php echo base_url('myesc.id/assets/gambar/Artboard\ 1.png'); ?>" alt="Deskripsi gambar">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/kids.png'); ?>" alt="Deskripsi gambar">
                 <h3>ESC KIDS</h3>
                 <!-- <p>kami siap untuk mendoakan Anda..</p> -->
                 <a href="<?= site_url('esckids/index') ?>">
@@ -784,7 +750,7 @@ $this->load->view('template/festavalive/header'); ?>
 
             </div>
             <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/Artboard\ 2.png'); ?>" alt="Deskripsi gambar">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/youth.png'); ?>" alt="Deskripsi gambar">
                 <h3>ESC YOUTH</h3>
                 <!-- <p>Tuhan hadir untuk membantu Anda mengalami kelepasan dan pemulihan yang sejati..</p> -->
                 <a href="<?= site_url('youth/index') ?>">
@@ -792,7 +758,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </a>
             </div>
             <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/Artboard\ 5.png'); ?>" alt="Deskripsi gambar">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/ya.png'); ?>" alt="Deskripsi gambar">
                 <h3>ESC YOUNG ADULT</h3>
                 <!-- <p>Pergerakan pemuda di Hillsong Church, yang disajikan melalui musik.</p> -->
                 <a href="<?= site_url('youngadult/index') ?>">
@@ -800,7 +766,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </a>
             </div>
             <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/Artboard\ 6.png'); ?>" alt="Deskripsi gambar">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/women.png'); ?>" alt="Deskripsi gambar">
                 <h3>ESC WOMEN</h3>
                 <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
                 <a href="<?= site_url('escwomen/index') ?>">
@@ -808,7 +774,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </a>
             </div>
             <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/Artboard\ 3.png'); ?>" alt="Deskripsi gambar">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/gold.png'); ?>" alt="Deskripsi gambar">
                 <h3>ESC GOLD</h3>
                 <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
                 <a href="<?= site_url('gold/index') ?>">
@@ -816,7 +782,7 @@ $this->load->view('template/festavalive/header'); ?>
                 </a>
             </div>
             <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/Artboard\ 4.png'); ?>" alt="Deskripsi gambar">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/dc.png'); ?>" alt="Deskripsi gambar">
                 <h3>ESC DISCIPLES COMMUNITY</h3>
                 <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
                 <a href="<?= site_url('disciples_community/index') ?>">
