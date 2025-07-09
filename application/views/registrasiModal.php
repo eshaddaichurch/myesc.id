@@ -573,7 +573,7 @@
       namalengkap: {
         validators: {
           notEmpty: {
-            message: "nama tidak boleh kosong"
+            message: "Nama tidak boleh kosong"
           },
         }
       },
@@ -602,20 +602,20 @@
       jeniskelamin: {
         validators: {
           notEmpty: {
-            message: "jenis kelamin tidak boleh kosong"
+            message: "Jenis kelamin tidak boleh kosong"
           },
         }
       },
       tempatlahir: {
         validators: {
           callback: {
-            message: 'tempat lahir tidak boleh kosong',
+            message: 'Tempat lahir tidak boleh kosong',
             callback: function(value, validator, tampatlahir) {
 
               if ($('#alasanmembuatakun2').prop('checked') && $('#tempatlahir').val() == '') {
                 return {
                   valid: false,
-                  message: 'tempat lahir tidak boleh kosong'
+                  message: 'Tempat lahir tidak boleh kosong'
                 }
               }
               return true
@@ -626,13 +626,13 @@
       tanggallahir: {
         validators: {
           callback: {
-            message: 'tangggal lahir tidak boleh kosong',
+            message: 'Tangggal lahir tidak boleh kosong',
             callback: function(value, validator, tanggallahir) {
 
               if ($('#alasanmembuatakun2').prop('checked') && $('#tanggallahir').val() == '') {
                 return {
                   valid: false,
-                  message: 'tangggal lahir tidak boleh kosong'
+                  message: 'Tangggal lahir tidak boleh kosong'
                 }
               }
               return true
@@ -643,13 +643,13 @@
       nohp: {
         validators: {
           callback: {
-            message: 'nomor telepon / whatsapp tidak boleh kosong',
+            message: 'Nomor Whatsapp tidak boleh kosong',
             callback: function(value, validator, nohp) {
 
               if ($('#alasanmembuatakun2').prop('checked') && $('#nohp').val() == '') {
                 return {
                   valid: false,
-                  message: 'nomor telepon / whatsapp tidak boleh kosong'
+                  message: 'Nomor Whatsapp tidak boleh kosong'
                 }
               }
               return true
@@ -660,7 +660,7 @@
       email: {
         validators: {
           notEmpty: {
-            message: "email tidak boleh kosong"
+            message: "Email tidak boleh kosong"
           },
         }
       },
@@ -700,7 +700,7 @@
               if ($('#password2').val() == '') {
                 return {
                   valid: false,
-                  message: 'Ulangi password tidak boleh kosong'
+                  message: 'Konfirmasi Password tidak boleh kosong'
                 }
               }
               return true
