@@ -113,11 +113,11 @@
 
 
     <!-- About Section -->
-    <section class="about-section">
+    <!-- <section class="about-section">
       <div class="container">
         <h2>OUR LOCATION</h2>
       </div>
-    </section>
+    </section> -->
 
     <!-- Page Content Section -->
     <section class="page-content section-padding">
