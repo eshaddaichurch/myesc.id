@@ -319,208 +319,201 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <style>
-     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+      /* GENERAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      font-family: 'Figtree', sans-serif;
-      background-color: #e8d5a7;
-      margin: 0;
-    }
+body {
+  font-family: 'Figtree', sans-serif;
+  background-color: #e8d5a7;
+  margin: 0;
+}
 
-    /* .wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 175vh;
-      padding: 1rem;
-    } */
+/* WRAPPER */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* pastikan tidak center */
+  padding: 2rem 1rem 5rem;
+  min-height: 100vh;
+}
 
-    .wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start; /* ⬅️ WAJIB: agar tidak floating naik */
-      padding: 1rem;
-      min-height: 100vh;
-    }
+/* PERSEMBAHAN CONTAINER */
+.persembahan-container {
+  width: 100%;
+  max-width: 48rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 1.5rem 1.5rem 2rem;
+  margin-bottom: 100px;      /* cukup */
+  min-height: auto;          /* ini yang penting! */
+  transition: all 0.3s ease-in-out;
+}
 
+/* LABEL & BUTTON */
+.label {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
 
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
 
-    .persembahan-container {
-      width: 100%;
-      max-width: 48rem;
-      background-color: #fff;
-      border-radius: 1rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      padding: 1.5rem 1.5rem 3rem;
-      margin-bottom: 100px;         /* ⬅️ cukup 100px */
-      min-height: 650px;            /* ⬅️ cukup untuk 2 card */
-      transition: min-height 0.3s ease-in-out;
-    }
+.btn {
+  background-color: #ff8100;
+  color: white;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 1.5rem;
+  font-weight: 200;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
+.btn:hover {
+  background-color: #e46f00;
+}
 
+/* OUTPUT AREA */
+.output-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 20px;
+  transition: all 0.3s ease-in-out;
+  min-height: 400px;
+}
 
-    .label {
-      font-size: 0.875rem;
-      font-weight: 800;
-      color: #374151;
-      margin-bottom: 0.75rem;
-      display: block;
-    }
+/* CARD STYLE */
+.card {
+  background-color: #e8d5a7;
+  padding: 2rem; /* lebih kecil dari 5rem */
+  border-radius: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease-out;
+}
 
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 0.5rem;
-      margin-bottom: 2.5rem;
-    }
+/* RESPONSIVE CARD */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background-color: #fff;
+  }
+}
 
-    .btn {
-      background-color: #ff8100;
-      color: white;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 1.5rem;
-      font-weight: 200;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+/* ACCOUNT INFO */
+.account-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
 
-    .btn:hover {
-      background-color: #e46f00;
-    }
+.account-info {
+  flex: 1;
+}
 
-    /* .output-area {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 20px;
-      min-height: 400px;
-      transition: all 0.3s ease-in-out;
-    } */
+.account-info h2 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
 
-    .output-area {
-      transition: all 0.3s ease-in-out;
-      min-height: 400px;
-      margin-top: 20px;
-    }
+@media (max-width: 768px) {
+  .account-info h2 {
+    font-size: 15px;
+    margin-bottom: 45px;
+  }
+}
 
+/* REKENING & BUTTON */
+.rekening {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ea580c;
+  margin-right: 0.5rem;
+}
 
-    .card {
-      background-color: #e8d5a7;
-      padding: 5rem;
-      border-radius: 5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      animation: fadeIn 0.5s ease-out;
-    }
+.copy-btn {
+  background: #e0e0e0;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+}
 
-    @media (max-width: 768px) {
-      .card {
-        background-color: white;
-        padding: 2rem;
-        border-radius: 2rem;
-      }
-    }
+/* QR IMAGE */
+.qr {
+  margin-left: 2rem;
+  flex-shrink: 0;
+}
 
-    .account-header {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-between;
-      align-items: flex-start;
-      width: 100%;
-    }
+.qr img {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 10.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: opacity 0.3s;
+  max-width: 100%;
+}
 
-    .account-info {
-      flex: 1;
-    }
+.qr img:hover {
+  opacity: 0.8;
+}
 
-    .account-info h2 {
-      font-size: 1.125rem;
-      font-weight: bold;
-      color: #1f2937;
-      margin-bottom: 0.25rem;
-    }
+@media (max-width: 768px) {
+  .qr img {
+    width: 5rem;
+    height: 5rem;
+  }
+}
 
-    @media (max-width: 768px) {
-      .account-info h2 {
-        font-size: 15px;
-        margin-bottom: 45px;
-      }
-    }
+/* LOGO LIST */
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
 
-    .rekening {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #ea580c;
-      margin-right: 0.5rem;
-    }
+.logo-box {
+  background-color: #f3f4f6;
+  padding: 0.75rem;
+  border-radius: 100rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
 
-    .copy-btn {
-      background: #e0e0e0;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
+.logo-box img {
+  width: 40px;
+  height: auto;
+  object-fit: contain;
+}
 
-    .qr {
-      margin-left: 2rem;
-      flex-shrink: 0;
-    }
+/* ANIMASI MASUK */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .qr img {
-      width: 15rem;
-      height: 15rem;
-      border-radius: 10.5rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: opacity 0.3s;
-      max-width: 100%;
-    }
-
-    .qr img:hover {
-      opacity: 0.8;
-    }
-
-    @media (max-width: 768px) {
-      .qr img {
-        width: 5rem;
-        height: 5rem;
-      }
-    }
-
-    .logos {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 1.5rem;
-    }
-
-    .logo-box {
-      background-color: #f3f4f6;
-      padding: 0.75rem;
-      border-radius: 100rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-
-    .logo-box img {
-      width: 40px;
-      height: auto;
-      object-fit: contain;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
 
     </style>
     </head>
