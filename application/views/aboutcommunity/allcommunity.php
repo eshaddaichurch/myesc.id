@@ -496,58 +496,45 @@ $this->load->view('template/festavalive/header'); ?>
             }
 
             .musik-card {
-                overflow: hidden;
-                width: 500px;
-                background: #f9f9f9;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-                transition: transform 0.3s ease;
-            }
-
-            .musik-card:hover {
-                transform: translateY(-5px);
+                border-radius: 12px;
+                width: 300px;
+                text-align: center;
             }
 
             .musik-card img {
                 width: 100%;
-                height: 200px;
-                object-fit: cover;
-            }
-
-            .musik-content {
-                padding: 20px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                height: 150px;
+                margin-bottom: 15px;
             }
 
             .musik-card h3 {
                 font-size: 1.2rem;
                 font-weight: bold;
-                margin: 0 0 20px;
-                color: #333;
+                margin: 10px 0 10px;
             }
 
-            .visit-btn {
-                padding: 12px 40px;
+            .musik-card p {
+                font-size: 0.95rem;
+                color: #555;
+                margin-bottom: 15px;
+            }
+
+            .musik-card button {
+                border: 1px solid #ccc;
+                padding: 15px 70px;
                 border-radius: 30px;
-                background-color: transparent;
-                border: 2px solid #000000;
-                color: #ef5008;
-                font-size: 0.9rem;
+                background: transparent;
                 font-weight: bold;
-                text-transform: uppercase;
-                letter-spacing: 1px;
+                color: #555;
                 cursor: pointer;
-                transition: all 0.3s ease;
+                transition: all 0.3s;
             }
 
-            .visit-btn:hover {
+            .musik-card button:hover {
                 background-color: #ef5008;
-                color: #fff;
+                color: white;
+                border-color: #555;
             }
 
-            /*aboutcare*/
             /*aboutcommunity*/
 
             /*whatiscare*/
@@ -594,70 +581,7 @@ $this->load->view('template/festavalive/header'); ?>
 
             /*whatiscare*/
 
-            .class-cards {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 30px;
-                justify-content: center;
-            }
-
-            .class-card {
-                width: 380px;
-                border-radius: 8px;
-                overflow: hidden;
-                background-color: #f5f5f5;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .card-image {
-                height: 400px;
-                background-size: cover;
-                background-position: center;
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            /* Tambahkan ini untuk tampilan mobile */
-            @media (max-width: 768px) {
-                .card-image {
-                    height: 260px;
-                    /* Lebih pendek di layar kecil */
-                }
-            }
-
-            .card-title {
-                color: white;
-                font-size: 20px;
-                font-weight: bold;
-                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-                text-align: center;
-            }
-
-            .card-info {
-                padding: 20px;
-            }
-
-            .class-time {
-                font-size: 12px;
-                color: #999;
-                margin-bottom: 5px;
-                text-transform: uppercase;
-            }
-
-            .class-name {
-                font-size: 15px;
-                margin-bottom: 10px;
-                font-weight: bold;
-            }
-
-            .class-description {
-                font-size: 14px;
-                color: #333;
-                text-align: justify;
-            }
+            
         </style>
         </head>
 
