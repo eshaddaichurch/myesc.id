@@ -407,47 +407,160 @@ $this->load->view('template/festavalive/header'); ?>
         
         <p>Kelas ini dikemas secara interaktif dengan diskusi dan tanya jawab, memungkinkan setiap jemaat untuk menggali konsep-konsep penting, bertanya, dan berbagi pengalaman guna memperdalam iman. Setelah mengikuti kelas ini, jemaat diharapkan semakin siap melangkah dalam iman dan menerima baptisan sebagai bentuk ketaatan perubahan hidup dalam Kristus.</p>
     
-        <?php if ($rsJadwal->num_rows() > 0): ?>
+        <!-- <?php if ($rsJadwal->num_rows() > 0): ?>
         <form method="POST" action="<?= site_url('nextstep/daftar') ?>" id="formDaftar">
             <input type="hidden" name="idjadwalevent" value="<?= $rsJadwal->row()->idjadwalevent ?>">
             <button type="submit" class="btn-membership">Daftar</button>
         </form>
         <?php else: ?>
         <p>Belum ada jadwal tersedia untuk kelas ini.</p>
-        <?php endif; ?>
+        <?php endif; ?> -->
 
       </section>
 
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('formDaftar');
-        if (form) {
-            form.addEventListener('submit', function (e) {
+      <section class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                <h2 class="fw-bold">{{ $rowKelas->namakelas }}</h2>
+                <hr class="w-25 mx-auto">
+                <p>{!! $rowKelas->deskripsi !!}</p>
+                </div>
+
+                <div class="row justify-content-center">
+                @forelse ($jadwalList as $jadwal)
+                    @php
+                    $tglEvent = $jadwal->tglmulai == $jadwal->tglselesai
+                        ? \Carbon\Carbon::parse($jadwal->tglmulai)->format('d-m-Y')
+                        : \Carbon\Carbon::parse($jadwal->tglmulai)->format('d-m-Y') . ' s/d ' . \Carbon\Carbon::parse($jadwal->tglselesai)->format('d-m-Y');
+
+                    $jamEvent = \Carbon\Carbon::parse($jadwal->tglmulai)->format('H:i') . ' WIB s/d ' . \Carbon\Carbon::parse($jadwal->tglselesai)->format('H:i') . ' WIB';
+
+                    $jumlahPeserta = $jadwal->jumlah_pendaftar . '/' . ($jadwal->jumlahjemaat ?? '∞');
+                    $sudahDaftar = $jadwal->sudah_daftar; // true/false
+                    @endphp
+
+                    <div class="col-md-6 col-lg-5 mb-5">
+                    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                        <img src="{{ asset('assets/gambar/bgkelas.jpg') }}" class="card-img-top" alt="Banner Event" style="object-fit: cover; height: 220px;">
+
+                        <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0"><i class="bi bi-calendar-event me-2"></i> {{ $jadwal->namaevent }}</h5>
+                            <span class="badge bg-secondary">Peserta: {!! $jadwal->jumlah_pendaftar == $jadwal->jumlahjemaat ? '<span class="text-danger">'.$jumlahPeserta.'</span>' : $jumlahPeserta !!}</span>
+                        </div>
+
+                        <p class="mb-1"><i class="bi bi-geo-alt-fill me-2"></i> {{ $jadwal->lokasievent }}</p>
+                        <p class="mb-1"><i class="bi bi-calendar3 me-2"></i> {!! nl2br(e($tglEvent)) !!}</p>
+                        <p class="mb-1"><i class="bi bi-clock-fill me-2"></i> {!! nl2br(e($jamEvent)) !!}</p>
+
+                        @if (!$sudahDaftar)
+                            <div class="mt-4">
+                            <a href="#" class="btn btn-success w-100 btn-daftar" data-id="{{ $jadwal->idjadwalevent }}">Daftar Sekarang</a>
+                            </div>
+                        @endif
+                        </div>
+
+                        @if ($sudahDaftar)
+                        <div class="card-footer bg-light">
+                            @php
+                            $status = $jadwal->statuspendaftaran;
+                            $statusClass = match($status) {
+                                'Menunggu' => 'warning',
+                                'Disetujui' => 'success',
+                                'Ditolak' => 'danger',
+                                default => 'secondary'
+                            };
+                            @endphp
+                            <div class="alert alert-{{ $statusClass }} mb-0">
+                            <strong>Status Pendaftaran:</strong> {{ $status }} <br>
+                            @if ($status === 'Menunggu')
+                                Mohon tunggu proses konfirmasi dari admin.
+                            @elseif ($status === 'Disetujui')
+                                Pendaftaran Anda telah <strong>disetujui</strong>. Silakan hadir sesuai jadwal.
+                            @elseif ($status === 'Ditolak')
+                                Maaf, pendaftaran ditolak. Silakan hubungi admin untuk info lebih lanjut.
+                            @endif
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center">
+                    <div class="alert alert-info">Belum ada jadwal untuk kelas ini.</div>
+                    </div>
+                @endforelse
+                </div>
+            </div>
+        </section>
+
+        <script>
+        $(document).on('click', '.btn-daftar', function(e) {
             e.preventDefault();
+            const idjadwalevent = $(this).data('id');
 
-            const formData = new FormData(form);
-
-            fetch("<?= site_url('nextstep/daftar') ?>", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                alert("✅ Berhasil mendaftar ke kelas.");
-                // Optional redirect
-                window.location.href = "<?= site_url('nextstep/kelas/') ?>" + data.kelas_slug;
-                } else {
-                alert("⚠️ " + data.msg);
+            swal({
+            title: "Daftar Kelas?",
+            text: "Anda yakin ingin mendaftar di kelas ini?",
+            icon: "warning",
+            buttons: ["Batal", "Ya, Daftar"],
+            dangerMode: true,
+            }).then((willDaftar) => {
+            if (willDaftar) {
+                $.ajax({
+                url: '{{ route("nextstep.daftar") }}',
+                type: 'POST',
+                data: {
+                    idjadwalevent: idjadwalevent,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                    swal("Berhasil!", response.message, "success").then(() => location.reload());
+                    } else {
+                    swal("Gagal", response.message, "info");
+                    }
+                },
+                error: function() {
+                    swal("Gagal", "Terjadi kesalahan saat mendaftar", "error");
                 }
-            })
-            .catch(error => {
-                console.error("❌ Gagal:", error);
-                alert("Terjadi kesalahan saat mengirim data.");
+                });
+            }
             });
-            });
-        }
         });
-    </script>
+        </script>
+
+
+        <!-- <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('formDaftar');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+
+                fetch("<?= site_url('nextstep/daftar') ?>", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                    alert("✅ Berhasil mendaftar ke kelas.");
+                    // Optional redirect
+                    window.location.href = "<?= site_url('nextstep/kelas/') ?>" + data.kelas_slug;
+                    } else {
+                    alert("⚠️ " + data.msg);
+                    }
+                })
+                .catch(error => {
+                    console.error("❌ Gagal:", error);
+                    alert("Terjadi kesalahan saat mengirim data.");
+                });
+                });
+            }
+            });
+        </script> -->
 
       <?php $this->load->view('template/festavalive/footer'); ?>
