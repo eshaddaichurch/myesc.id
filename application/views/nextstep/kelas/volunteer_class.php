@@ -396,17 +396,18 @@ $this->load->view('template/festavalive/header'); ?>
     <body>
 
         <section class="membership-section">
-            <h1>Membership Class</h1>
-            <p>Membership Class adalah kelas khusus yang dirancang untuk membantu jemaat memahami arti menjadi anggota gereja dan peran penting yang dapat mereka jalankan dalam tubuh Kristus. Kelas ini mengajarkan dasar-dasar iman, nilai-nilai gereja, visi dan misi, serta peran dan tanggung jawab setiap anggota dalam pelayanan dan kehidupan komunitas</p>
+            <h1>Volunteer Class</h1>
+            <p>Volunteer Class adalah kelas yang dirancang untuk membekali peserta dengan pemahaman dan keterampilan yang diperlukan untuk melayani Tuhan dan sesama. Kelas ini akan membahas mengapa pelayanan penting dalam kehidupan orang percaya, makna sejati dari melayani, dan bagaimana cara melayani Allah dengan efektif.</p>
             
             <p>Topik Pembelajaran :</p>
-                <ol>
-                    <li>Arti Keanggotaan dalam Tubuh Kristus Menggali pemahaman tentang apa artinya menjadi bagian dari gereja sebagai tubuh Kristus, sesuai dengan pengajaran Alkitab (1 Korintus 12:12-27).</li>
-                    <li>Visi, Misi, dan Nilai Gereja Menjelaskan visi dan misi gereja, nilai-nilai yang dipegang teguh, serta bagaimana setiap anggota berkontribusi dalam mencapai tujuan bersama.</li>
-                    <li>Peran dan Tanggung Jawab Anggota Mengajarkan peran aktif dan tanggung jawab setiap anggota dalam pelayanan dan kehidupan gereja, serta bagaimana menjaga keterlibatan yang sehat dan bermakna (Efesus 4:11-13).</li>
-                    <li>Komitmen dan Pertumbuhan Rohani Mengajak anggota untuk berkomitmen dalam pertumbuhan iman dan membangun relasi yang kuat dengan Tuhan dan sesama, demi pertumbuhan gereja yang sehat dan harmonis.</li>
-                </ol>
-            <p>Kelas ini diadakan dalam suasana yang interaktif dengan diskusi, sharing, dan pemaparan praktis, sehingga jemaat yang mendaftarkan kelas ini dapat memahami dengan jelas dan terhubung secara mendalam dengan tujuan gereja. Dengan mengikuti Membership Class, jemaat akan lebih siap melayani, bertumbuh dalam iman, dan memperkuat hubungan di dalam gereja sebagai bagian dari keluarga rohani yang mengasihi.</p>
+               
+            <p>1. Mengapa Kita Melayani – Membahas alasan-alasan mendasar mengapa setiap orang percaya dipanggil untuk melayani. Peserta akan diajak untuk memahami bahwa pelayanan adalah respon terhadap kasih dan anugerah Tuhan, serta bagian dari panggilan iman kita sebagai pengikut Kristus (Markus 10:45).</p>
+            
+            <p>2. Apa Artinya Melayani – Menggali makna pelayanan dari perspektif Alkitab, yang menunjukkan bahwa melayani adalah tentang memberi diri kepada orang lain dengan kasih, membagikan berkat yang telah kita terima, dan mencerminkan karakter Kristus dalam tindakan kita. Dalam sesi ini, peserta juga akan memahami bahwa pelayanan bukan hanya tugas, tetapi panggilan yang membawa sukacita dan pertumbuhan rohani (Galatia 5:13).</p>
+
+            <p>3. Bagaimana Cara Melayani Allah – Mengajarkan berbagai cara untuk melayani Tuhan, baik dalam konteks gereja maupun di luar gereja. Peserta akan diperkenalkan pada berbagai bentuk pelayanan, mulai dari pelayanan di dalam komunitas gereja, misi sosial, hingga pelayanan dalam kehidupan sehari-hari. Juga, akan dibahas tentang pentingnya penggunaan karunia dan talenta yang diberikan Allah dalam pelayanan kita (Kolose 3:23-24).</p>
+
+            <p>Kelas ini diadakan dengan pendekatan interaktif yang memungkinkan peserta untuk berdiskusi, berbagi pengalaman, dan merencanakan langkah-langkah konkret dalam pelayanan. Melalui Volunteer Class (VC), peserta diharapkan untuk semakin menyadari panggilan mereka untuk melayani, memperoleh motivasi yang kuat untuk terlibat dalam pelayanan, dan merasakan kepuasan yang mendalam ketika hidup mereka berdampak positif bagi orang lain dan kemuliaan Tuhan.</p>
 
         </section>
 
