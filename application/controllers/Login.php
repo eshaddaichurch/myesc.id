@@ -70,7 +70,7 @@ class Login extends CI_Controller
 
                 echo json_encode(array('success' => true));
             } else {
-                echo json_encode(array('msg' => "Either your email or password is wrong. Please try again "));
+                echo json_encode(array('msg' => "Password atau Email anda salah. harap periksa lagi"));
             }
         }
     }
