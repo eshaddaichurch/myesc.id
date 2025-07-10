@@ -399,7 +399,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h1>Foundation Class 3</h1>
             <p>Foundation Class 3 Renewal Life (FC 3) adalah kelas yang ditujukan untuk membimbing peserta dalam proses pembaharuan hidup melalui pemulihan yang mendalam. Kelas ini membahas tentang bagaimana setiap orang percaya dapat mengalami pemulihan total dalam hubungan dengan Tuhan, pemulihan gambar diri, dan penyembuhan luka batin, serta menerima pelepasan dari hal-hal yang mengikat hidup mereka.</p>
             
-            <p>Topik Pembelajaran</p>
+            <p>Topik Pembelajaran :</p>
             
             <p>1. Pemulihan Hati Bapa: Mengajarkan konsep pemulihan hubungan dengan Allah sebagai Bapa yang penuh kasih. Melalui topik ini, peserta diajak untuk memahami dan merasakan kasih Bapa yang sejati, yang menyembuhkan luka hati dan memperbaiki relasi yang rusak antara manusia dan Tuhan (Lukas 15:11-24).</p>
             
@@ -411,7 +411,6 @@ $this->load->view('template/festavalive/header'); ?>
             
             <p>Kelas ini dikemas secara interaktif dengan kesempatan untuk berdiskusi, berdoa bersama, serta melakukan praktik langsung dalam pelayanan pelepasan. Melalui Foundation Class 3 Renewal Life, peserta diharapkan dapat mengalami pembaharuan hidup yang sejati, hidup dengan penuh kebebasan dan damai, serta lebih siap untuk melayani sebagai saksi kasih dan kuasa Tuhan di tengah keluarga, komunitas, lingkungan masyarakat.</p>
 
-            <a href="#" class="btn-membership">Daftar</a>
         </section>
 
 

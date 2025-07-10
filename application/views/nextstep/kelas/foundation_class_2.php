@@ -399,7 +399,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h1>Foundation Class 2</h1>
             <p>Foundation Class 2 Pray adalah kelas yang dirancang untuk memberikan pemahaman yang mendalam tentang doa dan peran pentingnya dalam kehidupan orang percaya. Kelas ini membahas berbagai aspek doa, dimulai dari definisinya hingga praktik mendalam yang membantu peserta membangun kehidupan doa yang lebih bermakna dan efektif.</p>
             
-            <p>Topik Pembelajaran</p>
+            <p>Topik Pembelajaran :</p>
             
             <p>1. Apa Itu Doa: Menjelaskan konsep dasar doa sebagai komunikasi langsung dengan Tuhan, yang memungkinkan setiap orang percaya berhubungan secara pribadi dengan-Nya.</p>
             

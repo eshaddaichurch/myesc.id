@@ -395,20 +395,20 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-      <section class="membership-section">
-        <h1>Foundation Class 1</h1>
-        <p>Foundation Class 1 Salvation and Baptism (FC 1) adalah kelas dasar yang bertujuan membantu jemaat memahami secara mendalam arti keselamatan dan baptisan, dua aspek penting dalam kehidupan orang beriman. Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.</p>
-        
-        <p>Topik Pembelajaran :</p>
-        
-        <p>1. Keselamatan dalam Kristus Membahas firman Tuhan mengenai keselamatan sebagai anugerah dari Allah, bukan hasil usaha manusia, dengan dasar ayat dari Efesus 2:8-9.</p>
-        
-        <p>2. Baptisan Air dan Roh Kudus – Memaparkan arti simbolis dan spiritual dari baptisan, sekaligus pentingnya komitmen pribadi dalam menerima baptisan sebagai wujud iman, sesuai Roma 6:3-4 dan Kisah Para Rasul 2:38.</p>
-        
-        <p>Kelas ini dikemas secara interaktif dengan diskusi dan tanya jawab, memungkinkan setiap jemaat untuk menggali konsep-konsep penting, bertanya, dan berbagi pengalaman guna memperdalam iman. Setelah mengikuti kelas ini, jemaat diharapkan semakin siap melangkah dalam iman dan menerima baptisan sebagai bentuk ketaatan perubahan hidup dalam Kristus.</p>
+        <section class="membership-section">
+            <h1>Foundation Class 3</h1>
+            <p>Membership Class adalah kelas khusus yang dirancang untuk membantu jemaat memahami arti menjadi anggota gereja dan peran penting yang dapat mereka jalankan dalam tubuh Kristus. Kelas ini mengajarkan dasar-dasar iman, nilai-nilai gereja, visi dan misi, serta peran dan tanggung jawab setiap anggota dalam pelayanan dan kehidupan komunitas</p>
+            
+            <p>Topik Pembelajaran :</p>
+                <ol>
+                    <li>Arti Keanggotaan dalam Tubuh Kristus Menggali pemahaman tentang apa artinya menjadi bagian dari gereja sebagai tubuh Kristus, sesuai dengan pengajaran Alkitab (1 Korintus 12:12-27).</li>
+                    <li>Visi, Misi, dan Nilai Gereja Menjelaskan visi dan misi gereja, nilai-nilai yang dipegang teguh, serta bagaimana setiap anggota berkontribusi dalam mencapai tujuan bersama.</li>
+                    <li>Peran dan Tanggung Jawab Anggota Mengajarkan peran aktif dan tanggung jawab setiap anggota dalam pelayanan dan kehidupan gereja, serta bagaimana menjaga keterlibatan yang sehat dan bermakna (Efesus 4:11-13).</li>
+                    <li>Komitmen dan Pertumbuhan Rohani Mengajak anggota untuk berkomitmen dalam pertumbuhan iman dan membangun relasi yang kuat dengan Tuhan dan sesama, demi pertumbuhan gereja yang sehat dan harmonis.</li>
+                </ol>
+            <p>Kelas ini diadakan dalam suasana yang interaktif dengan diskusi, sharing, dan pemaparan praktis, sehingga jemaat yang mendaftarkan kelas ini dapat memahami dengan jelas dan terhubung secara mendalam dengan tujuan gereja. Dengan mengikuti Membership Class, jemaat akan lebih siap melayani, bertumbuh dalam iman, dan memperkuat hubungan di dalam gereja sebagai bagian dari keluarga rohani yang mengasihi.</p>
 
-
-      </section>
+        </section>
 
 
     <!-- Untuk Mobile -->
