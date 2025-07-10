@@ -410,6 +410,106 @@ $this->load->view('template/festavalive/header'); ?>
 
       </section>
 
+
+    <!-- Untuk Mobile -->
+    <section class="page-content section-padding d-md-none d-sm-block">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="card" data-aos="zoom-in">
+              <div class="card-body">
+                <div class="row">
+
+                  <?php
+                  if ($rsJadwal->num_rows() > 0) {
+                    foreach ($rsJadwal->result() as $rowJadwal) {
+                      $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
+                      $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
+
+                      $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
+                      $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
+
+                      $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai s/d $tglselesai";
+                      $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB s/d $jamSelesai WIB";
+
+                      $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
+
+                      $nJumlah = $this->db->query("
+                        SELECT COUNT(*) AS jlh FROM jadwaleventregistrasi
+                        WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND statuskonfirmasi<>'Ditolak'
+                      ")->row()->jlh;
+
+                      $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : (
+                        $nJumlah == $maxJemaat ?
+                        '<span class="text-danger">' . $nJumlah . '/' . $maxJemaat . '</span>' :
+                        $nJumlah . '/' . $maxJemaat
+                      );
+
+                      $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
+
+                      $button = $sudahPernahDaftar ? '' : '<a href="#" class="btn btn-success btn-sm" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '" id="btnDaftar">Daftar Sekarang</a>';
+
+                      $rsLokasi = $this->db->query("SELECT * FROM jadwaleventdetailtanggal WHERE idjadwalevent = '" . $rowJadwal->idjadwalevent . "' LIMIT 1");
+                      $namaLokasi = ($rsLokasi->num_rows() > 0) ? $rsLokasi->row()->lokasievent : '';
+
+                      echo '
+                        <div class="col-12" data-aos="fade-up">
+                          <h5>' . $rowJadwal->namaevent . '
+                            ' . ($sudahPernahDaftar ? '<span class="badge bg-success badge-status">Sudah Daftar</span>' : '<span class="badge bg-secondary badge-status">Baru</span>') . '
+                          </h5>
+                        </div>
+                        <div class="col-12"><i class="fas fa-map-marker-alt me-2"></i> ' . $namaLokasi . '</div>
+                        <div class="col-12"><i class="fa fa-calendar me-2"></i> ' . $tglEvent . '</div>
+                        <div class="col-12"><i class="far fa-clock me-2"></i> ' . $jamEvent . '</div>
+                        <div class="col-12"><i class="fas fa-user-check me-2"></i> ' . $jumlahPeserta . '</div>
+                      ';
+
+                      if ($sudahPernahDaftar) {
+                        $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND idjemaat='" . $this->session->userdata('idjemaat') . "'");
+                        if ($rsDaftar->num_rows() > 0) {
+                          foreach ($rsDaftar->result() as $rowDaftar) {
+                            $status = $rowDaftar->statuskonfirmasi;
+                            $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
+                            $pesan = '';
+
+                            if ($status == 'Menunggu') {
+                              $pesan = 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!';
+                            } elseif ($status == 'Disetujui') {
+                              $pesan = 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>!<br>Silahkan datang pada waktu jadwal yang telah ditentukan.';
+                            } elseif ($status == 'Ditolak') {
+                              $pesan = 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi;
+                            }
+
+                            echo '
+                              <div class="col-12 mt-3 ps-3">
+                                <div class="alert alert-' . $alertClass . '" role="alert">
+                                  <strong>Status Pengajuan : ' . $status . '</strong><br><br>' . $pesan . '
+                                </div>
+                              </div>';
+                          }
+                        }
+                      }
+
+                      echo '
+                        <div class="col-12 mt-3">' . $button . '</div>
+                        <hr class="my-4">';
+                    }
+                  } else {
+                    echo '<div class="text-center">Jadwal kelas belum dibuka...</div>';
+                  }
+                  ?>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
        <!-- SECTION: Jadwal Kelas (PENEMPATAN CARD DI SINI) -->
     <section class="page-content promo-section d-none d-md-block">
       <div class="container">
@@ -490,6 +590,53 @@ $this->load->view('template/festavalive/header'); ?>
         </div>
       </div>
     </section>
+
+
+    <script>
+    $(document).on('click', '#btnDaftar', function(e) {
+      var idjadwalevent = $(this).attr('data-idjadwalevent');
+
+      e.preventDefault();
+
+      swal({
+          title: "Daftar Kelas?",
+          text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
+          icon: "warning",
+          buttons: ["Batal!", "Ya!"],
+          dangerMode: true,
+        })
+        .then((daftarkelas) => {
+          if (daftarkelas) {
+
+            $.ajax({
+                url: '<?php echo site_url('nextstep/daftar') ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                  'idjadwalevent': idjadwalevent
+                },
+              })
+              .done(function(daftarResult) {
+                console.log(daftarResult);
+
+                if (daftarResult.success) {
+                  swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
+                    .then(function() {
+                      window.open("<?php echo site_url('nextstep/kelas/' . $kelas_slug . '/' . $this->encrypt->encode($menu)) ?>", "_self");
+                    });
+                } else {
+                  swal("Gagal", daftarResult.msg, "info");
+                }
+              })
+              .fail(function() {
+                console.log("error");
+              });
+
+          }
+        });
+
+    });
+  </script>
       
 
       <?php $this->load->view('template/festavalive/footer'); ?>
