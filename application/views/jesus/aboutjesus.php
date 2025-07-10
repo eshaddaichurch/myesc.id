@@ -842,7 +842,7 @@ use PhpParser\Node\Stmt\Echo_;
     <section class="follow-section">
         <div class="content">
             <h2>Langkah Pertama </h2>
-             <a href="<?php echo site_url('vidioajakandoa/index'); ?>" class="btn-modern">VISIT -></a>
+             <a href="<?php echo site_url('vidioajakandoa/index'); ?>" class="btn-modern">Terima Yesus -></a>
             <!--<button class="btn-modern">VISIT -></button>-->
         </div>
         </div>

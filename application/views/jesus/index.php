@@ -431,7 +431,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     @media (max-width: 768px) {
         .follow-section h2 {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 700px;
         margin-bottom: 30px;
         color: #333;
