@@ -35,15 +35,15 @@ class Nextstep extends MY_Controller
 		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
 
 		
-		$this->load->view('nextstep/kelas', $data);
+		// $this->load->view('nextstep/kelas', $data);
 
-		// $slugView = 'nextstep/kelas/' . $kelas_slug;
-		// if (file_exists(APPPATH . 'views/' . $slugView . '.php')) {
-		// 	$this->load->view($slugView, $data);
-		// } else {
-		// 	// Fallback jika file view belum dibuat
-		// 	$this->load->view('nextstep/kelas', $data);
-		// }
+		$slugView = 'nextstep/kelas/' . $kelas_slug;
+		if (file_exists(APPPATH . 'views/' . $slugView . '.php')) {
+			$this->load->view($slugView, $data);
+		} else {
+			// Fallback jika file view belum dibuat
+			$this->load->view('nextstep/kelas', $data);
+		}
 
 	}
 
