@@ -363,7 +363,7 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     .new-beginning-section h2 {
-        font-family: 'MedievalSharp', cursive;
+        font-family: 'Figtree', sans-serif;
         font-size: 36px;
         font-weight: 700;
         margin-bottom: 30px;
@@ -432,7 +432,7 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     .follow-section h2 {
-        font-family: 'MedievalSharp', cursive;
+        font-family: 'Figtree', sans-serif;
         font-size: 36px;
         font-weight: 700px;
         margin-bottom: 30px;
@@ -442,7 +442,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     @media (max-width: 768px) {
         .follow-section h2 {
-        font-family: 'MedievalSharp', cursive;
+        font-family: 'Figtree', sans-serif;
         font-size: 24px;
         font-weight: 700px;
         margin-bottom: 30px;
@@ -503,7 +503,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     .btn-modern {
     padding: 30px 80px;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'Figtree', sans-serif;
     background-color: #000000; /* biru indigo */
     color: #ffffff;
     border: none;
@@ -520,7 +520,7 @@ use PhpParser\Node\Stmt\Echo_;
     @media (max-width: 768px) {
         .btn-modern {
         padding: 22px 24px;
-        font-family: 'MedievalSharp', cursive;
+        font-family: 'Figtree', sans-serif;
         background-color: #000000; /* biru indigo */
         color: #ffffff;
         border: none;
@@ -569,7 +569,7 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     .jesus-section h2 {
-        font-family: 'MedievalSharp', cursive;
+        font-family: 'Figtree', sans-serif;
         font-size: 36px;
         font-weight: 700;
         margin-bottom: 30px;

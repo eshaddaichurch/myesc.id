@@ -355,7 +355,7 @@
               $('#registrasiModal').modal('hide');
             });
         } else {
-          swal("Hubungi Hotline Gereja!", response.msg, "info");
+          swal("Hubungi hotline gereja untuk konfirmasi akun", response.msg, "info");
         }
       })
       .fail(function() {
