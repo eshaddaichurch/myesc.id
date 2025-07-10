@@ -407,14 +407,17 @@ $this->load->view('template/festavalive/header'); ?>
         
         <p>Kelas ini dikemas secara interaktif dengan diskusi dan tanya jawab, memungkinkan setiap jemaat untuk menggali konsep-konsep penting, bertanya, dan berbagi pengalaman guna memperdalam iman. Setelah mengikuti kelas ini, jemaat diharapkan semakin siap melangkah dalam iman dan menerima baptisan sebagai bentuk ketaatan perubahan hidup dalam Kristus.</p>
     
-        <?php if ($rsJadwal->num_rows() > 0): ?>
+        <!-- <?php if ($rsJadwal->num_rows() > 0): ?>
         <form method="POST" action="<?= site_url('nextstep/daftar') ?>" id="formDaftar">
             <input type="hidden" name="idjadwalevent" value="<?= $rsJadwal->row()->idjadwalevent ?>">
             <button type="submit" class="btn-membership">Daftar</button>
         </form>
         <?php else: ?>
         <p>Belum ada jadwal tersedia untuk kelas ini.</p>
-        <?php endif; ?>
+        <?php endif; ?> -->
+
+        <a href="https://myesc.id/nextstep/kelas/foundation_class_1" class="btn-membership">Daftar</a>
+
 
       </section>
       
