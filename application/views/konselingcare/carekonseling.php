@@ -641,14 +641,7 @@ use PhpParser\Node\Stmt\Echo_;
     <section class="konseling">
         <div class="container">
             <div class="dedication-video">
-                <iframe width="560" height="315"
-                        src="https://youtu.be/52ODwAfQTqM?si=oKpcwPNiJHMcDTiZ="
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen>
-                        </iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/52ODwAfQTqM?si=NqY0Oxzrv1_i5G85" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           <div class="text">
             <h2>Pelayanan Konseling & Pelepasan</h2>

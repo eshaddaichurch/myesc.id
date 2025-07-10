@@ -601,14 +601,7 @@ use PhpParser\Node\Stmt\Echo_;
     <section class="konseling">
         <div class="container">
             <div class="dedication-video">
-                <iframe width="560" height="315"
-                        src="https://youtu.be/um5ryhLqjBk?si=VGiaoyGJllTz5HM3="
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen>
-                        </iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/um5ryhLqjBk?si=Nqsce-tHtCZgwx7X" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           <div class="text">
             <h2 style="color: #ffffff;">Pelayanan Kunjungan Jemaat</h2>
