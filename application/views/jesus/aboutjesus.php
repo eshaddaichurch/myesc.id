@@ -391,7 +391,7 @@ use PhpParser\Node\Stmt\Echo_;
    
 
     .new-beginning-section em {
-        font-style: italic;
+        
         color: #555;
     }
 
@@ -402,7 +402,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     .new-beginning-section .congrats {
         margin-top: 30px;
-        font-style: italic;
+        
         color: #666;
     }
 
@@ -461,7 +461,7 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     .follow-section em {
-        font-style: italic;
+        
         color: #555;
     }
 
@@ -472,7 +472,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     .follow-section .congrats {
         margin-top: 30px;
-        font-style: italic;
+        
         color: #666;
     }
 
@@ -597,7 +597,7 @@ use PhpParser\Node\Stmt\Echo_;
     
 
     .jesus-section em {
-        font-style: italic;
+        
         color: #555;
     }
 
@@ -608,7 +608,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     .jesus-section .congrats {
         margin-top: 30px;
-        font-style: italic;
+        
         color: #666;
     }
 
