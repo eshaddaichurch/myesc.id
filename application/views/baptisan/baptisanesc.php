@@ -661,7 +661,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="container">
                     <div class="dedication-video">
                         <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
+                            src="https://youtu.be/77DunG9sTXc?si=8xLYqfK0xCIz62XC="
                             title="YouTube video player"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
