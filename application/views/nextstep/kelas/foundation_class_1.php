@@ -345,7 +345,7 @@ $this->load->view('template/festavalive/header'); ?>
     .membership-section {
       max-width: 900px;
       margin: 0 auto;
-      padding: 80px 20px;
+      padding: 230px 20px;
     }
 
     .membership-section h1 {
@@ -377,7 +377,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     @media (max-width: 768px) {
       .membership-section {
-        padding: 60px 20px;
+        padding: 120px 20px;
       }
 
       .membership-section h1 {
@@ -590,6 +590,13 @@ $this->load->view('template/festavalive/header'); ?>
         </div>
       </div>
     </section>
+
+    <!-- jQuery dulu -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
     <script>
