@@ -29,7 +29,7 @@ $this->load->view('template/festavalive/header'); ?>
 
       /* This pen */
 
-      
+
 
 
       .dark {
@@ -216,7 +216,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         &:before {
           content: "";
-          position: abslute;
+          position: absolute;
           top: 0;
           right: 0;
           bottom: 0;

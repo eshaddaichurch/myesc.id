@@ -494,13 +494,13 @@ $this->load->view('template/festavalive/header'); ?>
       /*aboutcare*/
 
       /*whatiscare*/
-      .who-is-care {
+      /* .who-is-care {
         background-color: #1c1c1c;
         color: #fff;
         padding: 200px 20px;
         text-align: center;
-        /* font-family: 'Helvetica Neue', sans-serif; */
-      }
+        
+      } */
 
       /* @media (max-width: 768px) {
         .who-is-care {
