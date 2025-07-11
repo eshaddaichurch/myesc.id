@@ -328,12 +328,20 @@ $this->load->view('template/festavalive/header'); ?>
 
 
 
-      body {
+      /* body {
         margin: 0;
-        /* font-family: 'Helvetica Neue', sans-serif; */
         font-family: 'Figtree', sans-serif;
         background-color: #fff;
         color: #444;
+      } */
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        font-family: 'Figtree', sans-serif;
+        color: #111;
+        line-height: 1.7;
       }
 
       .section {
@@ -494,13 +502,13 @@ $this->load->view('template/festavalive/header'); ?>
       /*aboutcare*/
 
       /*whatiscare*/
-      /* .who-is-care {
+      .who-is-care {
         background-color: #1c1c1c;
         color: #fff;
         padding: 200px 20px;
         text-align: center;
         
-      } */
+      }
 
       /* @media (max-width: 768px) {
         .who-is-care {
