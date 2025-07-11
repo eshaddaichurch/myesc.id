@@ -64,6 +64,12 @@
     content: "/";
   }
 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   body {
     font-family: 'Figtree', sans-serif;
     background-color: #e8d5a7;
