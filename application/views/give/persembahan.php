@@ -256,7 +256,7 @@
 </style>
 
 <body>
-  <main>
+  
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
     <div class="wrapper">
@@ -385,7 +385,7 @@
 
       tampilkanData('persepuluhan');
     </script>
-  </main>
+  
   <?php $this->load->view('template/festavalive/footer'); ?>
 </body>
 </html>
