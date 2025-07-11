@@ -395,20 +395,41 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-      <section class="membership-section">
-        <h1>Foundation Class 1</h1>
-        <p>Foundation Class 1 Salvation and Baptism (FC 1) adalah kelas dasar yang bertujuan membantu jemaat memahami secara mendalam arti keselamatan dan baptisan, dua aspek penting dalam kehidupan orang beriman. Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.</p>
-        
-        <p>Topik Pembelajaran :</p>
-        
-        <p>1. Keselamatan dalam Kristus Membahas firman Tuhan mengenai keselamatan sebagai anugerah dari Allah, bukan hasil usaha manusia, dengan dasar ayat dari Efesus 2:8-9.</p>
-        
-        <p>2. Baptisan Air dan Roh Kudus Memaparkan arti simbolis dan spiritual dari baptisan, sekaligus pentingnya komitmen pribadi dalam menerima baptisan sebagai wujud iman, sesuai Roma 6:3-4 dan Kisah Para Rasul 2:38.</p>
-        
-        <p>Kelas ini dikemas secara interaktif dengan diskusi dan tanya jawab, memungkinkan setiap jemaat untuk menggali konsep-konsep penting, bertanya, dan berbagi pengalaman guna memperdalam iman. Setelah mengikuti kelas ini, jemaat diharapkan semakin siap melangkah dalam iman dan menerima baptisan sebagai bentuk ketaatan perubahan hidup dalam Kristus.</p>
+        <section class="membership-section">
+            <h1>Marriage Class</h1>
+            <p>Marriage Class adalah kelas pembinaan yang diselenggarakan oleh gereja untuk seluruh jemaat baik yang belum menikah, sedang mempersiapkan pernikahan, maupun yang sudah menikah. Kelas ini dirancang untuk membekali jemaat dengan pemahaman yang alkitabiah tentang pernikahan Kristen, memperkuat hubungan suami-istri, dan menolong setiap pribadi membangun relasi yang sehat, kudus, dan berkenan kepada Tuhan. Melalui pengajaran, peserta akan diajak mengenali tujuan pernikahan, peran masing-masing dalam keluarga, serta prinsip-prinsip kasih, komunikasi, dan komitmen dalam terang firman Tuhan.</p>
+            
+            <!-- <p>Topik yang diajarkan :</p> -->
+               
+            <!-- <p>1. <b>Doktrin Tentang Akhir Zaman</b> – Menjelaskan peristiwa-peristiwa yang akan terjadi pada akhir zaman menurut Alkitab, serta apa yang harus dipahami orang percaya mengenai tanda-tanda zaman.</p>
+            
+            <p>2. <b>Doktrin Tentang Pengangkatan Orang Percaya</b> – Membahas janji Tuhan tentang pengangkatan orang-orang percaya, yaitu saat di mana mereka akan dijemput untuk bertemu dengan Kristus di awan-awan (1 Tesalonika 4:16-17).</p>
 
+            <p>3. <b>Doktrin Tentang Tahta Pengadilan Kristus</b> – Menjelaskan peristiwa di mana orang percaya akan dihakimi berdasarkan perbuatan mereka, bukan untuk keselamatan, tetapi untuk menerima pahala kekal (2 Korintus 5:10)</p>
 
-      </section>
+            <p>4. <b>Doktrin Tentang Perjamuan Kawin Anak Domba</b> – Menggali arti perjamuan kudus ini sebagai lambang penyatuan yang sempurna antara Kristus dan jemaat-Nya (Wahyu 19:7-9).</p>
+
+            <p>5. <b>Doktrin Tentang Antikristus</b> – Membahas siapa dan apa yang digambarkan sebagai Antikristus, serta peranannya dalam masa akhir zaman (1 Yohanes 2:18).</p>
+
+            <p>6. <b>Doktrin Tentang Masa Berlangsungnya Kuasa Kejahatan Antikristus</b> – Memahami masa kuasa kegelapan saat Antikristus akan berkuasa dan dampaknya bagi dunia (Daniel 9:27, Wahyu 13).</p>
+
+            <p>7. <b>Doktrin Tentang Kedatangan Yesus yang Kedua </b> – Mengajarkan janji kedatangan Yesus yang kedua kali untuk menegakkan keadilan dan menggenapi rencana keselamatan Allah (Matius 24:30).</p>
+
+            <p>8. <b>Doktrin Tentang Perang Harmagedon</b> – Membahas perang terakhir antara kebaikan dan kejahatan yang akan terjadi di Harmagedon sebelum kedatangan Kristus yang kedua (Wahyu 16:16).</p>
+
+            <p>9. <b>Doktrin Tentang Kerajaan 1000 Tahun Damai </b> – Menjelaskan masa damai seribu tahun di mana Kristus akan memerintah sebagai Raja di bumi, membawa kedamaian sejati (Wahyu 20:1-6).</p>
+
+            <p>10. <b>Doktrin Tentang Gog dan Magog</b> – Memahami peristiwa perlawanan terakhir setelah seribu tahun damai, di mana kekuatan jahat mencoba bangkit kembali sebelum dihancurkan selamanya (Wahyu 20:7-9).</p>
+
+            <p>11. <b>Doktrin Tentang Tahta Putih yang Besar</b> – Menggali pengadilan terakhir bagi semua orang yang belum percaya, di mana mereka akan dihakimi berdasarkan kehidupan mereka (Wahyu 20:11-15).</p>
+
+            <p>12. <b>Doktrin Tentang Kebangkitan yang Pertama dan yang Kedua</b> – Mengajarkan tentang dua kebangkitan yang digambarkan dalam Alkitab: kebangkitan bagi orang benar untuk kehidupan kekal dan kebangkitan bagi yang tidak percaya untuk penghakiman (Wahyu 20:5-6, Yohanes 5:28-29).</p>
+
+            <p>13. <b>Doktrin Tentang Surga</b> – Menjelaskan apa yang Alkitab ajarkan tentang sorga sebagai tempat kediaman kekal bersama Allah, dipenuhi damai dan sukacita bagi mereka yang diselamatkan (Yohanes 14:2-3, Wahyu 21:1-4).</p>
+
+            <p>Kelas ini dirancang untuk memberikan pemahaman yang mendalam melalui diskusi, penjelasan Alkitab, dan sesi tanya jawab yang memungkinkan peserta untuk memperdalam iman mereka dan hidup dalam kesiapan akan janji kehidupan kekal. Melalui Grade 3 The Eternity, peserta diharapkan memiliki pengharapan yang teguh dalam janji keselamatan dan mampu menghadapi masa depan dengan iman yang kokoh serta pengharapan yang berlandaskan kebenaran firman Tuhan.</p> -->
+
+        </section>
 
 
     <!-- Untuk Mobile -->
