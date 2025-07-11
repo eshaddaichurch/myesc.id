@@ -357,6 +357,7 @@ $this->load->view('template/festavalive/header'); ?>
     .membership-section p {
       margin-bottom: 20px;
       font-size: 18px;
+      color: rgb(0, 0, 0) !important;
     }
 
     .btn-membership {
@@ -387,6 +388,7 @@ $this->load->view('template/festavalive/header'); ?>
       .membership-section p {
         font-size: 16px !important;
         color: rgb(0, 0, 0) !important;
+        text-align: justify;
        }
 
     }
