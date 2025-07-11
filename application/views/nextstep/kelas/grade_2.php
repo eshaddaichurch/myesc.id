@@ -386,6 +386,7 @@ $this->load->view('template/festavalive/header'); ?>
 
       .membership-section p {
         font-size: 16px;
+        color:rgb(0, 0, 0); /* Misalnya warna biru gelap elegan */
       }
     }
 
