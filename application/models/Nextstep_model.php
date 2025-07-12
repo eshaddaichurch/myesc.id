@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Nextstep_model extends CI_Model {
+class Nextstep_model extends CI_Model
+{
 
 	public function daftar($data)
 	{
@@ -13,13 +14,12 @@ class Nextstep_model extends CI_Model {
 		$this->db->where('idjadwalevent', $idjadwalevent);
 		$this->db->where('idjemaat', $idjemaat);
 		$rsDaftar = $this->db->get('jadwaleventregistrasi');
-		if ($rsDaftar->num_rows()>0) {
+		if ($rsDaftar->num_rows() > 0) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
-
 }
 
 /* End of file Nextstep_model.php */

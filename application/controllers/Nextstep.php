@@ -34,7 +34,7 @@ class Nextstep extends MY_Controller
 		$data['rowKelas'] = $rowKelas;
 		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
 
-		
+
 		// $this->load->view('nextstep/kelas', $data);
 
 		$slugView = 'nextstep/kelas/' . $kelas_slug;
@@ -44,7 +44,6 @@ class Nextstep extends MY_Controller
 			// Fallback jika file view belum dibuat
 			$this->load->view('nextstep/kelas', $data);
 		}
-
 	}
 
 	public function daftar()
