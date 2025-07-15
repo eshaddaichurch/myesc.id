@@ -404,77 +404,62 @@ $this->load->view('template/festavalive/header'); ?>
         </div>
     </section>
 
-    <script>
-      $(document).ready(function() {
+    <?php $this->load->view('template/festavalive/footer'); ?>
 
+<!-- Load jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js "></script>
 
+<!-- Load SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2 @11"></script>
 
+<!-- Custom Script -->
+<script>
+  $(document).ready(function() {
+    // Kode siap jalankan
+  });
 
-      });
+  $(document).on('click', '.btnDaftar', function(e) {
+    var idjadwalevent = $(this).attr('data-idjadwalevent');
+    e.preventDefault();
 
+    Swal.fire({
+      title: "Daftar Kelas?",
+      text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya!",
+      cancelButtonText: "Batal",
+      reverseButtons: true,
+      dangerMode: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: '<?php echo site_url('nextstep/daftar') ?>',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            'idjadwalevent': idjadwalevent
+          },
+        })
+        .done(function(daftarResult) {
+          console.log(daftarResult);
 
-      $(document).on('click', '.btnDaftar', function(e) {
-        var idjadwalevent = $(this).attr('data-idjadwalevent');
-        e.preventDefault();
-
-        swal({
-            title: "Daftar Kelas?",
-            text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
-            icon: "warning",
-            buttons: ["Batal!", "Ya!"],
-            dangerMode: true,
-          })
-          .then((daftarkelas) => {
-            if (daftarkelas) {
-
-              $.ajax({
-                  url: '<?php echo site_url('nextstep/daftar') ?>',
-                  type: 'POST',
-                  dataType: 'json',
-                  data: {
-                    'idjadwalevent': idjadwalevent
-                  },
-                })
-                .done(function(daftarResult) {
-                  console.log(daftarResult);
-
-                  if (daftarResult.success) {
-                    swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
-                      .then(function() {
-                        window.open("<?php echo site_url('nextstep/kelas/') ?>" + daftarResult.kelas_slug + "/" + daftarResult.menu, "_self ");
-                      });
-                  } else {
-                    swal("Gagal", daftarResult.msg, "info");
-                  }
-                })
-                .fail(function() {
-                  console.log("error");
-                });
-
-            }
-          });
-
-      });
-
-      // var downArrow = document.getElementById("btn1");
-      // var upArrow = document.getElementById("btn2");
-
-      // downArrow.onclick = function() {
-      //   'use strict';
-      //   document.getElementById("first-list").style = "top:-620px";
-      //   document.getElementById("second-list").style = "top:-620px";
-      //   downArrow.style = "display:none";
-      //   upArrow.style = "display:block";
-      // };
-
-      // upArrow.onclick = function() {
-      //   'use strict';
-      //   document.getElementById("first-list").style = "top:0";
-      //   document.getElementById("second-list").style = "top:80px";
-      //   upArrow.style = "display:none";
-      //   downArrow.style = "display:block";
-      // };
-    </script>
-      
-
-      <?php $this->load->view('template/festavalive/footer'); ?>
+          if (daftarResult.success) {
+            Swal.fire({
+              title: "Berhasil",
+              text: "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam",
+              icon: "success"
+            }).then(() => {
+              window.location.href = "<?php echo site_url('nextstep/kelas/') ?>" + daftarResult.kelas_slug + "/" + daftarResult.menu;
+            });
+          } else {
+            Swal.fire("Gagal", daftarResult.msg, "info");
+          }
+        })
+        .fail(function() {
+          Swal.fire("Error", "Terjadi kesalahan saat mengirim permintaan.", "error");
+        });
+      }
+    });
+  });
+</script>
