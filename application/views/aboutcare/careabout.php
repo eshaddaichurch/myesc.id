@@ -614,43 +614,43 @@ $this->load->view('template/festavalive/header'); ?>
         </div>
         <div class="musik-container">
           <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/permohonandoa1.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/doa.png'); ?>" alt="Deskripsi gambar">
             <h3>Permohonan Doa</h3>
             <!-- <p>kami siap untuk mendoakan Anda..</p> -->
             <a href="<?php echo site_url('permohonandoa/index'); ?>" class="button">Visit</a>
           </div>
           <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/bgkunjungan.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/konseling.png'); ?>" alt="Deskripsi gambar">
             <h3>Pelayanan Konseling Kerohanian</h3>
             <!-- <p>Tuhan hadir untuk membantu Anda mengalami kelepasan dan pemulihan yang sejati..</p> -->
             <a href="<?php echo site_url('konselingcare/index'); ?>" class="button">Visit</a>
           </div>
           <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/kunjungan1.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/kunjungan.png'); ?>" alt="Deskripsi gambar">
             <h3>Pelayanan kunjungan</h3>
             <!-- <p>Pergerakan pemuda di Hillsong Church, yang disajikan melalui musik.</p> -->
             <a href="<?php echo site_url('kunjunganjemaat/index'); ?>" class="button">Visit</a>
           </div>
           <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan13.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan.png'); ?>" alt="Deskripsi gambar">
             <h3>Penyerahan Anak</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?php echo site_url('penyerahananak/index'); ?>" class="button">Visit</a>
           </div>
           <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/marriage.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/marriage.png'); ?>" alt="Deskripsi gambar">
             <h3>Pemberkatan Pernikahan</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?php echo site_url('pernikahan/index'); ?>" class="button">Visit</a>
           </div>
           <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/kedukaan3.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/kedukaan.png'); ?>" alt="Deskripsi gambar">
             <h3>Pelayanan Kedukaan</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?php echo site_url('kematian/index'); ?>" class="button">Visit</a>
           </div>
           <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/baptisanair.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/baptis.png'); ?>" alt="Deskripsi gambar">
             <h3>Pelayanan Baptisan</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?php echo site_url('baptisan/index'); ?>" class="button">Visit</a>
