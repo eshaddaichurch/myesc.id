@@ -1,64 +1,81 @@
-<?php
+<?php $this->load->view('template/festavalive/header'); ?>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
+    @import url(' https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
 
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
-
-<body>
-
-  <main>
-
-
-
-    <?php $this->load->view('template/festavalive/topmenu'); ?>
-
-
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
-
-      /* This pen */
-
-
-
-
-      
-
-
-    
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-
-
-      /* body {
-        margin: 0;
-        font-family: 'Figtree', sans-serif;
-        background-color: #fff;
-        color: #444;
-      } */
-
-    body {
-    margin: 0;
-    padding: 0;
-    background-color: #e9d6a8;
-    font-family: 'Figtree', sans-serif;
-    color: #111;
-    line-height: 1.7;
+    /* Vars CSS (simulasi SCSS) */
+    :root {
+      --main-green: #79dd09;
+      --main-green-rgb-015: rgba(121, 221, 9, 0.1);
+      --main-yellow: #bdbb49;
+      --main-yellow-rgb-015: rgba(189, 187, 73, 0.1);
+      --main-red: #bd150b;
+      --main-red-rgb-015: rgba(189, 21, 11, 0.1);
+      --main-blue: #0076bd;
+      --main-blue-rgb-015: rgba(0, 118, 189, 0.1);
     }
 
+    /* Breadcrumbs */
+    .breadcrumbs {
+      padding: 140px 0 60px 0;
+      min-height: 30vh;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin-bottom: 2rem;
+    }
+    .breadcrumbs::before {
+      content: "";
+      background-color: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      inset: 0;
+    }
+    .breadcrumbs h2 {
+      font-size: 56px;
+      font-weight: 500;
+      color: #fff;
+      font-family: sans-serif;
+    }
+    .breadcrumbs ol {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0 0 10px 0;
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--main-blue);
+    }
+    .breadcrumbs ol a {
+      color: rgba(255, 255, 255, 0.8);
+      transition: 0.3s;
+    }
+    .breadcrumbs ol a:hover {
+      text-decoration: underline;
+    }
+    .breadcrumbs ol li + li {
+      padding-left: 10px;
+    }
+    .breadcrumbs ol li + li::before {
+      display: inline-block;
+      padding-right: 10px;
+      color: #fff;
+      content: "/";
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background-color: #e8d5a7;
+      margin: 0;
+      padding-top: 60px; /* tambahkan untuk menghindari tabrakan dengan navbar */
+    }
     html, body {
       margin: 0;
       padding: 0;
@@ -238,58 +255,7 @@ $this->load->view('template/festavalive/header'); ?>
       cursor: pointer;
     }
 
-    svg {
-      width: 20px;
-      height: 20px
-    }
-
-    @keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
-
-    @-webkit-keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
-
-    @-moz-keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
-
-    @-o-keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
+    
     </style>
     </head>
 
