@@ -575,17 +575,15 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-    <!-- <section class="about-section section-padding">
+    <section class="about-section section-padding">
       <div class="container">
         <div class="row">
 
-          <div class="col-12 mb-4 mb-lg-0">
-            <h2 class="text-white text-center mb-4 mt-3">JADWAL EL SHADDAI EVENT </h2>
-          </div>
+          
 
         </div>
       </div>
-    </section> -->
+    </section>
 
 
     <section class="page-content section-padding">
