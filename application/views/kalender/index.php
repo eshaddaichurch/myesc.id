@@ -295,8 +295,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-    <!-- <section class="page-content section-padding"> -->
-    <section class="page-content section-padding" style="flex-grow: 1;">
+    <section class="page-content section-padding">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-12">
@@ -404,62 +403,63 @@ $this->load->view('template/festavalive/header'); ?>
         </div>
     </section>
 
-    <?php $this->load->view('template/festavalive/footer'); ?>
 
-<!-- Load jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js "></script>
+    <!-- jQuery dulu -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Load SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2 @11"></script>
+    <!-- SweetAlert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- Custom Script -->
-<script>
-  $(document).ready(function() {
-    // Kode siap jalankan
-  });
 
-  $(document).on('click', '.btnDaftar', function(e) {
-    var idjadwalevent = $(this).attr('data-idjadwalevent');
-    e.preventDefault();
+    <script>
+      $(document).ready(function() {
 
-    Swal.fire({
-      title: "Daftar Kelas?",
-      text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Ya!",
-      cancelButtonText: "Batal",
-      reverseButtons: true,
-      dangerMode: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: '<?php echo site_url('nextstep/daftar') ?>',
-          type: 'POST',
-          dataType: 'json',
-          data: {
-            'idjadwalevent': idjadwalevent
-          },
-        })
-        .done(function(daftarResult) {
-          console.log(daftarResult);
+      });
 
-          if (daftarResult.success) {
-            Swal.fire({
-              title: "Berhasil",
-              text: "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam",
-              icon: "success"
-            }).then(() => {
-              window.location.href = "<?php echo site_url('nextstep/kelas/') ?>" + daftarResult.kelas_slug + "/" + daftarResult.menu;
-            });
-          } else {
-            Swal.fire("Gagal", daftarResult.msg, "info");
-          }
-        })
-        .fail(function() {
-          Swal.fire("Error", "Terjadi kesalahan saat mengirim permintaan.", "error");
-        });
-      }
-    });
-  });
-</script>
+
+      $(document).on('click', '.btnDaftar', function(e) {
+        var idjadwalevent = $(this).attr('data-idjadwalevent');
+        e.preventDefault();
+
+        swal({
+            title: "Daftar Kelas?",
+            text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
+            icon: "warning",
+            buttons: ["Batal!", "Ya!"],
+            dangerMode: true,
+          })
+          .then((daftarkelas) => {
+            if (daftarkelas) {
+
+              $.ajax({
+                  url: '<?php echo site_url('nextstep/daftar') ?>',
+                  type: 'POST',
+                  dataType: 'json',
+                  data: {
+                    'idjadwalevent': idjadwalevent
+                  },
+                })
+                .done(function(daftarResult) {
+                  console.log(daftarResult);
+
+                  if (daftarResult.success) {
+                    swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
+                      .then(function() {
+                        window.open("<?php echo site_url('nextstep/kelas/') ?>" + daftarResult.kelas_slug + "/" + daftarResult.menu, "_self ");
+                      });
+                  } else {
+                    swal("Gagal", daftarResult.msg, "info");
+                  }
+                })
+                .fail(function() {
+                  console.log("error");
+                });
+
+            }
+          });
+
+      });
+    </script>
+      
+
+      <?php $this->load->view('template/festavalive/footer'); ?>
