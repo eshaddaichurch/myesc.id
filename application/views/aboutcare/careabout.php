@@ -587,11 +587,7 @@ $this->load->view('template/festavalive/header'); ?>
 
       <!-- Konten -->
 
-      <section class="section-padding">
-        <div class="container">
-          
-        </div>
-      </section>
+      
 
       <section class="who-is-care">
         <div class="container">
