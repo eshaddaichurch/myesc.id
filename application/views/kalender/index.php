@@ -575,7 +575,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-    <section class="about-section section-padding">
+    <section class="section-padding">
       <div class="container">
         
       </div>
