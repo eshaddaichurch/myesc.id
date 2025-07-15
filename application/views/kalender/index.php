@@ -397,7 +397,7 @@ $this->load->view('template/festavalive/header'); ?>
         </div>
     </section>
 
-    <?php $this->load->view('template/festavalive/footer'); ?>
+    
 
 
     <script>
@@ -451,4 +451,4 @@ $this->load->view('template/festavalive/header'); ?>
     </script>
       
 
-     
+      <?php $this->load->view('template/festavalive/footer'); ?>
