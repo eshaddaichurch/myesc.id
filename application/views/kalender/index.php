@@ -29,6 +29,27 @@ $this->load->view('template/festavalive/header'); ?>
       /* This pen */
 
 
+
+
+      
+
+
+    
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+
+
+      /* body {
+        margin: 0;
+        font-family: 'Figtree', sans-serif;
+        background-color: #fff;
+        color: #444;
+      } */
+
     body {
     margin: 0;
     padding: 0;
@@ -38,13 +59,7 @@ $this->load->view('template/festavalive/header'); ?>
     line-height: 1.7;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 50vh;
-      display: flex;
-      flex-direction: column;
-    }
+  
 
     .card-judul {
       padding: 10px 10px 10px 10px;
