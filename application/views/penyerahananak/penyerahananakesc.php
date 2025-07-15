@@ -546,12 +546,12 @@ $this->load->view('template/festavalive/header'); ?>
           <div class="content">
             <div class="right">
               <div class="dedication-slideshow" style="width: 560px; height: 315px; overflow: hidden; position: relative; border-radius: 8px;">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan11.JPG'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan12.JPG'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan10.JPG'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan9.JPG'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan8.JPG'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan7.JPG'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan11.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan12.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan10.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan9.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan8.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+                <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan7.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
                 <img src="<?php echo base_url('myesc.id/assets/gambar/penyerahan.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
               </div>
             </div>
