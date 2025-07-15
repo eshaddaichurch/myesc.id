@@ -35,7 +35,12 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     
-      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
 
 
       /* body {
@@ -51,12 +56,13 @@ $this->load->view('template/festavalive/header'); ?>
     background-color: #e9d6a8;
     font-family: 'Figtree', sans-serif;
     color: #111;
+    line-height: 1.7;
     }
 
     html, body {
       margin: 0;
       padding: 0;
-      min-height: 100vh;
+      min-height: 50vh;
       display: flex;
       flex-direction: column;
     }
