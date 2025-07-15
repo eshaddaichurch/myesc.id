@@ -399,12 +399,6 @@ $this->load->view('template/festavalive/header'); ?>
 
     <?php $this->load->view('template/festavalive/footer'); ?>
 
-    <!-- jQuery dulu -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- SweetAlert -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
 
     <script>
       $(document).ready(function() {
