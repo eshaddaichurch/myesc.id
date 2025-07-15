@@ -334,13 +334,21 @@ $this->load->view('template/festavalive/header'); ?>
         color: #444;
       } */
 
-      body {
+    body {
+    margin: 0;
+    padding: 0;
+    background-color: #e9d6a8;
+    font-family: 'Figtree', sans-serif;
+    color: #111;
+    line-height: 1.7;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
-      background-color: #e9d6a8;
-      font-family: 'Figtree', sans-serif;
-      color: #111;
-      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .card-judul {
@@ -571,7 +579,8 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-    <section class="page-content section-padding">
+    <!-- <section class="page-content section-padding"> -->
+    <section class="page-content section-padding" style="flex-grow: 1;">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-12">
