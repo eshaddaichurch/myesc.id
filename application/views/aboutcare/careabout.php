@@ -321,17 +321,29 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <style>
-      * {
+       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
 
-      body,
-      html {
-        font-family: 'Figtree', sans-serif;
-      }
 
+
+        /* body {
+          margin: 0;
+          font-family: 'Figtree', sans-serif;
+          background-color: #fff;
+          color: #444;
+        } */
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        font-family: 'Figtree', sans-serif;
+        color: #444;
+        line-height: 1.7;
+      }
       .parallax-section {
         background-image: url('assets/gambar/aboutcare.jpg');
         /* Gambar lokal kamu */
@@ -356,12 +368,12 @@ $this->load->view('template/festavalive/header'); ?>
         border-radius: 10px;
       }
 
-      body {
+      /* body {
         margin: 0;
         font-family: 'Figtree', sans-serif;
         background-color: #fff;
         color: #444;
-      }
+      } */
 
       .section {
         padding: 60px 20px;
