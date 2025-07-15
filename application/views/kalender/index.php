@@ -1,66 +1,8 @@
-<?php
-
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
+<?php $this->load->view('template/festavalive/header'); ?>
 
 <body>
 
-  <main>
-
-
-
-    <?php $this->load->view('template/festavalive/topmenu'); ?>
-
-
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
-
-      /* This pen */
-
-
-
-
-      
-
-
-    
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-
-
-      /* body {
-        margin: 0;
-        font-family: 'Figtree', sans-serif;
-        background-color: #fff;
-        color: #444;
-      } */
-
-    body {
-    margin: 0;
-    padding: 0;
-    background-color: #e9d6a8;
-    font-family: 'Figtree', sans-serif;
-    color: #111;
-    line-height: 1.7;
-    }
-
-  
-
+  <style>
     .card-judul {
       padding: 10px 10px 10px 10px;
       background-color: #cdcdcd;
@@ -284,10 +226,27 @@ $this->load->view('template/festavalive/header'); ?>
         top: 106%
       }
     }
-    </style>
-    </head>
+  </style>
 
-    <body>
+  <main>
+
+
+
+    <?php $this->load->view('template/festavalive/topmenu'); ?>
+
+
+    <section class="about-section section-padding">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-12 mb-4 mb-lg-0">
+            <h2 class="text-white text-center mb-4 mt-3">JADWAL EL SHADDAI EVENT </h2>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
 
     <section class="page-content section-padding">
       <div class="container">
@@ -397,58 +356,91 @@ $this->load->view('template/festavalive/header'); ?>
         </div>
     </section>
 
-    
 
 
-    <script>
-      $(document).ready(function() {
-
-      });
 
 
-      $(document).on('click', '.btnDaftar', function(e) {
-        var idjadwalevent = $(this).attr('data-idjadwalevent');
-        e.preventDefault();
 
-        swal({
-            title: "Daftar Kelas?",
-            text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
-            icon: "warning",
-            buttons: ["Batal!", "Ya!"],
-            dangerMode: true,
-          })
-          .then((daftarkelas) => {
-            if (daftarkelas) {
+  </main>
 
-              $.ajax({
-                  url: '<?php echo site_url('nextstep/daftar') ?>',
-                  type: 'POST',
-                  dataType: 'json',
-                  data: {
-                    'idjadwalevent': idjadwalevent
-                  },
-                })
-                .done(function(daftarResult) {
-                  console.log(daftarResult);
 
-                  if (daftarResult.success) {
-                    swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
-                      .then(function() {
-                        window.open("<?php echo site_url('nextstep/kelas/') ?>" + daftarResult.kelas_slug + "/" + daftarResult.menu, "_self ");
-                      });
-                  } else {
-                    swal("Gagal", daftarResult.msg, "info");
-                  }
-                })
-                .fail(function() {
-                  console.log("error");
-                });
+  <?php $this->load->view('template/festavalive/footer'); ?>
 
-            }
-          });
 
-      });
-    </script>
-      
 
-      <?php $this->load->view('template/festavalive/footer'); ?>
+  <script>
+    $(document).ready(function() {
+
+
+
+
+    });
+
+
+    $(document).on('click', '.btnDaftar', function(e) {
+      var idjadwalevent = $(this).attr('data-idjadwalevent');
+      e.preventDefault();
+
+      swal({
+          title: "Daftar Kelas?",
+          text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
+          icon: "warning",
+          buttons: ["Batal!", "Ya!"],
+          dangerMode: true,
+        })
+        .then((daftarkelas) => {
+          if (daftarkelas) {
+
+            $.ajax({
+                url: '<?php echo site_url('nextstep/daftar') ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                  'idjadwalevent': idjadwalevent
+                },
+              })
+              .done(function(daftarResult) {
+                console.log(daftarResult);
+
+                if (daftarResult.success) {
+                  swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
+                    .then(function() {
+                      window.open("<?php echo site_url('nextstep/kelas/') ?>" + daftarResult.kelas_slug + "/" + daftarResult.menu, "_self ");
+                    });
+                } else {
+                  swal("Gagal", daftarResult.msg, "info");
+                }
+              })
+              .fail(function() {
+                console.log("error");
+              });
+
+          }
+        });
+
+    });
+
+    // var downArrow = document.getElementById("btn1");
+    // var upArrow = document.getElementById("btn2");
+
+    // downArrow.onclick = function() {
+    //   'use strict';
+    //   document.getElementById("first-list").style = "top:-620px";
+    //   document.getElementById("second-list").style = "top:-620px";
+    //   downArrow.style = "display:none";
+    //   upArrow.style = "display:block";
+    // };
+
+    // upArrow.onclick = function() {
+    //   'use strict';
+    //   document.getElementById("first-list").style = "top:0";
+    //   document.getElementById("second-list").style = "top:80px";
+    //   upArrow.style = "display:none";
+    //   downArrow.style = "display:block";
+    // };
+  </script>
+
+
+</body>
+
+</html>
