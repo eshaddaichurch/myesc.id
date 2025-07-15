@@ -290,9 +290,9 @@
                                                     </div>
                                                     <div class="col-7"></div>
                                                     <div class="col-md-3">
-                                                        <label for="" class="">Propinsi</label>
+                                                        <label for="" class="">Provinsi</label>
                                                         <select name="propinsi" id="propinsi" class="form-control select2">
-                                                            <option value="">Pilih nama propinsi ...</option>
+                                                            <option value="">Pilih nama provinsi ...</option>
                                                             <?php
                                                             $rsProvinsi = $this->db->query("select * from provinsi order by namaprovinsi");
                                                             if ($rsProvinsi->num_rows() > 0) {
