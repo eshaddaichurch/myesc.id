@@ -29,27 +29,6 @@ $this->load->view('template/festavalive/header'); ?>
       /* This pen */
 
 
-
-
-      
-
-
-    
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-
-
-      /* body {
-        margin: 0;
-        font-family: 'Figtree', sans-serif;
-        background-color: #fff;
-        color: #444;
-      } */
-
     body {
     margin: 0;
     padding: 0;
