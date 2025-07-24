@@ -16,6 +16,7 @@ use PhpParser\Node\Stmt\Echo_;
 
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
+            @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
             $main-green: #79dd09 !default;
             $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
             $main-yellow: #bdbb49 !default;
@@ -324,7 +325,7 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     body, html {
-      font-family: 'Arial', sans-serif;
+        font-family: 'Figtree', sans-serif !important;
     }
 
     .parallax-section {
