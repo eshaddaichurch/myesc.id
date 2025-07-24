@@ -350,9 +350,18 @@ use PhpParser\Node\Stmt\Echo_;
 
     /* Tambahkan ini untuk tampilan mobile */
     @media (max-width: 768px) {
-        .parallax-section {
-            height: 60vh; /* Lebih pendek di layar kecil */
-        }
+      .parallax-section {
+      background-image: url('<?php echo base_url("myesc.id/assets/gambar/kunjungan2.jpg"); ?>');
+      height: 50vh;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      }
     }
 
     .parallax-section h1 {
@@ -364,9 +373,12 @@ use PhpParser\Node\Stmt\Echo_;
 
      /* Tambahkan ini untuk tampilan mobile */
      @media (max-width: 768px) {
-        .parallax-section h1 {
-            font-size: 35px;
-        }
+      .parallax-section h1 {
+        font-size: 48px;
+        /* background: rgba(0,0,0,0.5); */
+        padding: 20px 40px;
+        border-radius: 10px;
+      }
     }
 
     body {
