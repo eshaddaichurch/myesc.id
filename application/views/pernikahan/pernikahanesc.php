@@ -483,10 +483,9 @@ $this->load->view('template/festavalive/header'); ?>
 
     @media (max-width: 768px) {
       p {
-      font-size: 14px;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto 20px;
+        margin-bottom: 20px;
+        line-height: 1.8;
+        color: #000000;
       }
     }
 
