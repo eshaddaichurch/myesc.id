@@ -142,7 +142,7 @@
   }
 
   .permohonan-form-section {
-    background: #f8f9fa;
+    background: #e8d5a7;
 }
 
 .card {
