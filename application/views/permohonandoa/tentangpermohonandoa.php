@@ -341,6 +341,23 @@ use PhpParser\Node\Stmt\Echo_;
       text-align: center;
     }
 
+
+    @media (max-width: 768px) {
+        .parallax-section {
+            background-image: url('<?php echo base_url("myesc.id/assets/gambar/permohonandoa1.jpg"); ?>');
+            height: 50vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+    }
+
     .parallax-section h1 {
       font-size: 48px;
       /* background: rgba(0,0,0,0.5); */
