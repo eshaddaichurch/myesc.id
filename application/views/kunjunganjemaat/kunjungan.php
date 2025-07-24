@@ -374,7 +374,7 @@ use PhpParser\Node\Stmt\Echo_;
      /* Tambahkan ini untuk tampilan mobile */
      @media (max-width: 768px) {
       .parallax-section h1 {
-        font-size: 48px;
+        font-size: 40px;
         /* background: rgba(0,0,0,0.5); */
         padding: 20px 40px;
         border-radius: 10px;
@@ -383,7 +383,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     body {
       margin: 0;
-      font-family: 'Helvetica Neue', sans-serif;
+      font-family: 'Figtree', sans-serif !important;
       background-color: #fff;
       color: #444;
     }
@@ -544,7 +544,7 @@ use PhpParser\Node\Stmt\Echo_;
       margin: auto;
       padding: 40px 20px;
       background-color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Figtree', sans-serif !important;
     }
 
     .expect-title {
