@@ -341,6 +341,22 @@ use PhpParser\Node\Stmt\Echo_;
       text-align: center;
     }
 
+    @media (max-width: 768px) {
+      .parallax-section {
+        background-image: url('<?php echo base_url("myesc.id/assets/gambar/bgkunjungan.jpg"); ?>');
+        height: 50vh;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+      }
+    }
+
     .parallax-section h1 {
       font-size: 48px;
       /* background: rgba(0,0,0,0.5); */
@@ -370,6 +386,14 @@ use PhpParser\Node\Stmt\Echo_;
       font-size: 26px;
       font-weight: 700;
     }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+
 
     h2 {
       font-size: 22px;
