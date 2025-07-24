@@ -16,6 +16,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
       $main-green: #79dd09 !default;
       $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
       $main-yellow: #bdbb49 !default;
@@ -324,7 +325,7 @@ $this->load->view('template/festavalive/header'); ?>
 
       body,
       html {
-        font-family: 'Arial', sans-serif;
+        font-family: 'Figtree', sans-serif !important;
         overflow-x: hidden;
         /* Tambahkan ini */
       }
@@ -341,6 +342,22 @@ $this->load->view('template/festavalive/header'); ?>
         justify-content: center;
         color: white;
         text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .parallax-section {
+          background-image: url('<?php echo base_url("myesc.id/assets/gambar/penyerahan12.jpg"); ?>');
+          height: 50vh;
+          background-attachment: fixed;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          text-align: center;
+        }
       }
 
       .parallax-divider {
@@ -361,9 +378,18 @@ $this->load->view('template/festavalive/header'); ?>
         border-radius: 10px;
       }
 
+      @media (max-width: 768px) {
+        .parallax-section h1 {
+          font-size: 40px;
+          /* background: rgba(0,0,0,0.5); */
+          padding: 20px 40px;
+          border-radius: 10px;
+        }
+      }
+
       body {
         margin: 0;
-        font-family: 'Helvetica Neue', sans-serif;
+        font-family: 'Figtree', sans-serif !important;
         background-color: #fff;
         color: #444;
       }
@@ -460,7 +486,7 @@ $this->load->view('template/festavalive/header'); ?>
         color: #fff;
         padding: 80px 20px;
         text-align: center;
-        font-family: 'Helvetica Neue', sans-serif;
+        font-family: 'Figtree', sans-serif !important;
       }
 
       .who-is-care h2 {
