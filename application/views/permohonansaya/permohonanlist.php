@@ -168,77 +168,113 @@
     color: #777;
 }
 
+html, body {
+  height: 100%;
+}
+
+.page-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-padding {
+  flex: 1; /* agar konten mengisi ruang tersisa */
+}
+
+
 </style>
 
 <body>
-  
+  <div class="page-wrapper">
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
     <section class="section-padding">
-        <div class="container">
-            <h2 class="section-title">Permohonan Saya</h2>
+      <div class="container">
+      <h2 class="section-title">Permohonan Saya</h2>
 
-            <div class="list-wrapper">
-                <?php
-                if ($rsPermohonan->num_rows() > 0) {
-                    foreach ($rsPermohonan->result() as $row) {
-                        $btnEdit = '';
-                        $btnHapus = '';
+        <div class="list-wrapper">
+            <?php
+            if ($rsPermohonan->num_rows() > 0) {
+                foreach ($rsPermohonan->result() as $row) {
+                    $btnEdit = '';
+                    $btnHapus = '';
 
-                        if ($row->statuspermohonan != 'Disetujui') {
-                            switch ($row->jenispermohonan) {
-                                case 'Permohonan Baptisan':
-                                    $btnEdit = '<a href="' . site_url('baptisan/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
-                                    $btnHapus = '<a href="' . site_url('baptisan/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
-                                    break;
-                                case 'Pelayanan Kematian':
-                                    $btnEdit = '<a href="' . site_url('kematian/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
-                                    $btnHapus = '<a href="' . site_url('kematian/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
-                                    break;
-                                case 'Konseling':
-                                    $btnEdit = '<a href="' . site_url('konseling/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
-                                    $btnHapus = '<a href="' . site_url('konseling/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
-                                    break;
-                                case 'Kunjungan Jemaat':
-                                    $btnEdit = '<a href="' . site_url('kunjunganjemaat/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
-                                    $btnHapus = '<a href="' . site_url('kunjunganjemaat/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
-                                    break;
-                                case 'Penyerahan Anak':
-                                    $btnEdit = '<a href="' . site_url('penyerahananak/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
-                                    $btnHapus = '<a href="' . site_url('penyerahananak/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
-                                    break;
-                                case 'Pelayanan Doa':
-                                    $btnEdit = '<a href="' . site_url('permohonandoa/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
-                                    $btnHapus = '<a href="' . site_url('permohonandoa/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
-                                    break;
-                                case 'Pernikahan':
-                                    $btnEdit = '<a href="' . site_url('pernikahan/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
-                                    $btnHapus = '<a href="' . site_url('pernikahan/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
-                                    break;
-                            }
+                    if ($row->statuspermohonan != 'Disetujui') {
+                        switch ($row->jenispermohonan) {
+                            case 'Permohonan Baptisan':
+                                $btnEdit = '<a href="' . site_url('baptisan/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
+                                $btnHapus = '<a href="' . site_url('baptisan/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
+                                break;
+                            case 'Pelayanan Kematian':
+                                $btnEdit = '<a href="' . site_url('kematian/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
+                                $btnHapus = '<a href="' . site_url('kematian/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
+                                break;
+                            case 'Konseling':
+                                $btnEdit = '<a href="' . site_url('konseling/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
+                                $btnHapus = '<a href="' . site_url('konseling/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
+                                break;
+                            case 'Kunjungan Jemaat':
+                                $btnEdit = '<a href="' . site_url('kunjunganjemaat/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
+                                $btnHapus = '<a href="' . site_url('kunjunganjemaat/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
+                                break;
+                            case 'Penyerahan Anak':
+                                $btnEdit = '<a href="' . site_url('penyerahananak/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
+                                $btnHapus = '<a href="' . site_url('penyerahananak/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
+                                break;
+                            case 'Pelayanan Doa':
+                                $btnEdit = '<a href="' . site_url('permohonandoa/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
+                                $btnHapus = '<a href="' . site_url('permohonandoa/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
+                                break;
+                            case 'Pernikahan':
+                                $btnEdit = '<a href="' . site_url('pernikahan/edit/' . $this->encrypt->encode($row->id)) . '" class="btn-action edit"><i class="fa fa-edit"></i> Edit</a>';
+                                $btnHapus = '<a href="' . site_url('pernikahan/hapus/' . $this->encrypt->encode($row->id)) . '" class="btn-action delete btn-hapus"><i class="fa fa-trash"></i> Hapus</a>';
+                                break;
                         }
-
-                        echo '
-                            <div class="card-permohonan">
-                                <div class="permohonan-header">
-                                    <h4>' . $row->jenispermohonan . '</h4>
-                                    <span class="badge ' . strtolower($row->statuspermohonan) . '">' . $row->statuspermohonan . '</span>
-                                </div>
-                                <p class="date">Tanggal: ' . $row->tglpermohonan . '</p>
-                                <div class="actions">
-                                    ' . $btnEdit . $btnHapus . '
-                                </div>
-                            </div>
-                        ';
                     }
-                } else {
-                    echo '<div class="card-permohonan empty">Belum ada permohonan pelayanan.</div>';
+
+                    echo '
+                        <div class="card-permohonan">
+                            <div class="permohonan-header">
+                                <h4>' . $row->jenispermohonan . '</h4>
+                                <span class="badge ' . strtolower($row->statuspermohonan) . '">' . $row->statuspermohonan . '</span>
+                            </div>
+                            <p class="date">Tanggal: ' . $row->tglpermohonan . '</p>
+                            <div class="actions">
+                                ' . $btnEdit . $btnHapus . '
+                            </div>
+                        </div>
+                    ';
                 }
-                ?>
-            </div>
+            } else {
+                echo '<div class="card-permohonan empty">Belum ada permohonan pelayanan.</div>';
+            }
+            ?>
         </div>
+      </div>
     </section>
-  
-  <?php $this->load->view('template/festavalive/footer'); ?>
+
+    <?php $this->load->view('template/festavalive/footer'); ?>
+
+    <script>
+        $(document).on('click', '.btn-hapus', function(e) {
+            e.preventDefault();
+            var link = $(this).attr("href");
+
+            swal({
+                title: "Hapus?",
+                text: "Apakah anda yakin akan menghapus permohonan ini?",
+                icon: "warning",
+                buttons: ["Batal", "Ya"],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    document.location.href = link;
+                }
+            });
+        });
+    </script>
+
+  </div>
 </body>
 </html>
