@@ -325,7 +325,7 @@ $this->load->view('template/festavalive/header'); ?>
     }
 
     body, html {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Figtree', sans-serif !important;
       overflow-x: hidden; /* Tambahkan ini */
     }
 
@@ -445,7 +445,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     body {
       margin: 0;
-      font-family: 'Helvetica Neue', sans-serif;
+      font-family: 'Figtree', sans-serif !important;
       background-color: #fff;
       color: #444;
     }
@@ -550,7 +550,7 @@ $this->load->view('template/festavalive/header'); ?>
     color: #fff;
     padding: 80px 20px;
     text-align: center;
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Figtree', sans-serif !important;
     }
 
     .who-is-care h2 {
@@ -635,7 +635,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     .header h1 {
     font-size: 48px;
-    font-family: serif;
+    font-family: 'Figtree', sans-serif !important;
     }
 
     .filter {
