@@ -29,7 +29,7 @@ class Permohonandoa extends MY_Controller
         $data['idpermohonan'] = '';
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
-        $this->load->view('permohonandoa/form', $data);
+        $this->load->view('permohonandoa/formpermohonandoa', $data);
     }
 
 
