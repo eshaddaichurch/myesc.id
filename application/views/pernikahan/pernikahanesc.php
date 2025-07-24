@@ -346,9 +346,20 @@ $this->load->view('template/festavalive/header'); ?>
 
     /* Tambahkan ini untuk tampilan mobile */
     @media (max-width: 768px) {
-        .parallax-section {
-            height: 50vh; /* Lebih pendek di layar kecil */
-        }
+      .parallax-section {
+      /* background-image: url('myesc.id/assets/gambar/pernikahan1.jpg'); */
+      background-image: url('<?php echo base_url("myesc.id/assets/gambar/pernikahan1.jpg"); ?>');
+      height: 40vh; /* Default untuk desktop */
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      }
     }
 
 
