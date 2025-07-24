@@ -504,9 +504,9 @@ $this->load->view('template/festavalive/header'); ?>
       @media (max-width: 768px) {
         
         .musik-card img {
-        width: 80%;
-        margin-bottom: 15px;
-      }
+          width: 80%;
+          margin-bottom: 15px;
+        }
 
       }
 

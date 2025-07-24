@@ -470,6 +470,15 @@ $this->load->view('template/festavalive/header'); ?>
         margin-bottom: 15px;
       }
 
+      @media (max-width: 768px) {
+        
+        .musik-card img {
+          width: 80%;
+          margin-bottom: 15px;
+        }
+
+      }
+
       .musik-card h3 {
         font-size: 1.2rem;
         font-weight: bold;
