@@ -18,7 +18,7 @@ $this->load->view('template/festavalive/header'); ?>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
       @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Georgia&display=swap");
-      $main-green: #e7e3d6 !default; /*#79dd09*/
+      $main-green: #eaca62 !default; /*#79dd09*/
       $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
       $main-yellow: #bdbb49 !default;
       $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
@@ -287,6 +287,8 @@ $this->load->view('template/festavalive/header'); ?>
         }
       }
 
+      /*  */
+
       @media screen and (min-width: 1024px) {
         .postcard__text {
           padding: 2rem 3.5rem;
@@ -508,14 +510,14 @@ $this->load->view('template/festavalive/header'); ?>
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 1px;
-      color: #e7e3d6;
+      color: #eaca62;
       background-color: transparent;
       transition: all 0.3s ease;
       text-decoration: none;
     }
 
     .button:hover {
-      background-color: #e7e3d6;
+      background-color: #eaca62;
       color: #fff;
     }
 
@@ -615,7 +617,7 @@ $this->load->view('template/festavalive/header'); ?>
      /*perhatian*/
      .itineraries {
     max-width: 2000px;
-    background-color: #e7e3d6;
+    background-color: #eaca62;
     margin: auto;
     padding: 32px 330px;
     }
@@ -761,7 +763,7 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     .download-btn:hover {
-      background-color: #e7e3d6;
+      background-color: #eaca62;
     }
     .download-btn svg {
       margin-right: 8px;
@@ -795,7 +797,7 @@ $this->load->view('template/festavalive/header'); ?>
      <!-- Section: Child Dedication -->
      <div class="section light dedication">
         <div class="dedication-text">
-            <h2 style="color: #e7e3d6;">Shalom, Saudara terkasih!</h2>
+            <h2 style="color: #eaca62;">Shalom, Saudara terkasih!</h2>
             <p style="text-align: justify;">
                 Bagi Saudara yang merindukan untuk menjalani pemberkatan pernikahan di Gereja GBI El Shaddai, kami mengundang Anda untuk menyimak video berikut.
             </p>
@@ -827,7 +829,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <section class="who-is-care">
         <div class="container">
-          <h2 style="color: #e7e3d6;">Pemberkatan Pernikahan</h2>
+          <h2 style="color: #eaca62;">Pemberkatan Pernikahan</h2>
           <div class="content">
             <div class="right">
               <div class="right scroll-animate">
