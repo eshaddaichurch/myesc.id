@@ -40,7 +40,7 @@ body {
 }
 
 .btn-primary {
-  background-color: #0d6efd;
+  background-color: #ff5008;
   border: none;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
