@@ -198,6 +198,7 @@ class Login extends CI_Controller
                 );
                 $simpan = $this->Login_model->kirimKeCare($dataCareJemaatBaru);
             }
+            
             $textemail = 
             '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
             <p>We’re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>

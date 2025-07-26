@@ -114,9 +114,12 @@
                                                         ?>
 
                                                     </div>
-                                                    <div class="col-12 text-center mt-3">
-                                                        <input type="file" class="btn btn-sm btn-primary" id="foto" name="foto">
+                                                    <div class="col-12 text-center mt-3 mb-3">
+                                                        <input type="file" class="" id="foto" name="foto">
                                                         <input type="hidden" id="foto_lama" name="foto_lama">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="text-danger" style="font-size: 14px;"><i>*Ukuran foto maksimal 2 MB</i></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -157,14 +160,14 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group required">
-                                                            <label for="" class="">Tempat / Tgl Lahir</label>
+                                                            <label for="" class="">Tempat Lahir</label>
                                                             <input type="text" name="tempatlahirprofil" id="tempatlahirprofil" class="form-control" placeholder="Masukkan tempat lahir">
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group required">
-                                                            <label for="" class="">Tgl Lahir</label>
+                                                            <label for="" class="">Tanggal Lahir</label>
                                                             <input type="date" name="tanggallahirprofil" id="tanggallahirprofil" class="form-control">
 
                                                         </div>
@@ -227,19 +230,19 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="" class="">No Telepon.</label>
+                                                    <label for="" class="">No Telepon/ HP</label>
                                                     <input type="text" name="notelp" id="notelp" class="form-control" placeholder="Masukkan nomor telepon">
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-4" style="display: none;">
                                                 <div class="form-group">
                                                     <label for="" class=" text-right">No HP.</label>
                                                     <input type="text" name="nohpprofil" id="nohpprofil" class="form-control" placeholder="Masukkan nomor hp">
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="" class="">Email</label>
                                                     <input type="email" name="emailprofil" id="emailprofil" class="form-control" placeholder="contoh@gmail.com">
@@ -538,8 +541,17 @@
                     $("#rtrw").val(result.rtrw);
                     $("#propinsi").val(result.propinsi).trigger('change');
                     $("#kotakabupaten").val(result.kotakabupaten).trigger('change');
-                    $("#kecamatan").val(result.kecamatan).trigger('change');
-                    $("#kelurahan").val(result.kelurahan).trigger('change');
+
+                     setTimeout(function() {
+                        $("#kecamatan").val(result.kecamatan).trigger('change');
+                    }, 1000);
+
+                     setTimeout(function() {
+                        $("#kelurahan").val(result.kelurahan).trigger('change');
+                    }, 1500);
+                    
+
+                    
                     $("#kodepos").val(result.kodepos);
                     $("#foto_lama").val(result.foto);
 

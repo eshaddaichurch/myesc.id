@@ -46,20 +46,78 @@ class Nextstep extends MY_Controller
 		}
 	}
 
-	public function daftar()
+	public function cekPersyaratan()
 	{
-		$idjadwalevent = $this->input->post('idjadwalevent');
-		$idjemaat = $this->session->userdata('idjemaat');
 
+		$idjadwalevent = $this->input->get('idjadwalevent');
+		$idjemaat = $this->session->userdata('idjemaat');
 		if (empty($idjemaat)) {
 			echo json_encode(array('msg' => "Anda harus login terlebih dahulu untuk mendaftar di kelas ini."));
 			exit();
-		}
+		}	
+
 
 		if ($this->Nextstep_model->sudahPernahDaftar($idjadwalevent, $idjemaat)) {
 			echo json_encode(array('msg' => "Anda sudah pernah mendaftar di jadwal kelas ini."));
 			exit();
 		}
+
+		$rsJadwal = $this->Nextstep_model->getJadwal($idjadwalevent);
+		if ($rsJadwal->num_rows()==0) {
+			echo json_encode(array('msg' => "Data jadwal tidak ditemukan."));
+			exit();
+		}
+
+		$rowJadwal = $rsJadwal->row();
+		$idkelas = $rowJadwal->idkelas;
+
+		//FC2 DAN FC3
+		if ($idkelas=="KL003" || $idkelas=="KL004") {
+			if (!$this->App->sudahLulusKelas($idjemaat, 'KL001')) {
+				echo json_encode(array('msg' => "Anda harus mengikuti kelas membership terlebih dahulu!"));
+				exit();
+			}
+		}
+
+		//GRADE 1
+		if ($idkelas=="KL005") {
+			if (!$this->App->sudahLulusKelas($idjemaat, 'KL004')) {
+				echo json_encode(array('msg' => "Anda harus mengikuti Foundation Class 3 terlebih dahulu!"));
+				exit();
+			}			
+		}
+
+		//GRADE 2
+		if ($idkelas=="KL006") {
+			if (!$this->App->sudahLulusKelas($idjemaat, 'KL005')) {
+				echo json_encode(array('msg' => "Anda harus mengikuti Grade 1 terlebih dahulu!"));
+				exit();
+			}
+		}
+
+		//GRADE 3
+		if ($idkelas=="KL007") {
+			if (!$this->App->sudahLulusKelas($idjemaat, 'KL006')) {
+				echo json_encode(array('msg' => "Anda harus mengikuti Grade 2 terlebih dahulu!"));
+				exit();
+			}
+		}
+
+		//FOLUNTEER
+		if ($idkelas=="KL008") {
+			if (!$this->App->sudahLulusKelas($idjemaat, 'KL007')) {
+				echo json_encode(array('msg' => "Anda harus mengikuti Grade 3 terlebih dahulu!"));
+				exit();
+			}
+		}
+
+		echo json_encode(array('success' => true));		
+	}
+
+	public function daftar()
+	{
+		$idjadwalevent = $this->input->post('idjadwalevent');
+		$idjemaat = $this->session->userdata('idjemaat');
 
 		$idregistrasi = $this->db->query("SELECT create_idregistrasievent('" . date('Y-m-d') . "') as idregistrasi")->row()->idregistrasi;
 		$data = array(
@@ -89,6 +147,8 @@ class Nextstep extends MY_Controller
 			echo json_encode(array('msg' => "Gagal registrasi kelas"));
 		}
 	}
+
+
 	public function index($idmenu = null)
 	{
 		$data['title'] = 'NEXTSTEP';

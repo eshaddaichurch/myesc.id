@@ -48,6 +48,13 @@ class Akun_model extends CI_Model
         $this->db->where("idjemaat", $this->session->userdata('idjemaat'));
         return $this->db->update('jemaat', $data);
     }
+
+    public function getInfoDC($idjemaat)
+    {
+        $this->db->where('idjemaat', $idjemaat);
+        $this->db->where('statusaktif', 'Aktif');
+        return $this->db->get('v_dcmember');
+    }
 }
 
 /* End of file Akun_model.php */

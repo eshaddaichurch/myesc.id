@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Jemaat_model extends CI_Model
 {
 
-    var $tabelview = 'v_jemaat';
+    var $tabelview = 'v_jemaat_aktif';
     var $tabel     = 'jemaat';
     var $idjemaat = 'idjemaat';
 
@@ -79,8 +79,32 @@ class Jemaat_model extends CI_Model
 
     public function hapus($idjemaat)
     {
-        $this->db->where('idjemaat', $idjemaat);
-        return $this->db->delete($this->tabel);
+        try {
+            $this->db->trans_begin();
+
+            $this->db->query("
+                update jemaat set statusjemaat = 'Hapus' where idjemaat = '$idjemaat'
+            ");
+
+            $dataHistory = array(
+                'idjemaat' => $idjemaat,
+                'statusjemaat' => 'Hapus',
+                'tglstatus' => date('Y-m-d'),
+                'idadmin' => $this->session->userdata('idjemaat'),
+            );
+            $this->db->insert('jemaat_historystatus', $dataHistory);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                $this->db->trans_commit();
+                return true;
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return false;
+        }
     }
 
     public function simpan($data)

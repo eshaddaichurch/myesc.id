@@ -111,9 +111,9 @@ class Disciples_community extends MY_Controller
 		$idmenu = "";
 
 		$idmenu = $this->encrypt->decode($idmenu);
-		$rowDC = $this->Disciples_community_model->getDC($iddc);
+		// $rowDC = $this->Disciples_community_model->getDC($iddc);
 
-		$data['rowDC'] = $rowDC->row();
+		// $data['rowDC'] = $rowDC->row();
 		$data['iddc'] = $iddc;
 		$data['menu'] = $idmenu;
 		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
@@ -137,6 +137,23 @@ class Disciples_community extends MY_Controller
 			$this->session->set_flashdata('pesan', $pesan);
 			redirect('disciples_community/list');
 		}
+
+		$cekDC = $this->db->query("
+			select * from v_dcmember where idjemaat = '$idjemaat' and statusaktif = 'Aktif'
+		");
+
+		if ($cekDC->num_rows() > 0) {
+			$pesan = "<script>
+                            swal('Upps!', 'Anda sudah tergabung dengan dc " . $cekDC->result()[0]->namadc. ".', 'warning');
+                        </script>";				
+				$this->session->set_flashdata('pesan', $pesan);
+			redirect('disciples_community/list');
+		}
+		
+
+		
+
+
 		$dataPemohon = array(
 			'tglpermohonan' => date('Y-m-d H:i:s'),
 			'iddc' => $iddc,
@@ -144,7 +161,7 @@ class Disciples_community extends MY_Controller
 			'keterangan' => $keteranganpermohonan,
 			'statuskonfirmasi' => 'Menunggu Konfirmasi',
 		);
-
+		
 		$simpan = $this->Disciples_community_model->simpanpermohonanbergabung($dataPemohon);
 		if ($simpan) {
 			$pesan = "<script>
@@ -164,9 +181,9 @@ class Disciples_community extends MY_Controller
 	{
 		$iddc = $this->input->get('iddc');
 		$dataDC = $this->Disciples_community_model->getDC($iddc);
-
+		$iddcEncrypt = $this->encrypt->encode($iddc);
 		if ($dataDC) {
-			echo json_encode(['status' => 'success', 'data' => $dataDC->result()]);
+			echo json_encode(['status' => 'success', 'data' => $dataDC->result(), 'iddcEncrypt' => $iddcEncrypt]);
 		} else {
 			echo json_encode(['status' => 'fail']);
 		}

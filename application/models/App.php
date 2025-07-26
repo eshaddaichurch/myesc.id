@@ -74,6 +74,18 @@ class App extends CI_Model
 
         return $foto;
     }
+
+    public function sudahLulusKelas($idjemaat, $idkelas)
+    {
+        $rsTemp = $this->db->query("
+            select * from v_registrasikelas_sudahlulus where idjemaat='$idjemaat' and idkelas = '$idkelas'
+        ");
+        if ($rsTemp->num_rows()>0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 /* End of file App.php */

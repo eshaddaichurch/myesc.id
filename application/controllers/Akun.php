@@ -14,7 +14,11 @@ class Akun extends MY_Controller
     public function profil($idmenu = "")
     {
         $idmenu = $this->encrypt->decode($idmenu);
+        $rsDC = $this->Akun_model->getInfoDC($this->session->userdata('idjemaat'));
+        // var_dump($rsDC->result());
+        // exit();
         $data['rowProfil'] = $this->Akun_model->getInfoJemaat()->row();
+        $data['rsDC'] = $this->Akun_model->getInfoDC($this->session->userdata('idjemaat'));
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $data['menu'] = 'Akun';
         $this->load->view('akun/profil', $data);
@@ -277,19 +281,14 @@ class Akun extends MY_Controller
         $simpan = $this->Akun_model->update($data, $idjemaat);
 
         if ($simpan) {
-            $pesan = '<div>
-                        <div class="alert alert-success alert-dismissable">
-                            <strong>Berhasil!</strong> Data berhasil disimpan!
-                        </div>
-                    </div>';
+            $pesan = "<script>
+                        swal('Berhasil', 'Data profil berhasil disimpan.', 'success');
+                    </script>";
         } else {
             $eror = $this->db->error();
-            $pesan = '<div>
-                        <div class="alert alert-danger alert-dismissable">
-                            <strong>Gagal!</strong> Data gagal disimpan! <br>
-                            Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
-                        </div>
-                    </div>';
+            $pesan = "<script>
+                        swal('Gagal', 'Data profil gagal disimpan. Error: " . $eror['code'] . " " . $eror['message'] . "', 'warning');
+                    </script>";
         }
 
         $this->session->set_flashdata('pesan', $pesan);
@@ -393,6 +392,8 @@ class Akun extends MY_Controller
         ");
         echo json_encode($query->result());
     }
+
+    
 }
 
 /* End of file Akun.php */

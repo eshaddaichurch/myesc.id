@@ -615,59 +615,9 @@ $this->load->view('template/festavalive/header'); ?>
       </div>
     </section>
 
-    <!-- jQuery dulu -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <?php $this->load->view('nextstep/kelas/js'); ?>
 
-    <!-- SweetAlert -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-
-
-    <script>
-    $(document).on('click', '#btnDaftar', function(e) {
-      var idjadwalevent = $(this).attr('data-idjadwalevent');
-
-      e.preventDefault();
-
-      swal({
-          title: "Daftar Kelas?",
-          text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
-          icon: "warning",
-          buttons: ["Batal!", "Ya!"],
-          dangerMode: true,
-        })
-        .then((daftarkelas) => {
-          if (daftarkelas) {
-
-            $.ajax({
-                url: '<?php echo site_url('nextstep/daftar') ?>',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                  'idjadwalevent': idjadwalevent
-                },
-              })
-              .done(function(daftarResult) {
-                console.log(daftarResult);
-
-                if (daftarResult.success) {
-                  swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
-                    .then(function() {
-                      window.open("<?php echo site_url('nextstep/kelas/' . $kelas_slug . '/' . $this->encrypt->encode($menu)) ?>", "_self");
-                    });
-                } else {
-                  swal("Gagal", daftarResult.msg, "info");
-                }
-              })
-              .fail(function() {
-                console.log("error");
-              });
-
-          }
-        });
-
-    });
-  </script>
       
 
       <?php $this->load->view('template/festavalive/footer'); ?>

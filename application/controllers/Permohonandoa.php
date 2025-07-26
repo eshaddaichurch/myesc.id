@@ -25,6 +25,7 @@ class Permohonandoa extends MY_Controller
 
     public function tambah($idmenu = "")
     {
+        $this->wajibLogin();
         $idmenu = $this->encrypt->decode($idmenu);
         $data['idpermohonan'] = '';
         $data['menu'] = $idmenu;

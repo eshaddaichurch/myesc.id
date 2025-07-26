@@ -20,6 +20,12 @@ class Nextstep_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getJadwal($idjadwalevent)
+	{
+		$this->db->where('idjadwalevent', $idjadwalevent);
+		return $this->db->get('v_jadwalevent');
+	}
 }
 
 /* End of file Nextstep_model.php */

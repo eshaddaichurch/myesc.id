@@ -260,6 +260,34 @@
                                     <?php } ?>
 
 
+                                    <?php  
+                                        if ($rsDC->num_rows()>0) {
+                                            foreach ($rsDC->result() as $row) { ?>
+                                        
+                                                <div class="col-12 mt-3 informasi-akun">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <h5>Disciples Community</h5>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <table class="table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 100%;"><?php echo $row->namadc ?></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                    <?php
+                                            }
+                                        }
+                                    ?>
+
+
 
                                     <div class="col-12 d-grid gap-2 mt-3">
                                         <a href="<?php echo site_url('akun/ubahprofil') ?>" class="btn btn-sm btn-primary">Ubah Profil</a>

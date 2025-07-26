@@ -115,24 +115,6 @@
     color: #333;
 }
 
-.badge {
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    color: #fff;
-}
-
-.badge.disetujui {
-    background-color: #28a745;
-}
-.badge.ditolak {
-    background-color: #dc3545;
-}
-.badge.menunggu {
-    background-color: #ffc107;
-    color: #333;
-}
-
 .date {
     font-size: 0.9rem;
     color: #666;
@@ -233,13 +215,29 @@ html, body {
                         }
                     }
 
+                    switch ($row->statuspermohonan) {
+                      case 'Disetujui':
+                        $badge = 'badge bg-success';
+                        break;
+                      case 'Permohonan':
+                        $badge = 'badge bg-warning';
+                        break;
+                      case 'Menunggu Konfirmasi':
+                        $badge = 'badge bg-warning';
+                        break;                      
+                      default:
+                        $badge = 'badge bg-danger';
+                        break;
+                    }
+
                     echo '
                         <div class="card-permohonan">
                             <div class="permohonan-header">
                                 <h4>' . $row->jenispermohonan . '</h4>
-                                <span class="badge ' . strtolower($row->statuspermohonan) . '">' . $row->statuspermohonan . '</span>
+                                <span class="'.$badge.'">' . $row->statuspermohonan . '</span>
                             </div>
                             <p class="date">Tanggal: ' . $row->tglpermohonan . '</p>
+                            <p>'. ((!empty($row->keteranganadmin)) ? 'Keterangan: '.$row->keteranganadmin : '') .'</p>
                             <div class="actions">
                                 ' . $btnEdit . $btnHapus . '
                             </div>

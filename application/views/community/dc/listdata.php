@@ -1179,7 +1179,7 @@
 
                         // Isi tombol "Bergabung Sekarang" dalam modal
                         var baseURL = "<?= base_url() ?>";
-                        $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['data'][0]['iddcEncrypt']);
+                        $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['iddcEncrypt']);
 
                     } else {
                         swal('Informasi', 'Data DC tidak ditemukan!', 'info');
