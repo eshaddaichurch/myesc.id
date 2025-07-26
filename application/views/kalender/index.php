@@ -612,11 +612,13 @@ $this->load->view('template/festavalive/header'); ?>
                         $button = '';
                         if ($idjadwalevent_old != $row->idjadwalevent) {
                           $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($row->idjadwalevent, $this->session->userdata('idjemaat'));
-                          if ($sudahPernahDaftar) {
-                            $button = '<button href="#" class="btn btn-success btn-sm" data-idjadwalevent="' . $row->idjadwalevent . '" disabled>Daftar Sekarang</button>';
-                          } else {
-                            $button = '<button href="#" class="btn btn-success btn-sm btnDaftar" data-idjadwalevent="' . $row->idjadwalevent . '">Daftar Sekarang</button>';
-                          }
+
+                          // if ($sudahPernahDaftar) {
+                          //   $button = '<button href="#" class="btn btn-success btn-sm" data-idjadwalevent="' . $row->idjadwalevent . '" disabled>Daftar Sekarang</button>';
+                          // } else {
+                          //   $button = '<button href="#" class="btn btn-success btn-sm btnDaftar" data-idjadwalevent="' . $row->idjadwalevent . '">Daftar Sekarang</button>';
+                          // }
+                          $button = '';
                         }
 
                         if ($row->jenisjadwal == 'Kelas Next Step') {
