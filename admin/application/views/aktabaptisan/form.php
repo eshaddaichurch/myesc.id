@@ -62,14 +62,14 @@
                <div class="form-group row required">
                  <label for="" class="col-md-3 col-form-label">Tanggal Baptis</label>
                  <div class="col-md-3">
-                   <input type="date" name="tglbaptis" id="tglbaptis" class="form-control" value="">
+                   <input type="date" name="tglbaptis" id="tglbaptis" class="form-control" value="" autofocus="">
                  </div>
                </div>
 
                <div class="form-group row required">
                  <label for="" class="col-md-3 col-form-label">Nomor/ Tanggal Akta</label>
                  <div class="col-md-6">
-                   <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Nomor akta" autofocus="">
+                   <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Otomatis" readonly="">
                  </div>
                  <div class="col-md-3">
                    <input type="date" name="tglakta" id="tglakta" class="form-control" value="<?php echo date('Y-m-d') ?>">
@@ -350,13 +350,6 @@
            validators: {
              notEmpty: {
                message: "tanggal baptis tidak boleh kosong"
-             },
-           }
-         },
-         noakta: {
-           validators: {
-             notEmpty: {
-               message: "nomor akta tidak boleh kosong"
              },
            }
          },

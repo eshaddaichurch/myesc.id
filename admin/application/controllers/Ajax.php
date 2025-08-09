@@ -19,7 +19,7 @@ class Ajax extends CI_Controller
 		$rsJemaat = $this->db->query("SELECT * FROM v_jemaat 
                                 where (idjemaat like '%" . $cari . "%' and idjemaat IS NOT NULL) 
                                 or (namalengkap like '%" . $cari . "%' and namalengkap IS NOT NULL) ORDER BY namalengkap
-                                ");
+                                limit 50");
 
 
 		$result = array();

@@ -142,7 +142,51 @@
     reverse: true,
     placeholder: "000,000,000,000"
   });
-  $('.rupiah').addClass('text-right')
+  $('.rupiah').addClass('text-right');
+
+  $('.searchJemaat').select2({
+      placeholder: 'Pilih nama jemaat...',
+      minimumInputLength: 0,
+      ajax: {
+          url: "<?php echo site_url('Select2/searchJemaat') ?>", 
+          dataType: 'json',
+          delay: 250, // Delay saat mengetik (ms)
+          data: function(params) {
+              return {
+                  q: params.term, 
+              };
+          },
+          processResults: function(data) {
+              return {
+                  results: data.results, 
+              };
+          },
+          cache: true
+      },
+      templateResult: formatJemaat, // Fungsi untuk menampilkan hasil di dropdown
+      templateSelection: formatJemaatSelection // Fungsi untuk menampilkan hasil yang dipilih
+  });
+
+  // Fungsi untuk menampilkan hasil di dropdown
+  function formatJemaat(jemaat) {
+      if (!jemaat.idjemaat) {
+          return jemaat.text;
+      }
+      var $container = $(
+          '<div>' +
+          '<div>' + jemaat.text + '</div>' +
+          '<div style="font-size: 12px; color: #888;">' +
+          'JK: ' + jemaat.jeniskelamin + ' | Status: ' + jemaat.statuspernikahan +
+          '</div>' +
+          '</div>'
+      );
+      return $container;
+  }
+
+  // Fungsi untuk menampilkan hasil yang dipilih
+  function formatJemaatSelection(jemaat) {
+      return jemaat.text; // Hanya tampilkan nama barang saat dipilih
+  }
 </script>
 
 
@@ -272,6 +316,7 @@
       return;
     }
   }
+  
 </script>
 
 

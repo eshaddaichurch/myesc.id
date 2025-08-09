@@ -8,8 +8,8 @@ class Kematian_model extends CI_Model
     var $tabel     = 'carekematian';
     var $idkematian = 'idkematian';
 
-    var $column_order = array(null, 'namalengkap', 'tglinsert', 'namayangmeninggal', 'nohpyangbisadihubungi', 'status', null);
-    var $column_search = array('namalengkap', 'tglinsert', 'namayangmeninggal', 'nohpyangbisadihubungi', 'status');
+    var $column_order = array(null, 'namapemohon', 'tglpermohonan', 'namayangmeninggal', 'namapenanggungjawab', 'status', null);
+    var $column_search = array('namapemohon', 'tglpermohonan', 'namayangmeninggal', 'namapenanggungjawab', 'status');
     var $order = array('idkematian' => 'desc'); // default order 
 
 
@@ -78,7 +78,48 @@ class Kematian_model extends CI_Model
         $this->db->where('idkematian', $idkematian);
         return $this->db->update($this->tabel, $data);
     }
+
+    public function simpan($data)
+    {
+        try {
+            $this->db->trans_begin();
+            $this->db->insert($this->tabel, $data);
+        
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                $this->db->trans_commit();
+                return true;
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return false;
+        }
+    }
+
+    public function hapus($idkematian)
+    {
+        try {
+            $this->db->trans_begin();
+            
+            $this->db->where('idkematian', $idkematian);
+            $this->db->delete($this->tabel);
+        
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                $this->db->trans_commit();
+                return true;
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return false;
+        }
+    }
 }
+
 
 
 

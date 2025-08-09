@@ -59,7 +59,8 @@ class Aktanikah extends MY_Controller
                 $no++;
                 $row = array();
                 $row[] = $no;
-                $row[] = $rowdata->noakta . ' - ' . $rowdata->tglakta;
+                $row[] = $rowdata->noakta;
+                $row[] = tglindonesialengkap($rowdata->tglakta);
                 $row[] = $rowdata->namajemaatpria;
                 $row[] = $rowdata->namajemaatwanita;
                 $row[] = $rowdata->dilakukanoleh;
@@ -130,7 +131,6 @@ class Aktanikah extends MY_Controller
     public function simpan()
     {
         $idakta             = $this->input->post('idakta');
-        $noakta        = $this->input->post('noakta');
         $tglakta        = $this->input->post('tglakta');
         $jenisakta        = $this->input->post('jenisakta');
         $dilakukanoleh        = $this->input->post('dilakukanoleh');
@@ -148,6 +148,7 @@ class Aktanikah extends MY_Controller
         if ($idakta == '') {
 
             $idakta = $this->db->query("select create_idaktanikah('" . date('Y-m-d') . "') as idakta")->row()->idakta;
+            $noakta = $this->db->query("select create_nomoraktanikah('" . date('m') . "', '" . date('y') . "') as noakta")->row()->noakta;
 
             $data = array(
                 'idakta'   => $idakta,
@@ -171,7 +172,6 @@ class Aktanikah extends MY_Controller
 
             $data = array(
                 'idakta'   => $idakta,
-                'noakta'   => $noakta,
                 'tglakta'   => $tglakta,
                 'jenisakta'   => $jenisakta,
                 'dilakukanoleh'   => $dilakukanoleh,

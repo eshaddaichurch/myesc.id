@@ -59,7 +59,8 @@ class Aktapenyerahananak extends MY_Controller
                 $no++;
                 $row = array();
                 $row[] = $no;
-                $row[] = $rowdata->noakta . ' - ' . $rowdata->tglakta;
+                $row[] = $rowdata->noakta;
+                $row[] = tglindonesialengkap($rowdata->tglakta);
                 $row[] = $rowdata->namajemaatanak;
                 $row[] = $rowdata->dilakukanoleh;
                 $row[] = $rowdata->namadaerahakta;
@@ -129,7 +130,6 @@ class Aktapenyerahananak extends MY_Controller
     public function simpan()
     {
         $idakta             = $this->input->post('idakta');
-        $noakta        = $this->input->post('noakta');
         $tglakta        = $this->input->post('tglakta');
         $dilakukanoleh        = $this->input->post('dilakukanoleh');
         $idjemaatayah        = $this->input->post('idjemaatayah');
@@ -143,6 +143,7 @@ class Aktapenyerahananak extends MY_Controller
         if ($idakta == '') {
 
             $idakta = $this->db->query("select create_idaktaanak('" . date('Y-m-d') . "') as idakta")->row()->idakta;
+            $noakta = $this->db->query("select create_nomoraktapenyerahananak('" . date('m') . "', '" . date('y') . "') as noakta")->row()->noakta;
 
             $data = array(
                 'idakta'   => $idakta,
@@ -160,7 +161,6 @@ class Aktapenyerahananak extends MY_Controller
 
             $data = array(
                 'idakta'   => $idakta,
-                'noakta'   => $noakta,
                 'tglakta'   => $tglakta,
                 'dilakukanoleh'   => $dilakukanoleh,
                 'idjemaatanak'   => $idjemaatanak,

@@ -20,6 +20,23 @@ class Kematian extends MY_Controller
         $this->load->view('kematian/listdata', $data);
     }
 
+
+    public function tambah()
+    {
+        $data['idkematian'] = '';
+        $data['menu'] = 'kematian';
+        $this->load->view('kematian/form', $data);
+    }
+
+    public function edit($idkematian)
+    {
+        $idkematian = $this->encrypt->decode($idkematian);
+
+        $data['idkematian'] = $idkematian;
+        $data['menu'] = 'kematian';
+        $this->load->view('kematian/form', $data);
+    }
+
     public function proses($idkematian)
     {
         $idkematian = $this->encrypt->decode($idkematian);
@@ -39,7 +56,7 @@ class Kematian extends MY_Controller
         $data['rowKonseling'] = $rsKonseling->row();
         $data['idkematian'] = $idkematian;
         $data['menu'] = 'kematian';
-        $this->load->view('kematian/form', $data);
+        $this->load->view('kematian/konfirmasi', $data);
     }
 
     public function datatablesource()
@@ -64,17 +81,28 @@ class Kematian extends MY_Controller
                 $no++;
                 $row = array();
                 $row[] = $no;
-                $row[] = '<strong>' . $rowdata->namalengkap . '</strong>' .
-                    '<br>Jenis Kelamin: ' . $rowdata->jeniskelamin .
-                    '<br>Email: ' . $rowdata->email .
-                    '<br>Status: <strong>' . $rowdata->statusjemaat . '</strong>';
-                $row[] = ($rowdata->tglinsert == null) ? '' : formatHariTanggalJam($rowdata->tglinsert);
+                $row[] = '<strong>' . $rowdata->namapemohon . '</strong>' .
+                    '<br>Jenis Kelamin: ' . $rowdata->jeniskelaminpemohon .
+                    '<br>HP: ' . $rowdata->nohppemohon . '</strong>';
+                $row[] = $rowdata->tglpermohonan;
                 $row[] = 'Nama: ' . $rowdata->namayangmeninggal .
                     '<br>Umur: ' . $rowdata->umuryangmeninggal .
                     '<br>Hubungan: ' . $rowdata->hubungankeluarga;
-                $row[] = $rowdata->nohpyangbisadihubungi;
+                $row[] = $rowdata->namapenanggungjawab;
                 $row[] = $status;
-                $row[] = '<a href="' . site_url('kematian/proses/' . $this->encrypt->encode($rowdata->idkematian)) . '" class="btn btn-sm btn-primary btn-circle"><i class="fas fa-check-double"></i></a>';
+                $row[] = '
+                        <div class="btn-group dropleft">
+                            <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                            <a class="dropdown-item" href="' . site_url('kematian/delete/' . $this->encrypt->encode($rowdata->idkematian)) . '" id="hapus">Hapus</a>
+                            </div>
+                            <a href="' . site_url('kematian/edit/' . $this->encrypt->encode($rowdata->idkematian)) . '" class="btn btn-warning">Edit</a>
+                        </div>
+                    ';
+
+                // $row[] = '<a href="' . site_url('kematian/proses/' . $this->encrypt->encode($rowdata->idkematian)) . '" class="btn btn-sm btn-primary btn-circle"><i class="fas fa-check-double"></i></a>';
                 $data[] = $row;
             }
         }
@@ -91,24 +119,64 @@ class Kematian extends MY_Controller
     public function simpan()
     {
         $idkematian             = $this->input->post('idkematian');
+        $tglpermohonan             = $this->input->post('tglpermohonan');
+        $namapemohon             = $this->input->post('namapemohon');
+        $jeniskelaminpemohon             = $this->input->post('jeniskelaminpemohon');
+        $nohppemohon             = $this->input->post('nohppemohon');
+        $namayangmeninggal             = $this->input->post('namayangmeninggal');
+        $tglmeninggal             = $this->input->post('tglmeninggal');
+        $jeniskelaminyangmeninggal             = $this->input->post('jeniskelaminyangmeninggal');
+        $hubungankeluarga             = $this->input->post('hubungankeluarga');
+        $umuryangmeninggal             = $this->input->post('umuryangmeninggal');
+        
         $idpenanggungjawab             = $this->input->post('idpenanggungjawab');
-        $keteranganadmin             = $this->input->post('keteranganadmin');
-        $status             = $this->input->post('status');
+        $keteranganadmin             = $this->input->post('keterangan');
+
 
         if (empty($idpenanggungjawab)) {
             $idpenanggungjawab = null;
         }
-        if ($status == 'Ditolak') {
-            $idpenanggungjawab = null;
+        
+        if (empty($idkematian)) {
+                        
+            $data = array(
+                'tglpermohonan'   => $tglpermohonan,
+                'namapemohon'   => $namapemohon,
+                'jeniskelaminpemohon'   => $jeniskelaminpemohon,
+                'nohppemohon'   => $nohppemohon,
+                'namayangmeninggal'   => $namayangmeninggal,
+                'tglmeninggal'   => $tglmeninggal,
+                'jeniskelaminyangmeninggal'   => $jeniskelaminyangmeninggal,
+                'hubungankeluarga'   => $hubungankeluarga,
+                'idpenanggungjawab'   => $idpenanggungjawab,
+                'keteranganadmin'   => $keteranganadmin,
+                'umuryangmeninggal'   => $umuryangmeninggal,
+                'status'   => 'Disetujui',
+                'tglstatus'   => date('Y-m-d H:i:s'),
+                'idadmin'   => $this->session->userdata('idjemaat'),
+            );
+            $simpan = $this->Kematian_model->simpan($data);
+
+        }else{
+
+            $data = array(
+                'tglpermohonan'   => $tglpermohonan,
+                'namapemohon'   => $namapemohon,
+                'jeniskelaminpemohon'   => $jeniskelaminpemohon,
+                'nohppemohon'   => $nohppemohon,
+                'namayangmeninggal'   => $namayangmeninggal,
+                'tglmeninggal'   => $tglmeninggal,
+                'jeniskelaminyangmeninggal'   => $jeniskelaminyangmeninggal,
+                'hubungankeluarga'   => $hubungankeluarga,
+                'idpenanggungjawab'   => $idpenanggungjawab,
+                'keteranganadmin'   => $keteranganadmin,
+                'umuryangmeninggal'   => $umuryangmeninggal,
+                'idadmin'   => $this->session->userdata('idjemaat'),
+            );
+            $simpan = $this->Kematian_model->update($data, $idkematian);
+            
         }
-        $data = array(
-            'status'   => $status,
-            'tglstatus'   => date('Y-m-d H:i:s'),
-            'idadmin'   => $this->session->userdata('idjemaat'),
-            'idpenanggungjawab'   => $idpenanggungjawab,
-            'keteranganadmin'   => $keteranganadmin,
-        );
-        $simpan = $this->Kematian_model->update($data, $idkematian);
+
 
         if ($simpan) {
             $pesan = '<div>
@@ -132,18 +200,50 @@ class Kematian extends MY_Controller
         redirect('kematian');
     }
 
+
+    public function delete($idkematian)
+    {
+        $idkematian = $this->encrypt->decode($idkematian);
+        $rsdata = $this->Kematian_model->get_by_id($idkematian);
+        if ($rsdata->num_rows() < 1) {
+            $pesan = '<div>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <strong>Ilegal!</strong> Data tidak ditemukan! 
+                        </div>
+                    </div>';
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('aktanikah');
+            exit();
+        };
+
+        $hapus = $this->Kematian_model->hapus($idkematian);
+        if ($hapus) {
+            $pesan = '<div>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <strong>Berhasil!</strong> Data berhasil dihapus!
+                        </div>
+                    </div>';
+        } else {
+            $eror = $this->db->error();
+            $pesan = '<div>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <strong>Gagal!</strong> Data gagal dihapus karena sudah digunakan! <br>
+                        </div>
+                    </div>';
+        }
+
+        $this->session->set_flashdata('pesan', $pesan);
+        redirect('kematian');
+    }
+
     public function get_edit_data()
     {
         $idkematian = $this->input->post('idkematian');
         $RsData = $this->Kematian_model->get_by_id($idkematian)->row();
-        $data = array(
-            'idkematian'     =>  $RsData->idkematian,
-            'status'     =>  $RsData->status,
-            'keteranganadmin'     =>  $RsData->keteranganadmin,
-            'idpenanggungjawab'     =>  $RsData->idpenanggungjawab,
-            'namapenanggungjawab'     =>  $RsData->namapenanggungjawab,
-        );
 
-        echo (json_encode($data));
+        echo (json_encode($RsData));
     }
 }

@@ -148,7 +148,7 @@ class Aktabaptisan extends MY_Controller
     {
         $tglbaptis             = $this->input->post('tglbaptis');
         $idakta             = $this->input->post('idakta');
-        $noakta        = $this->input->post('noakta');
+        
         $tglakta        = $this->input->post('tglakta');
         $dilakukanoleh        = $this->input->post('dilakukanoleh');
         $namaayah        = $this->input->post('namaayah');
@@ -177,7 +177,7 @@ class Aktabaptisan extends MY_Controller
             }
 
             $idakta = $this->db->query("select create_idaktabaptisan('" . date('Y-m-d') . "') as idakta")->row()->idakta;
-
+            $noakta = $this->db->query("select create_nomoraktabaptis('" . date('m') . "', '" . date('y') . "') as noakta")->row()->noakta;
             $data = array(
                 'idakta'   => $idakta,
                 'noakta'   => $noakta,
@@ -214,7 +214,6 @@ class Aktabaptisan extends MY_Controller
 
             $data = array(
                 'idakta'   => $idakta,
-                'noakta'   => $noakta,
                 'tglakta'   => $tglakta,
                 'dilakukanoleh'   => $dilakukanoleh,
                 'idjemaat'   => $idjemaat,

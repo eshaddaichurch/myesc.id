@@ -47,13 +47,13 @@
                <div class="form-group row required">
                  <label for="" class="col-md-3 col-form-label">Nomor Akta</label>
                  <div class="col-md-9">
-                   <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Nomor akta" autofocus="">
+                   <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Otomatis" readonly="">
                  </div>
                </div>
                <div class="form-group row required">
                  <label for="" class="col-md-3 col-form-label">Tanggal Akta</label>
                  <div class="col-md-3">
-                   <input type="date" name="tglakta" id="tglakta" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                   <input type="date" name="tglakta" id="tglakta" class="form-control" value="<?php echo date('Y-m-d') ?>" autofocus="">
                  </div>
                </div>
 
@@ -356,13 +356,6 @@
          validating: 'glyphicon glyphicon-refresh'
        },
        fields: {
-         noakta: {
-           validators: {
-             notEmpty: {
-               message: "nomor akta tidak boleh kosong"
-             },
-           }
-         },
          tglakta: {
            validators: {
              notEmpty: {

@@ -23,6 +23,7 @@ $this->load->view("template/sidemenu");
         <div class="card" id="cardcontent">
             <div class="card-header">
                 <h5 class="card-title">List Data Permohonan Pelayanan Kematian</h5>
+                <a href="<?php echo(site_url('kematian/tambah')) ?>" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus-circle"></i> Tambah Data</a>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -44,7 +45,7 @@ $this->load->view("template/sidemenu");
                                         <th style="text-align: left;">Info Pemohon</th>
                                         <th style="text-align: center;">Tgl Permohonan</th>
                                         <th style="text-align: center;">Informasi Yang Meninggal</th>
-                                        <th style="text-align: center;">No HP</th>
+                                        <th style="text-align: center;">Nama Penanggung Jawab</th>
                                         <th style="text-align: center;">Status Permohonan</th>
                                         <th style="text-align: center; width: 10%;">Aksi</th>
                                     </tr>

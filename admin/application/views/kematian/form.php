@@ -39,50 +39,98 @@ $this->load->view("template/sidemenu");
                                 ?>
                             </div>
 
-                            <h3 class="text-gray">Permohonan Pelayanan Kematian</h3>
-                            <hr>
+                            <input type="hidden" name="idkematian" id="idkematian" value="<?php echo ($idkematian) ?>">
+                            
+                            <div class="row">
+                                
+                                <div class="col-12">
+                                    <h3 class="text-gray">Informasi Pemohon</h3>                                
+                                </div>
 
-                            <input type="hidden" name="idkematian" id="idkematian" value="<?php echo $rowKonseling->idkematian ?>">
-
-                            <div class="form-group row">
-                                <div class="col-12 mb-3">
-                                    <div class="table-responsive">
-                                        <table class="table table-infojemaat">
-                                            <tbody>
-                                                <tr>
-                                                    <td style="width: 20%;">Nama Pemohon</td>
-                                                    <td style="width: 5%;">:</td>
-                                                    <td style="width: 75%;"><?php echo $rowKonseling->namalengkap; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Jenis Kelamin</td>
-                                                    <td style="width: 5%;">:</td>
-                                                    <td style="width: 75%;"><?php echo $rowKonseling->jeniskelamin; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Tanggal Permohonan</td>
-                                                    <td style="width: 5%;">:</td>
-                                                    <td style="width: 75%;"><?php echo formatHariTanggal($rowKonseling->tglinsert); ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Email</td>
-                                                    <td style="width: 5%;">:</td>
-                                                    <td style="width: 75%;"><?php echo $rowKonseling->email; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">No HP</td>
-                                                    <td style="width: 5%;">:</td>
-                                                    <td style="width: 75%;"><?php echo $rowKonseling->nohpyangbisadihubungi; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Keterangan Permohonan</td>
-                                                    <td style="width: 5%;">:</td>
-                                                    <td style="width: 75%;"><?php echo $rowKonseling->keterangan; ?></td>
-                                                </tr>
-                                            </tbody>
-
-                                        </table>
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                        <label for="" class="">Tanggal Permohonan</label>
+                                        <input type="date" name="tglpermohonan" id="tglpermohonan" class="form-control" value="<?php echo date('Y-m-d') ?>">
                                     </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="" >Nama Pemohon</label>
+                                        <input type="text" name="namapemohon" id="namapemohon" class="form-control" placeholder="Nama Pemohoan" autofocus="">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="">Jenis Kelamin</label>
+                                        <select name="jeniskelaminpemohon" id="jeniskelaminpemohon" class="form-control">
+                                            <option value="">Pilih jenis kelamin...</option>
+                                            <option value="Laki-laki">Laki-laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="">No HP Pemohon</label>
+                                        <input type="text" name="nohppemohon" id="nohppemohon" class="form-control" placeholder="No HP pemohon">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 mt-5">
+                                    <h3 class="text-gray">Informasi Yang Meninggal</h3>                                
+                                </div>
+
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label for="" class="">Nama Yang Meninggal</label>
+                                        <input type="text" name="namayangmeninggal" id="namayangmeninggal" class="form-control" placeholder="Nama yang meninggal">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="">Tanggal Meninggal</label>
+                                        <input type="date" name="tglmeninggal" id="tglmeninggal" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="" class="">Umur</label>
+                                        <input type="number" name="umuryangmeninggal" id="umuryangmeninggal" class="form-control" placeholder="0" value="">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="">Jenis Kelamin</label>
+                                        <select name="jeniskelaminyangmeninggal" id="jeniskelaminyangmeninggal" class="form-control">
+                                            <option value="">Pilih jenis kelamin...</option>
+                                            <option value="Laki-laki">Laki-laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="">Hubungan Keluarga</label>
+                                        <select name="hubungankeluarga" id="hubungankeluarga" class="form-control">
+                                            <option value="">Pilih hubungan keluarga...</option>
+                                            <option value="Ayah/ Ibu">Ayah/ Ibu</option>
+                                            <option value="Anak">Anak</option>
+                                            <option value="Kakak/ Adik">Kakak/ Adik</option>
+                                            <option value="Lainnya">Lainnya</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-5">
+                                    <h3 class="text-gray">Informasi Penanggung Jawab</h3>                                
                                 </div>
 
                                 <div class="col-12">
@@ -95,11 +143,12 @@ $this->load->view("template/sidemenu");
                                     </div>
                                 </div>
 
+
                                 <div class="col-12">
                                     <div class="form-group row">
-                                        <label for="keteranganadmin" class="col-md-4 col-form-label">Keterangan</label>
+                                        <label for="" class="col-md-4">Keterangan</label>
                                         <div class="col-md-8">
-                                            <textarea name="keteranganadmin" id="keteranganadmin" class="form-control" rows="3" placeholder="Keterangan"></textarea>
+                                            <textarea name="keterangan" id="keterangan" class="form-control" rows="3" placeholder="Keterangan"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -116,9 +165,7 @@ $this->load->view("template/sidemenu");
                         </div> <!-- ./card-body -->
 
                         <div class="card-footer">
-                            <input type="submit" class="btn btn-primary status float-right" name="status" value="Disetujui">
-                            <input type="submit" class="btn btn-danger status float-right mr-1" name="status" value="Ditolak">
-
+                            <button type="submit" class="btn btn-primary float-right mr-1"><i class="fa fa-save mr-1"></i>Simpan</button>
                             <a href="<?php echo (site_url('kematian')) ?>" class="btn btn-default float-right mr-1 ml-1"><i class="fa fa-chevron-circle-left"></i> Kembali</a>
                         </div>
                     </div> <!-- /.card -->
@@ -160,42 +207,114 @@ $this->load->view("template/sidemenu");
                 .done(function(result) {
                     console.log(result);
                     $("#idkematian").val(result.idkematian);
+                    $("#tglpermohonan").val(result.tglpermohonan);
+                    $("#namapemohon").val(result.namapemohon);
+                    $("#jeniskelaminpemohon").val(result.jeniskelaminpemohon);
+                    $("#nohppemohon").val(result.nohppemohon);
+                    $("#namayangmeninggal").val(result.namayangmeninggal);
+                    $("#tglmeninggal").val(result.tglmeninggal);
+                    $("#umuryangmeninggal").val(result.umuryangmeninggal);
+                    $("#jeniskelaminyangmeninggal").val(result.jeniskelaminyangmeninggal);
+                    $("#hubungankeluarga").val(result.hubungankeluarga);
+
+
+
                     $("#namapenanggungjawab").val(result.namapenanggungjawab);
                     $("#idpenanggungjawab").val(result.idpenanggungjawab);
-                    $("#keteranganadmin").val(result.keteranganadmin);
+                    $("#keterangan").val(result.keteranganadmin);
                     console.log("3");
 
                 });
         }
 
 
-        //----------------------------------------------------------------- > validasi
-        // $("#form").bootstrapValidator({
-        //     feedbackIcons: {
-        //         valid: 'glyphicon glyphicon-ok',
-        //         invalid: 'glyphicon glyphicon-remove',
-        //         validating: 'glyphicon glyphicon-refresh'
-        //     },
-        //     fields: {
-        //         keteranganadmin: {
-        //             validators: {
-        //                 callback: {
-        //                     message: 'Berikan keterangan alasan penolakan',
-        //                     callback: function(value, validator, keteranganadmin) {
 
-        //                         if ($('.status').val() == 'Ditolak') {
-        //                             return {
-        //                                 valid: false,
-        //                                 message: 'Ulangi Berikan keterangan alasan penolakan'
-        //                             }
-        //                         }
-        //                         return true
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // });
+        $("#form").bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                tglpermohonan: {
+                    validators:{
+                        notEmpty: {
+                            message: "tglpermohonan tidak boleh kosong"
+                        },
+                    }
+                },
+                namapemohon: {
+                    validators:{
+                        notEmpty: {
+                            message: "nama pemohon tidak boleh kosong"
+                        },
+                    }
+                },
+                jeniskelaminpemohon: {
+                    validators:{
+                        notEmpty: {
+                            message: "jeniskelaminpemohon tidak boleh kosong"
+                        },
+                    }
+                },
+                nohppemohon: {
+                    validators:{
+                        notEmpty: {
+                            message: "nomor hp pemohon tidak boleh kosong"
+                        },
+                    }
+                },
+                namayangmeninggal: {
+                    validators:{
+                        notEmpty: {
+                            message: "nama yang meninggal tidak boleh kosong"
+                        },
+                    }
+                },
+                tglmeninggal: {
+                    validators:{
+                        notEmpty: {
+                            message: "tgl meninggal tidak boleh kosong"
+                        },
+                    }
+                },
+                jeniskelaminyangmeninggal: {
+                    validators:{
+                        notEmpty: {
+                            message: "jenis kelamin yang meninggal tidak boleh kosong"
+                        },
+                    }
+                },
+                hubungankeluarga: {
+                    validators:{
+                        notEmpty: {
+                            message: "hubungankeluarga tidak boleh kosong"
+                        },
+                    }
+                },
+                namapenanggungjawab: {
+                    validators:{
+                        notEmpty: {
+                            message: "namapenanggungjawab tidak boleh kosong"
+                        },
+                    }
+                },
+                keterangan: {
+                    validators:{
+                        notEmpty: {
+                            message: "keterangan tidak boleh kosong"
+                        },
+                    }
+                },
+                umuryangmeninggal: {
+                    validators:{
+                        notEmpty: {
+                            message: "umur yang meninggal tidak boleh kosong"
+                        },
+                    }
+                },
+            }
+        });
 
 
         $("form").attr('autocomplete', 'off');

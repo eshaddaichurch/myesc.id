@@ -43,6 +43,7 @@ $this->load->view("template/sidemenu");
                   <tr class="bg-primary" style="">
                     <th style="width: 10%; text-align: center;">#</th>
                     <th style="text-align: left;">Nomor Akta</th>
+                    <th style="text-align: left;">Tanggal</th>
                     <th style="text-align: center;">Nama Anak</th>
                     <th style="text-align: center;">Nama Pendeta</th>
                     <th style="text-align: center;">Nama Daerah</th>
@@ -99,11 +100,11 @@ $this->load->view("template/sidemenu");
         },
         {
           "targets": [2],
-          "className": "dt-body-left"
+          "className": "dt-body-center"
         },
         {
           "targets": [3],
-          "className": "dt-body-center"
+          "className": "dt-body-left"
         },
         {
           "targets": [4],
@@ -111,6 +112,10 @@ $this->load->view("template/sidemenu");
         },
         {
           "targets": [5],
+          "className": "dt-body-center"
+        },
+        {
+          "targets": [6],
           "orderable": false,
           "className": "dt-body-center"
         },
