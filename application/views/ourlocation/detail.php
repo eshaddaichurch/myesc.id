@@ -23,7 +23,7 @@
       --main-blue: #0076bd;
       --main-blue-rgb-015: rgba(0, 118, 189, 0.1);
 
-      --bg: #ead7a9; /* sesuai screenshot */
+      --bg: #f6f8fb;
       --card: #ffffff;
       --muted: #6b7280;
       --accent: #243EAE;
@@ -47,7 +47,7 @@
     a, a:hover { text-decoration: none; }
 
     /* -------------------------
-       Breadcrumbs (converted)
+       Breadcrumbs (converted from your SCSS)
        ------------------------- */
     .breadcrumbs {
       padding: 140px 0 60px 0;
@@ -73,16 +73,115 @@
       margin: 0;
       padding-top: 0.5rem;
     }
-    .breadcrumbs ol { position: relative; z-index: 2; }
+    .breadcrumbs ol {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0 0 10px 0;
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      position: relative;
+      z-index: 2;
+    }
+    .breadcrumbs ol a { color: rgba(255,255,255,0.9); transition: .3s; }
+    .breadcrumbs ol a:hover { text-decoration: underline; }
+    .breadcrumbs ol li + li { padding-left: 10px; }
+    .breadcrumbs ol li + li::before { display:inline-block; padding-right:10px; color:#fff; content: "/"; }
 
     /* -------------------------
-       Postcard (converted nested)
+       Postcard (converted nested SCSS)
        ------------------------- */
-    .postcard { /* kept for compatibility if used */ }
+    .postcard {
+      display: flex;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 21px -12px rgba(0,0,0,0.66);
+      border-radius: 10px;
+      margin: 0 0 4rem 0;
+      overflow: hidden;
+      position: relative;
+      color: #ffffff;
+      background-color: #18151f; /* default dark look, you can add .light class to change */
+    }
+
+    /* alternate light variant */
+    .postcard.light { background-color: #e1e5ea; color: #111; }
+
+    .postcard a { color: inherit; }
+    .postcard h1, .postcard .h1 { margin-bottom: .5rem; font-weight:500; line-height:1.2; }
+    .postcard .small { font-size: 80%; }
+
+    .postcard__title { font-size: 1.75rem; padding-left: 10px; color: inherit; }
+    .postcard__img {
+      max-height: 180px;
+      width: 100%;
+      object-fit: cover;
+      position: relative;
+    }
+    .postcard__img_link { display: contents; }
+    .postcard__bar {
+      width: 50px;
+      height: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      background-color: #424242;
+      transition: width .2s ease;
+    }
+    .postcard__text {
+      padding: 2.5rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      color: inherit;
+      background: transparent;
+    }
+    .postcard__preview-txt { overflow: hidden; text-overflow: ellipsis; text-align: left; height: 100%; }
+    .postcard__tagbox { display:flex; flex-flow: row wrap; font-size:14px; margin:20px 0 0 0; padding:0; justify-content:center; }
+    .postcard__tagbox .tag__item {
+      display:inline-block;
+      background: #FAF0E6;
+      border-radius:3px;
+      padding:2.5px 10px;
+      margin:0 5px 5px 0;
+      user-select:none;
+      transition: background-color .3s;
+    }
+    .postcard__tagbox .tag__item:hover { background: #FFD09B; }
+
+    .postcard::before {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background-image: linear-gradient(-70deg, #424242, transparent 50%);
+      opacity: 1;
+      border-radius: 10px;
+    }
+    .postcard:hover .postcard__bar { width: 100px; }
+
+    /* Desktop postcard adjustments */
+    @media screen and (min-width: 769px) {
+      .postcard { flex-wrap: nowrap; }
+      .postcard__title { font-size: 2rem; }
+      .postcard__tagbox { justify-content: start; }
+      .postcard__img { max-width: 300px; max-height: 100%; transition: transform .3s ease; }
+      .postcard__text { padding-left: 4rem; width:100%; }
+      .postcard:hover .postcard__img { transform: scale(1.1); }
+      .postcard:nth-child(2n+1) { flex-direction: row; }
+      .postcard:nth-child(2n+0) { flex-direction: row-reverse; }
+    }
+
+    @media screen and (min-width: 1024px) {
+      .postcard__text { padding: 2rem 3.5rem; }
+      /* different accent bars for dark/light */
+      .postcard.dark .postcard__text:before { background: #18151f; }
+      .postcard.light .postcard__text:before { background: #e1e5ea; }
+    }
 
     /* -------------------------
        My modern layout + gallery + details (keaslian elemen tetap)
        ------------------------- */
+    /* Hero (modernized, keep background path) */
     #hero {
       width: 100%;
       height: 40vh;
@@ -105,7 +204,7 @@
       margin:0;
       font-size: clamp(1.25rem, 3.2vw, 2.6rem);
       font-weight:700;
-      color: #000000;
+      color:#fff;
       line-height:1.05;
       letter-spacing:-0.02em;
       text-shadow: 0 6px 22px rgba(0,0,0,0.35);
@@ -122,9 +221,7 @@
       border: none;
       overflow: visible;
     }
-    /* remove inline min-height issue on small screens via media query later */
     .card .card-body { padding: 1.25rem; }
-
     .row.justify-content-center { gap: 1.25rem; }
 
     .detail-title { font-size: 1.5rem; font-weight:700; margin-bottom:.6rem; color:#0f172a; }
@@ -134,28 +231,17 @@
     #sync1 .item img {
       width:100%; height:auto; border-radius:12px; object-fit:cover;
       box-shadow:0 8px 18px rgba(15,23,42,0.08); aspect-ratio:4/3;
-      display:block;
     }
     #sync2 .item img {
       width:100%; height:auto; border-radius:8px; object-fit:cover;
       aspect-ratio:4/3; opacity:.95; transition: transform .18s ease, box-shadow .18s ease;
-      display:block;
     }
     #sync2 .owl-item.current img { transform: scale(1.03); box-shadow:0 10px 20px rgba(15,23,42,0.12); opacity:1; }
-
-    /* remove bootstrap img-thumbnail default decoration that causes offsets */
-    .img-thumbnail {
-      border: none !important;
-      padding: 0 !important;
-      background: transparent !important;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.04) !important;
-      border-radius: 10px !important;
-    }
 
     #sync1.owl-theme { position:relative; }
     #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next {
       position:absolute; top:50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.95); width:40px; height:40px; border-radius:10px;
+      background: rgba(255,255,255,0.85); width:40px; height:40px; border-radius:10px;
       display:flex; align-items:center; justify-content:center;
       box-shadow: 0 6px 18px rgba(2,6,23,0.08);
     }
@@ -180,63 +266,22 @@
     .desc-section h3 { font-size:1.125rem; font-weight:700; margin-bottom:.6rem; }
     .desc-section hr { border-top:1px solid rgba(15,23,42,0.06); margin:.8rem 0; }
 
-    /* Responsive tweaks */
+    /* Responsive */
     @media (max-width: 991px) {
       .col-md-9 { width:100%; padding-left:0; padding-right:0; }
       .col-md-3 { width:100%; padding-left:0; padding-right:0; }
     }
-
     @media (max-width: 768px) {
-      /* Stack columns */
-      .col-md-4, .col-md-8 {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-        width: 100% !important;
-      }
-
-      /* gallery container centered and limited width */
-      .col-md-4 { display:flex; justify-content:center; align-items:center; margin-bottom: 0.9rem; padding-left:0 !important; padding-right:0 !important; }
-      #sync1, #sync2 {
-        width: 92%;
-        max-width: 420px;
-        margin: 0 auto;
-      }
-      /* make sure images don't overflow */
-      #sync1 .item img, #sync2 .item img { width:100%; height:auto; }
-
-      /* don't force huge min-height on small screens */
-      .card .card-body { padding: 1rem; min-height: auto !important; }
-
-      /* center dots and thumbnails */
-      .owl-dots, .owl-stage-outer { display:block; text-align:center; }
-      .owl-dots .owl-dot { display:inline-block; margin: 0 .35rem; }
-      /* center nav arrows below carousel (optional) */
-      #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width:36px;
-        height:36px;
-        left: 6px;
-        right: 6px;
-      }
-
-      /* reduce left/right paddings coming from bootstrap utility classes */
-      .ps-5 { padding-left: 1rem !important; }
-      .pe-5 { padding-right: 1rem !important; }
-
-      /* make detail values more readable on small screens */
-      .detail-value { font-size: 0.98rem; line-height:1.45; }
-
-      /* shrink social icons a bit */
+      #hero { height:28vh; padding:.75rem; }
+      .card .card-body { padding:1rem; }
+      .detail-title { font-size:1.125rem; }
       .social-area a { width:44px; height:44px; }
-
-      /* small card spacing on small screens */
-      .col-md-9 { margin: 0 auto; }
-      .col-md-3 { margin-top: 1rem; } /* sidebar drops below; add spacing */
+      #sync2 .item img { aspect-ratio:16/9; }
+      .ps-5 { padding-left: 1rem !important; } /* adjust bootstrap-based spacing on small screens */
+      .pe-5 { padding-right: 1rem !important; }
     }
 
-    /* keep small utilities */
+    /* small utility (compat with header bootstrap classes) */
     .text-center { text-align:center; }
     .mb-4 { margin-bottom:1rem!important; }
     .mt-3 { margin-top:.75rem!important; }
@@ -244,6 +289,7 @@
     .me-3 { margin-right:1rem!important; }
     .ps-5 { padding-left:3rem!important; }
     .pe-5 { padding-right:3rem!important; }
+
   </style>
 
   <main>
@@ -361,7 +407,7 @@
 
                       </div>
 
-                      <!-- Social icons -->
+                      <!-- Social icons (keaslian isi sosial tetap pakai PHP echo seperti awal) -->
                       <div class="col-12 text-center mt-4">
                         <div class="social-area">
                           <?php
