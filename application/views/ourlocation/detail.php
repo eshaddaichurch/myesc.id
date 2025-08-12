@@ -32,7 +32,7 @@
       padding:0;
     }
 
-    /* HERO (keaslian gambar tetap pakai path lama) */
+    /* HERO (keaslian gambar tetap pakai path lama)
     #hero {
       width: 100%;
       height: 40vh;
@@ -67,7 +67,7 @@
       color: rgba(255,255,255,0.9);
       font-weight:500;
       font-size: .95rem;
-    }
+    } */
 
     /* Page content wrapper */
     .page-content.section-padding {
