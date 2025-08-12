@@ -36,7 +36,7 @@
     html, body { height: 100%; }
     body {
       font-family: 'Figtree', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: #FFD09B;
+      background: #ead7a9;
       color: #111827;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -197,7 +197,7 @@
       content: "";
       position:absolute;
       inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.36), rgba(0,0,0,0.36));
+      /* background: linear-gradient(180deg, rgba(0,0,0,0.36), rgba(0,0,0,0.36)); */
     }
     #hero .container { position:relative; z-index:2; }
     #hero h1 {
