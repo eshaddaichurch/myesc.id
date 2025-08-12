@@ -1,73 +1,322 @@
-<?php $this->load->view('template/festavalive/header'); ?>
+
+<?php
+
+use PhpParser\Node\Stmt\Echo_;
+
+$this->load->view('template/festavalive/header'); ?>
 
 <body>
 
-  <!-- FONT: Figtree -->
-  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <main>
 
-  <!-- Owl Carousel CSS (sama seperti semula) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <style>
-    :root{
-      --bg:#f6f8fb;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#243EAE;
-      --radius:14px;
-    }
 
-    /* Global */
-    html,body{
-      height:100%;
-    }
-    body {
-      font-family: 'Figtree', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
-      color: #111827;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      margin:0;
-      padding:0;
-    }
+    <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-    /* HERO (keaslian gambar tetap pakai path lama)
-    #hero {
-      width: 100%;
-      height: 40vh;
-      background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center / cover no-repeat;
-      position: relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding: 1.5rem;
-    }
-    #hero:before {
-      content: "";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.36), rgba(0,0,0,0.36));
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    #hero .container { position:relative; z-index:2; }
-    #hero h1 {
-      margin: 0;
-      font-size: clamp(1.25rem, 3.2vw, 2.6rem);
-      font-weight:700;
-      color:#fff;
-      line-height:1.05;
-      letter-spacing: -0.02em;
-      text-shadow: 0 6px 22px rgba(0,0,0,0.35);
-    }
-    #hero h5 {
-      margin-top: .35rem;
-      color: rgba(255,255,255,0.9);
-      font-weight:500;
-      font-size: .95rem;
-    } */
+
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+      $main-green: #79dd09 !default;
+      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
+      $main-yellow: #bdbb49 !default;
+      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
+      $main-red: #bd150b !default;
+      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
+      $main-blue: #0076bd !default;
+      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
+
+      /* This pen */
+
+
+
+
+      .dark {
+        background: #110f16;
+      }
+
+      /*--------------------------------------------------------------
+                    # Breadcrumbs
+                    --------------------------------------------------------------*/
+      .breadcrumbs {
+        padding: 140px 0 60px 0;
+        min-height: 30vh;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .breadcrumbs:before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.6);
+        position: absolute;
+        inset: 0;
+      }
+
+      .breadcrumbs h2 {
+        font-size: 56px;
+        font-weight: 500;
+        color: #fff;
+        font-family: var(--font-secondary);
+      }
+
+      .breadcrumbs ol {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0 0 10px 0;
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-primary);
+      }
+
+      .breadcrumbs ol a {
+        color: rgba(255, 255, 255, 0.8);
+        transition: 0.3s;
+      }
+
+      .breadcrumbs ol a:hover {
+        text-decoration: underline;
+      }
+
+      .breadcrumbs ol li+li {
+        padding-left: 10px;
+      }
+
+      .breadcrumbs ol li+li::before {
+        display: inline-block;
+        padding-right: 10px;
+        color: #fff;
+        content: "/";
+      }
+
+
+      .light {
+        background: #f3f5f7;
+      }
+
+      a,
+      a:hover {
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+      }
+
+      #pageHeaderTitle {
+        margin: 2rem 0;
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 2.5rem;
+      }
+
+      /* Cards */
+      .postcard {
+        flex-wrap: wrap;
+        display: flex;
+
+        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
+        border-radius: 10px;
+        margin: 0 0 4rem 0;
+        overflow: hidden;
+        position: relative;
+        color: #ffffff;
+
+        &.dark {
+          background-color: #18151f;
+        }
+
+        &.light {
+          background-color: #e1e5ea;
+        }
+
+        .t-dark {
+          color: #18151f;
+        }
+
+        a {
+          color: inherit;
+        }
+
+        h1,
+        .h1 {
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          line-height: 1.2;
+        }
+
+        .small {
+          font-size: 80%;
+        }
+
+        .postcard__title {
+          font-size: 1.75rem;
+          padding-left: 10px;
+        }
+
+        .postcard__img {
+          max-height: 180px;
+          width: 100%;
+          object-fit: cover;
+          position: relative;
+        }
+
+        .postcard__img_link {
+          display: contents;
+        }
+
+        .postcard__bar {
+          width: 50px;
+          height: 10px;
+          margin: 10px 0;
+          border-radius: 5px;
+          background-color: #424242;
+          transition: width 0.2s ease;
+        }
+
+        .postcard__text {
+          padding: 2.5rem;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .postcard__preview-txt {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: left;
+          height: 100%;
+        }
+
+        .postcard__tagbox {
+          display: flex;
+          flex-flow: row wrap;
+          font-size: 14px;
+          margin: 20px 0 0 0;
+          padding: 0;
+          justify-content: center;
+
+          .tag__item {
+
+            display: inline-block;
+            background: #FAF0E6;
+            border-radius: 3px;
+            padding: 2.5px 10px;
+            margin: 0 5px 5px 0;
+            cursor: default;
+            user-select: none;
+            transition: background-color 0.3s;
+
+            &:hover {
+              background: #FFD09B;
+            }
+          }
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-image: linear-gradient(-70deg, #424242, transparent 50%);
+          opacity: 1;
+          border-radius: 10px;
+        }
+
+        &:hover .postcard__bar {
+          width: 100px;
+        }
+      }
+
+      @media screen and (min-width: 769px) {
+        .postcard {
+          flex-wrap: inherit;
+
+          .postcard__title {
+            font-size: 2rem;
+          }
+
+          .postcard__tagbox {
+            justify-content: start;
+          }
+
+          .postcard__img {
+            max-width: 300px;
+            max-height: 100%;
+            transition: transform 0.3s ease;
+          }
+
+          .postcard__text {
+            padding-left: 4rem;
+            width: 100%;
+
+          }
+
+          .media.postcard__text:before {
+            content: "";
+            position: absolute;
+            display: block;
+            background: #18151f;
+            top: -20%;
+            height: 130%;
+            width: 55px;
+          }
+
+          &:hover .postcard__img {
+            transform: scale(1.1);
+          }
+
+          &:nth-child(2n+1) {
+            flex-direction: row;
+          }
+
+          &:nth-child(2n+0) {
+            flex-direction: row-reverse;
+          }
+
+          &:nth-child(2n+1) .postcard__text::before {
+            left: -12px !important;
+            transform: rotate(4deg);
+          }
+
+          &:nth-child(2n+0) .postcard__text::before {
+            right: -12px !important;
+            transform: rotate(-4deg);
+          }
+        }
+      }
+
+      @media screen and (min-width: 1024px) {
+        .postcard__text {
+          padding: 2rem 3.5rem;
+        }
+
+        .postcard__text:before {
+          content: "";
+          position: absolute;
+          display: block;
+
+          top: -20%;
+          height: 130%;
+          width: 55px;
+        }
+
+        .postcard.dark {
+          .postcard__text:before {
+            background: #18151f;
+          }
+        }
+
+        .postcard.light {
+          .postcard__text:before {
+            background: #e1e5ea;
+          }
+        }
+      }
+  
 
     /* Page content wrapper */
     .page-content.section-padding {
