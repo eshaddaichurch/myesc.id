@@ -159,7 +159,7 @@
     }
     .postcard:hover .postcard__bar { width: 100px; }
 
-    /* Desktop postcard adjustments */
+    /* Desktop postcard adjustments
     @media screen and (min-width: 769px) {
       .postcard { flex-wrap: nowrap; }
       .postcard__title { font-size: 2rem; }
@@ -169,7 +169,44 @@
       .postcard:hover .postcard__img { transform: scale(1.1); }
       .postcard:nth-child(2n+1) { flex-direction: row; }
       .postcard:nth-child(2n+0) { flex-direction: row-reverse; }
+    } */
+
+    /* Desktop postcard adjustments */
+    @media screen and (min-width: 769px) {
+      .postcard {
+        flex-wrap: nowrap;
+        max-width: 1000px; /* Biar nggak terlalu melebar */
+        margin: 0 auto; /* Posisikan di tengah */
+        align-items: center; /* Vertikal center */
+      }
+      .postcard__title {
+        font-size: 2rem;
+      }
+      .postcard__tagbox {
+        justify-content: start;
+      }
+      .postcard__img {
+        max-width: 300px;
+        max-height: 100%;
+        flex-shrink: 0; /* Jangan menyusut */
+        transition: transform .3s ease;
+      }
+      .postcard__text {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        flex: 1; /* Isi sisa ruang */
+      }
+      .postcard:hover .postcard__img {
+        transform: scale(1.05);
+      }
+      .postcard:nth-child(2n+1) {
+        flex-direction: row;
+      }
+      .postcard:nth-child(2n+0) {
+        flex-direction: row-reverse;
+      }
     }
+
 
     @media screen and (min-width: 1024px) {
       .postcard__text { padding: 2rem 3.5rem; }
