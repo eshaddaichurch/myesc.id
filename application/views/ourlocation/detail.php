@@ -21,9 +21,7 @@
       -moz-osx-font-smoothing: grayscale;
       margin: 0;
       padding: 0;
-      /* jika ada small horizontal overflow, Anda bisa hapus line ini
-         tapi biarkan untuk user mobile agar tidak muncul horizontal scroll kecil */
-      overflow-x: hidden;
+      overflow-x: hidden; /* cegah horizontal scrollbar kecil */
     }
 
     img { max-width: 100%; height: auto; display: block; }
@@ -43,7 +41,8 @@
     .breadcrumbs ol li+li::before { display:inline-block; padding-right:10px; color:#fff; content:"/"; }
 
     /* -------------------------
-       Postcard (dari SCSS Anda) - tetap */
+       Postcard (dari SCSS Anda) - tetap
+       ------------------------- */
     .postcard { display:flex; flex-wrap:wrap; box-shadow:0 4px 21px -12px rgba(0,0,0,0.66); border-radius:10px; margin:0 0 4rem 0; overflow:hidden; position:relative; color:#ffffff; background-color:#18151f; }
     .postcard.light { background-color:#e1e5ea; color:#111; }
     .postcard a { color:inherit; }
@@ -63,7 +62,7 @@
     /* -------------------------
        Desktop postcard adjustments (PERBAIKAN)
        ------------------------- */
-       @media screen and (min-width: 769px) {
+    @media screen and (min-width: 769px) {
       .postcard {
         flex-wrap: nowrap;
         max-width: 1000px;
@@ -72,11 +71,10 @@
       }
 
       .postcard__img-container {
-        flex-shrink: 0;
-        width: 300px; /* fix lebar kolom gambar */
+        width: 300px;
         height: 100%;
         overflow: hidden;
-        border-radius: 10px; /* opsional, biar estetik */
+        flex-shrink: 0;
       }
 
       .postcard__img-container img {
@@ -84,6 +82,7 @@
         height: 100%;
         object-fit: cover;
         transition: transform .3s ease;
+        display: block;
       }
 
       .postcard__text {
@@ -104,7 +103,6 @@
       }
     }
 
-
     @media screen and (min-width: 1024px) {
       .postcard__text { padding: 2rem 3.5rem; }
     }
@@ -120,7 +118,6 @@
     .page-content.section-padding { padding: 2.2rem 0 3.2rem; }
 
     .card { background: var(--card, #fff); border-radius: var(--radius, 14px); box-shadow: 0 8px 30px rgba(16,24,40,0.06); border: none; overflow: visible; width:100%; }
-    /* gunakan kelas untuk min-height agar responsive */
     .card .card-body { padding:1.25rem; }
     .card-body.min-h-lg { min-height: auto; } /* default mobile: no forced min height */
     @media (min-width: 1024px) { .card-body.min-h-lg { min-height: 640px; } }
@@ -129,18 +126,53 @@
 
     .detail-title { font-size: 1.5rem; font-weight:700; margin-bottom:.6rem; color:#0f172a; }
 
-    /* Owl carousel - responsif & no overflow */
-    #sync1 .item, #sync2 .item { display:flex; align-items:center; justify-content:center; margin:.35rem; }
-    #sync1 .item img, #sync2 .item img { width:100%; height:auto; display:block; }
-    #sync1 .item img { border-radius:12px; object-fit:cover; box-shadow:0 8px 18px rgba(15,23,42,0.08); aspect-ratio:4/3; }
-    #sync2 .item img { border-radius:8px; object-fit:cover; aspect-ratio:4/3; opacity:.95; transition: transform .18s ease, box-shadow .18s ease; }
-    #sync2 .owl-item.current img { transform: scale(1.03); box-shadow:0 10px 20px rgba(15,23,42,0.12); opacity:1; }
+    /* Owl carousel - responsif & fix overflow khusus */
+    #sync1.owl-carousel { position: relative; }
+    #sync1 .owl-stage-outer { overflow: hidden !important; }  /* PENTING: sembunyikan overflow main carousel */
+    #sync1 .owl-stage { overflow: visible; } /* tidak berbahaya karena outer hidden */
 
-    /* Make owl stage overflow visible so thumbnails scale do not cut layout badly */
-    .owl-stage, .owl-stage-outer { overflow: visible !important; }
-    #sync1.owl-theme .owl-nav { z-index: 5; }
-    #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next { position:absolute; top:50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(2,6,23,0.08); }
-    #sync1.owl-theme .owl-prev { left: 10px; } #sync1.owl-theme .owl-next { right: 10px; }
+    #sync1 .item, #sync2 .item { display:flex; align-items:center; justify-content:center; margin:.35rem; }
+    /* main slide (besar) */
+    #sync1 .item img {
+      width: 100%;
+      height: auto;
+      max-height: 420px;             /* desktop max height agar tidak melebar */
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 8px 18px rgba(15,23,42,0.08);
+      display: block;
+    }
+    /* thumbnail carousel: biarkan overflow visible agar scaling terlihat */
+    #sync2.owl-carousel { position: relative; }
+    #sync2 .owl-stage-outer { overflow: visible !important; }  /* hanya thumbnail boleh overflow */
+    #sync2 .item img {
+      width: 100%;
+      height: auto;
+      max-width: 110px;
+      border-radius: 8px;
+      object-fit: cover;
+      opacity: .95;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    #sync2 .owl-item.current img { transform: scale(1.03); box-shadow: 0 10px 20px rgba(15,23,42,0.12); opacity:1; }
+
+    /* Nav arrows */
+    #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next {
+      position:absolute;
+      top:50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.95);
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+      z-index: 20;
+    }
+    #sync1.owl-theme .owl-prev { left: 14px; } 
+    #sync1.owl-theme .owl-next { right: 14px; }
 
     .ulCabang { list-style:none; padding-left:0; margin:0; }
     .ulCabang li { padding:6px 0; border-bottom:1px dashed rgba(15,23,42,0.04); }
@@ -166,11 +198,9 @@
     }
 
     @media (max-width: 768px) {
-      /* reduce heavy paddings that cause horizontal overflow */
       .ps-5 { padding-left: 1rem !important; }
       .pe-5 { padding-right: 1rem !important; }
 
-      /* make card full width with small side margin */
       .col-md-9.ps-5 { padding-left: 1rem !important; padding-right: 1rem !important; }
       .card { margin-left: 0.25rem; margin-right: 0.25rem; }
 
@@ -178,10 +208,13 @@
       .card .card-body { padding: 1rem; }
       .detail-title { font-size: 1.125rem; }
       .social-area a { width:44px; height:44px; }
-      #sync2 .item img { aspect-ratio: 16/9; }
+      #sync2 .item img { aspect-ratio: 16/9; max-width:90px; }
 
       /* ensure no element wider than viewport */
       .container, .page-content .container { max-width: 100%; padding-left: 0.75rem; padding-right: 0.75rem; }
+
+      /* main slide height di mobile */
+      #sync1 .item img { max-height: 260px; }
     }
 
     /* small utility (to keep compatibility with header bootstrap classes) */
@@ -237,6 +270,7 @@
                           $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
                         }
                         ?>
+                        <!-- main carousel -->
                         <div id="sync1" class="owl-carousel owl-theme">
                           <div class="item">
                             <img src="<?php echo $gambarsampul ?>" class="img-thumbnail" alt="<?php echo $rowCabang->namacabang ?>">
@@ -259,7 +293,8 @@
                           ?>
                         </div>
 
-                        <div id="sync2" class="owl-carousel owl-theme">
+                        <!-- thumbnails -->
+                        <div id="sync2" class="owl-carousel owl-theme mt-3">
                           <div class="item">
                             <img src="<?php echo $gambarsampul ?>" class="img-thumbnail" alt="">
                           </div>
@@ -385,6 +420,7 @@
         items: 1,
         slideSpeed: 2000,
         nav: true,
+        center: true,           // <- center main slide
         autoplay: false,
         dots: true,
         loop: true,
@@ -402,7 +438,7 @@
           nav: true,
           smartSpeed: 200,
           slideSpeed: 500,
-          slideBy: slidesPerPage,
+          slideBy: 1,                   // <- slide by 1 (lebih mulus)
           responsiveRefreshRate: 100,
           responsive: { 0: { items: 3 }, 480: { items: 3 }, 768: { items: slidesPerPage } }
         }).on('changed.owl.carousel', syncPosition2);
