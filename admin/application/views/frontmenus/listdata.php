@@ -12,7 +12,9 @@
     </div>  
     <div class="col-6">
       <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="<?php echo(site_url()) ?>">Home</a></li>
+        <!-- <li class="breadcrumb-item"><a href="<?php echo(site_url()) ?>">Home</a></li> -->
+        <li class="breadcrumb-item">
+          <a href="<?php echo site_url('jesus/index'); ?>">Yesus</a></li>
         <li class="breadcrumb-item active">Front Menus</li>
       </ol>
       
