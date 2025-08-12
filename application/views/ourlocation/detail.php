@@ -63,26 +63,47 @@
     /* -------------------------
        Desktop postcard adjustments (PERBAIKAN)
        ------------------------- */
-    @media screen and (min-width: 769px) {
+       @media screen and (min-width: 769px) {
       .postcard {
         flex-wrap: nowrap;
-        max-width: 1000px; /* batasi lebar agar selalu center */
+        max-width: 1000px;
         margin: 0 auto;
         align-items: center;
       }
-      .postcard__title { font-size: 2rem; }
-      .postcard__tagbox { justify-content: start; }
-      .postcard__img {
-        max-width: 300px;
-        max-height: 100%;
+
+      .postcard__img-container {
         flex-shrink: 0;
+        width: 300px; /* fix lebar kolom gambar */
+        height: 100%;
+        overflow: hidden;
+        border-radius: 10px; /* opsional, biar estetik */
+      }
+
+      .postcard__img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         transition: transform .3s ease;
       }
-      .postcard__text { padding-left: 2rem; padding-right:2rem; flex:1; }
-      .postcard:hover .postcard__img { transform: scale(1.05); }
-      .postcard:nth-child(2n+1) { flex-direction: row; }
-      .postcard:nth-child(2n+0) { flex-direction: row-reverse; }
+
+      .postcard__text {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        flex: 1;
+      }
+
+      .postcard:hover .postcard__img-container img {
+        transform: scale(1.05);
+      }
+
+      .postcard:nth-child(2n+1) {
+        flex-direction: row;
+      }
+      .postcard:nth-child(2n+0) {
+        flex-direction: row-reverse;
+      }
     }
+
 
     @media screen and (min-width: 1024px) {
       .postcard__text { padding: 2rem 3.5rem; }
