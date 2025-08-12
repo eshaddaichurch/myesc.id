@@ -453,7 +453,7 @@
           </div>
 
           <!-- Right: daftar cabang (sidebar kecil) -->
-          <div class="col-md-3 pe-5">
+          <!-- <div class="col-md-3 pe-5">
             <div class="card">
               <div class="card-body">
                 <div class="row">
@@ -469,7 +469,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>
