@@ -36,7 +36,7 @@
     html, body { height: 100%; }
     body {
       font-family: 'Figtree', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
+      background: #FFD09B;
       color: #111827;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -185,7 +185,7 @@
     #hero {
       width: 100%;
       height: 40vh;
-      background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center / cover no-repeat;
+      /* background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center / cover no-repeat; */
       position: relative;
       display:flex;
       align-items:center;
