@@ -10,30 +10,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
-    /* -------------------------
-       CSS variables (replacing SCSS vars)
-       ------------------------- */
-    :root {
-      --main-green: #79dd09;
-      --main-green-rgb-015: rgba(121, 221, 9, 0.1);
-      --main-yellow: #bdbb49;
-      --main-yellow-rgb-015: rgba(189, 187, 73, 0.1);
-      --main-red: #bd150b;
-      --main-red-rgb-015: rgba(189, 21, 11, 0.1);
-      --main-blue: #0076bd;
-      --main-blue-rgb-015: rgba(0, 118, 189, 0.1);
-
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --accent: #243EAE;
-      --radius: 14px;
-    }
-
-    /* -------------------------
-       Global
-       ------------------------- */
-    html, body { height: 100%; }
+    /* ===== GLOBAL FIXES ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; width: 100%; }
     body {
       font-family: 'Figtree', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background: #ead7a9;
@@ -42,258 +21,114 @@
       -moz-osx-font-smoothing: grayscale;
       margin: 0;
       padding: 0;
+      /* jika ada small horizontal overflow, Anda bisa hapus line ini
+         tapi biarkan untuk user mobile agar tidak muncul horizontal scroll kecil */
+      overflow-x: hidden;
     }
+
+    img { max-width: 100%; height: auto; display: block; }
 
     a, a:hover { text-decoration: none; }
 
     /* -------------------------
-       Breadcrumbs (converted from your SCSS)
+       Breadcrumbs (dari SCSS Anda)
        ------------------------- */
-    .breadcrumbs {
-      padding: 140px 0 60px 0;
-      min-height: 30vh;
-      position: relative;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    .breadcrumbs::before {
-      content: "";
-      background-color: rgba(0, 0, 0, 0.6);
-      position: absolute;
-      inset: 0;
-    }
-    .breadcrumbs h2 {
-      font-size: 56px;
-      font-weight: 500;
-      color: #fff;
-      font-family: 'Baloo 2', cursive;
-      position: relative;
-      z-index: 2;
-      margin: 0;
-      padding-top: 0.5rem;
-    }
-    .breadcrumbs ol {
-      display: flex;
-      flex-wrap: wrap;
-      list-style: none;
-      padding: 0 0 10px 0;
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.9);
-      position: relative;
-      z-index: 2;
-    }
-    .breadcrumbs ol a { color: rgba(255,255,255,0.9); transition: .3s; }
+    .breadcrumbs { padding: 140px 0 60px 0; min-height: 30vh; position: relative; background-size: cover; background-position: center; }
+    .breadcrumbs::before { content: ""; background-color: rgba(0,0,0,0.6); position: absolute; inset: 0; }
+    .breadcrumbs h2 { font-size:56px; font-weight:500; color:#fff; font-family:'Baloo 2', cursive; position:relative; z-index:2; margin:0; padding-top:.5rem; }
+    .breadcrumbs ol { display:flex; flex-wrap:wrap; list-style:none; padding:0 0 10px 0; margin:0; font-size:16px; font-weight:600; color:rgba(255,255,255,0.9); position:relative; z-index:2; }
+    .breadcrumbs ol a { color: rgba(255,255,255,0.9); transition:.3s; }
     .breadcrumbs ol a:hover { text-decoration: underline; }
-    .breadcrumbs ol li + li { padding-left: 10px; }
-    .breadcrumbs ol li + li::before { display:inline-block; padding-right:10px; color:#fff; content: "/"; }
+    .breadcrumbs ol li+li { padding-left:10px; }
+    .breadcrumbs ol li+li::before { display:inline-block; padding-right:10px; color:#fff; content:"/"; }
 
     /* -------------------------
-       Postcard (converted nested SCSS)
+       Postcard (dari SCSS Anda) - tetap */
+    .postcard { display:flex; flex-wrap:wrap; box-shadow:0 4px 21px -12px rgba(0,0,0,0.66); border-radius:10px; margin:0 0 4rem 0; overflow:hidden; position:relative; color:#ffffff; background-color:#18151f; }
+    .postcard.light { background-color:#e1e5ea; color:#111; }
+    .postcard a { color:inherit; }
+    .postcard h1, .postcard .h1 { margin-bottom:.5rem; font-weight:500; line-height:1.2; }
+    .postcard .small { font-size:80%; }
+    .postcard__title { font-size:1.75rem; padding-left:10px; color:inherit; }
+    .postcard__img { max-height:180px; width:100%; object-fit:cover; position:relative; display:block; }
+    .postcard__img_link { display:contents; }
+    .postcard__bar { width:50px; height:10px; margin:10px 0; border-radius:5px; background-color:#424242; transition: width .2s ease; }
+    .postcard__text { padding:2.5rem; position:relative; display:flex; flex-direction:column; color:inherit; background:transparent; }
+    .postcard__preview-txt { overflow:hidden; text-overflow:ellipsis; text-align:left; height:100%; }
+    .postcard__tagbox { display:flex; flex-flow:row wrap; font-size:14px; margin:20px 0 0 0; padding:0; justify-content:center; }
+    .postcard__tagbox .tag__item { display:inline-block; background:#FAF0E6; border-radius:3px; padding:2.5px 10px; margin:0 5px 5px 0; user-select:none; transition:background-color .3s; }
+    .postcard__tagbox .tag__item:hover { background:#FFD09B; }
+    .postcard::before { content:""; position:absolute; top:0; right:0; bottom:0; left:0; background-image: linear-gradient(-70deg, #424242, transparent 50%); opacity:1; border-radius:10px; pointer-events:none; }
+
+    /* -------------------------
+       Desktop postcard adjustments (PERBAIKAN)
        ------------------------- */
-    .postcard {
-      display: flex;
-      flex-wrap: wrap;
-      box-shadow: 0 4px 21px -12px rgba(0,0,0,0.66);
-      border-radius: 10px;
-      margin: 0 0 4rem 0;
-      overflow: hidden;
-      position: relative;
-      color: #ffffff;
-      background-color: #18151f; /* default dark look, you can add .light class to change */
-    }
-
-    /* alternate light variant */
-    .postcard.light { background-color: #e1e5ea; color: #111; }
-
-    .postcard a { color: inherit; }
-    .postcard h1, .postcard .h1 { margin-bottom: .5rem; font-weight:500; line-height:1.2; }
-    .postcard .small { font-size: 80%; }
-
-    .postcard__title { font-size: 1.75rem; padding-left: 10px; color: inherit; }
-    .postcard__img {
-      max-height: 180px;
-      width: 100%;
-      object-fit: cover;
-      position: relative;
-    }
-    .postcard__img_link { display: contents; }
-    .postcard__bar {
-      width: 50px;
-      height: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
-      background-color: #424242;
-      transition: width .2s ease;
-    }
-    .postcard__text {
-      padding: 2.5rem;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      color: inherit;
-      background: transparent;
-    }
-    .postcard__preview-txt { overflow: hidden; text-overflow: ellipsis; text-align: left; height: 100%; }
-    .postcard__tagbox { display:flex; flex-flow: row wrap; font-size:14px; margin:20px 0 0 0; padding:0; justify-content:center; }
-    .postcard__tagbox .tag__item {
-      display:inline-block;
-      background: #FAF0E6;
-      border-radius:3px;
-      padding:2.5px 10px;
-      margin:0 5px 5px 0;
-      user-select:none;
-      transition: background-color .3s;
-    }
-    .postcard__tagbox .tag__item:hover { background: #FFD09B; }
-
-    .postcard::before {
-      content: "";
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      background-image: linear-gradient(-70deg, #424242, transparent 50%);
-      opacity: 1;
-      border-radius: 10px;
-    }
-    .postcard:hover .postcard__bar { width: 100px; }
-
-    /* Desktop postcard adjustments
-    @media screen and (min-width: 769px) {
-      .postcard { flex-wrap: nowrap; }
-      .postcard__title { font-size: 2rem; }
-      .postcard__tagbox { justify-content: start; }
-      .postcard__img { max-width: 300px; max-height: 100%; transition: transform .3s ease; }
-      .postcard__text { padding-left: 4rem; width:100%; }
-      .postcard:hover .postcard__img { transform: scale(1.1); }
-      .postcard:nth-child(2n+1) { flex-direction: row; }
-      .postcard:nth-child(2n+0) { flex-direction: row-reverse; }
-    } */
-
-    /* Desktop postcard adjustments */
     @media screen and (min-width: 769px) {
       .postcard {
         flex-wrap: nowrap;
-        max-width: 1000px; /* Biar nggak terlalu melebar */
-        margin: 0 auto; /* Posisikan di tengah */
-        align-items: center; /* Vertikal center */
+        max-width: 1000px; /* batasi lebar agar selalu center */
+        margin: 0 auto;
+        align-items: center;
       }
-      .postcard__title {
-        font-size: 2rem;
-      }
-      .postcard__tagbox {
-        justify-content: start;
-      }
+      .postcard__title { font-size: 2rem; }
+      .postcard__tagbox { justify-content: start; }
       .postcard__img {
         max-width: 300px;
         max-height: 100%;
-        flex-shrink: 0; /* Jangan menyusut */
+        flex-shrink: 0;
         transition: transform .3s ease;
       }
-      .postcard__text {
-        padding-left: 2rem;
-        padding-right: 2rem;
-        flex: 1; /* Isi sisa ruang */
-      }
-      .postcard:hover .postcard__img {
-        transform: scale(1.05);
-      }
-      .postcard:nth-child(2n+1) {
-        flex-direction: row;
-      }
-      .postcard:nth-child(2n+0) {
-        flex-direction: row-reverse;
-      }
+      .postcard__text { padding-left: 2rem; padding-right:2rem; flex:1; }
+      .postcard:hover .postcard__img { transform: scale(1.05); }
+      .postcard:nth-child(2n+1) { flex-direction: row; }
+      .postcard:nth-child(2n+0) { flex-direction: row-reverse; }
     }
-
 
     @media screen and (min-width: 1024px) {
       .postcard__text { padding: 2rem 3.5rem; }
-      /* different accent bars for dark/light */
-      .postcard.dark .postcard__text:before { background: #18151f; }
-      .postcard.light .postcard__text:before { background: #e1e5ea; }
     }
 
-    /* -------------------------
-       My modern layout + gallery + details (keaslian elemen tetap)
-       ------------------------- */
-    /* Hero (modernized, keep background path) */
-    #hero {
-      width: 100%;
-      height: 40vh;
-      /* background: url("<?php echo base_url('myesc.id/images/banner2.jpg') ?>") center center / cover no-repeat; */
-      position: relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding: 1.5rem;
-    }
-    #hero:before {
-      content: "";
-      position:absolute;
-      inset:0;
-      /* background: linear-gradient(180deg, rgba(0,0,0,0.36), rgba(0,0,0,0.36)); */
-    }
+    /* ===========================
+       MAIN page layout / gallery / details
+       =========================== */
+    #hero { width:100%; height:40vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; }
     #hero .container { position:relative; z-index:2; }
-    #hero h1 {
-      margin:0;
-      font-size: clamp(1.25rem, 3.2vw, 2.6rem);
-      font-weight:700;
-      color:#fff;
-      line-height:1.05;
-      letter-spacing:-0.02em;
-      text-shadow: 0 6px 22px rgba(0,0,0,0.35);
-      font-family: 'Baloo 2', cursive;
-    }
+    #hero h1 { margin:0; font-size:clamp(1.25rem,3.2vw,2.6rem); font-weight:700; color:#fff; line-height:1.05; letter-spacing:-0.02em; text-shadow:0 6px 22px rgba(0,0,0,0.35); font-family:'Baloo 2', cursive; }
     #hero h5 { margin-top:.35rem; color: rgba(255,255,255,0.9); font-weight:500; font-size:.95rem; }
 
     .page-content.section-padding { padding: 2.2rem 0 3.2rem; }
 
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: 0 8px 30px rgba(16,24,40,0.06);
-      border: none;
-      overflow: visible;
-    }
-    .card .card-body { padding: 1.25rem; }
+    .card { background: var(--card, #fff); border-radius: var(--radius, 14px); box-shadow: 0 8px 30px rgba(16,24,40,0.06); border: none; overflow: visible; width:100%; }
+    /* gunakan kelas untuk min-height agar responsive */
+    .card .card-body { padding:1.25rem; }
+    .card-body.min-h-lg { min-height: auto; } /* default mobile: no forced min height */
+    @media (min-width: 1024px) { .card-body.min-h-lg { min-height: 640px; } }
+
     .row.justify-content-center { gap: 1.25rem; }
 
     .detail-title { font-size: 1.5rem; font-weight:700; margin-bottom:.6rem; color:#0f172a; }
 
-    /* Gallery (owl) modern */
+    /* Owl carousel - responsif & no overflow */
     #sync1 .item, #sync2 .item { display:flex; align-items:center; justify-content:center; margin:.35rem; }
-    #sync1 .item img {
-      width:100%; height:auto; border-radius:12px; object-fit:cover;
-      box-shadow:0 8px 18px rgba(15,23,42,0.08); aspect-ratio:4/3;
-    }
-    #sync2 .item img {
-      width:100%; height:auto; border-radius:8px; object-fit:cover;
-      aspect-ratio:4/3; opacity:.95; transition: transform .18s ease, box-shadow .18s ease;
-    }
+    #sync1 .item img, #sync2 .item img { width:100%; height:auto; display:block; }
+    #sync1 .item img { border-radius:12px; object-fit:cover; box-shadow:0 8px 18px rgba(15,23,42,0.08); aspect-ratio:4/3; }
+    #sync2 .item img { border-radius:8px; object-fit:cover; aspect-ratio:4/3; opacity:.95; transition: transform .18s ease, box-shadow .18s ease; }
     #sync2 .owl-item.current img { transform: scale(1.03); box-shadow:0 10px 20px rgba(15,23,42,0.12); opacity:1; }
 
-    #sync1.owl-theme { position:relative; }
-    #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next {
-      position:absolute; top:50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.85); width:40px; height:40px; border-radius:10px;
-      display:flex; align-items:center; justify-content:center;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.08);
-    }
-    #sync1.owl-theme .owl-prev { left:10px; } #sync1.owl-theme .owl-next { right:10px; }
-    #sync2 { margin-top:.7rem; }
+    /* Make owl stage overflow visible so thumbnails scale do not cut layout badly */
+    .owl-stage, .owl-stage-outer { overflow: visible !important; }
+    #sync1.owl-theme .owl-nav { z-index: 5; }
+    #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next { position:absolute; top:50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(2,6,23,0.08); }
+    #sync1.owl-theme .owl-prev { left: 10px; } #sync1.owl-theme .owl-next { right: 10px; }
 
-    /* Sidebar list */
     .ulCabang { list-style:none; padding-left:0; margin:0; }
     .ulCabang li { padding:6px 0; border-bottom:1px dashed rgba(15,23,42,0.04); }
     .ulCabang li:last-child { border-bottom:none; }
-    .ulCabang li a { text-decoration:none; color:var(--accent); font-size:.98rem; font-weight:600; }
+    .ulCabang li a { text-decoration:none; color:var(--accent, #243EAE); font-size:.98rem; font-weight:600; }
     .ulCabang li span { color:#374151; font-weight:600; font-size:.98rem; }
 
     .detail-cabang { padding-top:10px; padding-bottom:18px; }
-    .detail-cabang .detail-label { font-weight:600; color:var(--muted); display:block; }
+    .detail-cabang .detail-label { font-weight:600; color:var(--muted,#6b7280); display:block; }
     .detail-cabang .detail-value { font-weight:600; color:#0f172a; display:block; margin-top:4px; word-break:break-word; }
 
     .social-area { display:flex; align-items:center; justify-content:center; gap:.9rem; margin-top:1rem; }
@@ -303,22 +138,32 @@
     .desc-section h3 { font-size:1.125rem; font-weight:700; margin-bottom:.6rem; }
     .desc-section hr { border-top:1px solid rgba(15,23,42,0.06); margin:.8rem 0; }
 
-    /* Responsive */
+    /* ===== RESPONSIVE FIXES: mobile friendly ===== */
     @media (max-width: 991px) {
-      .col-md-9 { width:100%; padding-left:0; padding-right:0; }
-      .col-md-3 { width:100%; padding-left:0; padding-right:0; }
-    }
-    @media (max-width: 768px) {
-      #hero { height:28vh; padding:.75rem; }
-      .card .card-body { padding:1rem; }
-      .detail-title { font-size:1.125rem; }
-      .social-area a { width:44px; height:44px; }
-      #sync2 .item img { aspect-ratio:16/9; }
-      .ps-5 { padding-left: 1rem !important; } /* adjust bootstrap-based spacing on small screens */
-      .pe-5 { padding-right: 1rem !important; }
+      .col-md-9 { width: 100%; padding-left: 0; padding-right: 0; }
+      .col-md-3 { width: 100%; padding-left: 0; padding-right: 0; }
     }
 
-    /* small utility (compat with header bootstrap classes) */
+    @media (max-width: 768px) {
+      /* reduce heavy paddings that cause horizontal overflow */
+      .ps-5 { padding-left: 1rem !important; }
+      .pe-5 { padding-right: 1rem !important; }
+
+      /* make card full width with small side margin */
+      .col-md-9.ps-5 { padding-left: 1rem !important; padding-right: 1rem !important; }
+      .card { margin-left: 0.25rem; margin-right: 0.25rem; }
+
+      #hero { height: 28vh; padding: .75rem; }
+      .card .card-body { padding: 1rem; }
+      .detail-title { font-size: 1.125rem; }
+      .social-area a { width:44px; height:44px; }
+      #sync2 .item img { aspect-ratio: 16/9; }
+
+      /* ensure no element wider than viewport */
+      .container, .page-content .container { max-width: 100%; padding-left: 0.75rem; padding-right: 0.75rem; }
+    }
+
+    /* small utility (to keep compatibility with header bootstrap classes) */
     .text-center { text-align:center; }
     .mb-4 { margin-bottom:1rem!important; }
     .mt-3 { margin-top:.75rem!important; }
@@ -353,7 +198,8 @@
           <!-- Left: main card -->
           <div class="col-md-9 ps-5">
             <div class="card">
-              <div class="card-body" style="min-height: 640px;">
+              <!-- gunakan kelas min-h-lg (desktop akan punya min-height:640) -->
+              <div class="card-body min-h-lg">
 
                 <div class="row">
                   <div class="col-12 text-center font-weight-bold mb-4">
@@ -444,7 +290,7 @@
 
                       </div>
 
-                      <!-- Social icons (keaslian isi sosial tetap pakai PHP echo seperti awal) -->
+                      <!-- Social icons -->
                       <div class="col-12 text-center mt-4">
                         <div class="social-area">
                           <?php
@@ -488,25 +334,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Right: daftar cabang (sidebar kecil) -->
-          <!-- <div class="col-md-3 pe-5">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 text-center">
-                    <h5 style="font-weight:700">CABANG GEREJA ELSHADDAI</h5>
-                  </div>
-                  <div class="col-12"><hr></div>
-                  <div class="col-12" id="divContentCabang">
-                    <ul class="ulCabang" id="ulCabang">
-                      <li><a href="<?php echo site_url('ourlocation/detail/') ?>">Cabang Siantan</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
 
         </div>
       </div>
@@ -555,7 +382,8 @@
           smartSpeed: 200,
           slideSpeed: 500,
           slideBy: slidesPerPage,
-          responsiveRefreshRate: 100
+          responsiveRefreshRate: 100,
+          responsive: { 0: { items: 3 }, 480: { items: 3 }, 768: { items: slidesPerPage } }
         }).on('changed.owl.carousel', syncPosition2);
 
       function syncPosition(el) {
