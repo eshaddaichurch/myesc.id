@@ -65,7 +65,7 @@ class Aktabaptisan extends MY_Controller
                 $row[] = $rowdata->dilakukanoleh;
                 $row[] = $rowdata->namagereja;
 
-                if ($rowdata->tempatbaptis == 'El Shaddai') {
+                if ($rowdata->tempatbaptis == 'Elshaddai') {
                     $row[] = '
                         <div class="btn-group dropleft">
                             <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -162,10 +162,10 @@ class Aktabaptisan extends MY_Controller
         $statusaktif        = $this->input->post('statusaktif');
 
         if ($idakta == '') {
-            if ($tempatbaptis == 'El Shaddai') {
+            if ($tempatbaptis == 'Elshaddai') {
                 $fileaktabaptis_lama = '';
                 $fileaktabaptis = '';
-                $namagereja = 'GBI El Shaddai';
+                $namagereja = 'GBI Elshaddai';
             } else {
                 $fileaktabaptis_lama = $this->input->post('fileaktabaptis_lama');
                 $fileaktabaptis = $this->App->uploadImage($_FILES, "fileaktabaptis", $fileaktabaptis_lama, 'akta/baptis');
@@ -197,7 +197,7 @@ class Aktabaptisan extends MY_Controller
             $simpan = $this->Aktabaptisan_model->simpan($data);
         } else {
 
-            if ($tempatbaptis == 'El Shaddai') {
+            if ($tempatbaptis == 'Elshaddai') {
                 $fileaktabaptis_lama = '';
                 $fileaktabaptis = $fileaktabaptis_lama;
                 $namagereja = null;
