@@ -116,7 +116,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 
 
-$html = $css . '<span class="default-text">' . hari($rsakta->tglakta) . ', ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
+$html = $css . '<span class="default-text">' . hari($rsakta->tglbaptis) . ', ' . tglindonesialengkap($rsakta->tglbaptis) . '</span>';
 $pdf->SetXY(81, 143);
 $pdf->writeHTML($html, true, false, true, false, '');
 $html = $css . '<span class="default-text">EL SHADDAI</span>';
