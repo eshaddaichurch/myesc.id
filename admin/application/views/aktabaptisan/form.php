@@ -67,7 +67,7 @@
                </div>
 
                <div class="form-group row required">
-                 <label for="" class="col-md-3 col-form-label">Nomor/ No Akta</label>
+                 <label for="" class="col-md-3 col-form-label">Nomor/ Tgl Akta</label>
                  <div class="col-md-6">
                    <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Otomatis" readonly="">
                  </div>
