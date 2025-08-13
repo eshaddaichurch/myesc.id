@@ -5,57 +5,63 @@
 <!-- <link href="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/css/demo.css" rel="stylesheet" type="text/css" /> -->
 <link href="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/css/smart_wizard_all.css" rel="stylesheet" type="text/css" />
 
+
 <style>
-  /* Ganti warna utama SmartWizard theme 'square' dari biru ke #ff5008 */
-  .sw-theme-square > .nav > .nav-link.active,
-  .sw-theme-square > .nav > .nav-link.done {
-    background-color: #ff5008 !important;
-    color: white !important;
-    border-color: #ff5008 !important;
-  }
+ /* Ganti warna utama SmartWizard theme 'square' dari biru ke #ff5008 */
+.sw-theme-square > .nav > .nav-link.active,
+.sw-theme-square > .nav > .nav-link.done {
+  background-color: #ff5008 !important;
+  color: white !important;
+  border-color: #ff5008 !important;
+}
 
-  /* Warna hover pada step */
-  .sw-theme-square > .nav > .nav-link:hover {
-    background-color: #e04607 !important; /* Sedikit lebih gelap untuk efek hover */
-    border-color: #e04607 !important;
-  }
+/* Warna hover pada step */
+.sw-theme-square > .nav > .nav-link:hover {
+  background-color: #e04607 !important; /* Sedikit lebih gelap untuk efek hover */
+  border-color: #e04607 !important;
+}
 
-  /* Warna border untuk step yang aktif/done */
-  .sw-theme-square > .nav > .nav-link.active::after,
-  .sw-theme-square > .nav > .nav-link.done::after {
-    border-left-color: #ff5008 !important;
-  }
+/* Warna border untuk step yang aktif/done */
+.sw-theme-square > .nav > .nav-link.active::after,
+.sw-theme-square > .nav > .nav-link.done::after {
+  border-left-color: #ff5008 !important;
+}
 
-  /* Ganti warna progress bar */
-  .sw-theme-square .progress-bar {
-    background-color: #ff5008 !important;
-  }
+/* Ganti warna progress bar */
+.sw-theme-square .progress-bar {
+  background-color: #ff5008 !important;
+}
 
-  /* Garis horizontal antar langkah */
-  .sw-theme-square > .nav > .nav-item:not(:first-child)::before {
-    background-color: #ff5008 !important;
-  }
+/* Garis horizontal antar langkah */
+.sw-theme-square > .nav > .nav-item:not(:first-child)::before {
+  background-color: #ff5008 !important;
+}
 
-  /* Nomor langkah (misalnya 1, 2, 3) */
-  .sw-theme-square > .nav > .nav-link > .num {
-    background-color: #ff5008 !important;
-    color: white !important;
-  }
+/* Nomor langkah (misalnya 1, 2, 3) */
+.sw-theme-square > .nav > .nav-link > .num {
+  background-color: #ff5008 !important;
+  color: white !important;
+}
 
-  /* Tombol Next/Previous jika ikut tema (opsional) */
-  .sw-btn-next,
-  .sw-btn-prev,
-  .btn-success.btnSelesai { /* Tombol "Kirim" */
-    background-color: #ff5008 !important;
-    border-color: #ff5008 !important;
-  }
+/* Tombol Next/Previous jika ikut tema (opsional) */
+.sw-btn-next,
+.sw-btn-prev,
+.btn-success.btnSelesai { /* Tombol "Kirim" */
+  background-color: #ff5008 !important;
+  border-color: #ff5008 !important;
+}
 
-  .sw-btn-next:hover,
-  .sw-btn-prev:hover,
-  .btn-success.btnSelesai:hover {
-    background-color: #e04607 !important;
-    border-color: #e04607 !important;
-  }
+.sw-btn-next:hover,
+.sw-btn-prev:hover,
+.btn-success.btnSelesai:hover {
+  background-color: #e04607 !important;
+  border-color: #e04607 !important;
+}
+
+/* Progress bar */
+.sw-theme-square .progress {
+  background-color: #ff5008 !important;
+}
 </style>
 
 <style>
