@@ -24,6 +24,29 @@
       overflow-x: hidden;
     }
 
+
+    /* Card pembungkus slider */
+    .card-slider {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      box-sizing: border-box;
+    }
+
+    /* Container slider */
+    .card-slider .swiper {
+      width: 100%;
+    }
+
+    /* Slide item */
+    .card-slider .swiper-slide {
+      width: auto; /* biar fleksibel */
+      max-width: 90%; /* biar tidak keluar dari layar */
+      box-sizing: border-box;
+    }
+
+
     img { max-width: 100%; height: auto; display: block; }
     a, a:hover { text-decoration: none; }
 
@@ -102,7 +125,7 @@
     #sync1 .item { margin:.35rem; }
     #sync1 .frame {
       width: 100%;
-      aspect-ratio: 16 / 9;             /* UBAH KE 16/9 jika mau lebih lebar */
+      aspect-ratio: 4 / 3;             /* UBAH KE 16/9 jika mau lebih lebar */
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 8px 18px rgba(15,23,42,0.08);
