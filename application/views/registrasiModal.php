@@ -355,7 +355,7 @@
               $('#registrasiModal').modal('hide');
             });
         } else {
-          swal("Hubungi hotline gereja untuk konfirmasi akun", response.msg, "info");
+          swal("Hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun", response.msg, "info");
         }
       })
       .fail(function() {
