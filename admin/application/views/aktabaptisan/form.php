@@ -50,11 +50,11 @@
                  <div class="col-9">
                    <div class="form-check form-check-inline">
                      <input class="form-check-input tempatBaptisOptions" type="radio" name="tempatbaptis" id="tempatBaptis1" value="Elshaddai" checked>
-                     <label class="form-check-label" for="tempatBaptis1">Elshaddai</label>
+                     <label class="form-check-label" for="tempatBaptis1">El Shaddai</label>
                    </div>
                    <div class="form-check form-check-inline">
                      <input class="form-check-input tempatBaptisOptions" type="radio" name="tempatbaptis" id="tempatBaptis2" value="Luar Elshaddai">
-                     <label class="form-check-label" for="tempatBaptis2">Luar Elshaddai</label>
+                     <label class="form-check-label" for="tempatBaptis2">Luar El Shaddai</label>
                    </div>
                  </div>
                </div>
