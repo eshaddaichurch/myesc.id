@@ -36,10 +36,10 @@ $pdf = new MYPDF('P', 'mm', $legalFormat, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('El Shaddai Church');
+$pdf->SetAuthor('El Shaddai church');
 $pdf->SetTitle('Akta Baptis');
 $pdf->SetSubject('Akta Baptis');
-$pdf->SetKeywords('El Shaddai, Church');
+$pdf->SetKeywords('El Shaddai, church');
 
 // set header and footer fonts
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
