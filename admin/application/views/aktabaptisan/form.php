@@ -72,7 +72,7 @@
                    <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Otomatis" readonly="">
                  </div>
                  <div class="col-md-3">
-                   <input type="date" name="tglakta" id="tglakta" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                   <input type="date" name="tglbaptis" id="tglbaptis" class="form-control" value="<?php echo date('Y-m-d') ?>">
                  </div>
                </div>
 
