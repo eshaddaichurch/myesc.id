@@ -5,7 +5,7 @@
   <!-- FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Owl Carousel CSS (sama seperti semula) -->
+  <!-- Owl Carousel CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -21,11 +21,10 @@
       -moz-osx-font-smoothing: grayscale;
       margin: 0;
       padding: 0;
-      overflow-x: hidden; /* cegah horizontal scrollbar kecil */
+      overflow-x: hidden;
     }
 
     img { max-width: 100%; height: auto; display: block; }
-
     a, a:hover { text-decoration: none; }
 
     /* -------------------------
@@ -41,7 +40,7 @@
     .breadcrumbs ol li+li::before { display:inline-block; padding-right:10px; color:#fff; content:"/"; }
 
     /* -------------------------
-       Postcard (dari SCSS Anda) - tetap
+       Postcard (tetap)
        ------------------------- */
     .postcard { display:flex; flex-wrap:wrap; box-shadow:0 4px 21px -12px rgba(0,0,0,0.66); border-radius:10px; margin:0 0 4rem 0; overflow:hidden; position:relative; color:#ffffff; background-color:#18151f; }
     .postcard.light { background-color:#e1e5ea; color:#111; }
@@ -59,9 +58,7 @@
     .postcard__tagbox .tag__item:hover { background:#FFD09B; }
     .postcard::before { content:""; position:absolute; top:0; right:0; bottom:0; left:0; background-image: linear-gradient(-70deg, #424242, transparent 50%); opacity:1; border-radius:10px; pointer-events:none; }
 
-    /* -------------------------
-       Desktop postcard adjustments (PERBAIKAN)
-       ------------------------- */
+    /* Desktop postcard adjustments */
     @media screen and (min-width: 769px) {
       .postcard {
         flex-wrap: nowrap;
@@ -69,46 +66,17 @@
         margin: 0 auto;
         align-items: center;
       }
-
-      .postcard__img-container {
-        width: 300px;
-        height: 100%;
-        overflow: hidden;
-        flex-shrink: 0;
-      }
-
-      .postcard__img-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform .3s ease;
-        display: block;
-      }
-
-      .postcard__text {
-        padding-left: 2rem;
-        padding-right: 2rem;
-        flex: 1;
-      }
-
-      .postcard:hover .postcard__img-container img {
-        transform: scale(1.05);
-      }
-
-      .postcard:nth-child(2n+1) {
-        flex-direction: row;
-      }
-      .postcard:nth-child(2n+0) {
-        flex-direction: row-reverse;
-      }
+      .postcard__img-container { width: 300px; height: 100%; overflow: hidden; flex-shrink: 0; }
+      .postcard__img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; display: block; }
+      .postcard__text { padding-left: 2rem; padding-right: 2rem; flex: 1; }
+      .postcard:hover .postcard__img-container img { transform: scale(1.05); }
+      .postcard:nth-child(2n+1) { flex-direction: row; }
+      .postcard:nth-child(2n+0) { flex-direction: row-reverse; }
     }
-
-    @media screen and (min-width: 1024px) {
-      .postcard__text { padding: 2rem 3.5rem; }
-    }
+    @media screen and (min-width: 1024px) { .postcard__text { padding: 2rem 3.5rem; } }
 
     /* ===========================
-       MAIN page layout / gallery / details
+       MAIN layout / gallery / details
        =========================== */
     #hero { width:100%; height:40vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; }
     #hero .container { position:relative; z-index:2; }
@@ -116,64 +84,75 @@
     #hero h5 { margin-top:.35rem; color: rgba(255,255,255,0.9); font-weight:500; font-size:.95rem; }
 
     .page-content.section-padding { padding: 2.2rem 0 3.2rem; }
-
-    .card { background: var(--card, #fff); border-radius: var(--radius, 14px); box-shadow: 0 8px 30px rgba(16,24,40,0.06); border: none; overflow: visible; width:100%; }
+    .card { background: var(--card, #fff); border-radius: 14px; box-shadow: 0 8px 30px rgba(16,24,40,0.06); border: none; overflow: visible; width:100%; }
     .card .card-body { padding:1.25rem; }
-    .card-body.min-h-lg { min-height: auto; } /* default mobile: no forced min height */
+    .card-body.min-h-lg { min-height: auto; }
     @media (min-width: 1024px) { .card-body.min-h-lg { min-height: 640px; } }
-
     .row.justify-content-center { gap: 1.25rem; }
-
     .detail-title { font-size: 1.5rem; font-weight:700; margin-bottom:.6rem; color:#0f172a; }
 
-    /* Owl carousel - responsif & fix overflow khusus */
+    /* ====== GALLERY: FIXED GRID / ASPECT RATIO ====== */
+    .gallery { /* wrapper column */ }
+    /* Main carousel outer should never overflow */
     #sync1.owl-carousel { position: relative; }
-    #sync1 .owl-stage-outer { overflow: hidden !important; }  /* PENTING: sembunyikan overflow main carousel */
-    #sync1 .owl-stage { overflow: visible; } /* tidak berbahaya karena outer hidden */
+    #sync1 .owl-stage-outer { overflow: hidden !important; }
+    #sync1 .owl-stage { overflow: visible; }
 
-    #sync1 .item, #sync2 .item { display:flex; align-items:center; justify-content:center; margin:.35rem; }
-    /* main slide (besar) */
-    #sync1 .item img {
+    /* FIXED frame for each main slide */
+    #sync1 .item { margin:.35rem; }
+    #sync1 .frame {
       width: 100%;
-      height: auto;
-      max-height: 420px;             /* desktop max height agar tidak melebar */
-      object-fit: cover;
+      aspect-ratio: 4 / 3;             /* UBAH KE 16/9 jika mau lebih lebar */
       border-radius: 12px;
+      overflow: hidden;
       box-shadow: 0 8px 18px rgba(15,23,42,0.08);
+      background: #f4f4f5;              /* fallback color saat loading */
       display: block;
     }
-    /* thumbnail carousel: biarkan overflow visible agar scaling terlihat */
-    #sync2.owl-carousel { position: relative; }
-    #sync2 .owl-stage-outer { overflow: visible !important; }  /* hanya thumbnail boleh overflow */
-    #sync2 .item img {
+    #sync1 .frame img {
       width: 100%;
-      height: auto;
-      max-width: 110px;
-      border-radius: 8px;
-      object-fit: cover;
-      opacity: .95;
-      transition: transform .18s ease, box-shadow .18s ease;
+      height: 100%;
+      object-fit: cover;                /* kunci agar gambar pas ke frame */
     }
-    #sync2 .owl-item.current img { transform: scale(1.03); box-shadow: 0 10px 20px rgba(15,23,42,0.12); opacity:1; }
 
-    /* Nav arrows */
+    /* Thumbnails carousel: boleh overflow agar efek scale terlihat */
+    #sync2.owl-carousel { position: relative; margin-top: .75rem; }
+    #sync2 .owl-stage-outer { overflow: visible !important; }
+    #sync2 .item { margin:.35rem; }
+    #sync2 .thumb {
+      width: 100%;
+      max-width: 110px;                 /* batasi lebar thumbnail */
+      aspect-ratio: 1 / 1;              /* thumb selalu kotak */
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f4f4f5;
+      opacity: .95;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+      display: block;
+    }
+    #sync2 .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #sync2 .owl-item.current .thumb {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(15,23,42,0.12);
+      opacity: 1;
+    }
+
+    /* Nav arrows (main) */
     #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next {
-      position:absolute;
-      top:50%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.95);
-      width:44px;
-      height:44px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.08);
-      z-index: 20;
+      position:absolute; top:50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.95); width:44px; height:44px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.08); z-index: 20;
     }
     #sync1.owl-theme .owl-prev { left: 14px; } 
     #sync1.owl-theme .owl-next { right: 14px; }
 
+    /* Others */
     .ulCabang { list-style:none; padding-left:0; margin:0; }
     .ulCabang li { padding:6px 0; border-bottom:1px dashed rgba(15,23,42,0.04); }
     .ulCabang li:last-child { border-bottom:none; }
@@ -191,7 +170,7 @@
     .desc-section h3 { font-size:1.125rem; font-weight:700; margin-bottom:.6rem; }
     .desc-section hr { border-top:1px solid rgba(15,23,42,0.06); margin:.8rem 0; }
 
-    /* ===== RESPONSIVE FIXES: mobile friendly ===== */
+    /* ===== RESPONSIVE FIXES ===== */
     @media (max-width: 991px) {
       .col-md-9 { width: 100%; padding-left: 0; padding-right: 0; }
       .col-md-3 { width: 100%; padding-left: 0; padding-right: 0; }
@@ -208,16 +187,12 @@
       .card .card-body { padding: 1rem; }
       .detail-title { font-size: 1.125rem; }
       .social-area a { width:44px; height:44px; }
-      #sync2 .item img { aspect-ratio: 16/9; max-width:90px; }
 
-      /* ensure no element wider than viewport */
-      .container, .page-content .container { max-width: 100%; padding-left: 0.75rem; padding-right: 0.75rem; }
-
-      /* main slide height di mobile */
-      #sync1 .item img { max-height: 260px; }
+      /* Main slide tinggi tetap proporsional (aspect-ratio handle) */
+      #sync2 .thumb { max-width: 90px; }
     }
 
-    /* small utility (to keep compatibility with header bootstrap classes) */
+    /* utilities */
     .text-center { text-align:center; }
     .mb-4 { margin-bottom:1rem!important; }
     .mt-3 { margin-top:.75rem!important; }
@@ -225,7 +200,6 @@
     .me-3 { margin-right:1rem!important; }
     .ps-5 { padding-left:3rem!important; }
     .pe-5 { padding-right:3rem!important; }
-
   </style>
 
   <main>
@@ -252,7 +226,6 @@
           <!-- Left: main card -->
           <div class="col-md-9 ps-5">
             <div class="card">
-              <!-- gunakan kelas min-h-lg (desktop akan punya min-height:640) -->
               <div class="card-body min-h-lg">
 
                 <div class="row">
@@ -261,32 +234,35 @@
                   </div>
 
                   <!-- Gallery column -->
-                  <div class="col-md-4">
+                  <div class="col-md-4 gallery">
                     <div class="row">
                       <div class="col-12">
                         <?php
-                        $gambarsampul = base_url('myesc.id/images/nofoto.png');
-                        if (!empty($rowCabang->gambarsampul)) {
-                          $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
-                        }
+                          $gambarsampul = base_url('myesc.id/images/nofoto.png');
+                          if (!empty($rowCabang->gambarsampul)) {
+                            $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
+                          }
                         ?>
                         <!-- main carousel -->
                         <div id="sync1" class="owl-carousel owl-theme">
                           <div class="item">
-                            <img src="<?php echo $gambarsampul ?>" class="img-thumbnail" alt="<?php echo $rowCabang->namacabang ?>">
+                            <span class="frame">
+                              <img src="<?php echo $gambarsampul ?>" loading="lazy" alt="<?php echo $rowCabang->namacabang ?>">
+                            </span>
                           </div>
-
                           <?php
                           if ($rsGallery->num_rows() > 0) {
                             foreach ($rsGallery->result() as $rowGallery) {
                               $filegallery = base_url('myesc.id/images/nofoto.png');
                               if (!empty($rowGallery->filegallery)) {
                                 $filegallery = base_url('myesc.id/admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
-                          ?>
+                                ?>
                                 <div class="item">
-                                  <img src="<?php echo $filegallery ?>" class="img-thumbnail" alt="">
+                                  <span class="frame">
+                                    <img src="<?php echo $filegallery ?>" loading="lazy" alt="<?php echo htmlspecialchars($rowCabang->namacabang, ENT_QUOTES) ?>">
+                                  </span>
                                 </div>
-                          <?php
+                                <?php
                               }
                             }
                           }
@@ -294,9 +270,11 @@
                         </div>
 
                         <!-- thumbnails -->
-                        <div id="sync2" class="owl-carousel owl-theme mt-3">
+                        <div id="sync2" class="owl-carousel owl-theme">
                           <div class="item">
-                            <img src="<?php echo $gambarsampul ?>" class="img-thumbnail" alt="">
+                            <span class="thumb">
+                              <img src="<?php echo $gambarsampul ?>" loading="lazy" alt="">
+                            </span>
                           </div>
                           <?php
                           if ($rsGallery->num_rows() > 0) {
@@ -304,11 +282,13 @@
                               $filegallery = base_url('myesc.id/images/nofoto.png');
                               if (!empty($rowGallery->filegallery)) {
                                 $filegallery = base_url('myesc.id/admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
-                          ?>
+                                ?>
                                 <div class="item">
-                                  <img src="<?php echo $filegallery ?>" class="img-thumbnail" alt="">
+                                  <span class="thumb">
+                                    <img src="<?php echo $filegallery ?>" loading="lazy" alt="">
+                                  </span>
                                 </div>
-                          <?php
+                                <?php
                               }
                             }
                           }
@@ -391,6 +371,19 @@
             </div>
           </div>
 
+          <!-- (Opsional) Kolom kanan list cabang, pastikan ada elemen target berikut jika dipakai AJAX -->
+          <!--
+          <div class="col-md-3 pe-5">
+            <div class="card">
+              <div class="card-body">
+                <div id="divContentCabang">
+                  <ul id="ulCabang" class="ulCabang"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          -->
+
         </div>
       </div>
     </section>
@@ -399,37 +392,39 @@
 
   <?php $this->load->view('template/festavalive/footer'); ?>
 
-  <!-- Owl Carousel JS (tetap sama) -->
+  <!-- Owl Carousel JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <!-- Leaflet (sama seperti semula) -->
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <script>
     $(document).ready(function() {
-
       var sync1 = $("#sync1");
       var sync2 = $("#sync2");
-      var slidesPerPage = 3; //globaly define number of elements per page
+      var slidesPerPage = 3;
       var syncedSecondary = true;
 
       sync1.owlCarousel({
         items: 1,
-        slideSpeed: 2000,
+        slideSpeed: 600,
         nav: true,
-        center: true,           // <- center main slide
+        center: true,
         autoplay: false,
         dots: true,
         loop: true,
+        autoHeight: false,              // kita pakai frame fixed aspect ratio
         responsiveRefreshRate: 200,
-        navText: ['<svg width="18" height="30" viewBox="0 0 11 20"><path style="fill:none;stroke-width: 1.6px;stroke: #000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg>', '<svg width="18" height="30" viewBox="0 0 11 20" version="1.1"><path style="fill:none;stroke-width: 1.6px;stroke: #000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg>'],
+        navText: [
+          '<svg width="18" height="30" viewBox="0 0 11 20" aria-hidden="true"><path style="fill:none;stroke-width:1.6px;stroke:#000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg>',
+          '<svg width="18" height="30" viewBox="0 0 11 20" aria-hidden="true"><path style="fill:none;stroke-width:1.6px;stroke:#000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg>'
+        ],
       }).on('changed.owl.carousel', syncPosition);
 
-      sync2
-        .on('initialized.owl.carousel', function() {
+      sync2.on('initialized.owl.carousel', function() {
           sync2.find(".owl-item").eq(0).addClass("current");
         })
         .owlCarousel({
@@ -438,27 +433,22 @@
           nav: true,
           smartSpeed: 200,
           slideSpeed: 500,
-          slideBy: 1,                   // <- slide by 1 (lebih mulus)
+          slideBy: 1,
           responsiveRefreshRate: 100,
-          responsive: { 0: { items: 3 }, 480: { items: 3 }, 768: { items: slidesPerPage } }
+          responsive: {
+            0: { items: 3 },
+            480: { items: 3 },
+            768: { items: slidesPerPage }
+          }
         }).on('changed.owl.carousel', syncPosition2);
 
       function syncPosition(el) {
         var count = el.item.count - 1;
         var current = Math.round(el.item.index - (el.item.count / 2) - .5);
+        if (current < 0) current = count;
+        if (current > count) current = 0;
 
-        if (current < 0) {
-          current = count;
-        }
-        if (current > count) {
-          current = 0;
-        }
-
-        sync2
-          .find(".owl-item")
-          .removeClass("current")
-          .eq(current)
-          .addClass("current");
+        sync2.find(".owl-item").removeClass("current").eq(current).addClass("current");
         var onscreen = sync2.find('.owl-item.active').length - 1;
         var start = sync2.find('.owl-item.active').first().index();
         var end = sync2.find('.owl-item.active').last().index();
@@ -490,9 +480,7 @@
     var idcabang = "<?php echo $idcabang ?>";
     var idmenu = "<?php echo $this->encrypt->encode($menu) ?>";
 
-    $(document).ready(function() {
-      initMap();
-    });
+    $(document).ready(function() { initMap(); });
 
     function initMap() {
       $.ajax({
@@ -504,25 +492,20 @@
           var dataCabang = getcabangresult;
           $('#ulCabang').empty();
 
-          if (dataCabang.length > 0) {
-            var nourut = 1;
+          if (dataCabang && dataCabang.length > 0) {
             for (var i = dataCabang.length - 1; i >= 0; i--) {
-
               if (idcabang != dataCabang[i]['idcabang']) {
-                var addText = `<li><a href="<?php echo site_url('ourlocation/detail/') ?>` + dataCabang[i]['namacabang_slug'] + `/` + idmenu + `">` + dataCabang[i]['namacabang'] + `</a></li>`;
+                var addText = `<li><a href="<?php echo site_url('ourlocation/detail/') ?>${dataCabang[i]['namacabang_slug']}/${idmenu}">${dataCabang[i]['namacabang']}</a></li>`;
                 $('#ulCabang').append(addText);
               } else {
-                var addText = `<li><span>` + dataCabang[i]['namacabang'] + `</span></li>`;
+                var addText = `<li><span>${dataCabang[i]['namacabang']}</span></li>`;
                 $('#ulCabang').append(addText);
               }
-
-              nourut++;
             }
           } else {
             var addText = `<h5 class="text-center">Data cabang gereja belum ada.</h5>`;
             $('#divContentCabang').append(addText);
           }
-
         })
         .fail(function() {
           console.log("error getcabang");
