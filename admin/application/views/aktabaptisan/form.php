@@ -50,11 +50,11 @@
                  <div class="col-9">
                    <div class="form-check form-check-inline">
                      <input class="form-check-input tempatBaptisOptions" type="radio" name="tempatbaptis" id="tempatBaptis1" value="Elshaddai" checked>
-                     <label class="form-check-label" for="tempatBaptis1">El Shaddai</label>
+                     <label class="form-check-label" for="tempatBaptis1">Elshaddai</label>
                    </div>
                    <div class="form-check form-check-inline">
                      <input class="form-check-input tempatBaptisOptions" type="radio" name="tempatbaptis" id="tempatBaptis2" value="Luar Elshaddai">
-                     <label class="form-check-label" for="tempatBaptis2">Luar El Shaddai</label>
+                     <label class="form-check-label" for="tempatBaptis2">Luar Elshaddai</label>
                    </div>
                  </div>
                </div>
@@ -67,19 +67,19 @@
                </div>
 
                <div class="form-group row required">
-                 <label for="" class="col-md-3 col-form-label">Nomor/ Tgl Akta</label>
+                 <label for="" class="col-md-3 col-form-label">Nomor/ Tanggal Akta</label>
                  <div class="col-md-6">
                    <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Otomatis" readonly="">
                  </div>
                  <div class="col-md-3">
-                   <input type="date" name="tglbaptis" id="tglbaptis" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                   <input type="date" name="tglakta" id="tglakta" class="form-control" value="<?php echo date('Y-m-d') ?>">
                  </div>
                </div>
 
                <div class="form-group row required baptis-elshaddai">
-                 <label for="" class="col-md-3 col-form-label">Pembaptis</label>
+                 <label for="" class="col-md-3 col-form-label">Dilakukan Oleh</label>
                  <div class="col-md-9">
-                   <input type="text" name="dilakukanoleh" id="dilakukanoleh" class="form-control" placeholder="Pembaptis" value="">
+                   <input type="text" name="dilakukanoleh" id="dilakukanoleh" class="form-control" placeholder="Dilakukan oleh" value="">
                  </div>
                </div>
 

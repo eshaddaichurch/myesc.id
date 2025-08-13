@@ -36,10 +36,10 @@ $pdf = new MYPDF('P', 'mm', $legalFormat, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('El Shaddai church');
+$pdf->SetAuthor('El Shaddai Church');
 $pdf->SetTitle('Akta Baptis');
 $pdf->SetSubject('Akta Baptis');
-$pdf->SetKeywords('El Shaddai, church');
+$pdf->SetKeywords('El Shaddai, Church');
 
 // set header and footer fonts
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -116,7 +116,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 
 
-$html = $css . '<span class="default-text">' . hari($rsakta->tglbaptis) . ', ' . tglindonesialengkap($rsakta->tglbaptis) . '</span>';
+$html = $css . '<span class="default-text">' . hari($rsakta->tglakta) . ', ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
 $pdf->SetXY(81, 143);
 $pdf->writeHTML($html, true, false, true, false, '');
 $html = $css . '<span class="default-text">EL SHADDAI</span>';
