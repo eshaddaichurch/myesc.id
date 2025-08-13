@@ -31,6 +31,17 @@
     background-color: #ff5008 !important;
   }
 
+  /* Garis horizontal antar langkah */
+  .sw-theme-square > .nav > .nav-item:not(:first-child)::before {
+    background-color: #ff5008 !important;
+  }
+
+  /* Nomor langkah (misalnya 1, 2, 3) */
+  .sw-theme-square > .nav > .nav-link > .num {
+    background-color: #ff5008 !important;
+    color: white !important;
+  }
+
   /* Tombol Next/Previous jika ikut tema (opsional) */
   .sw-btn-next,
   .sw-btn-prev,
