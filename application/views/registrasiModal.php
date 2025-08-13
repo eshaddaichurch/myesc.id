@@ -504,8 +504,8 @@
         showNextButton: true, // show/hide a Next button
         showPreviousButton: true, // show/hide a Previous button
         position: 'bottom', // none/ top/ both bottom
-        extraHtml: `<button class="btn btn-success btnSelesai" onclick="onFinish()">Submit</button>
-                              <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+        extraHtml: `<button class="btn btn-success btnSelesai" onclick="onFinish()">Kirim</button>
+                              <button class="btn btn-secondary" onclick="onCancel()">Batal</button>`
       },
       anchor: {
         enableNavigation: true, // Enable/Disable anchor navigation 
@@ -516,8 +516,8 @@
         enableDoneStateNavigation: true // Enable/Disable the done state navigation
       },
       lang: { // Language variables for button
-        next: 'Next',
-        previous: 'Back'
+        next: 'Selanjutnya',
+        previous: 'Kembali'
       },
       disabledSteps: [], // Array Steps disabled
       errorSteps: [], // Highlight step with errors
