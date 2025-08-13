@@ -102,7 +102,7 @@
     #sync1 .item { margin:.35rem; }
     #sync1 .frame {
       width: 100%;
-      aspect-ratio: 4 / 3;             /* UBAH KE 16/9 jika mau lebih lebar */
+      aspect-ratio: 16 / 9;             /* UBAH KE 16/9 jika mau lebih lebar */
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 8px 18px rgba(15,23,42,0.08);
