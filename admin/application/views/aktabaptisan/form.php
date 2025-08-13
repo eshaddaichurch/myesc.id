@@ -67,7 +67,7 @@
                </div>
 
                <div class="form-group row required">
-                 <label for="" class="col-md-3 col-form-label">Nomor/ Tanggal Akta</label>
+                 <label for="" class="col-md-3 col-form-label">Nomor/ No Akta</label>
                  <div class="col-md-6">
                    <input type="text" name="noakta" id="noakta" class="form-control" placeholder="Otomatis" readonly="">
                  </div>
@@ -77,9 +77,9 @@
                </div>
 
                <div class="form-group row required baptis-elshaddai">
-                 <label for="" class="col-md-3 col-form-label">Dilakukan Oleh</label>
+                 <label for="" class="col-md-3 col-form-label">Pembaptis</label>
                  <div class="col-md-9">
-                   <input type="text" name="dilakukanoleh" id="dilakukanoleh" class="form-control" placeholder="Dilakukan oleh" value="">
+                   <input type="text" name="dilakukanoleh" id="dilakukanoleh" class="form-control" placeholder="Pembaptis" value="">
                  </div>
                </div>
 
