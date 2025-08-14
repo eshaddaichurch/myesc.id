@@ -114,7 +114,7 @@ $css = '
 
 
 $html = $css . '<span class="default-text">' . $rsakta->noakta . '</span>';
-$pdf->SetXY(53, 92);
+$pdf->SetXY(51, 92);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -149,7 +149,7 @@ $pdf->SetXY(81, 202);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->dilakukanoleh . '</span>';
-$pdf->SetXY(90, 229);
+$pdf->SetXY(85, 229);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
