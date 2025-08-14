@@ -85,19 +85,19 @@ $css = '
     .tglsertifikat {
         font-size: 35px;
         width: 100%;
-        font-weight: bold;
+        font-weight: 500;
         text-align: center;
     }
     .namasertifikat {
         font-size: 40px;
         width: 100%;
         text-align: center;
-        font-weight: bold;
+        font-weight: 500;
     }
     .default-text {
         font-size: 14px;
         width: 100%;
-        font-weight: bold;
+        font-weight: 500;
     }
         .nama-jemaat {
         font-size: 18px;
