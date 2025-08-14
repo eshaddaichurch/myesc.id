@@ -35,17 +35,11 @@ $legalFormat = array(215.9, 355.6);
 $pdf = new MYPDF('P', 'mm', $legalFormat, true, 'UTF-8', false);
 
 // set document information
-// $pdf->SetCreator(PDF_CREATOR);
-// $pdf->SetAuthor('Elshaddai Church');
-// $pdf->SetTitle('SERTIFIKAT FC1');
-// $pdf->SetSubject('SERTIFIKAT FC1');
-// $pdf->SetKeywords('elshaddai, churc');
-
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('El Shaddai Church');
-$pdf->SetTitle('Akta Nikah');
-$pdf->SetSubject('Akta Nikah');
-$pdf->SetKeywords('El Shaddai, Church');
+$pdf->SetAuthor('Elshaddai Church');
+$pdf->SetTitle('SERTIFIKAT FC1');
+$pdf->SetSubject('SERTIFIKAT FC1');
+$pdf->SetKeywords('elshaddai, churc');
 
 // set header and footer fonts
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -79,9 +73,7 @@ if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // set font
-// $pdf->SetFont('pdfacourier', '', 48);
-
-$pdf->SetFont('times', 'B', 14);
+$pdf->SetFont('pdfacourier', '', 48);
 
 // add a page
 $pdf->AddPage();
