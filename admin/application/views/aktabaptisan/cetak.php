@@ -73,7 +73,10 @@ if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('pdfacourier', '', 48);
+// $pdf->SetFont('pdfacourier', '', 48);
+
+$pdf->SetFont('times', 'B', 14);
+
 
 // add a page
 $pdf->AddPage();
