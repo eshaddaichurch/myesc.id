@@ -364,7 +364,68 @@ use PhpParser\Node\Stmt\Echo_;
         font-size: 24px;
     }
 
-    
+    .new-beginning-section {
+    background-color: #1a1a1a; /* biar kontras */
+    color: #ffffff;
+    text-align: center;
+    padding: 80px 20px;
+    }
+
+    .new-beginning-section h2 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+    }
+
+    .new-beginning-section .content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    }
+
+    .new-beginning-section .content p {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+    .new-beginning-section {
+        padding: 60px 15px;
+    }
+
+    .new-beginning-section h2 {
+        font-size: 2.2rem;
+    }
+
+    .new-beginning-section .content p {
+        font-size: 1rem;
+        margin-bottom: 18px;
+    }
+    }
+
+    /* HP kecil */
+    @media (max-width: 480px) {
+    .new-beginning-section {
+        padding: 50px 10px;
+    }
+
+    .new-beginning-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .new-beginning-section .content {
+        line-height: 1.6;
+    }
+
+    .new-beginning-section .content p {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+    }
+
+
+/*     
     .new-beginning-section {
     padding: 80px 20px;
     text-align: center;
@@ -438,7 +499,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     .new-beginning-section .btn-learn:hover {
         background: #388e3c;
-    }
+    } */
 
 
 
