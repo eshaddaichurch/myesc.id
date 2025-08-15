@@ -904,81 +904,12 @@ $this->load->view('template/festavalive/header'); ?>
 
 
         .rediscover-section {
+          /* background-color: #5a7740; */
           background-image: url('<?php echo base_url("myesc.id/assets/gambar/about.jpg"); ?>');
           color: white;
           text-align: center;
           padding: 215px 20px;
         }
-
-
-        /* Bagian background rediscover */
-        /* .rediscover-section {
-          background-image: url('<?php echo base_url("myesc.id/assets/gambar/about.jpg"); ?>');
-          background-size: cover;
-          background-position: center;
-          color: white;
-          text-align: center;
-          padding: 215px 20px;
-        } */
-
-        /* Konten unik owner */
-        .owner-section {
-          max-width: 800px;
-          margin: 0 auto;
-        }
-
-        .owner-title {
-          font-size: 5.2rem;
-          margin-bottom: 20px;
-          color: #ffffff;
-          font-weight: bold;
-        }
-
-        .owner-subtitle {
-          font-size: 2.2rem;
-          margin-bottom: 20px;
-          color: #ffffff;
-          font-weight: bold;
-        }
-
-        .owner-desc {
-          color: #ffffff;
-          font-size: 1.2rem;
-          line-height: 1.6;
-        }
-
-        /* Tablet */
-        @media (max-width: 768px) {
-          .rediscover-section {
-            padding: 120px 15px;
-          }
-          .owner-title {
-            font-size: 3rem;
-          }
-          .owner-subtitle {
-            font-size: 1.8rem;
-          }
-          .owner-desc {
-            font-size: 1rem;
-          }
-        }
-
-        /* Mobile kecil */
-        @media (max-width: 480px) {
-          .rediscover-section {
-            padding: 80px 10px;
-          }
-          .owner-title {
-            font-size: 2.2rem;
-          }
-          .owner-subtitle {
-            font-size: 1.4rem;
-          }
-          .owner-desc {
-            font-size: 0.95rem;
-          }
-        }
-
 
         .rediscover-section .content {
           max-width: 800px;
@@ -1140,10 +1071,10 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <section class="rediscover-section">
-      <div class="owner-section">
-        <h1 class="owner-title">Our Owner</h1>
-        <h2 class="owner-subtitle">YESUS</h2>
-        <p class="owner-desc">
+      <div class="content">
+        <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">Our Owner</h1>
+        <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h2>
+        <p style="color: #ffffff;">
           Pemilik dari ESC adalah Tuhan Yesus Kristus.
         </p>
         <!-- <a href="#" class="btn-learn">Lebih Mengenal Jesus →</a> -->
