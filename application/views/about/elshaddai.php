@@ -932,7 +932,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         @media (max-width: 480px) {
           .rediscover-section {
-            padding: 80px 10px; /* lebih kecil lagi untuk layar kecil */
+            padding: 160px 10px; /* lebih kecil lagi untuk layar kecil */
           }
 
           .rediscover-section .content {
