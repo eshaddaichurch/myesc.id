@@ -821,8 +821,8 @@ $this->load->view('template/festavalive/header'); ?>
 
         .section-title {
         font-size: 3.5rem;
-        margin-bottom: 45px;
-        color: #222;
+        margin-bottom: 0px;
+        color: #000000;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -832,9 +832,9 @@ $this->load->view('template/festavalive/header'); ?>
 
         @media (max-width: 768px) {
           .section-title {
-          font-size: 2.5rem;
+          font-size: 2.0rem;
           margin-bottom: 45px;
-          color: #222;
+          color: #000000;
           display: flex;
           justify-content: center;
           align-items: center;

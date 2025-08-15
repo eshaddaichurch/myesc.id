@@ -334,6 +334,8 @@ use PhpParser\Node\Stmt\Echo_;
         color: white;
         text-align: center;
         padding: 380px 20px;
+        background-size: cover; /* supaya gambar menyesuaikan */
+        background-position: center; /* gambar tetap fokus di tengah */
     }
 
     .hero-section h1 {
