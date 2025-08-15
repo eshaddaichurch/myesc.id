@@ -881,6 +881,30 @@ $this->load->view('template/festavalive/header'); ?>
         
         }
 
+        /* Tambahan untuk tampilan mobile */
+        @media (max-width: 768px) {
+          .rediscover-section {
+            padding: 120px 15px; /* lebih kecil supaya tidak terlalu tinggi di HP */
+            background-size: cover; /* supaya gambar menyesuaikan */
+            background-position: center; /* gambar tetap fokus di tengah */
+          }
+
+          .rediscover-section .content {
+            max-width: 100%; /* biar konten memenuhi layar */
+            font-size: 16px; /* sesuaikan ukuran font */
+          }
+        }
+
+        @media (max-width: 480px) {
+          .rediscover-section {
+            padding: 80px 10px; /* lebih kecil lagi untuk layar kecil */
+          }
+
+          .rediscover-section .content {
+            font-size: 14px; /* kecilkan font agar nyaman di layar HP */
+          }
+        }
+
         .title {
           font-size: 60px;
           margin-bottom: 10px;
