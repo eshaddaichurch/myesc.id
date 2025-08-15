@@ -576,8 +576,43 @@ $this->load->view('template/festavalive/header'); ?>
         border-radius: 10px;
         }
         .profil-right {
-        flex: 2;
+          flex: 2;
+          min-width: 300px;
+          max-width: 800px; /* batasi agar teks tidak terlalu lebar di desktop */
+          margin: 0 auto; /* center di layar besar */
+          padding: 0 20px; /* jarak kiri-kanan */
         }
+
+        .profil-right p {
+          font-size: 1rem; /* =16px default */
+          line-height: 1.7; /* longgar supaya nyaman dibaca */
+          margin-bottom: 1.2em; /* jarak antar paragraf */
+          color: #f5f5f5; /* pastikan kontras dengan background */
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+          .profil-right {
+            padding: 0 15px; /* lebih rapat di HP */
+          }
+
+          .profil-right p {
+            font-size: 0.95rem; /* sekitar 15px */
+            line-height: 1.6;   /* tetap longgar */
+          }
+        }
+
+        @media (max-width: 480px) {
+          .profil-right {
+            padding: 0 10px;
+          }
+
+          .profil-right p {
+            font-size: 0.9rem; /* sekitar 14px */
+            line-height: 1.5;
+          }
+        }
+
         .profil-right h2 {
         font-size: 2rem;
         margin-bottom: 20px;
