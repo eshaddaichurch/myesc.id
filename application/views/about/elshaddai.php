@@ -1038,12 +1038,12 @@ $this->load->view('template/festavalive/header'); ?>
     <section class="rediscover-section">
       <div class="content">
         <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">Our Owner</h1>
-        <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">JESUS</h2>
+        <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h2>
         <p style="color: #ffffff;">
           Pemilik dari ESC adalah Tuhan Yesus Kristus.
         </p>
         <!-- <a href="#" class="btn-learn">Lebih Mengenal Jesus →</a> -->
-        <a href="<?php echo site_url('jesus/index'); ?>" class="btn-learn">Lebih Mengenal Jesus →</a>
+        <a href="<?php echo site_url('jesus/index'); ?>" class="btn-learn">Lebih Mengenal Yesus →</a>
       </div>
     </section>
       
@@ -1053,11 +1053,11 @@ $this->load->view('template/festavalive/header'); ?>
     <section class="profil-gereja-section fade-in-section" style="display: flex; justify-content: center; padding: 60px 30px; background: #fafafa;">
         <div class="profil-container" style="display: flex; flex-direction: row; gap: 30px; max-width: 1200px; align-items: flex-start; flex-wrap: wrap;">
           <div class="profil-left" style="flex: 1; min-width: 300px;">
-            <h2 style="font-size: 5.2rem; margin-bottom: 20px; color: #ff5008; font-weight: bold;">ESC</h2>
-            <h2 style="font-size: 1.2rem; margin-bottom: 20px; color: #ff5008; font-weight: bold;">EL SHADDAI CHURCH</h2>
+            <h2 style="font-size: 5.2rem; margin-bottom: 20px; color: #000000; font-weight: bold;">ESC</h2>
+            <h2 style="font-size: 1.2rem; margin-bottom: 20px; color: #000000; font-weight: bold;">EL SHADDAI CHURCH</h2>
           </div>
           <div class="profil-right" style="flex: 2; min-width: 300px;">
-            <p class="paragraf-profil">
+            <p>
               ESC diawali dengan datangnya Ps. Yehezkiel Wilan dan Keluarga ke kota Pontianak untuk merintis pelayanan baru dari Gereja lokal GBI Bethany Jakarta pada bulan Juni 1996.
             </p>
             <p class="paragraf-profil">
@@ -1158,7 +1158,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
 
           <div class="value-panel">
-            <div class="panel-title" style="color: #ff5008;">Jesus</div>
+            <div class="panel-title" style="color: #ff5008;">Yesus</div>
             <div class="panel-content">
               <p style="font-size: 20px;">"Yesus Kristus ialah pusat dari segalanya."</p>
             </div>
