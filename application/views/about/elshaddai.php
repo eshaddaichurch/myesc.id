@@ -1072,7 +1072,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <section class="rediscover-section">
       <div class="content">
-        <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">Our Owner</h1>
+        <h1 class="h1" style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">Our Owner</h1>
         <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h2>
         <p style="color: #ffffff;">
           Pemilik dari ESC adalah Tuhan Yesus Kristus.
