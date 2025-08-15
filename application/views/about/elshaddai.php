@@ -135,57 +135,51 @@ $this->load->view('template/festavalive/header'); ?>
           color: inherit;
         }
 
-        .owner-section {
-          text-align: center;
-          padding: 40px 20px;
-        }
-
-        .owner-title {
-          font-size: 5.2rem;
+        h1 {
+          font-size: 5.2rem; /* default desktop */
           margin-bottom: 20px;
           color: #ffffff;
           font-weight: bold;
         }
 
-        .owner-subtitle {
-          font-size: 2.2rem;
+        h2.subtitle {
+          font-size: 2.2rem; /* default desktop */
           margin-bottom: 20px;
           color: #ffffff;
           font-weight: bold;
         }
 
-        .owner-desc {
+        p {
           color: #ffffff;
           font-size: 1.2rem;
           line-height: 1.6;
         }
 
-        /* Responsif tablet */
+        /* Tablet */
         @media (max-width: 768px) {
-          .owner-title {
-            font-size: 3rem;
+          h1 {
+            font-size: 3rem; /* turun jadi sekitar 48px */
           }
-          .owner-subtitle {
+          h2.subtitle {
             font-size: 1.8rem;
           }
-          .owner-desc {
+          p {
             font-size: 1rem;
           }
         }
 
-        /* Responsif mobile kecil */
+        /* Mobile kecil */
         @media (max-width: 480px) {
-          .owner-title {
-            font-size: 2.2rem;
+          h1 {
+            font-size: 2.2rem; /* sekitar 35px */
           }
-          .owner-subtitle {
-            font-size: 1.4rem;
+          h2.subtitle {
+            font-size: 1.4rem; /* sekitar 22px */
           }
-          .owner-desc {
-            font-size: 0.95rem;
+          p {
+            font-size: 0.95rem; /* sekitar 15px */
           }
         }
-
 
 
         .small {
@@ -1117,10 +1111,10 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <section class="rediscover-section">
-      <div class="owner-section">
-        <h1 class="owner-title">Our Owner</h1>
-        <h2 class="owner-subtitle">YESUS</h2>
-        <p class="owner-desc">
+      <div class="content">
+        <h1 style="font-size: 20px; margin-bottom: 20px; color: #ffffff; font-weight: bold;">Our Owner</h1>
+        <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h2>
+        <p style="color: #ffffff;">
           Pemilik dari ESC adalah Tuhan Yesus Kristus.
         </p>
         <!-- <a href="#" class="btn-learn">Lebih Mengenal Jesus →</a> -->
