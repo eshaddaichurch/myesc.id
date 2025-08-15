@@ -1114,17 +1114,16 @@ $this->load->view('template/festavalive/header'); ?>
       
 
        <!-- Slideshow Section -->
-      <section class="slideshow-section">
+      <!-- <section class="slideshow-section">
         <div class="slideshow-container">
           
           <div class="slide active">
             <video autoplay muted loop playsinline class="slide-video">
-              <!-- <source src="assets/gambar/aniv.mp4" type="video/mp4"> -->
               <source src="<?php echo base_url('myesc.id/assets/gambar/aniv.mp4'); ?>" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
-      </section>
+      </section> -->
     
   
   <!-- Visi -->
