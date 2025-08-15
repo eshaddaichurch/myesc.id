@@ -587,7 +587,7 @@ $this->load->view('template/festavalive/header'); ?>
           font-size: 1rem; /* =16px default */
           line-height: 1.7; /* longgar supaya nyaman dibaca */
           margin-bottom: 1.2em; /* jarak antar paragraf */
-          color: #f5f5f5; /* pastikan kontras dengan background */
+          color:rgb(0, 0, 0); /* pastikan kontras dengan background */
         }
 
         /* Mobile */
