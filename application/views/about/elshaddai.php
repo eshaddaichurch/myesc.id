@@ -870,7 +870,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         .rediscover-section {
           /* background-color: #5a7740; */
-          background-image: url('<?php echo base_url("myesc.id/assets/gambar/jesus.jpg"); ?>');
+          background-image: url('<?php echo base_url("myesc.id/assets/gambar/about.jpg"); ?>');
           color: white;
           text-align: center;
           padding: 215px 20px;
