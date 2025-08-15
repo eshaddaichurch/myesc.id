@@ -135,52 +135,12 @@ $this->load->view('template/festavalive/header'); ?>
           color: inherit;
         }
 
-        h1 {
-          font-size: 5.2rem; /* default desktop */
-          margin-bottom: 20px;
-          color: #ffffff;
-          font-weight: bold;
+        h1,
+        .h1 {
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          line-height: 1.2;
         }
-
-        h2.subtitle {
-          font-size: 2.2rem; /* default desktop */
-          margin-bottom: 20px;
-          color: #ffffff;
-          font-weight: bold;
-        }
-
-        p {
-          color: #ffffff;
-          font-size: 1.2rem;
-          line-height: 1.6;
-        }
-
-        /* Tablet */
-        @media (max-width: 768px) {
-          h1 {
-            font-size: 3rem; /* turun jadi sekitar 48px */
-          }
-          h2.subtitle {
-            font-size: 1.8rem;
-          }
-          p {
-            font-size: 1rem;
-          }
-        }
-
-        /* Mobile kecil */
-        @media (max-width: 480px) {
-          h1 {
-            font-size: 2.2rem; /* sekitar 35px */
-          }
-          h2.subtitle {
-            font-size: 1.4rem; /* sekitar 22px */
-          }
-          p {
-            font-size: 0.95rem; /* sekitar 15px */
-          }
-        }
-
 
         .small {
           font-size: 80%;
@@ -1112,7 +1072,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <section class="rediscover-section">
       <div class="content">
-        <h1>Our Owner</h1>
+        <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">Our Owner</h1>
         <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h2>
         <p style="color: #ffffff;">
           Pemilik dari ESC adalah Tuhan Yesus Kristus.
