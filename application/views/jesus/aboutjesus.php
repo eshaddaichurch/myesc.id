@@ -328,15 +328,32 @@ use PhpParser\Node\Stmt\Echo_;
     background-color: #fff;
     }
 
-    .hero-section {
-        /*background: url('/assets/gambar/jesus2.jpg') no-repeat center center/cover;*/
+    /* .hero-section {
+       
         background: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>')no-repeat center center/cover;
         color: white;
         text-align: center;
         padding: 380px 20px;
-        background-size: cover; /* supaya gambar menyesuaikan */
-        background-position: center; /* gambar tetap fokus di tengah */
+        
+    } */
+
+    .hero-section {
+        background: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>') no-repeat center center;
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-align: center;
+        padding: 380px 20px; /* default desktop */
+        }
+
+        /* mobile */
+        @media (max-width: 768px) {
+        .hero-section {
+            padding: 200px 20px; /* kurangi padding biar tidak terlalu tinggi */
+            background-position: top center; /* fokus ke bagian atas gambar */
+        }
     }
+
 
     .hero-section h1 {
         font-size: 48px;
