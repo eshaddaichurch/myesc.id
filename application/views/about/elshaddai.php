@@ -903,23 +903,23 @@ $this->load->view('template/festavalive/header'); ?>
         }
 
 
-        /* .rediscover-section {
+        .rediscover-section {
           background-image: url('<?php echo base_url("myesc.id/assets/gambar/about.jpg"); ?>');
           color: white;
           text-align: center;
           padding: 215px 20px;
-        } */
+        }
 
 
         /* Bagian background rediscover */
-        .rediscover-section {
+        /* .rediscover-section {
           background-image: url('<?php echo base_url("myesc.id/assets/gambar/about.jpg"); ?>');
           background-size: cover;
           background-position: center;
           color: white;
           text-align: center;
           padding: 215px 20px;
-        }
+        } */
 
         /* Konten unik owner */
         .owner-section {
