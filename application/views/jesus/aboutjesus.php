@@ -910,12 +910,12 @@ use PhpParser\Node\Stmt\Echo_;
         </div>
     </section> -->
 
-    <!-- <section class="rediscover-section">
+    <section class="rediscover-section">
       <div class="content">
         <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h1>
         
       </div>
-    </section> -->
+    </section>
 
     <!-- Tentang Yesus -->
     <section class="new-beginning-section">
