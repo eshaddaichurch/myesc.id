@@ -367,7 +367,7 @@ use PhpParser\Node\Stmt\Echo_;
 
         @media (max-width: 480px) {
         .rediscover-section {
-            padding: 100px 10px;
+            padding: 220px 10px;
         }
 
         .rediscover-section .content {
