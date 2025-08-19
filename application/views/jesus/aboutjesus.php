@@ -389,7 +389,7 @@ use PhpParser\Node\Stmt\Echo_;
     font-size: 3rem;
     margin-bottom: 30px;
     font-weight: bold;
-    color: #ffd700; /* emas untuk judul */
+    color: #ebd7a9; /* emas untuk judul */
     }
 
     .new-beginning-section .content {
@@ -427,24 +427,91 @@ use PhpParser\Node\Stmt\Echo_;
 
     /* HP kecil */
     @media (max-width: 480px) {
-    .new-beginning-section {
+    .new-section {
         padding: 50px 10px;
     }
 
-    .new-beginning-section h2 {
+    .new-section h2 {
         font-size: 1.8rem;
     }
 
-    .new-beginning-section .content {
+    .new-section .content {
         line-height: 1.6;
     }
 
-    .new-beginning-section .content p {
+    .new-section .content p {
         font-size: 0.95rem;
         margin-bottom: 15px;
     }
     }
 
+
+    .new-section {
+    background-color: #1a1a1a; /* hitam biar kontras */
+    color: #f5f5f5; /* default abu terang, bukan putih full */
+    text-align: center;
+    padding: 80px 20px;
+    }
+
+    .new-section h2 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #ebd7a9; /* emas untuk judul */
+    }
+
+    .new-section .content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    }
+
+    .new-section .content p {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: #e0e0e0; /* abu terang untuk paragraf */
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+    .new-section {
+        padding: 60px 15px;
+    }
+
+    .new-section h2 {
+        font-size: 2.2rem;
+    }
+
+    .new-section .content p {
+        font-size: 1rem;
+        margin-bottom: 18px;
+    }
+
+    .new-section .content p em {
+    color: #ffffff; /* khusus teks dalam <em> jadi putih */
+    font-style: italic;
+    }
+    }
+
+    /* HP kecil */
+    @media (max-width: 480px) {
+    .new-section {
+        padding: 50px 10px;
+    }
+
+    .new-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .new-section .content {
+        line-height: 1.6;
+    }
+
+    .new-section .content p {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+    }
 
 /*     
     .new-beginning-section {
@@ -843,12 +910,12 @@ use PhpParser\Node\Stmt\Echo_;
         </div>
     </section> -->
 
-    <section class="rediscover-section">
+    <!-- <section class="rediscover-section">
       <div class="content">
         <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h1>
-        <!-- <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h2> -->
+        
       </div>
-    </section>
+    </section> -->
 
     <!-- Tentang Yesus -->
     <section class="new-beginning-section">
@@ -888,50 +955,37 @@ use PhpParser\Node\Stmt\Echo_;
         </div>
     </section>
 
-
-     <!-- Tentang Yesus -->
-<section class="jesus-section">
-    <h2>Tentang Yesus</h2>
-    <div class="content">
-        <p>
-            Yesus Kristus adalah pribadi Allah yang mengambil rupa manusia, Mesias yang dijanjikan, dan Juruselamat dunia. Ia lahir sekitar 2.000 tahun yang lalu di kota Betlehem, Yudea, dari seorang perawan bernama Maria, melalui karya Roh Kudus (Matius 1:18–25; Lukas 1:26–38). Kelahiran-Nya digenapi sesuai nubuat dalam Perjanjian Lama, dan menjadi titik awal penggenapan rencana keselamatan Allah bagi umat manusia.
-        </p>
-
-        <p>
-            Yesus dibesarkan di kota kecil Nazaret, sebagai anak dari Yusuf, seorang tukang kayu. Meskipun hidup dalam kesederhanaan, sejak kecil Yesus menunjukkan hikmat dan kedekatan yang mendalam dengan Allah (Lukas 2:41–52). Ia mulai pelayanan publik-Nya pada usia sekitar 30 tahun, setelah dibaptis oleh Yohanes Pembaptis di Sungai Yordan. Pada saat baptisan-Nya, suara dari surga menyatakan, “Inilah Anak-Ku yang Kukasihi, kepada-Nyalah Aku berkenan” (Matius 3:17), menandai awal pelayanan ilahi-Nya.
-        </p>
-
-        <p>
-            Selama tiga tahun pelayanan-Nya di bumi, Yesus mengajar tentang kasih, pertobatan, Kerajaan Allah, dan pengampunan dosa. Ia melakukan banyak mujizat menyembuhkan orang sakit, mengusir roh jahat, membangkitkan orang mati, memberi makan ribuan orang dengan makanan yang sedikit, serta berjalan di atas air. Ia menjangkau semua kalangan: orang miskin, berdosa, sakit, bahkan yang tersisih dari masyarakat, dengan penuh belas kasih dan kebenaran.
-        </p>
-
-        <p>
-            Yesus juga mengajarkan bahwa Ia adalah “Jalan, Kebenaran, dan Hidup” (Yohanes 14:6), dan tidak seorang pun dapat datang kepada Bapa kecuali melalui Dia. Ajaran-Nya membawa harapan, tetapi juga menimbulkan perlawanan dari pemimpin agama Yahudi yang merasa terusik oleh kuasa dan kebenaran-Nya.
-        </p>
-
-        <p>
-            Pada akhirnya, Yesus disalibkan di Golgota oleh keputusan penguasa Romawi, setelah ditolak oleh bangsanya sendiri. Namun, kematian-Nya bukan kekalahan, melainkan penggenapan dari rencana Allah, Yesus mati sebagai korban yang sempurna untuk menebus dosa manusia (Yesaya 53; 1 Petrus 2:24). Ia menanggung hukuman yang seharusnya kita terima, agar kita dapat menerima pengampunan dan diperdamaikan dengan Allah.
-        </p>
-
-        <p>
-            Pada hari ketiga setelah kematian-Nya, Yesus bangkit dari antara orang mati. Kebangkitan-Nya adalah bukti nyata bahwa Ia sungguh-sungguh adalah Allah, dan bahwa kuasa dosa dan maut telah dikalahkan. Setelah itu, Ia menampakkan diri kepada banyak orang, termasuk para murid-Nya, selama 40 hari, sebelum terangkat ke surga (Kisah Para Rasul 1:3–9). Ia kini duduk di sebelah kanan Allah Bapa dan akan datang kembali kelak.
-        </p>
-
-    </div>
-</section>
-
-
-
-    <!-- <section class="beginning-section">
+    <!-- Tentang Yesus -->
+    <section class="new-section">
+        <h2>Tentang Yesus</h2>
         <div class="content">
-            <p style="color: #eeeeee; font-size: 24px;">
-                Karena begitu besar kasih Allah akan dunia ini  sehingga Ia telah mengaruniakan  Anak-Nya  yang tunggal, supaya setiap orang yang percaya kepadaNya tidak binasa, melainkan beroleh hidup yang kekal.
-                <br>
-                Yohanes 3:16
+            <p>
+            Yesus Kristus adalah pribadi Allah yang mengambil rupa manusia, Mesias yang dijanjikan, dan Juruselamat dunia. Ia lahir sekitar 2.000 tahun yang lalu di kota Betlehem, Yudea, dari seorang perawan bernama Maria, melalui karya Roh Kudus (Matius 1:18–25; Lukas 1:26–38). Kelahiran-Nya digenapi sesuai nubuat dalam Perjanjian Lama, dan menjadi titik awal penggenapan rencana keselamatan Allah bagi umat manusia.
             </p>
     
+            <p>
+            Yesus dibesarkan di kota kecil Nazaret, sebagai anak dari Yusuf, seorang tukang kayu. Meskipun hidup dalam kesederhanaan, sejak kecil Yesus menunjukkan hikmat dan kedekatan yang mendalam dengan Allah (Lukas 2:41–52). Ia mulai pelayanan publik-Nya pada usia sekitar 30 tahun, setelah dibaptis oleh Yohanes Pembaptis di Sungai Yordan. Pada saat baptisan-Nya, suara dari surga menyatakan, “Inilah Anak-Ku yang Kukasihi, kepada-Nyalah Aku berkenan” (Matius 3:17), menandai awal pelayanan ilahi-Nya.
+            </p>
+    
+            <p>
+            Selama tiga tahun pelayanan-Nya di bumi, Yesus mengajar tentang kasih, pertobatan, Kerajaan Allah, dan pengampunan dosa. Ia melakukan banyak mujizat menyembuhkan orang sakit, mengusir roh jahat, membangkitkan orang mati, memberi makan ribuan orang dengan makanan yang sedikit, serta berjalan di atas air. Ia menjangkau semua kalangan: orang miskin, berdosa, sakit, bahkan yang tersisih dari masyarakat, dengan penuh belas kasih dan kebenaran.
+            </p>
+    
+            <p>
+            Yesus juga mengajarkan bahwa Ia adalah “Jalan, Kebenaran, dan Hidup” (Yohanes 14:6), dan tidak seorang pun dapat datang kepada Bapa kecuali melalui Dia. Ajaran-Nya membawa harapan, tetapi juga menimbulkan perlawanan dari pemimpin agama Yahudi yang merasa terusik oleh kuasa dan kebenaran-Nya.
+            </p>
+    
+            <p>
+            Pada akhirnya, Yesus disalibkan di Golgota oleh keputusan penguasa Romawi, setelah ditolak oleh bangsanya sendiri. Namun, kematian-Nya bukan kekalahan, melainkan penggenapan dari rencana Allah, Yesus mati sebagai korban yang sempurna untuk menebus dosa manusia (Yesaya 53; 1 Petrus 2:24). Ia menanggung hukuman yang seharusnya kita terima, agar kita dapat menerima pengampunan dan diperdamaikan dengan Allah.
+            </p>
+
+            <p>
+            Pada hari ketiga setelah kematian-Nya, Yesus bangkit dari antara orang mati. Kebangkitan-Nya adalah bukti nyata bahwa Ia sungguh-sungguh adalah Allah, dan bahwa kuasa dosa dan maut telah dikalahkan. Setelah itu, Ia menampakkan diri kepada banyak orang, termasuk para murid-Nya, selama 40 hari, sebelum terangkat ke surga (Kisah Para Rasul 1:3–9). Ia kini duduk di sebelah kanan Allah Bapa dan akan datang kembali kelak.
+            </p>
+            
         </div>
-    </section> -->
+    </section>
+
 
      <!-- PARALLAX DIVIDER -->
      <div class="parallax-divider">
