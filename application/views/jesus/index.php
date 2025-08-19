@@ -332,7 +332,7 @@ use PhpParser\Node\Stmt\Echo_;
       justify-content: center; /* default tengah */
       align-items: center;
       min-height: 100vh;
-      background-color: #c7c3a9;
+      background-color: #e9d6a8;
       background-attachment: fixed;
       background-position: center;
       background-repeat: no-repeat;
@@ -351,7 +351,7 @@ use PhpParser\Node\Stmt\Echo_;
         justify-content: center; /* default tengah */
         align-items: center;
         min-height: 80vh;
-        background-color: #c7c3a9;
+        background-color: #e9d6a8;
         background-attachment: fixed;
         background-position: center;
         background-repeat: no-repeat;
