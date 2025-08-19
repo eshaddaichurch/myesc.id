@@ -380,9 +380,17 @@ use PhpParser\Node\Stmt\Echo_;
 
     /* Judul */
     .video-section-parallax h2 {
-      font-size: 36px;
+      font-size: 25px;
       font-weight: 800;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .video-section-parallax h2 {
+        font-size: 25px;
+        font-weight: 800;
+        margin-bottom: 10px;
+        }
     }
 
     /* Container Video */
@@ -544,7 +552,7 @@ use PhpParser\Node\Stmt\Echo_;
 <!-- Tambahkan class align-top / align-middle / align-bottom sesuai kebutuhan -->
   <section class="video-section-parallax align-bottom">
     <div class="overlay">
-      <h2>Doa Keselamatan</h2>
+      <h2>Doa Menerima Tuhan Yesus</h2>
       <div class="video-container">
         <iframe
           src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
@@ -555,6 +563,9 @@ use PhpParser\Node\Stmt\Echo_;
         </iframe>
       </div>
     </div>
+
+    <br>
+    <br>
 
     <a href="https://myesc.id/nextstep/kelas/foundation_class_1" class="btn-modern">
                 Langkah Berikutnya -> Fc 1
