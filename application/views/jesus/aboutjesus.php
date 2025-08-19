@@ -1021,12 +1021,12 @@ use PhpParser\Node\Stmt\Echo_;
             </p>
 
             <!-- Tambahkan section di bawah teks -->
-            <section class="follow-section">
+            
             <div class="content">
                 <h2>Langkah Awal</h2>
                 <a href="<?php echo site_url('vidioajakandoa/index'); ?>" class="btn-modern">Terima Yesus -></a>
             </div>
-            </section>
+            
         </div>
     </div>
 
