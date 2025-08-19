@@ -555,15 +555,11 @@ use PhpParser\Node\Stmt\Echo_;
         </iframe>
       </div>
     </div>
-  </section>
 
-  <section class="follow-section">
-        <div class="content">
-            <h2>Selamat Anda Sudah Bergabung Dalam keluarga Allah.</h2>
-            <button class="btn-modern">Langkah Berikutnya -> </button>
-        </div>
-        </div>
-    
+    <a href="https://myesc.id/nextstep/kelas/foundation_class_1" class="btn-modern">
+                Langkah Berikutnya -> Fc 1
+    </a>
+
   </section>
     
         
