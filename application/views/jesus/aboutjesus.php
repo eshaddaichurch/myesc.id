@@ -343,7 +343,7 @@ use PhpParser\Node\Stmt\Echo_;
           background-image: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>');
           color: white;
           text-align: center;
-          padding: 215px 20px;
+          padding: 380px 20px;
         }
 
         .rediscover-section .content {
@@ -912,7 +912,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     <section class="rediscover-section">
       <div class="content">
-        <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h1>
+        <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;"></h1>
         
       </div>
     </section>
