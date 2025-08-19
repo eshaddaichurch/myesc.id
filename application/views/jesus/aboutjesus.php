@@ -673,8 +673,8 @@ use PhpParser\Node\Stmt\Echo_;
     .btn-modern {
     padding: 20px 10px;
     font-family: 'Figtree', sans-serif;
-    background-color:rgb(183, 183, 183); /* biru indigo */
-    color: #ffffff;
+    background-color: #969696; /* biru indigo */
+    color: #000000;
     border: none;
     border-radius: 30px;
     font-size: 16px;
@@ -690,8 +690,8 @@ use PhpParser\Node\Stmt\Echo_;
         .btn-modern {
         padding: 22px 24px;
         font-family: 'Figtree', sans-serif;
-        background-color: #000000; /* biru indigo */
-        color: #ffffff;
+        background-color: #969696; /* biru indigo */
+        color: #000000;
         border: none;
         border-radius: 12px;
         font-size: 16px;
