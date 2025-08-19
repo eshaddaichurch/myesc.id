@@ -596,15 +596,15 @@ use PhpParser\Node\Stmt\Echo_;
     .follow-section {
     padding: 80px 20px;
     text-align: center;
-    background-color: #eeeeee;
+    background-color: transparent;
     font-family: 'Figtree', sans-serif;
     }
 
     .follow-section h2 {
         font-family: 'Figtree', sans-serif;
-        font-size: 36px;
+        font-size: 16px;
         font-weight: 700px;
-        margin-bottom: 30px;
+        margin-bottom: 8px;
         color: #333;
     }
 
@@ -671,12 +671,12 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     .btn-modern {
-    padding: 30px 80px;
+    padding: 20px 10px;
     font-family: 'Figtree', sans-serif;
     background-color: #000000; /* biru indigo */
     color: #ffffff;
     border: none;
-    border-radius: 12px;
+    border-radius: 30px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
