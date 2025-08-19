@@ -596,7 +596,7 @@ use PhpParser\Node\Stmt\Echo_;
     .follow-section {
     padding: 80px 20px;
     text-align: center;
-    background-color: transparent;
+    background-color: #1a1a1a;
     font-family: 'Figtree', sans-serif;
     }
 
@@ -673,7 +673,7 @@ use PhpParser\Node\Stmt\Echo_;
     .btn-modern {
     padding: 20px 10px;
     font-family: 'Figtree', sans-serif;
-    background-color: #000000; /* biru indigo */
+    background-color:rgb(183, 183, 183); /* biru indigo */
     color: #ffffff;
     border: none;
     border-radius: 30px;
