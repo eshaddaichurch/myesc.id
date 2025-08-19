@@ -150,7 +150,7 @@ $html = $css . '<span class="default-text">' . $rsakta->tempatlahirpria . '</spa
 $pdf->SetXY(62, 147);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-$html = $css . '<span class="default-text">' . tglindonesia($rsakta->tanggallahirpria) . '</span>';
+$html = $css . '<span class="default-text">' . tglindonesialengkap($rsakta->tanggallahirpria) . '</span>';
 $pdf->SetXY(105, 147);
 $pdf->writeHTML($html, true, false, true, false, '');
 
@@ -172,7 +172,7 @@ $html = $css . '<span class="default-text">' . $rsakta->tempatlahirwanita . '</s
 $pdf->SetXY(62, 190);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-$html = $css . '<span class="default-text">' . tglindonesia($rsakta->tanggallahirwanita) . '</span>';
+$html = $css . '<span class="default-text">' . tglindonesialengkap($rsakta->tanggallahirwanita) . '</span>';
 $pdf->SetXY(105, 190);
 $pdf->writeHTML($html, true, false, true, false, '');
 
