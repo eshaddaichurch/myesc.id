@@ -989,7 +989,7 @@ use PhpParser\Node\Stmt\Echo_;
 
 
      <!-- PARALLAX DIVIDER -->
-     <div class="parallax-divider">
+     <!-- <div class="parallax-divider">
         <div class="parallax-text-wrapper">
           <p id="parallax-text">
             Karena begitu besar kasih Allah akan dunia ini  sehingga Ia telah mengaruniakan  Anak-Nya  yang tunggal, supaya setiap orang yang percaya kepadaNya tidak binasa, melainkan beroleh hidup yang kekal.
@@ -1003,13 +1003,33 @@ use PhpParser\Node\Stmt\Echo_;
     
     <section class="follow-section">
         <div class="content">
-            <h2>Langkah Pertama </h2>
+            <h2>Langkah Awal</h2>
              <a href="<?php echo site_url('vidioajakandoa/index'); ?>" class="btn-modern">Terima Yesus -></a>
-            <!--<button class="btn-modern">VISIT -></button>-->
+            
         </div>
         </div>
      
-    </section>
+    </section> -->
+
+    <div class="parallax-divider">
+        <div class="parallax-text-wrapper">
+            <p id="parallax-text">
+            Karena begitu besar kasih Allah akan dunia ini sehingga Ia telah mengaruniakan Anak-Nya yang tunggal, 
+            supaya setiap orang yang percaya kepadaNya tidak binasa, melainkan beroleh hidup yang kekal.
+            <br>
+            Yohanes 3:16
+            </p>
+
+            <!-- Tambahkan section di bawah teks -->
+            <section class="follow-section">
+            <div class="content">
+                <h2>Langkah Awal</h2>
+                <a href="<?php echo site_url('vidioajakandoa/index'); ?>" class="btn-modern">Terima Yesus -></a>
+            </div>
+            </section>
+        </div>
+    </div>
+
     
         
 
