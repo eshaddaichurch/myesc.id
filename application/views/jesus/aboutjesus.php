@@ -602,10 +602,10 @@ use PhpParser\Node\Stmt\Echo_;
 
     .follow-section h2 {
         font-family: 'Figtree', sans-serif;
-        font-size: 16px;
+        font-size: 32px;
         font-weight: 700px;
         margin-bottom: 8px;
-        color: #333;
+        color: #ebd7a9;
     }
 
 
@@ -671,7 +671,7 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     .btn-modern {
-    padding: 20px 10px;
+    padding: 30px 50px;
     font-family: 'Figtree', sans-serif;
     background-color: #969696; /* biru indigo */
     color: #000000;
