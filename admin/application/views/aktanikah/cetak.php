@@ -36,10 +36,10 @@ $pdf = new MYPDF('P', 'mm', $legalFormat, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Elshaddai Church');
-$pdf->SetTitle('SERTIFIKAT FC1');
-$pdf->SetSubject('SERTIFIKAT FC1');
-$pdf->SetKeywords('elshaddai, churc');
+$pdf->SetAuthor('El Shaddai Church');
+$pdf->SetTitle('AKTA NIKAH');
+$pdf->SetSubject('AKTA NIKAH');
+$pdf->SetKeywords('El Shaddai, church');
 
 // set header and footer fonts
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -73,7 +73,9 @@ if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('pdfacourier', '', 48);
+// $pdf->SetFont('pdfacourier', '', 48);
+
+$pdf->SetFont('times', 'B', 14);
 
 // add a page
 $pdf->AddPage();
@@ -187,7 +189,7 @@ $html = $css . '<span class="default-text">' . $rsakta->dilakukanoleh . '</span>
 $pdf->SetXY(71, 232);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-$html = $css . '<span class="default-text">Pontianak, ' . tglindonesia($rsakta->tglakta) . '</span>';
+$html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
 $pdf->SetXY(105, 260);
 $pdf->writeHTML($html, true, false, true, false, '');
 
