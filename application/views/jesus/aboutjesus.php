@@ -339,43 +339,44 @@ use PhpParser\Node\Stmt\Echo_;
 
     
     .rediscover-section {
-          /* background-color: #5a7740; */
-          background-image: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>');
-          color: white;
-          text-align: center;
-          padding: 380px 20px;
+        background-image: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>');
+        background-size: cover;       /* gambar menyesuaikan ukuran layar */
+        background-position: center;  /* fokus di tengah */
+        background-repeat: no-repeat; /* hilangkan duplikasi */
+        color: white;
+        text-align: center;
+        padding: 350px 20px;
         }
 
         .rediscover-section .content {
-          max-width: 800px;
-        
+        max-width: 800px;
+        margin: 0 auto;
         }
 
         /* Tambahan untuk tampilan mobile */
         @media (max-width: 768px) {
-          .rediscover-section {
-            padding: 120px 15px; /* lebih kecil supaya tidak terlalu tinggi di HP */
-            background-size: cover; /* supaya gambar menyesuaikan */
-            background-position: center; /* gambar tetap fokus di tengah */
-          }
+        .rediscover-section {
+            padding: 120px 15px;
+        }
 
-          .rediscover-section .content {
-            max-width: 100%; /* biar konten memenuhi layar */
-            font-size: 16px; /* sesuaikan ukuran font */
-          }
+        .rediscover-section .content {
+            max-width: 100%;
+            font-size: 16px;
+        }
         }
 
         @media (max-width: 480px) {
-          .rediscover-section {
-            padding: 160px 10px; /* lebih kecil lagi untuk layar kecil */
-          }
-
-          .rediscover-section .content {
-            font-size: 14px; /* kecilkan font agar nyaman di layar HP */
-          }
+        .rediscover-section {
+            padding: 100px 10px;
         }
 
+        .rediscover-section .content {
+            font-size: 14px;
+        }
+    }
 
+
+    
 
 
     .new-beginning-section {
