@@ -340,7 +340,7 @@ use PhpParser\Node\Stmt\Echo_;
     
     .rediscover-section {
           /* background-color: #5a7740; */
-          background-image: url('<?php echo base_url("myesc.id/assets/gambar/about.jpg"); ?>');
+          background-image: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>');
           color: white;
           text-align: center;
           padding: 215px 20px;
@@ -837,11 +837,17 @@ use PhpParser\Node\Stmt\Echo_;
  
   
     <!-- Hero Section -->
-    <section class="hero-section">
+    <!-- <section class="hero-section">
         <div class="content">
             <h1 style="font-size: 6.2rem; margin-bottom: 20px; color: #e79746; font-weight: bold;">YESUS</h1>
-            <!-- <p>Sang Juru Selamat Dunia yang Mengubah Segalanya</p> -->
         </div>
+    </section> -->
+
+    <section class="rediscover-section">
+      <div class="content">
+        <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h1>
+        <!-- <h2 class="subtitle" style="font-size: 2.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;">YESUS</h2> -->
+      </div>
     </section>
 
     <!-- Tentang Yesus -->
