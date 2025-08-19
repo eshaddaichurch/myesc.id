@@ -614,8 +614,8 @@ use PhpParser\Node\Stmt\Echo_;
         font-family: 'Figtree', sans-serif;
         font-size: 24px;
         font-weight: 700px;
-        margin-bottom: 30px;
-        color: #333;
+        margin-bottom: 8px;
+        color: #ebd7a9;
     }
     }
 
@@ -913,7 +913,7 @@ use PhpParser\Node\Stmt\Echo_;
 
     <section class="rediscover-section">
       <div class="content">
-        <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;"></h1>
+        <!-- <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;"></h1> -->
         
       </div>
     </section>
