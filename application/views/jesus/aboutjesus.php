@@ -337,36 +337,50 @@ use PhpParser\Node\Stmt\Echo_;
         
     } */
 
-    .hero-section {
-        background: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>') no-repeat center center;
-        background-size: cover;
-        background-position: center;
-        color: white;
-        text-align: center;
-        padding: 380px 20px; /* default desktop */
+    
+    .rediscover-section {
+          /* background-color: #5a7740; */
+          background-image: url('<?php echo base_url("myesc.id/assets/gambar/about.jpg"); ?>');
+          color: white;
+          text-align: center;
+          padding: 215px 20px;
         }
 
-        /* mobile */
+        .rediscover-section .content {
+          max-width: 800px;
+        
+        }
+
+        /* Tambahan untuk tampilan mobile */
         @media (max-width: 768px) {
-        .hero-section {
-            padding: 200px 20px; /* kurangi padding biar tidak terlalu tinggi */
-            background-position: top center; /* fokus ke bagian atas gambar */
+          .rediscover-section {
+            padding: 120px 15px; /* lebih kecil supaya tidak terlalu tinggi di HP */
+            background-size: cover; /* supaya gambar menyesuaikan */
+            background-position: center; /* gambar tetap fokus di tengah */
+          }
+
+          .rediscover-section .content {
+            max-width: 100%; /* biar konten memenuhi layar */
+            font-size: 16px; /* sesuaikan ukuran font */
+          }
         }
-    }
+
+        @media (max-width: 480px) {
+          .rediscover-section {
+            padding: 160px 10px; /* lebih kecil lagi untuk layar kecil */
+          }
+
+          .rediscover-section .content {
+            font-size: 14px; /* kecilkan font agar nyaman di layar HP */
+          }
+        }
 
 
-    .hero-section h1 {
-        font-size: 48px;
-        margin-bottom: 10px;
-    }
 
-    .hero-section p {
-        font-size: 24px;
-    }
 
     .new-beginning-section {
-    background-color: #1a1a1a; /* biar kontras */
-    color: #ffffff;
+    background-color: #1a1a1a; /* hitam biar kontras */
+    color: #f5f5f5; /* default abu terang, bukan putih full */
     text-align: center;
     padding: 80px 20px;
     }
@@ -375,6 +389,7 @@ use PhpParser\Node\Stmt\Echo_;
     font-size: 3rem;
     margin-bottom: 30px;
     font-weight: bold;
+    color: #ffd700; /* emas untuk judul */
     }
 
     .new-beginning-section .content {
@@ -386,6 +401,7 @@ use PhpParser\Node\Stmt\Echo_;
     .new-beginning-section .content p {
     margin-bottom: 20px;
     font-size: 1.2rem;
+    color: #e0e0e0; /* abu terang untuk paragraf */
     }
 
     /* Tablet */
@@ -401,6 +417,11 @@ use PhpParser\Node\Stmt\Echo_;
     .new-beginning-section .content p {
         font-size: 1rem;
         margin-bottom: 18px;
+    }
+
+    .new-beginning-section .content p em {
+    color: #ffffff; /* khusus teks dalam <em> jadi putih */
+    font-style: italic;
     }
     }
 
