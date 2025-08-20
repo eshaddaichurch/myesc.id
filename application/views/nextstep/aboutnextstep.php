@@ -651,7 +651,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/vc.png'); ?>" alt="Deskripsi gambar">
-            <h3>VOULUNTEER CLASS</h3>
+            <h3>VOLUNTEER CLASS</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/volunteer_class') ?>">
               <button type="button">Selengkapnya</button>
