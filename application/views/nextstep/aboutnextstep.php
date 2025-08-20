@@ -570,6 +570,12 @@ $this->load->view('template/festavalive/header'); ?>
         color: #ccc;
       }
 
+
+      .title-kelas {
+        color: #545454; /* ganti sesuai warna yang kamu mau */
+      }
+
+
       /*whatiscare*/
     </style>
     </head>
@@ -618,7 +624,7 @@ $this->load->view('template/festavalive/header'); ?>
           <div class="musik-card">
 
             <img src="<?php echo base_url('myesc.id/assets/gambar/fc1.png'); ?>" alt="Deskripsi gambar">
-            <h3>FOUNDATION CLASS 1</h3>
+            <h3 class="title-kelas">FOUNDATION CLASS 1</h3>
             <!-- <p>kami siap untuk mendoakan Anda..</p> -->
             <a href="<?= site_url('nextstep/kelas/foundation_class_1') ?>">
               <button type="button">Selengkapnya</button>
@@ -627,7 +633,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/fc2.png'); ?>" alt="Deskripsi gambar">
-            <h3>FOUNDATION CLASS 2</h3>
+            <h3 class="title-kelas">FOUNDATION CLASS 2</h3>
             <!-- <p>Tuhan hadir untuk membantu Anda mengalami kelepasan dan pemulihan yang sejati..</p> -->
             <a href="<?= site_url('nextstep/kelas/foundation_class_2') ?>">
               <button type="button">Selengkapnya</button>
@@ -635,7 +641,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/fc3.png'); ?>" alt="Deskripsi gambar">
-            <h3>FOUNDATION CLASS 3</h3>
+            <h3 class="title-kelas">FOUNDATION CLASS 3</h3>
             <!-- <p>Pergerakan pemuda di Hillsong Church, yang disajikan melalui musik.</p> -->
             <a href="<?= site_url('nextstep/kelas/foundation_class_3') ?>">
               <button type="button">Selengkapnya</button>
@@ -643,7 +649,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/mc.png'); ?>" alt="Deskripsi gambar">
-            <h3>MEMBERSHIP CLASS</h3>
+            <h3 class="title-kelas">MEMBERSHIP CLASS</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/membership_class') ?>">
               <button type="button">Selengkapnya</button>
@@ -651,7 +657,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/vc.png'); ?>" alt="Deskripsi gambar">
-            <h3>VOLUNTEER CLASS</h3>
+            <h3 class="title-kelas">VOLUNTEER CLASS</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/volunteer_class') ?>">
               <button type="button">Selengkapnya</button>
@@ -659,7 +665,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/gd1.png'); ?>" alt="Deskripsi gambar">
-            <h3>GRADE 1</h3>
+            <h3 class="title-kelas">GRADE 1</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/grade_1') ?>">
               <button type="button">Selengkapnya</button>
@@ -667,7 +673,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/gd2.png'); ?>" alt="Deskripsi gambar">
-            <h3>GRADE 2</h3>
+            <h3 class="title-kelas">GRADE 2</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/grade_2') ?>">
               <button type="button">Selengkapnya</button>
@@ -675,7 +681,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/gd3.png'); ?>" alt="Deskripsi gambar">
-            <h3>GRADE 3</h3>
+            <h3 class="title-kelas">GRADE 3</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/grade_3') ?>">
               <button type="button">Selengkapnya</button>
@@ -683,7 +689,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/mc1.png'); ?>" alt="Deskripsi gambar">
-            <h3>MARRIAGE CLASS</h3>
+            <h3 class="title-kelas">MARRIAGE CLASS</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/marriage_class') ?>">
               <button type="button">Selengkapnya</button>
