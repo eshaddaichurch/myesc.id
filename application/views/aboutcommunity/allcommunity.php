@@ -648,7 +648,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <h3>ESC KIDS</h3>
                 <!-- <p>kami siap untuk mendoakan Anda..</p> -->
                 <a href="<?= site_url('esckids/index') ?>">
-                <button type="button">Visit</button>
+                <button type="button">Selengkapnya</button>
                 </a>
 
             </div>
@@ -657,7 +657,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <h3>ESC YOUTH</h3>
                 <!-- <p>Tuhan hadir untuk membantu Anda mengalami kelepasan dan pemulihan yang sejati..</p> -->
                 <a href="<?= site_url('youth/index') ?>">
-                <button type="button">Visit</button>
+                <button type="button">Selengkapnya</button>
                 </a>
             </div>
             <div class="musik-card">
@@ -665,7 +665,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <h3>ESC YOUNG ADULT</h3>
                 <!-- <p>Pergerakan pemuda di Hillsong Church, yang disajikan melalui musik.</p> -->
                 <a href="<?= site_url('youngadult/index') ?>">
-                <button type="button">Visit</button>
+                <button type="button">Selengkapnya</button>
                 </a>
             </div>
             <div class="musik-card">
@@ -673,7 +673,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <h3>ESC WOMEN</h3>
                 <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
                 <a href="<?= site_url('escwomen/index') ?>">
-                <button type="button">Visit</button>
+                <button type="button">Selengkapnya</button>
                 </a>
             </div>
             <div class="musik-card">
@@ -681,7 +681,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <h3>ESC GOLD</h3>
                 <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
                 <a href="<?= site_url('gold/index') ?>">
-                <button type="button">Visit</button>
+                <button type="button">Selengkapnya</button>
                 </a>
             </div>
             <div class="musik-card">
@@ -689,7 +689,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <h3>ESC DISCIPLES COMMUNITY</h3>
                 <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
                 <a href="<?= site_url('disciples_community/index') ?>">
-                <button type="button">Visit</button>
+                <button type="button">Selengkapnya</button>
                 </a>
             </div>
     
