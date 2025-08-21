@@ -149,7 +149,7 @@ $html = $css . '<span class="default-text">' . hari($rsakta->tglakta) . '</span>
 $pdf->SetXY(79, 130);
 $pdf->writeHTML($html, true, false, true, false, '');
 $html = $css . '<span class="default-text">EL SHADDAI</span>';
-$pdf->SetXY(81, 151);
+$pdf->SetXY(81, 147);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -188,7 +188,7 @@ $pdf->SetXY(117, 249);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(121, 275);
+$pdf->SetXY(121, 273);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
