@@ -108,7 +108,7 @@
                  <div class="col-md-9">
                    <input type="text" name="namaayah" id="namaayah" class="form-control" placeholder="nama ayah">
                  </div>
-               </div>
+                </div>
 
                <div class="form-group row required baptis-elshaddai">
                  <label for="" class="col-md-3 col-form-label">Nama Ibu</label>

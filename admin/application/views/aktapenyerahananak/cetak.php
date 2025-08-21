@@ -140,7 +140,7 @@ $css = '
 
 
 $html = $css . '<span class="default-text">' . $rsakta->noakta . '</span>';
-$pdf->SetXY(52, 92);
+$pdf->SetXY(50, 92);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -150,7 +150,7 @@ $pdf->SetXY(79, 133);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . tglindonesialengkap($rsakta->tglakta) . '</span>';
-$pdf->SetXY(119, 130);
+$pdf->SetXY(121, 130);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -159,7 +159,7 @@ $html = $css . '<span class="nama-jemaat">' . $rsakta->namajemaatanak . '</span>
 $pdf->SetXY(79, 179);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-$html = $css . '<span class="default-text">' . $rsakta->tempatlahiranak . ' / ' . tglindonesia($rsakta->tanggallahiranak) . '</span>';
+$html = $css . '<span class="default-text">' . $rsakta->tempatlahiranak . ' / ' . tglindonesialengkap($rsakta->tanggallahiranak) . '</span>';
 $pdf->SetXY(79, 188);
 $pdf->writeHTML($html, true, false, true, false, '');
 
@@ -179,12 +179,12 @@ $html = $css . '<span class="default-text dilakukan-oleh">' . $rsakta->dilakukan
 $pdf->SetXY(0, 227);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-$html = $css . '<span class="default-text">Pontianak, ' . tglindonesia($rsakta->tglakta) . '</span>';
+$html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
 $pdf->SetXY(117, 249);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(119, 277);
+$pdf->SetXY(121, 277);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
