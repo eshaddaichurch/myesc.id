@@ -63,6 +63,7 @@ class Aktapenyerahananak extends MY_Controller
                 $row[] = tglindonesialengkap($rowdata->tglakta);
                 $row[] = $rowdata->namajemaatanak;
                 $row[] = $rowdata->dilakukanoleh;
+                $row[] = $rowdata->namagereja;
                 $row[] = $rowdata->namadaerahakta;
                 $row[] = '
                         <div class="btn-group dropleft">
@@ -132,6 +133,7 @@ class Aktapenyerahananak extends MY_Controller
         $idakta             = $this->input->post('idakta');
         $tglakta        = $this->input->post('tglakta');
         $dilakukanoleh        = $this->input->post('dilakukanoleh');
+        $namagereja        = $this->input->post('namagereja');
         $idjemaatayah        = $this->input->post('idjemaatayah');
         $idjemaatibu        = $this->input->post('idjemaatibu');
         $idjemaatanak        = $this->input->post('idjemaatanak');
@@ -150,6 +152,7 @@ class Aktapenyerahananak extends MY_Controller
                 'noakta'   => $noakta,
                 'tglakta'   => $tglakta,
                 'dilakukanoleh'   => $dilakukanoleh,
+                'namagereja'   => $namagereja,
                 'idjemaatanak'   => $idjemaatanak,
                 'idjemaatayah'   => $idjemaatayah,
                 'idjemaatibu'   => $idjemaatibu,
@@ -163,6 +166,7 @@ class Aktapenyerahananak extends MY_Controller
                 'idakta'   => $idakta,
                 'tglakta'   => $tglakta,
                 'dilakukanoleh'   => $dilakukanoleh,
+                'namagereja'   => $namagereja,
                 'idjemaatanak'   => $idjemaatanak,
                 'idjemaatayah'   => $idjemaatayah,
                 'idjemaatibu'   => $idjemaatibu,
@@ -207,6 +211,7 @@ class Aktapenyerahananak extends MY_Controller
             'tglakta'     =>  $RsData->tglakta,
             'tglcetak'     =>  $RsData->tglcetak,
             'dilakukanoleh'     =>  $RsData->dilakukanoleh,
+            'namagereja'     =>  $RsData->namagereja,
             'idjemaatanak'     =>  $RsData->idjemaatanak,
             'idjemaatayah'     =>  $RsData->idjemaatayah,
             'idjemaatibu'     =>  $RsData->idjemaatibu,

@@ -46,6 +46,7 @@ $this->load->view("template/sidemenu");
                     <th style="text-align: left;">Tanggal</th>
                     <th style="text-align: center;">Nama Anak</th>
                     <th style="text-align: center;">Nama Pendeta</th>
+                    <th style="text-align: center;">Nama Gereja</th>
                     <th style="text-align: center;">Nama Daerah</th>
                     <th style="text-align: center; width: 15%;">Aksi</th>
                   </tr>

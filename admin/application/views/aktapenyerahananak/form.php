@@ -63,6 +63,13 @@
                     </div>
                   </div>
 
+                  <div class="form-group row required baptis-elshaddai">
+                    <label for="" class="col-md-3 col-form-label">Di GBI</label>
+                    <div class="col-md-9">
+                      <input type="text" name="namagereja" id="namagereja" class="form-control" placeholder="EL Shaddai" value="">
+                    </div>
+                  </div>
+
                   <div class="form-group row required">
                     <label for="" class="col-md-3 col-form-label">Nama Ayah</label>
                     <div class="col-md-9">
@@ -281,6 +288,7 @@
             $("#idakta").val(result.idakta);
             $("#noakta").val(result.noakta);
             $("#dilakukanoleh").val(result.dilakukanoleh);
+            $("#namagereja").val(result.namagereja);
             $("#idjemaatanak").val(result.idjemaatanak).trigger('change');
             $("#idjemaatayah").val(result.idjemaatayah).trigger('change');
             $("#idjemaatibu").val(result.idjemaatibu).trigger('change');
@@ -316,6 +324,13 @@
           validators:{
             notEmpty: {
                 message: "dilakukan oleh tidak boleh kosong"
+            },
+          }
+        },
+        namagereja: {
+          validators:{
+            notEmpty: {
+                message: "Nama Gereja tidak boleh kosong"
             },
           }
         },
