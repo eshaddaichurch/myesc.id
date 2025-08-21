@@ -140,17 +140,17 @@ $css = '
 
 
 $html = $css . '<span class="default-text">' . $rsakta->noakta . '</span>';
-$pdf->SetXY(50, 92);
+$pdf->SetXY(52, 89);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
 
 $html = $css . '<span class="default-text">' . hari($rsakta->tglakta) . '</span>';
-$pdf->SetXY(79, 133);
+$pdf->SetXY(79, 130);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . tglindonesialengkap($rsakta->tglakta) . '</span>';
-$pdf->SetXY(121, 130);
+$pdf->SetXY(119, 130);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -184,7 +184,7 @@ $pdf->SetXY(117, 249);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(121, 277);
+$pdf->SetXY(121, 280);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
