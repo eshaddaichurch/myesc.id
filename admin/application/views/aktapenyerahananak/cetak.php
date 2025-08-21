@@ -140,7 +140,7 @@ $css = '
 
 
 $html = $css . '<span class="default-text">' . $rsakta->noakta . '</span>';
-$pdf->SetXY(52, 89);
+$pdf->SetXY(52, 95);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -184,7 +184,7 @@ $pdf->SetXY(117, 249);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(121, 280);
+$pdf->SetXY(121, 275);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
