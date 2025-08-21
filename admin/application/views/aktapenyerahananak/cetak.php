@@ -184,11 +184,11 @@ $pdf->SetXY(0, 227);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
-$pdf->SetXY(117, 251);
+$pdf->SetXY(117, 248);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(121, 273);
+$pdf->SetXY(121, 274);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
