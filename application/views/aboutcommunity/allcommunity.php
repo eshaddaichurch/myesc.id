@@ -345,7 +345,7 @@ $this->load->view('template/festavalive/header'); ?>
                 color: #444;
             } */
 
-            .section {
+            /* .section {
                 padding: 60px 20px;
                 text-align: center;
             }
@@ -375,7 +375,7 @@ $this->load->view('template/festavalive/header'); ?>
                 line-height: 1.6;
                 max-width: 800px;
                 margin: 0 auto 20px;
-            }
+            } */
 
             .button {
                 display: inline-block;
