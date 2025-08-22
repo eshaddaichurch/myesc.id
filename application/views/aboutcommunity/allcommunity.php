@@ -338,12 +338,12 @@ $this->load->view('template/festavalive/header'); ?>
                 border-radius: 10px;
             }
 
-            body {
+            /* body {
                 margin: 0;
                 font-family: 'Helvetica Neue', sans-serif;
                 background-color: #fff;
                 color: #444;
-            }
+            } */
 
             .section {
                 padding: 60px 20px;
