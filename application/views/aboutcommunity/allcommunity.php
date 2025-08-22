@@ -592,9 +592,9 @@ $this->load->view('template/festavalive/header'); ?>
 
             
         </style>
-        </head>
+        <!-- </head>
 
-        <body>
+        <body> -->
 
             <!-- Parallax Header -->
             <!--<div class="parallax-section">-->

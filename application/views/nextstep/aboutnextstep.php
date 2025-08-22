@@ -578,9 +578,9 @@ $this->load->view('template/festavalive/header'); ?>
 
       /*whatiscare*/
     </style>
-    </head>
+    <!-- </head>
 
-    <body>
+    <body> -->
 
 
 

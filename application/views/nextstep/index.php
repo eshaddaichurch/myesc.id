@@ -490,6 +490,8 @@ $this->load->view('template/festavalive/header'); ?>
       }
     </style>
 
+
+
     <section>
       <!-- ======= Breadcrumbs ======= -->
       <div class="breadcrumbs d-flex align-items-center" style="background-image: url('<?php echo base_url('myesc.id/assets/gambar/back.jpg'); ?>'); height: 300px; background-size: cover; background-position: center;">
