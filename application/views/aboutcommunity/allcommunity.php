@@ -1,316 +1,25 @@
-<?php
-
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
+<?php 
+use PhpParser\Node\Stmt\Echo_; 
+$this->load->view('template/festavalive/header'); 
+?>
 
 <body>
 
   <main>
-
-
-
+    <!-- Navbar -->
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-
-
+    <!-- Tambahkan style fix navbar -->
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
-
-      /* This pen */
-
-
-      .dark {
-        background: #110f16;
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
       }
-
-      /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-      .breadcrumbs {
-        padding: 140px 0 60px 0;
-        min-height: 30vh;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      .breadcrumbs:before {
-        content: "";
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        inset: 0;
-      }
-
-      .breadcrumbs h2 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #fff;
-        font-family: var(--font-secondary);
-      }
-
-      .breadcrumbs ol {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0 0 10px 0;
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-primary);
-      }
-
-      .breadcrumbs ol a {
-        color: rgba(255, 255, 255, 0.8);
-        transition: 0.3s;
-      }
-
-      .breadcrumbs ol a:hover {
-        text-decoration: underline;
-      }
-
-      .breadcrumbs ol li+li {
-        padding-left: 10px;
-      }
-
-      .breadcrumbs ol li+li::before {
-        display: inline-block;
-        padding-right: 10px;
-        color: #fff;
-        content: "/";
-      }
-
-
-      .light {
-        background: #f3f5f7;
-      }
-
-      a,
-      a:hover {
-        text-decoration: none;
-        transition: color 0.3s ease-in-out;
-      }
-
-      #pageHeaderTitle {
-        margin: 2rem 0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2.5rem;
-      }
-
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
-        display: flex;
-
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
-        overflow: hidden;
-        position: relative;
-        color: #ffffff;
-
-        &.dark {
-          background-color: #18151f;
-        }
-
-        &.light {
-          background-color: #e1e5ea;
-        }
-
-        .t-dark {
-          color: #18151f;
-        }
-
-        a {
-          color: inherit;
-        }
-
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
-
-        .small {
-          font-size: 80%;
-        }
-
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
-
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
-
-        .postcard__img_link {
-          display: contents;
-        }
-
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
-
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
-        }
-
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
-        }
-
-        &:before {
-          content: "";
-          position: abslute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
-        }
-
-        &:hover .postcard__bar {
-          width: 100px;
-        }
-      }
-
-      @media screen and (min-width: 769px) {
-        .postcard {
-          flex-wrap: inherit;
-
-          .postcard__title {
-            font-size: 2rem;
-          }
-
-          .postcard__tagbox {
-            justify-content: start;
-          }
-
-          .postcard__img {
-            max-width: 300px;
-            max-height: 100%;
-            transition: transform 0.3s ease;
-          }
-
-          .postcard__text {
-            padding-left: 4rem;
-            width: 100%;
-
-          }
-
-          .media.postcard__text:before {
-            content: "";
-            position: absolute;
-            display: block;
-            background: #18151f;
-            top: -20%;
-            height: 130%;
-            width: 55px;
-          }
-
-          &:hover .postcard__img {
-            transform: scale(1.1);
-          }
-
-          &:nth-child(2n+1) {
-            flex-direction: row;
-          }
-
-          &:nth-child(2n+0) {
-            flex-direction: row-reverse;
-          }
-
-          &:nth-child(2n+1) .postcard__text::before {
-            left: -12px !important;
-            transform: rotate(4deg);
-          }
-
-          &:nth-child(2n+0) .postcard__text::before {
-            right: -12px !important;
-            transform: rotate(-4deg);
-          }
-        }
-      }
-
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
-        }
+      main {
+        padding-top: 80px; /* sesuaikan tinggi navbar */
       }
     </style>
 
@@ -586,96 +295,97 @@ $this->load->view('template/festavalive/header'); ?>
             <!-- Konten -->
 
             <section class="who-is-care">
-                <div class="container">
-                    <h2>Apa Itu Community?</h2>
-                    <div class="content">
-                        <div class="left">
-                            <p>
-                                ESC Community adalah wadah komunitas di El Shaddai Church yang dirancang untuk menjawab kebutuhan jemaat sesuai dengan demografi usia dan musim kehidupan yang belum dapat disentuh secara spesifik dalam ibadah umum.
-                            <p>
-                                Masing-masing komunitas difokuskan untuk membangun pertumbuhan rohani yang relevan, membentuk karakter Kristus, dan memperlengkapi jemaat agar hidup dalam panggilan mereka.
-                            </p>
-                            <p>
-                                Melalui ESC Community, ESC mengaktualisasikan visi: “Membangun Generasi yang Menghidupi Amanat Agung” dengan menciptakan lingkungan komunitas yang membina, mengutus, dan memperlengkapi setiap generasi untuk menjadi murid Kristus yang berdampak.
-                            </p>
-                        </div>
-                        <div class="right">
-                            <div class="dedication-video">
-                                <iframe width="560" height="315"
-                                    src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
-                                    title="YouTube video player"
-                                    frameborder="0"
-                                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen>
-                                </iframe>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-
-            <section class="musik-section">
-                <div style="text-align: center; margin-bottom: 40px;">
-                    <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Community</h2>
-                    <p style="font-size: 16px; color: #555;">Seluruh bidang community</p>
-                </div>
-            <div class="musik-container">
-            <div class="musik-card">
-
-                <img src="<?php echo base_url('myesc.id/assets/gambar/kids.png'); ?>" alt="Deskripsi gambar">
-                <h3>ESC KIDS</h3>
-                <!-- <p>kami siap untuk mendoakan Anda..</p> -->
-                <a href="<?= site_url('esckids/index') ?>">
-                <button type="button">Selengkapnya</button>
-                </a>
-
+      <div class="container">
+        <h2>Apa Itu Community?</h2>
+        <div class="content">
+          <div class="left">
+            <p>
+              ESC Community adalah wadah komunitas di El Shaddai Church yang dirancang untuk menjawab kebutuhan jemaat sesuai dengan demografi usia dan musim kehidupan yang belum dapat disentuh secara spesifik dalam ibadah umum.
+            </p>
+            <p>
+              Masing-masing komunitas difokuskan untuk membangun pertumbuhan rohani yang relevan, membentuk karakter Kristus, dan memperlengkapi jemaat agar hidup dalam panggilan mereka.
+            </p>
+            <p>
+              Melalui ESC Community, ESC mengaktualisasikan visi: “Membangun Generasi yang Menghidupi Amanat Agung” dengan menciptakan lingkungan komunitas yang membina, mengutus, dan memperlengkapi setiap generasi untuk menjadi murid Kristus yang berdampak.
+            </p>
+          </div>
+          <div class="right">
+            <div class="dedication-video">
+              <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
             </div>
-            <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/youth.png'); ?>" alt="Deskripsi gambar">
-                <h3>ESC YOUTH</h3>
-                <!-- <p>Tuhan hadir untuk membantu Anda mengalami kelepasan dan pemulihan yang sejati..</p> -->
-                <a href="<?= site_url('youth/index') ?>">
-                <button type="button">Selengkapnya</button>
-                </a>
-            </div>
-            <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/ya.png'); ?>" alt="Deskripsi gambar">
-                <h3>ESC YOUNG ADULT</h3>
-                <!-- <p>Pergerakan pemuda di Hillsong Church, yang disajikan melalui musik.</p> -->
-                <a href="<?= site_url('youngadult/index') ?>">
-                <button type="button">Selengkapnya</button>
-                </a>
-            </div>
-            <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/women.png'); ?>" alt="Deskripsi gambar">
-                <h3>ESC WOMEN</h3>
-                <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
-                <a href="<?= site_url('escwomen/index') ?>">
-                <button type="button">Selengkapnya</button>
-                </a>
-            </div>
-            <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/gold.png'); ?>" alt="Deskripsi gambar">
-                <h3>ESC GOLD</h3>
-                <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
-                <a href="<?= site_url('gold/index') ?>">
-                <button type="button">Selengkapnya</button>
-                </a>
-            </div>
-            <div class="musik-card">
-                <img src="<?php echo base_url('myesc.id/assets/gambar/dc.png'); ?>" alt="Deskripsi gambar">
-                <h3>ESC DISCIPLES COMMUNITY</h3>
-                <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
-                <a href="<?= site_url('disciples_community/index') ?>">
-                <button type="button">Selengkapnya</button>
-                </a>
-            </div>
-    
-            </div>
-            </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <?php $this->load->view('template/festavalive/footer'); ?>
+    <section class="musik-section">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 32px; font-weight: bold; color:#ef5008; margin-bottom: 10px;">Community</h2>
+        <p style="font-size: 16px; color: #555;">Seluruh bidang community</p>
+      </div>
+      <div class="musik-container">
+
+        <div class="musik-card">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/kids.png'); ?>" alt="ESC Kids">
+          <h3>ESC KIDS</h3>
+          <a href="<?= site_url('esckids/index') ?>">
+            <button type="button">Selengkapnya</button>
+          </a>
+        </div>
+
+        <div class="musik-card">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/youth.png'); ?>" alt="ESC Youth">
+          <h3>ESC YOUTH</h3>
+          <a href="<?= site_url('youth/index') ?>">
+            <button type="button">Selengkapnya</button>
+          </a>
+        </div>
+
+        <div class="musik-card">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/ya.png'); ?>" alt="ESC Young Adult">
+          <h3>ESC YOUNG ADULT</h3>
+          <a href="<?= site_url('youngadult/index') ?>">
+            <button type="button">Selengkapnya</button>
+          </a>
+        </div>
+
+        <div class="musik-card">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/women.png'); ?>" alt="ESC Women">
+          <h3>ESC WOMEN</h3>
+          <a href="<?= site_url('escwomen/index') ?>">
+            <button type="button">Selengkapnya</button>
+          </a>
+        </div>
+
+        <div class="musik-card">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/gold.png'); ?>" alt="ESC Gold">
+          <h3>ESC GOLD</h3>
+          <a href="<?= site_url('gold/index') ?>">
+            <button type="button">Selengkapnya</button>
+          </a>
+        </div>
+
+        <div class="musik-card">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/dc.png'); ?>" alt="ESC Disciples Community">
+          <h3>ESC DISCIPLES COMMUNITY</h3>
+          <a href="<?= site_url('disciples_community/index') ?>">
+            <button type="button">Selengkapnya</button>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== Konten Selesai ========== -->
+
+    <?php $this->load->view('template/festavalive/footer'); ?>
+  </main>
+
+</body>
+</html>
