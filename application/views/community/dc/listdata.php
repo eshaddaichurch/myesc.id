@@ -1022,9 +1022,9 @@ $this->load->view('template/festavalive/header'); ?>
     
 
     </style>
-    </head>
+    <!-- </head>
 
-    <body>
+    <body> -->
 
     <section class="page-content section-padding">
             <div class="container">
