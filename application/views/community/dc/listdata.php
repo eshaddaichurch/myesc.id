@@ -337,7 +337,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         .container-fluid,
         .container {
-            max-width: 1200px;
+            /* max-width: 1200px; */
         }
 
         .card-container {
