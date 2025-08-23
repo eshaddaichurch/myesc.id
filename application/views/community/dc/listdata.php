@@ -336,7 +336,9 @@ $this->load->view('template/festavalive/header'); ?>
         }
 
         .container-fluid,
-        
+        .container {
+            /* max-width: 1200px; */
+        }
 
         .card-container {
             padding: 100px 0px;
@@ -1177,7 +1179,7 @@ $this->load->view('template/festavalive/header'); ?>
 
 
 
-   
+    <?php $this->load->view('template/festavalive/footer'); ?>
 
     <script>
         $('#idkabupaten').change(function(e) {
