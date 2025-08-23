@@ -202,6 +202,62 @@
     #section_1 {
       height: 100vh;
     }
+
+
+  
+  /* Responsive fix untuk hero section */
+  @media (max-width: 576px) {
+    .hero-section small {
+      font-size: 14px; /* lebih kecil agar proporsional */
+    }
+    .hero-section h1 {
+      font-size: 28px; /* perkecil judul di mobile */
+      margin-bottom: 1.5rem;
+    }
+    .hero-section .btn {
+      padding: 12px 28px; /* tombol lebih kecil di mobile */
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 577px) and (max-width: 768px) {
+    .hero-section small {
+      font-size: 16px;
+    }
+    .hero-section h1 {
+      font-size: 36px;
+    }
+    .hero-section .btn {
+      padding: 14px 32px;
+      font-size: 15px;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .hero-section h1 {
+      font-size: 48px; /* ukuran normal di desktop */
+    }
+  }
+
+
+  /* @media screen and (max-width: 480px) {
+    .hero-section small {
+      font-size: 14px !important;
+    }
+
+    .hero-section h1 {
+      font-size: 22px !important; 
+      line-height: 1.3 !important;
+    }
+
+    .hero-section .btn {
+      font-size: 14px !important;
+      padding: 10px 24px !important;
+    }
+  } */
+
+
+
   </style>
 
   <main>
