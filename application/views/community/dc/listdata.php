@@ -335,6 +335,7 @@ $this->load->view('template/festavalive/header'); ?>
             margin-top: 100px; /* bisa diganti 80-120px sesuai tinggi navbar */
         }
 
+        .container-fluid,
         
 
         .card-container {
