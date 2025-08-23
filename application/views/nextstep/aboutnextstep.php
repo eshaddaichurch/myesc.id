@@ -1,4 +1,3 @@
-
 <?php
 
 use PhpParser\Node\Stmt\Echo_;
@@ -17,7 +16,6 @@ $this->load->view('template/festavalive/header'); ?>
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
       $main-green: #79dd09 !default;
       $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
       $main-yellow: #bdbb49 !default;
@@ -28,8 +26,6 @@ $this->load->view('template/festavalive/header'); ?>
       $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
 
       /* This pen */
-
-      
 
 
       .dark {
@@ -319,30 +315,32 @@ $this->load->view('template/festavalive/header'); ?>
     </style>
 
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+
+        /* body {
+            font-family: 'Figtree', sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        } */
 
 
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e9d6a8;
+            font-family: 'Figtree', sans-serif;
+            color: #111;
+            line-height: 1.7;
+            text-rendering: optimizeLegibility;
+        }
 
-      /* body {
-        margin: 0;
-        font-family: 'Figtree', sans-serif;
-        background-color: #fff;
-        color: #444;
-      } */
+        h1, h2, h3, h4, h5, h6, p, a, span, div, li, strong, em {
+            font-family: 'Figtree', sans-serif !important;
+        }
 
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #fff;
-        font-family: 'Figtree', sans-serif;
-        color: #111;
-        line-height: 1.7;
-      }
 
       .section {
         padding: 60px 20px;
@@ -545,7 +543,7 @@ $this->load->view('template/festavalive/header'); ?>
       } */
 
       .container {
-        max-width: 1200px;
+        /* max-width: 1200px; */
         margin: 0 auto;
       }
 
