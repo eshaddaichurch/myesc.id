@@ -529,7 +529,7 @@ $this->load->view('template/festavalive/header'); ?>
             /*aboutcommunity*/
 
             /*whatiscare*/
-            /* .who-is-care {
+            .who-is-care {
                 background-color: #1c1c1c;
                 color: #fff;
                 padding: 200px 20px;
@@ -542,7 +542,7 @@ $this->load->view('template/festavalive/header'); ?>
                 font-weight: bold;
                 margin-bottom: 40px;
                 color: #ef5008;
-            } */
+            }
 
             .container {
                 max-width: 1200px;
