@@ -78,17 +78,9 @@
       }
   }
 
-  /* .nav.nav-progress .nav-link,
-  .nav.nav-progress .nav-link .num {
-      color: #ff5008 !important;
-  } */
+  
 
-
-  .nav.nav-progress .nav-link .num {
-      background-color: #ff5008 !important;
-      border-color: #ff5008 !important; /* kalau ada border */
-      color: #fff !important; /* teks di dalam bulatan biar kontras */
-  }
+  
 
 
 
