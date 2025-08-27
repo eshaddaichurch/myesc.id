@@ -76,6 +76,11 @@
           font-size: 15px !important;
           color: #ff5008 !important;
       }
+
+      h5.text-center {
+          font-size: 13px !important;
+          color: #ff5008 !important;
+      }
   }
 
   
