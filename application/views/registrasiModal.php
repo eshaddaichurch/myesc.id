@@ -7,22 +7,32 @@
 
 
 <style>
-  /* === SmartWizard 'square' — ganti biru -> #ff5008 tanpa mengubah layout === */
+  /* Pakai class 'sw-theme-square' di HTML: <div id="smartwizard" class="sw-theme-square"> */
+  #smartwizard { --sw-color-primary: #ff5008; } /* kalau theme pakai CSS var */
 
-  /* Teks label step */
+  /* Label teks step */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link {
     color: #ff5008 !important;
+    background: transparent !important;   /* cegah blok oranye panjang */
+    border-color: transparent !important;
   }
 
-  /* Nomor step (1,2,3) */
+  /* Badge nomor (1,2,3) */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num {
     background-color: #ff5008 !important;
     border-color: #ff5008 !important;
     color: #fff !important;
-    box-shadow: none !important; /* hilangkan glow biru jika ada */
+    box-shadow: none !important;          /* hilangkan glow biru */
+  }
+  /* Matikan pseudo-element biru pada badge jika theme memakainya */
+  #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num::before,
+  #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num::after {
+    content: none !important;
+    background: none !important;
+    box-shadow: none !important;
   }
 
-  /* Nomor step saat active/done tetap oranye */
+  /* State active/done untuk badge */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active .num,
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done .num {
     background-color: #ff5008 !important;
@@ -30,26 +40,20 @@
     color: #fff !important;
   }
 
-  /* Garis penghubung antar step */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-item:not(:first-child)::before {
+  /* Garis konektor vertikal antar step (solid pada done/active) */
+  #smartwizard.sw-theme-square .nav.nav-progress .nav-item::before,
+  #smartwizard.sw-theme-square .nav.nav-progress .nav-link::before {
     background-color: #ff5008 !important;
+    border-color: #ff5008 !important;
   }
 
-  /* Pastikan tidak muncul blok background pada link aktif/done */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done {
-    background-color: transparent !important;
-    border-color: transparent !important;
-  }
-
-  /* Hilangkan segitiga/arrow default pada 'square' bila muncul */
+  /* Sembunyikan arrow/segitiga biru pada theme square, jika ada */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active::after,
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done::after {
     border-left-color: transparent !important;
   }
 
-  /* Hover: tone sedikit lebih gelap */
+  /* Hover */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link:hover { 
     color: #e04607 !important; 
   }
@@ -59,9 +63,7 @@
   }
 
   /* Progress bar bawah */
-  #smartwizard .progress-bar {
-    background-color: #ff5008 !important;
-  }
+  #smartwizard .progress-bar { background-color: #ff5008 !important; }
 
   /* Tombol navigasi wizard */
   #smartwizard .sw-btn-next,
@@ -78,18 +80,38 @@
     border-color: #e04607 !important;
   }
 
-  /* Bantuan/validasi */
-  .help-block { color: red; }
+  /* ===== Form: hilangkan biru dari autofill iOS/Safari ===== */
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset !important; /* latar putih */
+    -webkit-text-fill-color: inherit !important;
+    caret-color: inherit;
+  }
+  .form-control:focus {
+    border-color: #ff5008 !important;
+    box-shadow: 0 0 0 .2rem rgba(255,80,8,.25) !important;
+    background-color: #fff !important;
+  }
 
-  /* Modal */
+  /* ===== Lain-lain ===== */
+  .help-block { color: red; }
   .modal-custom { padding-bottom: 0; }
 
   /* Heading khusus mobile */
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     h3.text-center { font-size: 15px !important; color: #ff5008 !important; }
-    h5.text-center { font-size: 13px !important; color: #ff5008 !important; }
+   
   }
+
+  @media (max-width: 480px) {
+    #smartwizard #step-1 h5 {
+      font-size: 18px !important;  /* ubah sesuai kebutuhan */
+    }
+  }
+
 </style>
+
 
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
