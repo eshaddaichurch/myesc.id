@@ -74,9 +74,15 @@
   @media screen and (max-width: 480px) {
       h3.text-center {
           font-size: 15px !important;
-          background-color: #ff5008 !important;
+          color: #ff5008 !important;
       }
   }
+
+  .nav.nav-progress .nav-link,
+  .nav.nav-progress .nav-link .num {
+      color: #ff5008 !important;
+  }
+
 
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
