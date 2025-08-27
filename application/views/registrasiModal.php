@@ -73,6 +73,13 @@ Registrasi Modal Baru
     /* padding: 0 0 0 0; */
     padding-bottom: 0px;
   }
+
+  @media screen and (max-width: 480px) {
+      h3.text-center {
+          font-size: 15px !important;
+      }
+  }
+
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
