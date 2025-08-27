@@ -1,3 +1,6 @@
+Registrasi Modal Baru
+
+
 <!-- Animate CSS for the css animation support if needed -->
 <link href="<?php echo base_url('myesc.id/assets/animate/animate.min.css') ?>" rel="stylesheet" />
 
@@ -7,105 +10,70 @@
 
 
 <style>
-  /* ===== SmartWizard 'square' — oranye #ff5008 tanpa merusak layout ===== */
-
-  /* Jika theme pakai CSS variables */
-  #smartwizard{
-    --sw-color-primary: #ff5008;
-    --sw-progress-color: #ff5008;
-    --sw-anchor-color: #ff5008;
-    --sw-anchor-active-color: #ff5008;
-    --sw-anchor-done-color: #ff5008;
-  }
-
-  /* Label teks step (jangan beri background pada link) */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link{
-    color: #ff5008 !important;
-    background: transparent !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-  }
-
-  /* Badge nomor (1,2,3) – default, active, done */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active .num,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done .num{
+  /* Ganti warna utama SmartWizard theme 'square' dari biru ke #ff5008 */
+  .sw-theme-square > .nav > .nav-link.active,
+  .sw-theme-square > .nav > .nav-link.done {
     background-color: #ff5008 !important;
+    color: white !important;
     border-color: #ff5008 !important;
-    color: #fff !important;
-    box-shadow: none !important;
-  }
-  /* Matikan pseudo-element di badge jika ada efek biru */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num::before,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num::after{
-    content: none !important;
-    background: none !important;
-    box-shadow: none !important;
   }
 
-  /* === Konektor vertikal antar step (AKTIFKAN HANYA DI MOBILE) === */
-  @media (max-width: 768px){
-    #smartwizard.sw-theme-square .nav.nav-progress .nav-item:not(:first-child)::before{
-      background: #ff5008 !important;
-      background-image: none !important;
-    }
-  }
-  /* (SENGAJA TIDAK mengubah .nav-link::before / ::after di desktop) */
-
-  /* Hover tone sedikit lebih gelap */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link:hover{
-    color: #e04607 !important;
-  }
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link:hover .num{
-    background-color: #e04607 !important;
+  /* Warna hover pada step */
+  .sw-theme-square > .nav > .nav-link:hover {
+    background-color: #e04607 !important; /* Sedikit lebih gelap untuk efek hover */
     border-color: #e04607 !important;
   }
 
-  /* Progress bar bawah */
-  #smartwizard .progress-bar{ background-color: #ff5008 !important; }
+  /* Warna border untuk step yang aktif/done */
+  .sw-theme-square > .nav > .nav-link.active::after,
+  .sw-theme-square > .nav > .nav-link.done::after {
+    border-left-color: #ff5008 !important;
+  }
 
-  /* Tombol navigasi wizard */
-  #smartwizard .sw-btn-next,
-  #smartwizard .sw-btn-prev,
-  #smartwizard .btn-success.btnSelesai{
+  /* Ganti warna progress bar */
+  .sw-theme-square .progress-bar {
+    background-color: #ff5008 !important;
+  }
+
+  /* Garis horizontal antar langkah */
+  .sw-theme-square > .nav > .nav-item:not(:first-child)::before {
+    background-color: #ff5008 !important;
+  }
+
+  /* Nomor langkah (misalnya 1, 2, 3) */
+  .sw-theme-square > .nav > .nav-link > .num {
+    background-color: #ff5008 !important;
+    color: white !important;
+  }
+
+  /* Tombol Next/Previous jika ikut tema (opsional) */
+  .sw-btn-next,
+  .sw-btn-prev,
+  .btn-success.btnSelesai { /* Tombol "Kirim" */
     background-color: #ff5008 !important;
     border-color: #ff5008 !important;
-    color: #fff !important;
   }
-  #smartwizard .sw-btn-next:hover,
-  #smartwizard .sw-btn-prev:hover,
-  #smartwizard .btn-success.btnSelesai:hover{
+
+  .sw-btn-next:hover,
+  .sw-btn-prev:hover,
+  .btn-success.btnSelesai:hover {
     background-color: #e04607 !important;
     border-color: #e04607 !important;
-  }
-
-  /* ===== Form: hilangkan biru autofill iOS/Safari ===== */
-  input:-webkit-autofill,
-  textarea:-webkit-autofill,
-  select:-webkit-autofill{
-    -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
-    -webkit-text-fill-color: inherit !important;
-    caret-color: inherit;
-  }
-  .form-control:focus{
-    border-color: #ff5008 !important;
-    box-shadow: 0 0 0 .2rem rgba(255,80,8,.25) !important;
-    background-color: #fff !important;
-  }
-
-  /* Lain-lain */
-  .help-block{ color: red; }
-  .modal-custom{ padding-bottom: 0; }
-
-  /* Mobile headings */
-  @media (max-width: 480px){
-    h3.text-center{ font-size: 15px !important; color: #ff5008 !important; }
-    #smartwizard #step-1 h5{ font-size: 18px !important; }
   }
 </style>
 
+<style>
+  .help-block {
+    color: red;
+  }
+</style>
 
-
+<style>
+  .modal-custom {
+    /* padding: 0 0 0 0; */
+    padding-bottom: 0px;
+  }
+</style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -119,9 +87,7 @@
           <div class="col-12 p-3">
 
             <!-- SmartWizard html -->
-            <!-- <div id="smartwizard"> -->
-            <div id="smartwizard" class="sw-theme-square">
-
+            <div id="smartwizard">
 
               <ul class="nav nav-progress">
                 <li class="nav-item">
