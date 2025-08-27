@@ -184,7 +184,8 @@ Registrasi Modal Baru
 
                     <div class="row">
                       <div class="col-12">
-                        <h3>Silahkan Isi Data Di Bawah Ini:</h3>
+                        <!-- <h3>Silahkan Isi Data Di Bawah Ini:</h3> -->
+                        <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
                       </div>
                       <div class="col-md-6">
                         <div class="form-row">
@@ -290,7 +291,8 @@ Registrasi Modal Baru
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3" style="padding-bottom: 90px;">
                   <div class="row">
                     <div class="col-12">
-                      <h3>Silahkan Isi Data Di Bawah Ini</h3>
+                      <!-- <h3 class>Silahkan Isi Data Di Bawah Ini</h3> -->
+                      <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
                     </div>
                     <div class="col-12">
                       <table class="table">
