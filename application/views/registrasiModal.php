@@ -83,6 +83,27 @@
       }
   }
 
+
+  /* Ubah warna teks link */
+  #smartwizard .nav-progress .nav-link {
+    color: #ff5008 !important;
+  }
+
+  /* Ubah warna lingkaran nomor */
+  #smartwizard .nav-progress .nav-link .num {
+    background-color: #ff5008 !important;
+    border-color: #ff5008 !important;
+    color: #fff !important; /* teks di dalam bulatan jadi putih */
+  }
+
+  /* Pastikan state aktif juga pakai warna oranye */
+  #smartwizard .nav-progress .nav-link.active,
+  #smartwizard .nav-progress .nav-link.active .num {
+    background-color: #ff5008 !important;
+    border-color: #ff5008 !important;
+    color: #fff !important;
+  }
+
   
 
   
