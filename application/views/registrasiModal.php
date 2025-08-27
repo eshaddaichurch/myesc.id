@@ -5,177 +5,74 @@
 <!-- <link href="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/css/demo.css" rel="stylesheet" type="text/css" /> -->
 <link href="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/css/smart_wizard_all.css" rel="stylesheet" type="text/css" />
 
-<!-- ================= MOBILE-FRIENDLY OVERRIDES (TAMPILAN SAJA) ================= -->
+
 <style>
-  /* Warna brand SmartWizard (pertahankan dari versi Anda) */
+  /* Ganti warna utama SmartWizard theme 'square' dari biru ke #ff5008 */
   .sw-theme-square > .nav > .nav-link.active,
   .sw-theme-square > .nav > .nav-link.done {
     background-color: #ff5008 !important;
     color: white !important;
     border-color: #ff5008 !important;
   }
+
+  /* Warna hover pada step */
   .sw-theme-square > .nav > .nav-link:hover {
-    background-color: #e04607 !important; /* hover */
+    background-color: #e04607 !important; /* Sedikit lebih gelap untuk efek hover */
     border-color: #e04607 !important;
   }
+
+  /* Warna border untuk step yang aktif/done */
   .sw-theme-square > .nav > .nav-link.active::after,
   .sw-theme-square > .nav > .nav-link.done::after {
     border-left-color: #ff5008 !important;
   }
+
+  /* Ganti warna progress bar */
   .sw-theme-square .progress-bar {
     background-color: #ff5008 !important;
   }
+
+  /* Garis horizontal antar langkah */
   .sw-theme-square > .nav > .nav-item:not(:first-child)::before {
     background-color: #ff5008 !important;
   }
+
+  /* Nomor langkah (misalnya 1, 2, 3) */
   .sw-theme-square > .nav > .nav-link > .num {
     background-color: #ff5008 !important;
     color: white !important;
   }
+
+  /* Tombol Next/Previous jika ikut tema (opsional) */
   .sw-btn-next,
   .sw-btn-prev,
   .btn-success.btnSelesai { /* Tombol "Kirim" */
     background-color: #ff5008 !important;
     border-color: #ff5008 !important;
   }
+
   .sw-btn-next:hover,
   .sw-btn-prev:hover,
   .btn-success.btnSelesai:hover {
     background-color: #e04607 !important;
     border-color: #e04607 !important;
   }
-
-  /* ====== Tambahan agar nyaman di mobile (tidak mengubah logika) ====== */
-  #registrasiModal .modal-content {
-    border-radius: 14px;
-  }
-
-  /* Step nav bisa di-scroll horizontal di mobile */
-  #registrasiModal .sw-theme-square > .nav {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 8px;
-    padding: 8px 12px 12px;
-    border-bottom: 1px solid #f1f1f1;
-  }
-  #registrasiModal .sw-theme-square > .nav .nav-item {
-    flex: 0 0 auto;
-  }
-  #registrasiModal .sw-theme-square > .nav > .nav-link {
-    padding: 10px 12px;
-    min-width: 160px;
-    border-radius: 10px !important;
-    white-space: nowrap;
-  }
-  #registrasiModal .sw-theme-square > .nav > .nav-link .num {
-    width: 28px; height: 28px; line-height: 28px;
-    border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    margin-right: 8px;
-    font-weight: 600;
-  }
-
-  /* Tab content padding rapi (hapus margin negatif bawaan) */
-  #registrasiModal .tab-content {
-    padding: 12px;
-    margin-top: 0 !important; /* <— penting untuk mobile */
-  }
-
-  /* Form controls besar agar mudah diketik */
-  #registrasiModal .form-control, 
-  #registrasiModal select.form-control {
-    height: 46px;
-    font-size: 16px; /* cegah auto-zoom iOS */
-    border-radius: 10px;
-  }
-  #registrasiModal label {
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  #registrasiModal .form-row + .form-row {
-    margin-top: 12px;
-  }
-
-  /* Progress & toolbar sticky supaya selalu terlihat di mobile */
-  #registrasiModal .progress {
-    position: sticky;
-    bottom: 72px; /* beri ruang toolbar */
-    z-index: 3;
-    margin: 0 12px 12px;
-    border-radius: 999px;
-    height: 8px;
-  }
-  #registrasiModal .sw-toolbar {
-    position: sticky;
-    bottom: 0;
-    z-index: 5;
-    background: #fff;
-    padding: 12px;
-    border-top: 1px solid #eee;
-    box-shadow: 0 -6px 12px rgba(0,0,0,.06);
-  }
-  #registrasiModal .sw-btn-next,
-  #registrasiModal .sw-btn-prev,
-  #registrasiModal .btn-success.btnSelesai, 
-  #registrasiModal .btn-secondary {
-    border-radius: 999px !important;
-    padding: 10px 16px !important;
-    font-weight: 600;
-  }
-
-  /* Tabel konfirmasi jadi kartu-kartu saat mobile */
-  @media (max-width: 576px) {
-    #registrasiModal .modal-dialog { margin: 0; }
-    #registrasiModal .table {
-      display: block;
-      width: 100%;
-    }
-    #registrasiModal .table tbody tr {
-      display: grid;
-      grid-template-columns: 1fr;
-      padding: 10px 12px;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      background: #fafafa;
-    }
-    #registrasiModal .table tbody tr td:first-child {
-      font-weight: 600;
-      color: #333;
-    }
-    #registrasiModal .table tbody tr td:nth-child(2) { display: none; } /* sembunyikan ':' */
-    #registrasiModal .table tbody tr td:last-child {
-      margin-top: 4px;
-      word-break: break-word;
-    }
-  }
-
-  /* Heading responsif */
-  #registrasiModal h3 {
-    font-size: clamp(18px, 2.2vw, 22px);
-    font-weight: 700;
-    margin: 6px 0 14px;
-  }
-  #registrasiModal h5 {
-    font-size: clamp(16px, 2vw, 18px);
-    margin-bottom: 8px;
-  }
-
-  /* Error text */
-  #registrasiModal .help-block { color: #e53935; }
-
-  /* Radio/checkbox spacing */
-  #registrasiModal .form-check { padding: 6px 0; }
 </style>
 
 <style>
-  .help-block { color: red; } /* pertahankan */
-  .modal-custom { padding-bottom: 0px; }
+  .help-block {
+    color: red;
+  }
 </style>
 
+<style>
+  .modal-custom {
+    /* padding: 0 0 0 0; */
+    padding-bottom: 0px;
+  }
+</style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
-  <!-- PERUBAHAN: tambah modal-dialog-centered & modal-fullscreen-sm-down agar full screen di mobile -->
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-xl">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
 
       <div class="modal-body modal-custom">
@@ -210,58 +107,78 @@
                 </li>
               </ul>
 
-              <!-- PERUBAHAN: hapus style margin-top:-80px -->
-              <div class="tab-content">
+              <div class="tab-content" style="margin-top: -80px;">
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1" style="padding-bottom: 90px;">
                   <div class="row">
-                    <div class="col-12"></div>
+                    <div class="col-12">
+                      <!-- <h5>Alasan anda membuat akun baru?</h5> -->
+                    </div>
                     <div class="col-12">
                       <div class="row">
-                        <!-- tetap hidden -->
+                        <!-- <div class="col-12" style="display: none;">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="alasanmembuatakun" id="alasanmembuatakun1" value="1">
+                            <label class="form-check-label" for="alasanmembuatakun1">
+                              I'm just here to visit
+                            </label>
+                          </div>
+                        </div> -->
                         <div class="col-12" style="display: none;">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="alasanmembuatakun" id="alasanmembuatakun2" checked value="2">
-                            <label class="form-check-label" for="alasanmembuatakun2"></label>
+                            <label class="form-check-label" for="alasanmembuatakun2">
+                              <!-- I would like to join El Shaddai Church -->
+                            </label>
                           </div>
+
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-12 mt-3 mt-sm-5 divsudahpernahfondationclass">
+
+
+                    <div class="col-12 mt-5 divsudahpernahfondationclass">
                       <div class="row">
                         <div class="col-12">
                           <h5 class="">Sudah Pernah Membuat Kartu Anggota Jemaat ESC?</h5>
+
                         </div>
                         <div class="col-12">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="sudahpernahfondationclass1" value="1">
-                            <label class="form-check-label" for="sudahpernahfondationclass1">Sudah</label>
+                            <label class="form-check-label" for="sudahpernahfondationclass1">
+                              Sudah
+                            </label>
                           </div>
                         </div>
                         <div class="col-12">
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="sudahpernahfondationclass2" checked value="2">
-                            <label class="form-check-label" for="sudahpernahfondationclass2">Belum</label>
+                            <label class="form-check-label" for="sudahpernahfondationclass2">
+                              Belum
+                            </label>
                           </div>
+
                         </div>
                       </div>
                     </div>
 
+
+
                   </div>
                 </div>
-
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2" style="padding-bottom: 90px;">
 
                   <form action="#" id="formBuatAkun" method="POST">
+
                     <div class="row">
                       <div class="col-12">
                         <h3>Silahkan Isi Data Di Bawah Ini:</h3>
                       </div>
-
                       <div class="col-md-6">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="namalengkap">Nama Lengkap:</label>
+                            <label for="account_name">Nama Lengkap:</label>
                             <input type="text" placeholder="Nama Lengkap" class="form-control input-step-2-1" id="namalengkap" name="namalengkap">
                           </div>
                         </div>
@@ -270,8 +187,8 @@
                       <div class="col-md-6 divnik">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="nik">NIK (KTP):</label>
-                            <input type="text" placeholder="Nomor Induk Kependudukan" class="form-control input-step-2-1" id="nik" name="nik" inputmode="numeric">
+                            <label for="account_name">NIK (KTP):</label>
+                            <input type="text" placeholder="Nomor Induk Kependudukan" class="form-control input-step-2-1" id="nik" name="nik">
                           </div>
                         </div>
                       </div>
@@ -279,7 +196,7 @@
                       <div class="col-md-6">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="jeniskelamin">Jenis Kelamin:</label>
+                            <label for="account_name">Jenis Kelamin:</label>
                             <select name="jeniskelamin" id="jeniskelamin" class="form-control">
                               <option value="">Pilih jenis kelamin...</option>
                               <option value="Laki-laki">Laki-laki</option>
@@ -292,7 +209,7 @@
                       <div class="col-md-6 divtempatlahir">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="tempatlahir">Tempat Lahir:</label>
+                            <label for="account_name">Tempat Lahir:</label>
                             <input type="text" placeholder="Tempat lahir" class="form-control input-step-2-1" id="tempatlahir" name="tempatlahir">
                           </div>
                         </div>
@@ -301,26 +218,29 @@
                       <div class="col-md-6 divtgllahir">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="tanggallahir">Tanggal Lahir:</label>
+                            <label for="account_name">Tanggal Lahir:</label>
                             <input type="date" class="form-control input-step-2-1" id="tanggallahir" name="tanggallahir">
                           </div>
                         </div>
+
                       </div>
+
 
                       <div class="col-md-6 divalamatrumah">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="alamatrumah">Alamat:</label>
+                            <label for="account_name">Alamat:</label>
                             <input type="text" placeholder="Alamat tempat tinggal saat ini" class="form-control input-step-2-1" id="alamatrumah" name="alamatrumah">
                           </div>
                         </div>
+
                       </div>
 
                       <div class="col-md-6 divnohp">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="nohp">Nomor WhatsApp:</label>
-                            <input type="text" inputmode="tel" placeholder="Nomor WhatsApp" class="form-control input-step-2-1" id="nohp" name="nohp" autocomplete="tel">
+                            <label for="account_name">Nomor WhatsApp:</label>
+                            <input type="text" placeholder="Nomor WhatsApp" class="form-control input-step-2-1" id="nohp" name="nohp">
                           </div>
                         </div>
                       </div>
@@ -328,8 +248,8 @@
                       <div class="col-md-6">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="email">Email:</label>
-                            <input type="email" placeholder="Email" class="form-control input-step-2-1" id="email" name="email" autocomplete="email">
+                            <label for="account_name">Email:</label>
+                            <input type="text" placeholder="Email" class="form-control input-step-2-1" id="email" name="email">
                           </div>
                         </div>
                       </div>
@@ -337,8 +257,8 @@
                       <div class="col-md-6">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="password">Password:</label>
-                            <input type="password" placeholder="Password" class="form-control input-step-2-1" id="password" name="password" autocomplete="new-password">
+                            <label for="account_name">Password:</label>
+                            <input type="password" placeholder="Password" class="form-control input-step-2-1" id="password" name="password">
                           </div>
                         </div>
                       </div>
@@ -346,16 +266,16 @@
                       <div class="col-md-6">
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
-                            <label for="password2">Konfirmasi Password:</label>
-                            <input type="password" placeholder="Konfirmasi Password" class="form-control input-step-2-1" id="password2" name="password2" autocomplete="new-password">
+                            <label for="account_name">Konfirmasi Password:</label>
+                            <input type="password" placeholder="Konfirmasi Password" class="form-control input-step-2-1" id="password2" name="password2">
                           </div>
                         </div>
                       </div>
+
 
                     </div>
                   </form>
                 </div>
-
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3" style="padding-bottom: 90px;">
                   <div class="row">
                     <div class="col-12">
@@ -417,8 +337,10 @@
               </div>
             </div>
 
+
           </div>
         </div>
+
 
       </div>
 
@@ -426,11 +348,15 @@
   </div>
 </div>
 
+
+
 <!-- Include SmartWizard JavaScript source -->
 <script type="text/javascript" src="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/js/jquery.smartWizard.min.js"></script>
 
+
 <script type="text/javascript">
   function onFinish() {
+
     var namalengkap = $('#namalengkap').val();
     var nik = $('#nik').val();
     var jeniskelamin = $('#jeniskelamin').val();
@@ -441,6 +367,7 @@
     var email = $('#email').val();
     var password = $('#password').val();
     var sudahpernahfondationclass = $('#sudahpernahfondationclass1').val();
+
 
     if ($('#sudahpernahfondationclass1').prop('checked')) {
       var sudahpernahfondationclass = 'Sudah';
@@ -508,6 +435,14 @@
         $("#prev-btn").removeClass('disabled').prop('disabled', false);
         $("#next-btn").removeClass('disabled').prop('disabled', false);
       }
+
+      // console.log(stepDirection);
+      // console.log(stepIndex);
+
+      // Get step info from Smart Wizard
+      // let stepInfo = $('#smartwizard').smartWizard("getStepInfo");
+      // $("#sw-current-step").text(stepInfo.currentStep + 1);
+      // $("#sw-total-step").text(stepInfo.totalSteps);
     });
 
     $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
@@ -523,17 +458,23 @@
         $('#tdDaftarAlamatRumah').html($('#alamatrumah').val());
         $('#tdDaftarNomorHP').html($('#nohp').val());
         $('#tdDaftarEmail').html($('#email').val());
+
       } else {
         $(".btnSelesai").hide();
       }
     });
 
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+
+      // var form_data = $("#form" + stepNumber).serialize();
       console.log(stepNumber);
       console.log(stepDirection);
 
+
       if (stepNumber == 1) {
         if (stepDirection == 2) {
+
+
           var validator = $("#formBuatAkun").data("bootstrapValidator");
           validator.validate();
           if (!validator.isValid()) {
@@ -548,15 +489,52 @@
               return true;
             }
           }
+
+          return false;
+
+
         } else {
           return true;
         }
       }
 
+      // if (stepNumber == 1) {
+      //   if (stepDirection == 2) {
+      //     var KdRuangan = $('#KdRuangan').val();
+      //     var KdRujukanAsal = $('#KdRujukanAsal').val();
+      //     var KdDokter = $('#KdDokter').val();
+
+      //     if (KdRuangan == "") {
+      //       swal("Informasi", "Nama poliklinik tidak boleh kosong!", "info");
+      //       return false;
+      //     }
+
+      //     if (KdRujukanAsal == "") {
+      //       swal("Informasi", "Asal rujukan tidak boleh kosong!", "info");
+      //       return false;
+      //     }
+
+      //     if (KdDokter == "") {
+      //       swal("Informasi", "Nama dokter pemeriksa tidak boleh kosong!", "info");
+      //       return false;
+      //     }
+
+      //     return true;
+      //   } else {
+      //     return true;
+      //   }
+      // }
+
+
+
       if (stepNumber == 2) {
         return true;
       } else {}
+
+      // return false;
+
     });
+
 
     $("#smartwizard").on("initialized", function(e) {
       console.log("initialized");
@@ -566,9 +544,10 @@
       console.log("loaded");
     });
 
-    // Smart Wizard init (tetap sama, hanya UI yang berubah)
+    // Smart Wizard
     $('#smartwizard').smartWizard({
       selected: 0,
+      // autoAdjustHeight: false,
       enableUrlHash: false,
       autoAdjustHeight: true,
       theme: 'square', // basic, arrows, square, round, dots
@@ -576,35 +555,39 @@
         animation: 'myFade' // none|fade|slideHorizontal|slideVertical|slideSwing|css
       },
       toolbar: {
-        showNextButton: true,
-        showPreviousButton: true,
-        position: 'bottom',
+        showNextButton: true, // show/hide a Next button
+        showPreviousButton: true, // show/hide a Previous button
+        position: 'bottom', // none/ top/ both bottom
         extraHtml: `<button class="btn btn-success btnSelesai" onclick="onFinish()">Kirim</button>
-                    <button class="btn btn-secondary" onclick="onCancel()">Batal</button>`
+                              <button class="btn btn-secondary" onclick="onCancel()">Batal</button>`
       },
       anchor: {
-        enableNavigation: true,
-        enableNavigationAlways: false,
-        enableDoneState: true,
-        markPreviousStepsAsDone: true,
-        unDoneOnBackNavigation: false,
-        enableDoneStateNavigation: true
+        enableNavigation: true, // Enable/Disable anchor navigation 
+        enableNavigationAlways: false, // Activates all anchors clickable always
+        enableDoneState: true, // Add done state on visited steps
+        markPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+        unDoneOnBackNavigation: false, // While navigate back, done state will be cleared
+        enableDoneStateNavigation: true // Enable/Disable the done state navigation
       },
-      lang: {
+      lang: { // Language variables for button
         next: 'Selanjutnya',
         previous: 'Kembali'
       },
-      disabledSteps: [],
-      errorSteps: [],
-      hiddenSteps: []
+      disabledSteps: [], // Array Steps disabled
+      errorSteps: [], // Highlight step with errors
+      hiddenSteps: [], // Hidden steps
+      // getContent: (idx, stepDirection, selStep, callback) => {
+      //   console.log('getContent',selStep, idx, stepDirection);
+      //   callback('<h1>'+idx+'</h1>');
+      // }
     });
 
-    // Custom transition tetap sama
     $.fn.smartWizard.transitions.myFade = (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
       if (!$.isFunction(elmToShow.fadeOut)) {
         callback(false);
         return;
       }
+
       if (elmToHide) {
         elmToHide.fadeOut(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
           elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
@@ -618,6 +601,7 @@
       }
     }
 
+
     $("#state_selector").on("change", function() {
       $('#smartwizard').smartWizard("setState", [$('#step_to_style').val()], $(this).val(), !$('#is_reset').prop("checked"));
       return true;
@@ -627,8 +611,10 @@
       $('#smartwizard').smartWizard("setStyle", [$('#step_to_style').val()], $(this).val(), !$('#is_reset').prop("checked"));
       return true;
     });
+
   });
 </script>
+
 
 <script>
   $("#formBuatAkun").bootstrapValidator({
@@ -640,7 +626,9 @@
     fields: {
       namalengkap: {
         validators: {
-          notEmpty: { message: "Nama tidak boleh kosong" },
+          notEmpty: {
+            message: "Nama tidak boleh kosong"
+          },
         }
       },
       nik: {
@@ -653,8 +641,12 @@
           callback: {
             message: 'Nomor induk kependudukan tidak boleh kosong',
             callback: function(value, validator, nik) {
+
               if ($('#alasanmembuatakun2').prop('checked') && $('#nik').val() == '') {
-                return { valid: false, message: 'Nomor induk kependudukan tidak boleh kosong' }
+                return {
+                  valid: false,
+                  message: 'Nomor induk kependudukan tidak boleh kosong'
+                }
               }
               return true
             }
@@ -663,7 +655,9 @@
       },
       jeniskelamin: {
         validators: {
-          notEmpty: { message: "Jenis kelamin tidak boleh kosong" },
+          notEmpty: {
+            message: "Jenis kelamin tidak boleh kosong"
+          },
         }
       },
       tempatlahir: {
@@ -671,8 +665,12 @@
           callback: {
             message: 'Tempat lahir tidak boleh kosong',
             callback: function(value, validator, tampatlahir) {
+
               if ($('#alasanmembuatakun2').prop('checked') && $('#tempatlahir').val() == '') {
-                return { valid: false, message: 'Tempat lahir tidak boleh kosong' }
+                return {
+                  valid: false,
+                  message: 'Tempat lahir tidak boleh kosong'
+                }
               }
               return true
             }
@@ -684,8 +682,12 @@
           callback: {
             message: 'Tangggal lahir tidak boleh kosong',
             callback: function(value, validator, tanggallahir) {
+
               if ($('#alasanmembuatakun2').prop('checked') && $('#tanggallahir').val() == '') {
-                return { valid: false, message: 'Tangggal lahir tidak boleh kosong' }
+                return {
+                  valid: false,
+                  message: 'Tangggal lahir tidak boleh kosong'
+                }
               }
               return true
             }
@@ -697,8 +699,12 @@
           callback: {
             message: 'Nomor Whatsapp tidak boleh kosong',
             callback: function(value, validator, nohp) {
+
               if ($('#alasanmembuatakun2').prop('checked') && $('#nohp').val() == '') {
-                return { valid: false, message: 'Nomor Whatsapp tidak boleh kosong' }
+                return {
+                  valid: false,
+                  message: 'Nomor Whatsapp tidak boleh kosong'
+                }
               }
               return true
             }
@@ -707,7 +713,9 @@
       },
       email: {
         validators: {
-          notEmpty: { message: "Email tidak boleh kosong" },
+          notEmpty: {
+            message: "Email tidak boleh kosong"
+          },
         }
       },
       password: {
@@ -720,8 +728,12 @@
           callback: {
             message: 'Password tidak boleh kosong',
             callback: function(value, validator, password) {
+
               if ($('#password').val() == '') {
-                return { valid: false, message: 'Password tidak boleh kosong' }
+                return {
+                  valid: false,
+                  message: 'Password tidak boleh kosong'
+                }
               }
               return true
             }
@@ -738,26 +750,59 @@
           callback: {
             message: 'Password tidak boleh kosong',
             callback: function(value, validator, password2) {
+
               if ($('#password2').val() == '') {
-                return { valid: false, message: 'Konfirmasi Password tidak boleh kosong' }
+                return {
+                  valid: false,
+                  message: 'Konfirmasi Password tidak boleh kosong'
+                }
               }
               return true
             }
           }
         }
       },
+
     },
     onSuccess: function(e, data) {
       e.preventDefault();
+
+      // console.log("1");
+
+      // if ($('#optradioBergabung1').prop('checked') === false && $('#optradioBergabung2').prop('checked') === false) {
+      //   e.preventDefault();
+      //   swal("Upss", "Silahkan pilih apakah anda hanya ingin berkunjung atau ingin bergabung di El Shaddai Church.", "info")
+      //     .then(function() {
+      //       $('#optradioBergabung1').focus();
+      //     });
+      //   return false;
+      // }
+      // console.log("3");
+
+      // $('#btnDaftar').prop('disabled', true);
     }
   });
 
-  $(document).on('change', '#alasanmembuatakun1', function() { alasanmembuatakun(); });
-  $(document).on('change', '#alasanmembuatakun2', function() { alasanmembuatakun(); });
-  $(document).on('change', '#sudahpernahfondationclass1', function() { alasanmembuatakun(); });
-  $(document).on('change', '#sudahpernahfondationclass2', function() { alasanmembuatakun(); });
+
+  $(document).on('change', '#alasanmembuatakun1', function() {
+    alasanmembuatakun();
+  });
+
+  $(document).on('change', '#alasanmembuatakun2', function() {
+    alasanmembuatakun();
+  });
+
+
+  $(document).on('change', '#sudahpernahfondationclass1', function() {
+    alasanmembuatakun();
+  });
+
+  $(document).on('change', '#sudahpernahfondationclass2', function() {
+    alasanmembuatakun();
+  });
 
   function alasanmembuatakun() {
+
     if ($('#alasanmembuatakun1').prop('checked')) {
       $('.divsudahpernahfondationclass').hide();
       $('.divnik').hide();
@@ -765,25 +810,34 @@
       $('.divtgllahir').hide();
       $('.divnohp').hide();
       $('.divalamatrumah').hide();
+
     } else {
       $('.divsudahpernahfondationclass').show();
+
       if ($('#sudahpernahfondationclass1').prop('checked')) {
         $('.divnik').show();
         $('.divtempatlahir').show();
         $('.divtgllahir').show();
+        // $('.divnohp').show();
         $('.divalamatrumah').show();
+
       } else {
         $('.divnik').hide();
         $('.divtempatlahir').hide();
         $('.divtgllahir').hide();
+        // $('.divnohp').hide();  
         $('.divalamatrumah').hide();
+
       }
     }
+
   }
 </script>
 
+
 <script>
   $(document).ready(function() {
+
     $('#sudahpernahfondationclass2').change();
 
     $('.radio-group .radio').click(function() {
@@ -794,19 +848,19 @@
     $(".submit").click(function() {
       return false;
     })
+
   });
 
   function kosongkanText() {
-    /* memperbaiki assignment yang salah pada versi sebelumnya */
-    $('#namalengkap').val('');
-    $('#nik').val('');
-    $('#jeniskelamin').val('');
-    $('#tempatlahir').val('');
-    $('#tanggallahir').val('');
-    $('#alamatrumah').val('');
-    $('#nohp').val('');
-    $('#email').val('');
-    $('#password').val('');
-    $('#password2').val('');
+    $('#namalengkap').val() = '';
+    $('#nik').val() = '';
+    $('#jeniskelamin').val() = '';
+    $('#tempatlahir').val() = '';
+    $('#tanggallahir').val() = '';
+    $('#alamatrumah').val() = '';
+    $('#nohp').val() = '';
+    $('#email').val() = '';
+    $('#password').val() = '';
+    $('#password2').val() = '';
   }
 </script>
