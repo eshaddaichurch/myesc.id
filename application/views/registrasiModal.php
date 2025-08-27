@@ -7,9 +7,9 @@
 
 
 <style>
-  /* ====== SmartWizard 'square' — Oranye #ff5008 tanpa ubah layout ====== */
+  /* ===== SmartWizard 'square' — oranye #ff5008 tanpa merusak layout ===== */
 
-  /* Jika theme memakai CSS variables */
+  /* Jika theme pakai CSS variables */
   #smartwizard{
     --sw-color-primary: #ff5008;
     --sw-progress-color: #ff5008;
@@ -18,22 +18,24 @@
     --sw-anchor-done-color: #ff5008;
   }
 
-  /* Label teks step */
+  /* Label teks step (jangan beri background pada link) */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link{
     color: #ff5008 !important;
-    background: transparent !important;   /* cegah blok oranye panjang */
+    background: transparent !important;
     border-color: transparent !important;
     box-shadow: none !important;
   }
 
-  /* Badge nomor (1,2,3) */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num{
+  /* Badge nomor (1,2,3) – default, active, done */
+  #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num,
+  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active .num,
+  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done .num{
     background-color: #ff5008 !important;
     border-color: #ff5008 !important;
     color: #fff !important;
-    box-shadow: none !important;          /* hilangkan glow */
+    box-shadow: none !important;
   }
-  /* Matikan pseudo-element bawaan pada badge jika ada */
+  /* Matikan pseudo-element di badge jika ada efek biru */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num::before,
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link .num::after{
     content: none !important;
@@ -41,31 +43,14 @@
     box-shadow: none !important;
   }
 
-  /* Badge saat active/done */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active .num,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done .num{
-    background-color: #ff5008 !important;
-    border-color: #ff5008 !important;
-    color: #fff !important;
+  /* === Konektor vertikal antar step (AKTIFKAN HANYA DI MOBILE) === */
+  @media (max-width: 768px){
+    #smartwizard.sw-theme-square .nav.nav-progress .nav-item:not(:first-child)::before{
+      background: #ff5008 !important;
+      background-image: none !important;
+    }
   }
-
-  /* === Konektor vertikal antar step (sumber biru yang tersisa) === */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-item::before,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link::before,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active::before,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done::before{
-    background: #ff5008 !important;         /* override termasuk gradient */
-    background-color: #ff5008 !important;
-    background-image: none !important;      /* matikan gradient biru */
-    border-color: #ff5008 !important;
-    box-shadow: none !important;
-  }
-
-  /* Matikan arrow/segitiga biru pada theme square (jika muncul) */
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.active::after,
-  #smartwizard.sw-theme-square .nav.nav-progress .nav-link.done::after{
-    border-left-color: transparent !important;
-  }
+  /* (SENGAJA TIDAK mengubah .nav-link::before / ::after di desktop) */
 
   /* Hover tone sedikit lebih gelap */
   #smartwizard.sw-theme-square .nav.nav-progress .nav-link:hover{
@@ -94,7 +79,7 @@
     border-color: #e04607 !important;
   }
 
-  /* ====== Form: hilangkan biru autofill iOS/Safari ====== */
+  /* ===== Form: hilangkan biru autofill iOS/Safari ===== */
   input:-webkit-autofill,
   textarea:-webkit-autofill,
   select:-webkit-autofill{
