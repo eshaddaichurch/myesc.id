@@ -15,7 +15,8 @@
     html, body { height: 100%; width: 100%; }
     body {
       font-family: 'Figtree', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: #ead7a9;
+      /* background: #ead7a9; */
+      background: linear-gradient(63deg, #fffaf5, #ffb347);
       color: #111827;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
