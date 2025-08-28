@@ -101,7 +101,7 @@
       background: #f4f4f5;
       display: block;
     }
-    #sync1 .frame img { width:100%; height:100%; object-fit: cover; }
+    #sync1 .frame img { width:100%; height:100%; object-fit: scale-down; }
 
     /* THUMBNAILS */
     .thumbs-clip {              /* <- pembungkus untuk memotong overflow */
@@ -166,6 +166,11 @@
 
       .col-md-9.ps-5 { padding-left: 1rem !important; padding-right: 1rem !important; }
       .card { margin-left: 0.25rem; margin-right: 0.25rem; border-radius: 12px; }
+      .card {
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        transition: transform .3s ease, box-shadow .3s ease;
+      }
       .card .card-body { padding: 1rem; }
       .detail-title { font-size: 1.125rem; }
       .social-area a { width:44px; height:44px; }
