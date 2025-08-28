@@ -120,7 +120,7 @@
     </section> -->
 
     <!-- Page Content Section -->
-    <section class="page-content section-padding" style="background-color: linear-gradient(63deg, #fffaf5, #ffb347);">
+    <section class="page-content section-padding" style="background: linear-gradient(63deg, #fffaf5, #ffb347);">
       <div class="container">
         <div class="row justify-content-center">
           <!-- Map Section -->
