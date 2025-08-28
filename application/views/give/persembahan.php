@@ -72,7 +72,8 @@
 
   body {
     font-family: 'Figtree', sans-serif;
-    background-color: #e8d5a7;
+    /* background-color: #e8d5a7; */
+    background: linear-gradient(135deg, #fffaf5, #ffe5b4);
     margin: 0;
     padding-top: 60px; /* tambahkan untuk menghindari tabrakan dengan navbar */
   }
@@ -96,11 +97,20 @@
     transition: all 0.3s ease-in-out;
   }
 
-  .label {
+  /* .label {
     font-size: 0.875rem;
     font-weight: 800;
     color: #374151;
     margin-bottom: 0.75rem;
+  } */
+
+  .label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ff5722;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .button-grid {
@@ -110,7 +120,7 @@
     margin-bottom: 2.5rem;
   }
 
-  .btn {
+  /* .btn {
     background-color: #ff8100;
     color: white;
     padding: 0.5rem;
@@ -123,6 +133,21 @@
 
   .btn:hover {
     background-color: #e46f00;
+  } */
+
+  .btn {
+    background: linear-gradient(90deg, #ff9800, #ff5722);
+    color: white;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
   }
 
   .output-area {
@@ -134,13 +159,25 @@
     min-height: auto;
   }
 
-  .card {
+  /* .card {
     background-color: #e8d5a7;
     padding: 2rem;
     border-radius: 2rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.5s ease-out;
+  } */
+
+  .card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease-in-out;
   }
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
 
   @media (max-width: 768px) {
     .card {
@@ -163,11 +200,17 @@
     flex: 1;
   }
 
-  .account-info h2 {
+  /* .account-info h2 {
     font-size: 1.125rem;
     font-weight: bold;
     color: #1f2937;
     margin-bottom: 0.25rem;
+  } */
+
+  .account-info h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1f2937;
   }
 
   @media (max-width: 768px) {
@@ -177,20 +220,40 @@
     }
   }
 
-  .rekening {
+  /* .rekening {
     font-size: 1rem;
     font-weight: 600;
     color: #ea580c;
     margin-right: 0.5rem;
+  } */
+
+  .rekening {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff5722;
   }
 
-  .copy-btn {
+  /* .copy-btn {
     background: #e0e0e0;
     border: none;
     padding: 5px 10px;
     border-radius: 6px;
     cursor: pointer;
     margin-left: 10px;
+  } */
+
+  .copy-btn {
+    background: #ff9800;
+    color: #fff;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+  }
+  .copy-btn:hover {
+    background: #e46f00;
   }
 
   .qr {
@@ -198,7 +261,7 @@
     flex-shrink: 0;
   }
 
-  .qr img {
+  /* .qr img {
     width: 15rem;
     height: 15rem;
     border-radius: 10.5rem;
@@ -210,7 +273,19 @@
 
   .qr img:hover {
     opacity: 0.8;
+  } */
+
+  .qr img {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
   }
+  .qr img:hover {
+    transform: scale(1.05);
+  }
+
 
   @media (max-width: 768px) {
     .qr img {
@@ -226,7 +301,7 @@
     margin-top: 1.5rem;
   }
 
-  .logo-box {
+  /* .logo-box {
     background-color: #f3f4f6;
     padding: 0.75rem;
     border-radius: 100rem;
@@ -234,7 +309,22 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  } */
+
+  .logo-box {
+    background: #fff;
+    padding: 0.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
   }
+  .logo-box:hover {
+    transform: scale(1.1);
+  }
+
 
   .logo-box img {
     width: 40px;
@@ -254,6 +344,36 @@
     }
   }
 </style>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in-card {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+
+  /* Delay tiap card biar muncul bertahap */
+  .fade-in-card:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  .fade-in-card:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  .fade-in-card:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+</style>
+
 
 <body>
   
@@ -345,7 +465,7 @@
         const data = dataPersembahan[jenis];
         const container = document.getElementById("output");
         const accountHtml = (data.accounts || [data]).map((acc, i) => `
-          <div class="card">
+          <div class="card fade-in-card">
             <div class="account-header">
               <div class="account-info">
                 <h2>${acc.bank}</h2>
