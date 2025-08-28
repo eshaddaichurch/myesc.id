@@ -148,7 +148,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 $html = $css . '<span class="default-text">' . hari($rsakta->tglakta) . '</span>';
 $pdf->SetXY(79, 130);
 $pdf->writeHTML($html, true, false, true, false, '');
-$html = $css . '<span class="default-text">Serdam</span>';
+$html = $css . '<span class="default-text">EL Shaddai Serdam</span>';
 $pdf->SetXY(81, 145);
 $pdf->writeHTML($html, true, false, true, false, '');
 
