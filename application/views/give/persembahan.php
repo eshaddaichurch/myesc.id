@@ -80,7 +80,8 @@
 
   body {
     font-family: 'Figtree', sans-serif;
-    background: linear-gradient(55deg, #fffaf5, #ffe5b4, #ffb347, #ff7e5f);
+    /* background: linear-gradient(55deg, #fffaf5, #ffe5b4, #ffb347, #ff7e5f); */
+    linear-gradient(63deg, #fffaf5, #ffb347)
     margin: 0;
     padding-top: 60px; /* biar tidak tabrakan sama navbar */
     min-height: 100vh;
