@@ -332,7 +332,8 @@ use PhpParser\Node\Stmt\Echo_;
       justify-content: center; /* default tengah */
       align-items: center;
       min-height: 100vh;
-      background-color: #e9d6a8;
+      /* background-color: linear-gradient(63deg, #fffaf5, #ffb347); */
+      background: linear-gradient(63deg, #fffaf5, #ffb347);
       background-attachment: fixed;
       background-position: center;
       background-repeat: no-repeat;
