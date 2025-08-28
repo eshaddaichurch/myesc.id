@@ -338,7 +338,7 @@ $this->load->view('template/festavalive/header'); ?>
       body {
       margin: 0;
       padding: 0;
-      background-color: #e9d6a8;
+      background: linear-gradient(63deg, #fffaf5, #ffb347);
       font-family: 'Figtree', sans-serif;
       color: #111;
       line-height: 1.7;
