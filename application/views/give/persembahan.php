@@ -70,13 +70,22 @@
     box-sizing: border-box;
   }
 
-  body {
+  /* body {
     font-family: 'Figtree', sans-serif;
-    /* background-color: #e8d5a7; */
+   
     background: linear-gradient(135deg, #fffaf5, #ffe5b4);
     margin: 0;
-    padding-top: 60px; /* tambahkan untuk menghindari tabrakan dengan navbar */
+    padding-top: 60px;
+  } */
+
+  body {
+    font-family: 'Figtree', sans-serif;
+    background: linear-gradient(55deg, #fffaf5, #ffe5b4, #ffb347, #ff7e5f);
+    margin: 0;
+    padding-top: 60px; /* biar tidak tabrakan sama navbar */
+    min-height: 100vh;
   }
+
 
   .wrapper {
     display: flex;
@@ -138,7 +147,7 @@
   .btn {
     background: linear-gradient(90deg, #ff9800, #ff5722);
     color: white;
-    padding: 0.6rem 1rem;
+    padding: 1.6rem 0rem;
     border: none;
     border-radius: 9999px;
     font-weight: 500;
