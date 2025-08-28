@@ -163,7 +163,7 @@ $html = $css . '<span class="nama-jemaat">' . $rsakta->namajemaatanak . '</span>
 $pdf->SetXY(79, 179);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-$html = $css . '<span class="default-text">' . $rsakta->tempatlahiranak . ' / ' . tglindonesialengkap($rsakta->tanggallahiranak) . '</span>';
+$html = $css . '<span class="default-text">' . $rsakta->tempatlahiranak . '  ' . tglindonesialengkap($rsakta->tanggallahiranak) . '</span>';
 $pdf->SetXY(79, 188);
 $pdf->writeHTML($html, true, false, true, false, '');
 
