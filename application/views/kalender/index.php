@@ -340,8 +340,7 @@ $this->load->view('template/festavalive/header'); ?>
       margin: 0;
       padding: 0;
       /* background-color: #e9d6a8; */
-      /* background: linear-gradient(55deg, #fffaf5, #ffe5b4, #ffb347, #ff7e5f); */
-      linear-gradient(63deg, #fffaf5, #ffb347)
+      background: linear-gradient(63deg, #fffaf5, #ffb347);
       font-family: 'Figtree', sans-serif;
       color: #111;
       line-height: 1.7;
