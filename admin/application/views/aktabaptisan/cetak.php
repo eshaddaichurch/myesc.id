@@ -131,7 +131,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 
 $html = $css . '<span class="nama-jemaat">' . $rsakta->namalengkap . '</span>';
-$pdf->SetXY(81, 177);
+$pdf->SetXY(81, 178);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->tempatlahir . '</span>';
@@ -139,11 +139,11 @@ $pdf->SetXY(81, 187);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . tglindonesialengkap($rsakta->tanggallahir) . '</span>';
-$pdf->SetXY(130, 187);
+$pdf->SetXY(130, 186);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->namaayah . '</span>';
-$pdf->SetXY(81, 193);
+$pdf->SetXY(81, 194);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
