@@ -117,16 +117,16 @@ $css = '
 
 
 $html = $css . '<span class="default-text">' . $rsakta->noakta . '</span>';
-$pdf->SetXY(51, 92);
+$pdf->SetXY(51, 94);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
 
 $html = $css . '<span class="default-text">' . hari($rsakta->tglbaptis) . ', ' . tglindonesialengkap($rsakta->tglbaptis) . '</span>';
-$pdf->SetXY(81, 143);
+$pdf->SetXY(81, 142);
 $pdf->writeHTML($html, true, false, true, false, '');
 $html = $css . '<span class="default-text">EL SHADDAI</span>';
-$pdf->SetXY(81, 158);
+$pdf->SetXY(81, 157);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -135,7 +135,7 @@ $pdf->SetXY(81, 179);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->tempatlahir . '</span>';
-$pdf->SetXY(81, 188);
+$pdf->SetXY(81, 185);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . tglindonesialengkap($rsakta->tanggallahir) . '</span>';
@@ -143,16 +143,16 @@ $pdf->SetXY(130, 188);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->namaayah . '</span>';
-$pdf->SetXY(81, 195);
+$pdf->SetXY(81, 192);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
 $html = $css . '<span class="default-text">' . $rsakta->namaibu . '</span>';
-$pdf->SetXY(81, 202);
+$pdf->SetXY(81, 201);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->dilakukanoleh . '</span>';
-$pdf->SetXY(85, 229);
+$pdf->SetXY(85, 227);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
@@ -160,7 +160,7 @@ $pdf->SetXY(112, 254);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(120, 279);
+$pdf->SetXY(120, 281);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
