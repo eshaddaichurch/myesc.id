@@ -123,7 +123,7 @@ $pdf->SetXY(10, 79);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
-
+// materi dihilangkan karena mengikuti template cetakan sertifikat
 
 // $html = $css. '<span class="tglsertifikat">'.tglindonesialengkap($rsregistrasi->tglsertifikat).'</span>';
 // $pdf->SetXY(10, 110);
