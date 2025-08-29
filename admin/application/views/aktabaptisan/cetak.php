@@ -131,19 +131,19 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 
 $html = $css . '<span class="nama-jemaat">' . $rsakta->namalengkap . '</span>';
-$pdf->SetXY(81, 179);
+$pdf->SetXY(81, 177);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->tempatlahir . '</span>';
-$pdf->SetXY(81, 185);
+$pdf->SetXY(81, 187);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . tglindonesialengkap($rsakta->tanggallahir) . '</span>';
-$pdf->SetXY(130, 188);
+$pdf->SetXY(130, 187);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . $rsakta->namaayah . '</span>';
-$pdf->SetXY(81, 192);
+$pdf->SetXY(81, 193);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -156,11 +156,11 @@ $pdf->SetXY(85, 227);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
-$pdf->SetXY(112, 254);
+$pdf->SetXY(112, 250);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(120, 281);
+$pdf->SetXY(120, 279);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
