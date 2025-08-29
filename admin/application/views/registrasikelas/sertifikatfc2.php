@@ -132,7 +132,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 
 
-$rsregistrasimateri = $this->db->query("select * from registrasikelasmateri where idregistrasikelas='".$idregistrasikelas."'");
+// $rsregistrasimateri = $this->db->query("select * from registrasikelasmateri where idregistrasikelas='".$idregistrasikelas."'");
 
 
 // if ($rsregistrasimateri->num_rows()>0) {
