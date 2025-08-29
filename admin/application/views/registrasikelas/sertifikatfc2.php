@@ -169,8 +169,8 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 
 // }
-$pdf->SetXY(25, 105);
-$pdf->writeHTML($html, true, false, true, false, '');
+// $pdf->SetXY(25, 105);
+// $pdf->writeHTML($html, true, false, true, false, '');
 
 
 // ---------------------------------------------------------
