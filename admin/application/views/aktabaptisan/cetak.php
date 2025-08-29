@@ -160,7 +160,7 @@ $pdf->SetXY(112, 250);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">' . GEMBALAGEREJA . '</span>';
-$pdf->SetXY(120, 279);
+$pdf->SetXY(120, 276);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
