@@ -194,7 +194,7 @@ $pdf->SetXY(117, 248);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
-$html = $css . '<span class="default-text dilakukan-oleh">' . $rsakta->dilakukanoleh . '</span>';
+$html = $css . '<span class="default-text text-bold">' . $rsakta->dilakukanoleh . '</span>';
 $pdf->SetXY(121, 274);
 $pdf->writeHTML($html, true, false, true, false, '');
 
