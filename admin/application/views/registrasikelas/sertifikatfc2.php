@@ -135,40 +135,40 @@ $pdf->writeHTML($html, true, false, true, false, '');
 $rsregistrasimateri = $this->db->query("select * from registrasikelasmateri where idregistrasikelas='".$idregistrasikelas."'");
 
 
-if ($rsregistrasimateri->num_rows()>0) {
+// if ($rsregistrasimateri->num_rows()>0) {
 
-    $html = $css. '
-        <table border="0" width="100%" cellpadding="">
-            <tbody>
-                <tr class="listmateri">';
+//     $html = $css. '
+//         <table border="0" width="100%" cellpadding="">
+//             <tbody>
+//                 <tr class="listmateri">';
 
-    $no=1; //untuk pembagi
-    foreach ($rsregistrasimateri->result() as $rowregistrasimateri) {
+//     $no=1; 
+//     foreach ($rsregistrasimateri->result() as $rowregistrasimateri) {
         
-        if ($no>2) {
-            $html .= '
-                </tr>
-                <tr class="listmateri">
-                ';
-            $no = 1;
-        }
+//         if ($no>2) {
+//             $html .= '
+//                 </tr>
+//                 <tr class="listmateri">
+//                 ';
+//             $no = 1;
+//         }
 
-        $html .= '
-                        <td style="" width="50%">'.$rowregistrasimateri->judulmateri.'</td>                    
-        ';
+//         $html .= '
+//                         <td style="" width="50%">'.$rowregistrasimateri->judulmateri.'</td>                    
+//         ';
 
-        $no++;
+//         $no++;
 
-    }
+//     }
 
-    $html .= '
-                    </tr>
-                </tbody>  
-            </table>
-    ';
+//     $html .= '
+//                     </tr>
+//                 </tbody>  
+//             </table>
+//     ';
 
 
-}
+// }
 $pdf->SetXY(25, 105);
 $pdf->writeHTML($html, true, false, true, false, '');
 
