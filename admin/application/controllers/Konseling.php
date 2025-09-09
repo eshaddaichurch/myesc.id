@@ -39,7 +39,7 @@ class Konseling extends MY_Controller
         $data['rowKonseling'] = $rsKonseling->row();
         $data['idcarekonseling'] = $idcarekonseling;
         $data['menu'] = 'konseling';
-        $this->load->view('konseling/form', $data);
+        $this->load->view('konseling/formpermohonankonseling', $data);
     }
 
     public function datatablesource()
