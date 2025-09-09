@@ -30,7 +30,7 @@ class Penyerahananak extends MY_Controller
         $data['idpenyerahananak'] = '';
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
-        $this->load->view('penyerahananak/form', $data);
+        $this->load->view('penyerahananak/formpenyerahananak', $data);
     }
 
 
