@@ -98,12 +98,12 @@
 
                   <div class="mb-3">
                     <label for="alamatjemaat" class="form-label">Alamat Lengkap</label>
-                    <textarea name="alamatjemaat" id="alamatjemaat" class="form-control" rows="2" placeholder="Alamat / lokasi tempat yang akan dikunjungi"><?php echo $this->session->userdata('alamat'); ?></textarea>
+                    <textarea name="alamatjemaat" id="alamatjemaat" class="form-control" rows="2" placeholder="Alamat / lokasi tempat yang akan dikunjungi"><?php echo $this->session->userdata('alamatrumah'); ?></textarea>
                   </div>
 
                   <div class="mb-3">
                     <label for="keterangankunjungan" class="form-label">Keterangan Permohonan</label>
-                    <textarea name="keterangankunjungan" id="keterangankunjungan" class="form-control" rows="6" placeholder="Jelaskan maksud dan tujuan dari permohonan kunjungan"><?php echo $this->session->userdata('alamatrumah'); ?></textarea>
+                    <textarea name="keterangankunjungan" id="keterangankunjungan" class="form-control" rows="6" placeholder="Jelaskan maksud dan tujuan dari permohonan kunjungan"></textarea>
                   </div>
 
                   <div class="d-flex flex-column flex-md-row justify-content-center mt-4 gap-2">
