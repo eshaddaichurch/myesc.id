@@ -29,7 +29,7 @@ class Konseling extends MY_Controller
         $data['idcarekonseling'] = '';
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
-        $this->load->view('konseling/form', $data);
+        $this->load->view('konseling/formpermohonankonseling', $data);
     }
 
 
