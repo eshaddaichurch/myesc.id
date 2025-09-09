@@ -30,7 +30,7 @@ class Kunjunganjemaat extends MY_Controller
         $data['idkunjunganjemaat'] = '';
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
-        $this->load->view('kunjunganjemaat/form', $data);
+        $this->load->view('kunjunganjemaat/formpermohonankunjungan', $data);
     }
 
 
