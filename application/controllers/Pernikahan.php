@@ -30,7 +30,7 @@ class Pernikahan extends MY_Controller
         $data['idpernikahan'] = '';
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
-        $this->load->view('pernikahan/form', $data);
+        $this->load->view('pernikahan/formpermohonanpernikahan', $data);
     }
 
 
