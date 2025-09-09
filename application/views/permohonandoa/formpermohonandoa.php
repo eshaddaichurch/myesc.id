@@ -4,7 +4,7 @@
 
 body {
   font-family: 'Figtree', sans-serif;
-  background-color: #e8d5a7;
+  background: linear-gradient(63deg, #fffaf5, #ffb347);
   padding-top: 60px;
   margin: 0;
 }
