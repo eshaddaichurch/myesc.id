@@ -14,7 +14,8 @@ body {
 }
 
 .permohonan-form-section {
-  background: #e8d5a7;
+  /* background: #e8d5a7; */
+  background: linear-gradient(63deg, #fffaf5, #ffb347);
 }
 
 .card {
