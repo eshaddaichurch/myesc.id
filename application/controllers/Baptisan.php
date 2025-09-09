@@ -30,7 +30,7 @@ class Baptisan extends MY_Controller
         $data['idcarebaptisan'] = '';
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
-        $this->load->view('baptisan/form', $data);
+        $this->load->view('baptisan/formpermohonanbaptisan', $data);
     }
 
 
