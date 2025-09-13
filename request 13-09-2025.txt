@@ -1,0 +1,16 @@
+Aktta anak 
+BPT jadi PA
+nama anak,nama ibu dan nama ayah.
+
+ditambah field ditandatangani oleh untuk ttd cetakan
+
+Akta Baptisan
+===========
+nama gereja di list data terkadang kosong seperti tidak tersimpan.
+nama pendeta kosong.
+
+
+Care
+=====
+ada notif pengajuan nya.
+

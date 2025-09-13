@@ -76,7 +76,7 @@
                  </div>
                </div>
 
-               <div class="form-group row required baptis-elshaddai">
+               <div class="form-group row required">
                  <label for="" class="col-md-3 col-form-label">Dilakukan Oleh</label>
                  <div class="col-md-9">
                    <input type="text" name="dilakukanoleh" id="dilakukanoleh" class="form-control" placeholder="Dilakukan oleh" value="">

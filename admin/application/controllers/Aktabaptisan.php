@@ -171,7 +171,6 @@ class Aktabaptisan extends MY_Controller
                 $fileaktabaptis = $this->App->uploadImage($_FILES, "fileaktabaptis", $fileaktabaptis_lama, 'akta/baptis');
                 $iddaerahakta = null;
                 $idcabangakta = null;
-                $dilakukanoleh = null;
                 $namaayah = null;
                 $namaibu = null;
             }
@@ -200,14 +199,13 @@ class Aktabaptisan extends MY_Controller
             if ($tempatbaptis == 'Elshaddai') {
                 $fileaktabaptis_lama = '';
                 $fileaktabaptis = $fileaktabaptis_lama;
-                $namagereja = null;
+                $namagereja = 'GBI Elshaddai';
             } else {
                 $fileaktabaptis_lama = $this->input->post('fileaktabaptis_lama');
                 $fileaktabaptis = $this->App->uploadImage($_FILES, "fileaktabaptis", $fileaktabaptis_lama, 'akta/baptis');
                 $iddaerahakta = null;
                 $idcabangakta = null;
 
-                $dilakukanoleh = null;
                 $namaayah = null;
                 $namaibu = null;
             }
