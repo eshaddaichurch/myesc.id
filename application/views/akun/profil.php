@@ -402,32 +402,32 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-    <section class="page-content section-padding">
+    <section class="page-content section-padding pt-5">
         <div class="container">
             <div class="row justify-content-center">
 
             <!-- Foto Profil + Status -->
             <div class="col-12 col-md-3 mb-3">
-            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card shadow-sm border-0 rounded-3 mt-4 mt-md-0">
                 <div class="card-body text-center">
-                <h6 class="fw-bold mb-3">Foto Profil</h6>
-                <?php if (!empty($rowProfil->foto)) { ?>
+                    <h6 class="fw-bold mb-3">Foto Profil</h6>
+                    <?php if (!empty($rowProfil->foto)) { ?>
                     <img src="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) ?>" 
                         class="foto-profil img-fluid rounded-circle border mb-3" 
                         alt="Foto Profil" style="max-width:150px;">
-                <?php } else { ?>
+                    <?php } else { ?>
                     <img src="<?php echo base_url('myesc.id/images/nofoto.png') ?>" 
                         class="foto-profil img-fluid rounded-circle border mb-3" 
                         alt="Foto Profil" style="max-width:150px;">
-                <?php } ?>
+                    <?php } ?>
 
-                <!-- Status Jemaat -->
-                <div class="card bg-dark text-white py-2 px-3 rounded-3">
+                    <!-- Status Jemaat -->
+                    <div class="card bg-dark text-white py-2 px-3 rounded-3">
                     <small class="fw-semibold d-block">Status Jemaat</small>
                     <span class="fw-bold"><?php echo $rowProfil->statusjemaat; ?></span>
+                    </div>
                 </div>
                 </div>
-            </div>
             </div>
 
 
