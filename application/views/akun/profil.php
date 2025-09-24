@@ -320,320 +320,240 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <style>
-      * {
+    * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-      }
-
-
-
-      /* body {
-        margin: 0;
-        font-family: 'Figtree', sans-serif;
-        background-color: #fff;
-        color: #444;
-      } */
-
-      body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(63deg, #fffaf5, #ffb347);
-      font-family: 'Figtree', sans-serif;
-      color: #111;
-      line-height: 1.7;
     }
 
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(63deg, #fffaf5, #ffb347);
+        font-family: 'Figtree', sans-serif;
+        color: #111;
+        line-height: 1.7;
+    }
+
+    /* Judul section kecil */
+    .informasi-akun h5 {
+        font-size: 14px;
+        color: #fd661f;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    /* Label kecil */
+    .info-label {
+        font-size: 13px;
+        color: #6c757d;
+        margin-bottom: 4px;
+    }
+
+    /* Value isi */
+    .info-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    /* Card informasi */
+    .info-card {
+        background-color: #fdfdfd;
+        transition: 0.2s ease-in-out;
+    }
+
+    .info-card:hover {
+        background-color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Agar tabel lama tetap rapi */
     .informasi-akun table td {
-            font-size: 10px;
-            padding: 0px 0px 0px 0px;
-        }
+        font-size: 13px;
+        padding: 6px;
+        vertical-align: top;
+    }
 
-        .informasi-akun h5 {
-            font-size: 12px;
-            color: #655f62;
-            font-weight: bold;
-        }
+    /* Responsive foto */
+    .foto-profil {
+        max-width: 150px;
+        border-radius: 50%;
+        border: 3px solid #eee;
+    }
 
-        /* .informasi-akun label {
-            font-size: 13px;
-            color: #6c757d;
-        }
-        .informasi-akun div {
-            font-size: 15px;
-        } */
-
-   
-        .text-orange {
-            color: #fd661f;
-        }
-
-        .info-label {
-            font-size: 13px;
-            color: #6c757d;
-            margin-bottom: 4px;
-        }
-
-        .info-value {
-            font-size: 16px;
-            font-weight: 600;
-            color: #343a40;
-        }
-
+    /* Responsif mobile */
+    @media (max-width: 768px) {
         .info-card {
-            background-color: #fdfdfd;
-            transition: 0.2s ease-in-out;
+        text-align: center;
         }
-
-        .info-card:hover {
-            background-color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+        .informasi-akun table td {
+        display: block;
+        width: 100% !important;
         }
-
-      /*whatiscare*/
+        .informasi-akun table tr {
+        margin-bottom: 10px;
+        display: block;
+        }
+    }
     </style>
     </head>
 
     <body>
 
     <section class="page-content section-padding">
-            <div class="container">
-                <div class="row justify-content-center">
+        <div class="container">
+            <div class="row justify-content-center">
 
-                    <div class="col-12 mb-5 text-center">
-                        <h3>Status: <?php echo $rowProfil->statusjemaat; ?></h3>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <form action="<?php echo site_url('akun/simpanupload') ?>" method="post" id="formUpload" enctype="multipart/form-data">
-                                    <div class="row">
-                                        <div class="col-12 text-center">
-                                            <h5>Foto Profil</h5>
-                                        </div>
-                                        <div class="col-12 text-center">
-                                            <?php
-                                            if (!empty($rowProfil->foto)) {
-                                                echo '
-                                                        <img src="' . base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="" style="width: 80%;" class="">
-                                                    ';
-                                            } else {
-                                                echo '
-                                                        <img src="' . base_url('myesc.id/images/nofoto.png') . '" alt="" style="width: 80%;" class="">
-                                                    ';
-                                            }
-                                            ?>
+            <!-- Status -->
+            <div class="col-12 mb-4 text-center">
+                <h5 class="fw-bold text-primary">Status: <?php echo $rowProfil->statusjemaat; ?></h5>
+            </div>
 
-                                        </div>
-
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-                    <div class="col-md-9">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-
-
-                                    <?php
-                                    if ($rowProfil->statusjemaat == 'Registered') { ?>
-                                        <!-- <div class="col-12 informasi-akun">
-                                            <h5>Data Pribadi</h5>
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 15%;">Nama Lengkap</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->namalengkap; ?></td>
-                                                        <td style="width: 15%;">Email</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->email; ?></td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 15%;">Jenis Kelamin</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->jeniskelamin; ?></td>
-                                                        <td style="width: 15%;">Nomor HP</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->nohp; ?></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div> -->
-
-                                        <div class="col-12 informasi-akun">
-                                        <h5 class="mb-4 fw-bold text-orange">Data Pribadi</h5>
-
-                                        <div class="row g-4">
-
-                                            <div class="col-md-6">
-                                            <div class="info-card border shadow-sm p-3 rounded-3">
-                                                <div class="info-label">Nama Lengkap</div>
-                                                <div class="info-value"><?php echo $rowProfil->namalengkap; ?></div>
-                                            </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                            <div class="info-card border shadow-sm p-3 rounded-3">
-                                                <div class="info-label">Email</div>
-                                                <div class="info-value"><?php echo $rowProfil->email; ?></div>
-                                            </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                            <div class="info-card border shadow-sm p-3 rounded-3">
-                                                <div class="info-label">Jenis Kelamin</div>
-                                                <div class="info-value"><?php echo $rowProfil->jeniskelamin; ?></div>
-                                            </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                            <div class="info-card border shadow-sm p-3 rounded-3">
-                                                <div class="info-label">Nomor HP</div>
-                                                <div class="info-value"><?php echo $rowProfil->nohp; ?></div>
-                                            </div>
-                                            </div>
-
-                                        </div>
-                                        </div>
-
-
-
-                                    <?php } else { ?>
-
-                                        <div class="col-12 informasi-akun">
-                                            <h5>Data Pribadi</h5>
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 15%;">Nama</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->namalengkap; ?></td>
-                                                        <td style="width: 15%;">Tempat/ Tgl.Lahir</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->tempatlahir . '/ ' . tglindonesia($rowProfil->tanggallahir) ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 15%;">Jenis Kelamin</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->jeniskelamin; ?></td>
-                                                        <td style="width: 15%;">Status Pernikahan</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->statuspernikahan; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 15%;">Alamat Rumah</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->alamatrumah; ?></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <div class="col-12 mt-3 informasi-akun">
-                                            <h5>Kontak Darurat</h5>
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 15%;">Nama</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->namadarurat; ?></td>
-                                                        <td style="width: 15%;">Hubungan</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->hubungan; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 15%;">Nomor Telp.</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->notelpdarurat; ?></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <div class="col-12 mt-3 informasi-akun">
-                                            <h5>Sosial Media</h5>
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 15%;">Instagram</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->instagram; ?></td>
-                                                        <td sty
-                                                            le="width: 15%;">Facebook</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->facebook; ?></td>
-                                                    </tr>
-                                                    <tr>
-
-                                                        <td style="width: 15%;">No. HP</td>
-                                                        <td style="width: 5%;">:</td>
-                                                        <td style="width: 30%;"><?php echo $rowProfil->nohp; ?></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    <?php } ?>
-
-
-                                    <?php  
-                                        if ($rsDC->num_rows()>0) {
-                                            foreach ($rsDC->result() as $row) { ?>
-                                        
-                                                <div class="col-12 mt-3 informasi-akun">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <h5>Disciples Community</h5>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td style="width: 100%;"><?php echo $row->namadc ?></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                    <?php
-                                            }
-                                        }
-                                    ?>
-
-
-
-                                    <div class="col-12 d-grid gap-2 mt-3">
-                                        <a href="<?php echo site_url('akun/ubahprofil') ?>" class="btn btn-sm btn-primary">Ubah Profil</a>
-                                        <a href="<?php echo site_url('akun/gantipassword') ?>" class="btn btn-sm btn-warning">Ubah Password</a>
-                                    </div>
-
-
-                                </div>
-
-
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
+            <!-- Foto Profil -->
+            <div class="col-12 col-md-3 mb-3">
+                <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body text-center">
+                    <h6 class="fw-bold mb-3">Foto Profil</h6>
+                    <?php if (!empty($rowProfil->foto)) { ?>
+                    <img src="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) ?>" class="foto-profil img-fluid" alt="Foto Profil">
+                    <?php } else { ?>
+                    <img src="<?php echo base_url('myesc.id/images/nofoto.png') ?>" class="foto-profil img-fluid" alt="Foto Profil">
+                    <?php } ?>
+                </div>
                 </div>
             </div>
-        </section>
+
+            <!-- Data Profil -->
+            <div class="col-12 col-md-9">
+                <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <div class="row">
+
+                    <?php if ($rowProfil->statusjemaat == 'Registered') { ?>
+                        <!-- Jika status Registered tampil modern -->
+                        <div class="col-12 informasi-akun">
+                        <h5>Data Pribadi</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                            <div class="info-card border shadow-sm p-3 rounded-3">
+                                <div class="info-label">Nama Lengkap</div>
+                                <div class="info-value"><?php echo $rowProfil->namalengkap; ?></div>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="info-card border shadow-sm p-3 rounded-3">
+                                <div class="info-label">Email</div>
+                                <div class="info-value"><?php echo $rowProfil->email; ?></div>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="info-card border shadow-sm p-3 rounded-3">
+                                <div class="info-label">Jenis Kelamin</div>
+                                <div class="info-value"><?php echo $rowProfil->jeniskelamin; ?></div>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="info-card border shadow-sm p-3 rounded-3">
+                                <div class="info-label">Nomor HP</div>
+                                <div class="info-value"><?php echo $rowProfil->nohp; ?></div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    <?php } else { ?>
+                        <!-- Jika status lain tampil tetap pakai tabel -->
+                        <div class="col-12 informasi-akun">
+                        <h5>Data Pribadi</h5>
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <td>Nama</td>
+                                <td><?php echo $rowProfil->namalengkap; ?></td>
+                                <td>Tempat/Tgl Lahir</td>
+                                <td><?php echo $rowProfil->tempatlahir . '/ ' . tglindonesia($rowProfil->tanggallahir) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Jenis Kelamin</td>
+                                <td><?php echo $rowProfil->jeniskelamin; ?></td>
+                                <td>Status Pernikahan</td>
+                                <td><?php echo $rowProfil->statuspernikahan; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Alamat Rumah</td>
+                                <td colspan="3"><?php echo $rowProfil->alamatrumah; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+
+                        <div class="col-12 mt-3 informasi-akun">
+                        <h5>Kontak Darurat</h5>
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <td>Nama</td>
+                                <td><?php echo $rowProfil->namadarurat; ?></td>
+                                <td>Hubungan</td>
+                                <td><?php echo $rowProfil->hubungan; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Nomor Telp.</td>
+                                <td colspan="3"><?php echo $rowProfil->notelpdarurat; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+
+                        <div class="col-12 mt-3 informasi-akun">
+                        <h5>Sosial Media</h5>
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <td>Instagram</td>
+                                <td><?php echo $rowProfil->instagram; ?></td>
+                                <td>Facebook</td>
+                                <td><?php echo $rowProfil->facebook; ?></td>
+                            </tr>
+                            <tr>
+                                <td>No. HP</td>
+                                <td colspan="3"><?php echo $rowProfil->nohp; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    <?php } ?>
+
+                    <!-- Disciples Community -->
+                    <?php if ($rsDC->num_rows()>0) {
+                        foreach ($rsDC->result() as $row) { ?>
+                        <div class="col-12 mt-3 informasi-akun">
+                            <h5>Disciples Community</h5>
+                            <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                <td><?php echo $row->namadc ?></td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                    <?php } } ?>
+
+                    <!-- Tombol -->
+                    <div class="col-12 d-grid gap-2 mt-3">
+                        <a href="<?php echo site_url('akun/ubahprofil') ?>" class="btn btn-primary">Ubah Profil</a>
+                        <a href="<?php echo site_url('akun/gantipassword') ?>" class="btn btn-warning">Ubah Password</a>
+                    </div>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </section>
 
     <script>
         $(document).on('change', '#foto', function(e) {
