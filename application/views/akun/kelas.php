@@ -349,7 +349,29 @@ $this->load->view('template/festavalive/header'); ?>
     line-height: 1.7;
     }
 
-    
+    /* Default untuk mobile */
+    .page-content {
+    padding-top: 80px !important;   /* navbar mobile biasanya lebih pendek */
+    padding-bottom: 80px !important;
+    }
+
+    /* Untuk tablet ke atas */
+    @media (min-width: 768px) {
+    .page-content {
+        padding-top: 120px !important;
+        padding-bottom: 100px !important;
+    }
+    }
+
+    /* Untuk desktop (>= 1200px misalnya) */
+    @media (min-width: 1200px) {
+    .page-content {
+        padding-top: 160px !important;
+        padding-bottom: 151px !important;
+    }
+    }
+
+
     </style>
     </head>
 
