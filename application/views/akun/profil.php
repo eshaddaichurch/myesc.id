@@ -406,24 +406,30 @@ $this->load->view('template/festavalive/header'); ?>
         <div class="container">
             <div class="row justify-content-center">
 
-            <!-- Status -->
-            <div class="col-12 mb-4 text-center">
-                <h5 class="fw-bold text-primary">Status: <?php echo $rowProfil->statusjemaat; ?></h5>
+            <!-- Foto Profil + Status -->
+            <div class="col-12 col-md-3 mb-3">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body text-center">
+                <h6 class="fw-bold mb-3">Foto Profil</h6>
+                <?php if (!empty($rowProfil->foto)) { ?>
+                    <img src="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) ?>" 
+                        class="foto-profil img-fluid rounded-circle border mb-3" 
+                        alt="Foto Profil" style="max-width:150px;">
+                <?php } else { ?>
+                    <img src="<?php echo base_url('myesc.id/images/nofoto.png') ?>" 
+                        class="foto-profil img-fluid rounded-circle border mb-3" 
+                        alt="Foto Profil" style="max-width:150px;">
+                <?php } ?>
+
+                <!-- Status Jemaat -->
+                <div class="card bg-dark text-white py-2 px-3 rounded-3">
+                    <small class="fw-semibold d-block">Status Jemaat</small>
+                    <span class="fw-bold"><?php echo $rowProfil->statusjemaat; ?></span>
+                </div>
+                </div>
+            </div>
             </div>
 
-            <!-- Foto Profil -->
-            <div class="col-12 col-md-3 mb-3">
-                <div class="card shadow-sm border-0 rounded-3">
-                <div class="card-body text-center">
-                    <h6 class="fw-bold mb-3">Foto Profil</h6>
-                    <?php if (!empty($rowProfil->foto)) { ?>
-                    <img src="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) ?>" class="foto-profil img-fluid" alt="Foto Profil">
-                    <?php } else { ?>
-                    <img src="<?php echo base_url('myesc.id/images/nofoto.png') ?>" class="foto-profil img-fluid" alt="Foto Profil">
-                    <?php } ?>
-                </div>
-                </div>
-            </div>
 
             <!-- Data Profil -->
             <div class="col-12 col-md-9">
