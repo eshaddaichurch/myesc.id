@@ -351,8 +351,8 @@ $this->load->view('template/festavalive/header'); ?>
 
     /* Tambahkan ruang agar konten tidak menimpa navbar */
     .page-content {
-    padding-top: 100px !important;;   /* tinggi navbar + extra margin */
-    padding-bottom: 60px !important;; /* supaya tidak nempel footer */
+    padding-top: 160px !important;;   /* tinggi navbar + extra margin */
+    padding-bottom: 151px !important;; /* supaya tidak nempel footer */
     }
 
 
