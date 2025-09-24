@@ -597,15 +597,7 @@ $this->load->view('template/festavalive/header'); ?>
             </div>
             <div class="right">
               <div class="dedication-video">
-                <iframe width="560" height="315"
-                  src="https://www.youtube.com/embed/ZqULgqLXYz8?autoplay=1&mute="
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen>
-                </iframe>
-
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/_YdWDCUCqsY?si=KTQHbm174-iF6Hx1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               </div>
             </div>
           </div>
