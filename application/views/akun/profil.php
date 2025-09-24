@@ -491,10 +491,23 @@ $this->load->view('template/festavalive/header'); ?>
                                     </div>
 
                                     <!-- Tombol -->
-                                    <div class="col-12 d-grid gap-2 mt-3">
+                                    <!-- <div class="col-12 d-grid gap-2 mt-3">
                                         <a href="<?php echo site_url('akun/ubahprofil') ?>" class="btn btn-primary">Ubah Profil</a>
                                         <a href="<?php echo site_url('akun/gantipassword') ?>" class="btn btn-warning">Ubah Password</a>
+                                    </div> -->
+
+                                    <div class="col-12 d-grid gap-2 mt-3">
+                                        <a href="<?php echo site_url('akun/ubahprofil') ?>" 
+                                            class="btn text-white" 
+                                            style="background-color:#e04607;">
+                                            Ubah Profil
+                                        </a>
+                                        <a href="<?php echo site_url('akun/gantipassword') ?>" 
+                                            class="btn btn-warning">
+                                            Ubah Password
+                                        </a>
                                     </div>
+
 
                                 </div>
                             </div>
