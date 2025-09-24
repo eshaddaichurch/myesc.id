@@ -72,7 +72,7 @@
 
   body {
     font-family: 'Figtree', sans-serif;
-    background-color: linear-gradient(63deg, #fffaf5, #ffb347);
+    background: linear-gradient(63deg, #fffaf5, #ffb347);
     /* background:  */
     margin: 0;
     padding-top: 60px; /* tambahkan untuk menghindari tabrakan dengan navbar */
