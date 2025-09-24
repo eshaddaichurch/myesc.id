@@ -335,6 +335,11 @@ $this->load->view('template/festavalive/header'); ?>
         line-height: 1.7;
     } */
 
+    /* Reset jangan terlalu agresif */
+    * {
+    box-sizing: border-box;
+    }
+
     html, body {
     margin: 0;
     padding: 0;
@@ -344,15 +349,12 @@ $this->load->view('template/festavalive/header'); ?>
     line-height: 1.7;
     }
 
-    /* Jangan reset margin semua elemen */
-    * {
-        box-sizing: border-box;
+    /* Tambahkan ruang agar konten tidak menimpa navbar */
+    .page-content {
+    padding-top: 100px !important;;   /* tinggi navbar + extra margin */
+    padding-bottom: 60px !important;; /* supaya tidak nempel footer */
     }
 
-    /* Tambah ruang agar tidak tabrakan dengan navbar */
-    .page-content {
-        padding-top: 100px; /* sesuaikan tinggi navbar */
-    }
 
 
     /* Judul section kecil */
@@ -422,7 +424,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-    <section class="page-content section-padding pt-5">
+    <section class="page-content">
             <div class="container">
                 <div class="row justify-content-center">
 
