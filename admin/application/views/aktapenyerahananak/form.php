@@ -30,148 +30,169 @@
             <div class="card" id="cardcontent">
               <div class="card-body">
 
-                  <div class="col-md-12">
+              <div class="row">
+
+                <div class="col-md-12">
                     <?php 
                       $pesan = $this->session->flashdata("pesan");
                       if (!empty($pesan)) {
                         echo $pesan;
                       }
                     ?>
-                  </div> 
-
-                  <h3 class="text-gray">Data Akta Penyerahan Anak</h3><hr>                    
-
-                  <input type="hidden" name="idakta" id="idakta">                      
-
-                  <div class="form-group row">
-                    <label for="" class="col-md-3 col-form-label">Nomor Akta</label>
-                    <div class="col-md-9">
-                      <input type="text" name="noakta" id="noakta" class="form-control" placeholder="(Otomatis)" readonly="">
-                    </div>
-                  </div>                      
-                  <div class="form-group row required">
-                    <label for="" class="col-md-3 col-form-label">Tanggal Akta</label>
-                    <div class="col-md-3">
-                      <input type="date" name="tglakta" id="tglakta" class="form-control" value="<?php echo date('Y-m-d') ?>" autofocus="">
-                    </div>
-                  </div>
-
-                  <div class="form-group row required">
-                    <label for="" class="col-md-3 col-form-label">Dilakukan Oleh</label>
-                    <div class="col-md-9">
-                      <input type="text" name="dilakukanoleh" id="dilakukanoleh" class="form-control" placeholder="Dilakukan oleh" value="<?php echo GEMBALAGEREJA ?>">
-                    </div>
-                  </div>
-
-                  <div class="form-group row required baptis-elshaddai">
-                    <label for="" class="col-md-3 col-form-label">Di GBI</label>
-                    <div class="col-md-9">
-                      <input type="text" name="namagereja" id="namagereja" class="form-control" placeholder="EL Shaddai" value="">
-                    </div>
-                  </div>
-
-                  <div class="form-group row required">
-                    <label for="" class="col-md-3 col-form-label">Nama Ayah</label>
-                    <div class="col-md-9">
-                      <select name="idjemaatayah" id="idjemaatayah" class="form-control select2">
-                        <option value="">Pilih nama ayah ...</option>
-                        <?php  
-                          $rsJemaatAyah = $this->App->getJemaat();
-                          if ($rsJemaatAyah->num_rows()>0) {
-                            foreach ($rsJemaatAyah->result() as $row) {
-                              echo '
-                                  <option value="'.$row->idjemaat.'">'.$row->namalengkap.'</option>
-                              ';
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group row required">
-                    <label for="" class="col-md-3 col-form-label">Nama Ibu</label>
-                    <div class="col-md-9">
-                      <select name="idjemaatibu" id="idjemaatibu" class="form-control select2">
-                        <option value="">Pilih nama ibu ...</option>
-                        <?php  
-                          $rsJemaatIbu = $this->App->getJemaat();
-                          if ($rsJemaatIbu->num_rows()>0) {
-                            foreach ($rsJemaatIbu->result() as $row) {
-                              echo '
-                                  <option value="'.$row->idjemaat.'">'.$row->namalengkap.'</option>
-                              ';
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group row required">
-                    <label for="" class="col-md-3 col-form-label">Nama Anak</label>
-                    <div class="col-md-9">
-                      <select name="idjemaatanak" id="idjemaatanak" class="form-control select2">
-                        <option value="">Pilih nama anak ...</option>
-                        <?php  
-                          $rsJemaatAnak = $this->App->getJemaat();
-                          if ($rsJemaatAnak->num_rows()>0) {
-                            foreach ($rsJemaatAnak->result() as $row) {
-                              echo '
-                                  <option value="'.$row->idjemaat.'">'.$row->namalengkap.'</option>
-                              ';
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
+                </div> 
 
 
 
-                  <div class="form-group row required">
-                    <label for="" class="col-md-3 col-form-label">Nama Daerah TTD</label>
-                    <div class="col-10 col-md-8">
-                      <select name="iddaerahakta" id="iddaerahakta" class="form-control select2">
-                        <option value="">Pilih nama daerah tanda tangan ...</option>
-                        <?php  
-                          $rsTTD = $this->App->getDaerahAkta();
-                          if ($rsTTD->num_rows()>0) {
-                            foreach ($rsTTD->result() as $row) {
-                              echo '
-                                  <option value="'.$row->iddaerahakta.'">'.$row->namadaerahakta.'</option>
-                              ';
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                    <div class="col-2 col-md-1">
-                      <button class="btn btn-primary" data-toggle="modal" data-target="#daerahModal"><i class="fa fa-plus"></i></button>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h3 class="text-gray">Informasi Akta</h3><hr>                    
+    
+                      <input type="hidden" name="idakta" id="idakta">                      
+    
+                      <div class="form-group row">
+                        <label for="" class="col-md-4 col-form-label">Nomor Akta</label>
+                        <div class="col-md-8">
+                          <input type="text" name="noakta" id="noakta" class="form-control" placeholder="(Otomatis)" readonly="">
+                        </div>
+                      </div>                      
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Tanggal Akta</label>
+                        <div class="col-md-4">
+                          <input type="date" name="tglakta" id="tglakta" class="form-control" value="<?php echo date('Y-m-d') ?>" autofocus="">
+                        </div>
+                      </div>
+    
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Dilakukan Oleh</label>
+                        <div class="col-md-8">
+                          <input type="text" name="dilakukanoleh" id="dilakukanoleh" class="form-control" placeholder="Dilakukan oleh" value="<?php echo GEMBALAGEREJA ?>">
+                        </div>
+                      </div>
+
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Ditandatangani Oleh</label>
+                        <div class="col-md-8">
+                          <input type="text" name="ditandatanganioleh" id="ditandatanganioleh" class="form-control" placeholder="Dilakukan oleh" value="<?php echo GEMBALAGEREJA ?>">
+                        </div>
+                      </div>
+    
+                      <div class="form-group row required baptis-elshaddai">
+                        <label for="" class="col-md-4 col-form-label">Di GBI (Nama Gereja)</label>
+                        <div class="col-md-8">
+                          <input type="text" name="namagereja" id="namagereja" class="form-control" placeholder="EL Shaddai" value="">
+                        </div>
+                      </div>
+    
+                      
+    
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Nama Daerah TTD</label>
+                        <div class="col-10 col-md-7">
+                          <select name="iddaerahakta" id="iddaerahakta" class="form-control select2">
+                            <option value="">Pilih nama daerah tanda tangan ...</option>
+                            <?php  
+                              $rsTTD = $this->App->getDaerahAkta();
+                              if ($rsTTD->num_rows()>0) {
+                                foreach ($rsTTD->result() as $row) {
+                                  echo '
+                                      <option value="'.$row->iddaerahakta.'">'.$row->namadaerahakta.'</option>
+                                  ';
+                                }
+                              }
+                            ?>
+                          </select>
+                        </div>
+                        <div class="col-2 col-md-1">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#daerahModal"><i class="fa fa-plus"></i></button>
+                        </div>
+                      </div>
+    
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Cabang GBI</label>
+                        <div class="col-10 col-md-7">
+                          <select name="idcabangakta" id="idcabangakta" class="form-control select2">
+                            <option value="">Pilih cabang GBI ...</option>
+                            <?php  
+                              $rsCabangAkta = $this->App->getCabangAkta();
+                              if ($rsCabangAkta->num_rows()>0) {
+                                foreach ($rsCabangAkta->result() as $row) {
+                                  echo '
+                                      <option value="'.$row->idcabangakta.'">'.$row->namacabangakta.'</option>
+                                  ';
+                                }
+                              }
+                            ?>
+                          </select>
+                        </div>
+                        <div class="col-2 col-md-1">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#cabangModal"><i class="fa fa-plus"></i></button>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
 
-                  <div class="form-group row required">
-                    <label for="" class="col-md-3 col-form-label">Cabang GBI</label>
-                    <div class="col-10 col-md-8">
-                      <select name="idcabangakta" id="idcabangakta" class="form-control select2">
-                        <option value="">Pilih cabang GBI ...</option>
-                        <?php  
-                          $rsCabangAkta = $this->App->getCabangAkta();
-                          if ($rsCabangAkta->num_rows()>0) {
-                            foreach ($rsCabangAkta->result() as $row) {
-                              echo '
-                                  <option value="'.$row->idcabangakta.'">'.$row->namacabangakta.'</option>
-                              ';
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                    <div class="col-2 col-md-1">
-                      <button class="btn btn-primary" data-toggle="modal" data-target="#cabangModal"><i class="fa fa-plus"></i></button>
+                </div>
+
+                <div class="col-md-6">
+
+                  <div class="card">
+                    <div class="card-body">
+
+                      <h3 class="text-gray">Informasi Anak</h3><hr>                    
+
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Nama Anak</label>
+                        <div class="col-md-8">
+                          <input type="text" name="namajemaatanak" id="namajemaatanak" class="form-control" placeholder="Nama lengkap anak">
+                        </div>
+                      </div>
+    
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Tempat Lahir Anak</label>
+                        <div class="col-md-8">
+                          <input type="text" name="tempatlahiranak" id="tempatlahiranak" class="form-control" placeholder="Tempat Lahir anak">
+                        </div>
+                      </div>
+
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Tanggal Lahir Anak</label>
+                        <div class="col-md-8">
+                          <input type="date" name="tgllahiranak" id="tgllahiranak" class="form-control">
+                        </div>
+                      </div>
+
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Nama Ayah</label>
+                        <div class="col-md-8">
+                          <input type="text" name="namajemaatayah" id="namajemaatayah" class="form-control" placeholder="Nama lengkap ayah"
+                          >
+                        </div>
+                      </div>
+    
+                      <div class="form-group row required">
+                        <label for="" class="col-md-4 col-form-label">Nama Ibu</label>
+                        <div class="col-md-8">
+                          <input type="text" name="namajemaatibu" id="namajemaatibu" class="form-control" placeholder="Nama lengkap ibu">
+                        </div>
+                      </div>
+    
+                      
+
                     </div>
                   </div>
+
+
+                
+
+                </div>
+
+              </div>
+
+                  
+
+                  
 
 
                                 
@@ -275,7 +296,8 @@
 
     //---------------------------------------------------------> JIKA EDIT DATA
     if ( idakta != "" ) {
-
+      
+        console.log(idakta);
           $.ajax({
               type        : 'POST', 
               url         : '<?php echo site_url("aktapenyerahananak/get_edit_data") ?>', 
@@ -284,16 +306,23 @@
               encode      : true
           })      
           .done(function(result) {
-            // console.log(result);
+            console.log(result);
             $("#idakta").val(result.idakta);
             $("#noakta").val(result.noakta);
             $("#dilakukanoleh").val(result.dilakukanoleh);
+            $("#ditandatanganioleh").val(result.ditandatanganioleh);
             $("#namagereja").val(result.namagereja);
-            $("#idjemaatanak").val(result.idjemaatanak).trigger('change');
-            $("#idjemaatayah").val(result.idjemaatayah).trigger('change');
-            $("#idjemaatibu").val(result.idjemaatibu).trigger('change');
+            $("#namajemaatanak").val(result.namajemaatanak);
+            $("#namajemaatayah").val(result.namajemaatayah);
+            $("#namajemaatibu").val(result.namajemaatibu);
+            $("#tglakta").val(result.tglakta);
+            $("#tempatlahiranak").val(result.tempatlahiranak);
+            $("#tgllahiranak").val(result.tgllahiranak);
             $("#iddaerahakta").val(result.iddaerahakta).trigger('change');
             $("#idcabangakta").val(result.idcabangakta).trigger('change');
+          })
+          .fail(function() {
+            console.log('error get_edit_data');
           }); 
 
 
@@ -327,34 +356,20 @@
             },
           }
         },
+        ditandatanganioleh: {
+          validators:{
+            notEmpty: {
+                message: "ditandatangani oleh tidak boleh kosong"
+            },
+          }
+        },
         namagereja: {
           validators:{
             notEmpty: {
                 message: "Nama Gereja tidak boleh kosong"
             },
           }
-        },
-        idjemaatayah: {
-          validators:{
-            notEmpty: {
-                message: "Nama ayah tidak boleh kosong"
-            },
-          }
-        },
-        idjemaatibu: {
-          validators:{
-            notEmpty: {
-                message: "Nama ibu tidak boleh kosong"
-            },
-          }
-        },
-        idjemaatanak: {
-          validators:{
-            notEmpty: {
-                message: "Nama anak tidak boleh kosong"
-            },
-          }
-        },
+        },        
         iddaerahakta: {
           validators:{
             notEmpty: {
@@ -369,6 +384,41 @@
             },
           }
         },
+        namajemaatayah: {
+          validators:{
+            notEmpty: {
+                message: "Nama ayah tidak boleh kosong"
+            },
+          }
+        },
+        namajemaatibu: {
+          validators:{
+            notEmpty: {
+                message: "Nama ibu tidak boleh kosong"
+            },
+          }
+        },
+        namajemaatanak: {
+          validators:{
+            notEmpty: {
+                message: "Nama anak tidak boleh kosong"
+            },
+          }
+        },
+        tempatlahiranak: {
+          validators:{
+            notEmpty: {
+                message: "Tempat lahir anak tidak boleh kosong"
+            },
+          }
+        },
+        tgllahiranak: {
+          validators:{
+            notEmpty: {
+                message: "Tanggal lahir anak tidak boleh kosong"
+            },
+          }
+        }
       }
     });
   //------------------------------------------------------------------------> END VALIDASI DAN SIMPAN

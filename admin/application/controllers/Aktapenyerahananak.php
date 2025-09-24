@@ -134,11 +134,14 @@ class Aktapenyerahananak extends MY_Controller
         $tglakta        = $this->input->post('tglakta');
         $dilakukanoleh        = $this->input->post('dilakukanoleh');
         $namagereja        = $this->input->post('namagereja');
-        $idjemaatayah        = $this->input->post('idjemaatayah');
-        $idjemaatibu        = $this->input->post('idjemaatibu');
-        $idjemaatanak        = $this->input->post('idjemaatanak');
+        $namajemaatayah        = $this->input->post('namajemaatayah');
+        $namajemaatibu        = $this->input->post('namajemaatibu');
+        $namajemaatanak        = $this->input->post('namajemaatanak');
         $iddaerahakta        = $this->input->post('iddaerahakta');
         $idcabangakta        = $this->input->post('idcabangakta');
+        $ditandatanganioleh        = $this->input->post('ditandatanganioleh');
+        $tempatlahiranak        = $this->input->post('tempatlahiranak');
+        $tgllahiranak        = $this->input->post('tgllahiranak');
 
         $statusaktif        = $this->input->post('statusaktif');
 
@@ -153,11 +156,14 @@ class Aktapenyerahananak extends MY_Controller
                 'tglakta'   => $tglakta,
                 'dilakukanoleh'   => $dilakukanoleh,
                 'namagereja'   => $namagereja,
-                'idjemaatanak'   => $idjemaatanak,
-                'idjemaatayah'   => $idjemaatayah,
-                'idjemaatibu'   => $idjemaatibu,
+                'namajemaatanak'   => $namajemaatanak,
+                'namajemaatayah'   => $namajemaatayah,
+                'namajemaatibu'   => $namajemaatibu,
                 'iddaerahakta'   => $iddaerahakta,
                 'idcabangakta'   => $idcabangakta,
+                'ditandatanganioleh'   => $ditandatanganioleh,
+                'tempatlahiranak'   => $tempatlahiranak,
+                'tgllahiranak'   => $tgllahiranak
             );
             $simpan = $this->Aktapenyerahananak_model->simpan($data);
         } else {
@@ -167,11 +173,14 @@ class Aktapenyerahananak extends MY_Controller
                 'tglakta'   => $tglakta,
                 'dilakukanoleh'   => $dilakukanoleh,
                 'namagereja'   => $namagereja,
-                'idjemaatanak'   => $idjemaatanak,
-                'idjemaatayah'   => $idjemaatayah,
-                'idjemaatibu'   => $idjemaatibu,
+                'namajemaatanak'   => $namajemaatanak,
+                'namajemaatayah'   => $namajemaatayah,
+                'namajemaatibu'   => $namajemaatibu,
                 'iddaerahakta'   => $iddaerahakta,
                 'idcabangakta'   => $idcabangakta,
+                'ditandatanganioleh'   => $ditandatanganioleh,
+                'tempatlahiranak'   => $tempatlahiranak,
+                'tgllahiranak'   => $tgllahiranak
             );
             $simpan = $this->Aktapenyerahananak_model->update($data, $idakta);
         }
@@ -212,11 +221,14 @@ class Aktapenyerahananak extends MY_Controller
             'tglcetak'     =>  $RsData->tglcetak,
             'dilakukanoleh'     =>  $RsData->dilakukanoleh,
             'namagereja'     =>  $RsData->namagereja,
-            'idjemaatanak'     =>  $RsData->idjemaatanak,
-            'idjemaatayah'     =>  $RsData->idjemaatayah,
-            'idjemaatibu'     =>  $RsData->idjemaatibu,
+            'namajemaatanak'     =>  $RsData->namajemaatanak,
+            'namajemaatayah'     =>  $RsData->namajemaatayah,
+            'namajemaatibu'     =>  $RsData->namajemaatibu,
             'iddaerahakta'     =>  $RsData->iddaerahakta,
             'idcabangakta'     =>  $RsData->idcabangakta,
+            'ditandatanganioleh'     =>  $RsData->ditandatanganioleh,
+            'tempatlahiranak'     =>  $RsData->tempatlahiranak,
+            'tgllahiranak'     =>  $RsData->tgllahiranak
         );
 
         echo (json_encode($data));
