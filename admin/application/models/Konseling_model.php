@@ -75,8 +75,39 @@ class Konseling_model extends CI_Model
 
     public function update($data, $idcarekonseling)
     {
-        $this->db->where('idcarekonseling', $idcarekonseling);
-        return $this->db->update($this->tabel, $data);
+        try {
+            $this->db->trans_begin();
+
+            $this->db->where('idcarekonseling', $idcarekonseling);
+            $this->db->update($this->tabel, $data);
+            $idjemaatpemohon = $this->db->query("
+                select idjemaat from carekonseling where idcarekonseling = '$idcarekonseling'
+            ")->row()->idjemaat;
+
+            $notifikasi = array(
+                'jenisnotifikasi' => 'Konfirmasi Konseling',
+                'idjemaatpengirim' => $this->session->userdata('idjemaat'),
+                'namapengirim' => $this->session->userdata('namalengkap'),
+                'deskripsi' => 'Care telah mengkonfirmasi konseling anda.',
+                'tglnotifikasi' => date('Y-m-d H:i:s'),
+                'idjemaatpenerima' => $idjemaatpemohon,
+                'urlaksi' => 'konseling/detail/' . $idcarekonseling,
+                'idtransaksi' => $idcarekonseling
+            );
+            $this->db->insert('notifikasi', $notifikasi);
+
+        
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                $this->db->trans_commit();
+                return true;
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return false;
+        }
     }
 }
 
