@@ -422,10 +422,11 @@ $this->load->view('template/festavalive/header'); ?>
                     <?php } ?>
 
                     <!-- Status Jemaat -->
-                    <div class="card bg-dark text-white py-2 px-3 rounded-3">
-                    <small class="fw-semibold d-block">Status Jemaat</small>
-                    <span class="fw-bold"><?php echo $rowProfil->statusjemaat; ?></span>
+                    <div class="card py-2 px-3 rounded-3 text-white" style="background-color:#e04607;">
+                        <small class="fw-semibold d-block">Status Jemaat</small>
+                        <span class="fw-bold"><?php echo $rowProfil->statusjemaat; ?></span>
                     </div>
+
                 </div>
                 </div>
             </div>
