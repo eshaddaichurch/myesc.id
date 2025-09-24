@@ -84,17 +84,17 @@ class Konseling_model extends CI_Model
                 select idjemaat from carekonseling where idcarekonseling = '$idcarekonseling'
             ")->row()->idjemaat;
 
-            $notifikasi = array(
-                'jenisnotifikasi' => 'Konfirmasi Konseling',
-                'idjemaatpengirim' => $this->session->userdata('idjemaat'),
-                'namapengirim' => $this->session->userdata('namalengkap'),
-                'deskripsi' => 'Care telah mengkonfirmasi konseling anda.',
-                'tglnotifikasi' => date('Y-m-d H:i:s'),
-                'idjemaatpenerima' => $idjemaatpemohon,
-                'urlaksi' => 'konseling/detail/' . $idcarekonseling,
-                'idtransaksi' => $idcarekonseling
-            );
-            $this->db->insert('notifikasi', $notifikasi);
+            // $notifikasi = array(
+            //     'jenisnotifikasi' => 'Konfirmasi Konseling',
+            //     'idjemaatpengirim' => $this->session->userdata('idjemaat'),
+            //     'namapengirim' => $this->session->userdata('namalengkap'),
+            //     'deskripsi' => 'Care telah mengkonfirmasi konseling anda.',
+            //     'tglnotifikasi' => date('Y-m-d H:i:s'),
+            //     'idjemaatpenerima' => $idjemaatpemohon,
+            //     'urlaksi' => 'konseling/detail/' . $idcarekonseling,
+            //     'idtransaksi' => $idcarekonseling
+            // );
+            // $this->db->insert('notifikasi', $notifikasi);
 
         
             if ($this->db->trans_status() === FALSE) {
