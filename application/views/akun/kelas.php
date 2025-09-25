@@ -391,15 +391,16 @@ $this->load->view('template/festavalive/header'); ?>
                 if ($row->statuslulus == '1') {
                     $statuslulus = '<span class="badge bg-success px-3 py-2">Lulus</span>';
                     $btnAksi = '<a href="' . site_url('akun/sertifikat/' . $row->idregistrasikelas) . '" 
-                                class="btn btn-sm w-100 text-white" 
+                                class="btn btn-sm text-white rounded-pill px-3 py-1" 
                                 style="background-color:#e04607;" 
                                 target="_blank">🎓 Lihat Sertifikat</a>';
                 } else {
                     $statuslulus = '<span class="badge bg-danger px-3 py-2">Belum Lulus</span>';
                     $btnAksi = '<a href="' . site_url('nextstep/kelas/' . $kelas_slug . '/') . '" 
-                                class="btn btn-sm w-100 text-white" 
+                                class="btn btn-sm text-white rounded-pill px-3 py-1" 
                                 style="background-color:#e04607;">📖 Registrasi Kelas</a>';
                 }
+                
 
                 echo "
                 <div class='col-12 col-md-6 col-lg-4'>
