@@ -405,7 +405,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class='col-12 col-md-6 col-lg-4'>
                     <div class='card h-100 shadow-sm border-0'>
                     <div class='card-body d-flex flex-column'>
-                        <h5 class='fw-bold mb-2' style='color:#e04607;'>{$row->namakelas}</h5>
+                        <h5 class='fw-bold mb-2 text-dark'>{$row->namakelas}</h5>
                         <div class='mb-2'>{$statuslulus}</div>
                         <p class='mb-3 text-muted'>Tgl Kelulusan: {$tglsertifikat}</p>
                         <div class='mt-auto'>{$btnAksi}</div>
