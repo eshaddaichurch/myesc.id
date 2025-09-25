@@ -536,101 +536,92 @@ $this->load->view('template/festavalive/header'); ?>
             /*kunjugan*/
 
             .esc-section {
-                display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                justify-content: space-between;
-                padding: 60px 40px;
-                max-width: 1200px;
-                margin: auto;
+            padding: 60px 20px;
+            background: #f9f9f9;
             }
 
-            .esc-text-content {
-                flex: 1 1 55%;
-                padding-right: 30px;
-            }
-
-            .esc-text-content h1 {
-                font-size: 40px;
-                font-weight: bold;
-                margin-bottom: 25px;
-            }
-
-            .esc-text-content h2 {
-                font-size: 24px;
-                font-weight: normal;
-                margin-bottom: 25px;
-                line-height: 1.5;
-            }
-
-            .esc-text-content p {
-                font-size: 16px;
-                line-height: 1.6;
-                color: #ffffff;
-                margin-bottom: 30px;
-            }
-
-            .esc-buttons {
-                display: flex;
-                gap: 15px;
-            }
-
-            .esc-buttons a {
-                padding: 12px 24px;
-                text-decoration: none;
-                font-weight: 500;
-                border-radius: 5px;
-                transition: all 0.3s ease;
-                display: inline-block;
-            }
-
-            .esc-btn-dark {
-                background-color: #000;
-                color: #fff;
-            }
-
-            .esc-btn-dark:hover {
-                background-color: #333;
-            }
-
-            .esc-btn-light {
-                background-color: #f1f1f1;
-                color: #000;
-            }
-
-            .esc-btn-light:hover {
-                background-color: #ddd;
+            .esc-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap; /* biar bisa turun di layar kecil */
             }
 
             .esc-image-content {
-                flex: 1 1 40%;
+            flex: 1 1 45%;
+            text-align: center;
             }
 
             .esc-image-content img {
-                width: 100%;
-                border-radius: 8px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             }
 
+            .esc-text-content {
+            flex: 1 1 50%;
+            }
+
+            .esc-text-content h1 {
+            font-size: 2rem;
+            color: #e04607;
+            margin-bottom: 15px;
+            }
+
+            .esc-text-content h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            }
+
+            .esc-text-content p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            }
+
+            .esc-buttons a {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: #e04607;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s ease;
+            }
+
+            .esc-buttons a:hover {
+            background: #c23c05;
+            }
+
+            /* Responsif */
             @media (max-width: 768px) {
-                .esc-section {
-                    flex-direction: column;
-                    padding: 30px 20px;
-                }
-
-                .esc-text-content,
-                .esc-image-content {
-                    flex: 1 1 100%;
-                    padding-right: 0;
-                }
-
-                .esc-text-content h1 {
-                    font-size: 32px;
-                }
-
-                .esc-text-content h2 {
-                    font-size: 20px;
-                }
+            .esc-container {
+                flex-direction: column;
+                text-align: center;
             }
+
+            .esc-text-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .esc-text-content h2 {
+                font-size: 1rem;
+            }
+
+            .esc-text-content p {
+                font-size: 0.95rem;
+            }
+            }
+
         </style>
         </head>
 
@@ -667,20 +658,35 @@ $this->load->view('template/festavalive/header'); ?>
             </section>
 
             <section class="esc-section">
-                <div class="esc-text-content">
+                <div class="esc-container">
+                    
+                    <!-- Kolom Gambar -->
+                    <div class="esc-image-content">
+                    <img src="<?php echo base_url('myesc.id/assets/gambar/baptis1.jpg'); ?>" alt="Praying people">
+                    </div>
+
+                    <!-- Kolom Teks -->
+                    <div class="esc-text-content">
                     <h1>Pelayanan Sakramen Baptisan.</h1>
-                    <h2>Baptisan Air (Selam) adalah tindakan iman yang menyatakan kepercayaan penuh kepada Injil, yaitu bahwa Yesus Kristus telah mati karena dosa-dosa kita, dikuburkan, dan bangkit pada hari yang ketiga, sesuai dengan Kitab Suci (1 Korintus 15:3–4).</h2>
-                    <p>Melalui baptisan, kita menyatakan komitmen untuk hidup sebagai ciptaan baru, terlepas dari kuasa dosa, dan hidup dalam kemenangan untuk memuliakan Tuhan dalam seluruh aspek kehidupan kita.
+                    <h2>
+                        Baptisan Air (Selam) adalah tindakan iman yang menyatakan kepercayaan penuh kepada Injil,
+                        yaitu bahwa Yesus Kristus telah mati karena dosa-dosa kita, dikuburkan, dan bangkit pada hari yang ketiga,
+                        sesuai dengan Kitab Suci (1 Korintus 15:3–4).
+                    </h2>
+                    <p>
+                        Melalui baptisan, kita menyatakan komitmen untuk hidup sebagai ciptaan baru, terlepas dari kuasa dosa,
+                        dan hidup dalam kemenangan untuk memuliakan Tuhan dalam seluruh aspek kehidupan kita.
                     </p>
                     <div class="esc-buttons">
-                        <a href="<?php echo site_url('baptisan/tambah'); ?>" class="esc-btn-light">Ajukan Permohonan →</a>
-                        <!--<a href="#" class="esc-btn-dark">Ikuti Kelas Fc 1 →</a>-->
+                        <a href="<?php echo site_url('baptisan/tambah'); ?>" class="esc-btn-light">
+                        Ajukan Permohonan →
+                        </a>
                     </div>
-                </div>
-                <div class="esc-image-content">
-                    <img src="<?php echo base_url('myesc.id/assets/gambar/baptis1.jpg'); ?>" alt="Praying people">
+                    </div>
+
                 </div>
             </section>
+
 
 
             <?php $this->load->view('template/festavalive/footer'); ?>

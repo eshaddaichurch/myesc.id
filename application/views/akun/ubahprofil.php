@@ -347,8 +347,8 @@
                                                             if ($rsProvinsi->num_rows() > 0) {
                                                                 foreach ($rsProvinsi->result() as $row) {
                                                                     echo '
-                                          <option value="' . $row->idprovinsi . '">' . $row->namaprovinsi . '</option>
-                                      ';
+                                                                 <option value="' . $row->idprovinsi . '">' . $row->namaprovinsi . '</option>
+                                                                ';
                                                                 }
                                                             }
                                                             ?>
