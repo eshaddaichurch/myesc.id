@@ -2,6 +2,44 @@
 
 <body>
     <style>
+
+    *   {
+        box-sizing: border-box;
+        }
+
+        html, body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(63deg, #fffaf5, #ffb347);
+        font-family: 'Figtree', sans-serif;
+        color: #111;
+        line-height: 1.7;
+        }
+
+        /* Tambahkan ruang agar konten tidak menimpa navbar */
+        /* Default untuk mobile */
+        .page-content {
+        padding-top: 80px !important;   /* navbar mobile biasanya lebih pendek */
+        padding-bottom: 80px !important;
+        }
+
+        /* Untuk tablet ke atas */
+        @media (min-width: 768px) {
+        .page-content {
+            padding-top: 120px !important;
+            padding-bottom: 100px !important;
+        }
+        }
+
+        /* Untuk desktop (>= 1200px misalnya) */
+        @media (min-width: 1200px) {
+        .page-content {
+            padding-top: 160px !important;
+            padding-bottom: 151px !important;
+        }
+        }
+
+
         .informasi-akun table td {
             font-size: 10px;
             padding: 0px 0px 0px 0px;
