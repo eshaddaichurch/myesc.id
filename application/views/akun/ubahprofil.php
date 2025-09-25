@@ -50,7 +50,7 @@
         <?php $this->load->view('template/festavalive/topmenu'); ?>
 
 
-        <section class="about-section section-padding">
+        <!-- <section class="about-section section-padding">
             <div class="container">
                 <div class="row">
 
@@ -60,7 +60,7 @@
 
                 </div>
             </div>
-        </section>
+        </section> -->
 
 
 
