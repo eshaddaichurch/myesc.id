@@ -142,7 +142,7 @@
                                                         <?php
                                                         if (!empty($rowProfil->foto)) {
                                                             echo '
-                                                                <img src="' . base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="Foto Profil" style="width: 80%;" class="rounded shadow-sm">
+                                                                <img src="' . base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="Foto Profil" style="width: 60%;" class="rounded shadow-sm">
                                                             ';
                                                         } else {
                                                             echo '
