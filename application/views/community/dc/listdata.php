@@ -325,8 +325,9 @@ $this->load->view('template/festavalive/header'); ?>
 
         body {
         margin: 0;
-        padding-top: 80px; /* sesuaikan dengan tinggi navbar */
-        background-color: #e9d6a8;
+        /* padding-top: 80px; */
+        /* background-color: #e9d6a8; */
+        background: linear-gradient(63deg, #fffaf5, #ffb347);
         font-family: 'Figtree', sans-serif;
         color: #111;
         line-height: 1.7;
