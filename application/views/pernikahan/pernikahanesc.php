@@ -558,28 +558,92 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     .who-is-care {
-    background-color: #fefefe;
-    color: #fff;
-    padding: 80px 20px;
-    text-align: center;
-    font-family: 'Figtree', sans-serif !important;
+      padding: 60px 20px;
+      background: #fff;
     }
 
-    .who-is-care h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 40px;
-    color: #ef5008;
-    }
-
-    @media (max-width: 768px) {
-      .who-is-care h2 {
-      font-size: 20px;
-      font-weight: bold;
+    .who-is-care .section-title {
+      color: #eaca62;
+      text-align: center;
       margin-bottom: 40px;
-      color: #ef5008;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .who-is-care .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Kolom gambar */
+    .image-wrapper {
+      flex: 1 1 45%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .dedication-slideshow {
+      width: 100%;
+      max-width: 560px;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .dedication-slideshow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Kolom teks */
+    .text-wrapper {
+      flex: 1 1 50%;
+    }
+
+    .text-wrapper p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
+      margin-bottom: 15px;
+    }
+
+    .text-wrapper .esc-btn-light {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 25px;
+      background: #e04607;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .text-wrapper .esc-btn-light:hover {
+      background: #c23c05;
+    }
+
+    /* Responsif */
+    @media (max-width: 768px) {
+      .who-is-care .content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .text-wrapper {
+        margin-top: 20px;
       }
     }
+
 
     .container {
     max-width: 1200px;
@@ -827,32 +891,36 @@ $this->load->view('template/festavalive/header'); ?>
     
 
 
-    <section class="who-is-care">
-        <div class="container">
-          <h2 style="color: #eaca62;">Pemberkatan Pernikahan</h2>
-          <div class="content">
-            <div class="right">
-              <div class="right scroll-animate">
-                <div class="dedication-slideshow" style="width: 560px; height: 315px; overflow: hidden; position: relative; border-radius: 8px;">
-                  <!-- <img src="myesc.id/assets/gambar/marriage2.jpg" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;"> -->
-                  <img src="<?php echo base_url('myesc.id/assets/gambar/marriage2.jpg'); ?>" class="slide active" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
-                </div>
-              </div>
-               
-              </div>
-              <div class="left scroll-animate">
-                <p>
-                    Pemberkatan pernikahan adalah upacara rohani di mana sepasang calon suami-istri menyatakan janji setia mereka di hadapan Tuhan dan jemaat.
-                <p>
-                <p>
-                  Dalam momen ini, gereja bukan hanya menjadi saksi, tetapi juga mendoakan dan meneguhkan pernikahan sebagai perjanjian kudus yang diberkati Tuhan.
-                </p>
-                  <a href="<?php echo site_url('pernikahan/tambah'); ?>" class="button">Ajukan Permohonan</a>
-                </p>
-              </div>
+      <section class="who-is-care">
+      <div class="container">
+        <h2 class="section-title">Pemberkatan Pernikahan</h2>
+        <div class="content">
+          
+          <!-- Kolom Gambar -->
+          <div class="image-wrapper scroll-animate">
+            <div class="dedication-slideshow">
+              <img src="<?php echo base_url('myesc.id/assets/gambar/marriage2.jpg'); ?>" 
+                  alt="Pemberkatan Pernikahan" class="slide active">
+            </div>
           </div>
+
+          <!-- Kolom Teks -->
+          <div class="text-wrapper scroll-animate">
+            <p>
+              Pemberkatan pernikahan adalah upacara rohani di mana sepasang calon suami-istri menyatakan janji setia mereka di hadapan Tuhan dan jemaat.
+            </p>
+            <p>
+              Dalam momen ini, gereja bukan hanya menjadi saksi, tetapi juga mendoakan dan meneguhkan pernikahan sebagai perjanjian kudus yang diberkati Tuhan.
+            </p>
+            <a href="<?php echo site_url('pernikahan/tambah'); ?>" class="esc-btn-light">
+              Ajukan Permohonan →
+            </a>
+          </div>
+
         </div>
-      </section>
+      </div>
+    </section>
+
   
     
     <!-- Section 2: Ajakan Kirim Doa -->
