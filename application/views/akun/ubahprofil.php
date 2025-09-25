@@ -65,426 +65,121 @@
 
 
         <section class="page-content section-padding">
-            <div class="container">
-                <div class="row justify-content-center">
-
-                    <div class="col-12 mb-5 text-center">
-                        <h3>Status: <?php echo $rowProfil->statusjemaat; ?></h3>
-                    </div>
-
-
-
-                    <form action="<?php echo (site_url('akun/simpanJemaat')) ?>" method="post" id="form" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card" id="cardcontent">
-                                    <div class="card-body">
-
-                                        <div class="col-md-12">
-                                            <?php
-                                            $pesan = $this->session->flashdata("pesan");
-                                            if (!empty($pesan)) {
-                                                echo $pesan;
-                                            }
-                                            ?>
-                                        </div>
-
-                                        <div class="row mb-5">
-                                            <div class="col-12">
-                                                <h5 class="text-muted">DATA IDENTITAS JEMAAT</h5>
-                                                <hr>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="row">
-                                                    <div class="col-12 text-center">
-                                                        <h5>Foto Profil</h5>
-                                                    </div>
-                                                    <div class="col-12 text-center">
-                                                        <?php
-                                                        if (!empty($rowProfil->foto)) {
-                                                            echo '
-                                                                        <img src="' . base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="" style="width: 80%;" class="">
-                                                                    ';
-                                                        } else {
-                                                            echo '
-                                                                        <img src="' . base_url('myesc.id/images/nofoto.png') . '" alt="" style="width: 80%;" class="">
-                                                                    ';
-                                                        }
-                                                        ?>
-
-                                                    </div>
-                                                    <div class="col-12 text-center mt-3 mb-3">
-                                                        <input type="file" class="" id="foto" name="foto">
-                                                        <input type="hidden" id="foto_lama" name="foto_lama">
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <span class="text-danger" style="font-size: 14px;"><i>*Ukuran foto maksimal 2 MB</i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-8">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">NIK</label>
-                                                            <input type="text" name="nikprofil" id="nikprofil" class="form-control" placeholder="Masukkan NIK">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">Kewarganegaraan</label>
-                                                            <select name="kewarganegaraan" id="kewarganegaraan" class="form-control">
-                                                                <option value="">Pilih kewarganegaraan...</option>
-                                                                <option value="Indonesia">Indonesia</option>
-                                                                <option value="Asing">Asing</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">Nama Lengkap</label>
-                                                            <input type="text" name="namalengkapprofil" id="namalengkapprofil" class="form-control" placeholder="Masukkan nama lengkap">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">Nama Panggilan</label>
-                                                            <input type="text" name="namapanggilan" id="namapanggilan" class="form-control" placeholder="Masukkan nama panggilan">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">Tempat Lahir</label>
-                                                            <input type="text" name="tempatlahirprofil" id="tempatlahirprofil" class="form-control" placeholder="Masukkan tempat lahir">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">Tanggal Lahir</label>
-                                                            <input type="date" name="tanggallahirprofil" id="tanggallahirprofil" class="form-control">
-
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">Jenis Kelamin</label>
-                                                            <select name="jeniskelaminprofil" id="jeniskelaminprofil" class="form-control">
-                                                                <option value="">Pilih jenis kelamin...</option>
-                                                                <option value="Laki-laki">Laki-laki</option>
-                                                                <option value="Perempuan">Perempuan</option>
-                                                            </select>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group required">
-                                                            <label for="" class="">Status Pernikahan</label>
-                                                            <select name="statuspernikahan" id="statuspernikahan" class="form-control">
-                                                                <option value="">Pilih status pernikahan</option>
-                                                                <option value="Belum Kawin">Belum Kawin</option>
-                                                                <option value="Kawin">Kawin</option>
-                                                                <option value="Janda/ Duda">Janda/ Duda</option>
-                                                            </select>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="" class="">Golongan Darah</label>
-                                                            <select name="golongandarah" id="golongandarah" class="form-control">
-                                                                <option value="">Pilih golongan darah...</option>
-                                                                <option value="A">A</option>
-                                                                <option value="B">B</option>
-                                                                <option value="AB">AB</option>
-                                                                <option value="O">O</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-                                        </div>
-
-
-
-
-
-
-                                        <div class="row mt-3">
-                                            <div class="col-12">
-                                                <h5 class="text-muted">DATA SOSIAL MEDIA</h5>
-                                                <hr>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="" class="">No Telepon/ HP</label>
-                                                    <input type="text" name="notelp" id="notelp" class="form-control" placeholder="Masukkan nomor telepon">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="" class=" text-right">No HP.</label>
-                                                    <input type="text" name="nohpprofil" id="nohpprofil" class="form-control" placeholder="Masukkan nomor hp">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-8">
-                                                <div class="form-group">
-                                                    <label for="" class="">Email</label>
-                                                    <input type="email" name="emailprofil" id="emailprofil" class="form-control" placeholder="contoh@gmail.com">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="" class="">Url Instagram</label>
-                                                    <input type="text" name="instagram" id="instagram" class="form-control" placeholder="Masukkan url instagram">
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="" class="">Url Facebook</label>
-                                                    <input type="text" name="facebook" id="facebook" class="form-control" placeholder="Masukkan url facebook">
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-
-
-
-                                        <div class="row mt-3">
-                                            <div class="col-12 mt-3">
-                                                <h5 class="text-muted">DATA ALAMAT JEMAAT</h5>
-                                                <hr>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">Alamat Rumah</label>
-                                                    <textarea name="alamatrumahprofil" id="alamatrumahprofil" class="form-control" rows="4" placeholder="Masukkan alamat rumah"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <label for="" class="">RT/ RW</label>
-                                                        <input type="text" name="rtrw" id="rtrw" class="form-control" placeholder="000/000">
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label for="" class="">Kode Pos</label>
-                                                        <input type="text" name="kodepos" id="kodepos" class="form-control" placeholder="Masukkan kode pos">
-                                                    </div>
-                                                    <div class="col-7"></div>
-                                                    <div class="col-md-3">
-                                                        <label for="" class="">Provinsi</label>
-                                                        <select name="propinsi" id="propinsi" class="form-control select2">
-                                                            <option value="">Pilih nama provinsi ...</option>
-                                                            <?php
-                                                            $rsProvinsi = $this->db->query("select * from provinsi order by namaprovinsi");
-                                                            if ($rsProvinsi->num_rows() > 0) {
-                                                                foreach ($rsProvinsi->result() as $row) {
-                                                                    echo '
-                                          <option value="' . $row->idprovinsi . '">' . $row->namaprovinsi . '</option>
-                                      ';
-                                                                }
-                                                            }
-                                                            ?>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label for="" class="">Kabupaten/Kota</label>
-                                                        <select name="kotakabupaten" id="kotakabupaten" class="form-control select2">
-                                                            <option value="">Pilih nama kabupaten ...</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label for="" class="">Kecamatan</label>
-                                                        <select name="kecamatan" id="kecamatan" class="form-control select2">
-                                                            <option value="">Pilih nama kecamatan ...</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label for="" class="">Kelurahan</label>
-                                                        <select name="kelurahan" id="kelurahan" class="form-control select2">
-                                                            <option value="">Pilih nama kelurahan ...</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-
-                                        <div class="row mt-3">
-                                            <div class="col-12 mt-3">
-                                                <h5 class="text-muted">KONTAK DARURAT YANG BISA DIHUBUNGI</h5>
-                                                <hr>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="" class="">Nama</label>
-                                                    <input type="text" name="namadarurat" id="namadarurat" class="form-control" placeholder="Masukkan namadarurat">
-
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="" class="">Hubungan</label>
-                                                    <select name="hubungan" id="hubungan" class="form-control">
-                                                        <option value="">Pilih hubungan...</option>
-                                                        <option value="Ayah">Ayah</option>
-                                                        <option value="Ibu">Ibu</option>
-                                                        <option value="Istri/ Suami">Istri/ Suami</option>
-                                                        <option value="Anak">Anak</option>
-                                                        <option value="Saudara">Saudara</option>
-                                                        <option value="Kerabat">Kerabat</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="" class="">No Telp.</label>
-                                                    <input type="text" name="notelpdarurat" id="notelpdarurat" class="form-control" placeholder="Masukkan notelp darurat">
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="row mt-3">
-                                            <div class="col-12 mt-3">
-                                                <h5 class="text-muted">PENDIDIKAN DAN PEKERJAAN</h5>
-                                                <hr>
-                                            </div>
-
-
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">Pendidikan Terakhir</label>
-                                                    <select name="pendidikanterakhir" id="pendidikanterakhir" class="form-control">
-                                                        <option value="">Pilih pendidikan terakhir</option>
-                                                        <option value="SD">SD</option>
-                                                        <option value="SMP">SMP</option>
-                                                        <option value="SMA/ SMK">SMA/ SMK</option>
-                                                        <option value="D1">D1</option>
-                                                        <option value="D2">D2</option>
-                                                        <option value="D3">D3</option>
-                                                        <option value="S1">S1</option>
-                                                        <option value="S2">S2</option>
-                                                        <option value="S3">S3</option>
-                                                        <option value="Lainnya">Lainnya</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">Nama Sekolah</label>
-                                                    <input type="text" name="namasekolah" id="namasekolah" class="form-control" placeholder="Masukkan nama sekolah">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">Pekerjaan</label>
-                                                    <select name="pekerjaan" id="pekerjaan" class="form-control">
-                                                        <option value="">Pilih pekerjaan...</option>
-                                                        <option value="Swasta">Swasta</option>
-                                                        <option value="Wiraswasta">Wiraswasta</option>
-                                                        <option value="Pegawai Negeri">Pegawai Negeri</option>
-                                                        <option value="TNI">TNI</option>
-                                                        <option value="POLRI">POLRI</option>
-                                                        <option value="Gembala">Gembala</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">Nama Perusahaan</label>
-                                                    <input type="text" name="namaperusahaan" id="namaperusahaan" class="form-control" placeholder="Masukkan nama perusahaan">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">Alamat Kantor</label>
-                                                    <textarea name="alamatkantor" id="alamatkantor" class="form-control" rows="2" placeholder="Masukkan alamat kantor"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">Sektor Industri</label>
-                                                    <input type="text" name="sektorindustri" id="sektorindustri" class="form-control" placeholder="Masukkan sektorindustri">
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="" class="">No Telepon Kantor</label>
-                                                    <input type="text" name="notelpkantor" id="notelpkantor" class="form-control" placeholder="Masukkan nomor telepon kantor">
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-
-
-
-
-
-                                    </div> <!-- ./card-body -->
-
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary float-end" id="btnSimpan"><i class="fa fa-save"></i> Simpan</button>
-                                        <a href="<?php echo (site_url('akun/profil')) ?>" class="btn btn-default float-end mr-1 ml-1"><i class="fa fa-chevron-circle-left"></i> Kembali</a>
-                                    </div>
-                                </div> <!-- /.card -->
-                            </div> <!-- /.col -->
-                        </div>
-                    </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <!-- Status Jemaat -->
+      <div class="col-12 mb-4 text-center">
+        <h4 class="fw-bold">Status: <?php echo $rowProfil->statusjemaat; ?></h4>
+      </div>
+
+      <form action="<?php echo site_url('akun/simpanJemaat') ?>" method="post" id="form" enctype="multipart/form-data">
+        <div class="card shadow-sm" id="cardcontent">
+          <div class="card-body">
+
+            <!-- Pesan -->
+            <?php if ($pesan = $this->session->flashdata("pesan")): ?>
+              <div class="alert alert-info"><?php echo $pesan; ?></div>
+            <?php endif; ?>
+
+            <!-- Identitas Jemaat -->
+            <h6 class="fw-bold text-muted mb-3">Data Identitas Jemaat</h6>
+            <div class="row g-3 align-items-start mb-4">
+              <!-- Foto -->
+              <div class="col-md-4 text-center">
+                <h6 class="mb-2">Foto Profil</h6>
+                <?php if (!empty($rowProfil->foto)): ?>
+                  <img src="<?php echo base_url('myesc.id/admin/uploads/jemaat/'.$rowProfil->foto) ?>" class="img-fluid rounded mb-3" alt="Foto Profil">
+                <?php else: ?>
+                  <img src="<?php echo base_url('myesc.id/images/nofoto.png') ?>" class="img-fluid rounded mb-3" alt="Foto Profil">
+                <?php endif; ?>
+                <input type="file" name="foto" id="foto" class="form-control form-control-sm mb-2">
+                <input type="hidden" name="foto_lama" id="foto_lama">
+                <small class="text-danger d-block">*Ukuran foto maksimal 2 MB</small>
+              </div>
+              <!-- Form kanan -->
+              <div class="col-md-8">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">NIK</label>
+                    <input type="text" name="nikprofil" id="nikprofil" class="form-control" placeholder="Masukkan NIK">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Kewarganegaraan</label>
+                    <select name="kewarganegaraan" id="kewarganegaraan" class="form-select">
+                      <option value="">Pilih kewarganegaraan...</option>
+                      <option value="Indonesia">Indonesia</option>
+                      <option value="Asing">Asing</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" name="namalengkapprofil" id="namalengkapprofil" class="form-control" placeholder="Masukkan nama lengkap">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Nama Panggilan</label>
+                    <input type="text" name="namapanggilan" id="namapanggilan" class="form-control" placeholder="Masukkan nama panggilan">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Tempat Lahir</label>
+                    <input type="text" name="tempatlahirprofil" id="tempatlahirprofil" class="form-control" placeholder="Masukkan tempat lahir">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Tanggal Lahir</label>
+                    <input type="date" name="tanggallahirprofil" id="tanggallahirprofil" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Jenis Kelamin</label>
+                    <select name="jeniskelaminprofil" id="jeniskelaminprofil" class="form-select">
+                      <option value="">Pilih jenis kelamin...</option>
+                      <option value="Laki-laki">Laki-laki</option>
+                      <option value="Perempuan">Perempuan</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Status Pernikahan</label>
+                    <select name="statuspernikahan" id="statuspernikahan" class="form-select">
+                      <option value="">Pilih status pernikahan</option>
+                      <option value="Belum Kawin">Belum Kawin</option>
+                      <option value="Kawin">Kawin</option>
+                      <option value="Janda/ Duda">Janda/ Duda</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Golongan Darah</label>
+                    <select name="golongandarah" id="golongandarah" class="form-select">
+                      <option value="">Pilih golongan darah...</option>
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="AB">AB</option>
+                      <option value="O">O</option>
+                    </select>
+                  </div>
                 </div>
+              </div>
             </div>
-        </section>
+
+            <!-- Section lain (Sosial Media, Alamat, Darurat, Pendidikan, dll.) -->
+            <!-- Struktur tetap, hanya rapikan heading + spacing -->
+            <!-- ...lanjutkan sama seperti di atas dengan row g-3, label form-label, select form-select -->
+
+          </div><!-- /.card-body -->
+
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-save"></i> Simpan
+            </button>
+            <a href="<?php echo site_url('akun/profil') ?>" class="btn btn-light">
+              <i class="fa fa-chevron-circle-left"></i> Kembali
+            </a>
+          </div>
+        </div><!-- /.card -->
+      </form>
+
+    </div>
+  </div>
+</section>
+
 
 
 

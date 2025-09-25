@@ -30,7 +30,7 @@ class Akun extends MY_Controller
         $data['rowProfil'] = $this->Akun_model->getInfoJemaat()->row();
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $data['menu'] = 'Akun';
-        $this->load->view('akun/ubahprofil', $data);
+        $this->load->view('akun/ubahprofil', $data); 
     }
 
     public function gantipassword($idmenu = "")
