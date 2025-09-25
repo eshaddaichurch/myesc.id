@@ -68,9 +68,9 @@
             <div class="container">
                 <div class="row justify-content-center">
 
-                    <div class="col-12 mb-5 text-center">
+                    <!-- <div class="col-12 mb-5 text-center">
                         <h3>Status: <?php echo $rowProfil->statusjemaat; ?></h3>
-                    </div>
+                    </div> -->
 
 
 
@@ -104,18 +104,25 @@
                                                         <?php
                                                         if (!empty($rowProfil->foto)) {
                                                             echo '
-                                                                        <img src="' . base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="" style="width: 80%;" class="">
-                                                                    ';
+                                                                <img src="' . base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) . '" alt="Foto Profil" style="width: 80%;" class="rounded shadow-sm">
+                                                            ';
                                                         } else {
                                                             echo '
-                                                                        <img src="' . base_url('myesc.id/images/nofoto.png') . '" alt="" style="width: 80%;" class="">
-                                                                    ';
+                                                                <img src="' . base_url('myesc.id/images/nofoto.png') . '" alt="Foto Profil" style="width: 80%;" class="rounded shadow-sm">
+                                                            ';
                                                         }
                                                         ?>
-
                                                     </div>
+
+                                                    <!-- Badge Status Jemaat -->
+                                                    <div class="col-12 text-center mt-2">
+                                                        <span class="badge" style="background-color: #e04607; font-size: 14px; padding: 6px 12px; border-radius: 12px;">
+                                                            Status: <?php echo $rowProfil->statusjemaat; ?>
+                                                        </span>
+                                                    </div>
+
                                                     <div class="col-12 text-center mt-3 mb-3">
-                                                        <input type="file" class="" id="foto" name="foto">
+                                                        <input type="file" id="foto" name="foto" class="">
                                                         <input type="hidden" id="foto_lama" name="foto_lama">
                                                     </div>
                                                     <div class="col-12">
@@ -123,6 +130,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
 
                                             <div class="col-md-8">
                                                 <div class="row">
