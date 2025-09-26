@@ -454,7 +454,9 @@
 
  <script type="text/javascript">
    var idjemaat = "<?php echo ($idjemaat) ?>";
-   var usernameSudahAda = true;
+  //  var usernameSudahAda = true;
+      var usernameSudahAda = false;
+
 
    $(document).ready(function() {
 
@@ -690,6 +692,37 @@
      });
    }); //end (document).ready
 
+   // perubahan agar username tidak dicek sudah ada
+   // Cek username saat blur
+    $('#username').blur(function() {
+      var username = $(this).val();
+      var idjemaat = $('#idjemaat').val();
+
+      $.ajax({
+          url: '<?= site_url('jemaat/ajaxUsernameSudahAda') ?>',
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            'username': username,
+            'idjemaat': idjemaat,
+          },
+        })
+        .done(function(result) {
+          console.log(result);
+          if (result.sudahAda) {
+            usernameSudahAda = true;
+            $('#alertUsername').show();
+          } else {
+            usernameSudahAda = false;
+            $('#alertUsername').hide();
+          }
+        })
+        .fail(function() {
+          console.log('error usernameSudahAda');
+        });
+    });
+
+
 
    function getKabupaten(idprovinsi, idkabupatendefault = "") {
 
@@ -803,34 +836,34 @@
          console.log('error getKecamatan');
        });
 
-     $('#username').blur(function() {
-       var username = $(this).val();
-       var idjemaat = $('#idjemaat').val();
-       console.log("1");
+    //  $('#username').blur(function() {
+    //    var username = $(this).val();
+    //    var idjemaat = $('#idjemaat').val();
+    //    console.log("1");
 
-       $.ajax({
-           url: '<?= site_url('jemaat/ajaxUsernameSudahAda') ?>',
-           type: 'GET',
-           dataType: 'json',
-           data: {
-             'username': username,
-             'idjemaat': idjemaat,
-           },
-         })
-         .done(function(result) {
-           console.log(result);
-           if (result.sudahAda) {
-             usernameSudahAda = true;
-             $('#alertUsername').show();
-           } else {
-             usernameSudahAda = false;
-             $('#alertUsername').hide();
-           }
-         })
-         .fail(function() {
-           console.log('error usernameSudahAda');
-         });
-     });
+    //    $.ajax({
+    //        url: '<?= site_url('jemaat/ajaxUsernameSudahAda') ?>',
+    //        type: 'GET',
+    //        dataType: 'json',
+    //        data: {
+    //          'username': username,
+    //          'idjemaat': idjemaat,
+    //        },
+    //      })
+    //      .done(function(result) {
+    //        console.log(result);
+    //        if (result.sudahAda) {
+    //          usernameSudahAda = true;
+    //          $('#alertUsername').show();
+    //        } else {
+    //          usernameSudahAda = false;
+    //          $('#alertUsername').hide();
+    //        }
+    //      })
+    //      .fail(function() {
+    //        console.log('error usernameSudahAda');
+    //      });
+    //  });
    }
  </script>
 
