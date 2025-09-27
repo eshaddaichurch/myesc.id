@@ -94,13 +94,13 @@ class Permohonandoa extends MY_Controller
             $simpan = $this->Permohonandoa_model->update($data, $idpermohonan);
         }
 
-        if ($simpan) {
+        if ($simpan['status']) {
             $pesan = "<script>
                             swal('Berhasil', 'Permohonan berhasil disimpan.', 'success');
                         </script>";
         } else {
             $pesan = "<script>
-                            swal('Gagal', 'Permohonan gagal disimpan.', 'warning');
+                            swal('Gagal', 'Permohonan gagal disimpan. Error: " . $simpan['message'] . "', 'warning');
                         </script>";
         }
 
@@ -130,13 +130,13 @@ class Permohonandoa extends MY_Controller
         }
 
         $hapus = $this->Permohonandoa_model->hapus($idpermohonan);
-        if ($hapus) {
+        if ($hapus['status']) {
             $pesan = "<script>
                             swal('Berhasil', 'Permohonan berhasil dihapus.', 'success');
                         </script>";
         } else {
             $pesan = "<script>
-                            swal('Gagal', 'Permohonan gagal dihapus.', 'warning');
+                            swal('Gagal', 'Permohonan gagal dihapus. Error: " . $simpan['message'] . "', 'warning');
                         </script>";
         }
         $this->session->set_flashdata('pesan', $pesan);

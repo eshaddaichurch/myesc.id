@@ -19,7 +19,50 @@ class Kunjunganjemaat_model extends CI_Model
 
     public function simpan($data)
     {
-        return $this->db->insert('carekunjunganjemaat', $data);
+        try {
+            $this->db->trans_begin();
+
+            
+            $this->db->insert('carekunjunganjemaat', $data);
+            $idkunjunganjemaat = $this->db->insert_id();
+
+            //notifikasi
+            $rsUserOtorisasi = $this->db->query("
+                SELECT * FROM otorisasiuser WHERE idotorisasi = '0005'
+            ");
+            if ($rsUserOtorisasi->num_rows() > 0) {
+                foreach ($rsUserOtorisasi->result() as $row) {
+
+                    $notifikasi = array(
+                        'tglnotifikasi' => date('Y-m-d H:i:s'),
+                        'deskripsi' => ucwords(strtolower($this->session->userdata('namalengkap'))) . ', mengajukan permohonan kunjungan jemaat.',
+                        'linknotifikasi' => 'kunjunganjemaat/proses/' . $this->encrypt->encode($idkunjunganjemaat),
+                        'idlinknotifikasi' => $idkunjunganjemaat,
+                        'namajemaatpembuat' => $this->session->userdata('namalengkap'),
+                        'idjemaatpembuat' => $this->session->userdata('idjemaat'),
+                        'jenisnotifikasi' => 'Kunjungan Jemaat',
+                        'idjemaatpenerima' => $row->idjemaat,
+                    );                    
+                
+                    $this->db->insert('notifikasi', $notifikasi);                    
+                }
+            }
+
+
+            if ($this->db->trans_status() === FALSE) {
+                $error = $this->db->error();
+                $this->db->trans_rollback();
+                return ['status' => false, 'message' => 'Database error: ' . $error['code'] . ' - ' . $error['message']];
+            } else {
+                $this->db->trans_commit();
+                return ['status' => true, 'message' => 'Berhasil'];
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return ['status' => false, 'message' => $th->getMessage()];
+        }
+
+        
     }
 
     public function update($data, $idkunjunganjemaat)
@@ -30,8 +73,32 @@ class Kunjunganjemaat_model extends CI_Model
 
     public function hapus($idkunjunganjemaat)
     {
-        $this->db->where('idkunjunganjemaat', $idkunjunganjemaat);
-        return $this->db->delete('carekunjunganjemaat');
+        try {
+            $this->db->trans_begin();
+
+            $this->db->where('idkunjunganjemaat', $idkunjunganjemaat);
+            $this->db->delete('carekunjunganjemaat');
+
+            //hapus notifikasi
+            $idjemaatpemohon = $this->session->userdata('idjemaat');
+            $this->db->query("
+                delete from notifikasi where idlinknotifikasi = $idkunjunganjemaat and jenisnotifikasi = 'Kunjungan Jemaat'
+            ");
+
+            if ($this->db->trans_status() === FALSE) {
+                $error = $this->db->error();
+                $this->db->trans_rollback();
+                return ['status' => false, 'message' => 'Database error: ' . $error['code'] . ' - ' . $error['message']];
+            } else {
+                $this->db->trans_commit();
+                return ['status' => true, 'message' => 'Berhasil'];
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return ['status' => false, 'message' => $th->getMessage()];
+        }
+
+        
     }
 }
 

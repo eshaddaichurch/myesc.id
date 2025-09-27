@@ -100,23 +100,18 @@ class Pernikahan extends MY_Controller
         );
         // var_dump($data);
         // exit();
-        $simpan = $this->Pernikahan_model->update($data, $idpernikahan);
+        $result = $this->Pernikahan_model->update($data, $idpernikahan);
 
-        if ($simpan) {
-            $pesan = '<div>
-                        <div class="alert alert-success alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                            <strong>Berhasil!</strong> Data berhasil disimpan!
-                        </div>
+        if ($result['status']) {
+            $pesan = '<div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <strong>Berhasil!</strong> Data berhasil disimpan!
                     </div>';
         } else {
-            $eror = $this->db->error();
-            $pesan = '<div>
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                            <strong>Gagal!</strong> Data gagal disimpan! <br>
-                            Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
-                        </div>
+            $pesan = '<div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <strong>Gagal!</strong> Data gagal disimpan!<br>
+                        Pesan Error: ' . htmlspecialchars($result['message']) . '
                     </div>';
         }
 

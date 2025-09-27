@@ -158,6 +158,17 @@ class App extends CI_Model
 		}
 		return $values;
 	}
+
+	public function getNotifikasi()
+	{
+
+		$idjemaat  = $this->session->userdata('idjemaat');
+
+		$rsNotif = $this->db->query("
+			select * from notifikasi where idjemaatpenerima = '$idjemaat' and statusnotifikasi = '0' order by idnotifikasi desc
+		");
+		return $rsNotif;		
+	}
 }
 
 /* End of file App.php */

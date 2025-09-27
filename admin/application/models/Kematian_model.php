@@ -75,8 +75,28 @@ class Kematian_model extends CI_Model
 
     public function update($data, $idkematian)
     {
-        $this->db->where('idkematian', $idkematian);
-        return $this->db->update($this->tabel, $data);
+
+        try {
+            $this->db->trans_begin();
+
+            
+            $this->db->where('idkematian', $idkematian);
+            $this->db->update($this->tabel, $data);
+
+            if ($this->db->trans_status() === FALSE) {
+                $error = $this->db->error();
+                $this->db->trans_rollback();
+                return ['status' => false, 'message' => 'Database error: ' . $error['code'] . ' - ' . $error['message']];
+            } else {
+                $this->db->trans_commit();
+                return ['status' => true, 'message' => 'Berhasil'];
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return ['status' => false, 'message' => $th->getMessage()];
+        }
+
+        
     }
 
     public function simpan($data)

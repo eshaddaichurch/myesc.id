@@ -15,6 +15,10 @@ class Permohonansaya extends MY_Controller
 
     public function index($idmenu = "")
     {
+        
+        $idjemaat = $this->session->userdata('idjemaat');
+        $this->Home_model->updateNotifikasi($idjemaat);
+
         $idmenu = $this->encrypt->decode($idmenu);
         $data['rsPermohonan'] = $this->Permohonansaya_model->getPermohonan();
         $data['rowProfil'] = $this->Akun_model->getInfoJemaat()->row();

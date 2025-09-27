@@ -75,8 +75,48 @@ class Penyerahananak_model extends CI_Model
 
     public function update($data, $idpenyerahananak)
     {
-        $this->db->where('idpenyerahananak', $idpenyerahananak);
-        return $this->db->update($this->tabel, $data);
+        try {
+            $this->db->trans_begin();
+
+            $this->db->where('idpenyerahananak', $idpenyerahananak);
+            $this->db->update($this->tabel, $data);
+
+            // Buat Notifikasi 
+            $query = $this->db->query("SELECT idjemaat FROM carepenyerahananak WHERE idpenyerahananak = ?", $idpenyerahananak);
+            if ($query->num_rows() === 0) {
+                throw new Exception("Data permohonan penyerahan anak tidak ditemukan untuk ID: $idpenyerahananak");
+            }
+            $idjemaatpemohon = $query->row()->idjemaat;
+            $this->db->query("
+                delete from notifikasi where idlinknotifikasi = $idpenyerahananak and jenisnotifikasi = 'Penyerahan Anak'
+                    and idjemaatpenerima = $idjemaatpemohon
+            ");
+            $notifikasi = array(
+                'tglnotifikasi' => date('Y-m-d H:i:s'),
+                'deskripsi' => 'Care telah mengkonfirmasi permohonan penyerahan anak anda.',
+                'linknotifikasi' => 'penyerahananak/detail/' . $this->encrypt->encode($idpenyerahananak),
+                'idlinknotifikasi' => $idpenyerahananak,
+                'namajemaatpembuat' => $this->session->userdata('namalengkap'),
+                'idjemaatpembuat' => $this->session->userdata('idjemaat'),
+                'jenisnotifikasi' => 'Penyerahan Anak',
+                'idjemaatpenerima' => $idjemaatpemohon,
+            );                    
+            $this->db->insert('notifikasi', $notifikasi);
+
+            if ($this->db->trans_status() === FALSE) {
+                $error = $this->db->error();
+                $this->db->trans_rollback();
+                return ['status' => false, 'message' => 'Database error: ' . $error['code'] . ' - ' . $error['message']];
+            } else {
+                $this->db->trans_commit();
+                return ['status' => true, 'message' => 'Berhasil'];
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return ['status' => false, 'message' => $th->getMessage()];
+        }
+
+        
     }
 }
 
