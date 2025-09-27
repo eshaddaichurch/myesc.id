@@ -41,7 +41,7 @@ class MYPDF extends TCPDF
         // disable auto-page-break
         $this->SetAutoPageBreak(false, 0);
         // set bacground image
-        $file_name = 'admin/uploads/kelas/sertifikat_vc.jpg';
+        $file_name = 'myesc.id/admin/uploads/kelas/sertifikat_vc.jpg';
 
         $img_file = K_PATH_IMAGES . 'image_demo.jpg';
         $this->Image($file_name, 0, 0, 297, 210, '', '', '', false, 300, '', false, false, 0);
