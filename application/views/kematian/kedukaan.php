@@ -454,18 +454,18 @@ use PhpParser\Node\Stmt\Echo_;
     }
 
     @media (max-width: 768px) {
-    .content-wrapper {
-      grid-template-columns: 1fr !important;
-      gap: 20px !important;
+        .content-wrapper {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        }
+        .section h1 {
+        font-size: 24px !important;
+        margin-bottom: 20px !important;
+        }
+        .section p, .section ul {
+        font-size: 16px !important;
+        }
     }
-    .section h1 {
-      font-size: 24px !important;
-      margin-bottom: 20px !important;
-    }
-    .section p, .section ul {
-      font-size: 16px !important;
-    }
-  }
   </style>
 </head>
 <body>
@@ -496,53 +496,53 @@ use PhpParser\Node\Stmt\Echo_;
   
   
 
-    <section class="section" style="padding: 80px 20px; background: linear-gradient(135deg, #f9fafb, #ffffff);">
-        <div class="container" style="max-width: 1200px; margin: auto;">
-            <h1 style="color: #222; font-size: 32px; text-align: center; margin-bottom: 40px; line-height: 1.4; font-weight: 700;">
-            Kami turut berduka cita, atas kepergian orang-orang terkasih dari tengah-tengah kita.
-            </h1> 
+    <section class="section" style="padding: 80px 20px; background: linear-gradient(135deg, #111, #1a1a1a);">
+    <div class="container" style="max-width: 1200px; margin: auto;">
+        <h1 style="color: #fff; font-size: 32px; text-align: center; margin-bottom: 40px; line-height: 1.4; font-weight: 700;">
+        Kami turut berduka cita, atas kepergian orang-orang terkasih dari tengah-tengah kita.
+        </h1> 
 
-            <div class="content-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-            <!-- Kolom Kiri -->
-            <div class="left-col" style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);">
-                <p style="color: #444; font-size: 18px; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-                Kehilangan orang terkasih adalah salah satu momen paling berat dalam kehidupan. 
-                Dalam situasi seperti ini, Gereja rindu untuk menjadi perpanjangan tangan kasih Tuhan dengan hadir, 
-                menguatkan, dan mendampingi keluarga yang berduka melalui Pelayanan Kedukaan. 
-                </p>
+        <div class="content-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <!-- Kolom Kiri -->
+        <div class="left-col" style="background: #000; border-radius: 12px; padding: 30px; box-shadow: 0 8px 20px rgba(255,255,255,0.08);">
+            <p style="color: #e5e5e5; font-size: 18px; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
+            Kehilangan orang terkasih adalah salah satu momen paling berat dalam kehidupan. 
+            Dalam situasi seperti ini, Gereja rindu untuk menjadi perpanjangan tangan kasih Tuhan dengan hadir, 
+            menguatkan, dan mendampingi keluarga yang berduka melalui Pelayanan Kedukaan. 
+            </p>
 
-                <p style="color: #444; font-size: 18px; line-height: 1.8; text-align: justify;">
-                Pelayanan ini merupakan bentuk empati dan kepedulian rohani dari gereja kepada jemaat yang sedang berduka, 
-                sebagai wujud nyata dari tubuh Kristus yang saling menopang.
-                </p>
-            </div>
+            <p style="color: #e5e5e5; font-size: 18px; line-height: 1.8; text-align: justify;">
+            Pelayanan ini merupakan bentuk empati dan kepedulian rohani dari gereja kepada jemaat yang sedang berduka, 
+            sebagai wujud nyata dari tubuh Kristus yang saling menopang.
+            </p>
+        </div>
 
-            <!-- Kolom Kanan -->
-            <div class="right-col" style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);">
-                <h3 style="color: #222; font-size: 22px; margin-bottom: 20px; font-weight: 600;">
-                Bentuk Pelayanan Kedukaan
-                </h3>
-                
-                <ul style="color: #444; font-size: 18px; line-height: 1.8; margin-bottom: 20px; list-style: disc; padding-left: 20px;">
-                <li>Pelayanan Ibadah Penghiburan</li>
-                <li>Pelayanan Ibadah Pelepasan Jenazah</li>
-                <li>Pelayanan Ibadah Pemakaman</li>
-                </ul>
+        <!-- Kolom Kanan -->
+        <div class="right-col" style="background: #000; border-radius: 12px; padding: 30px; box-shadow: 0 8px 20px rgba(255,255,255,0.08);">
+            <h3 style="color: #fff; font-size: 22px; margin-bottom: 20px; font-weight: 600;">
+            Bentuk Pelayanan Kedukaan
+            </h3>
+            
+            <ul style="color: #e5e5e5; font-size: 18px; line-height: 1.8; margin-bottom: 20px; list-style: disc; padding-left: 20px;">
+            <li>Pelayanan Ibadah Penghiburan</li>
+            <li>Pelayanan Ibadah Pelepasan Jenazah</li>
+            <li>Pelayanan Ibadah Pemakaman</li>
+            </ul>
 
-                <p style="color: #444; font-size: 18px; line-height: 1.8; text-align: justify; margin-bottom: 15px;">
-                Kami dapat membantu saudara untuk menghubungkan antara keluarga yang sedang berduka dengan pihak penyedia layanan 
-                seperti peti jenazah, rumah duka, lahan pemakaman, dan ambulance 
-                <b>(Mohon diperhatikan bahwa gereja hanya berperan sebagai penghubung, bukan penyelenggara atau penyedia layanan secara langsung).</b>
-                </p>
+            <p style="color: #e5e5e5; font-size: 18px; line-height: 1.8; text-align: justify; margin-bottom: 15px;">
+            Kami dapat membantu saudara untuk menghubungkan antara keluarga yang sedang berduka dengan pihak penyedia layanan 
+            seperti peti jenazah, rumah duka, lahan pemakaman, dan ambulance 
+            <b>(Mohon diperhatikan bahwa gereja hanya berperan sebagai penghubung, bukan penyelenggara atau penyedia layanan secara langsung).</b>
+            </p>
 
-                <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; font-size: 16px; line-height: 1.6; color: #333;">
-                <b>Hotline ESC:</b><br>
-                Pdp. Yopi <a href="tel:085550001187" style="color:#2563eb; text-decoration:none;">0855 5000 1187</a><br>
-                Elkana Borneo Purba <a href="tel:089656038474" style="color:#2563eb; text-decoration:none;">0896 5603 8474</a>
-                </div>
-            </div>
+            <div style="background: #1f2937; padding: 15px; border-radius: 8px; font-size: 16px; line-height: 1.6; color: #fff;">
+            <b>Hotline ESC:</b><br>
+            📞 Pdp. Yopi <a href="tel:085550001187" style="color:#60a5fa; text-decoration:none;">0855 5000 1187</a><br>
+            📞 Elkana Borneo Purba <a href="tel:089656038474" style="color:#60a5fa; text-decoration:none;">0896 5603 8474</a>
             </div>
         </div>
+        </div>
+    </div>
     </section>
     
 
