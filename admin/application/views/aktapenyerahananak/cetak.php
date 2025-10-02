@@ -140,7 +140,7 @@ $css = '
 
 
 $html = $css . '<span class="default-text">' . $rsakta->noakta . '</span>';
-$pdf->SetXY(52, 92);
+$pdf->SetXY(52, 95);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
@@ -190,12 +190,12 @@ $pdf->SetXY(0, 227);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($rsakta->tglakta) . '</span>';
-$pdf->SetXY(111, 250);
+$pdf->SetXY(111, 248);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
 // $html = $css . '<span class="default-text text-bold">' . $rsakta->dilakukanoleh . '</span>';
-$pdf->SetXY(120, 278);
+$pdf->SetXY(120, 275);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
