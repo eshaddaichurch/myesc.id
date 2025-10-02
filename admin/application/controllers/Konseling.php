@@ -36,6 +36,9 @@ class Konseling extends MY_Controller
             redirect('konseling');
             exit();
         };
+
+        $this->App->bacaNotifikasi($idcarekonseling, $this->session->userdata('idjemaat'), 'Konseling');
+
         $data['rowKonseling'] = $rsKonseling->row();
         $data['idcarekonseling'] = $idcarekonseling;
         $data['menu'] = 'konseling';

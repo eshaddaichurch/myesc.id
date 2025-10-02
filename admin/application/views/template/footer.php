@@ -6,6 +6,8 @@
 </aside>
 <!-- /.control-sidebar -->
 
+
+
 <!-- Main Footer -->
 <footer class="main-footer text-sm">
   <strong>Copyright &copy; 2020.</strong>
@@ -14,8 +16,15 @@
     <b>Version</b> 1.0
   </div>
 </footer>
+
+
 </div>
 <!-- ./wrapper -->
+
+
+<div class="loader"></div>
+
+
 
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
@@ -74,6 +83,36 @@
 
 
 <script>
+
+    // 🔥 ON AJAX START: Tampilkan loading saat AJAX dimulai
+    $(document).ajaxStart(function() {
+        $('.loader').show();
+        // Nonaktifkan semua tombol submit agar tidak double klik
+        $('button[type="submit"]').prop('disabled', true);
+    });
+
+    // 🔥 ON AJAX STOP: Sembunyikan loading saat semua AJAX selesai
+    $(document).ajaxStop(function() {
+        $('.loader').hide();
+        // Aktifkan kembali tombol submit
+        $('button[type="submit"]').prop('disabled', false);
+    });
+
+    // 🔥 ON AJAX ERROR (Opsional): Tampilkan error umum
+    // $(document).ajaxError(function(event, xhr, options, error) {
+    //     let errorMessage = 'Terjadi kesalahan pada permintaan.';
+    //     if (xhr.responseJSON && xhr.responseJSON.message) {
+    //         errorMessage = xhr.responseJSON.message;
+    //     }
+    //     swal({
+    //         icon: 'error',
+    //         title: 'Error!',
+    //         text: errorMessage
+    //     });
+    // });
+</script>
+
+<script>
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -106,7 +145,39 @@
       $('.hanya-admin').show();
     }
 
+    //load notifikasi
+    $.ajax({
+      url: '<?= site_url('ajax/getNotifikasi') ?>',
+      type: 'GET',
+      dataType: 'json',
+    })
+    .done(function(ajaxNotifikasi) {
+      console.log(ajaxNotifikasi);
+      if (ajaxNotifikasi.length > 0) {
+        for (var i = 0; i < ajaxNotifikasi.length; i++) {
+          console.log(ajaxNotifikasi[i]);
+          var rowNotif = `<a href="<?php echo site_url() ?>` + ajaxNotifikasi[i]['linknotifikasi'] + `" class="dropdown-item d-flex flex-column">
+                        <span class="text-wrap">` + ajaxNotifikasi[i]['deskripsi'] + `</span>
+                        <span class="text-muted text-sm mt-1">` + ajaxNotifikasi[i]['tglnotifikasi'] + `</span>
+                      </a>`;
+          $('#topNotifikasi').append(rowNotif);
+        }
+        $('#topJumlahNotifikasi').html(ajaxNotifikasi.length);
+      }else{
+        var rowNotif = `
+                        <span class="text-wrap text-center p-2 bg-gray" style="display: block;">Tidak ada notifikasi baru.</span>`;
+          $('#topNotifikasi').append(rowNotif);
 
+        $('#topJumlahNotifikasi').html("0");
+      }
+
+      var rowNotif = `<div class="dropdown-divider"></div>
+          <a href="<?php echo site_url('notifikasi') ?>" class="dropdown-item dropdown-footer">Lihat Semua Notifikasi</a>`;
+      $('#topNotifikasi').append(rowNotif);
+    })
+    .fail(function() {
+      console.log('error getNotifikasi');
+    });
 
   });
 

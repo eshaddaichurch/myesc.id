@@ -36,6 +36,9 @@ class Kunjunganjemaat extends MY_Controller
             redirect('kunjunganjemaat');
             exit();
         };
+        $this->App->bacaNotifikasi($idkunjunganjemaat, $this->session->userdata('idjemaat'), 'Kunjungan Jemaat');
+
+
         $data['rowKunjunganJemaat'] = $rsKunjunganJemaat->row();
         $data['idkunjunganjemaat'] = $idkunjunganjemaat;
         $data['menu'] = 'kunjunganjemaat';

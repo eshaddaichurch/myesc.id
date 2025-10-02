@@ -57,7 +57,20 @@
     .table-infojemaat td {
       padding: 0px;
     }
+
+    
+    .loader {
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			width: 50%;
+			height: 50%;
+			z-index: 9999;
+			background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif') 100% 100% no-repeat;
+		}
+
   </style>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed accent-olive text-sm">

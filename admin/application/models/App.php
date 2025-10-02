@@ -169,6 +169,13 @@ class App extends CI_Model
 		");
 		return $rsNotif;		
 	}
+
+	public function bacaNotifikasi($idlinknotifikasi, $idjemaatpenerima, $jenisnotifikasi)
+	{
+		$this->db->query("
+			update notifikasi set statusnotifikasi = '1', tgldibaca = '" . date('Y-m-d H:i:s') ."' where idlinknotifikasi = '$idlinknotifikasi' and idjemaatpenerima = '$idjemaatpenerima' and jenisnotifikasi = '$jenisnotifikasi' and statusnotifikasi = '0'
+		");
+	}
 }
 
 /* End of file App.php */

@@ -36,6 +36,8 @@ class Penyerahananak extends MY_Controller
             redirect('penyerahananak');
             exit();
         };
+        $this->App->bacaNotifikasi($idpenyerahananak, $this->session->userdata('idjemaat'), 'Penyerahan Anak');
+
         $data['rowPenyerahanAnak'] = $rsPenyerahanAnak->row();
         $data['idpenyerahananak'] = $idpenyerahananak;
         $data['menu'] = 'penyerahananak';

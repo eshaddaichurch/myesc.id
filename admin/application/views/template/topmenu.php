@@ -30,35 +30,16 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
-      <?php  
-        $rsNotifikasi = $this->App->getNotifikasi();            
-      ?>
-
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-danger navbar-badge"><?php echo $rsNotifikasi->num_rows() ?></span>
+          <span class="badge badge-danger navbar-badge" id="topJumlahNotifikasi"></span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="topNotifikasi">
 
           
 
-          <?php  
-            if ($rsNotifikasi->num_rows() > 0) {
-              foreach ($rsNotifikasi->result() as $row) {
-                echo '<a href="' . site_url($row->linknotifikasi) .'" class="dropdown-item d-flex flex-column">
-                        <span class="text-wrap">' . htmlspecialchars($row->deskripsi) . '</span>
-                        <span class="text-muted text-sm mt-1">' . since($row->tglnotifikasi) . '</span>
-                      </a>';
-              }
-            }else{
-              echo '<a href="#" class="dropdown-item text-center">
-                        Tidak ada notifikasi..
-                    </a>';
-            }
-          ?>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">Lihat Semua Notifikasi</a>
+          
         </div>
       </li>
 

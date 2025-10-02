@@ -36,6 +36,8 @@ class Pernikahan extends MY_Controller
             redirect('pernikahan');
             exit();
         };
+        $this->App->bacaNotifikasi($idpernikahan, $this->session->userdata('idjemaat'), 'Permohonan Pernikahan');
+
         $data['rowPernikahan'] = $rsPernikahan->row();
         $data['idpernikahan'] = $idpernikahan;
         $data['menu'] = 'pernikahan';

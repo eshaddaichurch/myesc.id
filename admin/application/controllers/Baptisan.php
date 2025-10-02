@@ -36,6 +36,8 @@ class Baptisan extends MY_Controller
             redirect('baptisan');
             exit();
         };
+        $this->App->bacaNotifikasi($idcarebaptisan, $this->session->userdata('idjemaat'), 'Permohonan Baptisan');
+
         $data['rowBaptisan'] = $rsBaptisan->row();
         $data['idcarebaptisan'] = $idcarebaptisan;
         $data['menu'] = 'baptisan';

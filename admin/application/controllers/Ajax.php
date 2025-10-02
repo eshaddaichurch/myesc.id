@@ -67,6 +67,17 @@ class Ajax extends CI_Controller
 
 		echo json_encode(array('jadwalEvent' => $jadwalEvent, 'detailRuangan' => $detailRuangan, 'detailInventaris' => $detailInventaris, 'detailParkiran' => $detailParkiran, 'detailPelayanan' => $detailPelayanan));
 	}
+
+	public function getNotifikasi()
+	{
+		$idjemaat  = $this->session->userdata('idjemaat');
+		$rsNotif = $this->db->query("
+			select * from notifikasi where idjemaatpenerima = '$idjemaat' and statusnotifikasi = '0' order by idnotifikasi desc
+		");
+		// echo json_encode("test");
+		// exit();
+		echo json_encode($rsNotif->result());		
+	}
 }
 
 /* End of file Ajax.php */

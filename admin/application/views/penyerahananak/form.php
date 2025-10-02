@@ -39,7 +39,7 @@ $this->load->view("template/sidemenu");
                                 ?>
                             </div>
 
-                            <h3 class="text-gray">Permohonan Konseling</h3>
+                            <h3 class="text-gray">Penyerahan Anak</h3>
                             <hr>
 
                             <input type="hidden" name="idpenyerahananak" id="idpenyerahananak" value="<?php echo $rowPenyerahanAnak->idpenyerahananak ?>">

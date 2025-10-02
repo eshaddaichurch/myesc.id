@@ -54,7 +54,7 @@
             $hideButton = ' style="display: none;"';
           }
           echo '
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="card">
                 <div class="card-header text-primary">
                   <h5><i class="fa fa-user-lock text-dark"></i> '.$row->namaotorisasi.' <a href="'.site_url('otorisasi/hapusotorisasi/'.$this->encrypt->encode($row->idotorisasi)).'" class="btn btn-sm float-right text-danger" id="hapus" '.$hideButton.'><i class="fa fa-trash"></i></a></h5>

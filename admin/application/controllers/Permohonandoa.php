@@ -25,6 +25,7 @@ class Permohonandoa extends MY_Controller
         $idpermohonan = $this->encrypt->decode($idpermohonan);
         $rsKonseling = $this->Permohonandoa_model->get_by_id($idpermohonan);
 
+        
         if ($rsKonseling->num_rows() < 1) {
             $pesan = '<div>
                         <div class="alert alert-danger alert-dismissable">
@@ -36,6 +37,7 @@ class Permohonandoa extends MY_Controller
             redirect('permohonandoa');
             exit();
         };
+        $this->App->bacaNotifikasi($idpermohonan, $this->session->userdata('idjemaat'), 'Permohonan Doa');
         $data['rowKonseling'] = $rsKonseling->row();
         $data['idpermohonan'] = $idpermohonan;
         $data['menu'] = 'permohonandoa';
