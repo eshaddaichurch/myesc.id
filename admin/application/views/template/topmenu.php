@@ -29,10 +29,42 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+
+      <?php  
+        $rsNotifikasi = $this->App->getNotifikasi();            
+      ?>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-danger navbar-badge"><?php echo $rsNotifikasi->num_rows() ?></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+          
+
+          <?php  
+            if ($rsNotifikasi->num_rows() > 0) {
+              foreach ($rsNotifikasi->result() as $row) {
+                echo '<a href="' . site_url($row->linknotifikasi) .'" class="dropdown-item d-flex flex-column">
+                        <span class="text-wrap">' . htmlspecialchars($row->deskripsi) . '</span>
+                        <span class="text-muted text-sm mt-1">' . since($row->tglnotifikasi) . '</span>
+                      </a>';
+              }
+            }else{
+              echo '<a href="#" class="dropdown-item text-center">
+                        Tidak ada notifikasi..
+                    </a>';
+            }
+          ?>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">Lihat Semua Notifikasi</a>
+        </div>
+      </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="fa fa-cog"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
@@ -60,32 +92,8 @@
           <a href="<?php echo site_url('login/keluar') ?>" class="dropdown-item dropdown-footer text-danger">Logout</a>
         </div>
       </li>
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li> -->
+
+      
       <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
             class="fas fa-th-large"></i></a>

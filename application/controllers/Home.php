@@ -30,6 +30,17 @@ class Home extends CI_Controller {
 		$this->load->view("home", $data);
 	}
 
+	public function getNotifikasi()
+	{
+		$idjemaat = $this->session->userdata('idjemaat');
+		if (!empty($idjemaat)) {			
+			$jumlahNotif = $this->Home_model->getNotifikasi($idjemaat);
+			echo json_encode($jumlahNotif);
+		}else{
+			echo json_encode("0");
+		}
+	}
+
 }
 
 /* End of file Home.php */

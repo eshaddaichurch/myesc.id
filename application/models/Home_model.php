@@ -45,6 +45,21 @@ class Home_model extends MY_Model {
 		return $this->db->get('v_hagah_detail');
 	}
 
+	public function getNotifikasi($idjemaat)
+	{
+		$jumlah = $this->db->query("
+			select count(*) as jumlah from notifikasi where idjemaatpenerima = '$idjemaat' and statusnotifikasi = '0'
+		")->row()->jumlah;
+		return $jumlah;
+	}
+
+	public function updateNotifikasi($idjemaat)
+	{
+		$jumlah = $this->db->query("
+			update notifikasi set statusnotifikasi = '1' where idjemaatpenerima = '$idjemaat' and statusnotifikasi = '0'
+		");
+	}
+
 }
 
 /* End of file Home_model.php */

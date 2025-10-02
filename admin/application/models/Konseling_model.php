@@ -80,33 +80,47 @@ class Konseling_model extends CI_Model
 
             $this->db->where('idcarekonseling', $idcarekonseling);
             $this->db->update($this->tabel, $data);
-            $idjemaatpemohon = $this->db->query("
-                select idjemaat from carekonseling where idcarekonseling = '$idcarekonseling'
-            ")->row()->idjemaat;
 
-            // $notifikasi = array(
-            //     'jenisnotifikasi' => 'Konfirmasi Konseling',
-            //     'idjemaatpengirim' => $this->session->userdata('idjemaat'),
-            //     'namapengirim' => $this->session->userdata('namalengkap'),
-            //     'deskripsi' => 'Care telah mengkonfirmasi konseling anda.',
-            //     'tglnotifikasi' => date('Y-m-d H:i:s'),
-            //     'idjemaatpenerima' => $idjemaatpemohon,
-            //     'urlaksi' => 'konseling/detail/' . $idcarekonseling,
-            //     'idtransaksi' => $idcarekonseling
-            // );
-            // $this->db->insert('notifikasi', $notifikasi);
+            // Cek apakah update berhasil
+            if ($this->db->affected_rows() === 0) {
+                // Tidak ada baris yang diupdate — mungkin ID tidak ditemukan
+                throw new Exception("Data dengan ID $idcarekonseling tidak ditemukan.");
+            }
 
-        
+
+            // Buat Notifikasi 
+            $query = $this->db->query("SELECT idjemaat FROM carekonseling WHERE idcarekonseling = ?", $idcarekonseling);
+            if ($query->num_rows() === 0) {
+                throw new Exception("Data konseling tidak ditemukan untuk ID: $idcarekonseling");
+            }
+            $idjemaatpemohon = $query->row()->idjemaat;
+            $this->db->query("
+                delete from notifikasi where idlinknotifikasi = $idcarekonseling and jenisnotifikasi = 'Konseling'
+                    and idjemaatpenerima = $idjemaatpemohon
+            ");
+            $notifikasi = array(
+                'tglnotifikasi' => date('Y-m-d H:i:s'),
+                'deskripsi' => 'Care telah mengkonfirmasi konseling anda.',
+                'linknotifikasi' => 'konseling/detail/' . $this->encrypt->encode($idcarekonseling),
+                'idlinknotifikasi' => $idcarekonseling,
+                'namajemaatpembuat' => $this->session->userdata('namalengkap'),
+                'idjemaatpembuat' => $this->session->userdata('idjemaat'),
+                'jenisnotifikasi' => 'Konseling',
+                'idjemaatpenerima' => $idjemaatpemohon,
+            );                    
+            $this->db->insert('notifikasi', $notifikasi);
+
             if ($this->db->trans_status() === FALSE) {
+                $error = $this->db->error();
                 $this->db->trans_rollback();
-                return false;
+                return ['status' => false, 'message' => 'Database error: ' . $error['code'] . ' - ' . $error['message']];
             } else {
                 $this->db->trans_commit();
-                return true;
+                return ['status' => true, 'message' => 'Berhasil'];
             }
         } catch (\Throwable $th) {
             $this->db->trans_rollback();
-            return false;
+            return ['status' => false, 'message' => $th->getMessage()];
         }
     }
 }
