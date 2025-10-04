@@ -90,6 +90,7 @@ class Login extends CI_Controller
         $sudahpernahfondationclass = $this->input->post('sudahpernahfondationclass');
         $tanggalinsert = date('Y-m-d H:i:s');
 
+        
         /*Periksa Email*/
         if ($this->Login_model->emailsudahada($email)) {
             echo json_encode(array('msg' => "Email " . $email . " sudah pernah terdaftar!"));
@@ -221,6 +222,11 @@ class Login extends CI_Controller
             <p>GBI EL SHADDAI</p>
             ';
             $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);
+
+            $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
+            $pesanWA = "Shalom " . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi pendaftaran ini dengan satu klik cepat di bawah ini!\n\n" . $url;
+
+             $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
             echo json_encode(array('success' => true));
         } else {
             $eror = $this->db->error();
@@ -250,6 +256,33 @@ class Login extends CI_Controller
 
             $pesan = "<script>
                             swal('Sorry', 'Email not found.', 'warning');
+                        </script>";
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect(site_url());
+        }
+    }
+
+
+    public function verifikasiwa($nomorwa)
+    {
+        $nomorwa = $this->encrypt->decode($nomorwa);
+
+        /*Periksa Wa*/
+        if ($this->Login_model->whatsappsudahada($nomorwa)) {
+
+            $simpan = $this->db->query("update jemaat set statusverifikasiwa='1' where nohp='$nomorwa' ");
+            if ($simpan) {
+                $pesan = "<script>
+                                    swal('Congrats', 'Your whatsapp number has been successfully verified.', 'success');
+                          </script>";
+            } else {
+                $pesan = "<script>swal('Sorry', 'Whatsapp verification faild. Please try again', 'error')</script>";
+            }
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect(site_url());
+        } else {
+            $pesan = "<script>
+                            swal('Sorry', 'Whatsapp number not found.', 'warning');
                         </script>";
             $this->session->set_flashdata('pesan', $pesan);
             redirect(site_url());

@@ -252,7 +252,7 @@
                         <div class="form-row">
                           <div class="form-holder form-holder-2">
                             <label for="account_name">Nomor WhatsApp:</label>
-                            <input type="text" placeholder="Nomor WhatsApp" class="form-control input-step-2-1" id="nohp" name="nohp">
+                            <input type="text" placeholder="Contoh: 08123456789" class="form-control input-step-2-1" id="nohp" name="nohp">
                           </div>
                         </div>
                       </div>

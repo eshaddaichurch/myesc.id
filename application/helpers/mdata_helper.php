@@ -420,3 +420,31 @@ if (!defined('BASEPATH'))
 
 		return "$hari, $tanggal $bulan $tahun<br> Jam $jam";
 	}
+
+	function formatNomorWhatsapp($nomor)
+	{
+		// Hapus semua karakter non-digit
+		$nomor = preg_replace('/[^0-9]/', '', $nomor);
+
+		// Jika string kosong setelah pembersihan
+		if (empty($nomor)) {
+			return '';
+		}
+
+		// Handle berbagai format awal
+		if (strpos($nomor, '62') === 0 && strlen($nomor) > 2) {
+			// Sudah format internasional (62812...)
+			return $nomor;
+		} elseif (strpos($nomor, '0') === 0) {
+			// Format lokal (0812...)
+			return '62' . substr($nomor, 1);
+		} elseif (strlen($nomor) >= 10) {
+			// Asumsikan ini nomor lokal tanpa 0 di depan? (opsional)
+			// Tapi lebih aman: hanya terima 0 atau +62/62
+			// Jadi kita tidak asumsikan, kecuali Anda yakin
+			return '62' . $nomor;
+		} else {
+			// Format tidak dikenali
+			return '';
+		}
+	}

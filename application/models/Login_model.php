@@ -26,6 +26,18 @@ class Login_model extends CI_Model
         }
     }
 
+
+    public function whatsappsudahada($nomorwa)
+    {
+        $this->db->where('nohp', $nomorwa);
+        $rsCekWa = $this->db->get('jemaat');
+        if ($rsCekWa->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function sudahAdaNIK($nik)
     {
         $query = "select * from jemaat where nik='" . $nik . "'";

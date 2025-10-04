@@ -187,7 +187,8 @@ class Jemaat extends MY_Controller
         $foto        = '';
 
 
-
+        $nohp = (!empty($nohp)) ? $nohp : null;
+        
         if ($idjemaat == '') {
 
             if ($password != $password2) {
