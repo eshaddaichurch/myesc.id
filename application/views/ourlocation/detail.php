@@ -72,28 +72,10 @@
     /* ===========================
        MAIN layout / gallery / details
        =========================== */
-    /* #hero { width:100%; height:40vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; }
+    #hero { width:100%; height:40vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; }
     #hero .container { position:relative; z-index:2; }
     #hero h1 { margin:0; font-size:clamp(1.25rem,3.2vw,2.6rem); font-weight:700; color:#fff; line-height:1.05; letter-spacing:-0.02em; text-shadow:0 6px 22px rgba(0,0,0,0.35); font-family:'Baloo 2', cursive; }
-    #hero h5 { margin-top:.35rem; color: rgba(255,255,255,0.9); font-weight:500; font-size:.95rem; } */
-
-
-    #hero {
-      width: 100%;
-      min-height: 60vh; /* gunakan min-height agar fleksibel */
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: linear-gradient(63deg, #ffb347, #ffcc33);
-      color: #fff;
-      padding: 2rem 1.5rem;
-      background-size: cover;
-      background-position: center;
-    }
-
+    #hero h5 { margin-top:.35rem; color: rgba(255,255,255,0.9); font-weight:500; font-size:.95rem; }
 
     .page-content.section-padding { padding: 2.2rem 0 3.2rem; }
     .card { background: var(--card, #fff); border-radius: 14px; box-shadow: 0 8px 30px rgba(16,24,40,0.06); border: none; overflow: visible; width:100%; }
@@ -235,9 +217,9 @@
               <div class="card-body min-h-lg">
 
                 <div class="row">
-                  <div class="col-12 text-center font-weight-bold mb-4">
+                  <!-- <div class="col-12 text-center font-weight-bold mb-4">
                     <h2 class="detail-title"><?php echo $rowCabang->namacabang ?></h2>
-                  </div>
+                  </div> -->
 
                   <!-- Gallery column -->
                   <div class="col-md-4 gallery">
