@@ -613,7 +613,8 @@
 
 
 
-                    if (result.statusjemaat == 'Registered') {
+                    // if (result.statusjemaat == 'Registered') {
+                    if (result.statusjemaat == 'Registered' || result.statusjemaat == 'Simpatisan') {
                         $('#nikprofil').focus();
 
                     } else {
