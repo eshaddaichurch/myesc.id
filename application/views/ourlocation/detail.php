@@ -199,7 +199,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <h1 class="text-center"><?php echo $rowCabang->namacabang ?></h1>
+            <!-- <h1 class="text-center"><?php echo $rowCabang->namacabang ?></h1> -->
             <h5 class="text-center"><?php echo !empty($rowCabang->keterangan_singkat) ? $rowCabang->keterangan_singkat : ''; ?></h5>
           </div>
         </div>
@@ -217,9 +217,9 @@
               <div class="card-body min-h-lg">
 
                 <div class="row">
-                  <!-- <div class="col-12 text-center font-weight-bold mb-4">
+                  <div class="col-12 text-center font-weight-bold mb-4">
                     <h2 class="detail-title"><?php echo $rowCabang->namacabang ?></h2>
-                  </div> -->
+                  </div>
 
                   <!-- Gallery column -->
                   <div class="col-md-4 gallery">
