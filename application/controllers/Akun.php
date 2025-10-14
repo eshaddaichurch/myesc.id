@@ -213,7 +213,12 @@ class Akun extends MY_Controller
             "select * from v_jemaat where idjemaat = '$idjemaat'"
         )->row();
 
-        if ($rowJemaat->statusjemaat == 'Registered') {
+        // hanya registred yang bisa ubah profile
+        // if ($rowJemaat->statusjemaat == 'Registered') {
+
+        // jemaat dengan status Simpatisan juga masih dapat merubah data pada profile
+        if ($rowJemaat->statusjemaat == 'Registered' || $rowJemaat->statusjemaat == 'Simpatisan') {
+
             $data = array(
                 'nik'   => $nik,
                 'kewarganegaraan'   => $kewarganegaraan,
