@@ -72,7 +72,7 @@
     /* ===========================
        MAIN layout / gallery / details
        =========================== */
-    #hero { width:100%; height:40vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; }
+    #hero { width:100%; height:20vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; }
     #hero .container { position:relative; z-index:2; }
     #hero h1 { margin:0; font-size:clamp(1.25rem,3.2vw,2.6rem); font-weight:700; color:#fff; line-height:1.05; letter-spacing:-0.02em; text-shadow:0 6px 22px rgba(0,0,0,0.35); font-family:'Baloo 2', cursive; }
     #hero h5 { margin-top:.35rem; color: rgba(255,255,255,0.9); font-weight:500; font-size:.95rem; }
