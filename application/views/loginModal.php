@@ -80,7 +80,7 @@
           <p class="text-muted small mb-4"></p>
 
           <div class="form-group position-relative mb-3">
-            <input type="text" name="emaillogin" id="emaillogin" class="form-control rounded-pill ps-5" placeholder="Masukan Email">
+            <input type="text" name="emaillogin" id="emaillogin" class="form-control rounded-pill ps-5" placeholder="Masukan Email atau Nomor Whatsapp">
             <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
               <i class="fas fa-user"></i>
             </span>
@@ -185,7 +185,7 @@
         emaillogin: {
           validators: {
             notEmpty: {
-              message: "Silahkan masukan email yang terverifikasi"
+              message: "Silahkan masukan email atau nomor whatsapp yang terverifikasi"
             },
           }
         },

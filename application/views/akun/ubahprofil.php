@@ -274,16 +274,16 @@
                                                 <h5 class="text-muted">DATA SOSIAL MEDIA</h5>
                                                 <hr>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4" style="display: none;">
                                                 <div class="form-group">
                                                     <label for="" class="">No Telepon/ HP</label>
                                                     <input type="text" name="notelp" id="notelp" class="form-control" placeholder="Masukkan nomor telepon">
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4" style="display: none;">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="" class=" text-right">No HP.</label>
+                                                    <label for="" class=" text-right">No Whatsapp</label>
                                                     <input type="text" name="nohpprofil" id="nohpprofil" class="form-control" placeholder="Masukkan nomor hp">
                                                 </div>
                                             </div>
@@ -569,8 +569,25 @@
                     $("#statuspernikahan").val(result.statuspernikahan);
                     $("#golongandarah").val(result.golongandarah);
                     $("#notelp").val(result.notelp);
-                    $("#nohp").val(result.nohp);
+
+                    $("#nohpprofil").val(result.nohp);
+                    if (result.statusverifikasiwa === "1") {
+                        $("#nohpprofil").attr('readonly', true);                        
+                        $("#nohpprofil").parent().find('label').html('No Whatsapp <span class="text-success ml-1 text-sm"><i class="fa fa-lock"></i> Terverifikasi</span>');
+                    }else{
+                        $("#nohpprofil").attr('readonly', false);      
+                        $("#nohpprofil").parent().find('label').html('No Whatsapp <span class="text-danger ml-1 text-sm">Belum Diverifikasi</span><button type="button" class="btn btn-sm btn-primary linkverifikasihp">Kirim Link Verifikasi</button>');                                          
+                    }
+
                     $("#emailprofil").val(result.email);
+                    if (result.statusverifikasiemail === "1") {
+                        $("#emailprofil").attr('readonly', true);
+                        $("#emailprofil").parent().find('label').html('Email <span class="text-success ml-1 text-sm"><i class="fa fa-lock"></i> Terverifikasi</span>');
+                    }else{
+                        $("#emailprofil").attr('readonly', false);
+                        $("#emailprofil").parent().find('label').html('Email <span class="text-danger ml-1 text-sm">Belum diverifikasi</span> <button type="button" class="btn btn-sm btn-primary linkverifikasiemail">Kirim Link Verifikasi</button>');
+
+                    }
                     $("#facebook").val(result.facebook);
                     $("#instagram").val(result.instagram);
                     $("#namadarurat").val(result.namadarurat);
@@ -609,7 +626,6 @@
                     }
                     usernameSudahAda = false;
 
-                    $('#emailprofil').attr('readonly', true);
 
 
 
@@ -711,7 +727,57 @@
                     $('#btnSimpan').attr('disabled', true);
                 });
 
-            // $('#emailprofil').prop('readonly', true);
+
+                $(document).on('click', '.linkverifikasiemail', function(e) {
+                    e.preventDefault();
+                    var parent = $(this).parent();
+                    var thiss = $(this);
+                    
+                    var email = $('#emailprofil').val();
+                    $.ajax({
+                        url: '<?= site_url('akun/sendverifikasiemail') ?>',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {'email': email},
+                    })
+                    .done(function(response) {
+
+                        if (response.success) {
+                            thiss.hide();
+                            var vtext = thiss.parent().html();
+                            thiss.parent().html(vtext + ' <span class="text-success">Sudah dikirim</span>');                            
+                        }else{
+                            swal("Upss!", response.msg, "info");
+                        }
+                    })
+                    .fail(function() {
+                        console.log('error sendverifikasiemail');
+                    });
+                });
+
+                $(document).on('click', '.linkverifikasihp', function(e) {
+                    e.preventDefault();
+                    var parent = $(this).parent();
+                    var thiss = $(this);
+                    
+                    var nohp = $('#nohpprofil').val();
+                    $.ajax({
+                        url: '<?= site_url('akun/sendverifikasihp') ?>',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {'nohp': nohp},
+                    })
+                    .done(function(response) {
+                        thiss.hide();
+                        var vtext = thiss.parent().html();
+                        thiss.parent().html(vtext + ' <span class="text-success">Sudah dikirim</span>');
+                        console.log(vtext);
+                    })
+                    .fail(function() {
+                        console.log('error sendverifikasihp');
+                    });
+                });
+
         });
 
         function getKabupaten(idprovinsi, idkabupatendefault = "") {

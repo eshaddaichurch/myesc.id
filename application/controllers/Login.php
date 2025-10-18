@@ -39,10 +39,20 @@ class Login extends CI_Controller
             if ($kirim->num_rows() > 0) {
                 $result = $kirim->row();
 
-                if ($result->statusverifikasiemail == 0) {
-                    echo json_encode(array('msg' => "Your email has not been verified"));
-                    exit();
+                //check email atau nomor whatsapp
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    if ($result->statusverifikasiemail == 0) {
+                        echo json_encode(array('msg' => "Email anda belum di verifikasi."));
+                        exit();
+                    }
+                } else {
+                    if ($result->statusverifikasiwa == 0) {
+                        echo json_encode(array('msg' => "Nomor whatsapp anda belum di verifikasi."));
+                        exit();
+                    }
                 }
+
+                
 
                 if (empty($result->foto)) {
                     $foto = base_url('admin/images/user-01.png');
@@ -93,7 +103,12 @@ class Login extends CI_Controller
         
         /*Periksa Email*/
         if ($this->Login_model->emailsudahada($email)) {
-            echo json_encode(array('msg' => "Email " . $email . " sudah pernah terdaftar!"));
+            echo json_encode(array('msg' => "Email " . $email . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
+            exit();
+        }
+
+        if ($this->Login_model->nomorwasudahada($nohp)) {
+            echo json_encode(array('msg' => "Nomor Whatsapp " . $nohp . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
             exit();
         }
 
@@ -273,10 +288,10 @@ class Login extends CI_Controller
             $simpan = $this->db->query("update jemaat set statusverifikasiwa='1' where nohp='$nomorwa' ");
             if ($simpan) {
                 $pesan = "<script>
-                                    swal('Congrats', 'Your whatsapp number has been successfully verified.', 'success');
+                                    swal('Congrats', 'Nomor whatsapp anda berhasil di verifikasi.', 'success');
                           </script>";
             } else {
-                $pesan = "<script>swal('Sorry', 'Whatsapp verification faild. Please try again', 'error')</script>";
+                $pesan = "<script>swal('Sorry', 'Nomor whatsapp anda gagal diverifikasi. silahkan ulangi beberapa saat kemudian!', 'error')</script>";
             }
             $this->session->set_flashdata('pesan', $pesan);
             redirect(site_url());

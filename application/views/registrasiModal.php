@@ -340,6 +340,14 @@
                         </tbody>
                       </table>
                     </div>
+
+                    <div class="col-12 font-weight-bold">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" id="chkSyaratDanKetentuan">
+                        <label class="form-check-label" for="chkSyaratDanKetentuan">Saya telah membaca dan menyetujui <a href="<?php echo base_url('myesc.id/TermsandConditions.html') ?>" target="_blank">Syarat dan Ketentuan GBI El Shaddai</a> 
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -382,6 +390,11 @@
     var sudahpernahfondationclass = $('#sudahpernahfondationclass1').val();
 
 
+    if (!$('#chkSyaratDanKetentuan').prop('checked')) {
+      swal("Syarat Dan Ketentuan", "Anda harus membaca dan menyetujui syarat dan ketentuan terlebih dahulu", "info");
+      return
+    }
+
     if ($('#sudahpernahfondationclass1').prop('checked')) {
       var sudahpernahfondationclass = 'Sudah';
     } else {
@@ -422,7 +435,7 @@
               $('#registrasiModal').modal('hide');
             });
         } else {
-          swal("Hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun", response.msg, "info");
+          swal("Gagal", response.msg, "info");
         }
       })
       .fail(function() {

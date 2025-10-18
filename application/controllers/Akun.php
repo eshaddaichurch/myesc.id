@@ -398,6 +398,62 @@ class Akun extends MY_Controller
         echo json_encode($query->result());
     }
 
+    public function sendverifikasiemail()
+    {
+
+        $email = $this->input->get('email');
+        $namalengkap = $this->session->userdata('namalengkap');
+
+        if ($this->Akun_model->emailsudahada($email)) {
+            echo json_encode(array('msg' => "Email " . $email . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
+            exit();
+        }
+
+        $textemail = 
+            '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
+            <p>We’re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>
+                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email)) 
+            . '">
+            <div class= "btn btn-primary">
+            Verify Email
+            </div></a> </p>
+            <p>Thank You,</p>
+            <p>EL SHADDAI CHURCH</p>
+            <hr>
+            <h4>Shalom! ' . $namalengkap . 'Selamat datang di MyEsc! </h4>
+            <p>Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi email ini dengan satu klik cepat di bawah ini!</p>
+                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email)) 
+            . '">
+            <div class= "btn btn-primary">
+            Verifikasi Email
+            </div></a> </p>
+            <p>Terima Kasih,</p>
+            <p>GBI EL SHADDAI</p>
+            ';
+        $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);
+        echo json_encode(array('success' => true));
+    }
+
+
+    public function sendverifikasihp()
+    {
+
+        $nohp = $this->input->get('nohp');
+        $namalengkap = $this->session->userdata('namalengkap');
+        
+        if ($this->Akun_model->nomorwasudahada($nohp)) {
+            echo json_encode(array('msg' => "Nomor Whatsapp " . $nohp . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
+            exit();
+        }
+
+        $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
+        $pesanWA = "Shalom " . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi nomor whatsapp ini dengan satu klik cepat di bawah ini!\n\n" . $url;
+
+        $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
+
+        echo json_encode(array('success' => true));
+    }
+
     
 }
 

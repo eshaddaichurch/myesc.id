@@ -17,6 +17,36 @@ class Akun_model extends CI_Model
         }
     }
 
+    public function emailsudahada($email)
+    {
+        $idjemaat = $this->session->userdata('idjemaat');
+
+        $this->db->where('email', $email);        
+        $this->db->where('idjemaat <>', $idjemaat);
+        $rsCekEmail = $this->db->get('jemaat');
+        if ($rsCekEmail->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function nomorwasudahada($nohp)
+    {
+        $idjemaat = $this->session->userdata('idjemaat');
+
+        $this->db->where('nohp', $nohp);
+        $this->db->where('idjemaat <>', $idjemaat);
+
+        $rsCekNoHP = $this->db->get('jemaat');
+        if ($rsCekNoHP->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function cekPasswordLama($password)
     {
         $idjemaat = $this->session->userdata('idjemaat');

@@ -6,7 +6,14 @@ class Login_model extends CI_Model
 
     public function cekLoginAjax($email, $password)
     {
-        $query = "select * from jemaat where email='" . $email . "' and password='" . $password . "'";
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $field = 'email';
+        } else {
+            $email = preg_replace('/[^0-9]/', '', $email);
+            $field = 'nohp'; 
+        }
+
+        $query = "select * from jemaat where $field='" . $email . "' and password='" . $password . "'";
         return $this->db->query($query);
     }
 
@@ -20,6 +27,17 @@ class Login_model extends CI_Model
         $this->db->where('email', $email);
         $rsCekEmail = $this->db->get('jemaat');
         if ($rsCekEmail->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function nomorwasudahada($nohp)
+    {
+        $this->db->where('nohp', $nohp);
+        $rsCekNoHP = $this->db->get('jemaat');
+        if ($rsCekNoHP->num_rows() > 0) {
             return true;
         } else {
             return false;
