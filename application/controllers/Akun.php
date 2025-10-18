@@ -408,6 +408,12 @@ class Akun extends MY_Controller
             echo json_encode(array('msg' => "Email " . $email . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
             exit();
         }
+        
+        $this->db->query("
+            update jemaat set
+            email = '$email'
+            where idjemaat = '" . $this->session->userdata('idjemaat') . "'
+        ");
 
         $textemail = 
             '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
@@ -446,6 +452,12 @@ class Akun extends MY_Controller
             exit();
         }
 
+        $this->db->query("
+            update jemaat set
+            nohp = '$nohp'
+            where idjemaat = '" . $this->session->userdata('idjemaat') . "'
+        ");
+        
         $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
         $pesanWA = "Shalom " . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi nomor whatsapp ini dengan satu klik cepat di bawah ini!\n\n" . $url;
 
