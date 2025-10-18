@@ -80,7 +80,7 @@ class Jemaatbaru_model extends CI_Model
 
             $idjemaatbaru = $this->db->query("select idjemaat from carejemaatbaru where idcarejemaatbaru=$idcarejemaatbaru ")->row()->idjemaat;
 
-            $this->db->query("update jemaat set statusjemaat = 'Simpatisan' where idjemaat = '$idjemaatbaru' ");
+            // $this->db->query("update jemaat set statusjemaat = 'Simpatisan' where idjemaat = '$idjemaatbaru' ");
 
             $this->db->where('idcarejemaatbaru', $idcarejemaatbaru);
             $this->db->update($this->tabel, $dataCare);

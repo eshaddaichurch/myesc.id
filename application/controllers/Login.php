@@ -260,10 +260,10 @@ class Login extends CI_Controller
             $simpan = $this->db->query("update jemaat set statusverifikasiemail='1' where email='$email' ");
             if ($simpan) {
                 $pesan = "<script>
-                                    swal('Congrats', 'Your email has been successfully verified.', 'success');
+                                    swal('Berhasil', 'Email anda berhasil di verifikasi.', 'success');
                           </script>";
             } else {
-                $pesan = "<script>swal('Sorry', 'Email verification faild. Please try again', 'error')</script>";
+                $pesan = "<script>swal('Maaf', 'Email gagal di verifikasi. Silahkan coba lagi.', 'error')</script>";
             }
             $this->session->set_flashdata('pesan', $pesan);
             redirect(site_url());
