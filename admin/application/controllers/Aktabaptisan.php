@@ -160,6 +160,7 @@ class Aktabaptisan extends MY_Controller
         $namagembala        = $this->input->post('namagembala');
         $tempatbaptis        = $this->input->post('tempatbaptis');
         $statusaktif        = $this->input->post('statusaktif');
+        $noakta = $this->input->post('noakta');
 
         if ($idakta == '') {
             if ($tempatbaptis == 'Elshaddai') {
@@ -168,7 +169,7 @@ class Aktabaptisan extends MY_Controller
                 $namagereja = 'GBI Elshaddai';
             } else {
                 $fileaktabaptis_lama = $this->input->post('fileaktabaptis_lama');
-                $fileaktabaptis = $this->App->uploadImage($_FILES, "fileaktabaptis", $fileaktabaptis_lama, 'akta/baptis');
+                $fileaktabaptis = $this->App->uploadPdf($_FILES, "fileaktabaptis", $fileaktabaptis_lama, 'akta/baptis');
                 $iddaerahakta = null;
                 $idcabangakta = null;
                 $namaayah = null;
@@ -176,7 +177,10 @@ class Aktabaptisan extends MY_Controller
             }
 
             $idakta = $this->db->query("select create_idaktabaptisan('" . date('Y-m-d') . "') as idakta")->row()->idakta;
-            $noakta = $this->db->query("select create_nomoraktabaptis('" . date('m') . "', '" . date('y') . "') as noakta")->row()->noakta;
+            if ($tempatbaptis == 'Elshaddai') {
+                $noakta = $this->db->query("select create_nomoraktabaptis('" . date('m') . "', '" . date('y') . "') as noakta")->row()->noakta;                
+            }
+
             $data = array(
                 'idakta'   => $idakta,
                 'noakta'   => $noakta,
@@ -202,7 +206,8 @@ class Aktabaptisan extends MY_Controller
                 $namagereja = 'GBI Elshaddai';
             } else {
                 $fileaktabaptis_lama = $this->input->post('fileaktabaptis_lama');
-                $fileaktabaptis = $this->App->uploadImage($_FILES, "fileaktabaptis", $fileaktabaptis_lama, 'akta/baptis');
+                $fileaktabaptis = $this->App->uploadPdf($_FILES, "fileaktabaptis", $fileaktabaptis_lama, 'akta/baptis');
+                
                 $iddaerahakta = null;
                 $idcabangakta = null;
 
@@ -213,6 +218,7 @@ class Aktabaptisan extends MY_Controller
             $data = array(
                 'idakta'   => $idakta,
                 'tglakta'   => $tglakta,
+                'noakta'   => $noakta,
                 'dilakukanoleh'   => $dilakukanoleh,
                 'idjemaat'   => $idjemaat,
                 'namaayah'   => $namaayah,

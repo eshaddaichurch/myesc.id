@@ -16,6 +16,18 @@ class Pernikahan_model extends CI_Model
         return $this->db->get('v_carepernikahan');
     }
 
+    public function adaPermohonanSebelumnya()
+    {
+        $this->db->where('idjemaat', $this->session->userdata('idjemaat'));
+        $this->db->where('status', 'Permohonan');
+        $jlhRow = $this->db->get('v_carepernikahan')->num_rows();
+        if ($jlhRow > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
     public function simpan($data)
     {

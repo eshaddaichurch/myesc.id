@@ -26,6 +26,18 @@ class Konseling extends MY_Controller
     public function tambah($idmenu = "")
     {
         $idmenu = $this->encrypt->decode($idmenu);
+
+        $this->cekStatusWhatsApp();
+
+        //Cek apakah ada permohonan sebelumnya
+        if ($this->Konseling_model->adaPermohonanSebelumnya()) {
+            $pesan = "<script>
+                            swal('Permohonan belum dikonfirmasi!', 'Anda masih memiliki permohonan sebelumnya yang belum dikonfirmasi oleh gereja, silahkan tunggu maksimal 2 x 24 Jam untuk mengonfirmasi.', 'warning');
+                        </script>";
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('permohonansaya');
+        }
+
         $data['idcarekonseling'] = '';
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
@@ -67,7 +79,7 @@ class Konseling extends MY_Controller
     public function simpan()
     {
         $idcarekonseling = $this->input->post("idcarekonseling");
-        $tglpermohonan = $this->input->post("tglpermohonan");
+        $tglpermohonan = date('Y-m-d H:i:s');
         $nohpyangbisadihubungi = $this->input->post("nohpyangbisadihubungi");
         $keteranganpermohonan = $this->input->post("keteranganpermohonan");
         $tglinsert = date('Y-m-d H:i:s');

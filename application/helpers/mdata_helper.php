@@ -448,3 +448,14 @@ if (!defined('BASEPATH'))
 			return '';
 		}
 	}
+
+	function isLocalhost()
+	{
+		$host = $_SERVER['HTTP_HOST'] ?? '';
+		if (!in_array($host, ['localhost', '127.0.0.1', '::1'])) {
+			return false;
+		}else{
+			return true;
+		}
+
+	}

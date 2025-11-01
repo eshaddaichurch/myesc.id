@@ -84,31 +84,37 @@
                   <input type="hidden" name="idkunjunganjemaat" id="idkunjunganjemaat">
 
                   <div class="mb-3">
-                    <label for="idjeniskunjunganjemaat" class="form-label">Jenis Kunjungan</label>
-                    <select name="idjeniskunjunganjemaat" id="idjeniskunjunganjemaat" class="form-select select2">
-                      <option value="">Pilih jenis kunjungan...</option>
-                      <?php
-                      $rsJenisKunjungan = $this->db->query("select * from carekunjunganjemaatjenis where statusaktif='Aktif'");
-                      foreach ($rsJenisKunjungan->result() as $row) {
-                          echo '<option value="' . $row->idjeniskunjunganjemaat . '">' . $row->namajeniskunjunganjemaat . '</option>';
-                      }
-                      ?>
-                    </select>
+                    <div class="form-group">
+                      <label for="idjeniskunjunganjemaat" class="form-label">Jenis Kunjungan</label>
+                      <select name="idjeniskunjunganjemaat" id="idjeniskunjunganjemaat" class="form-select select2">
+                        <option value="">Pilih jenis kunjungan...</option>
+                        <?php
+                        $rsJenisKunjungan = $this->db->query("select * from carekunjunganjemaatjenis where statusaktif='Aktif'");
+                        foreach ($rsJenisKunjungan->result() as $row) {
+                            echo '<option value="' . $row->idjeniskunjunganjemaat . '">' . $row->namajeniskunjunganjemaat . '</option>';
+                        }
+                        ?>
+                      </select>
+                    </div>
                   </div>
 
                   <div class="mb-3">
-                    <label for="alamatjemaat" class="form-label">Alamat Lengkap</label>
-                    <textarea name="alamatjemaat" id="alamatjemaat" class="form-control" rows="2" placeholder="Alamat / lokasi tempat yang akan dikunjungi"><?php echo $this->session->userdata('alamatrumah'); ?></textarea>
+                    <div class="form-group">
+                      <label for="alamatjemaat" class="form-label">Alamat Lengkap</label>
+                      <textarea name="alamatjemaat" id="alamatjemaat" class="form-control" rows="2" placeholder="Alamat / lokasi tempat yang akan dikunjungi"><?php echo $this->session->userdata('alamatrumah'); ?></textarea>
+                    </div>
                   </div>
 
                   <div class="mb-3">
-                    <label for="keterangankunjungan" class="form-label">Keterangan Permohonan</label>
-                    <textarea name="keterangankunjungan" id="keterangankunjungan" class="form-control" rows="6" placeholder="Jelaskan maksud dan tujuan dari permohonan kunjungan"></textarea>
+                    <div class="form-group">
+                      <label for="keterangankunjungan" class="form-label">Keterangan Permohonan</label>
+                      <textarea name="keterangankunjungan" id="keterangankunjungan" class="form-control" rows="6" placeholder="Jelaskan maksud dan tujuan dari permohonan kunjungan"></textarea>
+                    </div>
                   </div>
 
                   <div class="d-flex flex-column flex-md-row justify-content-center mt-4 gap-2">
                     <a href="<?php echo site_url('kunjunganjemaat') ?>" class="btn btn-outline-secondary px-4">Kembali</a>
-                    <button type="submit" class="btn btn-primary px-4"><i class="fa fa-save me-2"></i>Ajukan Permohonan</button>
+                    <button type="submit" class="btn btn-primary px-4" id="btnSimpan"><i class="fa fa-save me-2"></i>Ajukan Permohonan</button>
                   </div>
                 </form>
 
@@ -144,6 +150,43 @@
 
           $("#lbljudul").html("Ubah Permohonan Kunjungan");
         }
+
+        $("#form").bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    idjeniskunjunganjemaat: {
+                        validators: {
+                            notEmpty: {
+                                message: "Jenis kunjungan tidak boleh kosong"
+                            },
+                        }
+                    },
+                    alamatjemaat: {
+                        validators: {
+                            notEmpty: {
+                                message: "Alamat tidak boleh kosong"
+                            },
+                        }
+                    },
+                    keterangankunjungan: {
+                        validators: {
+                            notEmpty: {
+                                message: "Keterangan tidak boleh kosong"
+                            },
+                        }
+                    },
+                },
+                onSuccess: function(e, data) {
+                    // e.preventDefault();
+                    $('#btnSimpan').prop('disabled', true);
+
+                }
+            });
+
       });
     </script>
   </div>

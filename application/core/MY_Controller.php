@@ -25,6 +25,22 @@ class MY_Controller extends CI_Controller
         }
         return true;
     }
+
+    public function cekStatusWhatsApp()
+    {
+        $rowJemaat = $this->App->getInfoJemaat($this->session->userdata('idjemaat'));
+        if ($rowJemaat->statusverifikasiwa != '1') {
+            $pesan = "<script>
+                            swal('Nomor WhatsApp Belum Terverifikasi', 'Silahkan verifikasi nomor whatsapp terlebih dahulu!', 'warning')
+                            .then(function(){
+                                $('#nohpprofil').focus();
+                            });
+                        </script>";
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('akun/ubahprofil');
+        }
+        return true;
+    }
 }
 
 /* End of file MY_controller.php */

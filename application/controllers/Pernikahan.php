@@ -26,6 +26,19 @@ class Pernikahan extends MY_Controller
     public function tambah($idmenu = "")
     {
         $this->wajibLogin(); // <-- hanya aktif di sini
+
+        $this->cekStatusWhatsApp();
+
+        //Cek apakah ada permohonan sebelumnya
+        if ($this->Pernikahan_model->adaPermohonanSebelumnya()) {
+            $pesan = "<script>
+                            swal('Permohonan belum dikonfirmasi!', 'Anda masih memiliki permohonan sebelumnya yang belum dikonfirmasi oleh gereja, silahkan tunggu maksimal 2 x 24 Jam untuk mengonfirmasi.', 'warning');
+                        </script>";
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('permohonansaya');
+        }
+
+
         $idmenu = $this->encrypt->decode($idmenu);
         $data['idpernikahan'] = '';
         $data['menu'] = $idmenu;

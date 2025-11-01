@@ -180,7 +180,7 @@
                  <div class="col-md-9">
                    <div class="row">
                      <div class="col-12">
-                       <input type="file" name="fileaktabaptis" id="fileaktabaptis">
+                       <input type="file" name="fileaktabaptis" id="fileaktabaptis" accept=".pdf,application/pdf">
                        <input type="hidden" name="fileaktabaptis_lama" id="fileaktabaptis_lama">
                      </div>
                      <div class="col-12 mt-1">
@@ -564,12 +564,16 @@
        if (idakta == "") {
          $('#namagembala').val("<?php echo GEMBALAGEREJA ?>");
        }
+       $('#noakta').prop('readonly', true).attr('placeholder', 'Otomatis');
+
      } else {
        $('.baptis-elshaddai').hide();
        $('.baptis-non-elshaddai').show();
        if (idakta == "") {
          $('#namagembala').val("");
        }
+       $('#noakta').prop('readonly', false).attr('placeholder', 'Masukkan nomor akta');
+
      }
 
    }

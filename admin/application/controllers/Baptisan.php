@@ -115,6 +115,28 @@ class Baptisan extends MY_Controller
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <strong>Berhasil!</strong> Data berhasil disimpan!
                     </div>';
+
+            if ($status=='Disetujui') {           
+                $rowPenanggungJawab = $this->App->getJemaat($idpenanggungjawab)->row();                    
+                $rowTemp = $this->Baptisan_model->get_by_id($idcarebaptisan)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan baptis anda telah kami terima. !
+                \n *ID Permohonan: " . replwzero($idcarebaptisan, 4) . "/" . date('m', strtotime($rowTemp->tglinsert)) . "/" . date('Y', strtotime($rowTemp->tglinsert)) . "*
+                \n Jenis Permohonan: Permohonan Baptis
+                \n Tempat Baptis: $tempatbaptisan
+                \n Waktu Baptis: " . hariTanggalJam($tglbaptisan) . "
+                \n Penanggung Jawab: $rowPenanggungJawab->namalengkap
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);                
+            }else{
+                $rowTemp = $this->Baptisan_model->get_by_id($idcarebaptisan)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan baptis anda kami tolak.!
+                \n *ID Permohonan: " . replwzero($idcarebaptisan, 4) . "/" . date('m', strtotime($rowTemp->tglinsert)) . "/" . date('Y', strtotime($rowTemp->tglinsert)) . "*
+                \n Jenis Permohonan: Permohonan Baptis
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+            }
         } else {
             $pesan = '<div class="alert alert-danger alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

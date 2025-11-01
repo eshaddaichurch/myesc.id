@@ -95,6 +95,7 @@ textarea.form-control {
                                 <input type="hidden" name="idpermohonan" id="idpermohonan">
 
                                 <div class="mb-3">
+                                  <div class="form-group">
                                     <label for="idjenispermohonandoa" class="form-label">Jenis Permohonan Doa</label>
                                     <select name="idjenispermohonandoa" id="idjenispermohonandoa" class="form-select select2">
                                         <option value="">Pilih jenis permohonan doa...</option>
@@ -105,17 +106,22 @@ textarea.form-control {
                                         }
                                         ?>
                                     </select>
+                                  </div>
                                 </div>
 
                                 <div class="mb-3">
+                                  <div class="form-group">
                                     <label for="nohpyangbisadihubungi" class="form-label">No HP Yang Bisa Dihubungi</label>
-                                    <input type="text" name="nohpyangbisadihubungi" id="nohpyangbisadihubungi" class="form-control" placeholder="Nomor HP">
+                                    <input type="text" name="nohpyangbisadihubungi" id="nohpyangbisadihubungi" class="form-control" placeholder="Nomor HP" value="<?php echo $this->session->userdata('nohp'); ?>" readonly>
+                                  </div>
                                 </div>
 
                                 <div class="mb-3">
+                                  <div class="form-group">
                                     <label for="keteranganpermohonan" class="form-label">Keterangan Permohonan</label>
-                                    <textarea name="keteranganpermohonan" maxlength="1000" id="keteranganpermohonan" class="form-control" rows="6" placeholder="Uraikan pokok doa yang ingin didoakan.. (maks. 1000 karakter)"></textarea>
+                                    <textarea name="keteranganpermohonan" maxlength="1000" id="keteranganpermohonan" class="form-control" rows="10" placeholder="Uraikan pokok doa yang ingin didoakan.. (maks. 1000 karakter)"></textarea>
                                     <small id="charCount" class="form-text text-muted">0 / 1000 karakter</small>
+                                  </div>
                                 </div>
 
                                 <div class="d-flex flex-column flex-md-row justify-content-center mt-4 gap-2">
@@ -141,6 +147,41 @@ textarea.form-control {
         textarea.addEventListener('input', function () {
             charCount.textContent = `${this.value.length} / 1000 karakter`;
         });
+    });
+
+    $(document).ready(function () {
+      
+      $("#form").bootstrapValidator({
+          feedbackIcons: {
+              valid: 'glyphicon glyphicon-ok',
+              invalid: 'glyphicon glyphicon-remove',
+              validating: 'glyphicon glyphicon-refresh'
+          },
+          fields: {
+              idjenispermohonandoa: {
+                  validators: {
+                      notEmpty: {
+                          message: "Jenis permohonan doa tidak boleh kosong"
+                      },
+                  }
+              },
+              nohpyangbisadihubungi: {
+                  validators: {
+                      notEmpty: {
+                          message: "Nomor hp yang bisa dihubungi tidak boleh kosong"
+                      },
+                  }
+              },
+              keteranganpermohonan: {
+                  validators: {
+                      notEmpty: {
+                          message: "Keterangan permohonan tidak boleh kosong"
+                      },
+                  }
+              },
+          }
+      });
+
     });
     </script>
 

@@ -54,29 +54,9 @@ class Login extends CI_Controller
 
                 
 
-                if (empty($result->foto)) {
-                    $foto = base_url('admin/images/user-01.png');
-                } else {
-                    $foto = base_url('admin/uploads/jemaat/' . $result->foto);
-                }
+                
 
-                $data = array(
-                    'idjemaat' => $result->idjemaat,
-                    'namalengkap' => $result->namalengkap,
-                    'namapanggilan' => $result->namapanggilan,
-                    'alamatrumah' => $result->alamatrumah,
-                    'rtrw' => $result->rtrw,
-                    'kelurahan' => $result->alamatrumah,
-                    'kecamatan' => $result->kecamatan,
-                    'kotakabupaten' => $result->kotakabupaten,
-                    'propinsi' => $result->propinsi,
-                    'foto' => $foto,
-                    'notelp' => $result->notelp,
-                    'nohp' => $result->nohp,
-                    'email' => $result->email,
-                );
-
-                $this->session->set_userdata($data);
+                $this->App->reloadSession($result->idjemaat);
 
                 echo json_encode(array('success' => true));
             } else {
@@ -236,7 +216,9 @@ class Login extends CI_Controller
             <p>Terima Kasih,</p>
             <p>GBI EL SHADDAI</p>
             ';
-            $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);
+            if (!isLocalhost()) {
+                $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);                
+            }
 
             $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
             $pesanWA = "Shalom " . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi pendaftaran ini dengan satu klik cepat di bawah ini!\n\n" . $url;

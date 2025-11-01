@@ -96,6 +96,32 @@ class App extends CI_Model
 		return $foto;
 	}
 
+	public function uploadPdf($file, $namaFile, $namaFileLama, $foldername)
+	{
+		$this->load->library('image_lib');
+
+		if (!empty($file[$namaFile]['name'])) {
+			$config['upload_path']          = 'uploads/' . $foldername . '/';
+			$config['allowed_types']        = 'pdf';
+			$config['remove_space']         = TRUE;
+			$config['max_size']            = '2000KB';
+
+
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload($namaFile)) {
+				$foto = $this->upload->data('file_name');
+				$size = $this->upload->data('file_size');
+				$ext  = $this->upload->data('file_ext');
+			} else {
+				$foto = $namaFileLama;
+			}
+		} else {
+			$foto = $namaFileLama;
+		}
+
+		return $foto;
+	}
+
 	public function sendEmailNextStep($email, $subject, $textemail)
 	{
 		$this->load->library('email');

@@ -79,7 +79,7 @@
                            name="nohpyangbisadihubungi" 
                            id="nohpyangbisadihubungi" 
                            class="form-control" 
-                           placeholder="Nomor HP">
+                           placeholder="Nomor HP" value="<?php echo $this->session->userdata('nohp'); ?>" readonly>
                   </div>
 
                   <div class="mb-3">
@@ -88,12 +88,12 @@
                               id="keteranganpermohonan" 
                               class="form-control" 
                               rows="6" 
-                              placeholder="Keterangan (Optional)"></textarea>
+                              placeholder="Keterangan (Optional)" autofocus></textarea>
                   </div>
 
                   <div class="d-flex flex-column flex-md-row justify-content-center mt-4 gap-2">
                     <a href="<?php echo site_url('baptisan') ?>" class="btn btn-outline-secondary px-4">Kembali</a>
-                    <button type="submit" class="btn btn-primary px-4">
+                    <button type="submit" class="btn btn-primary px-4" id="btnSimpan">
                       <i class="fa fa-save me-2"></i>Ajukan Permohonan
                     </button>
                   </div>
@@ -138,10 +138,10 @@
             validating: 'glyphicon glyphicon-refresh'
           },
           fields: {
-            nohpyangbisadihubungi: {
+            keteranganpermohonan: {
               validators: {
                 notEmpty: {
-                  message: "Nomor hp yang bisa dihubungi tidak boleh kosong"
+                  message: "Keterangan tidak boleh kosong"
                 }
               }
             }

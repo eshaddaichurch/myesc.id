@@ -16,6 +16,18 @@ class Penyerahananak_model extends CI_Model
         return $this->db->get('v_carepenyerahananak');
     }
 
+    public function adaPermohonanSebelumnya()
+    {
+        $this->db->where('idjemaat', $this->session->userdata('idjemaat'));
+        $this->db->where('status', 'Permohonan');
+        $jlhRow = $this->db->get('v_carepenyerahananak')->num_rows();
+        if ($jlhRow > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
     public function simpan($data)
     {

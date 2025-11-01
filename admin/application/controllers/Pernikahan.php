@@ -109,6 +109,25 @@ class Pernikahan extends MY_Controller
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <strong>Berhasil!</strong> Data berhasil disimpan!
                     </div>';
+
+            if ($status=='Disetujui') {            
+                $rowTemp = $this->Pernikahan_model->get_by_id($idpernikahan)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan pengajuan pernikahan/ peneguhan anda telah kami terima. !
+                \n *ID Permohonan: " . replwzero($idpernikahan, 4) . "/" . date('m', strtotime($rowTemp->tglinsert)) . "/" . date('Y', strtotime($rowTemp->tglinsert)) . "*
+                \n Jenis Permohonan: Permohonan Pernikahan
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);                
+            }else{
+                $rowTemp = $this->Pernikahan_model->get_by_id($idpernikahan)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan pengajuan pernikahan/ peneguhan anda kami tolak.!
+                \n *ID Permohonan: " . replwzero($idpernikahan, 4) . "/" . date('m', strtotime($rowTemp->tglinsert)) . "/" . date('Y', strtotime($rowTemp->tglinsert)) . "*
+                \n Jenis Permohonan: Permohonan Pernikahan
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+            }
+
         } else {
             $pesan = '<div class="alert alert-danger alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

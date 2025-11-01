@@ -206,6 +206,14 @@ function tglindonesialengkap($tanggal)
 	}
 }
 
+function hariTanggalJam($vartanggal)
+{
+	$tanggal = date("d", strtotime($vartanggal));
+	$tahun = date("Y", strtotime($vartanggal));
+	$jam = "Jam ". date("H:i", strtotime($vartanggal));
+	$waktu = hari($vartanggal) . ", " . $tanggal . " " . bulan(date("m", strtotime($vartanggal))) . " " . $tahun . " " . $jam;
+	return $waktu;
+}
 
 function tglindonesia($tanggal)
 {

@@ -289,6 +289,7 @@ class Akun extends MY_Controller
             $pesan = "<script>
                         swal('Berhasil', 'Data profil berhasil disimpan.', 'success');
                     </script>";
+            $this->App->reloadSession($idjemaat);
         } else {
             $eror = $this->db->error();
             $pesan = "<script>

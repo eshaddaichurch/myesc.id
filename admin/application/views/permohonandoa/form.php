@@ -142,6 +142,7 @@ $this->load->view("template/sidemenu");
 
 <script type="text/javascript">
     var idpermohonan = "<?php echo ($idpermohonan) ?>";
+    console.log(idpermohonan);
 
     $(document).ready(function() {
 
@@ -163,7 +164,7 @@ $this->load->view("template/sidemenu");
                     $("#namapenanggungjawab").val(result.namapenanggungjawab);
                     $("#idpenanggungjawab").val(result.idpenanggungjawab);
                     $("#keteranganadmin").val(result.keteranganadmin);
-                    console.log("3");
+                    // console.log("3");
 
                 });
         }

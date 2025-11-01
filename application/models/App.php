@@ -86,6 +86,47 @@ class App extends CI_Model
             return false;
         }
     }
+
+
+    public function reloadSession($idjemaat)
+    {
+
+        $rsTemp = $this->db->query("
+            select * from jemaat where idjemaat='$idjemaat'
+        ")->row();
+
+
+        if (empty($rsTemp->foto)) {
+            $foto = base_url('admin/images/user-01.png');
+        } else {
+            $foto = base_url('admin/uploads/jemaat/' . $rsTemp->foto);
+        }
+
+        $data = array(
+            'idjemaat' => $rsTemp->idjemaat,
+            'namalengkap' => $rsTemp->namalengkap,
+            'namapanggilan' => $rsTemp->namapanggilan,
+            'alamatrumah' => $rsTemp->alamatrumah,
+            'rtrw' => $rsTemp->rtrw,
+            'kelurahan' => $rsTemp->alamatrumah,
+            'kecamatan' => $rsTemp->kecamatan,
+            'kotakabupaten' => $rsTemp->kotakabupaten,
+            'propinsi' => $rsTemp->propinsi,
+            'foto' => $foto,
+            'notelp' => $rsTemp->notelp,
+            'nohp' => $rsTemp->nohp,
+            'email' => $rsTemp->email,
+            'statusverifikasiemail' => $rsTemp->statusverifikasiemail,
+            'statusverifikasiwa' => $rsTemp->statusverifikasiwa,
+        );
+
+        $this->session->set_userdata($data);
+    }
+
+    public function getInfoJemaat($idjemaat = "")
+    {
+        return $this->db->get_where('jemaat', array('idjemaat' => $idjemaat))->row();
+    }
 }
 
 /* End of file App.php */

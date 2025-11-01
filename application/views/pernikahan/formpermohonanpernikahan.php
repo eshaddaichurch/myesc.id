@@ -70,13 +70,17 @@
                   <input type="hidden" name="idpernikahan" id="idpernikahan">
 
                   <div class="mb-3">
-                    <label class="form-label">No HP Yang Bisa Dihubungi</label>
-                    <input type="text" name="nohpyangbisadihubungi" id="nohpyangbisadihubungi" class="form-control" placeholder="Nomor HP">
+                    <div class="form-group">
+                      <label class="form-label">No HP Yang Bisa Dihubungi</label>
+                      <input type="text" name="nohpyangbisadihubungi" id="nohpyangbisadihubungi" class="form-control" placeholder="Nomor HP" value="<?php echo $this->session->userdata('nohp'); ?>" readonly>
+                    </div>
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label">Keterangan Permohonan</label>
-                    <textarea name="keterangan" id="keterangan" class="form-control" rows="3" placeholder="Tulis keterangan singkat, seperti tahun & tanggal pernikahan yang dimohonkan."></textarea>
+                    <div class="form-group">
+                      <label class="form-label">Keterangan Permohonan</label>
+                      <textarea name="keterangan" id="keterangan" class="form-control" rows="3" placeholder="Tulis keterangan singkat, seperti tahun & tanggal pernikahan yang dimohonkan." autofocus></textarea>
+                    </div>
                   </div>
 
                   <div class="row g-3">
@@ -85,16 +89,22 @@
                         <div class="card-body">
                           <h5 class="text-muted mb-3">Informasi Mempelai Pria</h5>
                           <div class="mb-3">
-                            <label class="form-label">Nama Mempelai</label>
-                            <input type="text" class="form-control" name="namamempelaipria" id="namamempelaipria" placeholder="Nama mempelai pria">
+                            <div class="form-group">
+                              <label class="form-label">Nama Mempelai</label>
+                              <input type="text" class="form-control" name="namamempelaipria" id="namamempelaipria" placeholder="Nama mempelai pria">
+                            </div>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label">Nama Ayah</label>
-                            <input type="text" class="form-control" name="namaayahpria" id="namaayahpria" placeholder="Nama ayah mempelai pria">
+                            <div class="form-group">
+                              <label class="form-label">Nama Ayah</label>
+                              <input type="text" class="form-control" name="namaayahpria" id="namaayahpria" placeholder="Nama ayah mempelai pria">
+                            </div>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label">Nama Ibu</label>
-                            <input type="text" class="form-control" name="namaibupria" id="namaibupria" placeholder="Nama ibu mempelai pria">
+                            <div class="form-group">
+                              <label class="form-label">Nama Ibu</label>
+                              <input type="text" class="form-control" name="namaibupria" id="namaibupria" placeholder="Nama ibu mempelai pria">
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -105,16 +115,22 @@
                         <div class="card-body">
                           <h5 class="text-muted mb-3">Informasi Mempelai Wanita</h5>
                           <div class="mb-3">
-                            <label class="form-label">Nama Mempelai</label>
-                            <input type="text" class="form-control" name="namamempelaiwanita" id="namamempelaiwanita" placeholder="Nama mempelai wanita">
+                            <div class="form-group">
+                              <label class="form-label">Nama Mempelai</label>
+                              <input type="text" class="form-control" name="namamempelaiwanita" id="namamempelaiwanita" placeholder="Nama mempelai wanita">
+                            </div>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label">Nama Ayah</label>
-                            <input type="text" class="form-control" name="namaayahwanita" id="namaayahwanita" placeholder="Nama ayah mempelai wanita">
+                            <div class="form-group">
+                              <label class="form-label">Nama Ayah</label>
+                              <input type="text" class="form-control" name="namaayahwanita" id="namaayahwanita" placeholder="Nama ayah mempelai wanita">
+                            </div>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label">Nama Ibu</label>
-                            <input type="text" class="form-control" name="namaibuwanita" id="namaibuwanita" placeholder="Nama ibu mempelai wanita">
+                            <div class="form-group">
+                              <label class="form-label">Nama Ibu</label>
+                              <input type="text" class="form-control" name="namaibuwanita" id="namaibuwanita" placeholder="Nama ibu mempelai wanita">
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -134,7 +150,7 @@
 
                   <div class="d-flex flex-column flex-md-row justify-content-center mt-4 gap-2">
                     <a href="<?php echo site_url('pernikahan') ?>" class="btn btn-outline-secondary px-4">Kembali</a>
-                    <button type="submit" class="btn btn-primary px-4"><i class="fa fa-save me-2"></i>Ajukan Permohonan</button>
+                    <button type="submit" class="btn btn-primary px-4" id="btnSimpan"><i class="fa fa-save me-2"></i>Ajukan Permohonan</button>
                   </div>
                 </form>
               </div>
@@ -172,6 +188,73 @@
 
           $("#lbljudul").html("Ubah Permohonan Pernikahan");
         }
+
+
+        $("#form").bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    keterangan: {
+                        validators: {
+                            notEmpty: {
+                                message: "tanggal permohonan tidak boleh kosong"
+                            },
+                        }
+                    },
+                    namamempelaipria: {
+                        validators: {
+                            notEmpty: {
+                                message: "Nama mempelai pria tidak boleh kosong"
+                            },
+                        }
+                    },
+                    namamempelaiwanita: {
+                        validators: {
+                            notEmpty: {
+                                message: "Nama mempelai wanita tidak boleh kosong"
+                            },
+                        }
+                    },
+                    namaayahpria: {
+                        validators: {
+                            notEmpty: {
+                                message: "Nama ayah tidak boleh kosong"
+                            },
+                        }
+                    },
+                    namaayahwanita: {
+                        validators: {
+                            notEmpty: {
+                                message: "Nama ayah tidak boleh kosong"
+                            },
+                        }
+                    },
+                    namaibupria: {
+                        validators: {
+                            notEmpty: {
+                                message: "Nama ibu tidak boleh kosong"
+                            },
+                        }
+                    },
+                    namaibuwanita: {
+                        validators: {
+                            notEmpty: {
+                                message: "Nama ibu tidak boleh kosong"
+                            },
+                        }
+                    },
+
+                },
+                onSuccess: function(e, data) {
+                    // e.preventDefault();
+                    $('#btnSimpan').prop('disabled', true);
+
+                }
+            });
+
       });
     </script>
   </div>

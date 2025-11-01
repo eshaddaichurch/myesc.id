@@ -110,6 +110,24 @@ class Permohonandoa extends MY_Controller
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <strong>Berhasil!</strong> Data berhasil disimpan!
                     </div>';
+
+            if ($status=='Disetujui') {            
+                $rowTemp = $this->Permohonandoa_model->get_by_id($idpermohonan)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan doa anda telah kami terima. !
+                \n *ID Permohonan: " . replwzero($idpermohonan, 4) . "/" . date('m', strtotime($rowTemp->tglinsert)) . "/" . date('Y', strtotime($rowTemp->tglinsert)) . "*
+                \n Jenis Permohonan: Permohonan Doa
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);                
+            }else{
+                $rowTemp = $this->Permohonandoa_model->get_by_id($idpermohonan)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan doa anda kami tolak.!
+                \n *ID Permohonan: " . replwzero($idpermohonan, 4) . "/" . date('m', strtotime($rowTemp->tglinsert)) . "/" . date('Y', strtotime($rowTemp->tglinsert)) . "*
+                \n Jenis Permohonan: Permohonan Doa
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+            }
         } else {
             $pesan = '<div class="alert alert-danger alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -125,6 +143,7 @@ class Permohonandoa extends MY_Controller
     public function get_edit_data()
     {
         $idpermohonan = $this->input->post('idpermohonan');
+
         $RsData = $this->Permohonandoa_model->get_by_id($idpermohonan)->row();
         $data = array(
             'idpermohonan'     =>  $RsData->idpermohonan,
@@ -132,8 +151,6 @@ class Permohonandoa extends MY_Controller
             'keteranganadmin'     =>  $RsData->keteranganadmin,
             'idpenanggungjawab'     =>  $RsData->idpenanggungjawab,
             'namapenanggungjawab'     =>  $RsData->namapenanggungjawab,
-            'tglkonseling'     =>  $RsData->tglkonseling,
-            'tempatkonseling'     =>  $RsData->tempatkonseling,
         );
 
         echo (json_encode($data));

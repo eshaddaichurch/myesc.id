@@ -116,6 +116,28 @@ class Konseling extends MY_Controller
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <strong>Berhasil!</strong> Data berhasil disimpan!
                     </div>';
+            
+            if ($status=='Disetujui') {
+                $rowPenanggungJawab = $this->App->getJemaat($idpenanggungjawab)->row();                    
+                $rowTemp = $this->Konseling_model->get_by_id($idcarekonseling)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan konseling anda telah kami terima. !
+                \n *ID Permohonan: " . replwzero($idcarekonseling, 4) . "/" . date('m', strtotime($rowTemp->tglpermohonan)) . "/" . date('Y', strtotime($rowTemp->tglpermohonan)) . "*
+                \n Jenis Permohonan: Permohonan Konseling
+                \n Tempat Konseling: $tempatkonseling
+                \n Waktu Konseling: " . hariTanggalJam($tglkonseling) . "
+                \n Konselor: $rowPenanggungJawab->namalengkap
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);                
+            }else{
+                $rowTemp = $this->Konseling_model->get_by_id($idcarekonseling)->row();            
+                $rowJemaat = $this->App->getJemaat($rowTemp->idjemaat)->row();            
+                $pesanWA = "Shalom " . $rowJemaat->namalengkap . "! Permohonan konseling anda telah kami tolak. !
+                \n *ID Permohonan: " . replwzero($idcarekonseling, 4) . "/" . date('m', strtotime($rowTemp->tglpermohonan)) . "/" . date('Y', strtotime($rowTemp->tglpermohonan)) . "*
+                \n Jenis Permohonan: Permohonan Konseling
+                \n Keterangan: $keteranganadmin";
+                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+            }
         } else {
             $pesan = '<div class="alert alert-danger alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

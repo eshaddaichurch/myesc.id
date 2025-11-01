@@ -16,6 +16,18 @@ class Konseling_model extends CI_Model
         return $this->db->get('v_carekonseling');
     }
 
+    public function adaPermohonanSebelumnya()
+    {
+        $this->db->where('idjemaat', $this->session->userdata('idjemaat'));
+        $this->db->where('status', 'Permohonan');
+        $jlhRow = $this->db->get('v_carekonseling')->num_rows();
+        if ($jlhRow > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
     public function simpan($data)
     {
