@@ -447,6 +447,7 @@ class Akun extends MY_Controller
 
         $nohp = $this->input->get('nohp');
         $namalengkap = $this->session->userdata('namalengkap');
+        $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
         
         if ($this->Akun_model->nomorwasudahada($nohp)) {
             echo json_encode(array('msg' => "Nomor Whatsapp " . $nohp . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
@@ -459,7 +460,7 @@ class Akun extends MY_Controller
             where idjemaat = '" . $this->session->userdata('idjemaat') . "'
         ");
         
-        $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
+        
         $pesanWA = "Shalom " . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi nomor whatsapp ini dengan satu klik cepat di bawah ini!\n\n" . $url;
 
         $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);

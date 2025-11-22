@@ -41,6 +41,17 @@ class MY_Controller extends CI_Controller
         }
         return true;
     }
+
+
+    public function ajaxCeStatusWhatsAPP()
+    {
+        $rowJemaat = $this->App->getInfoJemaat($this->session->userdata('idjemaat'));
+        if ($rowJemaat->statusverifikasiwa != '1') {
+            echo json_encode(array('statusverifikasiwa' => false));
+        }else{
+            echo json_encode(array('statusverifikasiwa' => true));
+        }
+    }
 }
 
 /* End of file MY_controller.php */

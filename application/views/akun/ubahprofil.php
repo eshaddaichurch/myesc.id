@@ -558,7 +558,7 @@
                     encode: true
                 })
                 .done(function(result) {
-                    console.log(result);
+                    // console.log(result);
                     $("#nikprofil").val(result.nik);
                     $("#kewarganegaraan").val(result.kewarganegaraan);
                     $("#namalengkapprofil").val(result.namalengkap);
@@ -768,10 +768,16 @@
                         data: {'nohp': nohp},
                     })
                     .done(function(response) {
-                        thiss.hide();
-                        var vtext = thiss.parent().html();
-                        thiss.parent().html(vtext + ' <span class="text-success">Sudah dikirim</span>');
-                        console.log(vtext);
+                        console.log(response);
+                        if (response.success) {
+                            thiss.hide();
+                            var vtext = thiss.parent().html();
+                            thiss.parent().html(vtext + ' <span class="text-success">Sudah dikirim</span>');
+                            console.log(vtext);
+                            
+                        }else{
+                            swal("Upss!", response.msg, "info");
+                        }
                     })
                     .fail(function() {
                         console.log('error sendverifikasihp');
@@ -797,7 +803,7 @@
                     },
                 })
                 .done(function(response) {
-                    console.log(response);
+                    // console.log(response);
                     if (response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
                             // console.log(response[i]);
@@ -848,7 +854,7 @@
                     // console.log(response);
                     if (response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
-                            console.log(response[i]);
+                            // console.log(response[i]);
                             addSelectOption('kecamatan', response[i]['idkecamatan'], response[i]['namakecamatan']);
                             if (idkecamatandefault != "" && idkecamatandefault == response[i]['idkecamatan']) {
                                 $('#kecamatan').val(response[i]['idkecamatan']).trigger('change');
@@ -877,10 +883,10 @@
                     },
                 })
                 .done(function(response) {
-                    console.log(response);
+                    // console.log(response);
                     if (response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
-                            console.log(response[i]);
+                            // console.log(response[i]);
                             addSelectOption('kelurahan', response[i]['iddesa'], response[i]['namadesa']);
                             if (iddesadefault != "" && iddesadefault == response[i]['iddesa']) {
                                 $('#kelurahan').val(response[i]['iddesa']).trigger('change');

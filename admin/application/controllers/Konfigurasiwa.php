@@ -7,6 +7,7 @@ class Konfigurasiwa extends MY_Controller {
     {
         parent::__construct();
         $this->islogin();
+        $this->load->model('Konfigurasiwa_model');
         $this->session->set_userdata('IDMENUSELECTED', 'M800');
         $this->cekOtorisasi();
     }
@@ -33,5 +34,18 @@ class Konfigurasiwa extends MY_Controller {
             print_r($response);
             echo "</pre>";
         }
+    }
+
+    public function simpanWaNextStep()
+    {
+        $nextstepregistrasi = $this->input->post('nextstepregistrasi');
+        $nextstepkonfirmasi = $this->input->post('nextstepkonfirmasi');
+
+        $simpan = $this->Konfigurasiwa_model->simpanWaNextStep($nextstepregistrasi, $nextstepkonfirmasi);
+        if ($simpan) {
+            echo json_encode(array('success' => true, 'msg' => "Data berhasil disimpan."));
+        } else {
+            echo json_encode(array('success' => false, 'msg' => "Data gagal disimpan."));
+        }        
     }
 }

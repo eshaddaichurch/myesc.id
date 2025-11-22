@@ -24,7 +24,16 @@ class Nextstep extends MY_Controller
 		$tglsekarang = date('Y-m-d H:i:00');
 
 		$idkelas = $rowKelas->idkelas;
-		$rsJadwal = $this->db->query("select * from v_jadwalevent where jenisjadwal='Kelas Next Step' and idkelas='$idkelas' and tglmulai > '$tglsekarang' and statuskonfirmasi='Disetujui'");
+
+		switch ($idkelas) {
+			case 'KL004':
+				$rsJadwal = $this->db->query("select * from v_jadwalevent where jenisjadwal='Kelas Next Step' and idkelas='KL004' and DATE_SUB( tglmulai, INTERVAL 14 DAY ) > '$tglsekarang' and statuskonfirmasi='Disetujui'");
+				break;
+			default:
+				$rsJadwal = $this->db->query("select * from v_jadwalevent where jenisjadwal='Kelas Next Step' and idkelas='$idkelas' and DATE_SUB( tglmulai, INTERVAL 7 DAY ) > '$tglsekarang' and statuskonfirmasi='Disetujui'");
+				break;
+		}
+		
 
 
 		$idmenu = $this->encrypt->decode($idmenu);
@@ -116,14 +125,15 @@ class Nextstep extends MY_Controller
 
 	public function daftar()
 	{
+
 		$idjadwalevent = $this->input->post('idjadwalevent');
 		$idjemaat = $this->session->userdata('idjemaat');
-
+		$tglregistrasi = date('Y-m-d H:i:s');
 		$idregistrasi = $this->db->query("SELECT create_idregistrasievent('" . date('Y-m-d') . "') as idregistrasi")->row()->idregistrasi;
 		$data = array(
 			'idregistrasi' => $idregistrasi,
 			'idjadwalevent' => $idjadwalevent,
-			'tglregistrasi' => date('Y-m-d H:i:s'),
+			'tglregistrasi' => $tglregistrasi,
 			'idjemaat' => $idjemaat,
 			'statuskonfirmasi' => 'Menunggu',
 		);
@@ -137,10 +147,18 @@ class Nextstep extends MY_Controller
 			$rsNextStep = $this->db->query("SELECT jadwalevent.idkelas, kelas.namakelas, kelas.kelas_slug 
 													FROM jadwalevent JOIN kelas ON kelas.idkelas=jadwalevent.idkelas 
 													where idjadwalevent='$idjadwalevent'");
+			$namakelas = 'Kelas';
 			if ($rsNextStep->num_rows() > 0) {
 				$idkelas = $rsNextStep->row()->idkelas;
 				$kelas_slug = $rsNextStep->row()->kelas_slug;
+				$namakelas = $this->App->getInfoKelas($idkelas)->namakelas;
 			}
+						
+			$rowJemaat = $this->App->getInfoJemaat($idjemaat);            
+			$pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! Pengajuan pendaftaran $namakelas anda telah kami terima. Akan segera kami konfirmasi 1x24 jam. Terimakasih.!
+			\n ID Registrasi: $idregistrasi
+			\n Tgl Registrasi: $tglregistrasi";			
+			$this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);                			
 
 			echo json_encode(array('success' => true, 'kelas_slug' => $kelas_slug, 'menu' => '-'));
 		} else {

@@ -126,6 +126,9 @@ class Konfirmasikelas extends MY_Controller
             $rowKelas = $this->db->query("select * from kelas where idkelas='$rsJadwal->idkelas'")->row();
             $namakelas = $rowKelas->namakelas;
 
+            // echo json_encode($rsJadwal);
+            // exit();
+
             if ($status == 'Disetujui') {
                 $textemail = '
                     <h5>Pengajuan Kelas '. $namakelas.' Saudara Disetujui!</h5>
@@ -135,7 +138,6 @@ class Konfirmasikelas extends MY_Controller
 					 <p>Detail Kelas:</p>
 						<p> - Nama Kelas : ' . $namakelas . '</p>	
 						<p> - Tanggal & Waktu : ' . tglindonesialengkap($rsJadwal->tglmulai) .',' . date('H:i', strtotime($rsJadwal->tglmulai)) . '<p>
-						<p> - Tempat : ' . $rsJadwal->tempat . '</
                      <p> Jika ada pertanyaan, Saudara dapat menghubungi admin esc next step di nomor: +62 851-8302-3883.</p>
                       <p>Tuhan Yesus Memberkati. </p>
                       <p></p>
@@ -156,8 +158,19 @@ class Konfirmasikelas extends MY_Controller
 						<p>ESC Next Step</p>
                 ';
             }
-            $this->App->sendEmailNextStep($rsRegistrasi->email, $judul, $textemail);
+            // $this->App->sendEmailNextStep($rsRegistrasi->email, $judul, $textemail);
             // echo json_encode($textemail);
+
+             if ($status == 'Disetujui') {
+                 $idjemaat = $rsRegistrasi->idjemaat;
+                 
+                 $rowJemaat = $this->App->getJemaat($idjemaat)->row();            
+                 $pesanWA = $this->Settings->getValues('wa_nextstep_konfirmasi');
+                //  echo json_encode($pesanWA);
+                //  exit();
+                 $pesanWA = $this->App->replaceTagJemaat($pesanWA, $idjemaat);
+                 $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);  
+             }
 
             echo json_encode(array('success' => true));
         } else {

@@ -127,6 +127,11 @@ class App extends CI_Model
     {
         return $this->db->get_where('jemaat', array('idjemaat' => $idjemaat))->row();
     }
+
+    public function getInfoKelas($idkelas = "")
+    {
+        return $this->db->get_where('kelas', array('idkelas' => $idkelas))->row();
+    }
 }
 
 /* End of file App.php */

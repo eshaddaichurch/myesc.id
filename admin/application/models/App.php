@@ -202,6 +202,24 @@ class App extends CI_Model
 			update notifikasi set statusnotifikasi = '1', tgldibaca = '" . date('Y-m-d H:i:s') ."' where idlinknotifikasi = '$idlinknotifikasi' and idjemaatpenerima = '$idjemaatpenerima' and jenisnotifikasi = '$jenisnotifikasi' and statusnotifikasi = '0'
 		");
 	}
+
+	public function replaceTagJemaat($varText, $idjemaat)
+	{
+		$rowJemaat = $this->App->getJemaat($idjemaat);
+		if ($rowJemaat->num_rows()>0) {
+			$rowJemaat = $rowJemaat->row();
+			$varText = str_replace('[[namalengkap]]', $rowJemaat->namalengkap, $varText);
+			$varText = str_replace('[[nohp]]', $rowJemaat->nohp, $varText);
+			$varText = str_replace('[[namadc]]', $rowJemaat->namadc, $varText);
+
+		}else{
+			$varText = str_replace('[[namalengkap]]', '', $varText);
+			$varText = str_replace('[[nohp]]', '', $varText);
+			$varText = str_replace('[[namadc]]', '', $varText);
+		}
+		
+		return $varText;
+	}
 }
 
 /* End of file App.php */
