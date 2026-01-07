@@ -10,255 +10,62 @@
 
 
 <style>
-  /* Ganti warna utama SmartWizard theme 'square' dari biru ke #ff5008 */
-  .sw-theme-square > .nav > .nav-link.active,
-  .sw-theme-square > .nav > .nav-link.done {
-    background-color: #ff5008 !important;
-    color: white !important;
-    border-color: #ff5008 !important;
-  }
-
-  /* Warna hover pada step */
-  .sw-theme-square > .nav > .nav-link:hover {
-    background-color: #e04607 !important; /* Sedikit lebih gelap untuk efek hover */
-    border-color: #e04607 !important;
-  }
-
-  /* Warna border untuk step yang aktif/done */
-  .sw-theme-square > .nav > .nav-link.active::after,
-  .sw-theme-square > .nav > .nav-link.done::after {
-    border-left-color: #ff5008 !important;
-  }
-
-  /* Ganti warna progress bar */
-  .sw-theme-square .progress-bar {
-    background-color: #ff5008 !important;
-  }
-
-  /* Garis horizontal antar langkah */
-  .sw-theme-square > .nav > .nav-item:not(:first-child)::before {
-    background-color: #ff5008 !important;
-  }
-
-  /* Nomor langkah (misalnya 1, 2, 3) */
-  .sw-theme-square > .nav > .nav-link > .num {
-    background-color: #ff5008 !important;
-    color: white !important;
-  }
-
-  /* Tombol Next/Previous jika ikut tema (opsional) */
-  .sw-btn-next,
-  .sw-btn-prev,
-  .btn-success.btnSelesai { /* Tombol "Kirim" */
-    background-color: #ff5008 !important;
-    border-color: #ff5008 !important;
-  }
-
-  .sw-btn-next:hover,
-  .sw-btn-prev:hover,
-  .btn-success.btnSelesai:hover {
-    background-color: #e04607 !important;
-    border-color: #e04607 !important;
-  }
-</style>
-
-<style>
-  .help-block {
-    color: red;
-  }
-</style>
-
-<style>
-  .modal-custom {
-    /* padding: 0 0 0 0; */
-    padding-bottom: 0px;
-  }
-
-  @media screen and (max-width: 480px) {
-      h3.text-center {
-          font-size: 15px !important;
-      }
-  }
-
-
-  /* ================= MOBILE APP MODE ================= */
-body.mobile-app .modal-dialog {
-  margin: 0;
-  height: 100vh;
+/* ======================================================
+   SMARTWIZARD THEME (GLOBAL – DESKTOP & MOBILE)
+====================================================== */
+.sw-theme-square > .nav > .nav-link.active,
+.sw-theme-square > .nav > .nav-link.done,
+.sw-theme-square > .nav > .nav-link > .num,
+.sw-theme-square .progress-bar,
+.sw-btn-next,
+.sw-btn-prev,
+.btn-success.btnSelesai {
+  background-color: #ff8100 !important;
+  border-color: #ff8100 !important;
+  color: #fff !important;
 }
 
+.sw-theme-square > .nav > .nav-link:hover {
+  background-color: #e66f00 !important;
+}
+
+/* ======================================================
+   MOBILE APP MODE (SAFE – DESKTOP TIDAK TERKENA)
+====================================================== */
+body.mobile-app {
+  background: linear-gradient(180deg, #ff8100 0%, #ff9a33 100%);
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ===== MODAL FULLSCREEN ===== */
+body.mobile-app .modal-dialog,
 body.mobile-app .modal-content {
+  margin: 0;
   height: 100vh;
   border-radius: 0;
 }
 
-/* sembunyikan header step (angka 1–2–3) */
-/* body.mobile-app .sw-anchor,
-body.mobile-app .nav-progress {
-  display: none !important;
-} */
-
+/* ===== HIDE STEP HEADER ===== */
 body.mobile-app .nav {
   display: none !important;
 }
 
-
-/* wizard full height */
-body.mobile-app #smartwizard {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+/* ===== APP HEADER ===== */
+body.mobile-app .modal-header {
+  background: transparent;
+  border: none;
+  padding: 24px 20px 12px;
 }
 
-/* konten step scroll sendiri */
-body.mobile-app .tab-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  margin-top: 0 !important;
-}
-
-/* toolbar fix di bawah seperti app */
-body.mobile-app .sw-toolbar-bottom {
-  position: sticky;
-  bottom: 0;
-  background: #fff;
-  padding: 12px;
-  box-shadow: 0 -4px 10px rgba(0,0,0,.1);
-  z-index: 10;
-}
-
-/* tombol besar & full width */
-body.mobile-app .sw-btn-group button,
-body.mobile-app .btnSelesai {
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  margin-bottom: 8px;
-}
-
-/* judul lebih rapat */
+body.mobile-app .modal-title,
 body.mobile-app h3.text-center {
-  font-size: 18px;
-  margin-bottom: 16px;
-}
-
-/* ================= APP LOOK & FEEL ================= */
-body.mobile-app {
-  background: #f6f7f9;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-/* Header ala mobile app */
-.mobile-app .modal-body > .row > .col-12:first-child {
-  padding: 20px 16px 10px;
-}
-
-.mobile-app h3.text-center {
+  color: #fff;
   font-size: 20px;
   font-weight: 700;
-  color: #111;
 }
 
-/* Step container jadi card */
-.mobile-app .tab-pane > .row {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.06);
-}
-
-/* Question text */
-.mobile-app .tab-pane h3 {
-  font-size: 18px;
-  line-height: 1.4;
-  margin-bottom: 24px;
-}
-
-/* ================= RADIO CARD ================= */
-.mobile-app .form-check {
-  background: #f9fafb;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 12px;
-  border: 2px solid transparent;
-  display: flex;
-  align-items: center;
-  transition: all .2s ease;
-}
-
-.mobile-app .form-check-input {
-  transform: scale(1.3);
-  margin-right: 12px;
-}
-
-.mobile-app .form-check-input:checked ~ .form-check-label {
-  font-weight: 600;
-}
-
-.mobile-app .form-check:has(input:checked) {
-  border-color: #ff8100;
-  background: #fff6ed;
-}
-
-/* ================= INPUT ================= */
-.mobile-app .form-control,
-.mobile-app select {
-  height: 52px;
-  border-radius: 12px;
-  border: 1.5px solid #e5e7eb;
-  padding: 12px 14px;
-  font-size: 15px;
-}
-
-.mobile-app .form-control:focus,
-.mobile-app select:focus {
-  border-color: #ff8100;
-  box-shadow: 0 0 0 3px rgba(255,129,0,.15);
-}
-
-/* ================= BUTTON ================= */
-.mobile-app .sw-toolbar-bottom {
-  background: #fff;
-  border-top: 1px solid #eee;
-}
-
-.mobile-app .sw-btn-next,
-.mobile-app .btnSelesai {
-  background: linear-gradient(135deg, #ff8100, #ff5008);
-  border: none;
-  border-radius: 14px;
-  font-weight: 600;
-  box-shadow: 0 8px 20px rgba(255,129,0,.35);
-}
-
-.mobile-app .sw-btn-prev,
-.mobile-app .btn-secondary {
-  background: #f1f5f9;
-  color: #333;
-  border-radius: 14px;
-  border: none;
-}
-
-/* ================= TABLE CONFIRM ================= */
-.mobile-app table {
-  background: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.mobile-app table td {
-  padding: 12px;
-  font-size: 14px;
-}
-
-
-body.mobile-app {
-  background: linear-gradient(180deg, #ff6a00, #ff3d00);
-}
-
-
-
+/* Subtitle header */
 body.mobile-app > .modal .modal-body > .row > .col-12:first-child h3::after {
   content: "Buat akun dan lengkapi data Anda";
   display: block;
@@ -268,40 +75,146 @@ body.mobile-app > .modal .modal-body > .row > .col-12:first-child h3::after {
   margin-top: 6px;
 }
 
+/* ===== MAIN APP CARD ===== */
+body.mobile-app #smartwizard {
+  background: #fff;
+  border-radius: 28px 28px 0 0;
+  padding: 24px 20px 120px;
+  min-height: 75vh;
+  box-shadow: 0 -10px 30px rgba(0,0,0,.2);
+}
 
+/* ===== STEP CONTENT ===== */
+body.mobile-app .tab-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Step title */
+body.mobile-app .tab-pane h3 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  color: #111;
+}
+
+/* ======================================================
+   RADIO CARD (STEP 1)
+====================================================== */
+body.mobile-app .form-check {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  border: 2px solid transparent;
+  transition: .2s ease;
+}
+
+body.mobile-app .form-check-input {
+  transform: scale(1.3);
+  margin-right: 14px;
+}
+
+body.mobile-app .form-check:has(input:checked) {
+  border-color: #ff8100;
+  background: #fff6ed;
+}
+
+body.mobile-app .form-check-label {
+  font-weight: 500;
+}
+
+/* ======================================================
+   INPUT / FORM
+====================================================== */
 body.mobile-app label {
   font-size: 13px;
-  font-weight: 500;
-  color: #444;
+  font-weight: 600;
+  color: #374151;
   margin-bottom: 6px;
 }
 
 body.mobile-app .form-control,
-body.mobile-app select {
-  background: #f9fafb;
+body.mobile-app .form-select {
+  height: 54px;
   border-radius: 14px;
-  border: 1px solid #eee;
+  border: 1.5px solid #e5e7eb;
+  font-size: 15px;
+  padding: 14px;
+  background: #f9fafb;
 }
 
+body.mobile-app .form-control:focus,
+body.mobile-app .form-select:focus {
+  border-color: #ff8100;
+  box-shadow: 0 0 0 3px rgba(255,129,0,.15);
+}
 
-body.mobile-app .tab-content {
+/* ======================================================
+   FIXED BOTTOM ACTION BAR
+====================================================== */
+body.mobile-app .sw-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: #fff;
-  border-radius: 28px 28px 0 0;
-  margin-top: 24px;
-  padding: 24px 16px;
-  box-shadow: 0 -10px 40px rgba(0,0,0,.25);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  box-shadow: 0 -8px 20px rgba(0,0,0,.2);
+}
+
+/* Buttons */
+body.mobile-app .sw-btn-group button,
+body.mobile-app .btnSelesai {
+  flex: 1;
+  height: 54px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 body.mobile-app .sw-btn-next,
 body.mobile-app .btnSelesai {
-  height: 54px;
-  font-size: 16px;
-  letter-spacing: .5px;
-  text-transform: uppercase;
+  background: linear-gradient(135deg, #ff8100, #ff5008);
+  border: none;
+  box-shadow: 0 8px 20px rgba(255,129,0,.35);
 }
 
+body.mobile-app .sw-btn-prev,
+body.mobile-app .btn-secondary {
+  background: #f1f5f9;
+  color: #333;
+  border: none;
+}
 
+/* ======================================================
+   TABLE CONFIRM
+====================================================== */
+body.mobile-app table {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+body.mobile-app table td {
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* ======================================================
+   SMALL MOBILE TWEAK
+====================================================== */
+@media (max-width: 480px) {
+  body.mobile-app h3 {
+    font-size: 17px;
+  }
+}
 </style>
+
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
