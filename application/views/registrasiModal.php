@@ -110,15 +110,6 @@ body.mobile-app #smartwizard {
   flex-direction: column;
 }
 
-.mobile-app #smartwizard {
-  background: #fff;
-  border-radius: 28px 28px 0 0;
-  padding: 24px 20px 120px;
-  min-height: 75vh;
-  box-shadow: 0 -10px 30px rgba(0,0,0,.15);
-}
-
-
 /* konten step scroll sendiri */
 body.mobile-app .tab-content {
   flex: 1;
@@ -127,18 +118,15 @@ body.mobile-app .tab-content {
   margin-top: 0 !important;
 }
 
-.mobile-app .sw-toolbar {
-  position: fixed;
+/* toolbar fix di bawah seperti app */
+body.mobile-app .sw-toolbar-bottom {
+  position: sticky;
   bottom: 0;
-  left: 0;
-  right: 0;
   background: #fff;
-  padding: 16px;
-  display: flex;
-  gap: 12px;
-  box-shadow: 0 -8px 20px rgba(0,0,0,.15);
+  padding: 12px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,.1);
+  z-index: 10;
 }
-
 
 /* tombol besar & full width */
 body.mobile-app .sw-btn-group button,
@@ -172,6 +160,13 @@ body.mobile-app {
   color: #111;
 }
 
+/* Step container jadi card */
+.mobile-app .tab-pane > .row {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
 
 /* Question text */
 .mobile-app .tab-pane h3 {
@@ -258,11 +253,10 @@ body.mobile-app {
 }
 
 
-
 body.mobile-app {
-  background: linear-gradient(180deg, #ff8100 0%, #ff9a33 100%);
-  min-height: 100vh;
+  background: linear-gradient(180deg, #ff6a00, #ff3d00);
 }
+
 
 
 body.mobile-app > .modal .modal-body > .row > .col-12:first-child h3::after {
@@ -305,39 +299,6 @@ body.mobile-app .btnSelesai {
   letter-spacing: .5px;
   text-transform: uppercase;
 }
-
-
-.mobile-app .modal-header {
-  background: transparent;
-  border: none;
-  padding: 24px 20px 12px;
-}
-
-.mobile-app .modal-title,
-.mobile-app h3.text-center {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 700;
-}
-
-
-.mobile-app .form-control,
-.mobile-app .form-select {
-  height: 54px;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
-  font-size: 15px;
-  padding: 14px;
-}
-
-.mobile-app label {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #374151;
-}
-
-
 
 
 </style>
