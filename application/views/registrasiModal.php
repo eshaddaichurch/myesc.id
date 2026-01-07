@@ -143,6 +143,116 @@ body.mobile-app h3.text-center {
   margin-bottom: 16px;
 }
 
+/* ================= APP LOOK & FEEL ================= */
+body.mobile-app {
+  background: #f6f7f9;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Header ala mobile app */
+.mobile-app .modal-body > .row > .col-12:first-child {
+  padding: 20px 16px 10px;
+}
+
+.mobile-app h3.text-center {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Step container jadi card */
+.mobile-app .tab-pane > .row {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+/* Question text */
+.mobile-app .tab-pane h3 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+
+/* ================= RADIO CARD ================= */
+.mobile-app .form-check {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  transition: all .2s ease;
+}
+
+.mobile-app .form-check-input {
+  transform: scale(1.3);
+  margin-right: 12px;
+}
+
+.mobile-app .form-check-input:checked ~ .form-check-label {
+  font-weight: 600;
+}
+
+.mobile-app .form-check:has(input:checked) {
+  border-color: #ff8100;
+  background: #fff6ed;
+}
+
+/* ================= INPUT ================= */
+.mobile-app .form-control,
+.mobile-app select {
+  height: 52px;
+  border-radius: 12px;
+  border: 1.5px solid #e5e7eb;
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.mobile-app .form-control:focus,
+.mobile-app select:focus {
+  border-color: #ff8100;
+  box-shadow: 0 0 0 3px rgba(255,129,0,.15);
+}
+
+/* ================= BUTTON ================= */
+.mobile-app .sw-toolbar-bottom {
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+.mobile-app .sw-btn-next,
+.mobile-app .btnSelesai {
+  background: linear-gradient(135deg, #ff8100, #ff5008);
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(255,129,0,.35);
+}
+
+.mobile-app .sw-btn-prev,
+.mobile-app .btn-secondary {
+  background: #f1f5f9;
+  color: #333;
+  border-radius: 14px;
+  border: none;
+}
+
+/* ================= TABLE CONFIRM ================= */
+.mobile-app table {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mobile-app table td {
+  padding: 12px;
+  font-size: 14px;
+}
+
+
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
