@@ -825,242 +825,205 @@
           window.innerWidth <= 768;
   }
 
-  function applyMobileAppMode() {
+  // Konten setiap step (copy dari HTML asli)
+  const mobileStepContents = {
+    0: `
+      <div class="card">
+        <h3 class="text-center">Sudah Pernah Membuat Kartu Anggota Jemaat ESC?</h3>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass1" value="1">
+          <label class="form-check-label" for="m_sudahpernahfondationclass1">Sudah</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass2" value="2" checked>
+          <label class="form-check-label" for="m_sudahpernahfondationclass2">Belum</label>
+        </div>
+      </div>
+    `,
+    1: `
+      <div class="card">
+        <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
+        <label>Nama Lengkap:</label>
+        <input type="text" id="m_namalengkap" class="form-control" placeholder="Nama Lengkap">
+        <label>NIK (KTP):</label>
+        <input type="text" id="m_nik" class="form-control" placeholder="Nomor Induk Kependudukan">
+        <label>Jenis Kelamin:</label>
+        <select id="m_jeniskelamin" class="form-control">
+          <option value="">Pilih jenis kelamin...</option>
+          <option value="Laki-laki">Laki-laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
+        <label>Tempat Lahir:</label>
+        <input type="text" id="m_tempatlahir" class="form-control" placeholder="Tempat lahir">
+        <label>Tanggal Lahir:</label>
+        <input type="date" id="m_tanggallahir" class="form-control">
+        <label>Alamat:</label>
+        <input type="text" id="m_alamatrumah" class="form-control" placeholder="Alamat tempat tinggal">
+        <label>Nomor WhatsApp:</label>
+        <input type="text" id="m_nohp" class="form-control" placeholder="Contoh: 08123456789">
+        <label>Email:</label>
+        <input type="text" id="m_email" class="form-control" placeholder="Email">
+        <label>Password:</label>
+        <input type="password" id="m_password" class="form-control" placeholder="Password">
+        <label>Konfirmasi Password:</label>
+        <input type="password" id="m_password2" class="form-control" placeholder="Konfirmasi Password">
+      </div>
+    `,
+    2: `
+      <div class="card">
+        <h3 class="text-center">Konfirmasi Data Anda:</h3>
+        <table style="width:100%; background:white; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+          <tr><td style="width:30%; padding:14px 16px;">Nama</td><td id="m_tdNama" style="padding:14px 16px;"></td></tr>
+          <tr><td style="padding:14px 16px;">NIK</td><td id="m_tdNIK" style="padding:14px 16px;"></td></tr>
+          <tr><td style="padding:14px 16px;">Jenis Kelamin</td><td id="m_tdJK" style="padding:14px 16px;"></td></tr>
+          <tr><td style="padding:14px 16px;">Tempat Lahir</td><td id="m_tdTL" style="padding:14px 16px;"></td></tr>
+          <tr><td style="padding:14px 16px;">Tgl Lahir</td><td id="m_tdTGL" style="padding:14px 16px;"></td></tr>
+          <tr><td style="padding:14px 16px;">Alamat</td><td id="m_tdAlamat" style="padding:14px 16px;"></td></tr>
+          <tr><td style="padding:14px 16px;">HP</td><td id="m_tdHP" style="padding:14px 16px;"></td></tr>
+          <tr><td style="padding:14px 16px;">Email</td><td id="m_tdEmail" style="padding:14px 16px;"></td></tr>
+        </table>
+        <div class="form-check" style="margin-top:16px;">
+          <input class="form-check-input" type="checkbox" id="m_chkSyarat">
+          <label class="form-check-label">
+            Saya telah membaca dan menyetujui <a href="<?php echo base_url('myesc.id/TermsandConditions.html') ?>" target="_blank">Syarat dan Ketentuan</a>
+          </label>
+        </div>
+      </div>
+    `
+  };
+
+  const mobileStepTitles = [
+    "Sudah Pernah Membuat Kartu Anggota?",
+    "Lengkapi Data Anda",
+    "Konfirmasi Data"
+  ];
+
+  let currentMobileStep = 0;
+
+  function updateMobileUI(stepIndex) {
+    currentMobileStep = stepIndex;
+    document.getElementById('mobile-step-title').innerText = mobileStepTitles[stepIndex];
+    document.querySelectorAll('.step-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === stepIndex);
+    });
+    document.getElementById('mobile-content').innerHTML = mobileStepContents[stepIndex];
+    document.getElementById('mobile-btn-prev').style.display = stepIndex === 0 ? 'none' : 'block';
+    document.getElementById('mobile-btn-next').style.display = stepIndex === 2 ? 'none' : 'block';
+    document.getElementById('mobile-btn-submit').style.display = stepIndex === 2 ? 'block' : 'none';
+    syncToMobileUI();
+  }
+
+  function syncToMobileUI() {
+    if (currentMobileStep === 0) {
+      const val = $('#sudahpernahfondationclass1').prop('checked') ? '1' : '2';
+      $(`#m_sudahpernahfondationclass${val}`).prop('checked', true);
+    }
+    if (currentMobileStep === 1) {
+      $('#m_namalengkap').val($('#namalengkap').val());
+      $('#m_nik').val($('#nik').val());
+      $('#m_jeniskelamin').val($('#jeniskelamin').val());
+      $('#m_tempatlahir').val($('#tempatlahir').val());
+      $('#m_tanggallahir').val($('#tanggallahir').val());
+      $('#m_alamatrumah').val($('#alamatrumah').val());
+      $('#m_nohp').val($('#nohp').val());
+      $('#m_email').val($('#email').val());
+      $('#m_password').val($('#password').val());
+      $('#m_password2').val($('#password2').val());
+    }
+    if (currentMobileStep === 2) {
+      $('#m_tdNama').text($('#namalengkap').val());
+      $('#m_tdNIK').text($('#nik').val());
+      $('#m_tdJK').text($('#jeniskelamin').val());
+      $('#m_tdTL').text($('#tempatlahir').val());
+      $('#m_tdTGL').text($('#tanggallahir').val());
+      $('#m_tdAlamat').text($('#alamatrumah').val());
+      $('#m_tdHP').text($('#nohp').val());
+      $('#m_tdEmail').text($('#email').val());
+      $('#m_chkSyarat').prop('checked', $('#chkSyaratDanKetentuan').prop('checked'));
+    }
+  }
+
+  function syncFromMobileUI() {
+    if (currentMobileStep === 0) {
+      const val = $('#m_sudahpernahfondationclass1').prop('checked') ? '1' : '2';
+      $(`#sudahpernahfondationclass${val}`).prop('checked', true);
+    }
+    if (currentMobileStep === 1) {
+      $('#namalengkap').val($('#m_namalengkap').val());
+      $('#nik').val($('#m_nik').val());
+      $('#jeniskelamin').val($('#m_jeniskelamin').val());
+      $('#tempatlahir').val($('#m_tempatlahir').val());
+      $('#tanggallahir').val($('#m_tanggallahir').val());
+      $('#alamatrumah').val($('#m_alamatrumah').val());
+      $('#nohp').val($('#m_nohp').val());
+      $('#email').val($('#m_email').val());
+      $('#password').val($('#m_password').val());
+      $('#password2').val($('#m_password2').val());
+    }
+    if (currentMobileStep === 2) {
+      $('#chkSyaratDanKetentuan').prop('checked', $('#m_chkSyarat').prop('checked'));
+    }
+  }
+
+  // ✅ JALANKAN SEMUA LOGIKA SETELAH DOM SIAP
+  document.addEventListener('DOMContentLoaded', function() {
+    // Terapkan mode mobile
     if (isMobileApp()) {
       document.body.classList.add('mobile-app');
-    } else {
-      document.body.classList.remove('mobile-app');
+      document.querySelector('.mobile-custom-ui').style.display = 'flex';
+      updateMobileUI(0);
     }
-  }
 
-  applyMobileAppMode();
-  // Konten setiap step (copy dari HTML asli)
-const mobileStepContents = {
-  0: `
-    <div class="card">
-      <h3 class="text-center">Sudah Pernah Membuat Kartu Anggota Jemaat ESC?</h3>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass1" value="1">
-        <label class="form-check-label" for="m_sudahpernahfondationclass1">Sudah</label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass2" value="2" checked>
-        <label class="form-check-label" for="m_sudahpernahfondationclass2">Belum</label>
-      </div>
-    </div>
-  `,
-  1: `
-    <div class="card">
-      <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
-      <label>Nama Lengkap:</label>
-      <input type="text" id="m_namalengkap" class="form-control" placeholder="Nama Lengkap">
-      
-      <label>NIK (KTP):</label>
-      <input type="text" id="m_nik" class="form-control" placeholder="Nomor Induk Kependudukan">
-      
-      <label>Jenis Kelamin:</label>
-      <select id="m_jeniskelamin" class="form-control">
-        <option value="">Pilih jenis kelamin...</option>
-        <option value="Laki-laki">Laki-laki</option>
-        <option value="Perempuan">Perempuan</option>
-      </select>
-      
-      <!-- Tambahkan field lain sesuai kebutuhan -->
-      <label>Tempat Lahir:</label>
-      <input type="text" id="m_tempatlahir" class="form-control" placeholder="Tempat lahir">
-      
-      <label>Tanggal Lahir:</label>
-      <input type="date" id="m_tanggallahir" class="form-control">
-      
-      <label>Alamat:</label>
-      <input type="text" id="m_alamatrumah" class="form-control" placeholder="Alamat tempat tinggal">
-      
-      <label>Nomor WhatsApp:</label>
-      <input type="text" id="m_nohp" class="form-control" placeholder="Contoh: 08123456789">
-      
-      <label>Email:</label>
-      <input type="text" id="m_email" class="form-control" placeholder="Email">
-      
-      <label>Password:</label>
-      <input type="password" id="m_password" class="form-control" placeholder="Password">
-      
-      <label>Konfirmasi Password:</label>
-      <input type="password" id="m_password2" class="form-control" placeholder="Konfirmasi Password">
-    </div>
-  `,
-  2: `
-    <div class="card">
-      <h3 class="text-center">Konfirmasi Data Anda:</h3>
-      <table class="table" style="width:100%; background:white; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-        <tr><td style="width:30%;">Nama</td><td id="m_tdNama"></td></tr>
-        <tr><td>NIK</td><td id="m_tdNIK"></td></tr>
-        <tr><td>Jenis Kelamin</td><td id="m_tdJK"></td></tr>
-        <tr><td>Tempat Lahir</td><td id="m_tdTL"></td></tr>
-        <tr><td>Tgl Lahir</td><td id="m_tdTGL"></td></tr>
-        <tr><td>Alamat</td><td id="m_tdAlamat"></td></tr>
-        <tr><td>HP</td><td id="m_tdHP"></td></tr>
-        <tr><td>Email</td><td id="m_tdEmail"></td></tr>
-      </table>
-      
-      <div class="form-check" style="margin-top:16px;">
-        <input class="form-check-input" type="checkbox" id="m_chkSyarat">
-        <label class="form-check-label">
-          Saya telah membaca dan menyetujui <a href="<?php echo base_url('myesc.id/TermsandConditions.html') ?>" target="_blank">Syarat dan Ketentuan</a>
-        </label>
-      </div>
-    </div>
-  `
-};
+    // Pasang event listener tombol
+    document.getElementById('mobile-btn-prev').onclick = () => {
+      syncFromMobileUI();
+      $('#smartwizard').smartWizard("prev");
+    };
 
-const mobileStepTitles = [
-  "Sudah Pernah Membuat Kartu Anggota?",
-  "Lengkapi Data Anda",
-  "Konfirmasi Data"
-];
+    document.getElementById('mobile-btn-next').onclick = () => {
+      syncFromMobileUI();
+      if (currentMobileStep === 1) {
+        const validator = $("#formBuatAkun").data("bootstrapValidator");
+        if (validator) {
+          validator.validate();
+          if (!validator.isValid()) {
+            swal("Perhatian", "Harap lengkapi data dengan benar", "warning");
+            return;
+          }
+        }
+        if ($('#m_password').val() !== $('#m_password2').val()) {
+          swal("Password", "Konfirmasi password tidak cocok", "warning");
+          return;
+        }
+      }
+      $('#smartwizard').smartWizard("next");
+    };
 
-let currentMobileStep = 0;
+    document.getElementById('mobile-btn-submit').onclick = () => {
+      syncFromMobileUI();
+      onFinish();
+    };
 
-function updateMobileUI(stepIndex) {
-  currentMobileStep = stepIndex;
-  document.getElementById('mobile-step-title').innerText = mobileStepTitles[stepIndex];
-  
-  // Update dot indicator
-  document.querySelectorAll('.step-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === stepIndex);
+    document.getElementById('mobile-btn-cancel').onclick = onCancel;
+
+    // Sinkronisasi saat SmartWizard berpindah step
+    $('#smartwizard').on('showStep', function(e, anchor, stepIndex) {
+      if (isMobileApp()) {
+        updateMobileUI(stepIndex);
+      }
+    });
+
+    // Responsif saat resize
+    window.addEventListener('resize', function() {
+      if (isMobileApp()) {
+        document.body.classList.add('mobile-app');
+        document.querySelector('.mobile-custom-ui').style.display = 'flex';
+      } else {
+        document.body.classList.remove('mobile-app');
+        document.querySelector('.mobile-custom-ui').style.display = 'none';
+      }
+    });
   });
-  
-  // Tampilkan konten
-  document.getElementById('mobile-content').innerHTML = mobileStepContents[stepIndex];
-  
-  // Atur tombol
-  document.getElementById('mobile-btn-prev').style.display = stepIndex === 0 ? 'none' : 'block';
-  document.getElementById('mobile-btn-next').style.display = stepIndex === 2 ? 'none' : 'block';
-  document.getElementById('mobile-btn-submit').style.display = stepIndex === 2 ? 'block' : 'none';
-  
-  // Sinkronisasi nilai dari form asli ke UI mobile
-  syncToMobileUI();
-}
-
-function syncToMobileUI() {
-  // Step 1: radio
-  if (currentMobileStep === 0) {
-    const val = $('#sudahpernahfondationclass1').prop('checked') ? '1' : '2';
-    $(`#m_sudahpernahfondationclass${val}`).prop('checked', true);
-  }
-  
-  // Step 2: input
-  if (currentMobileStep === 1) {
-    $('#m_namalengkap').val($('#namalengkap').val());
-    $('#m_nik').val($('#nik').val());
-    $('#m_jeniskelamin').val($('#jeniskelamin').val());
-    $('#m_tempatlahir').val($('#tempatlahir').val());
-    $('#m_tanggallahir').val($('#tanggallahir').val());
-    $('#m_alamatrumah').val($('#alamatrumah').val());
-    $('#m_nohp').val($('#nohp').val());
-    $('#m_email').val($('#email').val());
-    $('#m_password').val($('#password').val());
-    $('#m_password2').val($('#password2').val());
-  }
-  
-  // Step 3: konfirmasi
-  if (currentMobileStep === 2) {
-    $('#m_tdNama').text($('#namalengkap').val());
-    $('#m_tdNIK').text($('#nik').val());
-    $('#m_tdJK').text($('#jeniskelamin').val());
-    $('#m_tdTL').text($('#tempatlahir').val());
-    $('#m_tdTGL').text($('#tanggallahir').val());
-    $('#m_tdAlamat').text($('#alamatrumah').val());
-    $('#m_tdHP').text($('#nohp').val());
-    $('#m_tdEmail').text($('#email').val());
-    $('#m_chkSyarat').prop('checked', $('#chkSyaratDanKetentuan').prop('checked'));
-  }
-}
-
-function syncFromMobileUI() {
-  // Step 1
-  if (currentMobileStep === 0) {
-    const val = $('#m_sudahpernahfondationclass1').prop('checked') ? '1' : '2';
-    $(`#sudahpernahfondationclass${val}`).prop('checked', true);
-  }
-  
-  // Step 2
-  if (currentMobileStep === 1) {
-    $('#namalengkap').val($('#m_namalengkap').val());
-    $('#nik').val($('#m_nik').val());
-    $('#jeniskelamin').val($('#m_jeniskelamin').val());
-    $('#tempatlahir').val($('#m_tempatlahir').val());
-    $('#tanggallahir').val($('#m_tanggallahir').val());
-    $('#alamatrumah').val($('#m_alamatrumah').val());
-    $('#nohp').val($('#m_nohp').val());
-    $('#email').val($('#m_email').val());
-    $('#password').val($('#m_password').val());
-    $('#password2').val($('#m_password2').val());
-  }
-  
-  // Step 3
-  if (currentMobileStep === 2) {
-    $('#chkSyaratDanKetentuan').prop('checked', $('#m_chkSyarat').prop('checked'));
-  }
-}
-
-// Event listener tombol mobile
-document.getElementById('mobile-btn-prev').onclick = () => {
-  syncFromMobileUI();
-  $('#smartwizard').smartWizard("prev");
-};
-
-document.getElementById('mobile-btn-next').onclick = () => {
-  syncFromMobileUI();
-  
-  // Validasi hanya di step 1 → step 2
-  if (currentMobileStep === 1) {
-    const validator = $("#formBuatAkun").data("bootstrapValidator");
-    validator.validate();
-    if (!validator.isValid()) {
-      swal("Perhatian", "Harap lengkapi data dengan benar", "warning");
-      return;
-    }
-    if ($('#m_password').val() !== $('#m_password2').val()) {
-      swal("Password", "Konfirmasi password tidak cocok", "warning");
-      return;
-    }
-  }
-  
-  $('#smartwizard').smartWizard("next");
-};
-
-document.getElementById('mobile-btn-submit').onclick = () => {
-  syncFromMobileUI();
-  onFinish();
-};
-
-document.getElementById('mobile-btn-cancel').onclick = onCancel;
-
-// Tampilkan UI mobile jika mode mobile
-function toggleMobileUI() {
-  const isMobile = isMobileApp();
-  document.body.classList.toggle('mobile-app', isMobile);
-  
-  const mobileUI = document.querySelector('.mobile-custom-ui');
-  if (isMobile) {
-    mobileUI.style.display = 'flex';
-    updateMobileUI(0); // mulai dari step 0
-  } else {
-    mobileUI.style.display = 'none';
-  }
-}
-
-// Panggil saat load dan resize
-toggleMobileUI();
-window.addEventListener('resize', toggleMobileUI);
-
-// Sinkronkan saat SmartWizard berpindah step
-$('#smartwizard').on('showStep', function(e, anchor, stepIndex) {
-  if (isMobileApp()) {
-    updateMobileUI(stepIndex);
-  }
-});
-  window.addEventListener('resize', applyMobileAppMode);
 </script>
 
 
