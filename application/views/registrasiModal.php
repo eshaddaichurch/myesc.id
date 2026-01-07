@@ -105,7 +105,7 @@ body.mobile-app .nav {
 
 /* wizard full height */
 body.mobile-app #smartwizard {
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
 }
@@ -164,7 +164,6 @@ body.mobile-app {
 .mobile-app .tab-pane > .row {
   background: #fff;
   border-radius: 16px;
-  padding: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,.06);
 }
 
@@ -270,9 +269,8 @@ body.mobile-app > .modal .modal-body > .row > .col-12:first-child h3::after {
 
 body.mobile-app label {
   font-size: 13px;
-  font-weight: 500;
-  color: #444;
-  margin-bottom: 6px;
+  font-weight: 300;
+  color: #212529;
 }
 
 body.mobile-app .form-control,
@@ -284,7 +282,7 @@ body.mobile-app select {
 
 
 body.mobile-app .tab-content {
-  background: #ff5008;
+  background: linear-gradient(180deg, #ff6a00, #ff3d00);
   margin-top: 24px;
   padding: 5px 15px;
   box-shadow: 0 -10px 40px rgba(0,0,0,.25);
