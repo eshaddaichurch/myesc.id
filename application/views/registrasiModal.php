@@ -286,9 +286,8 @@ body.mobile-app select {
 
 body.mobile-app .tab-content {
   background: #fff;
-  border-radius: 28px 28px 0 0;
   margin-top: 24px;
-  padding: 24px 16px;
+  padding: 5px 15px;
   box-shadow: 0 -10px 40px rgba(0,0,0,.25);
 }
 
