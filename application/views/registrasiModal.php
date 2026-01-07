@@ -181,7 +181,6 @@ body.mobile-app {
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 12px;
-  border: 2px solid transparent;
   display: flex;
   align-items: center;
   transition: all .2s ease;
@@ -285,7 +284,7 @@ body.mobile-app select {
 
 
 body.mobile-app .tab-content {
-  background: #fff;
+  background: #ff5008;
   margin-top: 24px;
   padding: 5px 15px;
   box-shadow: 0 -10px 40px rgba(0,0,0,.25);
