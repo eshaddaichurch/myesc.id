@@ -80,423 +80,223 @@
       }
   }
 
-</style>
 
-<style>
-/* ... (biarkan CSS global & warna SmartWizard tetap seperti aslinya) ... */
+  /* ================= MOBILE APP MODE ================= */
+body.mobile-app .modal-dialog {
+  margin: 0;
+  height: 100vh;
+}
 
-/* ========================================== */
-/* ✅ MOBILE-ONLY TAMPILAN (inspirasi Gojek/Tokopedia) */
-/* ========================================== */
-@media screen and (max-width: 768px) {
-  body:not(.mobile-app) {
-    /* Sembunyikan seluruh UI bawaan SmartWizard di mobile */
-    .mobile-app #smartwizard > ul.nav,
-    .mobile-app #smartwizard > .progress,
-    .mobile-app #smartwizard > .sw-toolbar {
-      display: none !important;
-    }
+body.mobile-app .modal-content {
+  height: 100vh;
+  border-radius: 0;
+}
 
-    /* UI MOBILE CUSTOM */
-.mobile-custom-ui {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #f8f9fa;
+/* sembunyikan header step (angka 1–2–3) */
+/* body.mobile-app .sw-anchor,
+body.mobile-app .nav-progress {
+  display: none !important;
+} */
+
+body.mobile-app .nav {
+  display: none !important;
+}
+
+
+/* wizard full height */
+body.mobile-app #smartwizard {
+  height: 90%;
   display: flex;
   flex-direction: column;
-  z-index: 2000;
-  padding-top: 60px;
-  padding-bottom: 90px;
 }
 
-.mobile-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #ff6d00, #ff3d00);
-  color: white;
-  padding: 20px 16px 12px;
-  text-align: center;
-  z-index: 101;
-}
-
-.mobile-step-indicator {
-  margin-bottom: 12px;
-}
-.step-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  margin: 0 4px;
-}
-.step-dot.active {
-  background: white;
-}
-
-.mobile-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.mobile-step-content {
+/* konten step scroll sendiri */
+body.mobile-app .tab-content {
   flex: 1;
   overflow-y: auto;
-  padding: 0 16px;
+  padding: 16px;
+  margin-top: 0 !important;
 }
 
-.mobile-toolbar {
-  position: fixed;
+/* toolbar fix di bawah seperti app */
+body.mobile-app .sw-toolbar-bottom {
+  position: sticky;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
-  z-index: 101;
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,.1);
+  z-index: 10;
 }
 
-.btn-mobile {
+/* tombol besar & full width */
+body.mobile-app .sw-btn-group button,
+body.mobile-app .btnSelesai {
   width: 100%;
-  padding: 16px;
-  border-radius: 14px;
+  padding: 14px;
   font-size: 16px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #ff8100, #ff5008);
-  color: white;
-  box-shadow: 0 4px 12px rgba(255,129,0,0.25);
-}
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(255,129,0,0.4);
-}
-
-.btn-outline {
-  background: #f1f5f9;
-  color: #333;
-  border: 1px solid #e2e8f0;
-}
-.btn-outline:hover {
-  background: #e2e8f0;
-}
-
-.btn-cancel {
-  background: #f9fafb;
-  color: #6b7280;
-  border: 1px solid #e5e7eb;
-}
-.btn-cancel:hover {
-  background: #f3f4f6;
-}
-
-/* Konten step mirip form card */
-.mobile-step-content .card {
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.mobile-step-content label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
   margin-bottom: 8px;
-  color: #333;
 }
 
-.mobile-step-content .form-control,
-.mobile-step-content select {
-  width: 100%;
-  height: 52px;
-  padding: 0 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  font-size: 16px;
-  background: white;
-}
-.mobile-step-content .form-control:focus,
-.mobile-step-content select:focus {
-  border-color: #ff8100;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(255,129,0,0.15);
+/* judul lebih rapat */
+body.mobile-app h3.text-center {
+  font-size: 18px;
+  margin-bottom: 16px;
 }
 
-/* Radio button card */
-.mobile-step-content .form-check {
-  background: white;
-  border: 1px solid #e5e7eb;
+/* ================= APP LOOK & FEEL ================= */
+body.mobile-app {
+  background: #f6f7f9;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Header ala mobile app */
+.mobile-app .modal-body > .row > .col-12:first-child {
+  padding: 20px 16px 10px;
+}
+
+.mobile-app h3.text-center {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Step container jadi card */
+.mobile-app .tab-pane > .row {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+/* Question text */
+.mobile-app .tab-pane h3 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+
+/* ================= RADIO CARD ================= */
+.mobile-app .form-check {
+  background: #f9fafb;
   border-radius: 14px;
-  padding: 16px 16px 16px 50px;
+  padding: 16px;
   margin-bottom: 12px;
-  position: relative;
-  min-height: 52px;
   display: flex;
   align-items: center;
+  transition: all .2s ease;
 }
-.mobile-step-content .form-check-input {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  accent-color: #ff8100;
+
+.mobile-app .form-check-input {
+  transform: scale(1.3);
+  margin-right: 12px;
 }
-.mobile-step-content .form-check:has(input:checked) {
+
+.mobile-app .form-check-input:checked ~ .form-check-label {
+  font-weight: 600;
+}
+
+.mobile-app .form-check:has(input:checked) {
   border-color: #ff8100;
-  background: #fff9f3;
+  background: #fff6ed;
 }
-  }
 
-  /* Aktifkan hanya jika benar-benar mobile */
-  body.mobile-app {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f8f9fa;
-  }
-
-  /* Header fix ala app */
-  .mobile-app .header-gradient {
-    padding: 24px 16px 16px;
-    background: linear-gradient(135deg, #ff6d00, #ff3d00);
-    color: white;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    margin-bottom: 0;
-  }
-
-  .mobile-app .header-gradient h3 {
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0;
-    line-height: 1.3;
-  }
-
-  .mobile-app .header-gradient h3::after {
-    content: "Buat akun dan lengkapi data Anda";
-    display: block;
-    font-size: 14px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.9);
-    margin-top: 6px;
-  }
-
-  /* Konten utama */
-  .mobile-app #smartwizard {
-    height: auto !important;
-    min-height: calc(100vh - 56px); /* kurangi header */
-    display: block;
-    overflow: visible;
-  }
-
-  .mobile-app .tab-content {
-    padding: 0 16px 80px; /* ruang untuk tombol bawah */
-    background: transparent !important;
-    overflow: visible;
-  }
-
-  .mobile-app .tab-pane > .row {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
-    margin: 16px 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    border: none;
-  }
-
-  /* Judul step */
-  .mobile-app .tab-pane h3.text-center {
-    font-size: 18px;
-    font-weight: 700;
-    color: #111;
-    margin-bottom: 20px;
-    line-height: 1.4;
-  }
-
-  /* Input field */
-  .mobile-app .form-control,
-  .mobile-app select {
-    height: 52px;
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-    padding: 0 16px;
-    font-size: 16px; /* penting untuk hindari zoom di iOS */
-    background-color: #fff;
-    box-shadow: none;
-    transition: border-color 0.2s;
-  }
-
-  .mobile-app .form-control:focus,
-  .mobile-app select:focus {
-    border-color: #ff8100;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 129, 0, 0.15);
-  }
-
-  /* Label */
-  .mobile-app .form-holder-2 label {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #333;
-    display: block;
-  }
-
-  /* Radio button card */
-  .mobile-app .form-check {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 14px;
-    padding: 16px 16px 16px 50px;
-    margin-bottom: 12px;
-    position: relative;
-    min-height: 52px;
-    display: flex;
-    align-items: center;
-  }
-
-  .mobile -app .form-check-input {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 22px;
-    height: 22px;
-    accent-color: #ff8100;
-  }
-
-  .mobile-app .form-check:has(input:checked) {
-    border-color: #ff8100;
-    background-color: #fff9f3;
-  }
-
-  .mobile-app .form-check-label {
-    font-size: 16px;
-    font-weight: 500;
-    color: #222;
-  }
-
-  /* Tombol aksi bawah */
-  .mobile-app .sw-toolbar-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 16px;
-    box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .mobile-app .sw-btn-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .mobile-app .sw-btn-group button,
-  .mobile-app .btnSelesai {
-    width: 100%;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 14px;
-    border: none;
-    letter-spacing: 0.3px;
-    transition: all 0.2s ease;
-  }
-
-  .mobile-app .sw-btn-next {
-    background: linear-gradient(135deg, #ff8100, #ff5008);
-    color: white;
-  }
-
-  .mobile-app .sw-btn-prev {
-    background: #f1f5f9;
-    color: #333;
-    border: 1px solid #e2e8f0;
-  }
-
-  .mobile-app .btnSelesai {
-    background: linear-gradient(135deg, #ff8100, #ff5008);
-    color: white;
-    font-size: 17px;
-    box-shadow: 0 4px 14px rgba(255, 129, 0, 0.3);
-  }
-
-  .mobile-app .sw-btn-next:hover,
-  .mobile-app .btnSelesai:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(255, 129, 0, 0.4);
-  }
-
-  .mobile-app .sw-btn-prev:hover {
-    background: #e2e8f0;
-  }
-
-  /* Sembunyikan tombol "Batal" default di mobile (karena sudah ada di toolbar?) */
-  .mobile-app .btn-batal-mobile {
-    display: none !important;
-  }
-
-  /* Tabel konfirmasi */
-  .mobile-app table {
-    border-collapse: collapse;
-    width: 100%;
-    background: #fff;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  }
-
-  .mobile-app table td {
-    padding: 14px 16px;
-    font-size: 15px;
-    border-bottom: 1px solid #f0f0f0;
-  }
-
-  .mobile-app table tr:last-child td {
-    border-bottom: none;
-  }
-
-  /* Checkbox syarat */
-  .mobile-app .form-check-label a {
-    color: #ff8100;
-    text-decoration: underline;
-    font-weight: 500;
-  }
-
-  /* Responsive kecil */
-  @media screen and (max-width: 480px) {
-    .mobile-app .tab-pane > .row {
-      padding: 16px;
-    }
-    .mobile-app .form-control,
-    .mobile-app select {
-      font-size: 16px;
-      height: 50px;
-    }
-  }
+/* ================= INPUT ================= */
+.mobile-app .form-control,
+.mobile-app select {
+  height: 52px;
+  border-radius: 12px;
+  border: 1.5px solid #e5e7eb;
+  padding: 12px 14px;
+  font-size: 15px;
 }
+
+.mobile-app .form-control:focus,
+.mobile-app select:focus {
+  border-color: #ff8100;
+  box-shadow: 0 0 0 3px rgba(255,129,0,.15);
+}
+
+/* ================= BUTTON ================= */
+.mobile-app .sw-toolbar-bottom {
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+.mobile-app .sw-btn-next,
+.mobile-app .btnSelesai {
+  background: linear-gradient(135deg, #ff8100, #ff5008);
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(255,129,0,.35);
+}
+
+.mobile-app .sw-btn-prev,
+.mobile-app .btn-secondary {
+  background: #f1f5f9;
+  color: #333;
+  border-radius: 14px;
+  border: none;
+}
+
+/* ================= TABLE CONFIRM ================= */
+.mobile-app table {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mobile-app table td {
+  padding: 12px;
+  font-size: 14px;
+}
+
+
+body.mobile-app {
+  background: linear-gradient(180deg, #ff6a00, #ff3d00);
+}
+
+
+
+body.mobile-app > .modal .modal-body > .row > .col-12:first-child h3::after {
+  content: "Buat akun dan lengkapi data Anda";
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,.9);
+  margin-top: 6px;
+}
+
+
+body.mobile-app label {
+  font-size: 13px;
+  font-weight: 300;
+  color: #212529;
+}
+
+body.mobile-app .form-control,
+body.mobile-app select {
+  background: #f9fafb;
+  border-radius: 14px;
+  border: 1px solid #eee;
+}
+
+
+body.mobile-app .tab-content {
+  background: linear-gradient(180deg, #ff6a00, #ff3d00);
+  margin-top: 24px;
+  padding: 5px 15px;
+  box-shadow: 0 -10px 40px rgba(0,0,0,.25);
+}
+
+body.mobile-app .sw-btn-next,
+body.mobile-app .btnSelesai {
+  height: 54px;
+  font-size: 16px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
@@ -512,33 +312,6 @@
 
             <!-- SmartWizard html -->
             <div id="smartwizard">
-
-
-              <!-- MOBILE-ONLY CUSTOM UI -->
-            <div class="mobile-custom-ui" style="display: none;">
-              <!-- Header -->
-              <div class="mobile-header">
-                <div class="mobile-step-indicator">
-                  <span class="step-dot active"></span>
-                  <span class="step-dot"></span>
-                  <span class="step-dot"></span>
-                </div>
-                <h1 id="mobile-step-title" class="mobile-title">Sudah Pernah Membuat Kartu Anggota?</h1>
-              </div>
-
-              <!-- Konten Step (akan diisi JS) -->
-              <div class="mobile-step-content" id="mobile-content">
-                <!-- Konten step 1, 2, atau 3 akan ditampilkan di sini -->
-              </div>
-
-              <!-- Toolbar Bawah -->
-              <div class="mobile-toolbar">
-                <button id="mobile-btn-prev" class="btn-mobile btn-outline" style="display: none;">Kembali</button>
-                <button id="mobile-btn-next" class="btn-mobile btn-primary">Selanjutnya</button>
-                <button id="mobile-btn-submit" class="btn-mobile btn-primary" style="display: none;">Kirim</button>
-                <button id="mobile-btn-cancel" class="btn-mobile btn-cancel">Batal</button>
-              </div>
-            </div>
 
               <ul class="nav nav-progress">
                 <li class="nav-item">
@@ -825,205 +598,16 @@
           window.innerWidth <= 768;
   }
 
-  // Konten setiap step (copy dari HTML asli)
-  const mobileStepContents = {
-    0: `
-      <div class="card">
-        <h3 class="text-center">Sudah Pernah Membuat Kartu Anggota Jemaat ESC?</h3>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass1" value="1">
-          <label class="form-check-label" for="m_sudahpernahfondationclass1">Sudah</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass2" value="2" checked>
-          <label class="form-check-label" for="m_sudahpernahfondationclass2">Belum</label>
-        </div>
-      </div>
-    `,
-    1: `
-      <div class="card">
-        <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
-        <label>Nama Lengkap:</label>
-        <input type="text" id="m_namalengkap" class="form-control" placeholder="Nama Lengkap">
-        <label>NIK (KTP):</label>
-        <input type="text" id="m_nik" class="form-control" placeholder="Nomor Induk Kependudukan">
-        <label>Jenis Kelamin:</label>
-        <select id="m_jeniskelamin" class="form-control">
-          <option value="">Pilih jenis kelamin...</option>
-          <option value="Laki-laki">Laki-laki</option>
-          <option value="Perempuan">Perempuan</option>
-        </select>
-        <label>Tempat Lahir:</label>
-        <input type="text" id="m_tempatlahir" class="form-control" placeholder="Tempat lahir">
-        <label>Tanggal Lahir:</label>
-        <input type="date" id="m_tanggallahir" class="form-control">
-        <label>Alamat:</label>
-        <input type="text" id="m_alamatrumah" class="form-control" placeholder="Alamat tempat tinggal">
-        <label>Nomor WhatsApp:</label>
-        <input type="text" id="m_nohp" class="form-control" placeholder="Contoh: 08123456789">
-        <label>Email:</label>
-        <input type="text" id="m_email" class="form-control" placeholder="Email">
-        <label>Password:</label>
-        <input type="password" id="m_password" class="form-control" placeholder="Password">
-        <label>Konfirmasi Password:</label>
-        <input type="password" id="m_password2" class="form-control" placeholder="Konfirmasi Password">
-      </div>
-    `,
-    2: `
-      <div class="card">
-        <h3 class="text-center">Konfirmasi Data Anda:</h3>
-        <table style="width:100%; background:white; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-          <tr><td style="width:30%; padding:14px 16px;">Nama</td><td id="m_tdNama" style="padding:14px 16px;"></td></tr>
-          <tr><td style="padding:14px 16px;">NIK</td><td id="m_tdNIK" style="padding:14px 16px;"></td></tr>
-          <tr><td style="padding:14px 16px;">Jenis Kelamin</td><td id="m_tdJK" style="padding:14px 16px;"></td></tr>
-          <tr><td style="padding:14px 16px;">Tempat Lahir</td><td id="m_tdTL" style="padding:14px 16px;"></td></tr>
-          <tr><td style="padding:14px 16px;">Tgl Lahir</td><td id="m_tdTGL" style="padding:14px 16px;"></td></tr>
-          <tr><td style="padding:14px 16px;">Alamat</td><td id="m_tdAlamat" style="padding:14px 16px;"></td></tr>
-          <tr><td style="padding:14px 16px;">HP</td><td id="m_tdHP" style="padding:14px 16px;"></td></tr>
-          <tr><td style="padding:14px 16px;">Email</td><td id="m_tdEmail" style="padding:14px 16px;"></td></tr>
-        </table>
-        <div class="form-check" style="margin-top:16px;">
-          <input class="form-check-input" type="checkbox" id="m_chkSyarat">
-          <label class="form-check-label">
-            Saya telah membaca dan menyetujui <a href="<?php echo base_url('myesc.id/TermsandConditions.html') ?>" target="_blank">Syarat dan Ketentuan</a>
-          </label>
-        </div>
-      </div>
-    `
-  };
-
-  const mobileStepTitles = [
-    "Sudah Pernah Membuat Kartu Anggota?",
-    "Lengkapi Data Anda",
-    "Konfirmasi Data"
-  ];
-
-  let currentMobileStep = 0;
-
-  function updateMobileUI(stepIndex) {
-    currentMobileStep = stepIndex;
-    document.getElementById('mobile-step-title').innerText = mobileStepTitles[stepIndex];
-    document.querySelectorAll('.step-dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === stepIndex);
-    });
-    document.getElementById('mobile-content').innerHTML = mobileStepContents[stepIndex];
-    document.getElementById('mobile-btn-prev').style.display = stepIndex === 0 ? 'none' : 'block';
-    document.getElementById('mobile-btn-next').style.display = stepIndex === 2 ? 'none' : 'block';
-    document.getElementById('mobile-btn-submit').style.display = stepIndex === 2 ? 'block' : 'none';
-    syncToMobileUI();
-  }
-
-  function syncToMobileUI() {
-    if (currentMobileStep === 0) {
-      const val = $('#sudahpernahfondationclass1').prop('checked') ? '1' : '2';
-      $(`#m_sudahpernahfondationclass${val}`).prop('checked', true);
-    }
-    if (currentMobileStep === 1) {
-      $('#m_namalengkap').val($('#namalengkap').val());
-      $('#m_nik').val($('#nik').val());
-      $('#m_jeniskelamin').val($('#jeniskelamin').val());
-      $('#m_tempatlahir').val($('#tempatlahir').val());
-      $('#m_tanggallahir').val($('#tanggallahir').val());
-      $('#m_alamatrumah').val($('#alamatrumah').val());
-      $('#m_nohp').val($('#nohp').val());
-      $('#m_email').val($('#email').val());
-      $('#m_password').val($('#password').val());
-      $('#m_password2').val($('#password2').val());
-    }
-    if (currentMobileStep === 2) {
-      $('#m_tdNama').text($('#namalengkap').val());
-      $('#m_tdNIK').text($('#nik').val());
-      $('#m_tdJK').text($('#jeniskelamin').val());
-      $('#m_tdTL').text($('#tempatlahir').val());
-      $('#m_tdTGL').text($('#tanggallahir').val());
-      $('#m_tdAlamat').text($('#alamatrumah').val());
-      $('#m_tdHP').text($('#nohp').val());
-      $('#m_tdEmail').text($('#email').val());
-      $('#m_chkSyarat').prop('checked', $('#chkSyaratDanKetentuan').prop('checked'));
-    }
-  }
-
-  function syncFromMobileUI() {
-    if (currentMobileStep === 0) {
-      const val = $('#m_sudahpernahfondationclass1').prop('checked') ? '1' : '2';
-      $(`#sudahpernahfondationclass${val}`).prop('checked', true);
-    }
-    if (currentMobileStep === 1) {
-      $('#namalengkap').val($('#m_namalengkap').val());
-      $('#nik').val($('#m_nik').val());
-      $('#jeniskelamin').val($('#m_jeniskelamin').val());
-      $('#tempatlahir').val($('#m_tempatlahir').val());
-      $('#tanggallahir').val($('#m_tanggallahir').val());
-      $('#alamatrumah').val($('#m_alamatrumah').val());
-      $('#nohp').val($('#m_nohp').val());
-      $('#email').val($('#m_email').val());
-      $('#password').val($('#m_password').val());
-      $('#password2').val($('#m_password2').val());
-    }
-    if (currentMobileStep === 2) {
-      $('#chkSyaratDanKetentuan').prop('checked', $('#m_chkSyarat').prop('checked'));
-    }
-  }
-
-  // ✅ JALANKAN SEMUA LOGIKA SETELAH DOM SIAP
-  document.addEventListener('DOMContentLoaded', function() {
-    // Terapkan mode mobile
+  function applyMobileAppMode() {
     if (isMobileApp()) {
       document.body.classList.add('mobile-app');
-      document.querySelector('.mobile-custom-ui').style.display = 'flex';
-      updateMobileUI(0);
+    } else {
+      document.body.classList.remove('mobile-app');
     }
+  }
 
-    // Pasang event listener tombol
-    document.getElementById('mobile-btn-prev').onclick = () => {
-      syncFromMobileUI();
-      $('#smartwizard').smartWizard("prev");
-    };
-
-    document.getElementById('mobile-btn-next').onclick = () => {
-      syncFromMobileUI();
-      if (currentMobileStep === 1) {
-        const validator = $("#formBuatAkun").data("bootstrapValidator");
-        if (validator) {
-          validator.validate();
-          if (!validator.isValid()) {
-            swal("Perhatian", "Harap lengkapi data dengan benar", "warning");
-            return;
-          }
-        }
-        if ($('#m_password').val() !== $('#m_password2').val()) {
-          swal("Password", "Konfirmasi password tidak cocok", "warning");
-          return;
-        }
-      }
-      $('#smartwizard').smartWizard("next");
-    };
-
-    document.getElementById('mobile-btn-submit').onclick = () => {
-      syncFromMobileUI();
-      onFinish();
-    };
-
-    document.getElementById('mobile-btn-cancel').onclick = onCancel;
-
-    // Sinkronisasi saat SmartWizard berpindah step
-    $('#smartwizard').on('showStep', function(e, anchor, stepIndex) {
-      if (isMobileApp()) {
-        updateMobileUI(stepIndex);
-      }
-    });
-
-    // Responsif saat resize
-    window.addEventListener('resize', function() {
-      if (isMobileApp()) {
-        document.body.classList.add('mobile-app');
-        document.querySelector('.mobile-custom-ui').style.display = 'flex';
-      } else {
-        document.body.classList.remove('mobile-app');
-        document.querySelector('.mobile-custom-ui').style.display = 'none';
-      }
-    });
-  });
+  applyMobileAppMode();
+  window.addEventListener('resize', applyMobileAppMode);
 </script>
 
 
