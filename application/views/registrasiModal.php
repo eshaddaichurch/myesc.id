@@ -259,7 +259,7 @@ body.mobile-app {
 
 
 
-body.mobile-app h3.text-center::after {
+body.mobile-app > .modal .modal-body > .row > .col-12:first-child h3::after {
   content: "Buat akun dan lengkapi data Anda";
   display: block;
   font-size: 14px;
@@ -267,6 +267,7 @@ body.mobile-app h3.text-center::after {
   color: rgba(255,255,255,.9);
   margin-top: 6px;
 }
+
 
 body.mobile-app label {
   font-size: 13px;
