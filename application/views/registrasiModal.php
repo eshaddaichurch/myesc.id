@@ -253,6 +253,67 @@ body.mobile-app {
 }
 
 
+body.mobile-app {
+  background: linear-gradient(180deg, #ff6a00, #ff3d00);
+}
+
+body.mobile-app .modal-content {
+  background: transparent;
+}
+
+body.mobile-app .modal-body {
+  padding: 0;
+}
+
+body.mobile-app .modal-content {
+  background: transparent;
+}
+
+body.mobile-app .modal-body {
+  padding: 0;
+}
+
+body.mobile-app h3.text-center::after {
+  content: "Buat akun dan lengkapi data Anda";
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,.9);
+  margin-top: 6px;
+}
+
+body.mobile-app label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+body.mobile-app .form-control,
+body.mobile-app select {
+  background: #f9fafb;
+  border-radius: 14px;
+  border: 1px solid #eee;
+}
+
+
+body.mobile-app .tab-content {
+  background: #fff;
+  border-radius: 28px 28px 0 0;
+  margin-top: 24px;
+  padding: 24px 16px;
+  box-shadow: 0 -10px 40px rgba(0,0,0,.25);
+}
+
+body.mobile-app .sw-btn-next,
+body.mobile-app .btnSelesai {
+  height: 54px;
+  font-size: 16px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
