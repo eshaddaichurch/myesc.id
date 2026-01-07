@@ -257,21 +257,7 @@ body.mobile-app {
   background: linear-gradient(180deg, #ff6a00, #ff3d00);
 }
 
-body.mobile-app .modal-content {
-  background: transparent;
-}
 
-body.mobile-app .modal-body {
-  padding: 0;
-}
-
-body.mobile-app .modal-content {
-  background: transparent;
-}
-
-body.mobile-app .modal-body {
-  padding: 0;
-}
 
 body.mobile-app h3.text-center::after {
   content: "Buat akun dan lengkapi data Anda";
