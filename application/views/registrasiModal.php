@@ -80,6 +80,69 @@
       }
   }
 
+
+  /* ================= MOBILE APP MODE ================= */
+body.mobile-app .modal-dialog {
+  margin: 0;
+  height: 100vh;
+}
+
+body.mobile-app .modal-content {
+  height: 100vh;
+  border-radius: 0;
+}
+
+/* sembunyikan header step (angka 1–2–3) */
+/* body.mobile-app .sw-anchor,
+body.mobile-app .nav-progress {
+  display: none !important;
+} */
+
+body.mobile-app .nav {
+  display: none !important;
+}
+
+
+/* wizard full height */
+body.mobile-app #smartwizard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* konten step scroll sendiri */
+body.mobile-app .tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  margin-top: 0 !important;
+}
+
+/* toolbar fix di bawah seperti app */
+body.mobile-app .sw-toolbar-bottom {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,.1);
+  z-index: 10;
+}
+
+/* tombol besar & full width */
+body.mobile-app .sw-btn-group button,
+body.mobile-app .btnSelesai {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+/* judul lebih rapat */
+body.mobile-app h3.text-center {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
@@ -117,7 +180,7 @@
                 </li>
               </ul>
 
-              <div class="tab-content" style="margin-top: -80px;">
+              <div class="tab-content">
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1" style="padding-bottom: 90px;">
                   <div class="row">
                     <div class="col-12">
@@ -353,9 +416,9 @@
 
               </div>
 
-              <div class="progress">
+              <!-- <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
+              </div> -->
             </div>
 
 
@@ -373,6 +436,24 @@
 
 <!-- Include SmartWizard JavaScript source -->
 <script type="text/javascript" src="<?php echo base_url('myesc.id/assets/jquery-smartwizard-master/dist') ?>/js/jquery.smartWizard.min.js"></script>
+
+
+<script>
+  function isMobileApp() {
+    return window.innerWidth <= 768;
+  }
+
+  function applyMobileAppMode() {
+    if (isMobileApp()) {
+      document.body.classList.add('mobile-app');
+    } else {
+      document.body.classList.remove('mobile-app');
+    }
+  }
+
+  applyMobileAppMode();
+  window.addEventListener('resize', applyMobileAppMode);
+</script>
 
 
 <script type="text/javascript">
@@ -607,6 +688,47 @@
       //   callback('<h1>'+idx+'</h1>');
       // }
     });
+
+    // ================= SWIPE GESTURE (MOBILE) =================
+    if ('ontouchstart' in window) {
+      let startX = 0;
+      const wizard = document.getElementById('smartwizard');
+
+      if (wizard) {
+        wizard.addEventListener('touchstart', function (e) {
+          startX = e.touches[0].clientX;
+        });
+
+        // wizard.addEventListener('touchend', function (e) {
+        //   let endX = e.changedTouches[0].clientX;
+        //   let diff = startX - endX;
+
+        //   if (Math.abs(diff) > 60) {
+        //     if (diff > 0) {
+        //       $('#smartwizard').smartWizard("next");
+        //     } else {
+        //       $('#smartwizard').smartWizard("prev");
+        //     }
+        //   }
+        // });
+
+        wizard.addEventListener('touchend', function (e) {
+          let stepInfo = $('#smartwizard').smartWizard("getStepInfo");
+          if (stepInfo.currentStep === stepInfo.totalSteps - 1) return;
+
+          let endX = e.changedTouches[0].clientX;
+          let diff = startX - endX;
+
+          if (Math.abs(diff) > 60) {
+            diff > 0
+              ? $('#smartwizard').smartWizard("next")
+              : $('#smartwizard').smartWizard("prev");
+          }
+        });
+
+      }
+    }
+
 
     $.fn.smartWizard.transitions.myFade = (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
       if (!$.isFunction(elmToShow.fadeOut)) {
@@ -877,16 +999,31 @@
 
   });
 
+
   function kosongkanText() {
-    $('#namalengkap').val() = '';
-    $('#nik').val() = '';
-    $('#jeniskelamin').val() = '';
-    $('#tempatlahir').val() = '';
-    $('#tanggallahir').val() = '';
-    $('#alamatrumah').val() = '';
-    $('#nohp').val() = '';
-    $('#email').val() = '';
-    $('#password').val() = '';
-    $('#password2').val() = '';
+    $('#namalengkap').val('');
+    $('#nik').val('');
+    $('#jeniskelamin').val('');
+    $('#tempatlahir').val('');
+    $('#tanggallahir').val('');
+    $('#alamatrumah').val('');
+    $('#nohp').val('');
+    $('#email').val('');
+    $('#password').val('');
+    $('#password2').val('');
   }
+
+
+  // function kosongkanText() {
+  //   $('#namalengkap').val() = '';
+  //   $('#nik').val() = '';
+  //   $('#jeniskelamin').val() = '';
+  //   $('#tempatlahir').val() = '';
+  //   $('#tanggallahir').val() = '';
+  //   $('#alamatrumah').val() = '';
+  //   $('#nohp').val() = '';
+  //   $('#email').val() = '';
+  //   $('#password').val() = '';
+  //   $('#password2').val() = '';
+  // }
 </script>
