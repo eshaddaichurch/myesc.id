@@ -90,7 +90,177 @@
 /* ========================================== */
 @media screen and (max-width: 768px) {
   body:not(.mobile-app) {
-    /* Jangan terapkan gaya mobile jika tidak dalam mode mobile */
+    /* Sembunyikan seluruh UI bawaan SmartWizard di mobile */
+    .mobile-app #smartwizard > ul.nav,
+    .mobile-app #smartwizard > .progress,
+    .mobile-app #smartwizard > .sw-toolbar {
+      display: none !important;
+    }
+
+    /* UI MOBILE CUSTOM */
+.mobile-custom-ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  padding-top: 60px;
+  padding-bottom: 90px;
+}
+
+.mobile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #ff6d00, #ff3d00);
+  color: white;
+  padding: 20px 16px 12px;
+  text-align: center;
+  z-index: 101;
+}
+
+.mobile-step-indicator {
+  margin-bottom: 12px;
+}
+.step-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  margin: 0 4px;
+}
+.step-dot.active {
+  background: white;
+}
+
+.mobile-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.mobile-step-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px;
+}
+
+.mobile-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
+  z-index: 101;
+}
+
+.btn-mobile {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff8100, #ff5008);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255,129,0,0.25);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255,129,0,0.4);
+}
+
+.btn-outline {
+  background: #f1f5f9;
+  color: #333;
+  border: 1px solid #e2e8f0;
+}
+.btn-outline:hover {
+  background: #e2e8f0;
+}
+
+.btn-cancel {
+  background: #f9fafb;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+.btn-cancel:hover {
+  background: #f3f4f6;
+}
+
+/* Konten step mirip form card */
+.mobile-step-content .card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.mobile-step-content label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.mobile-step-content .form-control,
+.mobile-step-content select {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 16px;
+  background: white;
+}
+.mobile-step-content .form-control:focus,
+.mobile-step-content select:focus {
+  border-color: #ff8100;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,129,0,0.15);
+}
+
+/* Radio button card */
+.mobile-step-content .form-check {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px 16px 16px 50px;
+  margin-bottom: 12px;
+  position: relative;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+}
+.mobile-step-content .form-check-input {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  accent-color: #ff8100;
+}
+.mobile-step-content .form-check:has(input:checked) {
+  border-color: #ff8100;
+  background: #fff9f3;
+}
   }
 
   /* Aktifkan hanya jika benar-benar mobile */
@@ -342,6 +512,33 @@
 
             <!-- SmartWizard html -->
             <div id="smartwizard">
+
+
+              <!-- MOBILE-ONLY CUSTOM UI -->
+            <div class="mobile-custom-ui" style="display: none;">
+              <!-- Header -->
+              <div class="mobile-header">
+                <div class="mobile-step-indicator">
+                  <span class="step-dot active"></span>
+                  <span class="step-dot"></span>
+                  <span class="step-dot"></span>
+                </div>
+                <h1 id="mobile-step-title" class="mobile-title">Sudah Pernah Membuat Kartu Anggota?</h1>
+              </div>
+
+              <!-- Konten Step (akan diisi JS) -->
+              <div class="mobile-step-content" id="mobile-content">
+                <!-- Konten step 1, 2, atau 3 akan ditampilkan di sini -->
+              </div>
+
+              <!-- Toolbar Bawah -->
+              <div class="mobile-toolbar">
+                <button id="mobile-btn-prev" class="btn-mobile btn-outline" style="display: none;">Kembali</button>
+                <button id="mobile-btn-next" class="btn-mobile btn-primary">Selanjutnya</button>
+                <button id="mobile-btn-submit" class="btn-mobile btn-primary" style="display: none;">Kirim</button>
+                <button id="mobile-btn-cancel" class="btn-mobile btn-cancel">Batal</button>
+              </div>
+            </div>
 
               <ul class="nav nav-progress">
                 <li class="nav-item">
@@ -637,6 +834,232 @@
   }
 
   applyMobileAppMode();
+  // Konten setiap step (copy dari HTML asli)
+const mobileStepContents = {
+  0: `
+    <div class="card">
+      <h3 class="text-center">Sudah Pernah Membuat Kartu Anggota Jemaat ESC?</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass1" value="1">
+        <label class="form-check-label" for="m_sudahpernahfondationclass1">Sudah</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="sudahpernahfondationclass" id="m_sudahpernahfondationclass2" value="2" checked>
+        <label class="form-check-label" for="m_sudahpernahfondationclass2">Belum</label>
+      </div>
+    </div>
+  `,
+  1: `
+    <div class="card">
+      <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
+      <label>Nama Lengkap:</label>
+      <input type="text" id="m_namalengkap" class="form-control" placeholder="Nama Lengkap">
+      
+      <label>NIK (KTP):</label>
+      <input type="text" id="m_nik" class="form-control" placeholder="Nomor Induk Kependudukan">
+      
+      <label>Jenis Kelamin:</label>
+      <select id="m_jeniskelamin" class="form-control">
+        <option value="">Pilih jenis kelamin...</option>
+        <option value="Laki-laki">Laki-laki</option>
+        <option value="Perempuan">Perempuan</option>
+      </select>
+      
+      <!-- Tambahkan field lain sesuai kebutuhan -->
+      <label>Tempat Lahir:</label>
+      <input type="text" id="m_tempatlahir" class="form-control" placeholder="Tempat lahir">
+      
+      <label>Tanggal Lahir:</label>
+      <input type="date" id="m_tanggallahir" class="form-control">
+      
+      <label>Alamat:</label>
+      <input type="text" id="m_alamatrumah" class="form-control" placeholder="Alamat tempat tinggal">
+      
+      <label>Nomor WhatsApp:</label>
+      <input type="text" id="m_nohp" class="form-control" placeholder="Contoh: 08123456789">
+      
+      <label>Email:</label>
+      <input type="text" id="m_email" class="form-control" placeholder="Email">
+      
+      <label>Password:</label>
+      <input type="password" id="m_password" class="form-control" placeholder="Password">
+      
+      <label>Konfirmasi Password:</label>
+      <input type="password" id="m_password2" class="form-control" placeholder="Konfirmasi Password">
+    </div>
+  `,
+  2: `
+    <div class="card">
+      <h3 class="text-center">Konfirmasi Data Anda:</h3>
+      <table class="table" style="width:100%; background:white; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+        <tr><td style="width:30%;">Nama</td><td id="m_tdNama"></td></tr>
+        <tr><td>NIK</td><td id="m_tdNIK"></td></tr>
+        <tr><td>Jenis Kelamin</td><td id="m_tdJK"></td></tr>
+        <tr><td>Tempat Lahir</td><td id="m_tdTL"></td></tr>
+        <tr><td>Tgl Lahir</td><td id="m_tdTGL"></td></tr>
+        <tr><td>Alamat</td><td id="m_tdAlamat"></td></tr>
+        <tr><td>HP</td><td id="m_tdHP"></td></tr>
+        <tr><td>Email</td><td id="m_tdEmail"></td></tr>
+      </table>
+      
+      <div class="form-check" style="margin-top:16px;">
+        <input class="form-check-input" type="checkbox" id="m_chkSyarat">
+        <label class="form-check-label">
+          Saya telah membaca dan menyetujui <a href="<?php echo base_url('myesc.id/TermsandConditions.html') ?>" target="_blank">Syarat dan Ketentuan</a>
+        </label>
+      </div>
+    </div>
+  `
+};
+
+const mobileStepTitles = [
+  "Sudah Pernah Membuat Kartu Anggota?",
+  "Lengkapi Data Anda",
+  "Konfirmasi Data"
+];
+
+let currentMobileStep = 0;
+
+function updateMobileUI(stepIndex) {
+  currentMobileStep = stepIndex;
+  document.getElementById('mobile-step-title').innerText = mobileStepTitles[stepIndex];
+  
+  // Update dot indicator
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === stepIndex);
+  });
+  
+  // Tampilkan konten
+  document.getElementById('mobile-content').innerHTML = mobileStepContents[stepIndex];
+  
+  // Atur tombol
+  document.getElementById('mobile-btn-prev').style.display = stepIndex === 0 ? 'none' : 'block';
+  document.getElementById('mobile-btn-next').style.display = stepIndex === 2 ? 'none' : 'block';
+  document.getElementById('mobile-btn-submit').style.display = stepIndex === 2 ? 'block' : 'none';
+  
+  // Sinkronisasi nilai dari form asli ke UI mobile
+  syncToMobileUI();
+}
+
+function syncToMobileUI() {
+  // Step 1: radio
+  if (currentMobileStep === 0) {
+    const val = $('#sudahpernahfondationclass1').prop('checked') ? '1' : '2';
+    $(`#m_sudahpernahfondationclass${val}`).prop('checked', true);
+  }
+  
+  // Step 2: input
+  if (currentMobileStep === 1) {
+    $('#m_namalengkap').val($('#namalengkap').val());
+    $('#m_nik').val($('#nik').val());
+    $('#m_jeniskelamin').val($('#jeniskelamin').val());
+    $('#m_tempatlahir').val($('#tempatlahir').val());
+    $('#m_tanggallahir').val($('#tanggallahir').val());
+    $('#m_alamatrumah').val($('#alamatrumah').val());
+    $('#m_nohp').val($('#nohp').val());
+    $('#m_email').val($('#email').val());
+    $('#m_password').val($('#password').val());
+    $('#m_password2').val($('#password2').val());
+  }
+  
+  // Step 3: konfirmasi
+  if (currentMobileStep === 2) {
+    $('#m_tdNama').text($('#namalengkap').val());
+    $('#m_tdNIK').text($('#nik').val());
+    $('#m_tdJK').text($('#jeniskelamin').val());
+    $('#m_tdTL').text($('#tempatlahir').val());
+    $('#m_tdTGL').text($('#tanggallahir').val());
+    $('#m_tdAlamat').text($('#alamatrumah').val());
+    $('#m_tdHP').text($('#nohp').val());
+    $('#m_tdEmail').text($('#email').val());
+    $('#m_chkSyarat').prop('checked', $('#chkSyaratDanKetentuan').prop('checked'));
+  }
+}
+
+function syncFromMobileUI() {
+  // Step 1
+  if (currentMobileStep === 0) {
+    const val = $('#m_sudahpernahfondationclass1').prop('checked') ? '1' : '2';
+    $(`#sudahpernahfondationclass${val}`).prop('checked', true);
+  }
+  
+  // Step 2
+  if (currentMobileStep === 1) {
+    $('#namalengkap').val($('#m_namalengkap').val());
+    $('#nik').val($('#m_nik').val());
+    $('#jeniskelamin').val($('#m_jeniskelamin').val());
+    $('#tempatlahir').val($('#m_tempatlahir').val());
+    $('#tanggallahir').val($('#m_tanggallahir').val());
+    $('#alamatrumah').val($('#m_alamatrumah').val());
+    $('#nohp').val($('#m_nohp').val());
+    $('#email').val($('#m_email').val());
+    $('#password').val($('#m_password').val());
+    $('#password2').val($('#m_password2').val());
+  }
+  
+  // Step 3
+  if (currentMobileStep === 2) {
+    $('#chkSyaratDanKetentuan').prop('checked', $('#m_chkSyarat').prop('checked'));
+  }
+}
+
+// Event listener tombol mobile
+document.getElementById('mobile-btn-prev').onclick = () => {
+  syncFromMobileUI();
+  $('#smartwizard').smartWizard("prev");
+};
+
+document.getElementById('mobile-btn-next').onclick = () => {
+  syncFromMobileUI();
+  
+  // Validasi hanya di step 1 → step 2
+  if (currentMobileStep === 1) {
+    const validator = $("#formBuatAkun").data("bootstrapValidator");
+    validator.validate();
+    if (!validator.isValid()) {
+      swal("Perhatian", "Harap lengkapi data dengan benar", "warning");
+      return;
+    }
+    if ($('#m_password').val() !== $('#m_password2').val()) {
+      swal("Password", "Konfirmasi password tidak cocok", "warning");
+      return;
+    }
+  }
+  
+  $('#smartwizard').smartWizard("next");
+};
+
+document.getElementById('mobile-btn-submit').onclick = () => {
+  syncFromMobileUI();
+  onFinish();
+};
+
+document.getElementById('mobile-btn-cancel').onclick = onCancel;
+
+// Tampilkan UI mobile jika mode mobile
+function toggleMobileUI() {
+  const isMobile = isMobileApp();
+  document.body.classList.toggle('mobile-app', isMobile);
+  
+  const mobileUI = document.querySelector('.mobile-custom-ui');
+  if (isMobile) {
+    mobileUI.style.display = 'flex';
+    updateMobileUI(0); // mulai dari step 0
+  } else {
+    mobileUI.style.display = 'none';
+  }
+}
+
+// Panggil saat load dan resize
+toggleMobileUI();
+window.addEventListener('resize', toggleMobileUI);
+
+// Sinkronkan saat SmartWizard berpindah step
+$('#smartwizard').on('showStep', function(e, anchor, stepIndex) {
+  if (isMobileApp()) {
+    updateMobileUI(stepIndex);
+  }
+});
   window.addEventListener('resize', applyMobileAppMode);
 </script>
 
