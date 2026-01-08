@@ -1,7 +1,3 @@
-myesc.id registrasi lama
-
-
-
 
 
 <!-- Animate CSS for the css animation support if needed -->
@@ -13,6 +9,33 @@ myesc.id registrasi lama
 
 
 <style>
+
+    /* ===================================== */
+  /* SMARTWIZARD SQUARE - FORCE COLOR */
+  /* ===================================== */
+
+  .sw-theme-square .nav-link.active,
+  .sw-theme-square .nav-link.done {
+    background-color: #ff5008 !important;
+    border-color: #ff5008 !important;
+    color: #fff !important;
+  }
+
+  .sw-theme-square .nav-link.active::after,
+  .sw-theme-square .nav-link.done::after {
+    border-left-color: #ff5008 !important;
+  }
+
+  .sw-theme-square .nav-link .num {
+    background-color: #ff5008 !important;
+    color: #fff !important;
+  }
+
+  .sw-theme-square .progress-bar {
+    background-color: #ff5008 !important;
+  }
+
+
   /* Ganti warna utama SmartWizard theme 'square' dari biru ke #ff5008 */
   .sw-theme-square > .nav > .nav-link.active,
   .sw-theme-square > .nav > .nav-link.done {
