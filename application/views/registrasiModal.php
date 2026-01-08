@@ -10,82 +10,53 @@
 
 <style>
 
-    /* ===================================== */
-  /* SMARTWIZARD SQUARE - FORCE COLOR */
   /* ===================================== */
+/* SMARTWIZARD SQUARE – CLEAN & MODERN */
+/* ===================================== */
 
-  .sw-theme-square .nav-link.active,
-  .sw-theme-square .nav-link.done {
-    background-color: #ff5008 !important;
-    border-color: #ff5008 !important;
-    color: #fff !important;
-  }
+/* STEP CONTAINER (biarkan putih & rapi) */
+.sw-theme-square > .nav > .nav-link {
+  background: #fff !important;
+  color: #9ca3af !important;
+  border: none !important;
+}
 
-  .sw-theme-square .nav-link.active::after,
-  .sw-theme-square .nav-link.done::after {
-    border-left-color: #ff5008 !important;
-  }
+/* STEP ACTIVE & DONE (JANGAN background full) */
+.sw-theme-square > .nav > .nav-link.active,
+.sw-theme-square > .nav > .nav-link.done {
+  color: #ff5008 !important;
+  font-weight: 600;
+}
 
-  .sw-theme-square .nav-link .num {
-    background-color: #ff5008 !important;
-    color: #fff !important;
-  }
+/* ANGKA STEP (INI YANG DIWARNI) */
+.sw-theme-square > .nav > .nav-link > .num {
+  background-color: #ff5008 !important;
+  color: #fff !important;
+  border: none !important;
+}
 
-  .sw-theme-square .progress-bar {
-    background-color: #ff5008 !important;
-  }
+/* STEP BELUM AKTIF */
+.sw-theme-square > .nav > .nav-link:not(.active):not(.done) > .num {
+  background-color: #e5e7eb !important;
+  color: #6b7280 !important;
+}
+
+/* GARIS PENGHUBUNG */
+.sw-theme-square > .nav > .nav-item::before {
+  background-color: #ff5008 !important;
+}
+
+/* PROGRESS BAR */
+.sw-theme-square .progress-bar {
+  background-color: #ff5008 !important;
+}
+
+/* MATIKAN SEGITIGA SQUARE (INI PENYEBAB JELEK) */
+.sw-theme-square > .nav > .nav-link::after {
+  display: none !important;
+}
 
 
-  /* Ganti warna utama SmartWizard theme 'square' dari biru ke #ff5008 */
-  .sw-theme-square > .nav > .nav-link.active,
-  .sw-theme-square > .nav > .nav-link.done {
-    background-color: #ff5008 !important;
-    color: white !important;
-    border-color: #ff5008 !important;
-  }
-
-  /* Warna hover pada step */
-  .sw-theme-square > .nav > .nav-link:hover {
-    background-color: #e04607 !important; /* Sedikit lebih gelap untuk efek hover */
-    border-color: #e04607 !important;
-  }
-
-  /* Warna border untuk step yang aktif/done */
-  .sw-theme-square > .nav > .nav-link.active::after,
-  .sw-theme-square > .nav > .nav-link.done::after {
-    border-left-color: #ff5008 !important;
-  }
-
-  /* Ganti warna progress bar */
-  .sw-theme-square .progress-bar {
-    background-color: #ff5008 !important;
-  }
-
-  /* Garis horizontal antar langkah */
-  .sw-theme-square > .nav > .nav-item:not(:first-child)::before {
-    background-color: #ff5008 !important;
-  }
-
-  /* Nomor langkah (misalnya 1, 2, 3) */
-  .sw-theme-square > .nav > .nav-link > .num {
-    background-color: #ff5008 !important;
-    color: white !important;
-  }
-
-  /* Tombol Next/Previous jika ikut tema (opsional) */
-  .sw-btn-next,
-  .sw-btn-prev,
-  .btn-success.btnSelesai { /* Tombol "Kirim" */
-    background-color: #ff5008 !important;
-    border-color: #ff5008 !important;
-  }
-
-  .sw-btn-next:hover,
-  .sw-btn-prev:hover,
-  .btn-success.btnSelesai:hover {
-    background-color: #e04607 !important;
-    border-color: #e04607 !important;
-  }
 </style>
 
 <style>
