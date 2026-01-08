@@ -10,49 +10,53 @@
 
 <style>
 
-  /* ===================================== */
-/* SMARTWIZARD SQUARE – CLEAN & MODERN */
+ /* ===================================== */
+/* SMARTWIZARD SQUARE – FIX WARNA (FINAL) */
 /* ===================================== */
 
-/* STEP CONTAINER (biarkan putih & rapi) */
-.sw-theme-square > .nav > .nav-link {
+.sw.sw-theme-square .nav .nav-link {
   background: #fff !important;
-  color: #9ca3af !important;
   border: none !important;
+  color: #9ca3af !important;
 }
 
-/* STEP ACTIVE & DONE (JANGAN background full) */
-.sw-theme-square > .nav > .nav-link.active,
-.sw-theme-square > .nav > .nav-link.done {
+/* ACTIVE & DONE */
+.sw.sw-theme-square .nav .nav-link.active,
+.sw.sw-theme-square .nav .nav-link.done {
   color: #ff5008 !important;
   font-weight: 600;
 }
 
-/* ANGKA STEP (INI YANG DIWARNI) */
-.sw-theme-square > .nav > .nav-link > .num {
+/* NOMOR STEP */
+.sw.sw-theme-square .nav .nav-link .num {
   background-color: #ff5008 !important;
   color: #fff !important;
-  border: none !important;
+  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* STEP BELUM AKTIF */
-.sw-theme-square > .nav > .nav-link:not(.active):not(.done) > .num {
+.sw.sw-theme-square .nav .nav-link:not(.active):not(.done) .num {
   background-color: #e5e7eb !important;
   color: #6b7280 !important;
 }
 
 /* GARIS PENGHUBUNG */
-.sw-theme-square > .nav > .nav-item::before {
+.sw.sw-theme-square .nav .nav-item::before {
   background-color: #ff5008 !important;
 }
 
 /* PROGRESS BAR */
-.sw-theme-square .progress-bar {
+.sw.sw-theme-square .progress-bar {
   background-color: #ff5008 !important;
 }
 
-/* MATIKAN SEGITIGA SQUARE (INI PENYEBAB JELEK) */
-.sw-theme-square > .nav > .nav-link::after {
+/* MATIKAN SEGITIGA SQUARE */
+.sw.sw-theme-square .nav .nav-link::after {
   display: none !important;
 }
 
