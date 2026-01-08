@@ -204,7 +204,7 @@ myesc.id registrasi lama
     align-items: center;
   }
 
-  .mobile -app .form-check-input {
+  .mobile-app .form-check-input {
     position: absolute;
     left: 16px;
     top: 50%;
