@@ -138,7 +138,7 @@
 
   .mobile-app .tab-content {
     padding: 0 16px 80px; /* ruang untuk tombol bawah */
-    background: transparent !important;
+    background: #f8f9fa !important;
     overflow: visible;
   }
 
@@ -366,7 +366,7 @@
               </ul>
 
               <div class="tab-content">
-                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1" style="padding-bottom: 90px;">
+                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
                   <div class="row">
                     <div class="col-12">
                       <!-- <h5>Alasan anda membuat akun baru?</h5> -->
