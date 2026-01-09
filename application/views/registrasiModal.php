@@ -224,37 +224,33 @@
   }
 
   /* Tombol aksi bawah */
-  .mobile-app .sw-toolbar-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 16px;
-    box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  @media (max-width: 768px) {
+    .mobile-app .sw-toolbar-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      padding: 12px 16px 20px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+      z-index: 1000;
+    }
+
+    .mobile-app .sw-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mobile-app .sw-toolbar-bottom button {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+    }
   }
 
-  .mobile-app .sw-btn-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .mobile-app .sw-btn-group button,
-  .mobile-app .btnSelesai {
-    width: 100%;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 14px;
-    border: none;
-    letter-spacing: 0.3px;
-    transition: all 0.2s ease;
-  }
 
   .mobile-app .sw-btn-next {
     background: linear-gradient(135deg, #ff8100, #ff5008);
@@ -328,6 +324,14 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .mobile-app .sw-btn-next,
+  .mobile-app .sw-btn-prev {
+    display: none !important;
+  }
+}
+
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-xl">
@@ -717,45 +721,90 @@
 
   $(function() {
     // Step show event
-    $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
-      $("#prev-btn").removeClass('disabled').prop('disabled', false);
-      $("#next-btn").removeClass('disabled').prop('disabled', false);
+    // $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+    //   $("#prev-btn").removeClass('disabled').prop('disabled', false);
+    //   $("#next-btn").removeClass('disabled').prop('disabled', false);
+    //   if (stepPosition === 'first') {
+    //     $("#prev-btn").addClass('disabled').prop('disabled', true);
+    //   } else if (stepPosition === 'last') {
+    //     $("#next-btn").addClass('disabled').prop('disabled', true);
+    //   } else {
+    //     $("#prev-btn").removeClass('disabled').prop('disabled', false);
+    //     $("#next-btn").removeClass('disabled').prop('disabled', false);
+    //   }
+
+    //   // console.log(stepDirection);
+    //   // console.log(stepIndex);
+
+    //   // Get step info from Smart Wizard
+    //   // let stepInfo = $('#smartwizard').smartWizard("getStepInfo");
+    //   // $("#sw-current-step").text(stepInfo.currentStep + 1);
+    //   // $("#sw-total-step").text(stepInfo.totalSteps);
+    // });
+
+    // $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+    //   checkStep = false;
+    //   if (stepPosition == 'last') {
+    //     $(".btnSelesai").show();
+
+    //     $('#tdDaftarNamaLengkap').html($('#namalengkap').val());
+    //     $('#tdDaftarNIK').html($('#nik').val());
+    //     $('#tdDaftarJenisKelamin').html($('#jeniskelamin').val());
+    //     $('#tdDaftarTempatLahir').html($('#tempatlahir').val());
+    //     $('#tdDaftarTanggalLahir').html($('#tanggallahir').val());
+    //     $('#tdDaftarAlamatRumah').html($('#alamatrumah').val());
+    //     $('#tdDaftarNomorHP').html($('#nohp').val());
+    //     $('#tdDaftarEmail').html($('#email').val());
+
+    //   } else {
+    //     $(".btnSelesai").hide();
+    //   }
+    // });
+
+
+    // =============================
+      // Fungsi baru
+      // =============================
+    $("#smartwizard").on("showStep", function (e, anchorObject, stepIndex, stepDirection, stepPosition) {
+
+      // =============================
+      // DESKTOP: kontrol prev / next
+      // =============================
       if (stepPosition === 'first') {
-        $("#prev-btn").addClass('disabled').prop('disabled', true);
-      } else if (stepPosition === 'last') {
-        $("#next-btn").addClass('disabled').prop('disabled', true);
+        $(".sw-btn-prev").prop("disabled", true);
       } else {
-        $("#prev-btn").removeClass('disabled').prop('disabled', false);
-        $("#next-btn").removeClass('disabled').prop('disabled', false);
+        $(".sw-btn-prev").prop("disabled", false);
       }
 
-      // console.log(stepDirection);
-      // console.log(stepIndex);
+      if (stepPosition === 'last') {
+        $(".sw-btn-next").prop("disabled", true);
+      } else {
+        $(".sw-btn-next").prop("disabled", false);
+      }
 
-      // Get step info from Smart Wizard
-      // let stepInfo = $('#smartwizard').smartWizard("getStepInfo");
-      // $("#sw-current-step").text(stepInfo.currentStep + 1);
-      // $("#sw-total-step").text(stepInfo.totalSteps);
-    });
-
-    $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
-      checkStep = false;
-      if (stepPosition == 'last') {
+      // =============================
+      // MOBILE: tombol custom
+      // =============================
+      if (stepPosition === 'last') {
         $(".btnSelesai").show();
+        $(".btn-secondary").show(); // Batal (opsional)
 
-        $('#tdDaftarNamaLengkap').html($('#namalengkap').val());
-        $('#tdDaftarNIK').html($('#nik').val());
-        $('#tdDaftarJenisKelamin').html($('#jeniskelamin').val());
-        $('#tdDaftarTempatLahir').html($('#tempatlahir').val());
-        $('#tdDaftarTanggalLahir').html($('#tanggallahir').val());
-        $('#tdDaftarAlamatRumah').html($('#alamatrumah').val());
-        $('#tdDaftarNomorHP').html($('#nohp').val());
-        $('#tdDaftarEmail').html($('#email').val());
+        // Isi data konfirmasi
+        $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
+        $('#tdDaftarNIK').text($('#nik').val());
+        $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
+        $('#tdDaftarTempatLahir').text($('#tempatlahir').val());
+        $('#tdDaftarTanggalLahir').text($('#tanggallahir').val());
+        $('#tdDaftarAlamatRumah').text($('#alamatrumah').val());
+        $('#tdDaftarNomorHP').text($('#nohp').val());
+        $('#tdDaftarEmail').text($('#email').val());
 
       } else {
         $(".btnSelesai").hide();
+        $(".btn-secondary").hide();
       }
     });
+
 
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 
