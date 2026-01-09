@@ -137,7 +137,7 @@
   }
 
   .mobile-app .tab-content {
-    padding: 0 16px 80px; /* ruang untuk tombol bawah */
+    padding: 0 0px 80px; /* ruang untuk tombol bawah */
     background: #f8f9fa !important;
     overflow: visible;
   }
@@ -296,9 +296,9 @@
   }
 
   .mobile-app table td {
-    padding: 11px ;
-    font-size: 8px;
-    border-bottom: 9px solid #f0f0f0;
+    padding: 10px ;
+    font-size: 10px;
+    border-bottom: 15px solid #f0f0f0;
   }
 
 
