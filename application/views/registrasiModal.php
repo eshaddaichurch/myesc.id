@@ -296,14 +296,11 @@
   }
 
   .mobile-app table td {
-    padding: 14px ;
-    font-size: 12px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 11px ;
+    font-size: 8px;
+    border-bottom: 9px solid #f0f0f0;
   }
 
-  .mobile-app table tr:last-child td {
-    border-bottom: none;
-  }
 
   /* Checkbox syarat */
   .mobile-app .form-check-label a {
@@ -314,9 +311,9 @@
 
   /* Responsive kecil */
   @media screen and (max-width: 480px) {
-    .mobile-app .tab-pane > .row {
+    /* .mobile-app .tab-pane > .row {
       padding: 16px;
-    }
+    } */
     .mobile-app .form-control,
     .mobile-app select {
       font-size: 16px;
