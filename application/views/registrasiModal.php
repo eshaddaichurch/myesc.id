@@ -326,11 +326,11 @@
 }
 
 @media (max-width: 768px) {
-  .mobile-app .sw-btn-next,
-  .mobile-app .sw-btn-prev {
-    display: none !important;
+  .mobile-app .sw-toolbar-bottom {
+    display: block !important;
   }
 }
+
 
 </style>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="registrasiModal" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -767,29 +767,17 @@
       // =============================
     $("#smartwizard").on("showStep", function (e, anchorObject, stepIndex, stepDirection, stepPosition) {
 
-      // =============================
-      // DESKTOP: kontrol prev / next
-      // =============================
-      if (stepPosition === 'first') {
-        $(".sw-btn-prev").prop("disabled", true);
-      } else {
-        $(".sw-btn-prev").prop("disabled", false);
-      }
+    const isMobile = document.body.classList.contains('mobile-app');
 
-      if (stepPosition === 'last') {
-        $(".sw-btn-next").prop("disabled", true);
-      } else {
-        $(".sw-btn-next").prop("disabled", false);
-      }
+    if (isMobile) {
+      // ===== MOBILE MODE =====
+      $(".sw-btn-next, .sw-btn-prev").hide();
 
-      // =============================
-      // MOBILE: tombol custom
-      // =============================
       if (stepPosition === 'last') {
         $(".btnSelesai").show();
-        $(".btn-secondary").show(); // Batal (opsional)
+        $(".btn-secondary").show();
 
-        // Isi data konfirmasi
+        // 👉 TETAP ISI DATA KONFIRMASI (INI PENTING)
         $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
         $('#tdDaftarNIK').text($('#nik').val());
         $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
@@ -803,7 +791,18 @@
         $(".btnSelesai").hide();
         $(".btn-secondary").hide();
       }
+
+    } else {
+      // ===== DESKTOP MODE =====
+      $(".sw-btn-next, .sw-btn-prev").show();
+      $(".btnSelesai, .btn-secondary").hide();
+
+      $(".sw-btn-prev").prop("disabled", stepPosition === 'first');
+      $(".sw-btn-next").prop("disabled", stepPosition === 'last');
+    }
+
     });
+
 
 
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
