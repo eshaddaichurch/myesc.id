@@ -218,7 +218,7 @@
   }
 
   .mobile-app .form-check-label {
-    font-size: 16px;
+    font-size: 11px;
     font-weight: 500;
     color: #222;
   }
@@ -300,8 +300,8 @@
   }
 
   .mobile-app table td {
-    padding: 14px 16px;
-    font-size: 15px;
+    padding: 14px ;
+    font-size: 12px;
     border-bottom: 1px solid #f0f0f0;
   }
 
