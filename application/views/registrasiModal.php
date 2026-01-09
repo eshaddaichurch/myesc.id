@@ -771,7 +771,7 @@
 
     if (isMobile) {
       // ===== MOBILE MODE =====
-      $(".sw-btn-next, .sw-btn-prev").hide();
+      // $(".sw-btn-next, .sw-btn-prev").hide();
 
       if (stepPosition === 'last') {
         $(".btnSelesai").show();
