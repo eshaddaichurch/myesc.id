@@ -94,6 +94,33 @@
     /* Jangan terapkan gaya mobile jika tidak dalam mode mobile */
   }
 
+  .mobile-app .form-holder-2 {
+    margin-bottom: 16px;
+  }
+
+  .mobile-app .form-holder-2 label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #222;
+  }
+
+  .mobile-app .form-control,
+  .mobile-app select {
+    width: 100%;
+    height: 52px;
+    padding: 0 16px;
+    font-size: 16px; /* Penting: hindari zoom iOS */
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+  }
+
+  .mobile-app .tab-pane > .row {
+    padding: 20px 16px; /* Lebih konsisten */
+  }
+
   /* Aktifkan hanya jika benar-benar mobile */
   body.mobile-app {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -230,24 +257,26 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: #fff;
-      padding: 12px 16px 20px;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+      background: white;
+      padding: 12px 16px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
       z-index: 1000;
-    }
-
-    .mobile-app .sw-btn-group {
-      display: flex;
-      flex-direction: column;
+      display: flex !important;
+      justify-content: space-between;
       gap: 10px;
     }
 
     .mobile-app .sw-toolbar-bottom button {
-      width: 100%;
-      height: 52px;
-      border-radius: 14px;
+      flex: 1;
+      min-height: 50px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
+    }
+
+    /* Sembunyikan tombol default SmartWizard di mobile */
+    .mobile-app .sw-toolbar-bottom .sw-btn-group {
+      display: none;
     }
   }
 
@@ -316,8 +345,8 @@
     } */
     .mobile-app .form-control,
     .mobile-app select {
-      font-size: 16px;
-      height: 50px;
+      font-size: 12px;
+      height: 40px;
     }
   }
 }
@@ -338,7 +367,7 @@
 
         <div class="row">
           <div class="col-12">
-            <h3 class="text-center">BUAT AKUN 'MYESC'</h3>
+            <h4 class="text-center">Buat Akun 'MYESC'</h4>
           </div>
           <div class="col-12 p-3">
 
@@ -432,7 +461,7 @@
                   <form action="#" id="formBuatAkun" method="POST">
 
                     <div class="row">
-                      <div class="col-12">
+                      <div class="col-12 mb-3">
                         <!-- <h3>Silahkan Isi Data Di Bawah Ini:</h3> -->
                         <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
                       </div>
@@ -541,7 +570,7 @@
                   <div class="row">
                     <div class="col-12">
                       <!-- <h3 class>Silahkan Isi Data Di Bawah Ini</h3> -->
-                      <h3 class="text-center">Silahkan Isi Data Di Bawah Ini:</h3>
+                      <h3 class="text-center">Konfirmasi Akun:</h3>
                     </div>
                     <div class="col-12">
                       <table class="table">
@@ -763,16 +792,19 @@
       // Fungsi baru
       // =============================
     $("#smartwizard").on("showStep", function (e, anchorObject, stepIndex, stepDirection, stepPosition) {
-
     const isMobile = document.body.classList.contains('mobile-app');
 
     if (isMobile) {
-      // ===== MOBILE MODE =====
-      // $(".sw-btn-next, .sw-btn-prev").hide();
+      // Sembunyikan tombol bawaan SmartWizard
+      $(".sw-toolbar-bottom .sw-btn-prev, .sw-toolbar-bottom .sw-btn-next").hide();
 
       if (stepPosition === 'last') {
         $(".btnSelesai").show();
         $(".btn-secondary").show();
+      } else {
+        $(".btnSelesai").hide();
+        $(".btn-secondary").hide();
+      }
 
         // 👉 TETAP ISI DATA KONFIRMASI (INI PENTING)
         $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
