@@ -263,27 +263,14 @@
     border: 1px solid #e2e8f0;
   }
 
-  .mobile-app .btnSelesai {
-    background: linear-gradient(135deg, #ff8100, #ff5008);
-    color: white;
-    font-size: 17px;
-    box-shadow: 0 4px 14px rgba(255, 129, 0, 0.3);
-  }
-
-  .mobile-app .sw-btn-next:hover,
-  .mobile-app .btnSelesai:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(255, 129, 0, 0.4);
-  }
+  
 
   .mobile-app .sw-btn-prev:hover {
     background: #e2e8f0;
   }
 
   /* Sembunyikan tombol "Batal" default di mobile (karena sudah ada di toolbar?) */
-  .mobile-app .btn-batal-mobile {
-    display: none !important;
-  }
+  
 
   /* Tabel konfirmasi */
   .mobile-app table {
@@ -644,79 +631,9 @@
 
 
 <script type="text/javascript">
-  function onFinish() {
+  
 
-    var namalengkap = $('#namalengkap').val();
-    var nik = $('#nik').val();
-    var jeniskelamin = $('#jeniskelamin').val();
-    var tempatlahir = $('#tempatlahir').val();
-    var tanggallahir = $('#tanggallahir').val();
-    var alamatrumah = $('#alamatrumah').val();
-    var nohp = $('#nohp').val();
-    var email = $('#email').val();
-    var password = $('#password').val();
-    var sudahpernahfondationclass = $('#sudahpernahfondationclass1').val();
-
-
-    if (!$('#chkSyaratDanKetentuan').prop('checked')) {
-      swal("Syarat Dan Ketentuan", "Anda harus membaca dan menyetujui syarat dan ketentuan terlebih dahulu", "info");
-      return
-    }
-
-    if ($('#sudahpernahfondationclass1').prop('checked')) {
-      var sudahpernahfondationclass = 'Sudah';
-    } else {
-      var sudahpernahfondationclass = 'Belum';
-    }
-
-    if ($('#alasanmembuatakun1').prop('checked')) {
-      var alasanmembuatakun = 'Berkunjung';
-    } else {
-      var alasanmembuatakun = 'Bergabung';
-    }
-
-    formData = {
-      'namalengkap': namalengkap,
-      'nik': nik,
-      'jeniskelamin': jeniskelamin,
-      'tempatlahir': tempatlahir,
-      'tanggallahir': tanggallahir,
-      'alamatrumah': alamatrumah,
-      'nohp': nohp,
-      'email': email,
-      'password': password,
-      'alasanmembuatakun': alasanmembuatakun,
-      'sudahpernahfondationclass': sudahpernahfondationclass,
-    }
-
-    $.ajax({
-        url: '<?= site_url('login/simpanregistrasi') ?>',
-        type: 'POST',
-        dataType: 'json',
-        data: formData,
-      })
-      .done(function(response) {
-        console.log(response);
-        if (response.success) {
-          swal("Berhasil", "Pendaftaran Anda berhasil! Silahkan cek kotak masuk atau spam Email Anda untuk verifikasi Email.", "success")
-            .then(function() {
-              $('#registrasiModal').modal('hide');
-            });
-        } else {
-          swal("Gagal", response.msg, "info");
-        }
-      })
-      .fail(function() {
-        console.log('error simpanregistrasi');
-      });
-  }
-
-  function onCancel() {
-    $('#smartwizard').smartWizard("reset");
-    $('#registrasiModal').modal('hide');
-  }
-
-  $(function() {
+  // $(function() {
     // Step show event
     // $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
     //   $("#prev-btn").removeClass('disabled').prop('disabled', false);
@@ -759,166 +676,114 @@
     // });
 
 
-    // =============================
-      // Fungsi baru
-      // =============================
-    $("#smartwizard").on("showStep", function (e, anchorObject, stepIndex, stepDirection, stepPosition) {
+  $(function() {
+      // ✅ EVENT BARU: Hanya update data konfirmasi di Step 3
+      $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+        if (stepIndex === 2) { // Step 3 (index dimulai dari 0)
+          $('#tdDaftarNamaLengkap').text($('#namalengkap').val() || '-');
+          $('#tdDaftarNIK').text($('#nik').val() || '-');
+          $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val() || '-');
+          $('#tdDaftarTempatLahir').text($('#tempatlahir').val() || '-');
+          $('#tdDaftarTanggalLahir').text($('#tanggallahir').val() || '-');
+          $('#tdDaftarAlamatRumah').text($('#alamatrumah').val() || '-');
+          $('#tdDaftarNomorHP').text($('#nohp').val() || '-');
+          $('#tdDaftarEmail').text($('#email').val() || '-');
+        }
+      });
 
-    const isMobile = document.body.classList.contains('mobile-app');
-
-    if (isMobile) {
-      // ===== MOBILE MODE =====
-      // $(".sw-btn-next, .sw-btn-prev").hide();
-
-      if (stepPosition === 'last') {
-        $(".btnSelesai").show();
-        $(".btn-secondary").show();
-
-        // 👉 TETAP ISI DATA KONFIRMASI (INI PENTING)
-        $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
-        $('#tdDaftarNIK').text($('#nik').val());
-        $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
-        $('#tdDaftarTempatLahir').text($('#tempatlahir').val());
-        $('#tdDaftarTanggalLahir').text($('#tanggallahir').val());
-        $('#tdDaftarAlamatRumah').text($('#alamatrumah').val());
-        $('#tdDaftarNomorHP').text($('#nohp').val());
-        $('#tdDaftarEmail').text($('#email').val());
-
-      } else {
-        $(".btnSelesai").hide();
-        $(".btn-secondary").hide();
-      }
-
-    } else {
-      // ===== DESKTOP MODE =====
-      $(".sw-btn-next, .sw-btn-prev").show();
-      $(".btnSelesai, .btn-secondary").hide();
-
-      $(".sw-btn-prev").prop("disabled", stepPosition === 'first');
-      $(".sw-btn-next").prop("disabled", stepPosition === 'last');
-    }
-
-    });
-
-
-
-    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-
-      // var form_data = $("#form" + stepNumber).serialize();
-      console.log(stepNumber);
-      console.log(stepDirection);
-
-
-      if (stepNumber == 1) {
-        if (stepDirection == 2) {
-
-
+      // ✅ VALIDASI SAAT GANTI STEP
+      $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+        if (stepNumber == 1 && stepDirection == 2) {
           var validator = $("#formBuatAkun").data("bootstrapValidator");
           validator.validate();
           if (!validator.isValid()) {
             $('#smartwizard').smartWizard("fixHeight");
             return false;
-          } else {
-            if ($('#password').val() != $('#password2').val()) {
-              swal("Ulangi Password", "Ulangi password tidak sama!", "info");
-              return false;
-            } else {
-              $('#smartwizard').smartWizard("fixHeight");
-              return true;
-            }
           }
-
-          return false;
-
-
-        } else {
+          if ($('#password').val() != $('#password2').val()) {
+            swal("Ulangi Password", "Password tidak sama!", "info");
+            return false;
+          }
+          $('#smartwizard').smartWizard("fixHeight");
           return true;
         }
-      }
-
-      // if (stepNumber == 1) {
-      //   if (stepDirection == 2) {
-      //     var KdRuangan = $('#KdRuangan').val();
-      //     var KdRujukanAsal = $('#KdRujukanAsal').val();
-      //     var KdDokter = $('#KdDokter').val();
-
-      //     if (KdRuangan == "") {
-      //       swal("Informasi", "Nama poliklinik tidak boleh kosong!", "info");
-      //       return false;
-      //     }
-
-      //     if (KdRujukanAsal == "") {
-      //       swal("Informasi", "Asal rujukan tidak boleh kosong!", "info");
-      //       return false;
-      //     }
-
-      //     if (KdDokter == "") {
-      //       swal("Informasi", "Nama dokter pemeriksa tidak boleh kosong!", "info");
-      //       return false;
-      //     }
-
-      //     return true;
-      //   } else {
-      //     return true;
-      //   }
-      // }
-
-
-
-      if (stepNumber == 2) {
         return true;
-      } else {}
+      });
 
-      // return false;
+      // ✅ KONFIGURASI SMARTWIZARD
+      $('#smartwizard').smartWizard({
+        selected: 0,
+        enableUrlHash: false,
+        autoAdjustHeight: true,
+        theme: 'square',
+        transition: { animation: 'myFade' },
+        toolbar: {
+          showNextButton: true,
+          showPreviousButton: true,
+          position: 'bottom'
+          // extraHtml: DIHAPUS! ✅
+        },
+        anchor: {
+          enableNavigation: true,
+          enableNavigationAlways: false,
+          enableDoneState: true,
+          markPreviousStepsAsDone: true,
+          unDoneOnBackNavigation: false,
+          enableDoneStateNavigation: true
+        },
+        // ✅ HANYA SATU BLOK LANG
+        lang: {
+          next: 'Selanjutnya',
+          previous: 'Kembali',
+          finish: 'Kirim' // Teks tombol Finish
+        },
+        // ✅ ONFINISH UNTUK HANDLE PENGIRIMAN DATA
+        onFinish: function() {
+          if (!$('#chkSyaratDanKetentuan').prop('checked')) {
+            swal("Syarat Dan Ketentuan", "Anda harus menyetujui syarat dan ketentuan!", "info");
+            return false; // Hentikan proses
+          }
 
+          var formData = {
+            'namalengkap': $('#namalengkap').val(),
+            'nik': $('#nik').val(),
+            'jeniskelamin': $('#jeniskelamin').val(),
+            'tempatlahir': $('#tempatlahir').val(),
+            'tanggallahir': $('#tanggallahir').val(),
+            'alamatrumah': $('#alamatrumah').val(),
+            'nohp': $('#nohp').val(),
+            'email': $('#email').val(),
+            'password': $('#password').val(),
+            'alasanmembuatakun': $('#alasanmembuatakun1').prop('checked') ? 'Berkunjung' : 'Bergabung',
+            'sudahpernahfondationclass': $('#sudahpernahfondationclass1').prop('checked') ? 'Sudah' : 'Belum'
+          };
+
+          $.ajax({
+            url: '<?= site_url('login/simpanregistrasi') ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            success: function(response) {
+              if (response.success) {
+                swal("Berhasil", "Pendaftaran berhasil! Cek email Anda.", "success")
+                  .then(function() {
+                    $('#registrasiModal').modal('hide');
+                  });
+              } else {
+                swal("Gagal", response.msg, "info");
+              }
+            },
+            error: function() {
+              swal("Error", "Terjadi kesalahan saat menyimpan data.", "error");
+            }
+          });
+        }
+      });
+
+      // ... (kode swipe gesture & transisi tetap dipertahankan) ...
     });
 
 
-    $("#smartwizard").on("initialized", function(e) {
-      console.log("initialized");
-    });
-
-    $("#smartwizard").on("loaded", function(e) {
-      console.log("loaded");
-    });
-
-    // Smart Wizard
-    $('#smartwizard').smartWizard({
-      selected: 0,
-      // autoAdjustHeight: false,
-      enableUrlHash: false,
-      autoAdjustHeight: true,
-      theme: 'square', // basic, arrows, square, round, dots
-      transition: {
-        animation: 'myFade' // none|fade|slideHorizontal|slideVertical|slideSwing|css
-      },
-      toolbar: {
-        showNextButton: true, // show/hide a Next button
-        showPreviousButton: true, // show/hide a Previous button
-        position: 'bottom', // none/ top/ both bottom
-        extraHtml: `<button class="btn btn-success btnSelesai" onclick="onFinish()">Kirim</button>
-                              <button class="btn btn-secondary" onclick="onCancel()">Batal</button>`
-      },
-      anchor: {
-        enableNavigation: true, // Enable/Disable anchor navigation 
-        enableNavigationAlways: false, // Activates all anchors clickable always
-        enableDoneState: true, // Add done state on visited steps
-        markPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
-        unDoneOnBackNavigation: false, // While navigate back, done state will be cleared
-        enableDoneStateNavigation: true // Enable/Disable the done state navigation
-      },
-      lang: { // Language variables for button
-        next: 'Selanjutnya',
-        previous: 'Kembali'
-      },
-      disabledSteps: [], // Array Steps disabled
-      errorSteps: [], // Highlight step with errors
-      hiddenSteps: [], // Hidden steps
-      // getContent: (idx, stepDirection, selStep, callback) => {
-      //   console.log('getContent',selStep, idx, stepDirection);
-      //   callback('<h1>'+idx+'</h1>');
-      // }
-    });
 
     // ================= SWIPE GESTURE (MOBILE) =================
     if ('ontouchstart' in window) {
