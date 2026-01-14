@@ -770,11 +770,31 @@
       // ===== MOBILE MODE =====
       // $(".sw-btn-next, .sw-btn-prev").hide();
 
-      if (stepPosition === 'last') {
-        $(".btnSelesai").show();
-        $(".btn-secondary").show();
+      // if (stepPosition === 'last') {
+      //   $(".btnSelesai").show();
+      //   $(".btn-secondary").show();
 
-        // 👉 TETAP ISI DATA KONFIRMASI (INI PENTING)
+      //   // 👉 TETAP ISI DATA KONFIRMASI (INI PENTING)
+      //   $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
+      //   $('#tdDaftarNIK').text($('#nik').val());
+      //   $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
+      //   $('#tdDaftarTempatLahir').text($('#tempatlahir').val());
+      //   $('#tdDaftarTanggalLahir').text($('#tanggallahir').val());
+      //   $('#tdDaftarAlamatRumah').text($('#alamatrumah').val());
+      //   $('#tdDaftarNomorHP').text($('#nohp').val());
+      //   $('#tdDaftarEmail').text($('#email').val());
+
+      // } else {
+      //   $(".btnSelesai").hide();
+      //   $(".btn-secondary").hide();
+      // }
+
+      if (stepPosition === 'last') {
+        // STEP 3
+        $(".btnSelesai").show();      // Kirim
+        $(".btn-secondary").show();  // Batal
+
+        // isi data konfirmasi
         $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
         $('#tdDaftarNIK').text($('#nik').val());
         $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
@@ -785,9 +805,11 @@
         $('#tdDaftarEmail').text($('#email').val());
 
       } else {
-        $(".btnSelesai").hide();
-        $(".btn-secondary").hide();
+        // STEP 1 & 2
+        $(".btnSelesai").hide();      // Kirim hanya di step terakhir
+        $(".btn-secondary").show();  // ✅ Batal tetap tampil
       }
+
 
     } else {
       // ===== DESKTOP MODE =====
