@@ -793,11 +793,19 @@
       } else {
         // ===== DESKTOP MODE =====
         $(".sw-btn-next, .sw-btn-prev").show();
-        $(".btnSelesai, .btn-secondary").hide();
+
+        if (stepPosition === 'last') {
+          $(".btnSelesai").show();      // Kirim
+          $(".btn-secondary").show();  // Batal
+        } else {
+          $(".btnSelesai").hide();     // Kirim hanya step terakhir
+          $(".btn-secondary").show(); // Batal selalu ada
+        }
 
         $(".sw-btn-prev").prop("disabled", stepPosition === 'first');
         $(".sw-btn-next").prop("disabled", stepPosition === 'last');
       }
+
 
     });
 
