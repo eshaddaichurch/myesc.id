@@ -764,37 +764,12 @@
       // =============================
     $("#smartwizard").on("showStep", function (e, anchorObject, stepIndex, stepDirection, stepPosition) {
 
-    const isMobile = document.body.classList.contains('mobile-app');
+      const isMobile = document.body.classList.contains('mobile-app');
 
-    if (isMobile) {
-      // ===== MOBILE MODE =====
-      // $(".sw-btn-next, .sw-btn-prev").hide();
-
-      // if (stepPosition === 'last') {
-      //   $(".btnSelesai").show();
-      //   $(".btn-secondary").show();
-
-      //   // 👉 TETAP ISI DATA KONFIRMASI (INI PENTING)
-      //   $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
-      //   $('#tdDaftarNIK').text($('#nik').val());
-      //   $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
-      //   $('#tdDaftarTempatLahir').text($('#tempatlahir').val());
-      //   $('#tdDaftarTanggalLahir').text($('#tanggallahir').val());
-      //   $('#tdDaftarAlamatRumah').text($('#alamatrumah').val());
-      //   $('#tdDaftarNomorHP').text($('#nohp').val());
-      //   $('#tdDaftarEmail').text($('#email').val());
-
-      // } else {
-      //   $(".btnSelesai").hide();
-      //   $(".btn-secondary").hide();
-      // }
-
+      // =========================
+      // ISI DATA SAAT STEP TERAKHIR (MOBILE & DESKTOP)
+      // =========================
       if (stepPosition === 'last') {
-        // STEP 3
-        $(".btnSelesai").show();      // Kirim
-        $(".btn-secondary").show();  // Batal
-
-        // isi data konfirmasi
         $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
         $('#tdDaftarNIK').text($('#nik').val());
         $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
@@ -803,24 +778,29 @@
         $('#tdDaftarAlamatRumah').text($('#alamatrumah').val());
         $('#tdDaftarNomorHP').text($('#nohp').val());
         $('#tdDaftarEmail').text($('#email').val());
-
-      } else {
-        // STEP 1 & 2
-        $(".btnSelesai").hide();      // Kirim hanya di step terakhir
-        $(".btn-secondary").show();  // ✅ Batal tetap tampil
       }
 
+      if (isMobile) {
+        // ===== MOBILE MODE =====
+        if (stepPosition === 'last') {
+          $(".btnSelesai").show();
+          $(".btn-secondary").show();
+        } else {
+          $(".btnSelesai").hide();
+          $(".btn-secondary").show();
+        }
 
-    } else {
-      // ===== DESKTOP MODE =====
-      $(".sw-btn-next, .sw-btn-prev").show();
-      $(".btnSelesai, .btn-secondary").hide();
+      } else {
+        // ===== DESKTOP MODE =====
+        $(".sw-btn-next, .sw-btn-prev").show();
+        $(".btnSelesai, .btn-secondary").hide();
 
-      $(".sw-btn-prev").prop("disabled", stepPosition === 'first');
-      $(".sw-btn-next").prop("disabled", stepPosition === 'last');
-    }
+        $(".sw-btn-prev").prop("disabled", stepPosition === 'first');
+        $(".sw-btn-next").prop("disabled", stepPosition === 'last');
+      }
 
     });
+
 
 
 
