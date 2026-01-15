@@ -110,50 +110,20 @@ class Akun extends MY_Controller
         $this->load->view('akun/' . $report, $data);
     }
 
-    //lama 
-    // public function simpanupload()
-    // {
-    //     $idjemaat = $this->session->userdata('idjemaat');
-
-    //     $foto_lama = $this->input->post('foto_lama');
-    //     $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
-
-    //     $dataUpload = array(
-    //         'foto' => $foto,
-    //     );
-
-    //     $simpan = $this->Akun_model->simpanupload($dataUpload);
-    //     redirect('akun/profil');
-    // }
-
     public function simpanupload()
     {
-
+        $idjemaat = $this->session->userdata('idjemaat');
 
         $foto_lama = $this->input->post('foto_lama');
+        $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
 
-        // default: pakai foto lama
-        $foto = $foto_lama;
-
-        // upload hanya jika ada file
-        if (!empty($_FILES['foto']['name'])) {
-            $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
-        }
-
-        $dataUpload = [
-            'foto' => $foto
-        ];
+        $dataUpload = array(
+            'foto' => $foto,
+        );
 
         $simpan = $this->Akun_model->simpanupload($dataUpload);
-
         redirect('akun/profil');
     }
-
-
-
-
-
-    
 
     public function simpanregistered()
     {
@@ -235,18 +205,8 @@ class Akun extends MY_Controller
         $notelpkantor        = $this->input->post('notelpkantor');
         $tanggalupdate        = date('Y-m-d H:i:s');
 
-
-        //fungsi lama
-        // $foto_lama = $this->input->post('foto_lama');
-        // $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
-
-
         $foto_lama = $this->input->post('foto_lama');
-
-        $foto = $foto_lama;
-        if (!empty($_FILES['foto']['name'])) {
-            $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
-        }
+        $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
 
 
         $rowJemaat = $this->db->query(
@@ -322,10 +282,8 @@ class Akun extends MY_Controller
         }
 
 
-        // kode lama
-        // $simpan = $this->Akun_model->update($data, $idjemaat);
-        $simpan = $this->Akun_model->update($data);
 
+        $simpan = $this->Akun_model->update($data, $idjemaat);
 
         if ($simpan) {
             $pesan = "<script>

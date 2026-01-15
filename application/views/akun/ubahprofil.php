@@ -789,8 +789,7 @@
         function getKabupaten(idprovinsi, idkabupatendefault = "") {
 
             $('#kotakabupaten').empty();
-            // $('#idkecamatan').empty();
-            $('#kecamatan').empty();
+            $('#idkecamatan').empty();
 
             addSelectOption('kotakabupaten', '', 'Pilih kabupaten/ kota ...')
             addSelectOption('kecamatan', '', 'Pilih kecamatan ...')
