@@ -205,8 +205,18 @@ class Akun extends MY_Controller
         $notelpkantor        = $this->input->post('notelpkantor');
         $tanggalupdate        = date('Y-m-d H:i:s');
 
+        // $foto_lama = $this->input->post('foto_lama');
+        // $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
+
+
+        //jemaat juga  bisa ganti foto profil
         $foto_lama = $this->input->post('foto_lama');
-        $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
+
+        $foto = $foto_lama;
+        if (!empty($_FILES['foto']['name'])) {
+            $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
+        }
+
 
 
         $rowJemaat = $this->db->query(
