@@ -630,22 +630,62 @@
 
 
                     // if (result.statusjemaat == 'Registered') {
-                    if (result.statusjemaat == 'Registered' || result.statusjemaat == 'Simpatisan') {
-                        $('#nikprofil').focus();
+                    // if (result.statusjemaat == 'Registered' || result.statusjemaat == 'Simpatisan') {
+                    //     $('#nikprofil').focus();
 
-                    } else {
-                        $('#notelp').focus();
-                        $('#nikprofil').attr('disabled', true);
-                        $('#kewarganegaraan').attr('disabled', true);
-                        $('#namalengkapprofil').attr('disabled', true);
-                        $('#namapanggilan').attr('disabled', true);
-                        $('#tempatlahirprofil').attr('disabled', true);
-                        $('#tanggallahirprofil').attr('disabled', true);
-                        $('#jeniskelaminprofil').attr('disabled', true);
-                        $('#statuspernikahan').attr('disabled', true);
-                        $('#golongandarah').attr('disabled', true);
+                    // } else {
+                    //     $('#notelp').focus();
+                    //     $('#nikprofil').attr('disabled', true);
+                    //     $('#kewarganegaraan').attr('disabled', true);
+                    //     $('#namalengkapprofil').attr('disabled', true);
+                    //     $('#namapanggilan').attr('disabled', true);
+                    //     $('#tempatlahirprofil').attr('disabled', true);
+                    //     $('#tanggallahirprofil').attr('disabled', true);
+                    //     $('#jeniskelaminprofil').attr('disabled', true);
+                    //     $('#statuspernikahan').attr('disabled', true);
+                    //     $('#golongandarah').attr('disabled', true);
 
+                    // }
+
+
+                    // Tentukan apakah user boleh edit data identitas
+                    var isEditable = (result.statusjemaat == 'Registered' || result.statusjemaat == 'Simpatisan');
+
+                    // Siapkan aturan validasi
+                    var bvFields = {
+                        emailprofil: {
+                            validators: {
+                                notEmpty: { message: "email tidak boleh kosong" }
+                            }
+                        }
+                    };
+
+                    // Tambahkan validasi identitas hanya jika editable
+                    if (isEditable) {
+                        bvFields.nikprofil = { validators: { notEmpty: { message: "nik tidak boleh kosong" } } };
+                        bvFields.kewarganegaraan = { validators: { notEmpty: { message: "kewarganegaraan tidak boleh kosong" } } };
+                        bvFields.namalengkapprofil = { validators: { notEmpty: { message: "nama lengkap tidak boleh kosong" } } };
+                        bvFields.namapanggilan = { validators: { notEmpty: { message: "nama panggilan tidak boleh kosong" } } };
+                        bvFields.tempatlahirprofil = { validators: { notEmpty: { message: "tempat lahir tidak boleh kosong" } } };
+                        bvFields.tanggallahirprofil = { validators: { notEmpty: { message: "tanggal lahir tidak boleh kosong" } } };
+                        bvFields.jeniskelaminprofil = { validators: { notEmpty: { message: "jenis kelamin tidak boleh kosong" } } };
+                        bvFields.statuspernikahan = { validators: { notEmpty: { message: "status pernikahan tidak boleh kosong" } } };
                     }
+
+                    // Inisialisasi validator
+                    $("#form").bootstrapValidator({
+                        feedbackIcons: {
+                            valid: 'glyphicon glyphicon-ok',
+                            invalid: 'glyphicon glyphicon-remove',
+                            validating: 'glyphicon glyphicon-refresh'
+                        },
+                        fields: bvFields
+                    })
+                    .on('success.form.bv', function(e) {
+                        $('#btnSimpan').attr('disabled', true);
+                    });
+
+
 
 
                 });
