@@ -1043,10 +1043,10 @@ $this->load->view('template/festavalive/header'); ?>
                                     <label for="" class="">Kategori DC</label>
                                     <select name="idkategoridc" id="idkategoridc" class="form-control select2">
                                         <option value="">Semua</option>
-                                        <option value="Umum">Umum</option>
-                                        <option value="Youth">Remaja (SMP-SMA)</option>
+                                        <!-- <option value="Umum">Umum</option> -->
+                                        <!-- <option value="Youth">Remaja (SMP-SMA)</option> -->
                                         <option value="Young Adult">Dewasa Muda (Kuliah, Kerja, Single)</option>
-                                        <option value="Kids">Kids</option>
+                                        <!-- <option value="Kids">Kids</option> -->
                                         <option value="Family">Keluarga (Menikah/Cerai)</option>
                                     </select>
                                 </div>
