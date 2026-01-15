@@ -128,7 +128,7 @@ class Akun extends MY_Controller
 
     public function simpanupload()
     {
-        
+
 
         $foto_lama = $this->input->post('foto_lama');
 
@@ -322,8 +322,10 @@ class Akun extends MY_Controller
         }
 
 
+        // kode lama
+        // $simpan = $this->Akun_model->update($data, $idjemaat);
+        $simpan = $this->Akun_model->update($data);
 
-        $simpan = $this->Akun_model->update($data, $idjemaat);
 
         if ($simpan) {
             $pesan = "<script>
