@@ -328,7 +328,7 @@ $this->load->view('template/festavalive/header'); ?>
       body,
       html {
         font-family: 'Figtree', sans-serif;
-        background-color: #ff5008;
+        background-color: #ff5008 !important;
       }
 
       h1,
