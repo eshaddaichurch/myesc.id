@@ -220,15 +220,6 @@ class Akun extends MY_Controller
         if ($rowJemaat->statusjemaat == 'Registered' || $rowJemaat->statusjemaat == 'Simpatisan') {
 
             $data = array(
-                'nik'   => $nik,
-                'kewarganegaraan'   => $kewarganegaraan,
-                'namalengkap'   => $namalengkap,
-                'namapanggilan'   => $namapanggilan,
-                'tempatlahir'   => $tempatlahir,
-                'tanggallahir'   => $tanggallahir,
-                'jeniskelamin'   => $jeniskelamin,
-                'statuspernikahan'   => $statuspernikahan,
-                'golongandarah'   => $golongandarah,
                 'notelp'   => $notelp,
                 'nohp'   => $nohp,
                 'facebook'   => $facebook,
