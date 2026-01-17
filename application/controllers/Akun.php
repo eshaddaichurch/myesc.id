@@ -275,7 +275,8 @@ class Akun extends MY_Controller
 
         
 
-        
+        var_dump($data);
+        exit();
 
         $simpan = $this->Akun_model->update($data, $idjemaat);
 
