@@ -208,6 +208,9 @@ class Akun extends MY_Controller
         $foto_lama = $this->input->post('foto_lama');
         $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
 
+        if (empty($nohp)) {
+            $nohp = null;
+        }
 
         $rowJemaat = $this->db->query(
             "select * from v_jemaat where idjemaat = '$idjemaat'"
