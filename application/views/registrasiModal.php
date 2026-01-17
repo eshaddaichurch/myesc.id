@@ -97,7 +97,7 @@
   /* Aktifkan hanya jika benar-benar mobile */
   body.mobile-app {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
   }
 
   /* Header fix ala app */
