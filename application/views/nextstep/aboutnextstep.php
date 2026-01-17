@@ -617,7 +617,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">FOUNDATION CLASS 1</h3>
             <!-- <p>kami siap untuk mendoakan Anda..</p> -->
             <a href="<?= site_url('nextstep/kelas/foundation_class_1') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
 
           </div>
@@ -626,7 +626,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">FOUNDATION CLASS 2</h3>
             <!-- <p>Tuhan hadir untuk membantu Anda mengalami kelepasan dan pemulihan yang sejati..</p> -->
             <a href="<?= site_url('nextstep/kelas/foundation_class_2') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
           <div class="musik-card">
@@ -634,7 +634,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">FOUNDATION CLASS 3</h3>
             <!-- <p>Pergerakan pemuda di Hillsong Church, yang disajikan melalui musik.</p> -->
             <a href="<?= site_url('nextstep/kelas/foundation_class_3') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
           <div class="musik-card">
@@ -642,7 +642,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">MEMBERSHIP CLASS</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/membership_class') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
           <div class="musik-card">
@@ -650,7 +650,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">VOLUNTEER CLASS</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/volunteer_class') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
           <div class="musik-card">
@@ -658,7 +658,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">GRADE 1</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/grade_1') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
           <div class="musik-card">
@@ -666,7 +666,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">GRADE 2</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/grade_2') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
           <div class="musik-card">
@@ -674,7 +674,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">GRADE 3</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/grade_3') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
           <div class="musik-card">
@@ -682,7 +682,7 @@ $this->load->view('template/festavalive/header'); ?>
             <h3 class="title-kelas">MARRIAGE CLASS</h3>
             <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
             <a href="<?= site_url('nextstep/kelas/marriage_class') ?>">
-              <button type="button">Lihat</button>
+              <button type="button">Lebih Lanjut</button>
             </a>
           </div>
         </div>
