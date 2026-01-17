@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Konfirmasidc_model extends CI_Model
 {
+
+    public function getDC($iddc)
+    {
+        return $this->db->get_where('v_disciplescommunity', array('iddc' => $iddc));
+    }
+
     public function getPermohonanID($idpermohonan)
     {
         $this->db->where('idpermohonan', $idpermohonan);

@@ -16,6 +16,11 @@ class App extends CI_Model
 		return $this->db->get("v_jemaat");
 	}
 
+	public function getInfoJemaat($idjemaat = "")
+    {
+        return $this->db->get_where('jemaat', array('idjemaat' => $idjemaat))->row();
+    }
+	
 	public function APPBASEURL()
 	{
 		return str_replace('/admin', '', site_url());

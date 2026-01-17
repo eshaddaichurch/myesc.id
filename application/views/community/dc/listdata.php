@@ -1321,7 +1321,8 @@ $this->load->view('template/festavalive/header'); ?>
 
                         // Isi tombol "Bergabung Sekarang" dalam modal
                         var baseURL = "<?= base_url() ?>";
-                        $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['iddcEncrypt']);
+                        // $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['iddcEncrypt']);
+                        $('#btnModalBergabung').attr('data-iddc', response['iddcEncrypt']);
 
                     } else {
                         swal('Informasi', 'Data DC tidak ditemukan!', 'info');
@@ -1331,6 +1332,71 @@ $this->load->view('template/festavalive/header'); ?>
                     console.log('error getInformasiDC');
                 });
         });
+
+        $(document).on('click', '#btnModalBergabung', function(e) {
+            e.preventDefault();
+            var iddc = $(this).data('iddc');
+
+            if (belumLogin()) {
+                swal('Informasi', 'Silahkan login terlebih dahulu', 'info').then(
+                    function() {
+                        //buka modal login
+                        $('#modalInfoDC').modal('hide');
+                        $('#loginModal').modal('show');
+                        
+                    }
+                );
+                return false;
+            }
+
+            $.ajax({
+                url: '<?= site_url('disciples_community/ajaxCeStatusWhatsAPP') ?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(response) {
+                console.log('success');
+                if (!response.statusverifikasiwa) {
+                    swal('Informasi', 'Silahkan verifikasi nomor WhatsApp anda terlebih dahulu', 'info')
+                    .then(function() {
+                      //pergi ke halaman baru dalam tab yang sama
+                      window.open("<?php echo site_url('akun/ubahprofil') ?>", "_self");                      
+                    })
+                }else{
+
+                    $.ajax({
+                        url: '<?= site_url('disciples_community/ajaxSimpanPermohonan') ?>',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'iddc': iddc},
+                    })
+                    .done(function(response) {
+                        console.log(response);
+
+                        if (response.success) {
+                            swal('Berhasil', 'Permohonan untuk bergabung dengan DC berhasil dikirim', 'success')
+                            .then(function() {
+                                $('#modalInfoDC').modal('hide');                        
+                            });
+                        }else{
+                            swal('Informasi', response.msg, 'info');
+                        }
+                    })
+                    .fail(function() {
+                        swal('Informasi', 'Terjadi kesalahan', 'info');
+                    });
+
+
+                }
+            })
+            .fail(function() {
+                console.log('error cekstatusverifikasi wa');
+            });
+            
+
+            
+
+        })
     </script>
       
 

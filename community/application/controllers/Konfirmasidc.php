@@ -82,7 +82,8 @@ class Konfirmasidc extends MY_Controller
             redirect('Konfirmasidc');
         }
         $rowPermohonan = $rsPermohonan->row();
-
+        
+    
         $idjemaat = $rowPermohonan->idjemaat;
         $rsDcMember = $this->Konfirmasidc_model->getDcMemberAktif($idjemaat);
         if ($rsDcMember->num_rows() > 0) {
@@ -91,8 +92,20 @@ class Konfirmasidc extends MY_Controller
             redirect('Konfirmasidc');
         }
 
+        $rowDc = $this->Konfirmasidc_model->getDC($rowPermohonan->iddc)->row();
+
         $simpan = $this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $rowPermohonan);
         if ($simpan) {
+
+            $rowJemaat = $this->App->getInfoJemaat($idjemaat);            
+			$pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! 
+Selamat! Pendaftaran Saudara telah *disetujui*, dan Saudara kini bergabung di *" . $rowDc->namadc ."*.
+Saudara akan didampingi oleh DM: *" . ucwords(strtolower($rowDc->namadm)) . "*.
+DM akan menghubungi Saudara secara langsung melalui WhatsApp *dalam waktu maksimal 2×24 jam* untuk berkenalan dan mulai terhubung.
+Terima kasih atas kerinduan Saudara untuk bertumbuh bersama.
+Tuhan Yesus memberkati";			
+			$this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+
             $pesan = '<script>swal("Berhasil", "Data berhasil disetujui!", "success");</script>';
         } else {
             $pesan = '<script>swal("Gagal", "Data gagal disetujui", "error");</script>';

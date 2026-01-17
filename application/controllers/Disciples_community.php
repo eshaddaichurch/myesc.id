@@ -177,6 +177,69 @@ class Disciples_community extends MY_Controller
 		redirect('disciples_community/list');
 	}
 
+	public function ajaxSimpanPermohonan()
+	{		
+		$iddc = $this->input->post('iddc');
+		$iddc = $this->encrypt->decode($iddc);
+		$idjemaat = $this->session->userdata('idjemaat');
+
+		if (empty($this->session->userdata('idjemaat'))) {
+			echo json_encode(array('msg' => 'Silahkan login terlebih dahulu untuk melanjutkan!'));
+			exit();
+		}
+		//Periksa apakah ada permohonan sebelumnya
+		$rsPeriksaPermohonan = $this->db->query("
+			select * from dcmember_permohonan where idjemaat = '$idjemaat' and statuskonfirmasi = 'Menunggu Konfirmasi'
+		");
+		if ($rsPeriksaPermohonan->num_rows() > 0) {
+			echo json_encode(array('msg' => 'Permohonan anda sebelum nya masih dalam progres konfirmasi. Harap tunggu sampai permohonan anda sebelumnya dikonfirmasi!'));
+			exit();
+		}
+
+		//Periksa apakah sudah tergabung dalam dc
+		$cekDC = $this->db->query("
+			select * from v_dcmember where idjemaat = '$idjemaat' and statusaktif = 'Aktif'
+		");
+		if ($cekDC->num_rows() > 0) {
+			echo json_encode(array('msg' => 'Anda sudah tergabung dengan dc ' . $cekDC->result()[0]->namadc . '.'));
+			exit();
+		}
+		
+		$dataPemohon = array(
+			'tglpermohonan' => date('Y-m-d H:i:s'),
+			'iddc' => $iddc,
+			'idjemaat' => $idjemaat,
+			'statuskonfirmasi' => 'Menunggu Konfirmasi',
+		);
+		
+		$simpan = $this->Disciples_community_model->simpanpermohonanbergabung($dataPemohon);
+		if ($simpan) {
+			//Kirim Whatsapp Ke Jemaat
+			$rowDc = $this->Disciples_community_model->getDC($iddc)->row();
+
+			$rowJemaat = $this->App->getInfoJemaat($idjemaat);            
+			$pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! Terima kasih telah mendaftar sebagai bagian dari *" . $rowDc->namadc . "* pada tanggal " . date('Y-m-d H:i:s') . ".
+Kami sangat menghargai setiap langkah iman yang Saudara ambil untuk bertumbuh dan dimuridkan.
+Saat ini data pendaftaran Saudara sudah kami terima.
+*Tim kami akan segera menghubungi Saudara melalui WhatsApp* untuk informasi dan langkah selanjutnya. 
+Tuhan Yesus memberkati";			
+			$this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+
+
+			$pesanWADM = "Shalom DM " . ucwords(strtolower($rowDc->namadm)) . ",
+Ada *pendaftaran DCM baru atas nama " . ucwords(strtolower($rowJemaat->namalengkap)) . "* yang menunggu untuk ditindaklanjuti.
+Mohon segera melakukan pengecekan dan approval melalui *Website https://dc.myesc.id*, agar proses pemuridan dapat berjalan tepat waktu.
+Terima kasih atas kesediaan dan kesetiaan DM dalam melayani dan membangun murid Kristus.
+Tuhan memberkati pelayanan Saudara";
+$this->whatsapp->send_message(formatNomorWhatsapp($rowDc->nohpdm), $pesanWADM);
+
+
+			echo json_encode(array('success' => true));			
+		} else {
+			echo json_encode(array('msg' => 'Permohonan gagal disimpan.'));
+		}		
+	}
+
 	public function getInformasiDC()
 	{
 		$iddc = $this->input->get('iddc');

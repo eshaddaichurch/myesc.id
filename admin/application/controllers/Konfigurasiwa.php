@@ -8,7 +8,7 @@ class Konfigurasiwa extends MY_Controller {
         parent::__construct();
         $this->islogin();
         $this->load->model('Konfigurasiwa_model');
-        $this->session->set_userdata('IDMENUSELECTED', 'M800');
+        $this->session->set_userdata('IDMENUSELECTED', 'WA01');
         $this->cekOtorisasi();
     }
 
