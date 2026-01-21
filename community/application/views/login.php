@@ -1,190 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+<meta charset="UTF-8">
+<title>Login</title>
 
-    <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+<!-- Bootstrap 4 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-    <style>
-        body {
-            min-height: 100vh;
-            background: linear-gradient(120deg, #f6d365, #fda085);
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-        .login-wrapper {
-            width: 100%;
-            max-width: 1100px;
-            background: #fff;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,.2);
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        /* LEFT SIDE */
-        .login-left {
-            background: linear-gradient(
-                rgba(198,40,40,.7),
-                rgba(198,40,40,.7)
-            ),
-            url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            padding: 60px;
-        }
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #e0f2f1, #fdecea);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .login-left h1 {
-            font-weight: 600;
-            font-size: 42px;
-        }
+/* MAIN CARD */
+.login-container {
+    width: 100%;
+    max-width: 1100px;
+    height: 600px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,.25);
+    display: flex;
+}
 
-        .login-left p {
-            opacity: .9;
-            margin-top: 20px;
-            font-size: 15px;
-        }
+.login-hero {
+    width: 55%;
+    position: relative;
+    background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')
+                center / cover no-repeat;
+}
 
-        /* RIGHT SIDE */
-        .login-right {
-            padding: 60px 50px;
-        }
+.login-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(21, 87, 36, 0.75),
+        rgba(21, 87, 36, 0.85)
+    );
+}
 
-        .login-right h4 {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
 
-        .login-right small {
-            color: #777;
-        }
+.hero-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: 60px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-        .form-control {
-            height: 45px;
-            border-radius: 8px;
-        }
+.hero-content h1 {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.2;
+}
 
-        .input-group-text {
-            background: transparent;
-            border-right: none;
-        }
+.hero-content p {
+    margin-top: 20px;
+    font-size: 15px;
+    opacity: .9;
+    max-width: 380px;
+}
 
-        .form-control {
-            border-left: none;
-        }
+/* RIGHT FORM */
+.login-form {
+    width: 45%;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-        .password-toggle {
-            cursor: pointer;
-        }
+.login-form h4 {
+    font-weight: 600;
+}
 
-        .btn-login {
-            background: #c62828;
-            color: #fff;
-            border-radius: 8px;
-            height: 45px;
-            font-weight: 500;
-        }
+.login-form small {
+    color: #777;
+}
 
-        .btn-login:hover {
-            background: #a61f1f;
-            color: #fff;
-        }
+/* INPUT */
+.form-control {
+    height: 48px;
+    border-radius: 10px;
+    font-size: 14px;
+}
 
-        .login-footer {
-            font-size: 14px;
-        }
+.input-group-text {
+    background: transparent;
+    border-right: none;
+}
 
-        /* MOBILE VERSION */
-        @media (max-width: 768px) {
-            body {
-                background: linear-gradient(135deg, #c62828, #ff5252);
-                padding: 20px;
-            }
+.form-control {
+    border-left: none;
+}
 
-            .login-left {
-                display: none !important;
-            }
+.password-toggle {
+    cursor: pointer;
+}
 
-            .login-wrapper {
-                border-radius: 16px;
-            }
+/* BUTTON */
+.btn-login {
+    height: 48px;
+    border-radius: 10px;
+    background: #1b1e21;
+    color: #fff;
+    font-weight: 500;
+}
 
-            .login-right {
-                padding: 35px 25px;
-            }
+.btn-login:hover {
+    background: #a61f1f;
+    color: #fff;
+}
 
-            .login-right h4,
-            .login-right small {
-                text-align: center;
-            }
+/* ===================== */
+/* ===== MOBILE ======== */
+/* ===================== */
+@media (max-width: 768px) {
 
-            .form-control {
-                height: 50px;
-                font-size: 15px;
-            }
+    body {
+        background: linear-gradient(135deg, #155724, #155724);
+        padding: 15px;
+    }
 
-            .btn-login {
-                height: 50px;
-                border-radius: 12px;
-                font-size: 16px;
-            }
-        }
-    </style>
+    .login-container {
+        flex-direction: column;
+        height: auto;
+        max-width: 420px;
+        border-radius: 18px;
+    }
+
+    .login-hero {
+        display: none;
+    }
+
+    .login-form {
+        width: 100%;
+        padding: 35px 25px;
+    }
+
+    .login-form h4,
+    .login-form small {
+        text-align: center;
+    }
+
+    .mobile-brand {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .mobile-brand h3 {
+        font-weight: 600;
+        color: #c62828;
+    }
+
+    .btn-login {
+        height: 52px;
+        font-size: 16px;
+        border-radius: 14px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div class="login-wrapper row no-gutters">
+<div class="login-container">
 
     <!-- LEFT -->
-    <div class="col-md-6 login-left d-flex flex-column justify-content-center">
-        <h1>ESC Community.<br>Disciples Community.</h1>
-        <p>
-            Terjadi Perubahan Hidup dan Melahirkan Pemurid baru
-        </p>
+    <div class="login-hero">
+        <div class="hero-content">
+            <h1>
+                ESC Community.<br>
+                Disciples Community.
+            </h1>
+            <p>
+                Terjadi Perubahan Hidup dan Melahirkan Pemurid Baru
+            </p>
+        </div>
     </div>
 
     <!-- RIGHT -->
-    <div class="col-md-6 login-right">
+    <div class="login-form">
 
-        <!-- Mobile Brand -->
-        <div class="text-center mb-4 d-md-none">
-            <h3 style="color:#c62828;font-weight:600;">Xinar</h3>
+        <!-- MOBILE BRAND -->
+        <div class="mobile-brand d-md-none">
+            <h3>ESC DC</h3>
         </div>
 
-        <h4>Login Account</h4>
+        <h4>Login Account DM</h4>
         <small>Sign in to continue</small>
 
         <form class="mt-4" action="<?php echo site_url('login/cek_login') ?>" method="post">
 
-            <!-- USERNAME -->
             <div class="form-group">
                 <label>Username</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </span>
                     </div>
                     <input type="text" class="form-control" name="username" required>
                 </div>
             </div>
 
-            <!-- PASSWORD -->
             <div class="form-group">
                 <label>Password</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <span class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </span>
                     </div>
                     <input type="password" class="form-control" name="password" id="password" required>
                     <div class="input-group-append">
@@ -199,28 +248,22 @@
                 Login
             </button>
 
-            <!-- <div class="text-center login-footer mt-4">
-                Don't have an account? <a href="#">Sign Up</a>
-            </div> -->
-
         </form>
     </div>
+
 </div>
 
-<!-- PASSWORD TOGGLE SCRIPT -->
 <script>
 function togglePassword() {
-    const password = document.getElementById("password");
+    const pass = document.getElementById("password");
     const icon = document.getElementById("eyeIcon");
 
-    if (password.type === "password") {
-        password.type = "text";
-        icon.classList.remove("fa-eye");
-        icon.classList.add("fa-eye-slash");
+    if (pass.type === "password") {
+        pass.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
     } else {
-        password.type = "password";
-        icon.classList.remove("fa-eye-slash");
-        icon.classList.add("fa-eye");
+        pass.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
     }
 }
 </script>
