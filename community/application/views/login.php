@@ -1,172 +1,236 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-<script src="<?php echo (base_url()) ?>assets/sweetalert/sweetalert.min.js"></script>
-
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Login Page</title>
-  <!--Made with love by Mutiullah Samim -->
+    <meta charset="UTF-8">
+    <title>Login</title>
 
-  <!--Bootsrap 4 CDN-->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-  <!--Fontawesome CDN-->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-  <!--Custom styles-->
-  <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    /* Made with love by Mutiullah Samim*/
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(120deg, #f6d365, #fda085);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    @import url('https://fonts.googleapis.com/css?family=Numans');
+        .login-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,.2);
+        }
 
-    html,
-    body {
-      background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      height: 100%;
-      font-family: 'Numans', sans-serif;
-    }
+        /* LEFT SIDE */
+        .login-left {
+            background: linear-gradient(
+                rgba(198,40,40,.7),
+                rgba(198,40,40,.7)
+            ),
+            url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 60px;
+        }
 
-    .container {
-      height: 100%;
-      align-content: center;
-    }
+        .login-left h1 {
+            font-weight: 600;
+            font-size: 42px;
+        }
 
-    .card {
-      height: 370px;
-      margin-top: auto;
-      margin-bottom: auto;
-      width: 400px;
-      background-color: rgba(0, 0, 0, 0.5) !important;
-    }
+        .login-left p {
+            opacity: .9;
+            margin-top: 20px;
+            font-size: 15px;
+        }
 
-    .social_icon span {
-      font-size: 60px;
-      margin-left: 10px;
-      color: #FFC312;
-    }
+        /* RIGHT SIDE */
+        .login-right {
+            padding: 60px 50px;
+        }
 
-    .social_icon span:hover {
-      color: white;
-      cursor: pointer;
-    }
+        .login-right h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
 
-    .card-header h3 {
-      color: white;
-    }
+        .login-right small {
+            color: #777;
+        }
 
-    .social_icon {
-      position: absolute;
-      right: 20px;
-      top: -45px;
-    }
+        .form-control {
+            height: 45px;
+            border-radius: 8px;
+        }
 
-    .input-group-prepend span {
-      width: 50px;
-      background-color: #FFC312;
-      color: black;
-      border: 0 !important;
-    }
+        .input-group-text {
+            background: transparent;
+            border-right: none;
+        }
 
-    input:focus {
-      outline: 0 0 0 0 !important;
-      box-shadow: 0 0 0 0 !important;
+        .form-control {
+            border-left: none;
+        }
 
-    }
+        .password-toggle {
+            cursor: pointer;
+        }
 
-    .remember {
-      color: white;
-    }
+        .btn-login {
+            background: #c62828;
+            color: #fff;
+            border-radius: 8px;
+            height: 45px;
+            font-weight: 500;
+        }
 
-    .remember input {
-      width: 20px;
-      height: 20px;
-      margin-left: 15px;
-      margin-right: 5px;
-    }
+        .btn-login:hover {
+            background: #a61f1f;
+            color: #fff;
+        }
 
-    .login_btn {
-      color: black;
-      background-color: #FFC312;
-      width: 100px;
-    }
+        .login-footer {
+            font-size: 14px;
+        }
 
-    .login_btn:hover {
-      color: black;
-      background-color: white;
-    }
+        /* MOBILE VERSION */
+        @media (max-width: 768px) {
+            body {
+                background: linear-gradient(135deg, #c62828, #ff5252);
+                padding: 20px;
+            }
 
-    .links {
-      color: white;
-    }
+            .login-left {
+                display: none !important;
+            }
 
-    .links a {
-      margin-left: 4px;
-    }
-  </style>
+            .login-wrapper {
+                border-radius: 16px;
+            }
+
+            .login-right {
+                padding: 35px 25px;
+            }
+
+            .login-right h4,
+            .login-right small {
+                text-align: center;
+            }
+
+            .form-control {
+                height: 50px;
+                font-size: 15px;
+            }
+
+            .btn-login {
+                height: 50px;
+                border-radius: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="d-flex justify-content-center h-100">
-      <div class="card">
-        <div class="card-header">
-          <h3>login</h3>
-          <div class="d-flex justify-content-end social_icon">
-            <span><i class="fab fa-facebook-square"></i></span>
-            <span><i class="fab fa-google-plus-square"></i></span>
-            <span><i class="fab fa-twitter-square"></i></span>
-          </div>
-        </div>
-        <div class="card-body">
-          <form action="<?php echo site_url('login/cek_login') ?>" method="post">
-            <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-              </div>
-              <input type="text" class="form-control" placeholder="username" name="username" id="username">
 
-            </div>
-            <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-key"></i></span>
-              </div>
-              <input type="password" class="form-control" placeholder="password" name="password" id="password">
-            </div>
-            <div class="row align-items-center remember">
-              <input type="checkbox">Remember Me
-            </div>
-            <div class="form-group">
-              <input type="submit" value="Login" class="btn float-right login_btn">
-            </div>
-          </form>
-        </div>
-        <div class="card-footer">
-          <div class="d-flex justify-content-center links">
-            Don't have an account?<a href="#">Sign Up</a>
-          </div>
-          <div class="d-flex justify-content-center">
-            <a href="#">Forgot your password?</a>
-          </div>
-        </div>
-      </div>
+<div class="login-wrapper row no-gutters">
+
+    <!-- LEFT -->
+    <div class="col-md-6 login-left d-flex flex-column justify-content-center">
+        <h1>ESC Community.<br>Disciples Community.</h1>
+        <p>
+            Terjadi Perubahan Hidup dan Melahirkan Pemurid baru
+        </p>
     </div>
-  </div>
 
-  <?php
-  $pesan = $this->session->flashdata("pesan");
-  if (!empty($pesan)) {
+    <!-- RIGHT -->
+    <div class="col-md-6 login-right">
+
+        <!-- Mobile Brand -->
+        <div class="text-center mb-4 d-md-none">
+            <h3 style="color:#c62828;font-weight:600;">Xinar</h3>
+        </div>
+
+        <h4>Login Account</h4>
+        <small>Sign in to continue</small>
+
+        <form class="mt-4" action="<?php echo site_url('login/cek_login') ?>" method="post">
+
+            <!-- USERNAME -->
+            <div class="form-group">
+                <label>Username</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-login btn-block mt-4">
+                Login
+            </button>
+
+            <!-- <div class="text-center login-footer mt-4">
+                Don't have an account? <a href="#">Sign Up</a>
+            </div> -->
+
+        </form>
+    </div>
+</div>
+
+<!-- PASSWORD TOGGLE SCRIPT -->
+<script>
+function togglePassword() {
+    const password = document.getElementById("password");
+    const icon = document.getElementById("eyeIcon");
+
+    if (password.type === "password") {
+        password.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    } else {
+        password.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    }
+}
+</script>
+
+<?php
+$pesan = $this->session->flashdata("pesan");
+if (!empty($pesan)) {
     echo $pesan;
-  }
-  ?>
+}
+?>
 
 </body>
-
 </html>
