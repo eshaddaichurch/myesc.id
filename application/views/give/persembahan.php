@@ -239,7 +239,7 @@
   .rekening {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #ff5722;
+    color:rgb(240, 78, 28);
   }
 
   /* .copy-btn {
