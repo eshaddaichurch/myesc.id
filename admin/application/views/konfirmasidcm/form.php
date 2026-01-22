@@ -47,15 +47,17 @@
                <div class="row">
                 <div class="col-md-2">
                   <?php
-                  $fotoPath = FCPATH . 'myesc.id/admin/uploads/jemaat/' . $rowJemaat->foto;
+                  $foto = base_url('images/user-01.png'); // default
 
-                  if (!empty($rowJemaat->foto) && file_exists($fotoPath)) {
-                    $foto = base_url('myesc.id/admin/uploads/jemaat/' . $rowJemaat->foto);
-                  } else {
-                    $foto = base_url('images/user-01.png');
+                  if (!empty($rowJemaat->foto)) {
+                      $fotoPath = FCPATH . 'uploads/jemaat/' . $rowJemaat->foto;
+
+                      if (file_exists($fotoPath)) {
+                          $foto = base_url('uploads/jemaat/' . $rowJemaat->foto);
+                      }
                   }
                   ?>
-                  <img src="<?= $foto ?>" alt="Foto Jemaat" style="width: 80%;">
+                  <img src="<?= $foto ?>" alt="Foto Jemaat" style="width:80%; border-radius:6px;">
                 </div>
 
                  <div class="col-md-10">
