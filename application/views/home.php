@@ -257,84 +257,108 @@
   } */
 
 
-   /* Tab kecil di samping */
-.disciples-tab {
-  position: fixed;
-  right: 0;
-  top: 45%;
-  background: #ff5008;
-  color: #fff;
-  padding: 10px 14px;
-  border-radius: 8px 0 0 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  z-index: 998;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-}
+  /* Bubble CTA */
+  .disciples-cta-bubble {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: #ff5008;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    font-size: 14px;
+    font-weight: 600;
+  }
 
-/* Panel slide */
-.disciples-panel {
-  position: fixed;
-  top: 0;
-  right: -320px;
-  width: 320px;
-  height: 100%;
-  background: #ffffff;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.15);
-  transition: right 0.35s ease;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-}
+  .disciples-cta-bubble .cta-icon {
+    font-size: 16px;
+  }
 
-/* Aktif */
-.disciples-panel.active {
-  right: 0;
-}
+  /* Mini Popup */
+  .disciples-mini {
+    position: fixed;
+    bottom: 100px;
+    left: 24px;
+    width: 280px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
 
-/* Header */
-.disciples-header {
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-  font-weight: 600;
-}
+  .disciples-mini.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
 
-.disciples-header button {
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-}
+  /* Header */
+  .disciples-mini-header {
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+  }
 
-/* Content */
-.disciples-content {
-  padding: 20px;
-}
+  .disciples-mini-header button {
+    border: none;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
 
-.disciples-content p {
-  font-size: 15px;
-  margin-bottom: 24px;
-}
+  /* Body */
+  .disciples-mini-body {
+    padding: 16px;
+  }
 
-/* Button */
-.btn-disciples {
-  display: inline-block;
-  background: #ff5008;
-  color: #fff;
-  padding: 12px 28px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-}
+  .disciples-mini-body p {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
 
-.btn-disciples:hover {
-  background: #e04607;
-}
+  /* Button */
+  .disciples-mini-btn {
+    display: block;
+    text-align: center;
+    background: #ff5008;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .disciples-mini-btn:hover {
+    background: #e04607;
+  }
+
+  /* Mobile Optimization */
+  @media (max-width: 576px) {
+    .disciples-cta-bubble {
+      bottom: 16px;
+      left: 16px;
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+
+    .disciples-mini {
+      width: 240px;
+      left: 16px;
+    }
+  }
 
 
 
@@ -377,26 +401,27 @@
   </main>
 
 
-  <!-- Toggle Button -->
-  <div class="disciples-tab" onclick="toggleDisciples()">
-    Disciples
+  <!-- CTA Bubble -->
+  <div class="disciples-cta-bubble" onclick="toggleDisciplesCTA()">
+    <span class="cta-icon">✝</span>
+    <span class="cta-text">Disciples</span>
   </div>
 
-  <!-- Side Popup -->
-  <div id="disciplesPanel" class="disciples-panel">
-    <div class="disciples-header">
+  <!-- Mini Popup -->
+  <div id="disciplesMini" class="disciples-mini">
+    <div class="disciples-mini-header">
       <span>Disciples Community</span>
-      <button onclick="toggleDisciples()">×</button>
+      <button onclick="toggleDisciplesCTA()">×</button>
     </div>
 
-    <div class="disciples-content">
+    <div class="disciples-mini-body">
       <p>
         Ayo bertumbuh bersama dalam komunitas pemuridan.
       </p>
 
       <a href="https://myesc.id/disciples_community/index"
         target="_blank"
-        class="btn btn-disciples">
+        class="disciples-mini-btn">
         Gabung Sekarang
       </a>
     </div>
@@ -404,25 +429,22 @@
 
 
   <script>
-    function toggleDisciples() {
-      document.getElementById('disciplesPanel').classList.toggle('active');
-    }
-
-
-    document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!localStorage.getItem('disciplesMiniShown')) {
       setTimeout(function () {
-        document.getElementById('disciplesPanel').classList.add('active');
-      }, 600); // delay 0.6 detik biar halus
-    });
-
-    function toggleDisciples() {
-      document.getElementById('disciplesPanel').classList.toggle('active');
+        document.getElementById('disciplesMini').classList.add('active');
+        localStorage.setItem('disciplesMiniShown', 'true');
+      }, 900);
     }
-
+  });
 
   </script>
 
-
+  <script>
+    function toggleDisciplesCTA() {
+      document.getElementById('disciplesMini').classList.toggle('active');
+    }
+  </script>
 
 </body>
 </html>
