@@ -222,6 +222,16 @@ class Akun extends MY_Controller
         // jemaat dengan status Simpatisan juga masih dapat merubah data pada profile
         if ($rowJemaat->statusjemaat == 'Registered' || $rowJemaat->statusjemaat == 'Simpatisan') {
 
+            $data['nik'] = $nik;
+            $data['kewarganegaraan'] = $kewarganegaraan;
+            $data['namalengkap'] = $namalengkap;
+            $data['namapanggilan'] = $namapanggilan;
+            $data['tempatlahir'] = $tempatlahir;
+            $data['tanggallahir'] = $tanggallahir;
+            $data['jeniskelamin'] = $jeniskelamin;
+            $data['statuspernikahan'] = $statuspernikahan;
+            $data['golongandarah'] = $golongandarah;
+
             $data = array(
                 'notelp'   => $notelp,
                 'nohp'   => $nohp,
