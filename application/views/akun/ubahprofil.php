@@ -634,16 +634,27 @@
                         $('#nikprofil').focus();
 
                     } else {
-                        $('#notelp').focus();
-                        $('#nikprofil').attr('disabled', true);
-                        $('#kewarganegaraan').attr('disabled', true);
-                        $('#namalengkapprofil').attr('disabled', true);
-                        $('#namapanggilan').attr('disabled', true);
-                        $('#tempatlahirprofil').attr('disabled', true);
-                        $('#tanggallahirprofil').attr('disabled', true);
-                        $('#jeniskelaminprofil').attr('disabled', true);
-                        $('#statuspernikahan').attr('disabled', true);
-                        $('#golongandarah').attr('disabled', true);
+                        // $('#notelp').focus();
+                        // $('#nikprofil').attr('disabled', true);
+                        // $('#kewarganegaraan').attr('disabled', true);
+                        // $('#namalengkapprofil').attr('disabled', true);
+                        // $('#namapanggilan').attr('disabled', true);
+                        // $('#tempatlahirprofil').attr('disabled', true);
+                        // $('#tanggallahirprofil').attr('disabled', true);
+                        // $('#jeniskelaminprofil').attr('disabled', true);
+                        // $('#statuspernikahan').attr('disabled', true);
+                        // $('#golongandarah').attr('disabled', true);
+
+                        $('#nikprofil').prop('readonly', true);
+                        $('#kewarganegaraan').prop('readonly', true);
+                        $('#namalengkapprofil').prop('readonly', true);
+                        $('#namapanggilan').prop('readonly', true);
+                        $('#tempatlahirprofil').prop('readonly', true);
+                        $('#tanggallahirprofil').prop('readonly', true);
+                        $('#jeniskelaminprofil').prop('readonly', true);
+                        $('#statuspernikahan').prop('readonly', true);
+                        $('#golongandarah').prop('readonly', true);
+
 
                     }
 
