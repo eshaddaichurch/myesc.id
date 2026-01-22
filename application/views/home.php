@@ -257,6 +257,87 @@
   } */
 
 
+   /* Tab kecil di samping */
+.disciples-tab {
+  position: fixed;
+  right: 0;
+  top: 45%;
+  background: #ff5008;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 998;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Panel slide */
+.disciples-panel {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.15);
+  transition: right 0.35s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Aktif */
+.disciples-panel.active {
+  right: 0;
+}
+
+/* Header */
+.disciples-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+}
+
+.disciples-header button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Content */
+.disciples-content {
+  padding: 20px;
+}
+
+.disciples-content p {
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+/* Button */
+.btn-disciples {
+  display: inline-block;
+  background: #ff5008;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-disciples:hover {
+  background: #e04607;
+}
+
+
+
 
   </style>
 
@@ -294,6 +375,54 @@
 
     <?php $this->load->view('template/festavalive/footer'); ?>
   </main>
+
+
+  <!-- Toggle Button -->
+  <div class="disciples-tab" onclick="toggleDisciples()">
+    Disciples
+  </div>
+
+  <!-- Side Popup -->
+  <div id="disciplesPanel" class="disciples-panel">
+    <div class="disciples-header">
+      <span>Disciples Community</span>
+      <button onclick="toggleDisciples()">×</button>
+    </div>
+
+    <div class="disciples-content">
+      <p>
+        Ayo bertumbuh bersama dalam komunitas pemuridan.
+      </p>
+
+      <a href="https://myesc.id/disciples_community/index"
+        target="_blank"
+        class="btn btn-disciples">
+        Gabung Sekarang
+      </a>
+    </div>
+  </div>
+
+
+  <script>
+    function toggleDisciples() {
+      document.getElementById('disciplesPanel').classList.toggle('active');
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        document.getElementById('disciplesPanel').classList.add('active');
+      }, 600); // delay 0.6 detik biar halus
+    });
+
+    function toggleDisciples() {
+      document.getElementById('disciplesPanel').classList.toggle('active');
+    }
+
+
+  </script>
+
+
 
 </body>
 </html>
