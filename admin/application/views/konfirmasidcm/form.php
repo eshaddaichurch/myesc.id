@@ -45,16 +45,19 @@
              </div>
              <div class="card-body pb-5">
                <div class="row">
-                 <div class="col-md-2">
-                   <?php
-                    if (!empty($rowJemaat->foto)) {
-                      $foto = base_url('uploads/jemaat/' . $rowJemaat->foto);
-                    } else {
-                      $foto = base_url('images/user-01.png');
-                    }
-                    echo '<img src="' . $foto . '" alt="" style="width: 80%;">';
-                    ?>
-                 </div>
+                <div class="col-md-2">
+                  <?php
+                  $fotoPath = FCPATH . 'myesc.id/admin/uploads/jemaat/' . $rowJemaat->foto;
+
+                  if (!empty($rowJemaat->foto) && file_exists($fotoPath)) {
+                    $foto = base_url('myesc.id/admin/uploads/jemaat/' . $rowJemaat->foto);
+                  } else {
+                    $foto = base_url('images/user-01.png');
+                  }
+                  ?>
+                  <img src="<?= $foto ?>" alt="Foto Jemaat" style="width: 80%;">
+                </div>
+
                  <div class="col-md-10">
 
                    <table class="table">
