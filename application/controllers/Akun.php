@@ -219,9 +219,106 @@ class Akun extends MY_Controller
         // hanya registred yang bisa ubah profile
         // if ($rowJemaat->statusjemaat == 'Registered') {
 
-        // jemaat dengan status Simpatisan juga masih dapat merubah data pada profile
-        if ($rowJemaat->statusjemaat == 'Registered' || $rowJemaat->statusjemaat == 'Simpatisan') {
+        // // jemaat dengan status Simpatisan juga masih dapat merubah data pada profile
+        // if ($rowJemaat->statusjemaat == 'Registered' || $rowJemaat->statusjemaat == 'Simpatisan') {
 
+        //     $data['nik'] = $nik;
+        //     $data['kewarganegaraan'] = $kewarganegaraan;
+        //     $data['namalengkap'] = $namalengkap;
+        //     $data['namapanggilan'] = $namapanggilan;
+        //     $data['tempatlahir'] = $tempatlahir;
+        //     $data['tanggallahir'] = $tanggallahir;
+        //     $data['jeniskelamin'] = $jeniskelamin;
+        //     $data['statuspernikahan'] = $statuspernikahan;
+        //     $data['golongandarah'] = $golongandarah;
+
+        //     $data = array(
+        //         'notelp'   => $notelp,
+        //         'nohp'   => $nohp,
+        //         'facebook'   => $facebook,
+        //         'instagram'   => $instagram,
+        //         'namadarurat'   => $namadarurat,
+        //         'hubungan'   => $hubungan,
+        //         'notelpdarurat'   => $notelpdarurat,
+        //         'pendidikanterakhir'   => $pendidikanterakhir,
+        //         'namasekolah'   => $namasekolah,
+        //         'pekerjaan'   => $pekerjaan,
+        //         'namaperusahaan'   => $namaperusahaan,
+        //         'sektorindustri'   => $sektorindustri,
+        //         'alamatkantor'   => $alamatkantor,
+        //         'notelpkantor'   => $notelpkantor,
+        //         'alamatrumah'   => $alamatrumah,
+        //         'rtrw'   => $rtrw,
+        //         'kelurahan'   => $kelurahan,
+        //         'kecamatan'   => $kecamatan,
+        //         'kotakabupaten'   => $kotakabupaten,
+        //         'propinsi'   => $propinsi,
+        //         'kodepos'   => $kodepos,
+        //         'tanggalupdate'   => $tanggalupdate,
+        //         'foto'   => $foto,
+        //     );
+        // } else {
+        //     $data = array(
+        //         'notelp'   => $notelp,
+        //         'nohp'   => $nohp,
+        //         'facebook'   => $facebook,
+        //         'instagram'   => $instagram,
+        //         'namadarurat'   => $namadarurat,
+        //         'hubungan'   => $hubungan,
+        //         'notelpdarurat'   => $notelpdarurat,
+        //         'pendidikanterakhir'   => $pendidikanterakhir,
+        //         'namasekolah'   => $namasekolah,
+        //         'pekerjaan'   => $pekerjaan,
+        //         'namaperusahaan'   => $namaperusahaan,
+        //         'sektorindustri'   => $sektorindustri,
+        //         'alamatkantor'   => $alamatkantor,
+        //         'notelpkantor'   => $notelpkantor,
+        //         'alamatrumah'   => $alamatrumah,
+        //         'rtrw'   => $rtrw,
+        //         'kelurahan'   => $kelurahan,
+        //         'kecamatan'   => $kecamatan,
+        //         'kotakabupaten'   => $kotakabupaten,
+        //         'propinsi'   => $propinsi,
+        //         'kodepos'   => $kodepos,
+        //         'tanggalupdate'   => $tanggalupdate,
+        //         'foto'   => $foto,
+        //     );
+        // }
+
+
+        // =======================================
+        // DATA UMUM (boleh diubah semua status)
+        // =======================================
+        $data = array(
+            'notelp' => $notelp,
+            'nohp' => $nohp,
+            'facebook' => $facebook,
+            'instagram' => $instagram,
+            'namadarurat' => $namadarurat,
+            'hubungan' => $hubungan,
+            'notelpdarurat' => $notelpdarurat,
+            'pendidikanterakhir' => $pendidikanterakhir,
+            'namasekolah' => $namasekolah,
+            'pekerjaan' => $pekerjaan,
+            'namaperusahaan' => $namaperusahaan,
+            'sektorindustri' => $sektorindustri,
+            'alamatkantor' => $alamatkantor,
+            'notelpkantor' => $notelpkantor,
+            'alamatrumah' => $alamatrumah,
+            'rtrw' => $rtrw,
+            'kelurahan' => $kelurahan,
+            'kecamatan' => $kecamatan,
+            'kotakabupaten' => $kotakabupaten,
+            'propinsi' => $propinsi,
+            'kodepos' => $kodepos,
+            'tanggalupdate' => $tanggalupdate,
+            'foto' => $foto,
+        );
+
+        // =======================================
+        // DATA IDENTITAS (HANYA Registered & Simpatisan)
+        // =======================================
+        if (in_array($rowJemaat->statusjemaat, ['Registered', 'Simpatisan'])) {
             $data['nik'] = $nik;
             $data['kewarganegaraan'] = $kewarganegaraan;
             $data['namalengkap'] = $namalengkap;
@@ -231,59 +328,8 @@ class Akun extends MY_Controller
             $data['jeniskelamin'] = $jeniskelamin;
             $data['statuspernikahan'] = $statuspernikahan;
             $data['golongandarah'] = $golongandarah;
-
-            $data = array(
-                'notelp'   => $notelp,
-                'nohp'   => $nohp,
-                'facebook'   => $facebook,
-                'instagram'   => $instagram,
-                'namadarurat'   => $namadarurat,
-                'hubungan'   => $hubungan,
-                'notelpdarurat'   => $notelpdarurat,
-                'pendidikanterakhir'   => $pendidikanterakhir,
-                'namasekolah'   => $namasekolah,
-                'pekerjaan'   => $pekerjaan,
-                'namaperusahaan'   => $namaperusahaan,
-                'sektorindustri'   => $sektorindustri,
-                'alamatkantor'   => $alamatkantor,
-                'notelpkantor'   => $notelpkantor,
-                'alamatrumah'   => $alamatrumah,
-                'rtrw'   => $rtrw,
-                'kelurahan'   => $kelurahan,
-                'kecamatan'   => $kecamatan,
-                'kotakabupaten'   => $kotakabupaten,
-                'propinsi'   => $propinsi,
-                'kodepos'   => $kodepos,
-                'tanggalupdate'   => $tanggalupdate,
-                'foto'   => $foto,
-            );
-        } else {
-            $data = array(
-                'notelp'   => $notelp,
-                'nohp'   => $nohp,
-                'facebook'   => $facebook,
-                'instagram'   => $instagram,
-                'namadarurat'   => $namadarurat,
-                'hubungan'   => $hubungan,
-                'notelpdarurat'   => $notelpdarurat,
-                'pendidikanterakhir'   => $pendidikanterakhir,
-                'namasekolah'   => $namasekolah,
-                'pekerjaan'   => $pekerjaan,
-                'namaperusahaan'   => $namaperusahaan,
-                'sektorindustri'   => $sektorindustri,
-                'alamatkantor'   => $alamatkantor,
-                'notelpkantor'   => $notelpkantor,
-                'alamatrumah'   => $alamatrumah,
-                'rtrw'   => $rtrw,
-                'kelurahan'   => $kelurahan,
-                'kecamatan'   => $kecamatan,
-                'kotakabupaten'   => $kotakabupaten,
-                'propinsi'   => $propinsi,
-                'kodepos'   => $kodepos,
-                'tanggalupdate'   => $tanggalupdate,
-                'foto'   => $foto,
-            );
         }
+
 
 
         
