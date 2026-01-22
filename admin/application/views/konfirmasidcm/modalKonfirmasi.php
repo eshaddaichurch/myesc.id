@@ -10,9 +10,24 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-12 mb-3 text-center">
+                        <!-- <div class="col-12 mb-3 text-center">
                             <img src="<?php echo base_url('images/user-01.png') ?>" alt="" class="rounded" style="width: 30%;">
+                        </div> -->
+                        <div class="col-12 mb-3 text-center">
+                        <?php
+                        $foto = base_url('images/user-01.png'); // default
+
+                        if (!empty($rowJemaat->foto)) {
+                            $fotoPath = FCPATH . 'uploads/jemaat/' . $rowJemaat->foto;
+ 
+                            if (file_exists($fotoPath)) {
+                                $foto = base_url('uploads/jemaat/' . $rowJemaat->foto);
+                            }
+                        }
+                        ?>
+                        <img src="<?= $foto ?>" alt="Foto Jemaat" class="rounded" style="width:30%;">
                         </div>
+
                         <div class="col-12">
                             <table class="table table-spacenol">
                                 <tbody>
