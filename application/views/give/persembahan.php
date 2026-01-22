@@ -145,9 +145,9 @@
   } */
 
   .btn {
-    background: linear-gradient(90deg, #ff9800, #ff5722);
+    background: linear-gradient(90deg, #ff9800,rgb(236, 74, 25));
     color: white;
-    padding: 1.6rem 0rem;
+    padding: 0.6rem 0rem;
     border: none;
     border-radius: 9999px;
     font-weight: 500;
