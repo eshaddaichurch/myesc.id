@@ -404,7 +404,7 @@
   <!-- CTA Bubble -->
   <div class="disciples-cta-bubble" onclick="toggleDisciplesCTA()">
     <span class="cta-icon">✝</span>
-    <span class="cta-text">Disciples</span>
+    <span class="cta-text">DC</span>
   </div>
 
   <!-- Mini Popup -->
@@ -416,7 +416,7 @@
 
     <div class="disciples-mini-body">
       <p>
-        Ayo bertumbuh bersama dalam komunitas pemuridan.
+        Ayo bertumbuh bersama dalam komunitas pemuridan di El Shaddai Church.
       </p>
 
       <a href="https://myesc.id/disciples_community/index"
@@ -430,21 +430,16 @@
 
   <script>
   document.addEventListener("DOMContentLoaded", function () {
-    if (!localStorage.getItem('disciplesMiniShown')) {
-      setTimeout(function () {
-        document.getElementById('disciplesMini').classList.add('active');
-        localStorage.setItem('disciplesMiniShown', 'true');
-      }, 900);
-    }
+    setTimeout(function () {
+      document.getElementById('disciplesMini').classList.add('active');
+    }, 800); // delay halus, tidak kaget
   });
 
+  function toggleDisciplesCTA() {
+    document.getElementById('disciplesMini').classList.toggle('active');
+  }
   </script>
 
-  <script>
-    function toggleDisciplesCTA() {
-      document.getElementById('disciplesMini').classList.toggle('active');
-    }
-  </script>
 
 </body>
 </html>
