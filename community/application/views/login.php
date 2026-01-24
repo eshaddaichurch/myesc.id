@@ -182,10 +182,34 @@ body {
         border-radius: 14px;
     }
 }
+
+
+.login-alert-wrapper {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    width: 90%;
+    max-width: 420px;
+}
+
+/* rapikan alert bootstrap */
+.login-alert-wrapper .alert {
+    margin-bottom: 0;
+    border-radius: 12px;
+    font-size: 14px;
+}
 </style>
 </head>
 
 <body>
+
+<?php if ($this->session->flashdata('pesan')): ?>
+<div class="login-alert-wrapper">
+    <?= $this->session->flashdata('pesan') ?>
+</div>
+<?php endif; ?>
 
 <div class="login-container">
 
@@ -268,12 +292,6 @@ function togglePassword() {
 }
 </script>
 
-<?php
-$pesan = $this->session->flashdata("pesan");
-if (!empty($pesan)) {
-    echo $pesan;
-}
-?>
 
 </body>
 </html>

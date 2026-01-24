@@ -448,8 +448,14 @@ $this->load->view('template/festavalive/header'); ?>
                                     <label for="" class="">Cari Nama DC</label>
                                     <input type="text" name="carinamadc" id="carinamadc" class="form-control" placeholder="Cari berdasarkan nama dc">
                                 </div>
-                                <div class="col-md text-center mt-3">
+                                <!-- <div class="col-md text-center mt-3">
                                     <button class="btn btn-primary" id="btnCari"><i class="fa fa-search me-2"></i>Cari</button>
+                                </div> -->
+
+                                <div class="col-md text-center mt-3">
+                                    <button class="btn btn-black" id="btnCari">
+                                        <i class="fa fa-search me-2"></i>Cari
+                                    </button>
                                 </div>
                             </div>
                         </div>
