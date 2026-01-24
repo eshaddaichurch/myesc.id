@@ -1022,6 +1022,63 @@ $this->load->view('template/festavalive/header'); ?>
             background-color: #333;
         }
 
+
+        .dc-card {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .dc-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+        }
+
+        .dc-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* overlay gelap bawah */
+        .dc-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,.65),
+                rgba(0,0,0,.15),
+                transparent
+            );
+        }
+
+        /* container text */
+        .dc-info {
+            position: absolute;
+            left: 16px;
+            bottom: 16px;
+            z-index: 2;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        /* Nama DM (lebih besar) */
+        .dc-dm {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Nama DC (lebih kecil) */
+        .dc-name {
+            font-size: 14px;
+            opacity: .9;
+        }
+
     
 
     </style>
@@ -1267,21 +1324,15 @@ $this->load->view('template/festavalive/header'); ?>
 
                             var addText = `
                                 <div class="col-md-4">
-                                    <div class="profile-card-2 d-flex justify-content-center">
-                                        <img src="${fotodm}" class="img img-responsive">
-                                        <div class="profile-name">${response.data[i]['namadc']}</div>
-                                        <div class="profile-username">${response.data[i]['namadm']}</div>
-                                        <div class="profile-icons">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                                    <div class="dc-card btn-informasi-dc" data-iddc="${response.data[i]['iddc']}">
+                                        <img src="${fotodm}" alt="Foto DM">
+                                        <div class="dc-info">
+                                            <div class="dc-dm">${response.data[i]['namadm']}</div>
+                                            <div class="dc-name">${response.data[i]['namadc']}</div>
                                         </div>
-                                        <a href="#" class="btn btn-success profile-buttons btn-informasi-dc" data-iddc="${response.data[i]['iddc']}">
-                                            <i class="fa fa-search mr-1"></i> Lihat Informasi DC
-                                        </a>
                                     </div>
                                 </div>
-                            `;
+                                `;
 
                             $('#divListDC').append(addText);
                         }
