@@ -686,7 +686,8 @@ $this->load->view('template/festavalive/header'); ?>
       <!-- Section: Child Dedication -->
       <div class="section light dedication">
         <div class="dedication-video">
-          <iframe width="560" height="315" src="https://youtube.com/playlist?list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh&si=vELsgWLxaNSwHBoX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=TrP30sXF0j6FqOsT&amp;list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <!-- <iframe width="560" height="315" src="https://youtube.com/playlist?list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh&si=vELsgWLxaNSwHBoX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
         </div>
 
         <div class="dedication-text">
