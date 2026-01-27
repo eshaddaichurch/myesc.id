@@ -500,7 +500,7 @@ $this->load->view('template/festavalive/header'); ?>
         position: absolute;
         width: 70%;
         height: 100%;
-        background-image: url('<?php echo base_url('myesc.id/assets/gambar/bgdc.JPG'); ?>');
+        background-image: url('<?php echo base_url('myesc.id/assets/gambar/bgdc.jpg'); ?>');
         background-size: cover;
         background-position: center;
         z-index: 1;
@@ -677,7 +677,7 @@ $this->load->view('template/festavalive/header'); ?>
       .hero-dc-bg {
         position: absolute;
         inset: 0;
-        background-image: url('<?php echo base_url("myesc.id/assets/gambar/bgdc.JPG"); ?>');
+        background-image: url('<?php echo base_url("myesc.id/assets/gambar/bgdc.jpg"); ?>');
         background-size: cover;
         background-position: center;
         z-index: 1;
