@@ -257,23 +257,41 @@
   } */
 
 
-  /* Bubble CTA */
+  /* CTA Bubble - Chat Style */
   .disciples-cta-bubble {
     position: fixed;
     bottom: 24px;
     left: 24px;
+
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+
     background: #ff5008;
     color: #fff;
-    padding: 12px 16px;
-    border-radius: 50px;
+
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
     cursor: pointer;
     z-index: 999;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    font-size: 14px;
-    font-weight: 600;
+
+    box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .disciples-cta-bubble:hover {
+    transform: scale(1.08);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+  }
+
+  .disciples-cta-bubble:active {
+    transform: scale(0.96);
   }
 
   .disciples-cta-bubble .cta-icon {
@@ -289,15 +307,15 @@
     background: #ffffff;
     border-radius: 14px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    transform: translateY(20px);
-    opacity: 0;
     pointer-events: none;
-    transition: all 0.3s ease;
     z-index: 1000;
+    transform: translateY(30px) scale(0.96);
+    opacity: 0;
+    transition: all 0.25s ease;
   }
 
   .disciples-mini.active {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
     pointer-events: auto;
   }
@@ -345,13 +363,13 @@
     background: #e04607;
   }
 
-  /* Mobile Optimization */
   @media (max-width: 576px) {
     .disciples-cta-bubble {
       bottom: 16px;
       left: 16px;
-      padding: 10px 14px;
-      font-size: 13px;
+      width: 52px;
+      height: 52px;
+      font-size: 15px;
     }
 
     .disciples-mini {
@@ -403,7 +421,6 @@
 
   <!-- CTA Bubble -->
   <div class="disciples-cta-bubble" onclick="toggleDisciplesCTA()">
-    <span class="cta-icon">✝</span>
     <span class="cta-text">DC</span>
   </div>
 
