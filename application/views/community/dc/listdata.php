@@ -489,30 +489,63 @@ $this->load->view('template/festavalive/header'); ?>
         }
 
         @media (max-width: 576px) {
+
+            /* modal wrapper */
             .modal-dialog {
-                margin: 10px;
+            margin: 10px;
             }
 
             .modal-content {
-                max-height: 92vh;
+            max-height: 92vh;
+            border-radius: 16px;
+            overflow: hidden;
             }
 
             .modal-body {
-                overflow-y: auto;
+            padding: 0;
+            overflow-y: auto;
             }
 
+            /* LEFT SIDE (MAP / FOTO) */
             .modal-dc-left {
-                min-height: 180px;
-                max-height: 180px;
+            min-height: 180px;
+            max-height: 180px;
+            width: 100%;
             }
 
-            .btn-dc-join {
-                position: sticky;
-                bottom: 0;
-                border-radius: 0;
-                padding: 16px;
-                }
+            /* Google Maps iframe */
+            .modal-dc-map iframe {
+            width: 100%;
+            height: 180px;
+            border: 0;
             }
+
+            /* LOCATION INFO → JADI DI BAWAH MAP */
+            .modal-dc-location {
+            position: static;              /* ❗ penting */
+            background: #fff;
+            padding: 12px 16px;
+            font-size: 13px;
+            border-top: 1px solid #eee;
+            }
+
+            /* RIGHT CONTENT */
+            .modal-dc-right {
+            padding: 16px;
+            }
+
+            /* BUTTON JOIN */
+            .btn-dc-join {
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            border-radius: 0;
+            padding: 16px;
+            font-size: 15px;
+            z-index: 10;
+            }
+
+        }
 
     </style>
     <!-- </head>
