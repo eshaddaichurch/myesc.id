@@ -272,7 +272,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         body {
             margin: 0;
-            background: #f3f4f6;
+            background: #e9ecef;
             font-family: 'Figtree', sans-serif;
             color: #111;
             line-height: 1.7;
@@ -281,8 +281,7 @@ $this->load->view('template/festavalive/header'); ?>
         
 
         .page-content {
-            margin-top: 100px; /* bisa diganti 80-120px sesuai tinggi navbar */
-            padding-top: 120px;
+        padding-top: 110px; /* sesuaikan tinggi navbar asli */
         }
         
 
@@ -376,12 +375,7 @@ $this->load->view('template/festavalive/header'); ?>
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                to top,
-                rgba(0,0,0,.65),
-                rgba(0,0,0,.15),
-                transparent
-            );
+            
         }
 
         .dc-page-title {
@@ -394,10 +388,10 @@ $this->load->view('template/festavalive/header'); ?>
         /* container text */
         .dc-info {
             position: absolute;
-            left: 16px;
-            bottom: 16px;
+            left: 18px;
+            bottom: 12px;
             z-index: 2;
-            color: #fff;
+            color: #ffffff;
             line-height: 1.2;
         }
 
