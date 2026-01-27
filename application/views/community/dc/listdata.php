@@ -262,14 +262,20 @@ $this->load->view('template/festavalive/header'); ?>
 
         
 
-        body {
+        /* body {
         margin: 0;
-        /* padding-top: 80px; */
-        /* background-color: #e9d6a8; */
         background: linear-gradient(63deg, #fffaf5, #ffb347);
         font-family: 'Figtree', sans-serif;
         color: #111;
         line-height: 1.7;
+        } */
+
+        body {
+            margin: 0;
+            background: #fffaf5; /* soft warm white */
+            font-family: 'Figtree', sans-serif;
+            color: #111;
+            line-height: 1.7;
         }
 
 
@@ -373,6 +379,13 @@ $this->load->view('template/festavalive/header'); ?>
                 rgba(0,0,0,.15),
                 transparent
             );
+        }
+
+        .dc-page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
         }
 
         /* container text */
