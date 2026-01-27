@@ -254,7 +254,98 @@ $this->load->view('template/festavalive/header'); ?>
           }
         }
       }
-    </style>
+
+      /* ===== MODAL DC FINAL ===== */
+    .modal-dc {
+    border-radius: 18px;
+    overflow: hidden;
+    border: none;
+    }
+
+    /* header */
+    .modal-dc-header {
+    background: #ff5008;
+    color: #fff;
+    padding: 18px 24px;
+    }
+
+    /* left side */
+    .modal-dc-left {
+    background: #eee;
+    position: relative;
+    min-height: 360px;
+    }
+
+    .modal-dc-map {
+    height: 100%;
+    background: url('<?php echo base_url("myesc.id/images/bg-map.png"); ?>') center/cover no-repeat;
+    position: relative;
+    }
+
+    .modal-dc-location {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    background: rgba(255,255,255,0.85);
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 14px;
+    }
+
+    /* right side */
+    .modal-dc-right {
+    padding: 32px;
+    }
+
+    .modal-dc-badge {
+    background: rgba(255,80,8,.12);
+    color: #ff5008;
+    border-radius: 999px;
+    font-size: 12px;
+    padding: 6px 14px;
+    font-weight: 600;
+    }
+
+    /* info list */
+    .modal-dc-info {
+    display: grid;
+    gap: 18px;
+    }
+
+    .info-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    }
+
+    .info-item i {
+    color: #ff5008;
+    font-size: 18px;
+    margin-top: 2px;
+    }
+
+    .text-orange {
+    color: #ff5008;
+    }
+
+    /* button */
+    .btn-dc-join {
+    background: #ff5008;
+    color: #fff;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    }
+
+    .btn-dc-join:hover {
+    background: #ff6a2a;
+    color: #fff;
+    }
 
 
     <style>
@@ -523,6 +614,47 @@ $this->load->view('template/festavalive/header'); ?>
         }
         }
 
+
+        /* ===== MODAL ANIMATION ===== */
+        .modal.fade .modal-dialog {
+        transform: translateY(40px);
+        transition: transform .35s ease-out, opacity .35s ease-out;
+        opacity: 0;
+        }
+
+        .modal.fade.show .modal-dialog {
+        transform: translateY(0);
+        opacity: 1;
+        }
+
+
+        /* ===== MOBILE STACK ===== */
+        @media (max-width: 768px) {
+        .modal-dc-left {
+            min-height: 220px;
+        }
+
+        .modal-dc-map {
+            border-radius: 0;
+        }
+
+        .modal-dc-right {
+            padding: 24px 20px;
+        }
+
+        .btn-dc-join {
+            width: 100%;
+            text-align: center;
+        }
+
+        .modal-dc-location {
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            font-size: 13px;
+        }
+        }
+
     </style>
     <!-- </head>
 
@@ -685,7 +817,7 @@ $this->load->view('template/festavalive/header'); ?>
     </div> -->
 
 
-    <div class="modal fade" id="modalInfoDC" tabindex="-1" aria-labelledby="modalInfoDCTitle" aria-hidden="true">
+    <!-- <div class="modal fade" id="modalInfoDC" tabindex="-1" aria-labelledby="modalInfoDCTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content shadow-lg">
                 <div class="modal-header">
@@ -709,8 +841,87 @@ $this->load->view('template/festavalive/header'); ?>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <!-- <button type="button" class="btn btn-outline-secondary w-50" data-bs-dismiss="modal">Tutup</button> -->
+                    
                     <a href="#" id="btnModalBergabung" class="btn btn-black w-50">Bergabung Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+
+    <div class="modal-content modal-dc shadow-lg">
+        <!-- HEADER -->
+        <div class="modal-header modal-dc-header">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fa fa-users"></i>
+                <h5 class="modal-title" id="modalInfoDCTitle">
+                    Informasi Disciples Community
+                </h5>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- BODY -->
+        <div class="modal-body p-0">
+            <div class="row g-0">
+                <!-- LEFT : IMAGE / MAP -->
+                <div class="col-md-6 modal-dc-left">
+                    <!-- <div class="modal-dc-map"> -->
+                    <div class="modal-dc-map" id="modalDcBg">
+                        <div class="modal-dc-location">
+                            <i class="fa fa-map-marker-alt"></i>
+                            <div>
+                                <small>Lokasi Komunitas</small>
+                                <div class="alamatdc fw-semibold"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT : INFO -->
+                <div class="col-md-6 modal-dc-right">
+                    <span class="badge modal-dc-badge mb-2">COMMUNITY</span>
+
+                    <h3 class="namadc fw-bold mb-4">Nama DC</h3>
+
+                    <div class="modal-dc-info">
+                        <div class="info-item">
+                            <i class="fa fa-user"></i>
+                            <div>
+                                <small>Nama DM</small>
+                                <div class="namadm fw-semibold"></div>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fa fa-calendar"></i>
+                            <div>
+                                <small>Hari</small>
+                                <div class="haridc fw-semibold"></div>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fa fa-clock"></i>
+                            <div>
+                                <small>Jam</small>
+                                <div class="jamdc fw-semibold"></div>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fa fa-tag"></i>
+                            <div>
+                                <small>Kategori</small>
+                                <div class="kategoridc fw-semibold text-orange"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" id="btnModalBergabung" class="btn btn-dc-join mt-4">
+                        Bergabung Sekarang →
+                    </a>
                 </div>
             </div>
         </div>
@@ -848,6 +1059,21 @@ $this->load->view('template/festavalive/header'); ?>
                     if (response['status'] == 'success') {
                         $('#modalInfoDC').modal('show');
                         $('.namadc').html(response['data'][0]['namadc']);
+                        // set background kiri (foto DM)
+                        var baseURL = "<?= base_url() ?>";
+                        var fotoDM = response['data'][0]['fotodm'];
+
+                        if (fotoDM && fotoDM !== "") {
+                            $('#modalDcBg').css(
+                                'background-image',
+                                'url(' + baseURL + 'myesc.id/admin/uploads/jemaat/' + fotoDM + ')'
+                            );
+                        } else {
+                            $('#modalDcBg').css(
+                                'background-image',
+                                'url(' + baseURL + 'myesc.id/images/bg-dc.png)'
+                            );
+                        }
                         $('.namadm').html(response['data'][0]['namadm']);
                         $('.alamatdc').html(response['data'][0]['alamatdc']);
                         $('.haridc').html(response['data'][0]['haridc']);
