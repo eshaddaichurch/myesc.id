@@ -17,11 +17,7 @@ $this->load->view('template/festavalive/header'); ?>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
       @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
+     
 
       /* This pen */
 
@@ -107,153 +103,11 @@ $this->load->view('template/festavalive/header'); ?>
         font-size: 2.5rem;
       }
 
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
-        display: flex;
-
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
-        overflow: hidden;
-        position: relative;
-        color: #ffffff;
-
-        
-
-        &.light {
-          background-color: #e1e5ea;
-        }
-
-        .t-dark {
-          color: #18151f;
-        }
-
-        a {
-          color: inherit;
-        }
-
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
-
-        .small {
-          font-size: 80%;
-        }
-
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
-
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
-
-        .postcard__img_link {
-          display: contents;
-        }
-
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
-
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
-        }
-
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
-        }
-
-        &:before {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
-        }
-
-        &:hover .postcard__bar {
-          width: 100px;
-        }
-      }
-
+      
       
 
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
-        }
-      }
+      
+      
 
       /* ===== MODAL DC FINAL ===== */
     .modal-dc {
@@ -273,7 +127,7 @@ $this->load->view('template/festavalive/header'); ?>
     .modal-dc-left {
     background: #eee;
     position: relative;
-    min-height: 360px;
+    min-height: 420px;
     }
 
     .modal-dc-map {
@@ -353,18 +207,7 @@ $this->load->view('template/festavalive/header'); ?>
     }
 
 
-    <style>
       
-
-        
-
-        /* body {
-        margin: 0;
-        background: linear-gradient(63deg, #fffaf5, #ffb347);
-        font-family: 'Figtree', sans-serif;
-        color: #111;
-        line-height: 1.7;
-        } */
 
         body {
             margin: 0;
@@ -467,12 +310,6 @@ $this->load->view('template/festavalive/header'); ?>
         }
 
         /* overlay gelap bawah */
-        .dc-card::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            
-        }
 
         .dc-page-title {
             font-size: 32px;
@@ -524,12 +361,6 @@ $this->load->view('template/festavalive/header'); ?>
         }
 
 
-        /* ===== DIRECTORY DC ===== */
-        .dc-page-title {
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        }
 
         /* filter box */
         .dc-filter-box {
@@ -856,7 +687,7 @@ $this->load->view('template/festavalive/header'); ?>
 
 
         <div class="modal fade" id="modalInfoDC" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content modal-dc shadow-lg">
 
                 <!-- HEADER -->
@@ -871,25 +702,23 @@ $this->load->view('template/festavalive/header'); ?>
                 <!-- BODY -->
                 <div class="modal-body p-0">
                     <div class="row g-0">
-
-
                             <!-- LEFT : MAP -->
-                            <div class="col-md-6 modal-dc-left">
+                        <div class="col-md-6 modal-dc-left">
                             <div class="modal-dc-map">
-                            <iframe
-                            id="modalDcMap"
-                            src=""
-                            allowfullscreen
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
+                                <iframe
+                                id="modalDcMap"
+                                src=""
+                                allowfullscreen
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
 
 
-                            <div class="modal-dc-location">
-                            <i class="fa fa-map-marker-alt"></i>
-                            <div>
-                            <small>Lokasi Pertemuan DC</small>
-                            <div class="alamatdc fw-semibold"></div>
+                                <div class="modal-dc-location">
+                                <i class="fa fa-map-marker-alt"></i>
+                                <div>
+                                <small>Lokasi Pertemuan DC</small>
+                                <div class="alamatdc fw-semibold"></div>
                             </div>
                         </div>
                     </div>
