@@ -272,7 +272,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         body {
             margin: 0;
-            background: #fffaf5; /* soft warm white */
+            background: #f3f4f6;
             font-family: 'Figtree', sans-serif;
             color: #111;
             line-height: 1.7;
@@ -280,13 +280,11 @@ $this->load->view('template/festavalive/header'); ?>
 
         
 
-        
-
         .page-content {
-            background: #f7f8fa;
-            padding-top: 40px;
-            padding-bottom: 40px;
+            margin-top: 100px; /* bisa diganti 80-120px sesuai tinggi navbar */
+            padding-top: 120px;
         }
+        
 
         .container-fluid,
         .container {
