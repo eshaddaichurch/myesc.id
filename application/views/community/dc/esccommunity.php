@@ -500,7 +500,7 @@ $this->load->view('template/festavalive/header'); ?>
         position: absolute;
         width: 70%;
         height: 100%;
-        background-image: url('<?php echo base_url('myesc.id/assets/gambar/dc2.JPG'); ?>');
+        background-image: url('<?php echo base_url('myesc.id/assets/gambar/bgdc.JPG'); ?>');
         background-size: cover;
         background-position: center;
         z-index: 1;
@@ -677,7 +677,7 @@ $this->load->view('template/festavalive/header'); ?>
       .hero-dc-bg {
         position: absolute;
         inset: 0;
-        background-image: url('<?php echo base_url("myesc.id/assets/gambar/dc2.JPG"); ?>');
+        background-image: url('<?php echo base_url("myesc.id/assets/gambar/bgdc.JPG"); ?>');
         background-size: cover;
         background-position: center;
         z-index: 1;
@@ -821,6 +821,34 @@ $this->load->view('template/festavalive/header'); ?>
         .hero-dc-actions {
           flex-direction: column;
           width: fit-content;
+        }
+      }
+
+      
+
+      /* ===== FIX UKURAN JUDUL HERO DC (DESKTOP) ===== */
+      .hero-dc-content h2 {
+        font-size: 4.4rem;
+        line-height: 1.08;
+        font-weight: 700;
+        margin-bottom: 24px;
+      }
+
+      .hero-dc-content h2 {
+        max-width: 720px;
+      }
+
+      /* desktop besar */
+      @media (min-width: 1200px) {
+        .hero-dc-content h2 {
+          font-size: 5rem;
+        }
+      }
+
+      /* mobile */
+      @media (max-width: 768px) {
+        .hero-dc-content h2 {
+          font-size: 2.6rem;
         }
       }
     </style>
