@@ -661,6 +661,103 @@ $this->load->view('template/festavalive/header'); ?>
       .hero-section {
         min-height: 500px; /* Fallback untuk layar sangat kecil */
       }
+
+
+      /* ===== HERO STYLE SESUAI DESAIN ===== */
+      .hero-content {
+        max-width: 900px;
+        padding: 40px;
+      }
+
+      /* badge */
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #fff;
+        border-radius: 20px;
+        padding: 6px 14px;
+        color: #fff;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+      }
+
+      .hero-badge .dot {
+        width: 8px;
+        height: 8px;
+        background: #ff5008;
+        border-radius: 50%;
+      }
+
+      /* title */
+      .hero-content h1 {
+        color: #fff;
+        font-size: 4rem;
+        line-height: 1.1;
+        margin-bottom: 25px;
+      }
+
+      /* subtitle checklist */
+      .hero-subtitle {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        color: #fff;
+        font-size: 0.95rem;
+        margin-bottom: 35px;
+      }
+
+      .hero-subtitle span {
+        color: #ff5008;
+        margin-right: 6px;
+      }
+
+      /* buttons */
+      .hero-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary {
+        background: #ff5008;
+        color: #fff;
+        padding: 14px 26px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .btn-primary:hover {
+        background: #ff6a2a;
+      }
+
+      .btn-outline {
+        border: 1px solid #fff;
+        color: #fff;
+        padding: 14px 26px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .btn-outline:hover {
+        background: #fff;
+        color: #000;
+      }
+
+      /* mobile */
+      @media (max-width: 768px) {
+        .hero-content h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+          gap: 12px;
+          font-size: 0.85rem;
+        }
+      }
     </style>
     </head>
 
@@ -686,7 +783,7 @@ $this->load->view('template/festavalive/header'); ?>
       <!-- Section: Child Dedication -->
       <div class="section light dedication">
         <div class="dedication-video">
-          <iframe width="560" height="315" src="https://youtube.com/playlist?list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh&si=vELsgWLxaNSwHBoX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <!-- <iframe width="560" height="315" src="https://youtube.com/playlist?list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh&si=vELsgWLxaNSwHBoX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
         </div>
 
         <div class="dedication-text">
@@ -702,7 +799,49 @@ $this->load->view('template/festavalive/header'); ?>
       </div>
 
 
+
       <section class="hero-section">
+      <div class="hero-bg"></div>
+      <div class="overlay"></div>
+
+      <div class="hero-content">
+        <!-- badge -->
+        <div class="hero-badge">
+          <span class="dot"></span> Visi DC
+        </div>
+
+        <!-- title -->
+        <h1>
+          Terjadi Perubahan Hidup<br>
+          dan Melahirkan Pemurid Baru
+        </h1>
+
+        <!-- subtitle -->
+        <div class="hero-subtitle">
+          <span>✔</span> Connect
+          <span>✔</span> Converse
+          <span>✔</span> Coach
+          <span>✔</span> Communicate
+          <span>✔</span> Care
+        </div>
+
+        <!-- buttons -->
+        <div class="hero-actions">
+          <a href="<?php echo site_url('disciples_community/list'); ?>" class="btn-primary">
+            Lihat Semua DC →
+          </a>
+
+          <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>"
+            class="btn-outline"
+            download>
+            Download Pedoman ⬇
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+      <!-- <section class="hero-section">
         <div class="hero-bg"></div>
         <div class="overlay"></div>
         <div class="hero-content">
@@ -721,7 +860,7 @@ $this->load->view('template/festavalive/header'); ?>
             </a>
           </p>
         </div>
-      </section>
+      </section> -->
 
 
 
