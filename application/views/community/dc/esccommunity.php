@@ -663,27 +663,62 @@ $this->load->view('template/festavalive/header'); ?>
       }
 
 
-      /* ===== HERO STYLE SESUAI DESAIN ===== */
-      .hero-content {
+      /* ===== HERO DC FINAL (MATCH IMAGE) ===== */
+      .hero-dc {
+        position: relative;
+        height: 90vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: #000;
+      }
+
+      /* background */
+      .hero-dc-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url('<?php echo base_url("myesc.id/assets/gambar/dc2.JPG"); ?>');
+        background-size: cover;
+        background-position: center;
+        z-index: 1;
+      }
+
+      /* soft gradient overlay */
+      .hero-dc-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgba(0,0,0,0.85) 0%,
+          rgba(0,0,0,0.45) 45%,
+          rgba(0,0,0,0.15) 100%
+        );
+        z-index: 2;
+      }
+
+      /* content */
+      .hero-dc-content {
+        position: relative;
+        z-index: 3;
         max-width: 900px;
-        padding: 40px;
+        padding-left: 8%;
+        color: #fff;
       }
 
       /* badge */
-      .hero-badge {
+      .hero-dc-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        border: 1px solid #fff;
-        border-radius: 20px;
-        padding: 6px 14px;
-        color: #fff;
-        font-size: 0.8rem;
-        letter-spacing: 1px;
-        margin-bottom: 25px;
+        gap: 10px;
+        padding: 6px 16px;
+        border: 1px solid rgba(255,255,255,0.7);
+        border-radius: 30px;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        margin-bottom: 28px;
       }
 
-      .hero-badge .dot {
+      .hero-dc-badge span {
         width: 8px;
         height: 8px;
         background: #ff5008;
@@ -691,71 +726,89 @@ $this->load->view('template/festavalive/header'); ?>
       }
 
       /* title */
-      .hero-content h1 {
-        color: #fff;
-        font-size: 4rem;
-        line-height: 1.1;
-        margin-bottom: 25px;
+      .hero-dc-content h1 {
+        font-size: 4.2rem;
+        line-height: 1.08;
+        font-weight: 700;
+        margin-bottom: 24px;
       }
 
-      /* subtitle checklist */
-      .hero-subtitle {
+      /* brand text */
+      .hero-dc-brand {
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        opacity: 0.85;
+        margin-bottom: 18px;
+      }
+
+      /* points */
+      .hero-dc-points {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
-        color: #fff;
-        font-size: 0.95rem;
-        margin-bottom: 35px;
+        gap: 22px;
+        font-size: 0.9rem;
+        margin-bottom: 36px;
       }
 
-      .hero-subtitle span {
-        color: #ff5008;
-        margin-right: 6px;
+      .hero-dc-points div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .hero-dc-points span {
+        width: 6px;
+        height: 6px;
+        background: #ff5008;
+        border-radius: 50%;
       }
 
       /* buttons */
-      .hero-actions {
+      .hero-dc-actions {
         display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
+        gap: 18px;
       }
 
-      .btn-primary {
+      .btn-dc-primary {
         background: #ff5008;
         color: #fff;
-        padding: 14px 26px;
-        border-radius: 10px;
+        padding: 15px 30px;
+        border-radius: 12px;
         font-weight: 600;
         text-decoration: none;
       }
 
-      .btn-primary:hover {
+      .btn-dc-primary:hover {
         background: #ff6a2a;
       }
 
-      .btn-outline {
-        border: 1px solid #fff;
+      .btn-dc-outline {
+        border: 1px solid rgba(255,255,255,0.7);
         color: #fff;
-        padding: 14px 26px;
-        border-radius: 10px;
+        padding: 15px 30px;
+        border-radius: 12px;
         font-weight: 600;
         text-decoration: none;
       }
 
-      .btn-outline:hover {
+      .btn-dc-outline:hover {
         background: #fff;
         color: #000;
       }
 
       /* mobile */
       @media (max-width: 768px) {
-        .hero-content h1 {
-          font-size: 2.5rem;
+        .hero-dc {
+          height: 100vh;
         }
 
-        .hero-subtitle {
-          gap: 12px;
-          font-size: 0.85rem;
+        .hero-dc-content h1 {
+          font-size: 2.6rem;
+        }
+
+        .hero-dc-actions {
+          flex-direction: column;
+          width: fit-content;
         }
       }
     </style>
@@ -800,45 +853,43 @@ $this->load->view('template/festavalive/header'); ?>
 
 
 
-      <section class="hero-section">
-      <div class="hero-bg"></div>
-      <div class="overlay"></div>
+      <section class="hero-dc">
+        <div class="hero-dc-bg"></div>
+        <div class="hero-dc-overlay"></div>
 
-      <div class="hero-content">
-        <!-- badge -->
-        <div class="hero-badge">
-          <span class="dot"></span> Visi DC
+        <div class="hero-dc-content">
+          <div class="hero-dc-badge">
+            <span></span> VISI DC
+          </div>
+
+          <h2>
+            Terjadi Perubahan Hidup<br>
+            dan Melahirkan Pemurid Baru
+          </h2>
+
+          <div class="hero-dc-brand">
+            ESC DISCIPLES COMMUNITY
+          </div>
+
+          <div class="hero-dc-points">
+            <div><span></span> Connect</div>
+            <div><span></span> Converse</div>
+            <div><span></span> Coach</div>
+            <div><span></span> Communicate</div>
+            <div><span></span> Care</div>
+          </div>
+
+          <div class="hero-dc-actions">
+            <a href="<?php echo site_url('disciples_community/list'); ?>" class="btn-dc-primary">
+              Lihat Semua DC →
+            </a>
+
+            <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" download class="btn-dc-outline">
+              Download Pedoman ⬇
+            </a>
+          </div>
         </div>
-
-        <!-- title -->
-        <h1>
-          Terjadi Perubahan Hidup<br>
-          dan Melahirkan Pemurid Baru
-        </h1>
-
-        <!-- subtitle -->
-        <div class="hero-subtitle">
-          <span>✔</span> Connect
-          <span>✔</span> Converse
-          <span>✔</span> Coach
-          <span>✔</span> Communicate
-          <span>✔</span> Care
-        </div>
-
-        <!-- buttons -->
-        <div class="hero-actions">
-          <a href="<?php echo site_url('disciples_community/list'); ?>" class="btn-primary">
-            Lihat Semua DC →
-          </a>
-
-          <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>"
-            class="btn-outline"
-            download>
-            Download Pedoman ⬇
-          </a>
-        </div>
-      </div>
-    </section>
+      </section>
 
 
       <!-- <section class="hero-section">
