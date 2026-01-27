@@ -562,7 +562,7 @@ $this->load->view('template/festavalive/header'); ?>
                         </div> -->
 
                         <div class="col-12 mb-4">
-                            <h2 class="dc-page-title">Disciples Community Directory</h2>
+                            <h2 class="dc-page-title">Disciples Community</h2>
                             </div>
 
                             <div class="col-12">
@@ -586,7 +586,7 @@ $this->load->view('template/festavalive/header'); ?>
 
                                 <div class="col-md-3 d-grid">
                                     <button class="btn btn-search" id="btnCari">
-                                    <i class="fa fa-search me-2"></i> Cari Community
+                                    <i class="fa fa-search me-2"></i> Cari
                                     </button>
                                 </div>
                                 </div>
@@ -724,7 +724,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="modal-header modal-dc-header">
                     <div class="d-flex align-items-center gap-2">
                     <i class="fa fa-users"></i>
-                    <h5 class="modal-title">Informasi Disciples Community</h5>
+                    <h5 class="modal-title">Informasi DC</h5>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
