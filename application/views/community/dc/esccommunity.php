@@ -686,8 +686,7 @@ $this->load->view('template/festavalive/header'); ?>
       <!-- Section: Child Dedication -->
       <div class="section light dedication">
         <div class="dedication-video">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=TrP30sXF0j6FqOsT&amp;list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          <!-- <iframe width="560" height="315" src="https://youtube.com/playlist?list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh&si=vELsgWLxaNSwHBoX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+          <iframe width="560" height="315" src="https://youtube.com/playlist?list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh&si=vELsgWLxaNSwHBoX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
 
         <div class="dedication-text">
@@ -717,7 +716,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <a href="<?php echo site_url('disciples_community/list'); ?>" class="hero-btn"> Lihat Semua DC <span>→</span></a>
           <p>
-            <a href="..." class="download-btn hero-btn" style="margin-top: 12px; display: inline-block;" download>
+            <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" class="download-btn hero-btn" style="margin-left: 0px;" download>
               Download Pedoman DC <span>→</span>
             </a>
           </p>
