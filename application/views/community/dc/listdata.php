@@ -278,6 +278,14 @@ $this->load->view('template/festavalive/header'); ?>
             line-height: 1.7;
         }
 
+            /* NAVBAR FIX */
+        .navbar,
+        .main-navbar {
+        background: #ffffff;
+        box-shadow: 0 6px 20px rgba(0,0,0,.08);
+        border-bottom: 1px solid rgba(0,0,0,.05);
+        z-index: 1000;
+        }
 
         .page-content {
             margin-top: 100px; /* bisa diganti 80-120px sesuai tinggi navbar */
