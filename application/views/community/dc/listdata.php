@@ -9,7 +9,6 @@ $this->load->view('template/festavalive/header'); ?>
   <main>
 
 
-
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
 
@@ -466,9 +465,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         /* ===== MOBILE STACK ===== */
         @media (max-width: 768px) {
-        .modal-dc-left {
-            min-height: 220px;
-        }
+        
 
         .modal-dc-map {
             border-radius: 0;
@@ -490,6 +487,32 @@ $this->load->view('template/festavalive/header'); ?>
             font-size: 13px;
         }
         }
+
+        @media (max-width: 576px) {
+            .modal-dialog {
+                margin: 10px;
+            }
+
+            .modal-content {
+                max-height: 92vh;
+            }
+
+            .modal-body {
+                overflow-y: auto;
+            }
+
+            .modal-dc-left {
+                min-height: 180px;
+                max-height: 180px;
+            }
+
+            .btn-dc-join {
+                position: sticky;
+                bottom: 0;
+                border-radius: 0;
+                padding: 16px;
+                }
+            }
 
     </style>
     <!-- </head>
