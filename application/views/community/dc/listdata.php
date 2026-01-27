@@ -277,9 +277,14 @@ $this->load->view('template/festavalive/header'); ?>
     }
 
     .modal-dc-map {
-    height: 100%;
-    background: url('<?php echo base_url("myesc.id/images/bg-map.png"); ?>') center/cover no-repeat;
-    position: relative;
+        position: relative;
+        height: 100%;
+    }
+
+    .modal-dc-map iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
     }
 
     .modal-dc-location {
@@ -868,15 +873,21 @@ $this->load->view('template/festavalive/header'); ?>
                     <div class="row g-0">
 
                     <!-- LEFT -->
-                    <div class="col-md-6 modal-dc-left">
-                        <div class="modal-dc-map" id="modalDcBg">
+                    <div class="modal-dc-map">
+                        <iframe
+                            id="modalDcMap"
+                            src=""
+                            allowfullscreen
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+
                         <div class="modal-dc-location">
                             <i class="fa fa-map-marker-alt"></i>
                             <div>
-                            <small>Lokasi Pertemuan DC</small>
-                            <div class="alamatdc fw-semibold"></div>
+                                <small>Lokasi Pertemuan DC</small>
+                                <div class="alamatdc fw-semibold"></div>
                             </div>
-                        </div>
                         </div>
                     </div>
 
@@ -1059,36 +1070,65 @@ $this->load->view('template/festavalive/header'); ?>
                         'iddc': iddc
                     },
                 })
+                // .done(function(response) {
+                //     console.log(response);
+                //     if (response['status'] == 'success') {
+                //         $('#modalInfoDC').modal('show');
+                //         $('.namadc').html(response['data'][0]['namadc']);
+                //         // set background kiri (foto DM)
+                        
+                //         var fotoDM = response['data'][0]['fotodm'];
+
+                //         if (fotoDM && fotoDM !== "") {
+                //             $('#modalDcBg').css(
+                //                 'background-image',
+                //                 'url(' + baseURL + 'myesc.id/admin/uploads/jemaat/' + fotoDM + ')'
+                //             );
+                //         } else {
+                //             $('#modalDcBg').css(
+                //                 'background-image',
+                //                 'url(' + baseURL + 'myesc.id/images/bg-dc.png)'
+                //             );
+                //         }
+                //         $('.namadm').html(response['data'][0]['namadm']);
+                //         $('.alamatdc').html(response['data'][0]['alamatdc']);
+                //         $('.haridc').html(response['data'][0]['haridc']);
+                //         $('.jamdc').html(response['data'][0]['jamdc']);
+                //         $('.kategoridc').html(response['data'][0]['kategoridc']);
+
+                        
+                //         var baseURL = "<?= base_url() ?>";
+                        
+                //         $('#btnModalBergabung').attr('data-iddc', response['iddcEncrypt']);
+
+                //     } else {
+                //         swal('Informasi', 'Data DC tidak ditemukan!', 'info');
+                //     }
+                // })
                 .done(function(response) {
                     console.log(response);
-                    if (response['status'] == 'success') {
+
+                    if (response.status === 'success' && response.data.length > 0) {
+
+                        const dc = response.data[0];
+
                         $('#modalInfoDC').modal('show');
-                        $('.namadc').html(response['data'][0]['namadc']);
-                        // set background kiri (foto DM)
-                        
-                        var fotoDM = response['data'][0]['fotodm'];
 
-                        if (fotoDM && fotoDM !== "") {
-                            $('#modalDcBg').css(
-                                'background-image',
-                                'url(' + baseURL + 'myesc.id/admin/uploads/jemaat/' + fotoDM + ')'
-                            );
-                        } else {
-                            $('#modalDcBg').css(
-                                'background-image',
-                                'url(' + baseURL + 'myesc.id/images/bg-dc.png)'
-                            );
-                        }
-                        $('.namadm').html(response['data'][0]['namadm']);
-                        $('.alamatdc').html(response['data'][0]['alamatdc']);
-                        $('.haridc').html(response['data'][0]['haridc']);
-                        $('.jamdc').html(response['data'][0]['jamdc']);
-                        $('.kategoridc').html(response['data'][0]['kategoridc']);
+                        $('.namadc').html(dc.namadc);
+                        $('.namadm').html(dc.namadm);
+                        $('.alamatdc').html(dc.alamatdc);
+                        $('.haridc').html(dc.haridc);
+                        $('.jamdc').html(dc.jamdc);
+                        $('.kategoridc').html(dc.kategoridc);
 
-                        
-                        var baseURL = "<?= base_url() ?>";
-                        
-                        $('#btnModalBergabung').attr('data-iddc', response['iddcEncrypt']);
+                        // GOOGLE MAPS EMBED
+                        let alamat = encodeURIComponent(dc.alamatdc);
+                        let mapUrl = `https://www.google.com/maps?q=${alamat}&output=embed`;
+
+                        $('#modalDcMap').attr('src', mapUrl);
+
+                        // tombol bergabung
+                        $('#btnModalBergabung').attr('data-iddc', response.iddcEncrypt);
 
                     } else {
                         swal('Informasi', 'Data DC tidak ditemukan!', 'info');
