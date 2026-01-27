@@ -735,10 +735,22 @@ $this->load->view('template/festavalive/header'); ?>
 
       /* brand text */
       .hero-dc-brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
         font-size: 0.85rem;
         letter-spacing: 2px;
         opacity: 0.85;
         margin-bottom: 18px;
+      }
+
+      /* garis orange sebelum teks */
+      .hero-dc-brand::before {
+        content: "";
+        width: 32px;
+        height: 2px;
+        background-color: #ff5008;
+        display: inline-block;
       }
 
       /* points */
@@ -862,7 +874,7 @@ $this->load->view('template/festavalive/header'); ?>
             <span></span> VISI DC
           </div>
 
-          <h2>
+          <h2 style="color:#ffffff;">
             Terjadi Perubahan Hidup<br>
             dan Melahirkan Pemurid Baru
           </h2>
