@@ -850,82 +850,87 @@ $this->load->view('template/festavalive/header'); ?>
 
 
 
-    <div class="modal-content modal-dc shadow-lg">
-        <!-- HEADER -->
-        <div class="modal-header modal-dc-header">
-            <div class="d-flex align-items-center gap-2">
-                <i class="fa fa-users"></i>
-                <h5 class="modal-title" id="modalInfoDCTitle">
-                    Informasi Disciples Community
-                </h5>
-            </div>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
+        <div class="modal fade" id="modalInfoDC" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content modal-dc shadow-lg">
 
-        <!-- BODY -->
-        <div class="modal-body p-0">
-            <div class="row g-0">
-                <!-- LEFT : IMAGE / MAP -->
-                <div class="col-md-6 modal-dc-left">
-                    <!-- <div class="modal-dc-map"> -->
-                    <div class="modal-dc-map" id="modalDcBg">
+                <!-- HEADER -->
+                <div class="modal-header modal-dc-header">
+                    <div class="d-flex align-items-center gap-2">
+                    <i class="fa fa-users"></i>
+                    <h5 class="modal-title">Informasi Disciples Community</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- BODY -->
+                <div class="modal-body p-0">
+                    <div class="row g-0">
+
+                    <!-- LEFT -->
+                    <div class="col-md-6 modal-dc-left">
+                        <div class="modal-dc-map" id="modalDcBg">
                         <div class="modal-dc-location">
                             <i class="fa fa-map-marker-alt"></i>
                             <div>
-                                <small>Lokasi Komunitas</small>
-                                <div class="alamatdc fw-semibold"></div>
+                            <small>Lokasi Pertemuan DC</small>
+                            <div class="alamatdc fw-semibold"></div>
                             </div>
                         </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- RIGHT : INFO -->
-                <div class="col-md-6 modal-dc-right">
-                    <span class="badge modal-dc-badge mb-2">COMMUNITY</span>
+                    <!-- RIGHT -->
+                    <div class="col-md-6 modal-dc-right">
+                        <span class="badge modal-dc-badge mb-2">COMMUNITY</span>
 
-                    <h3 class="namadc fw-bold mb-4">Nama DC</h3>
+                        <h3 class="namadc fw-bold mb-4"></h3>
 
-                    <div class="modal-dc-info">
+                        <div class="modal-dc-info">
                         <div class="info-item">
                             <i class="fa fa-user"></i>
                             <div>
-                                <small>Nama DM</small>
-                                <div class="namadm fw-semibold"></div>
+                            <small>Nama DM</small>
+                            <div class="namadm fw-semibold"></div>
                             </div>
                         </div>
 
                         <div class="info-item">
                             <i class="fa fa-calendar"></i>
                             <div>
-                                <small>Hari</small>
-                                <div class="haridc fw-semibold"></div>
+                            <small>Hari</small>
+                            <div class="haridc fw-semibold"></div>
                             </div>
                         </div>
 
                         <div class="info-item">
                             <i class="fa fa-clock"></i>
                             <div>
-                                <small>Jam</small>
-                                <div class="jamdc fw-semibold"></div>
+                            <small>Jam</small>
+                            <div class="jamdc fw-semibold"></div>
                             </div>
                         </div>
 
                         <div class="info-item">
                             <i class="fa fa-tag"></i>
                             <div>
-                                <small>Kategori</small>
-                                <div class="kategoridc fw-semibold text-orange"></div>
+                            <small>Kategori</small>
+                            <div class="kategoridc fw-semibold text-orange"></div>
                             </div>
                         </div>
+                        </div>
+
+                        <a href="#" id="btnModalBergabung" class="btn btn-dc-join mt-4">
+                        Bergabung Sekarang →
+                        </a>
                     </div>
 
-                    <a href="#" id="btnModalBergabung" class="btn btn-dc-join mt-4">
-                        Bergabung Sekarang →
-                    </a>
+                    </div>
+                </div>
+
                 </div>
             </div>
         </div>
-    </div>
 
 
 
@@ -1060,7 +1065,7 @@ $this->load->view('template/festavalive/header'); ?>
                         $('#modalInfoDC').modal('show');
                         $('.namadc').html(response['data'][0]['namadc']);
                         // set background kiri (foto DM)
-                        var baseURL = "<?= base_url() ?>";
+                        
                         var fotoDM = response['data'][0]['fotodm'];
 
                         if (fotoDM && fotoDM !== "") {
@@ -1080,9 +1085,9 @@ $this->load->view('template/festavalive/header'); ?>
                         $('.jamdc').html(response['data'][0]['jamdc']);
                         $('.kategoridc').html(response['data'][0]['kategoridc']);
 
-                        // Isi tombol "Bergabung Sekarang" dalam modal
+                        
                         var baseURL = "<?= base_url() ?>";
-                        // $('#btnModalBergabung').attr('href', baseURL + 'disciples_community/bergabung/' + response['iddcEncrypt']);
+                        
                         $('#btnModalBergabung').attr('data-iddc', response['iddcEncrypt']);
 
                     } else {
