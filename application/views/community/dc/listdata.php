@@ -343,11 +343,11 @@ $this->load->view('template/festavalive/header'); ?>
 
         .dc-card {
             position: relative;
-            border-radius: 14px;
+            border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: transform .25s ease, box-shadow .25s ease;
+            height: 380px;
+            box-shadow: 0 12px 35px rgba(0,0,0,.15);
         }
 
         .dc-card:hover {
@@ -357,7 +357,7 @@ $this->load->view('template/festavalive/header'); ?>
 
         .dc-card img {
             width: 100%;
-            height: 320px;
+            height: 100%;
             object-fit: cover;
             display: block;
         }
@@ -476,14 +476,14 @@ $this->load->view('template/festavalive/header'); ?>
 
         /* gradient bawah */
         .dc-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
             to top,
             rgba(0,0,0,.75),
             rgba(0,0,0,.25),
             transparent
-        );
+            );
         }
 
         /* text */
@@ -491,8 +491,8 @@ $this->load->view('template/festavalive/header'); ?>
         position: absolute;
         left: 20px;
         bottom: 20px;
-        color: #fff;
         z-index: 2;
+        color: #fff;
         }
 
         .dc-dm {
@@ -603,14 +603,14 @@ $this->load->view('template/festavalive/header'); ?>
 
                                         echo '
                                             <div class="col-md-4 col-sm-6">
-                                                <div class="dc-card btn-informasi-dc" data-iddc="<?= $row->iddc ?>">
-                                                    <img src="<?= $fotodm ?>" alt="Foto DM">
+                                                <div class="dc-card btn-informasi-dc" data-iddc="'.$row->iddc.'">
+                                                    <img src="'.$fotodm.'" alt="Foto DM">
                                                     <div class="dc-overlay"></div>
                                                     <div class="dc-info">
-                                                    <div class="dc-dm"><?= $row->namadm ?></div>
+                                                    <div class="dc-dm">'.$row->namadm.'</div>
                                                     <div class="dc-name">
-                                                        <i class="fa fa-users me-1 text-warning"></i>
-                                                        <?= $row->namadc ?>
+                                                    <i class="fa fa-users me-1 text-warning"></i>
+                                                    '.$row->namadc.'
                                                     </div>
                                                     </div>
                                                 </div>
@@ -793,16 +793,20 @@ $this->load->view('template/festavalive/header'); ?>
                             }
 
                             var addText = `
-                                <div class="col-md-4">
-                                    <div class="dc-card btn-informasi-dc" data-iddc="${response.data[i]['iddc']}">
-                                        <img src="${fotodm}" alt="Foto DM">
-                                        <div class="dc-info">
-                                            <div class="dc-dm">${response.data[i]['namadm']}</div>
-                                            <div class="dc-name">${response.data[i]['namadc']}</div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-4 col-sm-6">
+                            <div class="dc-card btn-informasi-dc" data-iddc="${response.data[i]['iddc']}">
+                                <img src="${fotodm}" alt="Foto DM">
+                                <div class="dc-overlay"></div>
+                                <div class="dc-info">
+                                <div class="dc-dm">${response.data[i]['namadm']}</div>
+                                <div class="dc-name">
+                                    <i class="fa fa-users me-1 text-warning"></i>
+                                    ${response.data[i]['namadc']}
                                 </div>
-                                `;
+                                </div>
+                            </div>
+                            </div>
+                            `;
 
                             $('#divListDC').append(addText);
                         }
