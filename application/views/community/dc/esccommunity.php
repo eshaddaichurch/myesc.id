@@ -604,6 +604,63 @@ $this->load->view('template/festavalive/header'); ?>
           opacity: 0;
         }
       }
+
+
+      /* PERBAIKAN HERO SECTION UNTUK DESKTOP */
+      @media (min-width: 769px) {
+        /* 1. Tambah tinggi section agar konten tidak terpotong */
+        .hero-section {
+          height: 70vh; /* Naikkan dari 59vh ke 70vh */
+        }
+        
+        /* 2. Optimalkan padding dan struktur konten */
+        .hero-content {
+          padding: 35px 5%; /* Lebih responsif dengan persentase */
+          display: flex;
+          flex-direction: column;
+          justify-content: center; /* Konten tetap terpusat vertikal */
+          height: 100%;
+          box-sizing: border-box;
+        }
+        
+        /* 3. Kurangi jarak elemen kritis */
+        .hero-content h1 {
+          font-size: 3.6rem; /* Sedikit dikurangi dari 4rem */
+          margin-bottom: 8px;
+        }
+        .hero-content h2 {
+          font-size: 2.8rem; /* Sedikit dikurangi dari 3.5rem */
+          margin: 5px 0 20px;
+        }
+        .school-list {
+          margin: 12px 0 22px;
+          line-height: 1.7;
+        }
+        
+        /* 4. Perbaiki spacing tombol */
+        .hero-btn {
+          margin-top: 8px !important; /* Override margin default */
+          width: auto;
+          padding: 10px 22px;
+        }
+        
+        /* 5. Hapus margin berlebihan dari wrapper tombol download */
+        .hero-content > p {
+          margin: 0;
+          margin-top: 10px;
+        }
+        
+        /* 6. Pastikan teks sekolah tidak memakan ruang berlebihan */
+        .school-list div {
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+      }
+
+      /* Tambahan: Pastikan tidak ada overflow tersembunyi */
+      .hero-section {
+        min-height: 500px; /* Fallback untuk layar sangat kecil */
+      }
     </style>
     </head>
 
@@ -629,11 +686,11 @@ $this->load->view('template/festavalive/header'); ?>
       <!-- Section: Child Dedication -->
       <div class="section light dedication">
         <div class="dedication-video">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/ZqULgqLXYz8?si=3y7krL3iUjdPuCp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://youtube.com/playlist?list=PLU5j5xlApk8z0xfV957RiMMGFTngW1Dqh&si=vELsgWLxaNSwHBoX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
 
         <div class="dedication-text">
-          <p style="color: #ffffff; text-align: center;">
+          <p style="color: #ffffff;">
             "Karena itu pergilah, jadikanlah semua bangsa murid-Ku dan baptislah mereka dalam nama Bapa dan Anak dan Roh Kudus,
             dan ajarlah mereka melakukan segala sesuatu yang telah Kuperintahkan kepadamu. Dan ketahuilah, Aku menyertai kamu senantiasa sampai kepada akhir zaman.”
           </p>
@@ -659,7 +716,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
           <a href="<?php echo site_url('disciples_community/list'); ?>" class="hero-btn"> Lihat Semua DC <span>→</span></a>
           <p>
-            <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" class="download-btn hero-btn" style="margin-left: 0px;" download>
+            <a href="..." class="download-btn hero-btn" style="margin-top: 12px; display: inline-block;" download>
               Download Pedoman DC <span>→</span>
             </a>
           </p>
