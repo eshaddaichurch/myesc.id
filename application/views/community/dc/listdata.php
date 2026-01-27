@@ -872,24 +872,28 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="modal-body p-0">
                     <div class="row g-0">
 
-                    <!-- LEFT -->
-                    <div class="modal-dc-map">
-                        <iframe
+
+                            <!-- LEFT : MAP -->
+                            <div class="col-md-6 modal-dc-left">
+                            <div class="modal-dc-map">
+                            <iframe
                             id="modalDcMap"
                             src=""
                             allowfullscreen
                             loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
+                            </iframe>
 
-                        <div class="modal-dc-location">
+
+                            <div class="modal-dc-location">
                             <i class="fa fa-map-marker-alt"></i>
                             <div>
-                                <small>Lokasi Pertemuan DC</small>
-                                <div class="alamatdc fw-semibold"></div>
+                            <small>Lokasi Pertemuan DC</small>
+                            <div class="alamatdc fw-semibold"></div>
                             </div>
                         </div>
                     </div>
+                </div>
 
                     <!-- RIGHT -->
                     <div class="col-md-6 modal-dc-right">
