@@ -417,6 +417,102 @@ $this->load->view('template/festavalive/header'); ?>
             }
         }
 
+
+        /* ===== DIRECTORY DC ===== */
+        .dc-page-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        }
+
+        /* filter box */
+        .dc-filter-box {
+        background: #fff;
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,.06);
+        margin-bottom: 40px;
+        }
+
+        .dc-filter-box label {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        }
+
+        .btn-search {
+        background: #0f172a;
+        color: #fff;
+        height: 46px;
+        border-radius: 12px;
+        font-weight: 600;
+        }
+
+        .btn-search:hover {
+        background: #020617;
+        }
+
+        /* cards */
+        .dc-card {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        height: 380px;
+        box-shadow: 0 12px 35px rgba(0,0,0,.15);
+        transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .dc-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 45px rgba(0,0,0,.25);
+        }
+
+        .dc-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        }
+
+        /* gradient bawah */
+        .dc-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to top,
+            rgba(0,0,0,.75),
+            rgba(0,0,0,.25),
+            transparent
+        );
+        }
+
+        /* text */
+        .dc-info {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        color: #fff;
+        z-index: 2;
+        }
+
+        .dc-dm {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        }
+
+        .dc-name {
+        font-size: 14px;
+        opacity: .9;
+        }
+
+        /* responsive */
+        @media (max-width: 768px) {
+        .dc-card {
+            height: 300px;
+        }
+        }
+
     </style>
     <!-- </head>
 
@@ -427,7 +523,7 @@ $this->load->view('template/festavalive/header'); ?>
                 <div class="row justify-content-center">
 
                     <div class="row">
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="row">
                                 <div class="col-12 mb-2">
                                     <h5 class="text-muted">Filter Nama Disciples Community</h5>
@@ -436,11 +532,10 @@ $this->load->view('template/festavalive/header'); ?>
                                     <label for="" class="">Kategori DC</label>
                                     <select name="idkategoridc" id="idkategoridc" class="form-control select2">
                                         <option value="">Semua</option>
-                                        <!-- <option value="Umum">Umum</option> -->
-                                        <!-- <option value="Youth">Remaja (SMP-SMA)</option> -->
+                                        
                                         <option value="Young Adult">Dewasa Muda (Kuliah, Kerja, Single)</option>
-                                        <!-- <option value="Kids">Kids</option> -->
-                                        <option value="Family">Keluarga (Menikah/Cerai)</option>
+                                        
+                                        <option value="Family">Keluarga (Menikah)</option>
                                     </select>
                                 </div>
 
@@ -448,9 +543,7 @@ $this->load->view('template/festavalive/header'); ?>
                                     <label for="" class="">Cari Nama DC</label>
                                     <input type="text" name="carinamadc" id="carinamadc" class="form-control" placeholder="Cari berdasarkan nama dc">
                                 </div>
-                                <!-- <div class="col-md text-center mt-3">
-                                    <button class="btn btn-primary" id="btnCari"><i class="fa fa-search me-2"></i>Cari</button>
-                                </div> -->
+                                
 
                                 <div class="col-md text-center mt-3">
                                     <button class="btn btn-black" id="btnCari">
@@ -458,7 +551,40 @@ $this->load->view('template/festavalive/header'); ?>
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+
+                        <div class="col-12 mb-4">
+                            <h2 class="dc-page-title">Disciples Community Directory</h2>
+                            </div>
+
+                            <div class="col-12">
+                            <div class="dc-filter-box">
+                                <div class="row g-3 align-items-end">
+                                <div class="col-md-3">
+                                    <label>Kategori DC</label>
+                                    <select name="idkategoridc" id="idkategoridc" class="form-control">
+                                    <option value="">Semua Kategori</option>
+                                    <option value="Young Adult">Dewasa Muda(kuliah),(kerja),(single)</option>
+                                    <option value="Family">Keluarga</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Cari Nama DC</label>
+                                    <input type="text" name="carinamadc" id="carinamadc"
+                                        class="form-control"
+                                        placeholder="Cari berdasarkan nama DC...">
+                                </div>
+
+                                <div class="col-md-3 d-grid">
+                                    <button class="btn btn-search" id="btnCari">
+                                    <i class="fa fa-search me-2"></i> Cari Community
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
                         <div class="col-12">
                             <hr>
                         </div>
@@ -476,12 +602,16 @@ $this->load->view('template/festavalive/header'); ?>
                                         }
 
                                         echo '
-                                            <div class="col-md-4">
-                                                <div class="dc-card btn-informasi-dc" data-iddc="'.$row->iddc.'">
-                                                    <img src="'.$fotodm.'" alt="Foto DM">
+                                            <div class="col-md-4 col-sm-6">
+                                                <div class="dc-card btn-informasi-dc" data-iddc="<?= $row->iddc ?>">
+                                                    <img src="<?= $fotodm ?>" alt="Foto DM">
+                                                    <div class="dc-overlay"></div>
                                                     <div class="dc-info">
-                                                        <div class="dc-dm">'.$row->namadm.'</div>
-                                                        <div class="dc-name">'.$row->namadc.'</div>
+                                                    <div class="dc-dm"><?= $row->namadm ?></div>
+                                                    <div class="dc-name">
+                                                        <i class="fa fa-users me-1 text-warning"></i>
+                                                        <?= $row->namadc ?>
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
