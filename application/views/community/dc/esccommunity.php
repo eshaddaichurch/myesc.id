@@ -841,14 +841,14 @@ $this->load->view('template/festavalive/header'); ?>
       /* desktop besar */
       @media (min-width: 1200px) {
         .hero-dc-content h2 {
-          font-size: 5rem;
+          font-size: 3rem;
         }
       }
 
       /* mobile */
       @media (max-width: 768px) {
         .hero-dc-content h2 {
-          font-size: 2.6rem;
+          font-size: 1.6rem;
         }
       }
     </style>
