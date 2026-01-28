@@ -904,7 +904,7 @@ $this->load->view('template/festavalive/header'); ?>
 
           <h2 style="color:#ffffff;">
             Terjadi Perubahan Hidup<br>
-            dan Melahirkan Pemurid Baru
+            dan Lahir Pemurid Baru
           </h2>
 
           <div class="hero-dc-brand">
