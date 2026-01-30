@@ -4,6 +4,17 @@ class Auth extends CI_Controller {
 
     public function login()
     {
+
+        header('Content-Type: application/json');
+
+        $raw = file_get_contents("php://input");
+    
+        echo json_encode([
+            'raw_input' => $raw,
+            'post' => $_POST
+        ]);
+        exit;
+
         // ambil raw JSON
         $input = json_decode(trim(file_get_contents("php://input")), true);
     
