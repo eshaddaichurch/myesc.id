@@ -11,50 +11,47 @@ class Auth extends CI_Controller {
 
     public function login()
     {
-        // Set response JSON
-        $this->output->set_content_type('application/json');
+        header('Content-Type: application/json');
 
-        // Ambil raw input
-        $rawInput = file_get_contents("php://input");
-        $input = json_decode($rawInput, true);
+        $raw = file_get_contents("php://input");
+        $input = json_decode($raw, true);
 
-        // Ambil username & password
-        $username = $input['username'] ?? $this->input->post('username');
-        $password = $input['password'] ?? $this->input->post('password');
+        $username = trim($input['username'] ?? '');
+        $password = trim($input['password'] ?? '');
 
-        // Validasi
-        if (empty($username) || empty($password)) {
-            $this->output->set_output(json_encode([
+        if ($username === '' || $password === '') {
+            echo json_encode([
                 'status' => false,
                 'message' => 'Username dan password wajib diisi',
                 'data' => null
-            ]));
+            ]);
             return;
         }
 
-        // Cek login (TANPA md5)
-        $user = $this->Login_model->cek_login($username, $password);
+        $user = $this->Login_model->cek_login(
+            strtolower($username),
+            md5($password)
+        );
 
         if ($user->num_rows() === 0) {
-            $this->output->set_output(json_encode([
+            echo json_encode([
                 'status' => false,
                 'message' => 'Username atau password salah',
                 'data' => null
-            ]));
+            ]);
             return;
         }
 
-        $result = $user->row();
+        $u = $user->row();
 
-        // Response sukses
-        $this->output->set_output(json_encode([
+        echo json_encode([
             'status' => true,
             'message' => 'Login berhasil',
             'data' => [
-                'idjemaat'     => $result->idjemaat,
-                'namalengkap'  => $result->namalengkap,
-                'username'     => $result->username
+                'idjemaat' => $u->idjemaat,
+                'namalengkap' => $u->namalengkap,
+                'username' => $u->username
             ]
-        ]));
+        ]);
     }
 }
