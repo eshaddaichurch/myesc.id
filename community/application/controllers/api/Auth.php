@@ -3,55 +3,58 @@
 class Auth extends CI_Controller {
 
     public function login()
-    {
-        header('Content-Type: application/json');
+{
+    // ambil input JSON atau form
+    $input = json_decode(file_get_contents("php://input"), true);
 
-        $username = $this->input->post('username');
-        $password = md5($this->input->post('password'));
+    $username = $input['username'] ?? $this->input->post('username');
+    $password = $input['password'] ?? $this->input->post('password');
 
-        if (!$username || !$password) {
-            return $this->json(false, 'Username dan password wajib diisi');
-        }
-
-        $user = $this->db->get_where('jemaat', [
-            'username' => $username,
-            'password' => $password
-        ])->row();
-
-        if (!$user) {
-            return $this->json(false, 'Username atau password salah');
-        }
-
-        // hapus token lama (1 user 1 device)
-        $this->db->where('user_id', $user->idjemaat)->delete('api_key');
-
-        $token = bin2hex(random_bytes(20)); // 40 char
-
-        $this->db->insert('api_key', [
-            'user_id' => $user->idjemaat,
-            'key' => $token,
-            'level' => 1,
-            'ignore_limits' => 0,
-            'is_private_key' => 0,
-            'ip_addresses' => $this->input->ip_address(),
-            'date_created' => time()
-        ]);
-
-        return $this->json(true, 'Login berhasil', [
-            'idjemaat' => $user->idjemaat,
-            'nama' => $user->namalengkap,
-            'iddc' => $user->iddc,
-            'token' => $token
-        ]);
-    }
-
-    private function json($status, $message, $data = null)
-    {
+    if (empty($username) || empty($password)) {
         echo json_encode([
-            'status' => $status,
-            'message' => $message,
-            'data' => $data
+            'status' => false,
+            'message' => 'Username dan password wajib diisi',
+            'data' => null
         ]);
-        exit;
+        return;
     }
+
+    $user = $this->db
+        ->where('username', $username)
+        ->where('password', md5($password))
+        ->get('jemaat')
+        ->row();
+
+    if (!$user) {
+        echo json_encode([
+            'status' => false,
+            'message' => 'Username atau password salah',
+            'data' => null
+        ]);
+        return;
+    }
+
+    // generate token
+    $token = bin2hex(random_bytes(20));
+
+    $this->db->insert('api_key', [
+        'user_id' => $user->idjemaat,
+        'key' => $token,
+        'level' => 1,
+        'ignore_limits' => 0,
+        'is_private_key' => 0,
+        'date_created' => time()
+    ]);
+
+    echo json_encode([
+        'status' => true,
+        'message' => 'Login berhasil',
+        'data' => [
+            'idjemaat' => $user->idjemaat,
+            'namalengkap' => $user->namalengkap,
+            'token' => $token
+        ]
+    ]);
+}
+
 }
