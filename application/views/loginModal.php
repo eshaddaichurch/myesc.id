@@ -106,8 +106,11 @@
             </span>
           </div>
 
-
+          
+          
           <div id="divAlert" class="mb-3"></div>
+          
+          <a href="#" class="float-end text-info mb-3 show-form-lupapassword">Lupa Password?</a>
 
           <button type="submit" class="btn btn-orange rounded-pill w-100 mb-2" id="btnLogin">LOGIN</button>
 
@@ -245,7 +248,6 @@
       this.classList.toggle("fa-eye");
       this.classList.toggle("fa-eye-slash");
     });
-
 
     // $('#btnLogin').click(function(event) {
     //   e.preventDefault();

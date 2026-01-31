@@ -22,6 +22,12 @@ class App extends CI_Model
 		return $this->db->get("v_jemaat")->row();
 	}
 
+	public function getJemaatAktif()
+	{
+		$this->db->where_in('statusjemaat', array('Jemaat', 'Simpatisan', 'Umum'));		
+		return $this->db->get("jemaat");
+	}
+
 	public function getPengkhotbah($idpengkhotbah = '')
 	{
 		if ($idpengkhotbah != "") {

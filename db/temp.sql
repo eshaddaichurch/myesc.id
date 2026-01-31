@@ -16,23 +16,23 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`u1804486_escindonesia` /*!40100 DEFAULT
 
 USE `u1804486_escindonesia`;
 
-/*Table structure for table `settings` */
+/*Table structure for table `jemaatresetpassword` */
 
-DROP TABLE IF EXISTS `settings`;
+DROP TABLE IF EXISTS `jemaatresetpassword`;
 
-CREATE TABLE `settings` (
-  `prefix` char(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `deskripsi` varchar(255) DEFAULT NULL,
-  `values` text,
-  `tglinsert` datetime DEFAULT NULL,
-  `tglupdate` datetime DEFAULT NULL,
-  `issystem` tinyint DEFAULT NULL,
-  PRIMARY KEY (`prefix`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `jemaatresetpassword` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idjemaat` char(10) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `tokenlupapassword` char(6) DEFAULT NULL,
+  `tgltokenlupapassword` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idjemaat` (`idjemaat`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
-/*Data for the table `settings` */
+/*Data for the table `jemaatresetpassword` */
 
-insert  into `settings`(`prefix`,`deskripsi`,`values`,`tglinsert`,`tglupdate`,`issystem`) values ('url_community','Alamat url domain community','http://localhost/myesc/myesc.id/community','2025-01-18 12:55:45','2025-01-18 12:55:48',0),('wa_nextstep_konfirmasi','','Shalom [[namalengkap]]. Pendaftaran Kelas anda sudah dikonfirmasi silahkan datang tepat waktu. Silahkan Bergabung dengan Grup WA Berikut:\r\n\r\nTahap New (FC1 & MC):\r\nbit.ly/newescnextstep\r\n\r\nTahap Plant – Foundation Class 2 (FC2):\r\nbit.ly/fc2escnextstep\r\n\r\nTahap Plant – Foundation Class 3 (FC3):\r\nbit.ly/fc3escnextstep\r\n\r\nTahap Grow – Marriage Class (MaC):\r\nbit.ly/macnextstep\r\n\r\nChannel ESC Next Step:\r\nbit.ly/channelescnextstep\r\n','2025-11-22 14:35:26','2025-11-22 15:32:33',1),('wa_nextstep_registrasi','','teset','2025-11-22 14:35:26','2025-11-22 15:32:33',1);
+insert  into `jemaatresetpassword`(`id`,`idjemaat`,`email`,`tokenlupapassword`,`tgltokenlupapassword`) values (1,'2310310025','081254691909','969590','2026-01-31 23:44:47'),(2,'2310310025','081254691909','815963','2026-02-01 00:47:31'),(3,'2310310025','081254691909','887489','2026-02-01 01:04:20'),(4,'2310310025','081254691909','364200','2026-02-01 01:06:45'),(5,'2310310025','081254691909','713571','2026-02-01 01:08:20'),(6,'2310310025','081254691909','539336','2026-02-01 01:09:50'),(7,'2310310025','081254691909','750995','2026-02-01 01:15:10');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

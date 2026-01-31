@@ -285,6 +285,37 @@ class Login extends CI_Controller
             redirect(site_url());
         }
     }
+
+    public function kirimKodeResetPassword()
+    {
+        $email = $this->input->post('email');
+
+        $kirim = $this->Login_model->kirimKodeResetPassword($email);
+
+        echo json_encode($kirim);
+        
+    }
+
+    public function cekTokenResetPassword()
+    {
+        $email = $this->input->post('email');
+        $tokenResetPassword = $this->input->post('tokenResetPassword');
+
+        $kirim = $this->Login_model->cekTokenResetPassword($email, $tokenResetPassword);
+
+        echo json_encode($kirim);
+        
+    }
+
+    public function updateResetPassword()
+    {
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+
+        $kirim = $this->Login_model->updateResetPassword($email, $password);
+
+        echo json_encode($kirim);
+    }
 }
 
 /* End of file Login.php */

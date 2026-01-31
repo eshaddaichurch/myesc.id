@@ -71,7 +71,7 @@
                       <select name="idjemaat" id="idjemaat" class="form-control select2">
                         <option value="">Pilih nama member dc</option>
                         <?php  
-                          $rsjemaat = $this->db->query("select * from jemaat order by namalengkap");
+                          $rsjemaat = $this->App->getJemaatAktif();
                           if ($rsjemaat->num_rows()>0) {
                             foreach ($rsjemaat->result() as $rowjemaat) {
                               echo '
