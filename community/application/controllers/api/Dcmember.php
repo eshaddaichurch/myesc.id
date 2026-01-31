@@ -3,11 +3,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dcmember extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        header('Content-Type: application/json');
+        $this->load->model('App'); // untuk getKelasJemaat
+    }
+
+    /**
+     * LIST MEMBER BY DC
+     * /api/dcmember?iddc=DGX01
+     */
     public function index()
     {
-        header('Content-Type: application/json');
-
         $iddc = $this->input->get('iddc');
+
         if (!$iddc) {
             echo json_encode([
                 'status' => false,
@@ -24,14 +34,17 @@ class Dcmember extends CI_Controller {
 
         echo json_encode([
             'status' => true,
-            'data' => $data
+            'total'  => count($data),
+            'data'   => $data
         ]);
     }
 
+    /**
+     * DETAIL MEMBER + KELAS
+     * /api/dcmember/detail?id=2401170016
+     */
     public function detail()
     {
-        header('Content-Type: application/json');
-
         $idjemaat = $this->input->get('id');
 
         if (!$idjemaat) {
@@ -42,12 +55,13 @@ class Dcmember extends CI_Controller {
             return;
         }
 
-        $data = $this->db
+        // === DATA MEMBER ===
+        $member = $this->db
             ->where('idjemaat', $idjemaat)
             ->get('v_dcmember')
             ->row();
 
-        if (!$data) {
+        if (!$member) {
             echo json_encode([
                 'status' => false,
                 'message' => 'Data tidak ditemukan'
@@ -55,10 +69,22 @@ class Dcmember extends CI_Controller {
             return;
         }
 
+        // === KELAS YANG DIIKUTI ===
+        $kelas = [];
+        $rsKelas = $this->App->getKelasJemaat($idjemaat);
+
+        if ($rsKelas && $rsKelas->num_rows() > 0) {
+            foreach ($rsKelas->result() as $row) {
+                $kelas[] = [
+                    'namakelas' => $row->namakelas
+                ];
+            }
+        }
+
         echo json_encode([
             'status' => true,
-            'data' => $data
+            'data'   => $member,
+            'kelas'  => $kelas
         ]);
     }
-
 }
