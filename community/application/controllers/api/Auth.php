@@ -49,6 +49,7 @@ class Auth extends CI_Controller {
             'message' => 'Login berhasil',
             'data' => [
                 'idjemaat' => $u->idjemaat,
+                'iddc' => $u->iddc,
                 'namalengkap' => $u->namalengkap,
                 'username' => $u->username
             ]
