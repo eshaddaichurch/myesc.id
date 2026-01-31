@@ -12,7 +12,7 @@ class Auth extends CI_Controller {
 
     public function login()
     {
-        // Ambil JSON dari body
+        // Ambil raw JSON
         $raw = file_get_contents("php://input");
         $input = json_decode($raw, true);
 
@@ -28,9 +28,9 @@ class Auth extends CI_Controller {
             return;
         }
 
-        // cek login (password di DB = md5)
+        // ⚠️ JANGAN lowercase username
         $user = $this->Login_model->cek_login(
-            strtolower($username),
+            $username,
             md5($password)
         );
 
@@ -45,15 +45,14 @@ class Auth extends CI_Controller {
 
         $u = $user->row();
 
-        // 👉 RESPONSE INI YANG AKAN DISIMPAN DI MOBILE
         echo json_encode([
             'status' => true,
             'message' => 'Login berhasil',
             'data' => [
-                'idjemaat'     => $u->idjemaat,
-                'iddc'         => $u->iddc,
-                'namalengkap'  => $u->namalengkap,
-                'username'     => $u->username
+                'idjemaat'    => $u->idjemaat,
+                'iddc'        => $u->iddc,
+                'namalengkap' => $u->namalengkap,
+                'username'    => $u->username
             ]
         ]);
     }
