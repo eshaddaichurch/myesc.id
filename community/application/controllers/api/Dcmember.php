@@ -27,4 +27,38 @@ class Dcmember extends CI_Controller {
             'data' => $data
         ]);
     }
+
+    public function detail()
+    {
+        header('Content-Type: application/json');
+
+        $idjemaat = $this->input->get('id');
+
+        if (!$idjemaat) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'id jemaat wajib diisi'
+            ]);
+            return;
+        }
+
+        $data = $this->db
+            ->where('idjemaat', $idjemaat)
+            ->get('v_dcmember')
+            ->row();
+
+        if (!$data) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
+
+        echo json_encode([
+            'status' => true,
+            'data' => $data
+        ]);
+    }
+
 }
