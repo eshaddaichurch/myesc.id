@@ -11,40 +11,38 @@ class Home extends CI_Controller {
 
     public function index()
     {
-        // iddc dikirim dari mobile (hasil login)
         $iddc = $this->input->get('iddc');
 
-        if (!$iddc) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'iddc wajib dikirim'
-            ]);
-            return;
-        }
+        $dm = $this->db->query("
+            SELECT COUNT(*) AS jumlah
+            FROM v_dcmember
+            WHERE iddc = '$iddc'
+            AND statuskeanggotaan = 'Disciples maker'
+        ")->row()->jumlah;
 
-        $jumlahdm = $this->db
-            ->where('iddc', $iddc)
-            ->where('statuskeanggotaan', 'Disciples maker')
-            ->count_all_results('v_dcmember');
+        $core = $this->db->query("
+            SELECT COUNT(*) AS jumlah
+            FROM v_dcmember
+            WHERE iddc = '$iddc'
+            AND statuskeanggotaan = 'Core Team'
+        ")->row()->jumlah;
 
-        $jumlahcore = $this->db
-            ->where('iddc', $iddc)
-            ->where('statuskeanggotaan', 'Core Team')
-            ->count_all_results('v_dcmember');
-
-        $jumlahmember = $this->db
-            ->where('iddc', $iddc)
-            ->where('statuskeanggotaan', 'Anggota')
-            ->count_all_results('v_dcmember');
+        $member = $this->db->query("
+            SELECT COUNT(*) AS jumlah
+            FROM v_dcmember
+            WHERE iddc = '$iddc'
+            AND statuskeanggotaan = 'Anggota'
+        ")->row()->jumlah;
 
         echo json_encode([
             'status' => true,
             'data' => [
-                'dm'      => $jumlahdm,
-                'core'   => $jumlahcore,
-                'member' => $jumlahmember,
-                'total'  => $jumlahdm + $jumlahcore + $jumlahmember
+                'dm'     => (int)$dm,
+                'core'   => (int)$core,
+                'member' => (int)$member,
+                'total'  => (int)($core + $member) // ✅ FIX
             ]
         ]);
     }
+
 }
