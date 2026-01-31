@@ -7,12 +7,12 @@ class Auth extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Login_model');
-        header('Content-Type: application/json');
     }
 
     public function login()
     {
-        // Ambil raw JSON
+        header('Content-Type: application/json');
+
         $raw = file_get_contents("php://input");
         $input = json_decode($raw, true);
 
@@ -28,9 +28,8 @@ class Auth extends CI_Controller {
             return;
         }
 
-        // ⚠️ JANGAN lowercase username
         $user = $this->Login_model->cek_login(
-            $username,
+            strtolower($username),
             md5($password)
         );
 
@@ -49,10 +48,9 @@ class Auth extends CI_Controller {
             'status' => true,
             'message' => 'Login berhasil',
             'data' => [
-                'idjemaat'    => $u->idjemaat,
-                'iddc'        => $u->iddc,
+                'idjemaat' => $u->idjemaat,
                 'namalengkap' => $u->namalengkap,
-                'username'    => $u->username
+                'username' => $u->username
             ]
         ]);
     }
