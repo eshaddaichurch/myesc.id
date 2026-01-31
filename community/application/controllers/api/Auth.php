@@ -7,12 +7,12 @@ class Auth extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Login_model');
+        header('Content-Type: application/json');
     }
 
     public function login()
     {
-        header('Content-Type: application/json');
-
+        // Ambil JSON dari body
         $raw = file_get_contents("php://input");
         $input = json_decode($raw, true);
 
@@ -28,6 +28,7 @@ class Auth extends CI_Controller {
             return;
         }
 
+        // cek login (password di DB = md5)
         $user = $this->Login_model->cek_login(
             strtolower($username),
             md5($password)
@@ -44,14 +45,15 @@ class Auth extends CI_Controller {
 
         $u = $user->row();
 
+        // 👉 RESPONSE INI YANG AKAN DISIMPAN DI MOBILE
         echo json_encode([
             'status' => true,
             'message' => 'Login berhasil',
             'data' => [
-                'idjemaat' => $u->idjemaat,
-                'iddc' => $u->iddc,
-                'namalengkap' => $u->namalengkap,
-                'username' => $u->username
+                'idjemaat'     => $u->idjemaat,
+                'iddc'         => $u->iddc,
+                'namalengkap'  => $u->namalengkap,
+                'username'     => $u->username
             ]
         ]);
     }
