@@ -50,5 +50,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'dashboard';
+
+
+// ✅ TAMBAHKAN INI - Route untuk API foto
+$route['api/foto/jemaat/(:any)'] = 'api/foto/jemaat/$1';
+$route['api/foto/jemaat'] = 'api/foto/jemaat';
+
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
