@@ -5,14 +5,12 @@ class Foto extends CI_Controller {
 
     public function jemaat($filename = null)
     {
-        // === PATH ASLI FILE DI SERVER ===
-        $basePath = FCPATH . 'myesc.id/admin/uploads/jemaat/';
-        $noFoto   = FCPATH . 'myesc.id/images/nofoto.png';
+        // naik 1 level dari community ke myesc.id
+        $basePath = realpath(FCPATH . '../admin/uploads/jemaat/') . DIRECTORY_SEPARATOR;
+        $noFoto   = realpath(FCPATH . '../images/nofoto.png');
 
-        // kalau tidak ada nama file
         if (empty($filename)) {
-            $this->outputImage($noFoto);
-            return;
+            return $this->outputImage($noFoto);
         }
 
         // security: cegah ../
@@ -20,7 +18,6 @@ class Foto extends CI_Controller {
 
         $filePath = $basePath . $filename;
 
-        // kalau file tidak ditemukan
         if (!file_exists($filePath) || !is_file($filePath)) {
             $filePath = $noFoto;
         }
@@ -30,7 +27,11 @@ class Foto extends CI_Controller {
 
     private function outputImage($path)
     {
-        // fallback mime
+        if (!file_exists($path)) {
+            show_404();
+            return;
+        }
+
         $mime = function_exists('mime_content_type')
             ? mime_content_type($path)
             : 'image/png';
