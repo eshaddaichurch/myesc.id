@@ -21,7 +21,14 @@ class Foto extends CI_Controller {
         $basePath = realpath(FCPATH . '../admin/uploads/jemaat/') . DIRECTORY_SEPARATOR;
         $noFoto   = realpath(FCPATH . '../images/nofoto.png');
 
+        // 🔍 DEBUG LOG
+        error_log("=== FOTO API DEBUG ===");
+        error_log("Requested filename: " . ($filename ?: 'EMPTY'));
+        error_log("Base path: " . $basePath);
+        error_log("NoFoto path: " . $noFoto);
+
         if (empty($filename)) {
+            error_log("Empty filename, returning nofoto");
             return $this->outputImage($noFoto);
         }
 
@@ -29,7 +36,13 @@ class Foto extends CI_Controller {
         $filename = basename($filename);
         $filePath = $basePath . $filename;
 
+        error_log("Cleaned filename: " . $filename);
+        error_log("Full file path: " . $filePath);
+        error_log("File exists: " . (file_exists($filePath) ? 'YES' : 'NO'));
+        error_log("Is file: " . (is_file($filePath) ? 'YES' : 'NO'));
+
         if (!file_exists($filePath) || !is_file($filePath)) {
+            error_log("File not found, returning nofoto");
             $filePath = $noFoto;
         }
 
@@ -39,6 +52,7 @@ class Foto extends CI_Controller {
     private function outputImage($path)
     {
         if (!file_exists($path)) {
+            error_log("ERROR: Path does not exist: " . $path);
             show_404();
             return;
         }
@@ -52,6 +66,8 @@ class Foto extends CI_Controller {
         header('Cache-Control: public, max-age=86400');
         header('Pragma: public');
 
+        error_log("Outputting image: " . $path . " (" . filesize($path) . " bytes)");
+        
         readfile($path);
         exit;
     }
