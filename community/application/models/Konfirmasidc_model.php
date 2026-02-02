@@ -1,229 +1,100 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Konfirmasidc extends CI_Controller {
+class Konfirmasidc_model extends CI_Model
+{
 
-    public function __construct() {
-        parent::__construct();
-        $this->load->model('Konfirmasidc_model'); // ✅ Sesuai dengan model yang sudah ada
-        
-        // CORS headers untuk React Native
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-            exit(0);
-        }
+    public function getDC($iddc)
+    {
+        return $this->db->get_where('v_disciplescommunity', array('iddc' => $iddc));
     }
 
-    /**
-     * GET - List semua permohonan
-     * URL: /community/api/konfirmasidc?iddc=xxx
-     */
-    public function index()
+    public function getPermohonanID($idpermohonan)
     {
-        // Ambil iddc dari query parameter (React Native tidak pakai session)
-        $iddc = $this->input->get('iddc');
-        
-        if (!$iddc) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'ID DC tidak ditemukan'
-            ]);
-            return;
-        }
-
-        // Query data permohonan berdasarkan iddc
-        $this->db->where('iddc', $iddc);
-        $rsPermohonan = $this->db->get('v_dcmember_permohonan');
-        
-        $data = [];
-        foreach ($rsPermohonan->result() as $row) {
-            // Tentukan foto
-            $foto = base_url('images/user-01.png');
-            if (!empty($row->foto)) {
-                $foto = base_url('../admin/uploads/jemaat/' . $row->foto);
-            }
-
-            // Tentukan status
-            $status = 'pending'; // default
-            if ($row->statuskonfirmasi == 'Disetujui') {
-                $status = 'approved';
-            } elseif ($row->statuskonfirmasi == 'Ditolak') {
-                $status = 'rejected';
-            }
-
-            $data[] = [
-                'idpermohonan' => $row->idpermohonan,
-                'idjemaat' => $row->idjemaat,
-                'namalengkap' => $row->namalengkap,
-                'tglpermohonan' => $row->tglpermohonan,
-                'foto' => $foto,
-                'jeniskelamin' => $row->jeniskelamin,
-                'umur' => $row->umur,
-                'statuskonfirmasi' => $row->statuskonfirmasi,
-                'status' => $status, // untuk React Native: approved/pending/rejected
-                'keterangankonfirmasi' => $row->keterangankonfirmasi,
-                'iddc' => $row->iddc,
-                'namadc' => $row->namadc,
-            ];
-        }
-
-        echo json_encode([
-            'status' => true,
-            'data' => $data,
-            'total' => count($data)
-        ]);
+        $this->db->where('idpermohonan', $idpermohonan);
+        return $this->db->get('v_dcmember_permohonan');
     }
 
-    /**
-     * GET - Detail permohonan by ID
-     * URL: /community/api/konfirmasidc/detail?idpermohonan=xxx
-     */
-    public function detail()
+    public function getPermohonan()
     {
-        $idpermohonan = $this->input->get('idpermohonan');
-        
-        if (!$idpermohonan) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'ID Permohonan tidak ditemukan'
-            ]);
-            return;
-        }
-
-        // Query detail permohonan
-        $rsPermohonan = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
-        
-        if ($rsPermohonan->num_rows() == 0) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Data tidak ditemukan'
-            ]);
-            return;
-        }
-
-        $row = $rsPermohonan->row();
-        
-        // Tentukan foto
-        $foto = base_url('images/user-01.png');
-        if (!empty($row->foto)) {
-            $foto = base_url('../admin/uploads/jemaat/' . $row->foto);
-        }
-
-        // Tentukan status
-        $status = 'pending';
-        if ($row->statuskonfirmasi == 'Disetujui') {
-            $status = 'approved';
-        } elseif ($row->statuskonfirmasi == 'Ditolak') {
-            $status = 'rejected';
-        }
-
-        $data = [
-            'idpermohonan' => $row->idpermohonan,
-            'idjemaat' => $row->idjemaat,
-            'namalengkap' => $row->namalengkap,
-            'tglpermohonan' => $row->tglpermohonan,
-            'foto' => $foto,
-            'jeniskelamin' => $row->jeniskelamin,
-            'umur' => $row->umur,
-            'statuskonfirmasi' => $row->statuskonfirmasi,
-            'status' => $status,
-            'keterangankonfirmasi' => $row->keterangankonfirmasi,
-            'tempatlahir' => $row->tempatlahir,
-            'tanggallahir' => $row->tanggallahir,
-            'nohp' => $row->nohp,
-            'username' => $row->username,
-            'iddc' => $row->iddc,
-            'namadc' => $row->namadc,
-            // tambahkan field lain sesuai kebutuhan
-        ];
-
-        echo json_encode([
-            'status' => true,
-            'data' => $data
-        ]);
+        $this->db->where('iddc', $this->session->userdata('iddc'));
+        return $this->db->get('v_dcmember_permohonan');
     }
 
-    /**
-     * POST - Konfirmasi permohonan (Approve/Reject)
-     * URL: /community/api/konfirmasidc/konfirmasi
-     * Body: {
-     *     "idpermohonan": "xxx",
-     *     "idjemaat": "xxx",
-     *     "status": "approve" atau "reject",
-     *     "alasan": "alasan ditolak (opsional)"
-     * }
-     */
-    public function konfirmasi()
+    public function getDcMemberAktif($idjemaat)
     {
-        $input = json_decode(file_get_contents('php://input'), true);
-        
-        $idpermohonan = $input['idpermohonan'] ?? null;
-        $idjemaat = $input['idjemaat'] ?? null;
-        $status = $input['status'] ?? null; // 'approve' atau 'reject'
-        $alasan = $input['alasan'] ?? '';
-        
-        if (!$idpermohonan || !$idjemaat || !$status) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Data tidak lengkap'
-            ]);
-            return;
-        }
+        $this->db->where('idjemaat', $idjemaat);
+        $this->db->where('statusaktif', 'Aktif');
+        return $this->db->get('v_dcmember');
+    }
 
-        // Validasi status
-        if (!in_array($status, ['approve', 'reject'])) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Status tidak valid'
-            ]);
-            return;
-        }
+    public function setuju($idjemaat, $idpermohonan, $rowPermohonan)
+    {
+        try {
+            $this->db->trans_begin();
+            $iddcmember = $this->db->query("select create_iddcmember('" . $this->session->userdata('iddc') . "') as iddcmember")->row()->iddcmember;
+            $arrData = array(
+                'iddcmember' => $iddcmember,
+                'iddc' => $this->session->userdata('iddc'),
+                'idjemaat' => $idjemaat,
+                'statuskeanggotaan' => 'Anggota',
+                'tanggalinsert' => date('Y-m-d H:i:s'),
+                'tanggalupdate' => date('Y-m-d H:i:s'),
+                'idjemaatupdate' => $this->session->userdata('idjemaat'),
+                'idpermohonan' => $idpermohonan,
+            );
+            $this->db->insert('dcmember', $arrData);
 
-        // Get detail permohonan untuk parameter setuju()
-        $rsPermohonan = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
-        if ($rsPermohonan->num_rows() == 0) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Permohonan tidak ditemukan'
-            ]);
-            return;
-        }
-        $rowPermohonan = $rsPermohonan->row();
 
-        // Proses konfirmasi
-        if ($status == 'approve') {
-            // Approve
-            $result = $this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $rowPermohonan);
-            
-            if ($result) {
-                echo json_encode([
-                    'status' => true,
-                    'message' => 'Permohonan berhasil disetujui'
-                ]);
+            $arrKonfirmasi = array(
+                'statuskonfirmasi' => 'Disetujui',
+                'keterangankonfirmasi' => null,
+                'tglkonfirmasi' => date('Y-m-d H:i:s'),
+                'idjemaatkonfirmasi' => $this->session->userdata('idjemaat'),
+            );
+            $this->db->where('idpermohonan', $idpermohonan);
+            $this->db->update('dcmember_permohonan', $arrKonfirmasi);
+
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false;
             } else {
-                echo json_encode([
-                    'status' => false,
-                    'message' => 'Gagal menyetujui permohonan'
-                ]);
+                $this->db->trans_commit();
+                return true;
             }
-        } else {
-            // Reject
-            $result = $this->Konfirmasidc_model->tolak($idpermohonan, $alasan);
-            
-            if ($result) {
-                echo json_encode([
-                    'status' => true,
-                    'message' => 'Permohonan berhasil ditolak'
-                ]);
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return false;
+        }
+    }
+
+    public function tolak($idpermohonan, $alasan)
+    {
+        try {
+            $this->db->trans_begin();
+            $this->db->query("delete from dcmember where idpermohonan=$idpermohonan");
+
+            $arrKonfirmasi = array(
+                'statuskonfirmasi' => 'Ditolak',
+                'keterangankonfirmasi' => $alasan,
+                'tglkonfirmasi' => date('Y-m-d H:i:s'),
+                'idjemaatkonfirmasi' => $this->session->userdata('idjemaat'),
+            );
+            $this->db->where('idpermohonan', $idpermohonan);
+            $this->db->update('dcmember_permohonan', $arrKonfirmasi);
+
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false;
             } else {
-                echo json_encode([
-                    'status' => false,
-                    'message' => 'Gagal menolak permohonan'
-                ]);
+                $this->db->trans_commit();
+                return true;
             }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return false;
         }
     }
 }
