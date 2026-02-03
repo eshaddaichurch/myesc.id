@@ -22,10 +22,7 @@ class Konfirmasidc extends CI_Controller {
             return;
         }
 
-        $data = $this->db
-            ->where('iddc', $iddc)
-            ->get('v_dcmember_permohonan')
-            ->result();
+        $data = $this->model->getByDc($iddc);
 
         echo json_encode([
             'status' => true,
