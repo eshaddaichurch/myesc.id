@@ -9,19 +9,29 @@ class Konfirmasidc extends CI_Controller {
         $this->load->model('api/Konfirmasidc_api_model', 'model');
     }
 
-    public function index()
+    public function detail()
     {
-        $iddc = $this->input->get('iddc'); // atau post
+        header('Content-Type: application/json');
 
-        if (!$iddc) {
+        $id = $this->input->get('idpermohonan');
+
+        if (!$id) {
             echo json_encode([
                 'status' => false,
-                'message' => 'iddc wajib'
+                'message' => 'idpermohonan wajib'
             ]);
             return;
         }
 
-        $data = $this->model->getPermohonan($iddc);
+        $data = $this->model->getDetail($id);
+
+        if (!$data) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
 
         echo json_encode([
             'status' => true,

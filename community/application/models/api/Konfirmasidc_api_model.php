@@ -3,10 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Konfirmasidc_api_model extends CI_Model {
 
-    public function getPermohonan($iddc)
+    public function getDetail($idpermohonan)
     {
-        $this->db->where('iddc', $iddc);
-        return $this->db->get('v_dcmember_permohonan')->result();
+        return $this->db
+            ->where('idpermohonan', $idpermohonan)
+            ->get('v_dcmember_permohonan')
+            ->row();
     }
-
 }
