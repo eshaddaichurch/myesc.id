@@ -21,6 +21,17 @@ class Konfirmasidcm extends MY_Controller {
 
     public function datatablesource()
     {
+
+        if (!isset($_POST['draw'])) {
+            echo json_encode([
+                'draw' => 0,
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => []
+            ]);
+            return;
+        }
+        
         $RsData = $this->Konfirmasidcm_model->get_datatables();
         $no = $_POST['start'];
         $data = array();
