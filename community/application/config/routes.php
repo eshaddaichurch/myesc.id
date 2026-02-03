@@ -51,17 +51,5 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $route['default_controller'] = 'dashboard';
 
-
-// ✅ TAMBAHKAN INI - Route untuk API foto
-$route['api/foto/jemaat/(:any)'] = 'api/foto/jemaat/$1';
-$route['api/foto/jemaat'] = 'api/foto/jemaat';
-
-
-// Route untuk API Konfirmasi DCM
-$route['api/konfirmasidcm'] = 'api/konfirmasidcm/index';
-$route['api/konfirmasidcm/detail'] = 'api/konfirmasidcm/detail';
-$route['api/konfirmasidcm/konfirmasi'] = 'api/konfirmasidcm/konfirmasi';
-
-
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

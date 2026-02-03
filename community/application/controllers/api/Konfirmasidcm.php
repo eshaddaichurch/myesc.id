@@ -7,9 +7,12 @@ class Konfirmasidcm extends CI_Controller {
     {
         parent::__construct();
         header('Content-Type: application/json');
-        $this->load->model('Konfirmasidc_model');
     }
 
+    /**
+     * LIST PERMOHONAN BY DC
+     * /api/konfirmasidcm?iddc=DGX01
+     */
     public function index()
     {
         $iddc = $this->input->get('iddc');
@@ -22,19 +25,19 @@ class Konfirmasidcm extends CI_Controller {
             return;
         }
 
-        $data = $this->db
-            ->where('iddc', $iddc)
-            ->order_by('tglpermohonan', 'DESC')
-            ->get('v_dcmember_permohonan')
-            ->result();
+        // Query sama seperti di website
+        $this->db->where('iddc', $iddc);
+        $rsPermohonan = $this->db->get('v_dcmember_permohonan');
 
-        $formatted = [];
-        foreach ($data as $row) {
+        $data = [];
+        foreach ($rsPermohonan->result() as $row) {
+            // Foto
             $foto = base_url('images/user-01.png');
             if (!empty($row->foto)) {
                 $foto = base_url('../admin/uploads/jemaat/' . $row->foto);
             }
 
+            // Status untuk React Native
             $status = 'pending';
             if ($row->statuskonfirmasi == 'Disetujui') {
                 $status = 'approved';
@@ -42,7 +45,7 @@ class Konfirmasidcm extends CI_Controller {
                 $status = 'rejected';
             }
 
-            $formatted[] = [
+            $data[] = [
                 'idpermohonan' => $row->idpermohonan,
                 'idjemaat' => $row->idjemaat,
                 'namalengkap' => $row->namalengkap,
@@ -53,126 +56,13 @@ class Konfirmasidcm extends CI_Controller {
                 'statuskonfirmasi' => $row->statuskonfirmasi,
                 'status' => $status,
                 'keterangankonfirmasi' => $row->keterangankonfirmasi,
-                'iddc' => $row->iddc,
-                'namadc' => $row->namadc,
             ];
         }
 
         echo json_encode([
             'status' => true,
-            'total'  => count($formatted),
-            'data'   => $formatted
-        ]);
-    }
-
-    public function detail()
-    {
-        $idpermohonan = $this->input->get('idpermohonan');
-
-        if (!$idpermohonan) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'idpermohonan wajib diisi'
-            ]);
-            return;
-        }
-
-        $data = $this->db
-            ->where('idpermohonan', $idpermohonan)
-            ->get('v_dcmember_permohonan')
-            ->row();
-
-        if (!$data) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Data tidak ditemukan'
-            ]);
-            return;
-        }
-
-        $foto = base_url('images/user-01.png');
-        if (!empty($data->foto)) {
-            $foto = base_url('../admin/uploads/jemaat/' . $data->foto);
-        }
-
-        $status = 'pending';
-        if ($data->statuskonfirmasi == 'Disetujui') {
-            $status = 'approved';
-        } elseif ($data->statuskonfirmasi == 'Ditolak') {
-            $status = 'rejected';
-        }
-
-        $formatted = [
-            'idpermohonan' => $data->idpermohonan,
-            'idjemaat' => $data->idjemaat,
-            'namalengkap' => $data->namalengkap,
-            'tglpermohonan' => $data->tglpermohonan,
-            'foto' => $foto,
-            'jeniskelamin' => $data->jeniskelamin,
-            'umur' => $data->umur,
-            'statuskonfirmasi' => $data->statuskonfirmasi,
-            'status' => $status,
-            'keterangankonfirmasi' => $data->keterangankonfirmasi,
-            'tempatlahir' => $data->tempatlahir,
-            'tanggallahir' => $data->tanggallahir,
-            'nohp' => $data->nohp,
-            'username' => $data->username,
-            'iddc' => $data->iddc,
-            'namadc' => $data->namadc,
-        ];
-
-        echo json_encode([
-            'status' => true,
-            'data'   => $formatted
-        ]);
-    }
-
-    public function konfirmasi()
-    {
-        $input = json_decode(file_get_contents('php://input'), true);
-
-        $idpermohonan = $input['idpermohonan'] ?? null;
-        $idjemaat = $input['idjemaat'] ?? null;
-        $status = $input['status'] ?? null;
-        $alasan = $input['alasan'] ?? '';
-
-        if (!$idpermohonan || !$idjemaat || !$status) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Data tidak lengkap'
-            ]);
-            return;
-        }
-
-        if (!in_array($status, ['approve', 'reject'])) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Status tidak valid'
-            ]);
-            return;
-        }
-
-        $rsPermohonan = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
-        if ($rsPermohonan->num_rows() == 0) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Permohonan tidak ditemukan'
-            ]);
-            return;
-        }
-        $rowPermohonan = $rsPermohonan->row();
-
-        if ($status == 'approve') {
-            $result = $this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $rowPermohonan);
-            $message = $result ? 'Permohonan berhasil disetujui' : 'Gagal menyetujui permohonan';
-        } else {
-            $result = $this->Konfirmasidc_model->tolak($idpermohonan, $alasan);
-            $message = $result ? 'Permohonan berhasil ditolak' : 'Gagal menolak permohonan';
-        }
-
-        echo json_encode([
-            'status' => $result,
-            'message' => $message
+            'total'  => count($data),
+            'data'   => $data
         ]);
     }
 }
