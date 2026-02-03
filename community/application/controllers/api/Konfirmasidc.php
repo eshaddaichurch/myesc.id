@@ -1,43 +1,102 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Konfirmasidc extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
+        header('Content-Type: application/json');
         $this->load->model('api/Konfirmasidc_api_model', 'model');
-    }
-
-    private function json($data)
-    {
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($data));
     }
 
     public function index()
     {
         $iddc = $this->input->get('iddc');
-        if (!$iddc) return $this->json(['status'=>false,'message'=>'iddc wajib']);
 
-        $data = $this->db->where('iddc',$iddc)
-                         ->get('v_dcmember_permohonan')
-                         ->result();
+        if (!$iddc) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'iddc wajib'
+            ]);
+            return;
+        }
 
-        return $this->json(['status'=>true,'data'=>$data]);
+        $data = $this->db
+            ->where('iddc', $iddc)
+            ->get('v_dcmember_permohonan')
+            ->result();
+
+        echo json_encode([
+            'status' => true,
+            'data' => $data
+        ]);
+    }
+
+    public function detail()
+    {
+        $id = $this->input->get('idpermohonan');
+
+        if (!$id) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'idpermohonan wajib'
+            ]);
+            return;
+        }
+
+        $data = $this->model->getDetail($id);
+
+        if (!$data) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
+
+        echo json_encode([
+            'status' => true,
+            'data' => $data
+        ]);
     }
 
     public function setuju()
     {
         $input = json_decode(file_get_contents("php://input"), true);
-        $id = $input['idpermohonan'] ?? null;
+        $idpermohonan = $input['idpermohonan'] ?? null;
 
-        if (!$id) return $this->json(['status'=>false,'message'=>'idpermohonan wajib']);
+        if (!$idpermohonan) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'idpermohonan wajib'
+            ]);
+            return;
+        }
 
-        $this->db->where('idpermohonan',$id)
-                 ->update('dcmember_permohonan',[
-                     'statuskonfirmasi'=>'Disetujui'
-                 ]);
+        $row = $this->db
+            ->where('idpermohonan', $idpermohonan)
+            ->get('v_dcmember_permohonan')
+            ->row();
 
-        return $this->json(['status'=>true]);
+        if (!$row) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
+
+        // UPDATE STATUS (samakan dengan struktur DB kamu)
+        $this->db->where('idpermohonan', $idpermohonan)
+                ->update('dcmember_permohonan', [
+                    'statuskonfirmasi' => 'Disetujui'
+                ]);
+
+        echo json_encode([
+            'status' => true,
+            'message' => 'Permohonan disetujui'
+        ]);
     }
+
 }
