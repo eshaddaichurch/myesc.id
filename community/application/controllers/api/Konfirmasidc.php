@@ -99,4 +99,32 @@ class Konfirmasidc extends CI_Controller {
         ]);
     }
 
+    public function tolak()
+    {
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        $idpermohonan = $input['idpermohonan'] ?? null;
+        $alasan = $input['alasan'] ?? '-';
+
+        if (!$idpermohonan) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'idpermohonan wajib'
+            ]);
+            return;
+        }
+
+        $this->db->where('idpermohonan', $idpermohonan)
+                ->update('dcmember_permohonan', [
+                    'statuskonfirmasi' => 'Ditolak',
+                    'alasantolak' => $alasan
+                ]);
+
+        echo json_encode([
+            'status' => true,
+            'message' => 'Permohonan ditolak'
+        ]);
+    }
+
+
 }
