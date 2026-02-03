@@ -25,12 +25,16 @@ class Konfirmasidcm extends CI_Controller {
             return;
         }
 
-        // Query sama seperti di website
-        $this->db->where('iddc', $iddc);
-        $rsPermohonan = $this->db->get('v_dcmember_permohonan');
+        // Query data permohonan (sama seperti di website)
+        $data = $this->db
+            ->where('iddc', $iddc)
+            ->order_by('tglpermohonan', 'DESC')
+            ->get('v_dcmember_permohonan')
+            ->result();
 
-        $data = [];
-        foreach ($rsPermohonan->result() as $row) {
+        // Format data untuk React Native
+        $formatted = [];
+        foreach ($data as $row) {
             // Foto
             $foto = base_url('images/user-01.png');
             if (!empty($row->foto)) {
@@ -45,7 +49,7 @@ class Konfirmasidcm extends CI_Controller {
                 $status = 'rejected';
             }
 
-            $data[] = [
+            $formatted[] = [
                 'idpermohonan' => $row->idpermohonan,
                 'idjemaat' => $row->idjemaat,
                 'namalengkap' => $row->namalengkap,
@@ -56,13 +60,15 @@ class Konfirmasidcm extends CI_Controller {
                 'statuskonfirmasi' => $row->statuskonfirmasi,
                 'status' => $status,
                 'keterangankonfirmasi' => $row->keterangankonfirmasi,
+                'iddc' => $row->iddc,
+                'namadc' => $row->namadc,
             ];
         }
 
         echo json_encode([
             'status' => true,
-            'total'  => count($data),
-            'data'   => $data
+            'total'  => count($formatted),
+            'data'   => $formatted
         ]);
     }
 }
