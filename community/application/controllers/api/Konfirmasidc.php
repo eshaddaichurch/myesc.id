@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Konfirmasidc extends CI_Controller
-{
+class Konfirmasidc extends CI_Controller {
+
     public function __construct()
     {
         parent::__construct();
@@ -11,7 +11,7 @@ class Konfirmasidc extends CI_Controller
 
     public function index()
     {
-        $iddc = $this->input->get('iddc');
+        $iddc = $this->input->get('iddc'); // atau post
 
         if (!$iddc) {
             echo json_encode([
@@ -21,7 +21,7 @@ class Konfirmasidc extends CI_Controller
             return;
         }
 
-        $data = $this->model->getPermohonanByDc($iddc);
+        $data = $this->model->getPermohonan($iddc);
 
         echo json_encode([
             'status' => true,
