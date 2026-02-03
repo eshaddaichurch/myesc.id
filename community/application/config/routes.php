@@ -57,10 +57,10 @@ $route['api/foto/jemaat/(:any)'] = 'api/foto/jemaat/$1';
 $route['api/foto/jemaat'] = 'api/foto/jemaat';
 
 
-// ✅ Route untuk API Konfirmasi DC
-$route['api/konfirmasidc'] = 'api/konfirmasidcm/index';
-$route['api/konfirmasidc/detail'] = 'api/konfirmasidcm/detail';
-$route['api/konfirmasidc/konfirmasi'] = 'api/konfirmasidcm/konfirmasi';
+// Route untuk API Konfirmasi DCM
+$route['api/konfirmasidcm'] = 'api/konfirmasidcm/index';
+$route['api/konfirmasidcm/detail'] = 'api/konfirmasidcm/detail';
+$route['api/konfirmasidcm/konfirmasi'] = 'api/konfirmasidcm/konfirmasi';
 
 
 $route['404_override'] = '';

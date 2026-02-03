@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Konfirmasidc extends CI_Controller {
+class Konfirmasidcm extends CI_Controller {
 
     public function __construct()
     {
@@ -10,10 +10,6 @@ class Konfirmasidc extends CI_Controller {
         $this->load->model('Konfirmasidc_model');
     }
 
-    /**
-     * LIST PERMOHONAN BY DC
-     * /api/konfirmasidc?iddc=DGX01
-     */
     public function index()
     {
         $iddc = $this->input->get('iddc');
@@ -32,16 +28,13 @@ class Konfirmasidc extends CI_Controller {
             ->get('v_dcmember_permohonan')
             ->result();
 
-        // Format data untuk React Native
         $formatted = [];
         foreach ($data as $row) {
-            // Tentukan foto
             $foto = base_url('images/user-01.png');
             if (!empty($row->foto)) {
                 $foto = base_url('../admin/uploads/jemaat/' . $row->foto);
             }
 
-            // Tentukan status
             $status = 'pending';
             if ($row->statuskonfirmasi == 'Disetujui') {
                 $status = 'approved';
@@ -72,10 +65,6 @@ class Konfirmasidc extends CI_Controller {
         ]);
     }
 
-    /**
-     * DETAIL PERMOHONAN
-     * /api/konfirmasidc/detail?idpermohonan=DGX0100001
-     */
     public function detail()
     {
         $idpermohonan = $this->input->get('idpermohonan');
@@ -101,13 +90,11 @@ class Konfirmasidc extends CI_Controller {
             return;
         }
 
-        // Tentukan foto
         $foto = base_url('images/user-01.png');
         if (!empty($data->foto)) {
             $foto = base_url('../admin/uploads/jemaat/' . $data->foto);
         }
 
-        // Tentukan status
         $status = 'pending';
         if ($data->statuskonfirmasi == 'Disetujui') {
             $status = 'approved';
@@ -140,16 +127,6 @@ class Konfirmasidc extends CI_Controller {
         ]);
     }
 
-    /**
-     * KONFIRMASI PERMOHONAN (APPROVE/REJECT)
-     * POST /api/konfirmasidc/konfirmasi
-     * Body: {
-     *     "idpermohonan": "DGX0100001",
-     *     "idjemaat": "2401170016",
-     *     "status": "approve" atau "reject",
-     *     "alasan": "alasan ditolak (opsional)"
-     * }
-     */
     public function konfirmasi()
     {
         $input = json_decode(file_get_contents('php://input'), true);
@@ -175,7 +152,6 @@ class Konfirmasidc extends CI_Controller {
             return;
         }
 
-        // Get detail permohonan
         $rsPermohonan = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
         if ($rsPermohonan->num_rows() == 0) {
             echo json_encode([
@@ -186,7 +162,6 @@ class Konfirmasidc extends CI_Controller {
         }
         $rowPermohonan = $rsPermohonan->row();
 
-        // Proses konfirmasi
         if ($status == 'approve') {
             $result = $this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $rowPermohonan);
             $message = $result ? 'Permohonan berhasil disetujui' : 'Gagal menyetujui permohonan';
