@@ -60,4 +60,43 @@ class Konfirmasidc extends CI_Controller {
             'data' => $data
         ]);
     }
+
+    public function setuju()
+    {
+        $input = json_decode(file_get_contents("php://input"), true);
+        $idpermohonan = $input['idpermohonan'] ?? null;
+
+        if (!$idpermohonan) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'idpermohonan wajib'
+            ]);
+            return;
+        }
+
+        $row = $this->db
+            ->where('idpermohonan', $idpermohonan)
+            ->get('v_dcmember_permohonan')
+            ->row();
+
+        if (!$row) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
+
+        // UPDATE STATUS (samakan dengan struktur DB kamu)
+        $this->db->where('idpermohonan', $idpermohonan)
+                ->update('dcmember_permohonan', [
+                    'statuskonfirmasi' => 'Disetujui'
+                ]);
+
+        echo json_encode([
+            'status' => true,
+            'message' => 'Permohonan disetujui'
+        ]);
+    }
+
 }
