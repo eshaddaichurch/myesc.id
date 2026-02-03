@@ -51,5 +51,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $route['default_controller'] = 'dashboard';
 
+$route['api/konfirmasidc/detail'] = 'api/konfirmasidc/detail';
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
