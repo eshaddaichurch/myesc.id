@@ -10,4 +10,5 @@ class Konfirmasidc_api_model extends CI_Model {
             ->get('v_dcmember_permohonan')
             ->row();
     }
+
 }
