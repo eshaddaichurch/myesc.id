@@ -86,13 +86,16 @@ class KonfirmasidcApi extends CI_Controller
      * =============================== */
     public function detail($encryptedId = null)
     {
-        $encryptedId = $this->input->post('idpermohonan');
 
-        if (!$encryptedId) {
+        if (empty($encryptedId)) {
+            $encryptedId = $this->input->post('idpermohonan');
+        }
+    
+        if (empty($encryptedId)) {
             $this->response(false, [], 'ID tidak valid');
         }
     
-        $idpermohonan = $this->encryption->decrypt($encryptedId);
+        $idpermohonan = $this->decryptId($encryptedId); // Gunakan helper decryptId
         if (!$idpermohonan) {
             $this->response(false, [], 'Gagal decode ID');
         }
