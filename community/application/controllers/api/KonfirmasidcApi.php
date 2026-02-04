@@ -50,7 +50,14 @@ class KonfirmasidcApi extends CI_Controller
 
         $rs = $this->Konfirmasidc_model->getPermohonan();
 
-        $this->response(true, $rs->result());
+        $data = [];
+        foreach ($rs->result() as $row) {
+            $row->idpermohonan = $this->encrypt->encode($row->idpermohonan);
+            $data[] = $row;
+        }
+
+        $this->response(true, $data);
+
     }
 
     /**
