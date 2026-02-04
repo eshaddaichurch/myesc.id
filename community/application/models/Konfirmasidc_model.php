@@ -28,10 +28,16 @@ class Konfirmasidc_model extends CI_Model
         return $this->db->get('v_dcmember');
     }
 
-    public function setuju($idjemaat, $idpermohonan, $rowPermohonan)
+    public function setuju($idjemaat, $idpermohonan, $rowPermohonan, $idjemaatKonfirmasi = null)
     {
         try {
             $this->db->trans_begin();
+            
+            // ✅ Jika tidak ada idjemaatKonfirmasi dari parameter, gunakan dari session
+            if ($idjemaatKonfirmasi === null) {
+                $idjemaatKonfirmasi = $this->session->userdata('idjemaat') ?? 'DEFAULT_ADMIN';
+            }
+            
             $iddcmember = $this->db->query("select create_iddcmember('" . $this->session->userdata('iddc') . "') as iddcmember")->row()->iddcmember;
             $arrData = array(
                 'iddcmember' => $iddcmember,
@@ -40,7 +46,7 @@ class Konfirmasidc_model extends CI_Model
                 'statuskeanggotaan' => 'Anggota',
                 'tanggalinsert' => date('Y-m-d H:i:s'),
                 'tanggalupdate' => date('Y-m-d H:i:s'),
-                'idjemaatupdate' => $this->session->userdata('idjemaat'),
+                'idjemaatupdate' => $idjemaatKonfirmasi,
                 'idpermohonan' => $idpermohonan,
             );
             $this->db->insert('dcmember', $arrData);
@@ -50,7 +56,7 @@ class Konfirmasidc_model extends CI_Model
                 'statuskonfirmasi' => 'Disetujui',
                 'keterangankonfirmasi' => null,
                 'tglkonfirmasi' => date('Y-m-d H:i:s'),
-                'idjemaatkonfirmasi' => $this->session->userdata('idjemaat'),
+                'idjemaatkonfirmasi' => $idjemaatKonfirmasi, // ✅ GUNAKAN PARAMETER INI
             );
             $this->db->where('idpermohonan', $idpermohonan);
             $this->db->update('dcmember_permohonan', $arrKonfirmasi);
@@ -69,17 +75,23 @@ class Konfirmasidc_model extends CI_Model
         }
     }
 
-    public function tolak($idpermohonan, $alasan)
+    public function tolak($idpermohonan, $alasan, $idjemaatKonfirmasi = null)
     {
         try {
             $this->db->trans_begin();
+            
+            // ✅ Jika tidak ada idjemaatKonfirmasi dari parameter, gunakan dari session
+            if ($idjemaatKonfirmasi === null) {
+                $idjemaatKonfirmasi = $this->session->userdata('idjemaat') ?? 'DEFAULT_ADMIN';
+            }
+            
             $this->db->query("delete from dcmember where idpermohonan=$idpermohonan");
 
             $arrKonfirmasi = array(
                 'statuskonfirmasi' => 'Ditolak',
                 'keterangankonfirmasi' => $alasan,
                 'tglkonfirmasi' => date('Y-m-d H:i:s'),
-                'idjemaatkonfirmasi' => $this->session->userdata('idjemaat'),
+                'idjemaatkonfirmasi' => $idjemaatKonfirmasi, // ✅ GUNAKAN PARAMETER INI
             );
             $this->db->where('idpermohonan', $idpermohonan);
             $this->db->update('dcmember_permohonan', $arrKonfirmasi);

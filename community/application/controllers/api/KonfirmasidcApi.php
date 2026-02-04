@@ -153,7 +153,10 @@ class KonfirmasidcApi extends CI_Controller
             $this->response(false, [], 'Gagal decode ID: Format tidak valid');
         }
 
-        if ($this->Konfirmasidc_model->tolak($idpermohonan, $alasan)) {
+        // ✅ Ambil idjemaat dari header
+        $idjemaatKonfirmasi = $this->input->get_request_header('idjemaat') ?? 'API_DEFAULT';
+
+        if ($this->Konfirmasidc_model->tolak($idpermohonan, $alasan, $idjemaatKonfirmasi)) {
             $this->response(true, [], 'Permohonan ditolak');
         }
 
@@ -161,7 +164,7 @@ class KonfirmasidcApi extends CI_Controller
     }
 
     /* ===============================
-     * ✅ SETUJU - DIPERBAIKI DENGAN PESAN WHATSAPP DETAIL
+     * ✅ SETUJU - DIPERBAIKI DENGAN idjemaatkonfirmasi
      * =============================== */
     public function setuju()
     {
@@ -189,10 +192,13 @@ class KonfirmasidcApi extends CI_Controller
             $this->response(false, [], 'Jemaat sudah menjadi anggota DC');
         }
 
+        // ✅ Ambil idjemaat dari header
+        $idjemaatKonfirmasi = $this->input->get_request_header('idjemaat') ?? 'API_DEFAULT';
+
         // ✅ Ambil data DC untuk pesan WhatsApp (seperti di website)
         $rowDc = $this->Konfirmasidc_model->getDC($row->iddc)->row();
 
-        if ($this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $row)) {
+        if ($this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $row, $idjemaatKonfirmasi)) {
 
             $rowJemaat = $this->App->getInfoJemaat($idjemaat);
             
