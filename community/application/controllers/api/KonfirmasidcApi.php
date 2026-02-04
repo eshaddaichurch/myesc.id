@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: application/json');
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class KonfirmasidcApi extends CI_Controller
@@ -8,13 +7,17 @@ class KonfirmasidcApi extends CI_Controller
     {
         parent::__construct();
 
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        header('Content-Type: application/json');
+
         $this->load->model('Konfirmasidc_model');
         $this->load->model('App');
         $this->load->library('encryption');
         $this->load->library('whatsapp');
-
-        header('Content-Type: application/json');
     }
+
 
     /* ===============================
      * HELPER
