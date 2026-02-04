@@ -18,7 +18,6 @@ class KonfirmasidcApi extends CI_Controller
         $this->load->library('whatsapp');
     }
 
-
     /* ===============================
      * HELPER
      * =============================== */
@@ -46,7 +45,6 @@ class KonfirmasidcApi extends CI_Controller
         ), '=');
     }
 
-
     /** URL-safe decrypt */
     private function decryptId($hash)
     {
@@ -54,16 +52,22 @@ class KonfirmasidcApi extends CI_Controller
         return $this->encryption->decrypt($data);
     }
 
-    /* ===============================
-     * 📌 LIST
-     * =============================== */
-    public function list()
+    /** Validasi header iddc */
+    private function validateIddcHeader()
     {
         $iddc = $this->input->get_request_header('iddc');
         if (!$iddc) {
             $this->response(false, [], 'ID DC tidak ditemukan');
         }
+        return $iddc;
+    }
 
+    /* ===============================
+     * 📌 LIST
+     * =============================== */
+    public function list()
+    {
+        $iddc = $this->validateIddcHeader();
         $this->session->set_userdata('iddc', $iddc);
 
         $rs = $this->Konfirmasidc_model->getPermohonan();
@@ -77,7 +81,6 @@ class KonfirmasidcApi extends CI_Controller
             $data[] = $row;
         }
 
-
         $this->response(true, $data);
     }
 
@@ -86,16 +89,19 @@ class KonfirmasidcApi extends CI_Controller
      * =============================== */
     public function detail($encryptedId = null)
     {
+        // ✅ Validasi header iddc
+        $this->validateIddcHeader();
 
+        // ✅ Terima ID dari parameter URL atau POST
         if (empty($encryptedId)) {
             $encryptedId = $this->input->post('idpermohonan');
         }
-    
+
         if (empty($encryptedId)) {
             $this->response(false, [], 'ID tidak valid');
         }
-    
-        $idpermohonan = $this->decryptId($encryptedId); // Gunakan helper decryptId
+
+        $idpermohonan = $this->decryptId($encryptedId);
         if (!$idpermohonan) {
             $this->response(false, [], 'Gagal decode ID');
         }
@@ -120,6 +126,9 @@ class KonfirmasidcApi extends CI_Controller
      * =============================== */
     public function tolak()
     {
+        // ✅ Validasi header iddc
+        $this->validateIddcHeader();
+
         $encryptedId = $this->input->post('idpermohonan');
         $alasan      = $this->input->post('alasan');
 
@@ -144,6 +153,9 @@ class KonfirmasidcApi extends CI_Controller
      * =============================== */
     public function setuju()
     {
+        // ✅ Validasi header iddc
+        $this->validateIddcHeader();
+
         $encryptedId = $this->input->post('idpermohonan');
         if (!$encryptedId) {
             $this->response(false, [], 'ID tidak ditemukan');
