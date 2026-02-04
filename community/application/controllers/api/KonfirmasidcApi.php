@@ -194,6 +194,9 @@ class KonfirmasidcApi extends CI_Controller
 
         // ✅ Ambil idjemaat dari header
         $idjemaatKonfirmasi = $this->input->get_request_header('idjemaat') ?? 'API_DEFAULT';
+        
+        // ✅ LOG untuk debugging
+        log_message('info', 'idjemaatkonfirmasi: ' . $idjemaatKonfirmasi);
 
         // ✅ Ambil data DC untuk pesan WhatsApp (seperti di website)
         $rowDc = $this->Konfirmasidc_model->getDC($row->iddc)->row();
@@ -202,22 +205,57 @@ class KonfirmasidcApi extends CI_Controller
 
             $rowJemaat = $this->App->getInfoJemaat($idjemaat);
             
+            // ✅ LOG untuk debugging
+            log_message('info', 'Mengirim WhatsApp ke: ' . $rowJemaat->nohp);
+            
+            // ✅ Format nomor dengan validasi
+            $formattedPhone = $this->formatNomorWhatsapp($rowJemaat->nohp);
+            log_message('info', 'Nomor terformat: ' . $formattedPhone);
+            
             // ✅ Pesan WhatsApp detail seperti website
             $pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! 
-Selamat! Pendaftaran Saudara telah *disetujui*, dan Saudara kini bergabung di *" . $rowDc->namadc ."*.
-Saudara akan didampingi oleh DM: *" . ucwords(strtolower($rowDc->namadm)) . "*.
-DM akan menghubungi Saudara secara langsung melalui WhatsApp *dalam waktu maksimal 2×24 jam* untuk berkenalan dan mulai terhubung.
-Terima kasih atas kerinduan Saudara untuk bertumbuh bersama.
-Tuhan Yesus memberkati";
+    Selamat! Pendaftaran Saudara telah *disetujui*, dan Saudara kini bergabung di *" . $rowDc->namadc ."*.
+    Saudara akan didampingi oleh DM: *" . ucwords(strtolower($rowDc->namadm)) . "*.
+    DM akan menghubungi Saudara secara langsung melalui WhatsApp *dalam waktu maksimal 2×24 jam* untuk berkenalan dan mulai terhubung.
+    Terima kasih atas kerinduan Saudara untuk bertumbuh bersama.
+    Tuhan Yesus memberkati";
 
-            $this->whatsapp->send_message(
-                formatNomorWhatsapp($rowJemaat->nohp),
-                $pesanWA
-            );
-
-            $this->response(true, [], 'Permohonan disetujui');
+            // ✅ Tambahkan error handling
+            try {
+                $result = $this->whatsapp->send_message($formattedPhone, $pesanWA);
+                
+                if ($result === false) {
+                    log_message('error', 'Gagal kirim WhatsApp ke ' . $formattedPhone);
+                    // Tetap kembalikan success, tapi log error
+                    $this->response(true, [], 'Permohonan disetujui (WhatsApp gagal terkirim)');
+                } else {
+                    log_message('info', 'WhatsApp berhasil terkirim ke ' . $formattedPhone);
+                    $this->response(true, [], 'Permohonan disetujui');
+                }
+            } catch (\Exception $e) {
+                log_message('error', 'Exception WhatsApp: ' . $e->getMessage());
+                $this->response(true, [], 'Permohonan disetujui (WhatsApp gagal terkirim)');
+            }
         }
 
         $this->response(false, [], 'Gagal menyetujui permohonan');
+    }
+
+    // ✅ Tambahkan helper format nomor
+    private function formatNomorWhatsapp($nohp)
+    {
+        // Hapus karakter non-digit
+        $nohp = preg_replace('/[^0-9]/', '', $nohp);
+        
+        // Jika dimulai dengan 0, ganti dengan +62
+        if (strpos($nohp, '0') === 0) {
+            $nohp = '+62' . substr($nohp, 1);
+        }
+        // Jika tidak ada kode negara, tambahkan
+        else if (strpos($nohp, '62') === 0) {
+            $nohp = '+' . $nohp;
+        }
+        
+        return $nohp;
     }
 }

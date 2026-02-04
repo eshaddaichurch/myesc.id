@@ -33,10 +33,15 @@ class Konfirmasidc_model extends CI_Model
         try {
             $this->db->trans_begin();
             
-            // ✅ Jika tidak ada idjemaatKonfirmasi dari parameter, gunakan dari session
-            if ($idjemaatKonfirmasi === null) {
-                $idjemaatKonfirmasi = $this->session->userdata('idjemaat') ?? 'DEFAULT_ADMIN';
+            // ✅ Validasi idjemaatKonfirmasi
+            if (empty($idjemaatKonfirmasi) || $idjemaatKonfirmasi === 'API_DEFAULT') {
+                log_message('warning', 'idjemaatKonfirmasi tidak valid atau default: ' . $idjemaatKonfirmasi);
+                // Gunakan nilai default yang lebih baik
+                $idjemaatKonfirmasi = 'SYSTEM';
             }
+            
+            // ✅ LOG untuk debugging
+            log_message('info', 'Menyimpan dengan idjemaatkonfirmasi: ' . $idjemaatKonfirmasi);
             
             $iddcmember = $this->db->query("select create_iddcmember('" . $this->session->userdata('iddc') . "') as iddcmember")->row()->iddcmember;
             $arrData = array(
@@ -51,26 +56,27 @@ class Konfirmasidc_model extends CI_Model
             );
             $this->db->insert('dcmember', $arrData);
 
-
             $arrKonfirmasi = array(
                 'statuskonfirmasi' => 'Disetujui',
                 'keterangankonfirmasi' => null,
                 'tglkonfirmasi' => date('Y-m-d H:i:s'),
-                'idjemaatkonfirmasi' => $idjemaatKonfirmasi, // ✅ GUNAKAN PARAMETER INI
+                'idjemaatkonfirmasi' => $idjemaatKonfirmasi,
             );
             $this->db->where('idpermohonan', $idpermohonan);
             $this->db->update('dcmember_permohonan', $arrKonfirmasi);
 
-
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
+                log_message('error', 'Transaksi setuju gagal');
                 return false;
             } else {
                 $this->db->trans_commit();
+                log_message('info', 'Transaksi setuju berhasil');
                 return true;
             }
         } catch (\Throwable $th) {
             $this->db->trans_rollback();
+            log_message('error', 'Exception setuju: ' . $th->getMessage());
             return false;
         }
     }
