@@ -45,11 +45,24 @@ class KonfirmasidcApi extends CI_Controller
         ), '=');
     }
 
-    /** URL-safe decrypt */
+    /** URL-safe decrypt - ✅ DIPERBAIKI DENGAN PENAMBAHAN PADDING */
     private function decryptId($hash)
     {
+        // ✅ Tambahkan padding Base64 yang hilang (KRUSIAL!)
+        $remainder = strlen($hash) % 4;
+        if ($remainder) {
+            $hash .= str_repeat('=', 4 - $remainder);
+        }
+
         $data = strtr($hash, '-_', '+/');
-        return $this->encryption->decrypt($data);
+        $decrypted = $this->encryption->decrypt($data);
+
+        // ✅ Debugging: log untuk troubleshooting
+        if ($decrypted === false) {
+            log_message('error', 'Decryption failed for hash: ' . $hash);
+        }
+
+        return $decrypted;
     }
 
     /** Validasi header iddc */
@@ -89,7 +102,6 @@ class KonfirmasidcApi extends CI_Controller
      * =============================== */
     public function detail($encryptedId = null)
     {
-        // ✅ Validasi header iddc
         $this->validateIddcHeader();
 
         // ✅ Terima ID dari parameter URL atau POST
@@ -103,7 +115,8 @@ class KonfirmasidcApi extends CI_Controller
 
         $idpermohonan = $this->decryptId($encryptedId);
         if (!$idpermohonan) {
-            $this->response(false, [], 'Gagal decode ID');
+            // ✅ Debugging: kirim pesan error yang lebih informatif
+            $this->response(false, [], 'Gagal decode ID: Format tidak valid');
         }
 
         $rs = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
@@ -126,7 +139,6 @@ class KonfirmasidcApi extends CI_Controller
      * =============================== */
     public function tolak()
     {
-        // ✅ Validasi header iddc
         $this->validateIddcHeader();
 
         $encryptedId = $this->input->post('idpermohonan');
@@ -138,7 +150,7 @@ class KonfirmasidcApi extends CI_Controller
 
         $idpermohonan = $this->decryptId($encryptedId);
         if (!$idpermohonan) {
-            $this->response(false, [], 'Gagal decode ID');
+            $this->response(false, [], 'Gagal decode ID: Format tidak valid');
         }
 
         if ($this->Konfirmasidc_model->tolak($idpermohonan, $alasan)) {
@@ -153,7 +165,6 @@ class KonfirmasidcApi extends CI_Controller
      * =============================== */
     public function setuju()
     {
-        // ✅ Validasi header iddc
         $this->validateIddcHeader();
 
         $encryptedId = $this->input->post('idpermohonan');
@@ -163,7 +174,7 @@ class KonfirmasidcApi extends CI_Controller
 
         $idpermohonan = $this->decryptId($encryptedId);
         if (!$idpermohonan) {
-            $this->response(false, [], 'Gagal decode ID');
+            $this->response(false, [], 'Gagal decode ID: Format tidak valid');
         }
 
         $rs = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
