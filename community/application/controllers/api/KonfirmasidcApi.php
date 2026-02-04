@@ -161,7 +161,7 @@ class KonfirmasidcApi extends CI_Controller
     }
 
     /* ===============================
-     * ✅ SETUJU
+     * ✅ SETUJU - DIPERBAIKI DENGAN PESAN WHATSAPP DETAIL
      * =============================== */
     public function setuju()
     {
@@ -189,10 +189,20 @@ class KonfirmasidcApi extends CI_Controller
             $this->response(false, [], 'Jemaat sudah menjadi anggota DC');
         }
 
+        // ✅ Ambil data DC untuk pesan WhatsApp (seperti di website)
+        $rowDc = $this->Konfirmasidc_model->getDC($row->iddc)->row();
+
         if ($this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $row)) {
 
             $rowJemaat = $this->App->getInfoJemaat($idjemaat);
-            $pesanWA = "Shalom {$rowJemaat->namalengkap}, pendaftaran DC Anda disetujui.";
+            
+            // ✅ Pesan WhatsApp detail seperti website
+            $pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! 
+Selamat! Pendaftaran Saudara telah *disetujui*, dan Saudara kini bergabung di *" . $rowDc->namadc ."*.
+Saudara akan didampingi oleh DM: *" . ucwords(strtolower($rowDc->namadm)) . "*.
+DM akan menghubungi Saudara secara langsung melalui WhatsApp *dalam waktu maksimal 2×24 jam* untuk berkenalan dan mulai terhubung.
+Terima kasih atas kerinduan Saudara untuk bertumbuh bersama.
+Tuhan Yesus memberkati";
 
             $this->whatsapp->send_message(
                 formatNomorWhatsapp($rowJemaat->nohp),
