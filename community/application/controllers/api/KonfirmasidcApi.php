@@ -16,9 +16,9 @@ class KonfirmasidcApi extends CI_Controller
         $this->load->model('App');
         $this->load->library('encryption');
         $this->load->library('whatsapp');
-
-         // ✅ Load helper yang sama dengan website
-    $this->load->helper('mdata_helper'); // Ganti dengan nama file helper Anda
+        
+        // ✅ Load helper yang sama dengan website
+        $this->load->helper('custom'); // GANTI DENGAN NAMA HELPER ANDA
     }
 
     /* ===============================
@@ -167,7 +167,7 @@ class KonfirmasidcApi extends CI_Controller
     }
 
     /* ===============================
-     * ✅ SETUJU - DIPERBAIKI DENGAN idjemaatkonfirmasi
+     * ✅ SETUJU - FINAL VERSION
      * =============================== */
     public function setuju()
     {
@@ -220,11 +220,11 @@ class KonfirmasidcApi extends CI_Controller
             
             // ✅ Pesan WhatsApp detail seperti website
             $pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! 
-    Selamat! Pendaftaran Saudara telah *disetujui*, dan Saudara kini bergabung di *" . $rowDc->namadc ."*.
-    Saudara akan didampingi oleh DM: *" . ucwords(strtolower($rowDc->namadm)) . "*.
-    DM akan menghubungi Saudara secara langsung melalui WhatsApp *dalam waktu maksimal 2×24 jam* untuk berkenalan dan mulai terhubung.
-    Terima kasih atas kerinduan Saudara untuk bertumbuh bersama.
-    Tuhan Yesus memberkati";
+Selamat! Pendaftaran Saudara telah *disetujui*, dan Saudara kini bergabung di *" . $rowDc->namadc ."*.
+Saudara akan didampingi oleh DM: *" . ucwords(strtolower($rowDc->namadm)) . "*.
+DM akan menghubungi Saudara secara langsung melalui WhatsApp *dalam waktu maksimal 2×24 jam* untuk berkenalan dan mulai terhubung.
+Terima kasih atas kerinduan Saudara untuk bertumbuh bersama.
+Tuhan Yesus memberkati";
 
             // ✅ KIRIM LANGSUNG SEPERTI WEBSITE
             try {
@@ -248,6 +248,4 @@ class KonfirmasidcApi extends CI_Controller
 
         $this->response(false, [], 'Gagal menyetujui permohonan');
     }
-
-    
 }
