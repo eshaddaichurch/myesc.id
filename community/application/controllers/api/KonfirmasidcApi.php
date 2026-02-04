@@ -7,20 +7,18 @@ class KonfirmasidcApi extends CI_Controller
     {
         parent::__construct();
 
-        // model & library wajib
         $this->load->model('Konfirmasidc_model');
         $this->load->model('App');
-        // $this->load->library('encrypt');
         $this->load->library('encryption');
         $this->load->library('whatsapp');
 
-        // response JSON
         header('Content-Type: application/json');
     }
 
-    /**
-     * Helper response JSON
-     */
+    /* ===============================
+     * HELPER
+     * =============================== */
+
     private function response($status, $data = [], $message = '')
     {
         echo json_encode([
@@ -31,54 +29,58 @@ class KonfirmasidcApi extends CI_Controller
         exit;
     }
 
-    /**
-     * ===============================
-     * 📌 LIST PERMOHONAN
-     * GET /KonfirmasidcApi/list
-     * Header: iddc
-     * ===============================
-     */
+    /** URL-safe encrypt */
+    private function encryptId($id)
+    {
+        return rtrim(strtr(
+            $this->encryption->encrypt($id),
+            '+/', '-_'
+        ), '=');
+    }
+
+    /** URL-safe decrypt */
+    private function decryptId($hash)
+    {
+        $data = strtr($hash, '-_', '+/');
+        return $this->encryption->decrypt($data);
+    }
+
+    /* ===============================
+     * 📌 LIST
+     * =============================== */
     public function list()
     {
         $iddc = $this->input->get_request_header('iddc');
-
         if (!$iddc) {
             $this->response(false, [], 'ID DC tidak ditemukan');
         }
 
-        // simulasi auth (nanti dari token)
         $this->session->set_userdata('iddc', $iddc);
 
         $rs = $this->Konfirmasidc_model->getPermohonan();
 
         $data = [];
         foreach ($rs->result() as $row) {
-            $row->idpermohonan = $this->encryption->encrypt($row->idpermohonan);
+            $row->idpermohonan = $this->encryptId($row->idpermohonan);
             $data[] = $row;
         }
-        
 
         $this->response(true, $data);
-
     }
 
-    /**
-     * ===============================
-     * 📌 DETAIL PERMOHONAN
-     * GET /KonfirmasidcApi/detail/{encryptedId}
-     * ===============================
-     */
+    /* ===============================
+     * 📌 DETAIL
+     * =============================== */
     public function detail($encryptedId = null)
     {
         if (!$encryptedId) {
             $this->response(false, [], 'ID tidak valid');
         }
 
-        $idpermohonan = $this->encryption->decrypt($encryptedId);
+        $idpermohonan = $this->decryptId($encryptedId);
         if (!$idpermohonan) {
             $this->response(false, [], 'Gagal decode ID');
         }
-
 
         $rs = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
         if ($rs->num_rows() == 0) {
@@ -88,23 +90,16 @@ class KonfirmasidcApi extends CI_Controller
         $row = $rs->row();
         $idjemaat = $row->idjemaat;
 
-        $nextStep = $this->App->getKelasJemaat($idjemaat)->result();
-        $family   = $this->App->getJemaatFamily($idjemaat);
-
         $this->response(true, [
             'permohonan' => $row,
-            'nextStep'   => $nextStep,
-            'family'     => $family
+            'nextStep'   => $this->App->getKelasJemaat($idjemaat)->result(),
+            'family'     => $this->App->getJemaatFamily($idjemaat)
         ]);
     }
 
-    /**
-     * ===============================
-     * ❌ TOLAK PERMOHONAN
-     * POST /KonfirmasidcApi/tolak
-     * body: idpermohonan, alasan
-     * ===============================
-     */
+    /* ===============================
+     * ❌ TOLAK
+     * =============================== */
     public function tolak()
     {
         $encryptedId = $this->input->post('idpermohonan');
@@ -114,36 +109,29 @@ class KonfirmasidcApi extends CI_Controller
             $this->response(false, [], 'Data tidak lengkap');
         }
 
-        $idpermohonan = $this->encrypt->decode($encryptedId);
+        $idpermohonan = $this->decryptId($encryptedId);
         if (!$idpermohonan) {
             $this->response(false, [], 'Gagal decode ID');
         }
 
-        $ok = $this->Konfirmasidc_model->tolak($idpermohonan, $alasan);
-
-        if ($ok) {
+        if ($this->Konfirmasidc_model->tolak($idpermohonan, $alasan)) {
             $this->response(true, [], 'Permohonan ditolak');
         }
 
         $this->response(false, [], 'Gagal menolak permohonan');
     }
 
-    /**
-     * ===============================
-     * ✅ SETUJU PERMOHONAN
-     * POST /KonfirmasidcApi/setuju
-     * body: idpermohonan
-     * ===============================
-     */
+    /* ===============================
+     * ✅ SETUJU
+     * =============================== */
     public function setuju()
     {
         $encryptedId = $this->input->post('idpermohonan');
-
         if (!$encryptedId) {
             $this->response(false, [], 'ID tidak ditemukan');
         }
 
-        $idpermohonan = $this->encrypt->decode($encryptedId);
+        $idpermohonan = $this->decryptId($encryptedId);
         if (!$idpermohonan) {
             $this->response(false, [], 'Gagal decode ID');
         }
@@ -156,19 +144,15 @@ class KonfirmasidcApi extends CI_Controller
         $row = $rs->row();
         $idjemaat = $row->idjemaat;
 
-        // cek apakah sudah anggota DC
         if ($this->Konfirmasidc_model->getDcMemberAktif($idjemaat)->num_rows() > 0) {
             $this->response(false, [], 'Jemaat sudah menjadi anggota DC');
         }
 
-        $ok = $this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $row);
+        if ($this->Konfirmasidc_model->setuju($idjemaat, $idpermohonan, $row)) {
 
-        if ($ok) {
-            // kirim WA tetap di backend
             $rowJemaat = $this->App->getInfoJemaat($idjemaat);
-            $rowDc     = $this->Konfirmasidc_model->getDC($row->iddc)->row();
-
             $pesanWA = "Shalom {$rowJemaat->namalengkap}, pendaftaran DC Anda disetujui.";
+
             $this->whatsapp->send_message(
                 formatNomorWhatsapp($rowJemaat->nohp),
                 $pesanWA
