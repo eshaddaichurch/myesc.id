@@ -10,7 +10,8 @@ class KonfirmasidcApi extends CI_Controller
         // model & library wajib
         $this->load->model('Konfirmasidc_model');
         $this->load->model('App');
-        $this->load->library('encrypt');
+        // $this->load->library('encrypt');
+        $this->load->library('encryption');
         $this->load->library('whatsapp');
 
         // response JSON
@@ -52,9 +53,10 @@ class KonfirmasidcApi extends CI_Controller
 
         $data = [];
         foreach ($rs->result() as $row) {
-            $row->idpermohonan = $this->encrypt->encode($row->idpermohonan);
+            $row->idpermohonan = $this->encryption->encrypt($row->idpermohonan);
             $data[] = $row;
         }
+        
 
         $this->response(true, $data);
 
@@ -72,10 +74,11 @@ class KonfirmasidcApi extends CI_Controller
             $this->response(false, [], 'ID tidak valid');
         }
 
-        $idpermohonan = $this->encrypt->decode($encryptedId);
+        $idpermohonan = $this->encryption->decrypt($encryptedId);
         if (!$idpermohonan) {
             $this->response(false, [], 'Gagal decode ID');
         }
+
 
         $rs = $this->Konfirmasidc_model->getPermohonanID($idpermohonan);
         if ($rs->num_rows() == 0) {
