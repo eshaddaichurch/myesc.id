@@ -16,6 +16,9 @@ class KonfirmasidcApi extends CI_Controller
         $this->load->model('App');
         $this->load->library('encryption');
         $this->load->library('whatsapp');
+
+         // ✅ Load helper yang sama dengan website
+    $this->load->helper('mdata_helper'); // Ganti dengan nama file helper Anda
     }
 
     /* ===============================
@@ -194,9 +197,6 @@ class KonfirmasidcApi extends CI_Controller
 
         // ✅ Ambil idjemaat dari header
         $idjemaatKonfirmasi = $this->input->get_request_header('idjemaat') ?? 'API_DEFAULT';
-        
-        // ✅ LOG untuk debugging
-        log_message('info', 'idjemaatkonfirmasi: ' . $idjemaatKonfirmasi);
 
         // ✅ Ambil data DC untuk pesan WhatsApp (seperti di website)
         $rowDc = $this->Konfirmasidc_model->getDC($row->iddc)->row();
@@ -206,11 +206,17 @@ class KonfirmasidcApi extends CI_Controller
             $rowJemaat = $this->App->getInfoJemaat($idjemaat);
             
             // ✅ LOG untuk debugging
-            log_message('info', 'Mengirim WhatsApp ke: ' . $rowJemaat->nohp);
+            log_message('info', 'No HP asli: ' . $rowJemaat->nohp);
             
-            // ✅ Format nomor dengan validasi
-            $formattedPhone = $this->formatNomorWhatsapp($rowJemaat->nohp);
-            log_message('info', 'Nomor terformat: ' . $formattedPhone);
+            // ✅ GUNAKAN FUNGSI HELPER YANG SAMA DENGAN WEBSITE
+            $formattedPhone = formatNomorWhatsapp($rowJemaat->nohp);
+            log_message('info', 'No HP terformat: ' . $formattedPhone);
+            
+            // ✅ VALIDASI FORMAT
+            if (empty($formattedPhone)) {
+                log_message('error', 'Format nomor WhatsApp gagal!');
+                $this->response(true, [], 'Permohonan disetujui (Nomor tidak valid)');
+            }
             
             // ✅ Pesan WhatsApp detail seperti website
             $pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! 
@@ -220,42 +226,28 @@ class KonfirmasidcApi extends CI_Controller
     Terima kasih atas kerinduan Saudara untuk bertumbuh bersama.
     Tuhan Yesus memberkati";
 
-            // ✅ Tambahkan error handling
+            // ✅ KIRIM LANGSUNG SEPERTI WEBSITE
             try {
+                log_message('info', 'Mengirim WhatsApp...');
                 $result = $this->whatsapp->send_message($formattedPhone, $pesanWA);
                 
-                if ($result === false) {
-                    log_message('error', 'Gagal kirim WhatsApp ke ' . $formattedPhone);
-                    // Tetap kembalikan success, tapi log error
-                    $this->response(true, [], 'Permohonan disetujui (WhatsApp gagal terkirim)');
-                } else {
-                    log_message('info', 'WhatsApp berhasil terkirim ke ' . $formattedPhone);
+                log_message('info', 'Hasil WhatsApp: ' . var_export($result, true));
+                
+                if ($result) {
+                    log_message('info', '✅ WhatsApp berhasil terkirim ke ' . $formattedPhone);
                     $this->response(true, [], 'Permohonan disetujui');
+                } else {
+                    log_message('error', '❌ WhatsApp gagal terkirim ke ' . $formattedPhone);
+                    $this->response(true, [], 'Permohonan disetujui (WhatsApp gagal)');
                 }
             } catch (\Exception $e) {
-                log_message('error', 'Exception WhatsApp: ' . $e->getMessage());
-                $this->response(true, [], 'Permohonan disetujui (WhatsApp gagal terkirim)');
+                log_message('error', 'Exception: ' . $e->getMessage());
+                $this->response(true, [], 'Permohonan disetujui (Error WhatsApp)');
             }
         }
 
         $this->response(false, [], 'Gagal menyetujui permohonan');
     }
 
-    // ✅ Tambahkan helper format nomor
-    private function formatNomorWhatsapp($nohp)
-    {
-        // Hapus karakter non-digit
-        $nohp = preg_replace('/[^0-9]/', '', $nohp);
-        
-        // Jika dimulai dengan 0, ganti dengan +62
-        if (strpos($nohp, '0') === 0) {
-            $nohp = '+62' . substr($nohp, 1);
-        }
-        // Jika tidak ada kode negara, tambahkan
-        else if (strpos($nohp, '62') === 0) {
-            $nohp = '+' . $nohp;
-        }
-        
-        return $nohp;
-    }
+    
 }
