@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class KonfirmasidcApi extends CI_Controller
@@ -32,11 +33,16 @@ class KonfirmasidcApi extends CI_Controller
     /** URL-safe encrypt */
     private function encryptId($id)
     {
+        if ($id === null || $id === '') {
+            return null;
+        }
+
         return rtrim(strtr(
-            $this->encryption->encrypt($id),
+            $this->encryption->encrypt((string)$id),
             '+/', '-_'
         ), '=');
     }
+
 
     /** URL-safe decrypt */
     private function decryptId($hash)
@@ -61,9 +67,13 @@ class KonfirmasidcApi extends CI_Controller
 
         $data = [];
         foreach ($rs->result() as $row) {
+            if ($row->idpermohonan === null) {
+                continue;
+            }
             $row->idpermohonan = $this->encryptId($row->idpermohonan);
             $data[] = $row;
         }
+
 
         $this->response(true, $data);
     }
