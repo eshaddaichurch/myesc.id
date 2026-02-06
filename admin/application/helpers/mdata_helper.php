@@ -481,3 +481,23 @@ function formatNomorWhatsapp($nomor)
 		return '';
 	}
 }
+
+
+function buildFotoAbsensiUrl($foto)
+{
+    $default = base_url('assets/esclogo.png');
+
+    if (empty($foto)) {
+        return $default;
+    }
+
+    $path = FCPATH . 'community/uploads/absensi/' . $foto;
+
+    // ⚠️ Ini ngecek SERVER, bukan local React Native
+    if (!file_exists($path)) {
+        return $default;
+    }
+
+    return base_url('community/uploads/absensi/' . $foto);
+}
+

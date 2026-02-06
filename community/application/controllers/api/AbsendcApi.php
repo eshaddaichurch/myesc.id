@@ -29,7 +29,9 @@ class AbsendcApi extends CI_Controller
         exit;
     }
 
-    /** Validasi header iddc */
+    /* ===============================
+     * VALIDASI HEADER DC
+     * =============================== */
     private function validateIddcHeader()
     {
         $iddc = $this->input->get_request_header('iddc');
@@ -37,31 +39,6 @@ class AbsendcApi extends CI_Controller
             $this->response(false, [], 'ID DC tidak ditemukan');
         }
         return $iddc;
-    }
-
-    /* ===============================
-     * FOTO URL BUILDER (FINAL)
-     * =============================== */
-    private function buildFotoUrl($filename)
-    {
-        // fallback logo
-        $default = base_url('assets/esclogo.png');
-
-        if (!$filename || $filename === 'null') {
-            return $default;
-        }
-
-        /**
-         * File berada di domain myesc.id
-         * path fisik relatif dari dc.myesc.id
-         */
-        $filePath = FCPATH . '../myesc.id/comm/uploads/absensi/' . $filename;
-
-        if (file_exists($filePath)) {
-            return 'https://myesc.id/comm/uploads/absensi/' . rawurlencode($filename);
-        }
-
-        return $default;
     }
 
     /* ===============================
@@ -77,11 +54,11 @@ class AbsendcApi extends CI_Controller
             $data[] = [
                 'idabsen'        => $row->idabsen,
                 'tglabsen'       => $row->tglabsen,
-                'totalpeserta'   => (int)$row->totalpeserta,
+                'totalpeserta'   => (int) $row->totalpeserta,
                 'keterangan'     => $row->keterangan,
                 'formatted_date' => formatHariTanggalJam($row->tglabsen),
                 'foto'           => $row->foto,
-                'foto_url'       => $this->buildFotoUrl($row->foto),
+                'foto_url'       => buildFotoAbsensiUrl($row->foto),
             ];
         }
 
@@ -96,13 +73,13 @@ class AbsendcApi extends CI_Controller
         $iddc = $this->validateIddcHeader();
 
         $rs = $this->AbsendcModel->get_detail_absensi($idabsen);
-        if ($rs->num_rows() == 0) {
+        if ($rs->num_rows() === 0) {
             $this->response(false, [], 'Data absensi tidak ditemukan');
         }
 
         $row = $rs->row();
 
-        if ($row->iddc != $iddc) {
+        if ($row->iddc !== $iddc) {
             $this->response(false, [], 'Akses ditolak');
         }
 
@@ -113,10 +90,10 @@ class AbsendcApi extends CI_Controller
                 'idabsen'        => $row->idabsen,
                 'tglabsen'       => $row->tglabsen,
                 'keterangan'     => $row->keterangan,
-                'totalpeserta'   => (int)$row->totalpeserta,
+                'totalpeserta'   => (int) $row->totalpeserta,
                 'formatted_date' => formatHariTanggalJam($row->tglabsen),
                 'foto'           => $row->foto,
-                'foto_url'       => $this->buildFotoUrl($row->foto),
+                'foto_url'       => buildFotoAbsensiUrl($row->foto),
             ],
             'peserta' => $peserta->result_array()
         ]);
