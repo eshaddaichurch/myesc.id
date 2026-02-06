@@ -30,9 +30,6 @@ class AbsendcApi extends CI_Controller
         exit;
     }
 
-
-    // Api Test 
-
     /** Validasi header iddc */
     private function validateIddcHeader()
     {
@@ -54,7 +51,6 @@ class AbsendcApi extends CI_Controller
 
         $data = [];
         foreach ($rs->result() as $row) {
-            // ✅ Gunakan helper formatHariTanggalJam untuk format tanggal
             $formattedDate = formatHariTanggalJam($row->tglabsen);
             
             $data[] = [
@@ -62,7 +58,8 @@ class AbsendcApi extends CI_Controller
                 'tglabsen' => $row->tglabsen,
                 'totalpeserta' => (int)$row->totalpeserta,
                 'keterangan' => $row->keterangan,
-                'formatted_date' => $formattedDate, // ✅ Format lengkap
+                'formatted_date' => $formattedDate,
+                'foto' => $row->foto, // ✅ TAMBAHKAN FOTO DI LIST
             ];
         }
 
@@ -99,6 +96,7 @@ class AbsendcApi extends CI_Controller
                 'keterangan' => $row->keterangan,
                 'totalpeserta' => (int)$row->totalpeserta,
                 'formatted_date' => formatHariTanggalJam($row->tglabsen),
+                'foto' => $row->foto, // ✅ TAMBAHKAN FOTO DI DETAIL
             ],
             'peserta' => $peserta->result_array()
         ]);
