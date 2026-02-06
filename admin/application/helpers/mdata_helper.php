@@ -485,19 +485,9 @@ function formatNomorWhatsapp($nomor)
 
 function buildFotoAbsensiUrl($foto)
 {
-    $default = base_url('assets/esclogo.png');
-
-    if (empty($foto)) {
-        return $default;
+    if (empty($foto) || $foto === 'null') {
+        return base_url('assets/esclogo.png');
     }
 
-    $path = FCPATH . 'community/uploads/absensi/' . $foto;
-
-    // ⚠️ Ini ngecek SERVER, bukan local React Native
-    if (!file_exists($path)) {
-        return $default;
-    }
-
-    return base_url('community/uploads/absensi/' . $foto);
+    return 'https://myesc.id/comm/uploads/absensi/' . rawurlencode($foto);
 }
-

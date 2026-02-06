@@ -21,24 +21,28 @@ class AbsendcApi extends CI_Controller
      * =============================== */
     private function response($status, $data = [], $message = '')
     {
+        http_response_code(200);
         echo json_encode([
             'status'  => $status,
             'message' => $message,
             'data'    => $data
-        ]);
+        ], JSON_UNESCAPED_SLASHES);
         exit;
     }
+    
 
     /* ===============================
      * VALIDASI HEADER DC
      * =============================== */
     private function validateIddcHeader()
     {
-        $iddc = $this->input->get_request_header('iddc');
+        $iddc = $this->input->get_request_header('iddc', TRUE)
+        ?: $this->input->get_request_header('IDDC', TRUE);
+
         if (!$iddc) {
             $this->response(false, [], 'ID DC tidak ditemukan');
         }
-        return $iddc;
+
     }
 
     /* ===============================
