@@ -37,13 +37,15 @@ class AbsendcApi extends CI_Controller
     private function validateIddcHeader()
     {
         $iddc = $this->input->get_request_header('iddc', TRUE)
-        ?: $this->input->get_request_header('IDDC', TRUE);
+            ?: $this->input->get_request_header('IDDC', TRUE);
 
         if (!$iddc) {
             $this->response(false, [], 'ID DC tidak ditemukan');
         }
 
+        return $iddc; // 🔥 INI YANG HILANG
     }
+
 
     /* ===============================
      * 📌 LIST ABSENSI
