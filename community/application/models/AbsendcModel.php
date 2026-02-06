@@ -22,13 +22,12 @@ class AbsendcModel extends CI_Model
         return $this->db->get('dcabsen');
     }
 
-    // ✅ PERBAIKAN: Ambil detail absensi dengan foto absensi
+    // ✅ TAMBAH METHOD BARU UNTUK DETAIL ABSENSI
     public function get_detail_absensi($idabsen)
     {
-        // ✅ PERBAIKAN: Gunakan field yang benar
         $this->db->select('
             a.*,
-            COUNT(b.idjemaat) as totalpeserta_calculated
+            COUNT(b.idjemaat) as totalpeserta
         ');
         $this->db->from('dcabsen a');
         $this->db->join('dcabsen_detail b', 'a.idabsen = b.idabsen', 'left');
@@ -37,12 +36,13 @@ class AbsendcModel extends CI_Model
         return $this->db->get();
     }
 
-    // ✅ PERBAIKAN: Hanya ambil nama peserta, tidak perlu foto
+    // ✅ TAMBAH METHOD BARU UNTUK DAFTAR PESERTA
     public function get_peserta_absensi($idabsen)
     {
         $this->db->select('
             b.idjemaat,
-            j.namalengkap
+            j.namalengkap,
+            j.foto
         ');
         $this->db->from('dcabsen_detail b');
         $this->db->join('jemaat j', 'b.idjemaat = j.idjemaat', 'left');

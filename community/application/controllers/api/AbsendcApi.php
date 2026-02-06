@@ -13,39 +13,32 @@ class AbsendcApi extends CI_Controller
         header('Content-Type: application/json');
 
         $this->load->model('AbsendcModel');
-        $this->load->helper('mdata_helper');
+        $this->load->helper('mdata_helper'); // ✅ Gunakan helper yang sudah ada
     }
 
     /* ===============================
-     * RESPONSE HELPER
+     * HELPER
      * =============================== */
+
     private function response($status, $data = [], $message = '')
     {
-        http_response_code(200);
         echo json_encode([
             'status'  => $status,
             'message' => $message,
             'data'    => $data
-        ], JSON_UNESCAPED_SLASHES);
+        ]);
         exit;
     }
-    
 
-    /* ===============================
-     * VALIDASI HEADER DC
-     * =============================== */
+    /** Validasi header iddc */
     private function validateIddcHeader()
     {
-        $iddc = $this->input->get_request_header('iddc', TRUE)
-            ?: $this->input->get_request_header('IDDC', TRUE);
-
+        $iddc = $this->input->get_request_header('iddc');
         if (!$iddc) {
             $this->response(false, [], 'ID DC tidak ditemukan');
         }
-
-        return $iddc; // ✅ INI WAJIB
+        return $iddc;
     }
-
 
     /* ===============================
      * 📌 LIST ABSENSI
@@ -53,18 +46,20 @@ class AbsendcApi extends CI_Controller
     public function list()
     {
         $iddc = $this->validateIddcHeader();
-        $rs   = $this->AbsendcModel->get_all($iddc);
+
+        $rs = $this->AbsendcModel->get_all($iddc);
 
         $data = [];
         foreach ($rs->result() as $row) {
+            $formattedDate = formatHariTanggalJam($row->tglabsen);
+            
             $data[] = [
-                'idabsen'        => $row->idabsen,
-                'tglabsen'       => $row->tglabsen,
-                'totalpeserta'   => (int) $row->totalpeserta,
-                'keterangan'     => $row->keterangan,
-                'formatted_date' => formatHariTanggalJam($row->tglabsen),
-                'foto'           => $row->foto,
-                'foto_url'       => buildFotoAbsensiUrl($row->foto),
+                'idabsen' => $row->idabsen,
+                'tglabsen' => $row->tglabsen,
+                'totalpeserta' => (int)$row->totalpeserta,
+                'keterangan' => $row->keterangan,
+                'formatted_date' => $formattedDate,
+                'foto' => $row->foto, // ✅ TAMBAHKAN FOTO DI LIST
             ];
         }
 
@@ -78,28 +73,30 @@ class AbsendcApi extends CI_Controller
     {
         $iddc = $this->validateIddcHeader();
 
+        // ✅ Ambil detail absensi
         $rs = $this->AbsendcModel->get_detail_absensi($idabsen);
-        if ($rs->num_rows() === 0) {
+        if ($rs->num_rows() == 0) {
             $this->response(false, [], 'Data absensi tidak ditemukan');
         }
 
         $row = $rs->row();
 
-        if ($row->iddc !== $iddc) {
+        // ✅ Cek apakah absensi milik DC yang sedang login
+        if ($row->iddc != $iddc) {
             $this->response(false, [], 'Akses ditolak');
         }
 
+        // ✅ Ambil detail peserta
         $peserta = $this->AbsendcModel->get_peserta_absensi($idabsen);
 
         $this->response(true, [
             'absensi' => [
-                'idabsen'        => $row->idabsen,
-                'tglabsen'       => $row->tglabsen,
-                'keterangan'     => $row->keterangan,
-                'totalpeserta'   => (int) $row->totalpeserta,
+                'idabsen' => $row->idabsen,
+                'tglabsen' => $row->tglabsen,
+                'keterangan' => $row->keterangan,
+                'totalpeserta' => (int)$row->totalpeserta,
                 'formatted_date' => formatHariTanggalJam($row->tglabsen),
-                'foto'           => $row->foto,
-                'foto_url'       => buildFotoAbsensiUrl($row->foto),
+                'foto' => $row->foto, // ✅ TAMBAHKAN FOTO DI DETAIL
             ],
             'peserta' => $peserta->result_array()
         ]);

@@ -482,12 +482,3 @@ function formatNomorWhatsapp($nomor)
 	}
 }
 
-
-function buildFotoAbsensiUrl($foto)
-{
-    if (empty($foto) || $foto === 'null') {
-        return base_url('assets/esclogo.png');
-    }
-
-    return 'https://myesc.id/comm/uploads/absensi/' . rawurlencode($foto);
-}
