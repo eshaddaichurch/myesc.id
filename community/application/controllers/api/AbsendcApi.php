@@ -43,7 +43,7 @@ class AbsendcApi extends CI_Controller
             $this->response(false, [], 'ID DC tidak ditemukan');
         }
 
-        return $iddc; // 🔥 INI YANG HILANG
+        return $iddc; // ✅ INI WAJIB
     }
 
 
