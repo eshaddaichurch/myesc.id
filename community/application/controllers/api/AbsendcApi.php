@@ -30,6 +30,9 @@ class AbsendcApi extends CI_Controller
         exit;
     }
 
+
+    // Api Test 
+
     /** Validasi header iddc */
     private function validateIddcHeader()
     {
