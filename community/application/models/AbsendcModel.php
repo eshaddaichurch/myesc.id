@@ -25,9 +25,16 @@ class AbsendcModel extends CI_Model
     // ✅ PERBAIKAN: Ambil detail absensi dengan foto absensi
     public function get_detail_absensi($idabsen)
     {
+        // ✅ PERBAIKAN: Ambil field foto secara eksplisit
         $this->db->select('
-            a.*,
-            COUNT(b.idjemaat) as totalpeserta
+            a.idabsen,
+            a.tglabsen,
+            a.foto,  // ✅ PASTIKAN INI DIAMBIL
+            a.keterangan,
+            a.iddc,
+            a.totalpeserta,
+            a.idpengguna,
+            COUNT(b.idjemaat) as totalpeserta_count
         ');
         $this->db->from('dcabsen a');
         $this->db->join('dcabsen_detail b', 'a.idabsen = b.idabsen', 'left');
