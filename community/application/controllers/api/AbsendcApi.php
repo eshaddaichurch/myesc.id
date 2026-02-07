@@ -137,42 +137,61 @@ class AbsendcApi extends CI_Controller
 
     public function simpan()
     {
-        $input = json_decode(file_get_contents('php://input'), true);
+        try {
+            $iddc = $this->input->get_request_header('iddc', TRUE);
+            $idpengguna = $this->input->get_request_header('idjemaat', TRUE);
 
-        $iddc = $this->input->get_request_header('iddc');
-        $idpengguna = $this->input->get_request_header('idjemaat'); // atau dari token
+            $raw = json_decode($this->input->raw_input_stream, true);
 
-        if (!$iddc || !$idpengguna) {
+            if (!$raw) {
+                echo json_encode([
+                    'status' => false,
+                    'message' => 'Payload JSON kosong'
+                ]);
+                return;
+            }
+
+            if (!$iddc || !$idpengguna) {
+                echo json_encode([
+                    'status' => false,
+                    'message' => 'Header iddc atau idpengguna tidak ditemukan',
+                    'debug' => [
+                        'iddc' => $iddc,
+                        'idpengguna' => $idpengguna
+                    ]
+                ]);
+                return;
+            }
+
+            // ================= INSERT =================
+            $data = [
+                'iddc'         => $iddc,
+                'idpengguna'  => $idpengguna,
+                'keterangan'  => $raw['keterangan'] ?? '',
+                'totalpeserta'=> count($raw['idjemaat'] ?? [])
+            ];
+
+            $insert = $this->db->insert('absen_dc', $data);
+
+            if (!$insert) {
+                echo json_encode([
+                    'status' => false,
+                    'message' => 'Gagal insert absen'
+                ]);
+                return;
+            }
+
+            echo json_encode([
+                'status' => true,
+                'message' => 'Absensi berhasil disimpan'
+            ]);
+        } catch (Throwable $e) {
             echo json_encode([
                 'status' => false,
-                'message' => 'Header iddc / idjemaat wajib'
+                'message' => 'Exception server',
+                'error' => $e->getMessage()
             ]);
-            return;
         }
-
-        if (empty($input['idjemaat'])) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Peserta hadir tidak boleh kosong'
-            ]);
-            return;
-        }
-
-        $dataAbsen = [
-            'tglabsen'      => date('Y-m-d H:i:s'),
-            'iddc'          => $iddc,
-            'totalpeserta'  => count($input['idjemaat']),
-            'keterangan'    => $input['keterangan'] ?? '',
-            'idpengguna'    => $idpengguna,
-            'foto'          => $this->_saveBase64Image($input['foto'] ?? null)
-        ];
-
-        $this->db->insert('absendc', $dataAbsen);
-
-        echo json_encode([
-            'status' => true,
-            'message' => 'Absensi berhasil disimpan'
-        ]);
     }
 
     
