@@ -34,7 +34,22 @@ class AbsendcApi extends CI_Controller
      * =============================== */
     private function validateIddcHeader()
     {
-        $iddc = $this->input->get_request_header('iddc', TRUE);
+        $headers = $this->input->request_headers();
+
+        // debug kalau perlu
+        // file_put_contents('headers.log', json_encode($headers));
+
+        $iddc = null;
+
+        if (isset($headers['iddc'])) {
+            $iddc = $headers['iddc'];
+        } elseif (isset($headers['IDDC'])) {
+            $iddc = $headers['IDDC'];
+        } elseif (isset($headers['Http-Iddc'])) {
+            $iddc = $headers['Http-Iddc'];
+        } elseif (isset($_SERVER['HTTP_IDDC'])) {
+            $iddc = $_SERVER['HTTP_IDDC'];
+        }
 
         if (!$iddc) {
             $this->response(false, [], 'Header iddc wajib');
@@ -42,6 +57,7 @@ class AbsendcApi extends CI_Controller
 
         return $iddc;
     }
+
 
     /* ===============================
      * 📌 MEMBER DC
@@ -127,11 +143,22 @@ class AbsendcApi extends CI_Controller
     {
         try {
             $iddc = $this->validateIddcHeader();
-            $idpengguna = $this->input->get_request_header('idjemaat', TRUE);
+            $headers = $this->input->request_headers();
+
+            $idpengguna = null;
+
+            if (isset($headers['idjemaat'])) {
+                $idpengguna = $headers['idjemaat'];
+            } elseif (isset($headers['IDJEMAAT'])) {
+                $idpengguna = $headers['IDJEMAAT'];
+            } elseif (isset($_SERVER['HTTP_IDJEMAAT'])) {
+                $idpengguna = $_SERVER['HTTP_IDJEMAAT'];
+            }
 
             if (!$idpengguna) {
                 $this->response(false, [], 'Header idjemaat wajib');
             }
+
 
             $raw = json_decode($this->input->raw_input_stream, true);
 
