@@ -40,6 +40,25 @@ class AbsendcApi extends CI_Controller
         return $iddc;
     }
 
+    public function member()
+    {
+        $iddc = $this->validateIddcHeader();
+
+        $rs = $this->AbsendcModel->get_member_dc($iddc);
+
+        $data = [];
+        foreach ($rs->result() as $row) {
+            $data[] = [
+                'idjemaat' => $row->idjemaat,
+                'namalengkap' => $row->namalengkap,
+                'statuskeanggotaan' => $row->statuskeanggotaan,
+            ];
+        }
+
+        $this->response(true, $data);
+    }
+
+
     /* ===============================
      * 📌 LIST ABSENSI
      * =============================== */
@@ -102,113 +121,60 @@ class AbsendcApi extends CI_Controller
         ]);
     }
 
-    /* ===============================
-    * 📌 SIMPAN ABSENSI (MOBILE API)
-    * =============================== */
     public function simpan()
     {
-        // Validasi header iddc
-        $iddc = $this->input->get_request_header('iddc');
-        if (!$iddc) {
-            $this->response(false, [], 'ID DC tidak ditemukan di header');
-            return;
+        $iddc = $this->validateIddcHeader();
+
+        $raw = json_decode(file_get_contents("php://input"), true);
+
+        if (!$raw) {
+            $this->response(false, [], "Payload tidak valid");
         }
 
-        // Baca raw JSON body
-        $raw = file_get_contents('php://input');
-        $input = json_decode($raw, true);
-        
-        if (json_last_error() !== JSON_ERROR_NONE || !$input) {
-            $this->response(false, [], 'Payload JSON tidak valid: ' . json_last_error_msg());
-            return;
+        $keterangan = $raw['keterangan'] ?? 'Tanpa keterangan';
+        $idjemaat   = $raw['idjemaat'] ?? [];
+        $fotoBase64 = $raw['foto'] ?? null;
+
+        if (count($idjemaat) == 0) {
+            $this->response(false, [], "Minimal 1 jemaat harus hadir");
         }
 
-        $keterangan = trim($input['keterangan'] ?? 'Tanpa keterangan');
-        $idjemaat_arr = $input['idjemaat'] ?? [];
-        
-        if (empty($idjemaat_arr) || !is_array($idjemaat_arr)) {
-            $this->response(false, [], 'Minimal 1 member harus dipilih');
-            return;
-        }
+        /* ================= SIMPAN FOTO ================= */
+        $fotoName = null;
+        if ($fotoBase64) {
+            if (preg_match('/^image\/(\w+);base64,/', $fotoBase64, $type)) {
+                $fotoBase64 = substr($fotoBase64, strpos($fotoBase64, ',') + 1);
+                $ext = strtolower($type[1]);
 
-        // ✅ HANDLE FOTO BASE64
-        $foto_name = null;
-        if (!empty($input['foto'])) {
-            $foto_raw = $input['foto'];
-            // Format yang diterima: "image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ..."
-            $parts = explode(',', $foto_raw);
-            if (count($parts) === 2) {
-                $base64 = $parts[1];
-                $binary = base64_decode($base64);
-                
-                if ($binary === false || strlen($binary) < 100) { // Validasi minimal size
-                    $this->response(false, [], 'Data gambar tidak valid');
-                    return;
+                $fotoBase64 = base64_decode($fotoBase64);
+
+                if ($fotoBase64 === false) {
+                    $this->response(false, [], "Foto tidak valid");
                 }
-                
-                // Generate filename unik
-                $ext = 'jpg';
-                if (strpos($parts[0], 'png') !== false) $ext = 'png';
-                $filename = 'absensi_' . date('YmdHis') . '_' . substr(md5(microtime()), 0, 8) . '.' . $ext;
-                $upload_dir = FCPATH . 'uploads/absensi/';
-                
-                // Buat folder jika belum ada
-                if (!is_dir($upload_dir)) {
-                    mkdir($upload_dir, 0777, true);
-                }
-                
-                $filepath = $upload_dir . $filename;
-                if (file_put_contents($filepath, $binary)) {
-                    $foto_name = $filename;
-                } else {
-                    $this->response(false, [], 'Gagal menyimpan file foto ke server');
-                    return;
-                }
+
+                $fotoName = uniqid('absen_') . '.' . $ext;
+                file_put_contents(FCPATH . 'uploads/absensi/' . $fotoName, $fotoBase64);
             }
         }
 
-        // ✅ SIMPAN KE DATABASE
-        $this->db->trans_start();
-        
-        // Insert header absensi
-        $header_data = [
-            'tglabsen' => date('Y-m-d H:i:s'),
-            'foto' => $foto_name,
-            'iddc' => $iddc,
-            'keterangan' => $keterangan,
-            'totalpeserta' => count($idjemaat_arr),
-            'idpengguna' => $iddc, // Gunakan iddc sebagai idpengguna untuk mobile
+        /* ================= SIMPAN DB ================= */
+        $dataHeader = [
+            'tglabsen'      => date('Y-m-d H:i:s'),
+            'iddc'          => $iddc,
+            'keterangan'    => $keterangan,
+            'totalpeserta'  => count($idjemaat),
+            'foto'          => $fotoName,
         ];
-        $this->db->insert('absendc', $header_data);
-        $idabsen = $this->db->insert_id();
-        
-        // Insert detail peserta
-        $detail_batch = [];
-        foreach ($idjemaat_arr as $idj) {
-            $detail_batch[] = [
-                'idabsen' => $idabsen,
-                'idjemaat' => $idj,
-                'hadir' => 1,
-                'tglinput' => date('Y-m-d H:i:s'),
-            ];
+
+        $simpan = $this->AbsendcModel->simpan($dataHeader, $idjemaat);
+
+        if ($simpan) {
+            $this->response(true, [], "Absensi berhasil disimpan");
         }
-        
-        if (!empty($detail_batch)) {
-            $this->db->insert_batch('absendcdetail', $detail_batch);
-        }
-        
-        $this->db->trans_complete();
-        
-        if ($this->db->trans_status() === false) {
-            // Rollback: hapus foto jika gagal
-            if ($foto_name && file_exists($upload_dir . $foto_name)) {
-                unlink($upload_dir . $foto_name);
-            }
-            $this->response(false, [], 'Gagal menyimpan ke database');
-            return;
-        }
-        
-        $this->response(true, ['idabsen' => $idabsen], 'Absensi berhasil disimpan');
+
+        $this->response(false, [], "Gagal menyimpan absensi");
     }
+
+    
 
 }
