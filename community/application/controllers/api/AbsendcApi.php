@@ -34,10 +34,15 @@ class AbsendcApi extends CI_Controller
     private function validateIddcHeader()
     {
         $iddc = $this->input->get_request_header('iddc');
+
         if (!$iddc) {
-            $this->response(false, [], 'ID DC tidak ditemukan');
+            echo json_encode([
+                'status' => false,
+                'message' => 'Header iddc wajib'
+            ]);
+            return;
         }
-        return $iddc;
+
     }
 
     public function member()
