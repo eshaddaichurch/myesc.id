@@ -42,28 +42,28 @@ class AbsendcApi extends CI_Controller
 
     public function member()
     {
-        $iddc = $this->validateIddcHeader();
+        $iddc = $this->input->get('iddc');
 
-        $rs = $this->AbsendcModel->get_member_dc($iddc);
-
-        if (!$rs) {
-            $this->response(false, [], 'Query member gagal');
+        if (!$iddc) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'iddc wajib diisi',
+                'data' => []
+            ]);
+            return;
         }
 
-        if ($rs->num_rows() === 0) {
-            $this->response(true, []);
-        }
+        $data = $this->db
+            ->where('iddc', $iddc)
+            ->order_by('namalengkap', 'ASC')
+            ->get('v_dcmember')
+            ->result();
 
-        $data = [];
-        foreach ($rs->result() as $row) {
-            $data[] = [
-                'idjemaat' => $row->idjemaat,
-                'namalengkap' => $row->namalengkap,
-                'statuskeanggotaan' => $row->statuskeanggotaan,
-            ];
-        }
-
-        $this->response(true, $data);
+        echo json_encode([
+            'status' => true,
+            'total'  => count($data),
+            'data'   => $data
+        ]);
     }
 
 
