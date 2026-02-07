@@ -46,6 +46,14 @@ class AbsendcApi extends CI_Controller
 
         $rs = $this->AbsendcModel->get_member_dc($iddc);
 
+        if (!$rs) {
+            $this->response(false, [], 'Query member gagal');
+        }
+
+        if ($rs->num_rows() === 0) {
+            $this->response(true, []);
+        }
+
         $data = [];
         foreach ($rs->result() as $row) {
             $data[] = [
@@ -57,6 +65,7 @@ class AbsendcApi extends CI_Controller
 
         $this->response(true, $data);
     }
+
 
 
     /* ===============================

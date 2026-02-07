@@ -82,4 +82,17 @@ class AbsendcModel extends CI_Model
             return false;
         }
     }
+
+    // dari api mobile
+    // ✅ AMBIL MEMBER DC (UNTUK MOBILE API)
+    public function get_member_dc($iddc)
+    {
+        return $this->db
+            ->select('idjemaat, namalengkap, statuskeanggotaan')
+            ->from('jemaat')
+            ->where('iddc', $iddc)
+            ->order_by('namalengkap', 'ASC')
+            ->get();
+    }
+
 }
