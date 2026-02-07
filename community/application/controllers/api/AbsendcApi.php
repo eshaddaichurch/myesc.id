@@ -142,23 +142,8 @@ class AbsendcApi extends CI_Controller
     public function simpan()
     {
         try {
+            // 🔑 AMBIL IDDC DARI HEADER (KONSISTEN)
             $iddc = $this->validateIddcHeader();
-            $headers = $this->input->request_headers();
-
-            $idpengguna = null;
-
-            if (isset($headers['idjemaat'])) {
-                $idpengguna = $headers['idjemaat'];
-            } elseif (isset($headers['IDJEMAAT'])) {
-                $idpengguna = $headers['IDJEMAAT'];
-            } elseif (isset($_SERVER['HTTP_IDJEMAAT'])) {
-                $idpengguna = $_SERVER['HTTP_IDJEMAAT'];
-            }
-
-            if (!$idpengguna) {
-                $this->response(false, [], 'Header idjemaat wajib');
-            }
-
 
             $raw = json_decode($this->input->raw_input_stream, true);
 
@@ -166,15 +151,19 @@ class AbsendcApi extends CI_Controller
                 $this->response(false, [], 'Payload JSON kosong');
             }
 
+            if (empty($raw['idpengguna'])) {
+                $this->response(false, [], 'idpengguna wajib');
+            }
+
             if (!isset($raw['idjemaat']) || !is_array($raw['idjemaat'])) {
                 $this->response(false, [], 'Data idjemaat tidak valid');
             }
 
             $data = [
-                'iddc'          => $iddc,
-                'idpengguna'    => $idpengguna,
-                'keterangan'    => $raw['keterangan'] ?? '',
-                'totalpeserta'  => count($raw['idjemaat'])
+                'iddc'         => $iddc, // ✅ DARI HEADER
+                'idpengguna'   => $raw['idpengguna'],
+                'keterangan'   => $raw['keterangan'] ?? '',
+                'totalpeserta' => count($raw['idjemaat']),
             ];
 
             $this->db->trans_begin();
@@ -186,11 +175,12 @@ class AbsendcApi extends CI_Controller
             }
 
             $this->db->trans_commit();
-
             $this->response(true, [], 'Absensi berhasil disimpan');
 
         } catch (Throwable $e) {
             $this->response(false, [], 'Exception server');
         }
     }
+
+
 }
