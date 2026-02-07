@@ -137,56 +137,42 @@ class AbsendcApi extends CI_Controller
 
     public function simpan()
     {
-        $iddc = $this->validateIddcHeader();
+        $input = json_decode(file_get_contents('php://input'), true);
 
-        $raw = json_decode(file_get_contents("php://input"), true);
+        $iddc = $this->input->get_request_header('iddc');
+        $idpengguna = $this->input->get_request_header('idjemaat'); // atau dari token
 
-        if (!$raw) {
-            $this->response(false, [], "Payload tidak valid");
+        if (!$iddc || !$idpengguna) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Header iddc / idjemaat wajib'
+            ]);
+            return;
         }
 
-        $keterangan = $raw['keterangan'] ?? 'Tanpa keterangan';
-        $idjemaat   = $raw['idjemaat'] ?? [];
-        $fotoBase64 = $raw['foto'] ?? null;
-
-        if (count($idjemaat) == 0) {
-            $this->response(false, [], "Minimal 1 jemaat harus hadir");
+        if (empty($input['idjemaat'])) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Peserta hadir tidak boleh kosong'
+            ]);
+            return;
         }
 
-        /* ================= SIMPAN FOTO ================= */
-        $fotoName = null;
-        if ($fotoBase64) {
-            if (preg_match('/^image\/(\w+);base64,/', $fotoBase64, $type)) {
-                $fotoBase64 = substr($fotoBase64, strpos($fotoBase64, ',') + 1);
-                $ext = strtolower($type[1]);
-
-                $fotoBase64 = base64_decode($fotoBase64);
-
-                if ($fotoBase64 === false) {
-                    $this->response(false, [], "Foto tidak valid");
-                }
-
-                $fotoName = uniqid('absen_') . '.' . $ext;
-                file_put_contents(FCPATH . 'uploads/absensi/' . $fotoName, $fotoBase64);
-            }
-        }
-
-        /* ================= SIMPAN DB ================= */
-        $dataHeader = [
+        $dataAbsen = [
             'tglabsen'      => date('Y-m-d H:i:s'),
             'iddc'          => $iddc,
-            'keterangan'    => $keterangan,
-            'totalpeserta'  => count($idjemaat),
-            'foto'          => $fotoName,
+            'totalpeserta'  => count($input['idjemaat']),
+            'keterangan'    => $input['keterangan'] ?? '',
+            'idpengguna'    => $idpengguna,
+            'foto'          => $this->_saveBase64Image($input['foto'] ?? null)
         ];
 
-        $simpan = $this->AbsendcModel->simpan($dataHeader, $idjemaat);
+        $this->db->insert('absendc', $dataAbsen);
 
-        if ($simpan) {
-            $this->response(true, [], "Absensi berhasil disimpan");
-        }
-
-        $this->response(false, [], "Gagal menyimpan absensi");
+        echo json_encode([
+            'status' => true,
+            'message' => 'Absensi berhasil disimpan'
+        ]);
     }
 
     
