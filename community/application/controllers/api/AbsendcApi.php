@@ -221,22 +221,45 @@ class AbsendcApi extends CI_Controller
                 $this->response(false, [], 'Data idjemaat tidak valid');
             }
 
-            $data = [
+            /* ===============================
+            * 🔥 HANDLE FOTO BASE64
+            * =============================== */
+            $nama_file = null;
+
+            if (!empty($raw['foto'])) {
+                // bersihkan prefix base64
+                $base64 = preg_replace('#^image/\w+;base64,#i', '', $raw['foto']);
+                $binary = base64_decode($base64);
+
+                if ($binary === false) {
+                    $this->response(false, [], 'Format foto tidak valid');
+                }
+
+                $folder = FCPATH . 'uploads/absensi/';
+                if (!is_dir($folder)) {
+                    mkdir($folder, 0755, true);
+                }
+
+                $nama_file = 'absen_' . date('Ymd_His') . '_' . uniqid() . '.jpg';
+                file_put_contents($folder . $nama_file, $binary);
+            }
+
+            /* ===============================
+            * 🔥 INSERT DATABASE
+            * =============================== */
+            $this->db->trans_begin();
+
+            $this->db->insert('dcabsen', [
                 'iddc'         => $raw['iddc'],
                 'idpengguna'   => $raw['idpengguna'],
                 'keterangan'   => $raw['keterangan'] ?? '',
                 'totalpeserta' => count($raw['idjemaat']),
                 'tglabsen'     => date('Y-m-d H:i:s'),
-                'foto'         => $raw['foto'] ?? null, // filename, bukan base64
-            ];
+                'foto'         => $nama_file, // ✅ BUKAN BASE64
+            ]);
 
-            $this->db->trans_begin();
-
-            // 🔥 INSERT HEADER
-            $this->db->insert('dcabsen', $data);
             $idabsen = $this->db->insert_id();
 
-            // 🔥 INSERT DETAIL PESERTA
             foreach ($raw['idjemaat'] as $idjemaat) {
                 $this->db->insert('dcabsen_detail', [
                     'idabsen'  => $idabsen,
@@ -261,6 +284,7 @@ class AbsendcApi extends CI_Controller
             ], 'Exception server');
         }
     }
+
 
 
 
