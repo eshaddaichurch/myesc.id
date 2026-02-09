@@ -143,23 +143,27 @@ class AbsendcApi extends CI_Controller
     {
         try {
             $raw = json_decode($this->input->raw_input_stream, true);
-
+    
             if (!$raw) {
                 $this->response(false, [], 'Payload JSON kosong');
+                return;
             }
-
+    
             if (empty($raw['iddc'])) {
                 $this->response(false, [], 'iddc wajib');
+                return;
             }
-
+    
             if (empty($raw['idpengguna'])) {
                 $this->response(false, [], 'idpengguna wajib');
+                return;
             }
-
+    
             if (!isset($raw['idjemaat']) || !is_array($raw['idjemaat'])) {
                 $this->response(false, [], 'Data idjemaat tidak valid');
+                return;
             }
-
+    
             $data = [
                 'iddc'         => $raw['iddc'],
                 'idpengguna'   => $raw['idpengguna'],
@@ -167,30 +171,34 @@ class AbsendcApi extends CI_Controller
                 'totalpeserta' => count($raw['idjemaat']),
                 'tglabsen'     => date('Y-m-d H:i:s'),
             ];
-
+    
             $this->db->trans_begin();
-            $this->db->insert('dcabsen', $data); // 🔥 FIX DI SINI
-
+            $this->db->insert('dcabsen', $data);
+    
             if ($this->db->trans_status() === FALSE) {
                 $error = $this->db->error();
                 $this->db->trans_rollback();
-
+    
                 $this->response(false, [
                     'db_error' => $error,
                     'payload'  => $data
                 ], 'Gagal menyimpan absensi');
+                return;
             }
-
+    
             $this->db->trans_commit();
-
+    
             $this->response(true, [], 'Absensi berhasil disimpan');
-
+            return;
+    
         } catch (Throwable $e) {
             $this->response(false, [
                 'exception' => $e->getMessage()
             ], 'Exception server');
+            return;
         }
     }
+    
 
 
 
