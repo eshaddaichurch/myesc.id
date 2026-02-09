@@ -141,19 +141,57 @@ class AbsendcApi extends CI_Controller
      * =============================== */
     public function simpan()
     {
-        $this->db->insert('absen_dc', $data);
+        try {
+            $raw = json_decode($this->input->raw_input_stream, true);
 
-        if ($this->db->trans_status() === FALSE) {
-            $error = $this->db->error();
-            $this->db->trans_rollback();
+            if (!$raw) {
+                $this->response(false, [], 'Payload JSON kosong');
+            }
 
+            if (empty($raw['iddc'])) {
+                $this->response(false, [], 'iddc wajib');
+            }
+
+            if (empty($raw['idpengguna'])) {
+                $this->response(false, [], 'idpengguna wajib');
+            }
+
+            if (!isset($raw['idjemaat']) || !is_array($raw['idjemaat'])) {
+                $this->response(false, [], 'Data idjemaat tidak valid');
+            }
+
+            $data = [
+                'iddc'         => $raw['iddc'],
+                'idpengguna'   => $raw['idpengguna'],
+                'keterangan'   => $raw['keterangan'] ?? '',
+                'totalpeserta' => count($raw['idjemaat']),
+                'tglabsen'     => date('Y-m-d H:i:s'), // WAJIB kalau NOT NULL
+            ];
+
+            $this->db->trans_begin();
+            $this->db->insert('absen_dc', $data);
+
+            if ($this->db->trans_status() === FALSE) {
+                $error = $this->db->error();
+                $this->db->trans_rollback();
+
+                $this->response(false, [
+                    'db_error' => $error,
+                    'payload'  => $data
+                ], 'Gagal menyimpan absensi');
+            }
+
+            $this->db->trans_commit();
+
+            $this->response(true, [], 'Absensi berhasil disimpan');
+
+        } catch (Throwable $e) {
             $this->response(false, [
-                'db_error' => $error,
-                'payload'  => $data
-            ], 'Gagal menyimpan absensi');
+                'exception' => $e->getMessage()
+            ], 'Exception server');
         }
-
     }
+
 
 
 }
