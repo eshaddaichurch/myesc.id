@@ -165,11 +165,11 @@ class AbsendcApi extends CI_Controller
                 'idpengguna'   => $raw['idpengguna'],
                 'keterangan'   => $raw['keterangan'] ?? '',
                 'totalpeserta' => count($raw['idjemaat']),
-                'tglabsen'     => date('Y-m-d H:i:s'), // WAJIB kalau NOT NULL
+                'tglabsen'     => date('Y-m-d H:i:s'),
             ];
 
             $this->db->trans_begin();
-            $this->db->insert('absen_dc', $data);
+            $this->db->insert('dcabsen', $data); // 🔥 FIX DI SINI
 
             if ($this->db->trans_status() === FALSE) {
                 $error = $this->db->error();
@@ -191,6 +191,7 @@ class AbsendcApi extends CI_Controller
             ], 'Exception server');
         }
     }
+
 
 
 
