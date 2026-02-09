@@ -139,66 +139,129 @@ class AbsendcApi extends CI_Controller
     /* ===============================
      * 📌 SIMPAN ABSENSI
      * =============================== */
+    // public function simpan()
+    // {
+    //     try {
+    //         $raw = json_decode($this->input->raw_input_stream, true);
+    
+    //         if (!$raw) {
+    //             $this->response(false, [], 'Payload JSON kosong');
+    //             return;
+    //         }
+    
+    //         if (empty($raw['iddc'])) {
+    //             $this->response(false, [], 'iddc wajib');
+    //             return;
+    //         }
+    
+    //         if (empty($raw['idpengguna'])) {
+    //             $this->response(false, [], 'idpengguna wajib');
+    //             return;
+    //         }
+    
+    //         if (!isset($raw['idjemaat']) || !is_array($raw['idjemaat'])) {
+    //             $this->response(false, [], 'Data idjemaat tidak valid');
+    //             return;
+    //         }
+    
+    //         $data = [
+    //             'iddc'         => $raw['iddc'],
+    //             'idpengguna'   => $raw['idpengguna'],
+    //             'keterangan'   => $raw['keterangan'] ?? '',
+    //             'totalpeserta' => count($raw['idjemaat']),
+    //             'tglabsen'     => date('Y-m-d H:i:s'),
+    //         ];
+    
+    //         $this->db->trans_begin();
+    //         $this->db->insert('dcabsen', $data);
+    
+    //         if ($this->db->trans_status() === FALSE) {
+    //             $error = $this->db->error();
+    //             $this->db->trans_rollback();
+    
+    //             $this->response(false, [
+    //                 'db_error' => $error,
+    //                 'payload'  => $data
+    //             ], 'Gagal menyimpan absensi');
+    //             return;
+    //         }
+    
+    //         $this->db->trans_commit();
+    
+    //         $this->response(true, [], 'Absensi berhasil disimpan');
+    //         return;
+    
+    //     } catch (Throwable $e) {
+    //         $this->response(false, [
+    //             'exception' => $e->getMessage()
+    //         ], 'Exception server');
+    //         return;
+    //     }
+    // }
+    
+
     public function simpan()
     {
         try {
             $raw = json_decode($this->input->raw_input_stream, true);
-    
+
             if (!$raw) {
                 $this->response(false, [], 'Payload JSON kosong');
-                return;
             }
-    
+
             if (empty($raw['iddc'])) {
                 $this->response(false, [], 'iddc wajib');
-                return;
             }
-    
+
             if (empty($raw['idpengguna'])) {
                 $this->response(false, [], 'idpengguna wajib');
-                return;
             }
-    
+
             if (!isset($raw['idjemaat']) || !is_array($raw['idjemaat'])) {
                 $this->response(false, [], 'Data idjemaat tidak valid');
-                return;
             }
-    
+
             $data = [
                 'iddc'         => $raw['iddc'],
                 'idpengguna'   => $raw['idpengguna'],
                 'keterangan'   => $raw['keterangan'] ?? '',
                 'totalpeserta' => count($raw['idjemaat']),
                 'tglabsen'     => date('Y-m-d H:i:s'),
+                'foto'         => $raw['foto'] ?? null, // filename, bukan base64
             ];
-    
+
             $this->db->trans_begin();
+
+            // 🔥 INSERT HEADER
             $this->db->insert('dcabsen', $data);
-    
-            if ($this->db->trans_status() === FALSE) {
-                $error = $this->db->error();
-                $this->db->trans_rollback();
-    
-                $this->response(false, [
-                    'db_error' => $error,
-                    'payload'  => $data
-                ], 'Gagal menyimpan absensi');
-                return;
+            $idabsen = $this->db->insert_id();
+
+            // 🔥 INSERT DETAIL PESERTA
+            foreach ($raw['idjemaat'] as $idjemaat) {
+                $this->db->insert('dcabsen_detail', [
+                    'idabsen'  => $idabsen,
+                    'idjemaat' => $idjemaat
+                ]);
             }
-    
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                $this->response(false, [], 'Gagal menyimpan absensi');
+            }
+
             $this->db->trans_commit();
-    
-            $this->response(true, [], 'Absensi berhasil disimpan');
-            return;
-    
+
+            $this->response(true, [
+                'idabsen' => $idabsen
+            ], 'Absensi berhasil disimpan');
+
         } catch (Throwable $e) {
             $this->response(false, [
                 'exception' => $e->getMessage()
             ], 'Exception server');
-            return;
         }
     }
-    
+
 
 
 
