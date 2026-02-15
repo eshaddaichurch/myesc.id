@@ -8,6 +8,7 @@ class Konfirmasidc extends MY_Controller
     {
         parent::__construct();
         $this->islogin();
+        $this->hakAksesDM();
         $this->load->model('Konfirmasidc_model');
     }
 

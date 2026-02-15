@@ -8,6 +8,7 @@ class Absendc extends MY_Controller
     {
         parent::__construct();
         $this->islogin();
+        $this->hakAksesDM();
         $this->load->model('DcmemberModel');
         $this->load->model('AbsendcModel');
         $this->load->library('image_lib');

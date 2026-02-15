@@ -37,6 +37,7 @@
           </a>
         </li>
 
+        <?php if ($this->App->isDisciplesMaker()) { ?>
 
         <li class="nav-item">
           <a href="<?php echo (site_url('konfirmasidc')) ?>" class="nav-link <?php echo ($menu == 'konfirmasidc') ? 'active' : '' ?>">
@@ -46,6 +47,8 @@
             </p>
           </a>
         </li>
+        
+        <?php } ?>
 
         <li class="nav-item">
           <a href="<?php echo (site_url('dcmember')) ?>" class="nav-link <?php echo ($menu == 'dcmember') ? 'active' : '' ?>">
@@ -56,6 +59,23 @@
           </a>
         </li>
 
+        <?php if ($this->App->isDisciplesMaker()) { ?>
+            
+        <li class="nav-item">
+          <a href="<?php echo (site_url('dcmemberprogress')) ?>" class="nav-link <?php echo ($menu == 'dcmemberprogress') ? 'active' : '' ?>">
+            <i class="nav-icon fas fa-tasks"></i>
+            <p>
+              Progress DC Member
+            </p>
+          </a>
+        </li>
+
+        <?php } ?>
+
+        <?php if ($this->App->isDisciplesMaker()) { ?>
+
+
+
         <li class="nav-item">
           <a href="<?php echo (site_url('absendc')) ?>" class="nav-link <?php echo ($menu == 'absendc') ? 'active' : '' ?>">
             <i class="nav-icon fas fa-check-double"></i>
@@ -64,6 +84,9 @@
             </p>
           </a>
         </li>
+
+        <?php } ?>
+
 
 
         <li class="nav-item">

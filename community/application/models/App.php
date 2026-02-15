@@ -150,6 +150,17 @@ class App extends CI_Model
 
 		return $arrFamily;
 	}
+	
+	public function isDisciplesMaker()
+    {        
+        $statuskeanggotaan = $this->session->userdata('statuskeanggotaan');
+
+        if ($statuskeanggotaan != 'Disciples maker') {
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
 
 /* End of file App.php */
