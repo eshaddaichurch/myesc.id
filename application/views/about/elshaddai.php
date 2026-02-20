@@ -1316,7 +1316,7 @@ $this->load->view('template/festavalive/header'); ?>
           <!-- Pastor 7 -->
           <div class="profile-card">
             <div class="profile-image">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/Gh_eiva.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/Gh_eiva1.jpg'); ?>" alt="Deskripsi gambar">
             </div>
           
             <div class="profile-content">
@@ -1442,13 +1442,15 @@ $this->load->view('template/festavalive/header'); ?>
 
         const indo = {
             vision: "Membangun Generasi Yang Menghidupi Amanat Agung",
-            mission: "Menyelamatkan Jiwa-Jiwa Dan Menjadi Murid Kristus Yang Saling Mengasihi Melalui Komunitas"
+            mission:  "Planted: Tertanam dalam Kristus dan dalam Disciples Community."
+                      "Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid."
+                      "Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain."
         };
 
         const english = {
           vision: "Building Generations that live out the Great Commission",
-          mission: `Planted: Rooted in Christ and in the Disciples Community.<br>
-                    Grow: Growing in the knowledge of Christ and being shaped as disciples.<br>
+          mission: `Planted: Rooted in Christ and in the Disciples Community.
+                    Grow: Growing in the knowledge of Christ and being shaped as disciples.
                     Fruitful: Becoming disciples of Christ who make disciples and impact others.`
         };
 
