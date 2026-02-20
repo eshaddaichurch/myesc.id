@@ -391,6 +391,8 @@
       <div class="container d-flex justify-content-center align-items-center">
         <div class="row">
           <div class="col-12 mt-auto mb-5 text-center">
+          <small><?php echo $rowinfogereja->subjudulhomepage ?></small>
+            <h1 class="text-white mb-5"><?php echo $rowinfogereja->judulhomepage ?></h1>
             <a class="btn custom-btn smoothscroll" 
               href="https://myesc.id/disciples_community/index">
               Join DC
