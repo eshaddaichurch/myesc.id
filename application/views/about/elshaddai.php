@@ -1316,7 +1316,7 @@ $this->load->view('template/festavalive/header'); ?>
           <!-- Pastor 7 -->
           <div class="profile-card">
             <div class="profile-image">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/Gh_eiva1.jpg'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/Gh_eiva1.png'); ?>" alt="Deskripsi gambar">
             </div>
           
             <div class="profile-content">
@@ -1441,44 +1441,41 @@ $this->load->view('template/festavalive/header'); ?>
         const mission = document.getElementById("mission-text");
 
         const indo = {
-          vision: "Membangun Generasi Yang Menghidupi Amanat Agung",
-          mission: `Planted: Tertanam dalam Kristus dan dalam Disciples Community.<br>
-                    Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid.<br>
-                    Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain.`
+            vision: "Membangun Generasi Yang Menghidupi Amanat Agung",
+            mission: `Planted: Tertanam dalam Kristus dan dalam Disciples Community.<br>
+                      Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid.<br>
+                      Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain.`
         };
 
         const english = {
-          vision: "Building Generations that live out the Great Commission",
-          mission: `Planted: Rooted in Christ and in the Disciples Community.<br>
-                    Grow: Growing in the knowledge of Christ and being shaped as disciples.<br>
-                    Fruitful: Becoming disciples of Christ who make disciples and impact others.`
+            vision: "Building Generations that live out the Great Commission",
+            mission: `Planted: Rooted in Christ and in the Disciples Community.<br>
+                      Grow: Growing in the knowledge of Christ and being shaped as disciples.<br>
+                      Fruitful: Becoming disciples of Christ who make disciples and impact others.`
         };
 
         let isEnglish = false;
 
         setInterval(() => {
-            // Animasi fade-out
             vision.style.opacity = 0;
             mission.style.opacity = 0;
 
             setTimeout(() => {
                 if (isEnglish) {
                     vision.textContent = indo.vision;
-                    mission.textContent = indo.mission;
+                    mission.innerHTML = indo.mission;
                 } else {
                     vision.textContent = english.vision;
-                    mission.textContent = english.mission;
+                    mission.innerHTML = english.mission;
                 }
 
-                // Animasi fade-in
                 vision.style.opacity = 1;
                 mission.style.opacity = 1;
 
                 isEnglish = !isEnglish;
-            }, 500); // waktu transisi sebelum mengganti teks
-        }, 5000); // tiap 2 detik toggle bahasa
+            }, 500);
+        }, 5000);
     });
-
 
     document.addEventListener('DOMContentLoaded', function () {
     const fadeInSection = document.querySelectorAll('.fade-in-section');
