@@ -391,13 +391,10 @@
       <div class="container d-flex justify-content-center align-items-center">
         <div class="row">
           <div class="col-12 mt-auto mb-5 text-center">
-            <small><?php echo $rowinfogereja->subjudulhomepage ?></small>
-            <h1 class="text-white mb-5"><?php echo $rowinfogereja->judulhomepage ?></h1>
-            <?php
-            if (!empty($rowinfogereja->urlbuttonhomepage)) {
-              echo '<a class="btn custom-btn smoothscroll" href="' . $rowinfogereja->urlbuttonhomepage . '" target="_blank">Watch</a>';
-            }
-            ?>
+            <a class="btn custom-btn smoothscroll" 
+              href="https://myesc.id/disciples_community/index">
+              Join DC
+            </a>
           </div>
           <div class="col-lg-12 col-12 mt-auto d-flex flex-column flex-lg-row text-center">
             <div class="date-wrap"></div>
@@ -420,18 +417,18 @@
 
 
   <!-- CTA Bubble -->
-  <div class="disciples-cta-bubble" onclick="toggleDisciplesCTA()">
+  <!-- <div class="disciples-cta-bubble" onclick="toggleDisciplesCTA()">
     <span class="cta-text">DC</span>
-  </div>
+  </div> -->
 
   <!-- Mini Popup -->
-  <div id="disciplesMini" class="disciples-mini">
+  <!-- <div id="disciplesMini" class="disciples-mini">
     <div class="disciples-mini-header">
       <span>Disciples Community</span>
       <button onclick="toggleDisciplesCTA()">×</button>
-    </div>
+    </div> -->
 
-    <div class="disciples-mini-body">
+    <!-- <div class="disciples-mini-body">
       <p>
         Ayo bertumbuh bersama dalam komunitas pemuridan di El Shaddai Church.
       </p>
@@ -442,10 +439,10 @@
         Gabung Sekarang
       </a>
     </div>
-  </div>
+  </div> -->
 
 
-  <script>
+  <!-- <script>
   document.addEventListener("DOMContentLoaded", function () {
     setTimeout(function () {
       document.getElementById('disciplesMini').classList.add('active');
@@ -455,7 +452,7 @@
   function toggleDisciplesCTA() {
     document.getElementById('disciplesMini').classList.toggle('active');
   }
-  </script>
+  </script> -->
 
 
 </body>
