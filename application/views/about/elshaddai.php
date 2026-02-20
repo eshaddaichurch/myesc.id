@@ -647,7 +647,7 @@ $this->load->view('template/festavalive/header'); ?>
         }
 
         .vm-title {
-            font-size: 2.75rem;
+            font-size: 1.00rem;
             font-weight: 600;
             line-height: 1.5;
         }
@@ -1139,7 +1139,11 @@ $this->load->view('template/festavalive/header'); ?>
             <div class="vm-box">
                 <p class="vm-label">OUR MISSION</p>
                 <h2 class="vm-title" id="mission-text" style="color: #ff5008;">
-                    Menyelamatkan Jiwa-Jiwa Dan Menjadi Murid Kristus Yang Saling Mengasihi Melalui Komunitas
+                    Planted: Tertanam dalam Kristus dan dalam Disciples Community.
+                    <br>
+                    Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid.
+                    <br>
+                    Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain.
                 </h2>
             </div>
         </div>
@@ -1192,7 +1196,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
 
           <div class="value-panel">
-            <div class="panel-title" style="color: #ff5008;">Yesus</div>
+            <div class="panel-title" style="color: #ff5008;">JESUS</div>
             <div class="panel-content">
               <p style="font-size: 20px;">"Yesus Kristus ialah pusat dari segalanya."</p>
             </div>
@@ -1312,7 +1316,7 @@ $this->load->view('template/festavalive/header'); ?>
           <!-- Pastor 7 -->
           <div class="profile-card">
             <div class="profile-image">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/'); ?>" alt="Deskripsi gambar">
+            <img src="<?php echo base_url('myesc.id/assets/gambar/Gh_eiva.jpg'); ?>" alt="Deskripsi gambar">
             </div>
           
             <div class="profile-content">
@@ -1442,8 +1446,10 @@ $this->load->view('template/festavalive/header'); ?>
         };
 
         const english = {
-            vision: "Building Generations that live out the Great Commission",
-            mission: "Saving Souls and Making Disciples of Christ Who Love One Another Through Community"
+          vision: "Building Generations that live out the Great Commission",
+          mission: `Planted: Rooted in Christ and in the Disciples Community.<br>
+                    Grow: Growing in the knowledge of Christ and being shaped as disciples.<br>
+                    Fruitful: Becoming disciples of Christ who make disciples and impact others.`
         };
 
         let isEnglish = false;
