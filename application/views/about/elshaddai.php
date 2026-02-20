@@ -1298,7 +1298,7 @@ $this->load->view('template/festavalive/header'); ?>
           </div>
 
           <!-- Pastor 6 -->
-          <div class="profile-card">
+          <!-- <div class="profile-card">
             <div class="profile-image">
             <img src="<?php echo base_url('myesc.id/assets/gambar/'); ?>" alt="Deskripsi gambar">
             </div>
@@ -1311,7 +1311,7 @@ $this->load->view('template/festavalive/header'); ?>
                 
               </p>
             </div>
-          </div>
+          </div> -->
 
           <!-- Pastor 7 -->
           <div class="profile-card">
@@ -1441,16 +1441,16 @@ $this->load->view('template/festavalive/header'); ?>
         const mission = document.getElementById("mission-text");
 
         const indo = {
-            vision: "Membangun Generasi Yang Menghidupi Amanat Agung",
-            mission:  "Planted: Tertanam dalam Kristus dan dalam Disciples Community."
-                      "Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid."
-                      "Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain."
+          vision: "Membangun Generasi Yang Menghidupi Amanat Agung",
+          mission: `Planted: Tertanam dalam Kristus dan dalam Disciples Community.<br>
+                    Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid.<br>
+                    Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain.`
         };
 
         const english = {
           vision: "Building Generations that live out the Great Commission",
-          mission: `Planted: Rooted in Christ and in the Disciples Community.
-                    Grow: Growing in the knowledge of Christ and being shaped as disciples.
+          mission: `Planted: Rooted in Christ and in the Disciples Community.<br>
+                    Grow: Growing in the knowledge of Christ and being shaped as disciples.<br>
                     Fruitful: Becoming disciples of Christ who make disciples and impact others.`
         };
 
