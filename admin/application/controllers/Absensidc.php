@@ -16,6 +16,7 @@ class Absensidc extends MY_Controller
 
     public function index()
     {
+        $data['rsDc'] = $this->Absensidc_model->getDc();
         $data['menu'] = 'absensidc';
         $this->load->view('absensidc/listdata', $data);
     }
@@ -256,8 +257,9 @@ class Absensidc extends MY_Controller
     {
         $tglawal = $this->input->get('tglawal');
         $tglakhir = $this->input->get('tglakhir');
+        $iddc = $this->input->get('iddc');
 
-        $rsAbsensi = $this->Absensidc_model->getListAbsensi($tglawal, $tglakhir);
+        $rsAbsensi = $this->Absensidc_model->getListAbsensi($tglawal, $tglakhir, $iddc);
 
         $arrAbsen = array();
         if ($rsAbsensi->num_rows() > 0) {

@@ -50,11 +50,28 @@
               <div class="form-group row">
                 <label for="tanggal" class="col-md-2 col-form-label">Tanggal</label>
                 <div class="col-md-2">
-                  <input type="date" name="tglawal" id="tglawal" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                  <input type="date" name="tglawal" id="tglawal" class="form-control" value="<?php echo date('Y-m-d', strtotime('-7 day')) ?>">
                 </div>
                 <label for="tanggal" class="col-md-1 text-center col-form-label">s/d</label>
                 <div class="col-md-2">
                   <input type="date" name="tglakhir" id="tglakhir" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group row">
+                <label for="" class="col-md-2 col-form-label">Nama DC</label>
+                <div class="col-md-10">
+                  <select name="iddc" id="iddc" class="form-control select2">
+                    <option value="">Semua DC...</option>
+                    <?php  
+                      foreach ($rsDc->result() as $row) {
+                        echo '
+                          <option value="'.$row->iddc.'">'.$row->namadc.'</option>
+                        ';
+                      }
+                    ?>
+                  </select>
                 </div>
               </div>
             </div>
@@ -89,6 +106,7 @@
     var table;
 
     $(document).ready(function() {
+      $(".select2").select2();
       getListAbsensi();
 
     }); //end (document).ready
@@ -96,6 +114,8 @@
     function getListAbsensi() {
       var tglawal = $('#tglawal').val();
       var tglakhir = $('#tglakhir').val();
+      var iddc = $('#iddc').val();
+
 
       console.log(tglawal);
 
@@ -105,7 +125,8 @@
           dataType: 'json',
           data: {
             'tglawal': tglawal,
-            'tglakhir': tglakhir
+            'tglakhir': tglakhir,
+            'iddc': iddc
           },
         })
         .done(function(response) {
@@ -140,6 +161,21 @@
               $('#divListAbsen').append(addText);
             }
 
+          }else{
+            var addText = `
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-body card-dc shadow">
+                      <div class="row">
+                        <div class="col-12 text-center">
+                          Data tidak ditemukan...
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            $('#divListAbsen').append(addText);
           }
         })
         .fail(function() {
@@ -154,6 +190,10 @@
     });
 
     $(document).on('change', '#tglakhir', function() {
+      getListAbsensi();
+    });
+
+    $(document).on('change', '#iddc', function() {
       getListAbsensi();
     });
   </script>
