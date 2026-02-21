@@ -23,6 +23,11 @@ class Dcmemberprogress_model extends CI_Model {
 
     private function _get_datatables_query()
     {
+        $iddc = $_POST['iddc'];
+        if (!empty($iddc)) {
+            $this->db->where('iddc', $iddc);
+        }
+        
         $this->db->from($this->tabelview);
         $i = 0;
         foreach ($this->column_search as $item)
@@ -81,6 +86,14 @@ class Dcmemberprogress_model extends CI_Model {
         $this->db->where('iddcmember', $iddcmember);
         $this->db->order_by('idprogress', 'desc');
         return $this->db->get('dcmember_progress');
+    }
+
+    public function getDc()
+    {
+        $this->db->where('statusaktif', 'Aktif');
+        $this->db->order_by('kategoridc', 'asc');
+        $this->db->order_by('namadc', 'asc');
+        return $this->db->get('v_disciplescommunity');
     }
 
 

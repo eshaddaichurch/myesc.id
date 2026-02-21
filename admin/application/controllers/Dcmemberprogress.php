@@ -16,6 +16,7 @@ class Dcmemberprogress extends MY_Controller
 
     public function index()
     {
+        $data['rsDc'] = $this->Dcmemberprogress_model->getDc();
         $data['menu'] = 'dcmemberprogress';
         $this->load->view('dcmemberprogress/listdata_dcmember', $data);
     }
@@ -73,6 +74,17 @@ class Dcmemberprogress extends MY_Controller
 
     public function datatablesource()
 {
+
+if (!isset($_POST['draw'])) {
+            echo json_encode([
+                'draw' => 0,
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => []
+            ]);
+            return;
+        }
+        
     $RsData = $this->Dcmemberprogress_model->get_datatables();
     $no = $_POST['start'];
     $data = array();

@@ -33,28 +33,53 @@ $this->load->view("template/sidemenu");
             }
             ?>
 
-                    </div>
-                    <div class="col-md-12">
-                        <!-- datatable -->
-                        <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-condesed" id="table">
-                            <thead>
-                            <tr class="bg-success" style="">
-                                <th style="width: 5%; text-align: center;">No</th>
-                                <th style="text-align: center;">FOTO </th>
-                                <th style="text-align: center;">Nama Jemaat</th>
-                                <th style="text-align: center;">Nama DC</th>
-                                <th style="text-align: center;">Progress</th>
-                                <th style="text-align: center; width: 15%;;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+          </div>
 
-                            </tbody>
-                        </table>
-                        </div>
-
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <label for="" class="col-md-3 col-form-label">Filter Nama DC</label>
+                    <div class="col-md-4">
+                      <select name="iddc" id="iddc" class="form-control select2">
+                        <option value="">Semua DC...</option>
+                        <?php  
+                          foreach ($rsDc->result() as $row) {
+                            echo '
+                              <option value="'.$row->iddc.'">'.$row->namadc.'</option>
+                            ';
+                          }
+                        ?>
+                      </select>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-3"><hr></div>
+
+
+            <div class="col-md-12">
+                <!-- datatable -->
+                <div class="table-responsive">
+                <table class="table table-bordered table-striped table-condesed" id="table">
+                    <thead>
+                    <tr class="bg-success" style="">
+                        <th style="width: 5%; text-align: center;">No</th>
+                        <th style="text-align: center;">FOTO </th>
+                        <th style="text-align: center;">Nama Jemaat</th>
+                        <th style="text-align: center;">Nama DC</th>
+                        <th style="text-align: center;">Progress</th>
+                        <th style="text-align: center; width: 15%;;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
 
 
 
@@ -77,6 +102,8 @@ $this->load->view("template/sidemenu");
 
   $(document).ready(function() {
 
+    $('.select2').select2();
+
     //defenisi datatable
     table = $("#table").DataTable({
       "select": true,
@@ -85,7 +112,10 @@ $this->load->view("template/sidemenu");
       "order": [],
       "ajax": {
         "url": "<?php echo site_url('dcmemberprogress/datatablesource') ?>",
-        "type": "POST"
+        "type": "POST",
+        "data": function ( d ) {
+                  d.iddc = $('#iddc').val(); // Ambil nilai TERKINI saat request
+              }
       },
       "columnDefs": [
         { "targets": [ 0 ], "orderable": false, "className": "dt-body-center" },
@@ -108,6 +138,10 @@ $this->load->view("template/sidemenu");
         document.location.href = link;
       }
     });
+  });
+
+  $(document).on('change', '#iddc', function() {
+    table.ajax.reload(); // Reload tabel dengan filter baru
   });
 </script>
 
