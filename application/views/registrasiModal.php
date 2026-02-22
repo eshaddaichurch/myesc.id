@@ -1213,9 +1213,9 @@
       } else {
         $('.divnik').hide();
         $('.divtempatlahir').hide();
-        $('.divtgllahir').hide();
+        // $('.divtgllahir').hide();
         // $('.divnohp').hide();  
-        $('.divalamatrumah').hide();
+        // $('.divalamatrumah').hide();
 
       }
     }
