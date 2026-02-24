@@ -1,227 +1,207 @@
 <?php $this->load->view('template/festavalive/header'); ?>
-
-
-
 <body>
-  <style>
-    /*--------------------------------------------------------------
-        # Hero Section
-    --------------------------------------------------------------*/
-    
-    #hero h1 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: white;
-      margin-top: 50px;
-      text-align: center;
-    }
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-    #hero h2 {
-      font-size: 1rem;
-      color: #eeeeee;
-      margin-top: 10px;
-      text-align: center;
-    }
+  body { font-family: 'Inter', sans-serif; background:#f3f4f6; }
 
-    /* Navbar fixed at the top */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1050;
-    }
+  .locations-wrapper { padding: 42px 0 50px; }
 
-    /* Map section */
-    #map {
-      height: 70vh;
-      border-radius: 1rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
+  .locations-header h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+  }
+  .locations-header p {
+    color: #64748b;
+    font-size: .98rem;
+  }
 
-    /* Responsive Map */
-    @media (max-width: 768px) {
-      #map {
-        height: 50vh;
-      }
-    }
+  .locations-layout {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 26px;
+    margin-top: 26px;
+    align-items: start;
+  }
+  @media (max-width: 992px) {
+    .locations-layout { grid-template-columns: 1fr; }
+  }
 
-    /* Cabang List */
-    .ulCabang li {
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-    }
+  .branch-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: 72vh;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
 
-    .ulCabang li a {
-      font-size: 1rem;
-      color: #2a2a2a;
-      text-decoration: none;
-      display: block;
-      transition: color 0.3s ease;
-    }
+  .branch-card {
+    position: relative;
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+    padding: 20px 20px 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.05);
+    transition: all .25s ease;
+  }
+  .branch-card.active {
+    border: 2px solid #f97316;
+    box-shadow: 0 8px 20px rgba(249,115,22,.25);
+  }
 
-    .ulCabang li a:hover {
-      color: #EE6F09;
-    }
+  .branch-pin {
+    position:absolute;
+    right:16px;
+    top:16px;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:#fff7ed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#f97316;
+    font-size:14px;
+  }
 
-    /* Section About */
-    .about-section {
-      padding: 50px 0;
-      background-color: #f7f7f7;
-      text-align: center;
-    }
+  .branch-title {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #0f172a;
+  }
+  .branch-address {
+    font-size: .9rem;
+    color: #475569;
+    margin-top: 3px;
+  }
 
-    .about-section h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      margin-bottom: 30px;
-      color: #333;
-    }
+  .branch-meta {
+    font-size: .85rem;
+    color: #475569;
+    margin-top: 10px;
+    line-height: 1.45;
+  }
 
-    .card-body {
-      padding: 20px;
-    }
+  .branch-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .btn-dir {
+    flex: 1;
+    background: #f97316;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 10px;
+    font-size: .9rem;
+    font-weight: 600;
+  }
+  .btn-detail {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: .88rem;
+    color: #0f172a;
+    text-decoration: none;
+  }
 
-    .card {
-      border-radius: 1rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      background-color: #fff;
-      margin-bottom: 20px;
-    }
+  #map {
+    width: 100%;
+    height: 72vh;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  }
+</style>
 
-    .card-body h5 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 20px;
-    }
+<main>
+<?php $this->load->view('template/festavalive/topmenu'); ?>
 
-    /* Make sure it's mobile responsive */
-    @media (max-width: 768px) {
-      .card-body {
-        padding: 15px;
-      }
+<section class="locations-wrapper">
+  <div class="container">
+    <div class="locations-header">
+      <h2>Our Locations</h2>
+      <p>Find a vibrant Elshaddai church community near you.</p>
+    </div>
 
-      .card {
-        margin-bottom: 10px;
-      }
-    }
-  </style>
+    <div class="locations-layout">
+      <div class="branch-list" id="branchList"></div>
+      <div id="map"></div>
+    </div>
+  </div>
+</section>
+</main>
 
-  <main>
-    <?php $this->load->view('template/festavalive/topmenu'); ?>
+<?php $this->load->view('template/festavalive/footer'); ?>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
-    <!-- About Section -->
-    <!-- <section class="about-section">
-      <div class="container">
-        <h2>OUR LOCATION</h2>
-      </div>
-    </section> -->
+<script>
+var idmenu = "<?php echo $this->encrypt->encode($menu) ?>";
+const centerMap = [0.03718835906169617, 110.35766601562501];
+var map = L.map('map').setView(centerMap, 8);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '© OpenStreetMap'
+}).addTo(map);
 
-    <!-- Page Content Section -->
-    <section class="page-content section-padding" style="background: linear-gradient(63deg, #fffaf5, #ffb347);">
-      <div class="container">
-        <div class="row justify-content-center">
-          <!-- Map Section -->
-          <div class="col-md-8">
-            <div class="card">
-              <div class="card-body">
-                <div id="map"></div>
-              </div>
-            </div>
-          </div>
+function initMap() {
+  $.ajax({
+    url: '<?php echo site_url('ourlocation/getcabang') ?>',
+    type: 'GET',
+    dataType: 'json'
+  }).done(function(dataCabang) {
+    $('#branchList').empty();
+    if (!dataCabang || !dataCabang.length) return;
 
-          <!-- Cabang List Section -->
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5>CABANG GEREJA ELSHADDAI</h5>
-                <ul class="ulCabang" id="ulCabang">
-                  <li><a href="<?php echo site_url('ourlocation/detail/') ?>">Cabang Siantan</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+    dataCabang.forEach((cabang, i) => {
+      const lat = cabang.latitude;
+      const lng = cabang.longitude;
+      const lokasi = [lat, lng];
 
-  <?php $this->load->view('template/festavalive/footer'); ?>
-
-  <!-- Leaflet JS & CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-  <script>
-    var idmenu = "<?php echo $this->encrypt->encode($menu) ?>";
-    const centerMap = [0.03718835906169617, 110.35766601562501];
-    var map = L.map('map').setView(centerMap, 8);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    // Map click event (optional)
-    function onMapClick(e) {
-      alert("You clicked the map at " + e.latlng);
-    }
-
-    function initMap() {
-      const myLatLng = {
-        lat: 0.461323,
-        lng: 127.843268
-      };
-
-      map.remove();
-      map = L.map('map').setView(centerMap, 8);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-      }).addTo(map);
-
-      $.ajax({
-        url: '<?php echo site_url('ourlocation/getcabang') ?>',
-        type: 'GET',
-        dataType: 'json',
-      }).done(function(getcabangresult) {
-        console.log(getcabangresult);
-        var dataCabang = getcabangresult;
-        $('#ulCabang').empty();
-
-        if (dataCabang.length > 0) {
-          for (var i = 0; i < dataCabang.length; i++) {
-            var latitude = dataCabang[i]['latitude'];
-            var longitude = dataCabang[i]['longitude'];
-            var lokasi = [latitude, longitude];
-            setMarker(lokasi, dataCabang[i]['idcabang'], dataCabang[i]['namacabang'], dataCabang[i]['namacabang_slug'], dataCabang[i]['namagembala'], dataCabang[i]['gambarsampul'], dataCabang[i]['alamatlengkap'], dataCabang[i]['icon']);
-            var addText = `<li><a href="<?php echo site_url('ourlocation/detail/') ?>` + dataCabang[i]['namacabang_slug'] + `/` + idmenu + `">` + dataCabang[i]['namacabang'] + `</a></li>`;
-            $('#ulCabang').append(addText);
-          }
-        }
-      }).fail(function() {
-        console.log("error getcabang");
+      const iconWarna = L.icon({
+        iconUrl: cabang.icon ? '<?php echo base_url('uploads/cabanggereja/') ?>' + cabang.icon : '<?php echo base_url('myesc.id/images/pin2.png') ?>',
+        iconSize: [28,30]
       });
-    }
 
-    function setMarker(lokasi, idcabang, namacabang, namacabang_slug, namagembala, gambarsampul, alamatlengkap, icon) {
-      try {
-        var iconWarna = L.icon({
-          iconUrl: icon ? '<?php echo base_url('uploads/cabanggereja/') ?>' + icon : '<?php echo base_url('myesc.id/images/pin2.png') ?>',
-          iconSize: [28, 30],
-        });
+      L.marker(lokasi,{icon:iconWarna}).addTo(map)
+        .bindPopup(`<b>${cabang.namacabang}</b><br><small>${cabang.alamatlengkap}</small>`);
 
-        var marker = L.marker(lokasi, {icon: iconWarna}).addTo(map);
-        marker.bindPopup("<b>" + namacabang + "</b><hr><small>Nama Gembala: " + namagembala + '</small><br><a href="<?php echo site_url('ourlocation/detail/') ?>' + namacabang_slug + '/' + idmenu + '" class="link-popup">Lihat Selengkapnya</a>');
-      } catch (e) {
-        console.log("Lokasi " + lokasi + " tidak ditemukan!");
-      }
-    }
+      const serviceTimes = cabang.jadwal || cabang.servicetimes || '-';
 
-    initMap();
-  </script>
+      const card = `
+        <div class="branch-card ${i===0?'active':''}" onclick="focusMap(${lat},${lng},this)">
+          <div class="branch-pin">📍</div>
+          <div class="branch-title">${cabang.namacabang}</div>
+          <div class="branch-address">${cabang.alamatlengkap}</div>
+          <div class="branch-meta">
+            Service Times:<br>${serviceTimes}
+          </div>
+          <div class="branch-actions">
+            <button class="btn-dir">Get Directions</button>
+            <a class="btn-detail" href="<?php echo site_url('ourlocation/detail/') ?>${cabang.namacabang_slug}/${idmenu}">Details</a>
+          </div>
+        </div>`;
+
+      $('#branchList').append(card);
+    });
+
+    if (dataCabang[0]) map.setView([dataCabang[0].latitude,dataCabang[0].longitude],12);
+  });
+}
+
+function focusMap(lat,lng,el){
+  map.setView([lat,lng],14,{animate:true});
+  $('.branch-card').removeClass('active');
+  if(el) $(el).addClass('active');
+}
+
+initMap();
+</script>
 </body>
