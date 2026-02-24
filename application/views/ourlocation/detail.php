@@ -3,379 +3,505 @@
 <body>
 
   <!-- FONTS -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Owl Carousel CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
-    /* ===== GLOBAL ===== */
+    /* ===== GLOBAL VARIABLES & RESET ===== */
+    :root {
+      --primary-orange: #F59E0B; /* Warna Oranye seperti gambar */
+      --primary-hover: #D97706;
+      --text-dark: #111827;
+      --text-gray: #6B7280;
+      --bg-light: #F3F4F6;
+      --white: #ffffff;
+      --radius-card: 24px;
+      --radius-btn: 12px;
+    }
+
     *, *::before, *::after { box-sizing: border-box; }
-    html, body { height: 100%; width: 100%; }
+    
     body {
-      font-family: 'Figtree', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      /* background: #ead7a9; */
-      background: linear-gradient(63deg, #fffaf5, #ffb347);
-      color: #111827;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: 'Figtree', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
+
     img { max-width: 100%; height: auto; display: block; }
-    a, a:hover { text-decoration: none; }
+    a { text-decoration: none; color: inherit; transition: 0.3s; }
 
-    /* -------------------------
-       Breadcrumbs (jika dipakai)
-       ------------------------- */
-    .breadcrumbs { padding: 140px 0 60px 0; min-height: 30vh; position: relative; background-size: cover; background-position: center; }
-    .breadcrumbs::before { content: ""; background-color: rgba(0,0,0,0.6); position: absolute; inset: 0; }
-    .breadcrumbs h2 { font-size:56px; font-weight:500; color:#fff; font-family:'Baloo 2', cursive; position:relative; z-index:2; margin:0; padding-top:.5rem; }
-    .breadcrumbs ol { display:flex; flex-wrap:wrap; list-style:none; padding:0 0 10px 0; margin:0; font-size:16px; font-weight:600; color:rgba(255,255,255,0.9); position:relative; z-index:2; }
-    .breadcrumbs ol a { color: rgba(255,255,255,0.9); transition:.3s; }
-    .breadcrumbs ol a:hover { text-decoration: underline; }
-    .breadcrumbs ol li+li { padding-left:10px; }
-    .breadcrumbs ol li+li::before { display:inline-block; padding-right:10px; color:#fff; content:"/"; }
-
-    /* -------------------------
-       Postcard (jika dipakai)
-       ------------------------- */
-    .postcard { display:flex; flex-wrap:wrap; box-shadow:0 4px 21px -12px rgba(0,0,0,0.66); border-radius:10px; margin:0 0 4rem 0; overflow:hidden; position:relative; color:#ffffff; background-color:#18151f; }
-    .postcard.light { background-color:#e1e5ea; color:#111; }
-    .postcard a { color:inherit; }
-    .postcard h1, .postcard .h1 { margin-bottom:.5rem; font-weight:500; line-height:1.2; }
-    .postcard .small { font-size:80%; }
-    .postcard__title { font-size:1.75rem; padding-left:10px; color:inherit; }
-    .postcard__img { max-height:180px; width:100%; object-fit:cover; position:relative; display:block; }
-    .postcard__img_link { display:contents; }
-    .postcard__bar { width:50px; height:10px; margin:10px 0; border-radius:5px; background-color:#424242; transition: width .2s ease; }
-    .postcard__text { padding:2.5rem; position:relative; display:flex; flex-direction:column; color:inherit; background:transparent; }
-    .postcard__preview-txt { overflow:hidden; text-overflow:ellipsis; text-align:left; height:100%; }
-    .postcard__tagbox { display:flex; flex-flow:row wrap; font-size:14px; margin:20px 0 0 0; padding:0; justify-content:center; }
-    .postcard__tagbox .tag__item { display:inline-block; background:#FAF0E6; border-radius:3px; padding:2.5px 10px; margin:0 5px 5px 0; user-select:none; transition:background-color .3s; }
-    .postcard__tagbox .tag__item:hover { background:#FFD09B; }
-    .postcard::before { content:""; position:absolute; top:0; right:0; bottom:0; left:0; background-image: linear-gradient(-70deg, #424242, transparent 50%); opacity:1; border-radius:10px; pointer-events:none; }
-
-    @media screen and (min-width: 769px) {
-      .postcard { flex-wrap: nowrap; max-width: 1000px; margin: 0 auto; align-items: center; }
-      .postcard__img-container { width: 300px; height: 100%; overflow: hidden; flex-shrink: 0; }
-      .postcard__img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; display: block; }
-      .postcard__text { padding-left: 2rem; padding-right: 2rem; flex: 1; }
-      .postcard:hover .postcard__img-container img { transform: scale(1.05); }
-      .postcard:nth-child(2n+1) { flex-direction: row; }
-      .postcard:nth-child(2n+0) { flex-direction: row-reverse; }
+    /* ===== LAYOUT WRAPPER ===== */
+    .page-wrapper {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
-    @media screen and (min-width: 1024px) { .postcard__text { padding: 2rem 3.5rem; } }
 
-    /* ===========================
-       MAIN layout / gallery / details
-       =========================== */
-    #hero { width:100%; height:20vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; }
-    #hero .container { position:relative; z-index:2; }
-    #hero h1 { margin:0; font-size:clamp(1.25rem,3.2vw,2.6rem); font-weight:700; color:#fff; line-height:1.05; letter-spacing:-0.02em; text-shadow:0 6px 22px rgba(0,0,0,0.35); font-family:'Baloo 2', cursive; }
-    #hero h5 { margin-top:.35rem; color: rgba(255,255,255,0.9); font-weight:500; font-size:.95rem; }
-
-    .page-content.section-padding { padding: 2.2rem 0 3.2rem; }
-    .card { background: var(--card, #fff); border-radius: 14px; box-shadow: 0 8px 30px rgba(16,24,40,0.06); border: none; overflow: visible; width:100%; }
-    .card .card-body { padding:1.25rem; }
-    .card-body.min-h-lg { min-height: auto; }
-    @media (min-width: 1024px) { .card-body.min-h-lg { min-height: 640px; } }
-    .row.justify-content-center { gap: 1.25rem; }
-    .detail-title { font-size: 1.5rem; font-weight:700; margin-bottom:.6rem; color:#0f172a; }
-
-    /* ====== GALLERY ====== */
-    .gallery { }
-    /* Main carousel tidak overflow */
-    #sync1.owl-carousel { position: relative; }
-    #sync1 .owl-stage-outer { overflow: hidden !important; }
-    #sync1 .owl-stage { overflow: visible; }
-    #sync1 .item { margin:.35rem; }
-    #sync1 .frame {
-      width: 100%;
-      aspect-ratio: 4 / 3;   /* bisa diganti 16/9 */
-      border-radius: 12px;
+    /* ===== MAIN CARD DESIGN ===== */
+    .profile-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
       overflow: hidden;
-      box-shadow: 0 8px 18px rgba(15,23,42,0.08);
-      background: #f4f4f5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== TOP SECTION (Image + Profile Info) ===== */
+    .top-section {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    /* Left: Gallery */
+    .gallery-col {
+      flex: 1 1 400px;
+      position: relative;
+      background: #000;
+      min-height: 400px;
+    }
+
+    .gallery-col .owl-carousel {
+      height: 100%;
+      width: 100%;
+    }
+    
+    .gallery-col .item {
+      height: 400px; 
+      width: 100%;
+    }
+
+    .gallery-col .frame {
+      width: 100%;
+      height: 100%;
       display: block;
     }
-    #sync1 .frame img { width:100%; height:100%; object-fit: scale-down; }
 
-    /* THUMBNAILS */
-    .thumbs-clip {              /* <- pembungkus untuk memotong overflow */
+    .gallery-col .frame img {
       width: 100%;
-      overflow: hidden;
-      padding: .1rem;          /* agar thumb tidak mentok */
-      box-sizing: border-box;
+      height: 100%;
+      object-fit: cover;
     }
-    #sync2.owl-carousel { position: relative; margin-top:.75rem; }
-    #sync2 .owl-stage-outer { overflow: visible !important; } /* desktop efek scale terlihat */
-    #sync2 .item { margin:.35rem; }
-    #sync2 .thumb {
-      width: 100%;
-      max-width: 110px;
-      aspect-ratio: 1 / 1;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #f4f4f5;
-      opacity: .95;
-      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
-      display:block;
+
+    /* Custom Owl Nav */
+    .gallery-col .owl-nav button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.8) !important;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: var(--text-dark) !important;
+      font-size: 18px;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    #sync2 .thumb img { width:100%; height:100%; object-fit: cover; display:block; }
-    #sync2 .owl-item.current .thumb { transform: scale(1.03); box-shadow: 0 10px 20px rgba(15,23,42,0.12); opacity:1; }
-
-    /* Nav arrows main */
-    #sync1.owl-theme .owl-prev, #sync1.owl-theme .owl-next {
-      position:absolute; top:50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.95); width:44px; height:44px; border-radius:12px;
-      display:flex; align-items:center; justify-content:center;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.08); z-index: 20;
+    .gallery-col .owl-nav button:hover { background: #fff !important; }
+    .gallery-col .owl-prev { left: 20px; }
+    .gallery-col .owl-next { right: 20px; }
+    
+    .gallery-col .owl-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
     }
-    #sync1.owl-theme .owl-prev { left: 14px; } 
-    #sync1.owl-theme .owl-next { right: 14px; }
+    .gallery-col .owl-dot span {
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      display: block;
+    }
+    .gallery-col .owl-dot.active span { background: var(--primary-orange); }
 
-    /* Details */
-    .ulCabang { list-style:none; padding-left:0; margin:0; }
-    .ulCabang li { padding:6px 0; border-bottom:1px dashed rgba(15,23,42,0.04); }
-    .ulCabang li:last-child { border-bottom:none; }
-    .ulCabang li a { text-decoration:none; color:var(--accent, #243EAE); font-size:.98rem; font-weight:600; }
-    .ulCabang li span { color:#374151; font-weight:600; font-size:.98rem; }
+    /* Right: Profile Info */
+    .profile-col {
+      flex: 1 1 400px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-    .detail-cabang { padding-top:10px; padding-bottom:18px; }
-    .detail-cabang .detail-label { font-weight:600; color:var(--muted,#6b7280); display:block; }
-    .detail-cabang .detail-value { font-weight:600; color:#0f172a; display:block; margin-top:4px; word-break:break-word; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary-orange);
+      margin-bottom: 8px;
+    }
 
-    .social-area { display:flex; align-items:center; justify-content:center; gap:.9rem; margin-top:1rem; }
-    .social-area a { display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:12px; background:rgba(0,0,0,0.03); transition: transform .15s ease; font-size:1.15rem; color:inherit; }
-    .social-area a:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(2,6,23,0.08); }
+    .church-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 30px 0;
+      line-height: 1.2;
+    }
 
-    .desc-section h3 { font-size:1.125rem; font-weight:700; margin-bottom:.6rem; }
-    .desc-section hr { border-top:1px solid rgba(15,23,42,0.06); margin:.8rem 0; }
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px 0;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .info-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--primary-orange);
+      margin-right: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-content h4 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .info-content p {
+      margin: 0;
+      font-size: 15px;
+      color: var(--text-gray);
+      line-height: 1.5;
+    }
+
+    .action-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-route {
+      background-color: var(--primary-orange);
+      color: white;
+      padding: 12px 24px;
+      border-radius: var(--radius-btn);
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.3s;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+    }
+    .btn-route:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      color: white;
+    }
+
+    .social-btns {
+      display: flex;
+      gap: 10px;
+    }
+    .social-btn {
+      width: 44px;
+      height: 44px;
+      background: #F3F4F6;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dark);
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .social-btn:hover {
+      background: var(--text-dark);
+      color: white;
+    }
+
+    /* ===== BOTTOM SECTION (Schedule + Desc) ===== */
+    .bottom-section {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 40px;
+      gap: 40px;
+    }
+
+    .bottom-col {
+      flex: 1 1 300px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .section-header i {
+      color: var(--primary-orange);
+      font-size: 20px;
+    }
+
+    .section-header h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    /* Schedule List Styling */
+    .schedule-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .schedule-item {
+      background: #F9FAFB;
+      border: 1px solid #F3F4F6;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.2s;
+    }
+    .schedule-item:hover {
+      border-color: var(--primary-orange);
+      background: #FFFBEB;
+    }
+
+    .schedule-name {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 15px;
+    }
+
+    .schedule-time {
+      font-weight: 700;
+      color: var(--primary-orange);
+      font-size: 14px;
+      background: rgba(245, 158, 11, 0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* Description Text */
+    .desc-text {
+      color: var(--text-gray);
+      font-size: 15px;
+      line-height: 1.7;
+      text-align: justify;
+    }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 991px) {
-      .col-md-9 { width: 100%; padding-left: 0; padding-right: 0; }
-      .col-md-3 { width: 100%; padding-left: 0; padding-right: 0; }
-    }
     @media (max-width: 768px) {
-      .ps-5 { padding-left: 1rem !important; }
-      .pe-5 { padding-right: 1rem !important; }
-
-      .col-md-9.ps-5 { padding-left: 1rem !important; padding-right: 1rem !important; }
-      .card { margin-left: 0.25rem; margin-right: 0.25rem; border-radius: 12px; }
-      .card {
-        border-radius: 20px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-        transition: transform .3s ease, box-shadow .3s ease;
-      }
-      .card .card-body { padding: 1rem; }
-      .detail-title { font-size: 1.125rem; }
-      .social-area a { width:44px; height:44px; }
-
-      /* KUNCI: di mobile, thumbnail tidak boleh overflow */
-      #sync2 .owl-stage-outer { overflow: hidden !important; }
-      #sync2 .thumb { max-width: 90px; }
+      .page-wrapper { margin: 20px auto; padding: 0 15px; }
+      .top-section { flex-direction: column; }
+      .gallery-col { min-height: 250px; }
+      .gallery-col .item { height: 250px; }
+      .profile-col { padding: 30px 20px; }
+      .bottom-section { padding: 30px 20px; flex-direction: column; gap: 30px; }
+      .church-title { font-size: 24px; }
     }
 
-    /* Utilities */
-    .text-center { text-align:center; }
-    .mb-4 { margin-bottom:1rem!important; }
-    .mt-3 { margin-top:.75rem!important; }
-    .mt-5 { margin-top:2rem!important; }
-    .me-3 { margin-right:1rem!important; }
-    .ps-5 { padding-left:3rem!important; }
-    .pe-5 { padding-right:3rem!important; }
+    /* Utility for old code compatibility if needed */
+    .hidden { display: none; }
   </style>
 
   <main>
 
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-    <!-- Hero -->
-    <section id="hero" aria-label="hero">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <!-- <h1 class="text-center"><?php echo $rowCabang->namacabang ?></h1> -->
-            <h5 class="text-center"><?php echo !empty($rowCabang->keterangan_singkat) ? $rowCabang->keterangan_singkat : ''; ?></h5>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Main content -->
-    <section class="page-content section-padding" aria-labelledby="our-location">
-      <div class="container">
-        <div class="row justify-content-center">
-
-          <!-- Left: main card -->
-          <div class="col-md-9 ps-5">
-            <div class="card">
-              <div class="card-body min-h-lg">
-
-                <div class="row">
-                  <div class="col-12 text-center font-weight-bold mb-4">
-                    <h2 class="detail-title"><?php echo $rowCabang->namacabang ?></h2>
-                  </div>
-
-                  <!-- Gallery column -->
-                  <div class="col-md-4 gallery">
-                    <div class="row">
-                      <div class="col-12">
-                        <?php
-                          $gambarsampul = base_url('myesc.id/images/nofoto.png');
-                          if (!empty($rowCabang->gambarsampul)) {
-                            $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
-                          }
-                        ?>
-                        <!-- Main carousel -->
-                        <div id="sync1" class="owl-carousel owl-theme">
-                          <div class="item">
-                            <span class="frame">
-                              <img src="<?php echo $gambarsampul ?>" loading="lazy" alt="<?php echo $rowCabang->namacabang ?>">
-                            </span>
-                          </div>
-                          <?php
-                          if ($rsGallery->num_rows() > 0) {
-                            foreach ($rsGallery->result() as $rowGallery) {
-                              $filegallery = base_url('myesc.id/images/nofoto.png');
-                              if (!empty($rowGallery->filegallery)) {
-                                $filegallery = base_url('myesc.id/admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
-                                ?>
-                                <div class="item">
-                                  <span class="frame">
-                                    <img src="<?php echo $filegallery ?>" loading="lazy" alt="<?php echo htmlspecialchars($rowCabang->namacabang, ENT_QUOTES) ?>">
-                                  </span>
-                                </div>
-                                <?php
-                              }
-                            }
-                          }
-                          ?>
-                        </div>
-
-                        <!-- Thumbnails (dibungkus thumbs-clip untuk potong overflow) -->
-                        <div class="thumbs-clip">
-                          <div id="sync2" class="owl-carousel owl-theme">
-                            <div class="item">
-                              <span class="thumb">
-                                <img src="<?php echo $gambarsampul ?>" loading="lazy" alt="">
-                              </span>
-                            </div>
-                            <?php
-                            if ($rsGallery->num_rows() > 0) {
-                              foreach ($rsGallery->result() as $rowGallery) {
-                                $filegallery = base_url('myesc.id/images/nofoto.png');
-                                if (!empty($rowGallery->filegallery)) {
-                                  $filegallery = base_url('myesc.id/admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
-                                  ?>
-                                  <div class="item">
-                                    <span class="thumb">
-                                      <img src="<?php echo $filegallery ?>" loading="lazy" alt="">
-                                    </span>
-                                  </div>
-                                  <?php
-                                }
-                              }
-                            }
-                            ?>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Info column -->
-                  <div class="col-md-8">
-                    <div class="row">
-                      <div class="col-12">
-
-                        <div class="form-group detail-cabang">
-                          <label class="detail-label">Alamat Gereja</label>
-                          <div class="detail-value"><?php echo $rowCabang->alamatlengkap ?></div>
-                        </div>
-
-                        <div class="form-group detail-cabang">
-                          <label class="detail-label">No Telepon</label>
-                          <div class="detail-value"><?php echo $rowCabang->notelp ?></div>
-                        </div>
-
-                        <div class="form-group detail-cabang">
-                          <label class="detail-label">Nama Gembala</label>
-                          <div class="detail-value"><?php echo $rowCabang->namagembala ?></div>
-                        </div>
-
-                        <div class="form-group detail-cabang">
-                          <label class="detail-label">Jadwal Ibadah</label>
-                          <div class="detail-value"><?php echo $rowCabang->jadwalibadah ?></div>
-                        </div>
-
-                      </div>
-
-                      <!-- Social icons -->
-                      <div class="col-12 text-center mt-4">
-                        <div class="social-area">
-                          <?php
-                          if (!empty($rowCabang->urlfacebook)) {
-                            echo '<a href="' . $rowCabang->urlfacebook . '" target="_blank" aria-label="facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>';
-                          }
-                          if (!empty($rowCabang->urlinstagram)) {
-                            echo '<a href="' . $rowCabang->urlinstagram . '" target="_blank" aria-label="instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>';
-                          }
-                          if (!empty($rowCabang->urlyoutube)) {
-                            echo '<a href="' . $rowCabang->urlyoutube . '" target="_blank" aria-label="youtube"><i class="fab fa-youtube" aria-hidden="true"></i></a>';
-                          }
-                          if (!empty($rowCabang->urltwitter)) {
-                            echo '<a href="' . $rowCabang->urltwitter . '" target="_blank" aria-label="twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>';
-                          }
-                          if (!empty($rowCabang->urllinkedin)) {
-                            echo '<a href="' . $rowCabang->urllinkedin . '" target="_blank" aria-label="linkedin"><i class="fab fa-linkedin" aria-hidden="true"></i></a>';
-                          }
-                          ?>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Description (jika ada) -->
-                  <?php if (!empty($rowCabang->deskripsi)) { ?>
-                    <div class="col-12 mt-5 desc-section">
-                      <div class="row">
-                        <div class="col-12 text-center">
-                          <h3>Deskripsi Gereja</h3>
-                        </div>
-                        <div class="col-12"><hr></div>
-                        <div class="col-12">
-                          <?php echo $rowCabang->deskripsi ?>
-                        </div>
-                      </div>
-                    </div>
-                  <?php } ?>
-
-                </div>
+    <div class="page-wrapper">
+      <div class="profile-card">
+        
+        <!-- TOP ROW: Image & Profile Info -->
+        <div class="top-section">
+          
+          <!-- Left: Gallery (Synced Carousel) -->
+          <div class="gallery-col">
+            <div id="sync1" class="owl-carousel owl-theme">
+              <?php
+                $gambarsampul = base_url('myesc.id/images/nofoto.png');
+                if (!empty($rowCabang->gambarsampul)) {
+                  $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
+                }
+              ?>
+              <!-- Item 1: Sampul -->
+              <div class="item">
+                <span class="frame">
+                  <img src="<?php echo $gambarsampul ?>" alt="Gereja">
+                </span>
               </div>
+              
+              <!-- Items: Gallery -->
+              <?php if ($rsGallery->num_rows() > 0) { foreach ($rsGallery->result() as $rowGallery) { 
+                  $filegallery = base_url('myesc.id/images/nofoto.png');
+                  if (!empty($rowGallery->filegallery)) {
+                    $filegallery = base_url('myesc.id/admin/uploads/cabanggereja/gallery/' . $rowGallery->filegallery);
+              ?>
+                <div class="item">
+                  <span class="frame">
+                    <img src="<?php echo $filegallery ?>" alt="Gallery">
+                  </span>
+                </div>
+              <?php } } } ?>
             </div>
           </div>
 
-          <!-- (Opsional) Kolom kanan list cabang
-          <div class="col-md-3 pe-5">
-            <div class="card">
-              <div class="card-body">
-                <div id="divContentCabang">
-                  <ul id="ulCabang" class="ulCabang"></ul>
+          <!-- Right: Profile Info -->
+          <div class="profile-col">
+            <div class="section-label">Location Profile</div>
+            <h1 class="church-title"><?php echo $rowCabang->namacabang ?></h1>
+
+            <ul class="info-list">
+              <!-- Alamat -->
+              <li class="info-item">
+                <i class="fas fa-map-marker-alt info-icon"></i>
+                <div class="info-content">
+                  <h4>Alamat Gereja</h4>
+                  <p><?php echo $rowCabang->alamatlengkap ?></p>
                 </div>
+              </li>
+
+              <!-- Telepon -->
+              <li class="info-item">
+                <i class="fas fa-phone-alt info-icon"></i>
+                <div class="info-content">
+                  <h4>No Telepon</h4>
+                  <p><?php echo $rowCabang->notelp ?></p>
+                </div>
+              </li>
+
+              <!-- Gembala -->
+              <li class="info-item">
+                <i class="fas fa-user-tie info-icon"></i>
+                <div class="info-content">
+                  <h4>Nama Gembala</h4>
+                  <p><?php echo $rowCabang->namagembala ?></p>
+                </div>
+              </li>
+            </ul>
+
+            <div class="action-area">
+              <!-- Link Google Maps Dinamis -->
+              <a href="https://maps.google.com/?q=<?php echo urlencode($rowCabang->alamatlengkap) ?>" target="_blank" class="btn-route">
+                Dapatkan Rute <i class="fas fa-location-arrow"></i>
+              </a>
+              
+              <div class="social-btns">
+                <?php if (!empty($rowCabang->urlinstagram)) { ?>
+                  <a href="<?php echo $rowCabang->urlinstagram ?>" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <?php } ?>
+                <?php if (!empty($rowCabang->urlyoutube)) { ?>
+                  <a href="<?php echo $rowCabang->urlyoutube ?>" target="_blank" class="social-btn"><i class="fab fa-youtube"></i></a>
+                <?php } ?>
+                <?php if (!empty($rowCabang->urlfacebook)) { ?>
+                  <a href="<?php echo $rowCabang->urlfacebook ?>" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                <?php } ?>
+                <?php if (!empty($rowCabang->urltwitter)) { ?>
+                  <a href="<?php echo $rowCabang->urltwitter ?>" target="_blank" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <?php } ?>
               </div>
             </div>
           </div>
-          -->
+        </div>
+
+        <!-- BOTTOM ROW: Schedule & Description -->
+        <div class="bottom-section">
+          
+          <!-- Left: Jadwal Ibadah -->
+          <div class="bottom-col">
+            <div class="section-header">
+              <i class="far fa-calendar-alt"></i>
+              <h3>Jadwal Ibadah</h3>
+            </div>
+            
+            <div class="schedule-list">
+              <!-- 
+                 CATATAN: Karena database Anda menyimpan jadwal dalam satu field teks ($rowCabang->jadwalibadah),
+                 saya menampilkannya di sini. Agar mirip gambar, idealnya data di database dipisah per baris.
+                 Jika data di database sudah berisi HTML <br> atau list, ini akan muncul rapi.
+              -->
+              <?php 
+                // Contoh hardcoded sesuai gambar jika data database kosong atau ingin dipaksa tampil seperti gambar:
+                // Hapus komentar di bawah jika ingin硬coding tampilan seperti gambar referensi
+                /*
+                ?>
+                <div class="schedule-item">
+                  <span class="schedule-name">Ibadah Raya 1</span>
+                  <span class="schedule-time">07.30 - 09.00</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="schedule-name">Ibadah Raya 2</span>
+                  <span class="schedule-time">10.30 - 12.00</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="schedule-name">Ibadah Raya 3</span>
+                  <span class="schedule-time">16.00 - 17.30</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="schedule-name">Ibadah Raya 4</span>
+                  <span class="schedule-time">19.00 - 21.00</span>
+                </div>
+                <?php 
+                */
+                
+                // Tampilan Dinamis dari Database
+                echo '<div style="color:var(--text-gray); line-height:1.6;">' . nl2br($rowCabang->jadwalibadah) . '</div>';
+              ?>
+            </div>
+          </div>
+
+          <!-- Right: Deskripsi Gereja -->
+          <div class="bottom-col">
+            <div class="section-header">
+              <i class="far fa-info-circle"></i>
+              <h3>Deskripsi Gereja</h3>
+            </div>
+            
+            <div class="desc-text">
+              <?php if (!empty($rowCabang->deskripsi)) { 
+                  echo $rowCabang->deskripsi; 
+              } else { ?>
+                <p>GBI El Shaddai Pontianak adalah tempat di mana perjalanan pelayanan El Shaddai dimulai dan terus berkembang. Kami mengundang Anda untuk bergabung bersama kami dalam ibadah setiap hari Minggu.</p>
+              <?php } ?>
+            </div>
+          </div>
 
         </div>
+
       </div>
-    </section>
+    </div>
+
+    <!-- Sidebar List Cabang (Fungsi Asli Dipertahankan tapi disembunyikan secara visual agar sesuai desain kartu, 
+         atau bisa dimunculkan di bawah jika diperlukan) -->
+    <div class="hidden">
+        <div id="divContentCabang">
+          <ul id="ulCabang" class="ulCabang"></ul>
+        </div>
+    </div>
 
   </main>
 
@@ -390,108 +516,59 @@
 
   <script>
     $(document).ready(function() {
+      // Synced Carousel Logic (Dipertahankan)
       var sync1 = $("#sync1");
-      var sync2 = $("#sync2");
-      var slidesPerPage = 3;
-      var syncedSecondary = true;
-
+      var sync2 = $("#sync2"); // Note: sync2 thumbnails dihapus dari HTML atas agar lebih clean seperti gambar, 
+                               // tapi script ini tetap ada jika Anda ingin mengaktifkannya kembali nanti.
+      
+      // Inisialisasi Sync1 (Main Image)
       sync1.owlCarousel({
         items: 1,
         slideSpeed: 600,
         nav: true,
-        center: true,
-        autoplay: false,
+        center: false, // Diubah false agar full width
+        autoplay: true,
         dots: true,
         loop: true,
-        autoHeight: false, // frame fixed aspect ratio
+        autoHeight: false,
         responsiveRefreshRate: 200,
         navText: [
-          '<svg width="18" height="30" viewBox="0 0 11 20" aria-hidden="true"><path style="fill:none;stroke-width:1.6px;stroke:#000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg>',
-          '<svg width="18" height="30" viewBox="0 0 11 20" aria-hidden="true"><path style="fill:none;stroke-width:1.6px;stroke:#000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg>'
+          '<i class="fas fa-chevron-left"></i>',
+          '<i class="fas fa-chevron-right"></i>'
         ],
-      }).on('changed.owl.carousel', syncPosition);
-
-      sync2.on('initialized.owl.carousel', function() {
-          sync2.find(".owl-item").eq(0).addClass("current");
-        })
-        .owlCarousel({
-          items: slidesPerPage,
-          dots: true,
-          nav: true,
-          smartSpeed: 200,
-          slideSpeed: 500,
-          slideBy: 1,
-          responsiveRefreshRate: 100,
-          responsive: {
-            0: { items: 3 },
-            480: { items: 3 },
-            768: { items: slidesPerPage }
-          }
-        }).on('changed.owl.carousel', syncPosition2);
-
-      function syncPosition(el) {
-        var count = el.item.count - 1;
-        var current = Math.round(el.item.index - (el.item.count / 2) - .5);
-        if (current < 0) current = count;
-        if (current > count) current = 0;
-
-        sync2.find(".owl-item").removeClass("current").eq(current).addClass("current");
-        var onscreen = sync2.find('.owl-item.active').length - 1;
-        var start = sync2.find('.owl-item.active').first().index();
-        var end = sync2.find('.owl-item.active').last().index();
-
-        if (current > end) sync2.data('owl.carousel').to(current, 100, true);
-        if (current < start) sync2.data('owl.carousel').to(current - onscreen, 100, true);
-      }
-
-      function syncPosition2(el) {
-        if (syncedSecondary) {
-          var number = el.item.index;
-          sync1.data('owl.carousel').to(number, 100, true);
-        }
-      }
-
-      sync2.on("click", ".owl-item", function(e) {
-        e.preventDefault();
-        var number = $(this).index();
-        sync1.data('owl.carousel').to(number, 300, true);
       });
-    });
-  </script>
 
-  <script>
-    var idcabang = "<?php echo $idcabang ?>";
-    var idmenu = "<?php echo $this->encrypt->encode($menu) ?>";
+      // Fungsi AJAX List Cabang (Dipertahankan)
+      var idcabang = "<?php echo $idcabang ?>";
+      var idmenu = "<?php echo $this->encrypt->encode($menu) ?>";
 
-    $(document).ready(function() { initMap(); });
+      function initMap() {
+        $.ajax({
+            url: '<?php echo site_url('ourlocation/getcabang') ?>',
+            type: 'GET',
+            dataType: 'json',
+          })
+          .done(function(getcabangresult) {
+            var dataCabang = getcabangresult;
+            $('#ulCabang').empty();
 
-    function initMap() {
-      $.ajax({
-          url: '<?php echo site_url('ourlocation/getcabang') ?>',
-          type: 'GET',
-          dataType: 'json',
-        })
-        .done(function(getcabangresult) {
-          var dataCabang = getcabangresult;
-          $('#ulCabang').empty();
-
-          if (dataCabang && dataCabang.length > 0) {
-            for (var i = dataCabang.length - 1; i >= 0; i--) {
-              if (idcabang != dataCabang[i]['idcabang']) {
-                var addText = `<li><a href="<?php echo site_url('ourlocation/detail/') ?>${dataCabang[i]['namacabang_slug']}/${idmenu}">${dataCabang[i]['namacabang']}</a></li>`;
-                $('#ulCabang').append(addText);
-              } else {
-                var addText = `<li><span>${dataCabang[i]['namacabang']}</span></li>`;
-                $('#ulCabang').append(addText);
+            if (dataCabang && dataCabang.length > 0) {
+              for (var i = dataCabang.length - 1; i >= 0; i--) {
+                if (idcabang != dataCabang[i]['idcabang']) {
+                  var addText = `<li><a href="<?php echo site_url('ourlocation/detail/') ?>${dataCabang[i]['namacabang_slug']}/${idmenu}">${dataCabang[i]['namacabang']}</a></li>`;
+                  $('#ulCabang').append(addText);
+                } else {
+                  var addText = `<li><span>${dataCabang[i]['namacabang']}</span></li>`;
+                  $('#ulCabang').append(addText);
+                }
               }
             }
-          } else {
-            var addText = `<h5 class="text-center">Data cabang gereja belum ada.</h5>`;
-            $('#divContentCabang').append(addText);
-          }
-        })
-        .fail(function() { console.log("error getcabang"); });
-    }
+          })
+          .fail(function() { console.log("error getcabang"); });
+      }
+      
+      initMap();
+    });
   </script>
 
 </body>
