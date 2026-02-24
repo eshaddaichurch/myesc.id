@@ -592,7 +592,9 @@ $this->load->view('template/festavalive/header'); ?>
                 ESC Equip adalah Wadah Bidang Pengajaran di El Shaddai Church (ESC) yang bertujuan mempersiapkan jemaat untuk bertumbuh dalam iman, sehingga mereka dapat menjadi serupa dengan Kristus, sebagaimana dinyatakan dalam Roma 8:29, “Sebab semua orang yang dipilih-Nya dari semula, mereka juga ditentukanNya dari semula untuk menjadi serupa dengan gambaran Anak-Nya.
               </p>
               <p>
-                Dengan Visi ESC "Menjadi Jemaat yang Serupa dengan Kristus Yesus" dan Misi ESC untuk menyelamatkan jiwa-jiwa, menjadi murid Kristus yang memuridkan, serta hidup saling mengasihi (Yohanes 13:34-35), Equip menawarkan serangkaian Tahap atau Langkah yang terarah untuk menuntun jemaat ke dalam kedewasaan rohani sesuai Visi dan Misi ESC.
+                Dengan Visi ESC "Menjadi Jemaat yang Serupa dengan Kristus Yesus" dan Misi ESC Planted: Tertanam dalam Kristus dan dalam Disciples Community.
+                Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid.
+                Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain, Equip menawarkan serangkaian Tahap atau Langkah yang terarah untuk menuntun jemaat ke dalam kedewasaan rohani sesuai Visi dan Misi ESC.
               </p>
             </div>
             <div class="right">
