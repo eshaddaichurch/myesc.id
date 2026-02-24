@@ -585,14 +585,14 @@ $this->load->view('template/festavalive/header'); ?>
       <!-- Konten -->
       <section class="who-is-care">
         <div class="container">
-          <h2>Apa Itu Next Step?</h2>
+          <h2>Apa Itu Equip?</h2>
           <div class="content">
             <div class="left">
               <p>
-                ESC Next Step adalah Wadah Bidang Pengajaran di El Shaddai Church (ESC) yang bertujuan mempersiapkan jemaat untuk bertumbuh dalam iman, sehingga mereka dapat menjadi serupa dengan Kristus, sebagaimana dinyatakan dalam Roma 8:29, “Sebab semua orang yang dipilih-Nya dari semula, mereka juga ditentukanNya dari semula untuk menjadi serupa dengan gambaran Anak-Nya.
+                ESC Equip adalah Wadah Bidang Pengajaran di El Shaddai Church (ESC) yang bertujuan mempersiapkan jemaat untuk bertumbuh dalam iman, sehingga mereka dapat menjadi serupa dengan Kristus, sebagaimana dinyatakan dalam Roma 8:29, “Sebab semua orang yang dipilih-Nya dari semula, mereka juga ditentukanNya dari semula untuk menjadi serupa dengan gambaran Anak-Nya.
               </p>
               <p>
-                Dengan Visi ESC "Menjadi Jemaat yang Serupa dengan Kristus Yesus" dan Misi ESC untuk menyelamatkan jiwa-jiwa, menjadi murid Kristus yang memuridkan, serta hidup saling mengasihi (Yohanes 13:34-35), Next Step menawarkan serangkaian Tahap atau Langkah yang terarah untuk menuntun jemaat ke dalam kedewasaan rohani sesuai Visi dan Misi ESC.
+                Dengan Visi ESC "Menjadi Jemaat yang Serupa dengan Kristus Yesus" dan Misi ESC untuk menyelamatkan jiwa-jiwa, menjadi murid Kristus yang memuridkan, serta hidup saling mengasihi (Yohanes 13:34-35), Equip menawarkan serangkaian Tahap atau Langkah yang terarah untuk menuntun jemaat ke dalam kedewasaan rohani sesuai Visi dan Misi ESC.
               </p>
             </div>
             <div class="right">
@@ -607,8 +607,8 @@ $this->load->view('template/festavalive/header'); ?>
 
       <section class="musik-section">
         <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Next Step</h2>
-            <p style="font-size: 16px; color: #555;">Seluruh kelas next step</p>
+            <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Equip</h2>
+            <p style="font-size: 16px; color: #555;">Seluruh kelas Equip</p>
         </div>
         <div class="musik-container">
           <div class="musik-card">
@@ -637,22 +637,22 @@ $this->load->view('template/festavalive/header'); ?>
               <button type="button">Lebih Lanjut</button>
             </a>
           </div>
-          <div class="musik-card">
+          <!-- <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/mc.png'); ?>" alt="Deskripsi gambar">
             <h3 class="title-kelas">MEMBERSHIP CLASS</h3>
-            <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
+            
             <a href="<?= site_url('nextstep/kelas/membership_class') ?>">
               <button type="button">Lebih Lanjut</button>
             </a>
-          </div>
-          <div class="musik-card">
+          </div> -->
+          <!-- <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/vc.png'); ?>" alt="Deskripsi gambar">
             <h3 class="title-kelas">VOLUNTEER CLASS</h3>
-            <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
+            
             <a href="<?= site_url('nextstep/kelas/volunteer_class') ?>">
               <button type="button">Lebih Lanjut</button>
             </a>
-          </div>
+          </div> -->
           <div class="musik-card">
             <img src="<?php echo base_url('myesc.id/assets/gambar/gd1.png'); ?>" alt="Deskripsi gambar">
             <h3 class="title-kelas">GRADE 1</h3>
