@@ -17,7 +17,7 @@
     html, body { height: 100%; width: 100%; }
     body {
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      background: #f0f2f5;
+      background: #aaa;
       color: #111827;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -29,7 +29,7 @@
     /* ===== PAGE WRAPPER ===== */
     .page-wrapper {
       min-height: 100vh;
-      padding: 80px 0 60px;
+      padding: 190px 0 60px;
     }
 
     /* ===== MAIN CARD ===== */
@@ -455,28 +455,55 @@
           <?php if (!empty($jadwal) || !empty($rowCabang->deskripsi)) { ?>
           <div class="location-bottom">
 
-            <!-- Jadwal Ibadah -->
-            <?php if (!empty($jadwal)) { ?>
+          <!-- Jadwal Ibadah -->
+          <?php if (!empty($jadwal)) { ?>
             <div class="bottom-left">
               <div class="section-title">
                 <div class="title-icon"><i class="fas fa-calendar-check"></i></div>
                 <h3>Jadwal Ibadah</h3>
               </div>
 
-              <?php if (!empty($jadwalItems)) { ?>
-                <!-- JSON array format -->
-                <ul class="schedule-list">
-                  <?php foreach ($jadwalItems as $item) { ?>
-                  <li class="schedule-item">
-                    <span class="schedule-name"><?php echo htmlspecialchars($item['nama'] ?? $item['name'] ?? '', ENT_QUOTES) ?></span>
-                    <span class="schedule-time"><?php echo htmlspecialchars($item['waktu'] ?? $item['time'] ?? '', ENT_QUOTES) ?></span>
-                  </li>
-                  <?php } ?>
-                </ul>
-              <?php } else { ?>
-                <!-- Plain text format -->
-                <div class="desc-text"><?php echo nl2br(htmlspecialchars($jadwal, ENT_QUOTES)) ?></div>
-              <?php } ?>
+              <?php 
+              // Bersihkan HTML tags dari database
+              $jadwalClean = strip_tags($jadwal);
+              // Pisahkan per baris
+              $jadwalLines = explode("\n", $jadwalClean);
+              ?>
+
+              <ul class="schedule-list">
+                <?php 
+                foreach ($jadwalLines as $line) {
+                    $line = trim($line);
+                    if (!empty($line)) {
+                        // Regex untuk mendeteksi jam (contoh: 07.30 - 09.00 atau Pukul 07.30 - 09.00)
+                        $timePattern = '/(?:Pukul\s*)?(\d{2}\.\d{2}\s*-\s*\d{2}\.\d{2})/';
+                        preg_match($timePattern, $line, $matches);
+                        
+                        $timeDisplay = '';
+                        $nameDisplay = $line;
+
+                        if (isset($matches[1])) {
+                            $timeDisplay = $matches[1];
+                            // Hapus jam dari nama ibadah agar tidak dobel
+                            $nameDisplay = trim(preg_replace($timePattern, '', $line));
+                            // Bersihkan kata "Pukul" jika ada
+                            $nameDisplay = str_replace('Pukul', '', $nameDisplay);
+                            $nameDisplay = trim($nameDisplay);
+                        }
+                        ?>
+                        <li class="schedule-item">
+                          <span class="schedule-name"><?php echo htmlspecialchars($nameDisplay, ENT_QUOTES); ?></span>
+                          <?php if($timeDisplay): ?>
+                              <span class="schedule-time"><?php echo $timeDisplay; ?></span>
+                          <?php else: ?>
+                              <span class="schedule-time">-</span>
+                          <?php endif; ?>
+                        </li>
+                        <?php
+                    }
+                }
+                ?>
+              </ul>
             </div>
             <?php } ?>
 
