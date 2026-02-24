@@ -12,23 +12,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
-    /* ===== GLOBAL VARIABLES & RESET ===== */
+    /* ===== GLOBAL VARIABLES ===== */
     :root {
-      --primary-orange: #F59E0B; /* Warna Oranye seperti gambar */
+      --primary-orange: #F59E0B; /* Warna Oranye Kuning */
       --primary-hover: #D97706;
       --text-dark: #111827;
-      --text-gray: #6B7280;
-      --bg-light: #F3F4F6;
-      --white: #ffffff;
+      --text-gray: #4B5563;
+      --bg-page: #F3F4F6; /* Background luar abu-abu muda */
+      --bg-card: #FFFFFF;
+      --bg-item: #F9FAFB; /* Background item jadwal */
       --radius-card: 24px;
-      --radius-btn: 12px;
+      --radius-item: 12px;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
     
     body {
       font-family: 'Figtree', sans-serif;
-      background-color: var(--bg-light);
+      background-color: #aaa;
       color: var(--text-dark);
       margin: 0;
       padding: 0;
@@ -38,16 +39,16 @@
     img { max-width: 100%; height: auto; display: block; }
     a { text-decoration: none; color: inherit; transition: 0.3s; }
 
-    /* ===== LAYOUT WRAPPER ===== */
+    /* ===== MAIN CONTAINER ===== */
     .page-wrapper {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 40px auto;
       padding: 0 20px;
     }
 
-    /* ===== MAIN CARD DESIGN ===== */
-    .profile-card {
-      background: var(--white);
+    /* ===== CARD DESIGN ===== */
+    .main-card {
+      background: var(--bg-card);
       border-radius: var(--radius-card);
       box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
       overflow: hidden;
@@ -55,7 +56,7 @@
       flex-direction: column;
     }
 
-    /* ===== TOP SECTION (Image + Profile Info) ===== */
+    /* ===== TOP SECTION (Image Left, Info Right) ===== */
     .top-section {
       display: flex;
       flex-wrap: wrap;
@@ -64,7 +65,7 @@
 
     /* Left: Gallery */
     .gallery-col {
-      flex: 1 1 400px;
+      flex: 1 1 400px; /* Responsive flex basis */
       position: relative;
       background: #000;
       min-height: 400px;
@@ -92,23 +93,24 @@
       object-fit: cover;
     }
 
-    /* Custom Owl Nav */
+    /* Custom Owl Nav (Simple Arrows) */
     .gallery-col .owl-nav button {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255,255,255,0.8) !important;
+      background: rgba(255,255,255,0.9) !important;
       width: 40px;
       height: 40px;
       border-radius: 50%;
       color: var(--text-dark) !important;
-      font-size: 18px;
+      font-size: 16px;
       transition: 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .gallery-col .owl-nav button:hover { background: #fff !important; }
+    .gallery-col .owl-nav button:hover { background: #fff !important; transform: translateY(-50%) scale(1.1); }
     .gallery-col .owl-prev { left: 20px; }
     .gallery-col .owl-next { right: 20px; }
     
@@ -132,24 +134,24 @@
     /* Right: Profile Info */
     .profile-col {
       flex: 1 1 400px;
-      padding: 40px;
+      padding: 50px 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
     .section-label {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       color: var(--primary-orange);
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .church-title {
-      font-size: 32px;
-      font-weight: 700;
+      font-size: 34px;
+      font-weight: 800;
       color: var(--text-dark);
       margin: 0 0 30px 0;
       line-height: 1.2;
@@ -158,7 +160,7 @@
     .info-list {
       list-style: none;
       padding: 0;
-      margin: 0 0 30px 0;
+      margin: 0 0 35px 0;
     }
 
     .info-item {
@@ -173,13 +175,14 @@
       color: var(--primary-orange);
       margin-right: 16px;
       flex-shrink: 0;
-      margin-top: 2px;
+      margin-top: 3px;
+      font-size: 18px;
     }
 
     .info-content h4 {
       margin: 0 0 4px 0;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
       color: var(--text-dark);
     }
 
@@ -187,28 +190,28 @@
       margin: 0;
       font-size: 15px;
       color: var(--text-gray);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .action-area {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     .btn-route {
       background-color: var(--primary-orange);
       color: white;
-      padding: 12px 24px;
-      border-radius: var(--radius-btn);
+      padding: 12px 28px;
+      border-radius: 12px;
       font-weight: 600;
       font-size: 14px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       transition: 0.3s;
-      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
     }
     .btn-route:hover {
       background-color: var(--primary-hover);
@@ -218,31 +221,32 @@
 
     .social-btns {
       display: flex;
-      gap: 10px;
+      gap: 12px;
     }
     .social-btn {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       background: #F3F4F6;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--text-dark);
-      font-size: 18px;
+      font-size: 20px;
       transition: 0.3s;
     }
     .social-btn:hover {
       background: var(--text-dark);
       color: white;
+      transform: translateY(-2px);
     }
 
     /* ===== BOTTOM SECTION (Schedule + Desc) ===== */
     .bottom-section {
       display: flex;
       flex-wrap: wrap;
-      padding: 40px;
-      gap: 40px;
+      padding: 50px 40px;
+      gap: 50px;
     }
 
     .bottom-col {
@@ -252,23 +256,23 @@
     .section-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
     .section-header i {
       color: var(--primary-orange);
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .section-header h3 {
       margin: 0;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       color: var(--text-dark);
     }
 
-    /* Schedule List Styling */
+    /* Schedule List Styling - Exact Match */
     .schedule-list {
       list-style: none;
       padding: 0;
@@ -276,19 +280,20 @@
     }
 
     .schedule-item {
-      background: #F9FAFB;
-      border: 1px solid #F3F4F6;
-      padding: 16px 20px;
-      border-radius: 12px;
-      margin-bottom: 12px;
+      background: var(--bg-item);
+      padding: 18px 24px;
+      border-radius: var(--radius-item);
+      margin-bottom: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: 0.2s;
+      border: 1px solid transparent;
     }
     .schedule-item:hover {
-      border-color: var(--primary-orange);
-      background: #FFFBEB;
+      border-color: rgba(245, 158, 11, 0.3);
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
 
     .schedule-name {
@@ -301,32 +306,33 @@
       font-weight: 700;
       color: var(--primary-orange);
       font-size: 14px;
-      background: rgba(245, 158, 11, 0.1);
-      padding: 4px 10px;
-      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.08); /* Light orange bg */
+      padding: 6px 12px;
+      border-radius: 8px;
     }
 
     /* Description Text */
     .desc-text {
       color: var(--text-gray);
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.8;
       text-align: justify;
     }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .page-wrapper { margin: 20px auto; padding: 0 15px; }
+    @media (max-width: 900px) {
       .top-section { flex-direction: column; }
-      .gallery-col { min-height: 250px; }
-      .gallery-col .item { height: 250px; }
-      .profile-col { padding: 30px 20px; }
-      .bottom-section { padding: 30px 20px; flex-direction: column; gap: 30px; }
-      .church-title { font-size: 24px; }
+      .gallery-col { min-height: 300px; }
+      .gallery-col .item { height: 300px; }
+      .profile-col { padding: 40px 30px; }
     }
 
-    /* Utility for old code compatibility if needed */
-    .hidden { display: none; }
+    @media (max-width: 768px) {
+      .page-wrapper { margin: 20px auto; padding: 0 15px; }
+      .bottom-section { padding: 30px 20px; flex-direction: column; gap: 40px; }
+      .church-title { font-size: 26px; }
+      .profile-col { padding: 30px 20px; }
+    }
   </style>
 
   <main>
@@ -334,7 +340,7 @@
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
     <div class="page-wrapper">
-      <div class="profile-card">
+      <div class="main-card">
         
         <!-- TOP ROW: Image & Profile Info -->
         <div class="top-section">
@@ -420,9 +426,6 @@
                 <?php if (!empty($rowCabang->urlfacebook)) { ?>
                   <a href="<?php echo $rowCabang->urlfacebook ?>" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
                 <?php } ?>
-                <?php if (!empty($rowCabang->urltwitter)) { ?>
-                  <a href="<?php echo $rowCabang->urltwitter ?>" target="_blank" class="social-btn"><i class="fab fa-twitter"></i></a>
-                <?php } ?>
               </div>
             </div>
           </div>
@@ -439,37 +442,40 @@
             </div>
             
             <div class="schedule-list">
-              <!-- 
-                 CATATAN: Karena database Anda menyimpan jadwal dalam satu field teks ($rowCabang->jadwalibadah),
-                 saya menampilkannya di sini. Agar mirip gambar, idealnya data di database dipisah per baris.
-                 Jika data di database sudah berisi HTML <br> atau list, ini akan muncul rapi.
-              -->
-              <?php 
-                // Contoh hardcoded sesuai gambar jika data database kosong atau ingin dipaksa tampil seperti gambar:
-                // Hapus komentar di bawah jika ingin硬coding tampilan seperti gambar referensi
-                /*
-                ?>
-                <div class="schedule-item">
-                  <span class="schedule-name">Ibadah Raya 1</span>
-                  <span class="schedule-time">07.30 - 09.00</span>
-                </div>
-                <div class="schedule-item">
-                  <span class="schedule-name">Ibadah Raya 2</span>
-                  <span class="schedule-time">10.30 - 12.00</span>
-                </div>
-                <div class="schedule-item">
-                  <span class="schedule-name">Ibadah Raya 3</span>
-                  <span class="schedule-time">16.00 - 17.30</span>
-                </div>
-                <div class="schedule-item">
-                  <span class="schedule-name">Ibadah Raya 4</span>
-                  <span class="schedule-time">19.00 - 21.00</span>
-                </div>
-                <?php 
-                */
-                
-                // Tampilan Dinamis dari Database
-                echo '<div style="color:var(--text-gray); line-height:1.6;">' . nl2br($rowCabang->jadwalibadah) . '</div>';
+              <?php
+              // Ambil data jadwal dari database
+              $jadwalText = $rowCabang->jadwalibadah;
+              
+              // Pisahkan teks berdasarkan baris baru (Enter)
+              $jadwalLines = explode("\n", $jadwalText);
+
+              foreach ($jadwalLines as $line) {
+                  $line = trim($line); // Hapus spasi berlebih
+                  if (!empty($line)) {
+                      // Opsional: Coba pisahkan Jam secara otomatis jika ada pola angka
+                      // Regex ini mencari pola jam seperti 07.30 - 09.00
+                      $timePattern = '/(\d{2}\.\d{2}\s*-\s*\d{2}\.\d{2})/';
+                      preg_match($timePattern, $line, $matches);
+                      
+                      $timeDisplay = '';
+                      $nameDisplay = $line;
+
+                      if (isset($matches[1])) {
+                          $timeDisplay = $matches[1];
+                          // Hapus jam dari nama ibadah agar tidak dobel
+                          $nameDisplay = trim(preg_replace($timePattern, '', $line));
+                      }
+                      ?>
+                      <!-- Tampilan Kotak Jadwal -->
+                      <div class="schedule-item">
+                          <span class="schedule-name"><?php echo $nameDisplay; ?></span>
+                          <?php if($timeDisplay): ?>
+                              <span class="schedule-time"><?php echo $timeDisplay; ?></span>
+                          <?php endif; ?>
+                      </div>
+                      <?php
+                  }
+              }
               ?>
             </div>
           </div>
@@ -485,7 +491,8 @@
               <?php if (!empty($rowCabang->deskripsi)) { 
                   echo $rowCabang->deskripsi; 
               } else { ?>
-                <p>GBI El Shaddai Pontianak adalah tempat di mana perjalanan pelayanan El Shaddai dimulai dan terus berkembang. Kami mengundang Anda untuk bergabung bersama kami dalam ibadah setiap hari Minggu.</p>
+                <p>GBI El Shaddai Pontianak adalah tempat di mana perjalanan pelayanan El Shaddai dimulai dan terus berkembang sejak tahun 2009. Lokasi ini digembalakan oleh Ps. Yehezkiel Wilan dan Ps. Sandra.</p>
+                <p>Visi kami adalah membawa kemuliaan Tuhan ke seluruh kota melalui ibadah yang transformatif, komunitas yang sehat, dan pelayanan yang berdampak. Kami mengundang Anda untuk bergabung bersama kami dalam ibadah setiap hari Minggu.</p>
               <?php } ?>
             </div>
           </div>
@@ -495,9 +502,8 @@
       </div>
     </div>
 
-    <!-- Sidebar List Cabang (Fungsi Asli Dipertahankan tapi disembunyikan secara visual agar sesuai desain kartu, 
-         atau bisa dimunculkan di bawah jika diperlukan) -->
-    <div class="hidden">
+    <!-- Hidden List for AJAX Logic (Fungsi Asli Dipertahankan) -->
+    <div style="display:none;">
         <div id="divContentCabang">
           <ul id="ulCabang" class="ulCabang"></ul>
         </div>
@@ -518,15 +524,13 @@
     $(document).ready(function() {
       // Synced Carousel Logic (Dipertahankan)
       var sync1 = $("#sync1");
-      var sync2 = $("#sync2"); // Note: sync2 thumbnails dihapus dari HTML atas agar lebih clean seperti gambar, 
-                               // tapi script ini tetap ada jika Anda ingin mengaktifkannya kembali nanti.
       
       // Inisialisasi Sync1 (Main Image)
       sync1.owlCarousel({
         items: 1,
         slideSpeed: 600,
         nav: true,
-        center: false, // Diubah false agar full width
+        center: false, 
         autoplay: true,
         dots: true,
         loop: true,
