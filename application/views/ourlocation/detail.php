@@ -140,7 +140,7 @@
     }
 
     .location-name {
-      font-size: 2rem;
+      font-size: 1rem;
       font-weight: 800;
       color: #0f172a;
       line-height: 1.15;
