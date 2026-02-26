@@ -6,67 +6,70 @@ class DcmemberprogressApi extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         header("Content-Type: application/json");
-        $this->load->model('DcmemberprogressModel');
     }
 
     public function index()
     {
         $iddc = $this->input->get('iddc');
 
-        if (empty($iddc)) {
+        if (!$iddc) {
             echo json_encode([
                 "status" => false,
-                "message" => "IDDC tidak ditemukan"
+                "message" => "iddc wajib diisi"
             ]);
             return;
         }
 
-        $members = $this->DcmemberprogressModel->get_member_only($iddc);
+        // 🔥 Ambil langsung dari view seperti API daftar member
+        $members = $this->db
+            ->where('iddc', $iddc)
+            ->where("statuskeanggotaan !=", "Disciples Maker") // samakan persis dengan isi DB
+            ->order_by('namalengkap', 'ASC')
+            ->get('v_dcmember')
+            ->result();
 
         $result = [];
 
-        foreach ($members->result() as $row) {
+        foreach ($members as $row) {
 
             // FOTO
-            if (!empty($row->foto)) {
-                $foto = base_url('../admin/uploads/jemaat/' . $row->foto);
-            } else {
-                $foto = base_url('images/user-01.png');
-            }
+            $foto = !empty($row->foto)
+                ? base_url('../admin/uploads/jemaat/' . $row->foto)
+                : base_url('images/user-01.png');
 
-            // Ambil rating terakhir
-            $rating = $this->db->select('nilairatarata')
-                ->from('dcmember_progress')
+            // 🔥 Ambil rating terakhir
+            $rating = $this->db
+                ->select('nilairatarata')
                 ->where('iddcmember', $row->iddcmember)
-                ->order_by('tglprogress', 'desc')
+                ->order_by('idprogress', 'DESC')
                 ->limit(1)
-                ->get()
+                ->get('dcmember_progress')
                 ->row();
 
-            $avg = !empty($rating->nilairatarata)
+            $avg = ($rating && $rating->nilairatarata)
                 ? floatval($rating->nilairatarata)
                 : 0;
 
             $percentage = ($avg / 4) * 100;
 
             $result[] = [
-                "iddcmember" => $row->iddcmember,
-                "namalengkap" => $row->namalengkap,
-                "statuskeanggotaan" => $row->statuskeanggotaan,
-                "jeniskelamin" => $row->jeniskelamin,
-                "umur" => $row->umur,
-                "foto" => $foto,
-                "avg_rating" => round($avg, 1),
-                "percentage" => round($percentage, 1),
-                "has_rating" => $avg > 0 ? true : false
+                "iddcmember"       => $row->iddcmember,
+                "namalengkap"      => $row->namalengkap,
+                "statuskeanggotaan"=> $row->statuskeanggotaan,
+                "jeniskelamin"     => $row->jeniskelamin,
+                "umur"             => $row->umur,
+                "foto"             => $foto,
+                "avg_rating"       => round($avg, 1),
+                "percentage"       => round($percentage, 1),
+                "has_rating"       => $avg > 0
             ];
         }
 
         echo json_encode([
             "status" => true,
-            "data" => $result
+            "total"  => count($result),
+            "data"   => $result
         ]);
     }
 }
