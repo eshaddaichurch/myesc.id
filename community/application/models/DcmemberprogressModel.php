@@ -11,7 +11,7 @@ class DcmemberprogressModel extends CI_Model
     }
 
 
-    public function get_member_only()
+    public function get_member_only($iddc)
     {
         $this->db->where('iddc', $this->session->userdata('iddc'));
         $this->db->where('statuskeanggotaan <>' , 'Disciples maker');
