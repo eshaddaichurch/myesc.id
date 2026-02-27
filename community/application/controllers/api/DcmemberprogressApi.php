@@ -126,16 +126,39 @@ class DcmemberprogressApi extends CI_Controller
             return;
         }
 
-        $riwayat = $this->db
+        $progress = $this->db
             ->where('iddcmember', $iddcmember)
-            ->order_by('tglprogress', 'DESC')
+            ->order_by('idprogress', 'DESC')
             ->get('dcmember_progress')
             ->result();
 
+        $result = [];
+
+        foreach ($progress as $row) {
+
+            // ambil detail penilaian
+            $detail = $this->db
+                ->select('k.namakategori, p.pertanyaan, d.nilai')
+                ->from('dcmember_progress_det d')
+                ->join('pertanyaanprogressdcm p', 'p.idpertanyaan = d.idpertanyaan')
+                ->join('pertanyaanprogresskategori k', 'k.idkategori = p.idkategori')
+                ->where('d.idprogress', $row->idprogress)
+                ->order_by('k.idkategori ASC, p.idpertanyaan ASC')
+                ->get()
+                ->result();
+
+            $result[] = [
+                "idprogress"      => $row->idprogress,
+                "tglprogress"     => $row->tglprogress,
+                "nilairatarata"   => floatval($row->nilairatarata),
+                "detail"          => $detail
+            ];
+        }
+
         echo json_encode([
             "status" => true,
-            "total"  => count($riwayat),
-            "data"   => $riwayat
+            "total"  => count($result),
+            "data"   => $result
         ]);
     }
 
