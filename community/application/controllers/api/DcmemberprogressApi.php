@@ -169,10 +169,11 @@ class DcmemberprogressApi extends CI_Controller
     {
         $input = json_decode(file_get_contents("php://input"), true);
 
-        $iddcmember   = $input['iddcmember'] ?? null;
-        $iddc         = $input['iddc'] ?? null;
-        $idjemaatdm   = $input['idjemaatdm'] ?? null;
-        $nilairatarata= $input['nilairatarata'] ?? null;
+        $iddcmember    = $input['iddcmember'] ?? null;
+        $iddc          = $input['iddc'] ?? null;
+        $idjemaatdm    = $input['idjemaatdm'] ?? null;
+        $nilairatarata = $input['nilairatarata'] ?? null;
+        $detail        = $input['detail'] ?? [];
 
         if (!$iddcmember || !$iddc || !$idjemaatdm || !$nilairatarata) {
             echo json_encode([
@@ -182,19 +183,34 @@ class DcmemberprogressApi extends CI_Controller
             return;
         }
 
+        $this->db->trans_start();
+
+        // 1️⃣ Insert master progress
         $data = [
-            "iddcmember"     => $iddcmember,
-            "iddc"           => $iddc,
-            "idjemaatdm"     => $idjemaatdm,
-            "nilairatarata"  => $nilairatarata,
-            "tglprogress"    => date('Y-m-d H:i:s'),
-            "tglinsert"      => date('Y-m-d H:i:s')
+            "iddcmember"    => $iddcmember,
+            "iddc"          => $iddc,
+            "idjemaatdm"    => $idjemaatdm,
+            "nilairatarata" => $nilairatarata,
+            "tglprogress"   => date('Y-m-d H:i:s'),
+            "tglinsert"     => date('Y-m-d H:i:s')
         ];
 
-        $insert = $this->db->insert('dcmember_progress', $data);
+        $this->db->insert('dcmember_progress', $data);
+        $idprogress = $this->db->insert_id();
+
+        // 2️⃣ Insert detail pertanyaan
+        foreach ($detail as $row) {
+            $this->db->insert('dcmember_progress_det', [
+                "idprogress"   => $idprogress,
+                "idpertanyaan" => $row['idpertanyaan'],
+                "nilai"        => $row['nilai']
+            ]);
+        }
+
+        $this->db->trans_complete();
 
         echo json_encode([
-            "status" => $insert ? true : false
+            "status" => $this->db->trans_status()
         ]);
     }
 
