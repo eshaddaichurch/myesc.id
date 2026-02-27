@@ -7,6 +7,7 @@ class DcmemberprogressApi extends CI_Controller
     {
         parent::__construct();
         header("Content-Type: application/json");
+        $this->load->model('DcmemberprogressModel');
     }
 
     // =========================================
@@ -88,12 +89,9 @@ class DcmemberprogressApi extends CI_Controller
             return;
         }
 
-        $member = $this->db
-            ->where('iddcmember', $iddcmember)
-            ->get('v_dcmember')
-            ->row();
+        $rowDCM = $this->DcmemberprogressModel->get_by_id($iddcmember);
 
-        if (!$member) {
+        if ($rowDCM->num_rows() < 1) {
             echo json_encode([
                 "status" => false,
                 "message" => "Data tidak ditemukan"
@@ -101,10 +99,8 @@ class DcmemberprogressApi extends CI_Controller
             return;
         }
 
-        $pertanyaan = $this->db
-            ->order_by('urutan', 'ASC')
-            ->get('dcmember_pertanyaan')
-            ->result();
+        $member = $rowDCM->row();
+        $pertanyaan = $this->DcmemberprogressModel->get_pertanyaan();
 
         echo json_encode([
             "status" => true,
