@@ -100,7 +100,9 @@ class DcmemberprogressApi extends CI_Controller
         }
 
         $member = $rowDCM->row();
-        $pertanyaan = $this->DcmemberprogressModel->get_pertanyaan();
+        $pertanyaan = $this->DcmemberprogressModel
+                            ->get_pertanyaan()
+                            ->result();
 
         echo json_encode([
             "status" => true,
