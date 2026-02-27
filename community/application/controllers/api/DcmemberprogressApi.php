@@ -167,51 +167,35 @@ class DcmemberprogressApi extends CI_Controller
     // =========================================
     public function simpan()
     {
-        $input = json_decode(file_get_contents("php://input"), true);
+        $data = $this->request->getJSON(true);
 
-        $iddcmember    = $input['iddcmember'] ?? null;
-        $iddc          = $input['iddc'] ?? null;
-        $idjemaatdm    = $input['idjemaatdm'] ?? null;
-        $nilairatarata = $input['nilairatarata'] ?? null;
-        $detail        = $input['detail'] ?? [];
+        $iddcmember = $data['iddcmember'];
+        $iddc = $data['iddc'];
+        $idjemaatdm = $data['idjemaatdm'];
+        $nilairatarata = $data['nilairatarata'];
+        $detail = $data['detail'];
 
-        if (!$iddcmember || !$iddc || !$idjemaatdm || !$nilairatarata) {
-            echo json_encode([
-                "status" => false,
-                "message" => "Data tidak lengkap"
-            ]);
-            return;
-        }
-
-        $this->db->trans_start();
-
-        // 1️⃣ Insert master progress
-        $data = [
-            "iddcmember"    => $iddcmember,
-            "iddc"          => $iddc,
-            "idjemaatdm"    => $idjemaatdm,
-            "nilairatarata" => $nilairatarata,
-            "tglprogress"   => date('Y-m-d H:i:s'),
-            "tglinsert"     => date('Y-m-d H:i:s')
-        ];
-
-        $this->db->insert('dcmember_progress', $data);
-        $idprogress = $this->db->insert_id();
-
-        // 2️⃣ Insert detail pertanyaan
-        foreach ($detail as $row) {
-            $this->db->insert('dcmember_progress_det', [
-                "idprogress"   => $idprogress,
-                "idpertanyaan" => $row['idpertanyaan'],
-                "nilai"        => $row['nilai']
-            ]);
-        }
-
-        $this->db->trans_complete();
-
-        echo json_encode([
-            "status" => $this->db->trans_status()
+        // Insert header
+        $this->progressModel->insert([
+            'iddcmember' => $iddcmember,
+            'iddc' => $iddc,
+            'idjemaatdm' => $idjemaatdm,
+            'nilairatarata' => $nilairatarata,
+            'tglprogress' => date('Y-m-d H:i:s')
         ]);
+
+        $idprogress = $this->progressModel->getInsertID();
+
+        // 🔥 Insert detail
+        foreach ($detail as $d) {
+            $this->progressDetModel->insert([
+                'idprogress' => $idprogress,
+                'idpertanyaan' => $d['idpertanyaan'],
+                'nilai' => $d['nilai']
+            ]);
+        }
+
+        return $this->response->setJSON(['status' => true]);
     }
 
     // =========================================
