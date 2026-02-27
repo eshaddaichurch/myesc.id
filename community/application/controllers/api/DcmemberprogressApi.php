@@ -11,7 +11,7 @@ class DcmemberprogressApi extends CI_Controller
     }
 
     // =========================================
-    // 1️⃣ LIST MEMBER (SUDAH BENAR - TIDAK DIUBAH)
+    // 1️⃣ LIST MEMBER
     // =========================================
     public function index()
     {
@@ -136,7 +136,6 @@ class DcmemberprogressApi extends CI_Controller
 
         foreach ($progress as $row) {
 
-            // ambil detail penilaian
             $detail = $this->db
                 ->select('k.namakategori, p.pertanyaan, d.nilai')
                 ->from('dcmember_progress_det d')
@@ -163,39 +162,60 @@ class DcmemberprogressApi extends CI_Controller
     }
 
     // =========================================
-    // 4️⃣ SIMPAN PROGRESS
+    // 4️⃣ SIMPAN PROGRESS (FIX JSON CI3)
     // =========================================
     public function simpan()
     {
-        $data = $this->request->getJSON(true);
+        $data = json_decode(file_get_contents("php://input"), true);
 
-        $iddcmember = $data['iddcmember'];
-        $iddc = $data['iddc'];
-        $idjemaatdm = $data['idjemaatdm'];
-        $nilairatarata = $data['nilairatarata'];
-        $detail = $data['detail'];
-
-        // Insert header
-        $this->progressModel->insert([
-            'iddcmember' => $iddcmember,
-            'iddc' => $iddc,
-            'idjemaatdm' => $idjemaatdm,
-            'nilairatarata' => $nilairatarata,
-            'tglprogress' => date('Y-m-d H:i:s')
-        ]);
-
-        $idprogress = $this->progressModel->getInsertID();
-
-        // 🔥 Insert detail
-        foreach ($detail as $d) {
-            $this->progressDetModel->insert([
-                'idprogress' => $idprogress,
-                'idpertanyaan' => $d['idpertanyaan'],
-                'nilai' => $d['nilai']
+        if (!$data) {
+            echo json_encode([
+                "status" => false,
+                "message" => "Invalid JSON"
             ]);
+            return;
         }
 
-        return $this->response->setJSON(['status' => true]);
+        $iddcmember     = $data['iddcmember'] ?? null;
+        $iddc           = $data['iddc'] ?? null;
+        $idjemaatdm     = $data['idjemaatdm'] ?? null;
+        $nilairatarata  = $data['nilairatarata'] ?? 0;
+        $detail         = $data['detail'] ?? [];
+
+        if (!$iddcmember || !$iddc || !$idjemaatdm) {
+            echo json_encode([
+                "status" => false,
+                "message" => "Data tidak lengkap"
+            ]);
+            return;
+        }
+
+        // Insert Header
+        $this->db->insert('dcmember_progress', [
+            'iddcmember'   => $iddcmember,
+            'iddc'         => $iddc,
+            'idjemaatdm'   => $idjemaatdm,
+            'nilairatarata'=> $nilairatarata,
+            'tglprogress'  => date('Y-m-d H:i:s')
+        ]);
+
+        $idprogress = $this->db->insert_id();
+
+        // Insert Detail
+        if (!empty($detail)) {
+            foreach ($detail as $d) {
+                $this->db->insert('dcmember_progress_det', [
+                    'idprogress'   => $idprogress,
+                    'idpertanyaan' => $d['idpertanyaan'],
+                    'nilai'        => $d['nilai']
+                ]);
+            }
+        }
+
+        echo json_encode([
+            "status" => true,
+            "message" => "Progress berhasil disimpan"
+        ]);
     }
 
     // =========================================
@@ -213,9 +233,8 @@ class DcmemberprogressApi extends CI_Controller
             return;
         }
 
-        $delete = $this->db
-            ->where('iddcmember', $iddcmember)
-            ->delete('dcmember_progress');
+        $this->db->where('iddcmember', $iddcmember);
+        $delete = $this->db->delete('dcmember_progress');
 
         echo json_encode([
             "status" => $delete ? true : false
