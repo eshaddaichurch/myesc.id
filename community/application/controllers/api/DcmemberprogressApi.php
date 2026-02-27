@@ -9,6 +9,9 @@ class DcmemberprogressApi extends CI_Controller
         header("Content-Type: application/json");
     }
 
+    // =========================================
+    // 1️⃣ LIST MEMBER (SUDAH BENAR - TIDAK DIUBAH)
+    // =========================================
     public function index()
     {
         $iddc = $this->input->get('iddc');
@@ -21,10 +24,9 @@ class DcmemberprogressApi extends CI_Controller
             return;
         }
 
-        // 🔥 Ambil langsung dari view seperti API daftar member
         $members = $this->db
             ->where('iddc', $iddc)
-            ->where("statuskeanggotaan !=", "Disciples Maker") // samakan persis dengan isi DB
+            ->where("statuskeanggotaan !=", "Disciples Maker")
             ->order_by('namalengkap', 'ASC')
             ->get('v_dcmember')
             ->result();
@@ -33,12 +35,10 @@ class DcmemberprogressApi extends CI_Controller
 
         foreach ($members as $row) {
 
-            // FOTO
             $foto = !empty($row->foto)
                 ? base_url('../admin/uploads/jemaat/' . $row->foto)
                 : base_url('images/user-01.png');
 
-            // 🔥 Ambil rating terakhir
             $rating = $this->db
                 ->select('nilairatarata')
                 ->where('iddcmember', $row->iddcmember)
@@ -70,6 +70,134 @@ class DcmemberprogressApi extends CI_Controller
             "status" => true,
             "total"  => count($result),
             "data"   => $result
+        ]);
+    }
+
+    // =========================================
+    // 2️⃣ DETAIL MEMBER + PERTANYAAN
+    // =========================================
+    public function detail()
+    {
+        $iddcmember = $this->input->get('iddcmember');
+
+        if (!$iddcmember) {
+            echo json_encode([
+                "status" => false,
+                "message" => "iddcmember wajib diisi"
+            ]);
+            return;
+        }
+
+        $member = $this->db
+            ->where('iddcmember', $iddcmember)
+            ->get('v_dcmember')
+            ->row();
+
+        if (!$member) {
+            echo json_encode([
+                "status" => false,
+                "message" => "Data tidak ditemukan"
+            ]);
+            return;
+        }
+
+        $pertanyaan = $this->db
+            ->order_by('urutan', 'ASC')
+            ->get('dcmember_pertanyaan')
+            ->result();
+
+        echo json_encode([
+            "status" => true,
+            "member" => $member,
+            "pertanyaan" => $pertanyaan
+        ]);
+    }
+
+    // =========================================
+    // 3️⃣ RIWAYAT PROGRESS
+    // =========================================
+    public function riwayat()
+    {
+        $iddcmember = $this->input->get('iddcmember');
+
+        if (!$iddcmember) {
+            echo json_encode([
+                "status" => false,
+                "message" => "iddcmember wajib diisi"
+            ]);
+            return;
+        }
+
+        $riwayat = $this->db
+            ->where('iddcmember', $iddcmember)
+            ->order_by('tglprogress', 'DESC')
+            ->get('dcmember_progress')
+            ->result();
+
+        echo json_encode([
+            "status" => true,
+            "total"  => count($riwayat),
+            "data"   => $riwayat
+        ]);
+    }
+
+    // =========================================
+    // 4️⃣ SIMPAN PROGRESS
+    // =========================================
+    public function simpan()
+    {
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        $iddcmember   = $input['iddcmember'] ?? null;
+        $iddc         = $input['iddc'] ?? null;
+        $idjemaatdm   = $input['idjemaatdm'] ?? null;
+        $nilairatarata= $input['nilairatarata'] ?? null;
+
+        if (!$iddcmember || !$iddc || !$idjemaatdm || !$nilairatarata) {
+            echo json_encode([
+                "status" => false,
+                "message" => "Data tidak lengkap"
+            ]);
+            return;
+        }
+
+        $data = [
+            "iddcmember"     => $iddcmember,
+            "iddc"           => $iddc,
+            "idjemaatdm"     => $idjemaatdm,
+            "nilairatarata"  => $nilairatarata,
+            "tglprogress"    => date('Y-m-d H:i:s'),
+            "tglinsert"      => date('Y-m-d H:i:s')
+        ];
+
+        $insert = $this->db->insert('dcmember_progress', $data);
+
+        echo json_encode([
+            "status" => $insert ? true : false
+        ]);
+    }
+
+    // =========================================
+    // 5️⃣ DELETE PROGRESS
+    // =========================================
+    public function delete()
+    {
+        $iddcmember = $this->input->post('iddcmember');
+
+        if (!$iddcmember) {
+            echo json_encode([
+                "status" => false,
+                "message" => "iddcmember wajib diisi"
+            ]);
+            return;
+        }
+
+        $delete = $this->db
+            ->where('iddcmember', $iddcmember)
+            ->delete('dcmember_progress');
+
+        echo json_encode([
+            "status" => $delete ? true : false
         ]);
     }
 }
