@@ -1,18 +1,75 @@
 <?php $this->load->view('template/festavalive/header'); ?>
-
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+  @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
+  @import url(' https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  /* Vars CSS (simulasi SCSS) */
+  :root {
+    --main-green: #79dd09;
+    --main-green-rgb-015: rgba(121, 221, 9, 0.1);
+    --main-yellow: #bdbb49;
+    --main-yellow-rgb-015: rgba(189, 187, 73, 0.1);
+    --main-red: #bd150b;
+    --main-red-rgb-015: rgba(189, 21, 11, 0.1);
+    --main-blue: #0076bd;
+    --main-blue-rgb-015: rgba(0, 118, 189, 0.1);
+  }
 
-body {
-  font-family: 'Figtree', sans-serif;
-  padding-top: 60px;
-}
+  /* Breadcrumbs */
+  .breadcrumbs {
+    padding: 140px 0 60px 0;
+    min-height: 30vh;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 2rem;
+  }
+  .breadcrumbs::before {
+    content: "";
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    inset: 0;
+  }
+  .breadcrumbs h2 {
+    font-size: 56px;
+    font-weight: 500;
+    color: #fff;
+    font-family: sans-serif;
+  }
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0 0 10px 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--main-blue);
+  }
+  .breadcrumbs ol a {
+    color: rgba(255, 255, 255, 0.8);
+    transition: 0.3s;
+  }
+  .breadcrumbs ol a:hover {
+    text-decoration: underline;
+  }
+  .breadcrumbs ol li + li {
+    padding-left: 10px;
+  }
+  .breadcrumbs ol li + li::before {
+    display: inline-block;
+    padding-right: 10px;
+    color: #fff;
+    content: "/";
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
 
 /* ================= HERO SECTION ================= */
 
@@ -127,17 +184,20 @@ body {
 
 <div class="generosity-hero">
   <div class="hero-content">
-    <h1>Generosity</h1>
+    <h1>Giving</h1>
     <p class="subtitle">
-      Give online quickly, easily and securely using your mobile number or email address.
+      Donasi secara online dengan cepat, mudah dan aman menggunakan nomor telepon atau alamat email Anda.
     </p>
     <p class="choose">
-      Please choose where you would like to give.
+      Silakan pilih tempat Anda ingin memberikan.
     </p>
 
     <div class="region-grid">
       <a href="<?= base_url('persepuluhan'); ?>" class="region-btn">PERSEPULUHAN</a>
       <a href="<?= base_url('pembangunan'); ?>" class="region-btn">PEMBANGUNAN</a>
+      <a href="<?= base_url('persembahan'); ?>" class="region-btn">PERSEMBAHAN PERTAMA</a>
+      <a href="<?= base_url('persembahan'); ?>" class="region-btn">PERSEMBAHAN KEDUA</a>
+      <a href="<?= base_url('persembahan'); ?>" class="region-btn">YAYASAN YESAYA 58</a>
       <a href="<?= base_url('persembahan'); ?>" class="region-btn">PERSEMBAHAN</a>
     </div>
   </div>
