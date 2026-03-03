@@ -11,7 +11,7 @@
 
 body {
   font-family: 'Figtree', sans-serif;
-  background: #f3f4f6;
+  background: #aaa;
 }
 
 /* ================= SECTION ================= */
