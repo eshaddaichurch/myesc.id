@@ -10,24 +10,22 @@ class Give extends CI_Controller {
 		// $this->load->model('Ourlocation_model');
 	}
 
-	public function index($idmenu = null)
+	public function index()
 	{
-		$data['title']= 'GIVE';
-		if ($idmenu !== null) {
-			$idmenu = $this->encrypt->decode($idmenu);
-			$data['menu'] = $idmenu;
-		} else {
-			$data['menu'] = '';
-		}
-		$data["rowinfogereja"] = $this->Home_model->get_infogereja();	
-		$this->load->view('give/giving',$data);
+		$data['title'] = 'GIVE';
+		$data['menu']  = 'give'; // tambahkan ini
+		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
+		$this->load->view('give/giving', $data);
 	}
 
-	// halaman detail dinamis
 	public function page($slug = null)
 	{
+		if (!$slug) {
+			show_404();
+		}
 
 		$data['title'] = strtoupper($slug);
+		$data['menu']  = 'give'; // tambahkan ini juga
 		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
 
 		$view_path = 'give/' . $slug;
