@@ -178,8 +178,8 @@ body {
 }
 
 .badge-bank {
-  background: #fed7aa;
-  color: #9a3412;
+  background: #ff5008;
+  color: #fff;
   padding: 3px 8px;
   border-radius: 6px;
   font-size: 12px;
@@ -187,7 +187,7 @@ body {
 }
 
 .btn-copy {
-  background: #e5e7eb;
+  background: #ff5008;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
@@ -200,13 +200,33 @@ body {
   margin-top: 40px;
   padding: 20px;
   background: #fff7ed;
-  border: 1px solid #fdba74;
+  border: 1px solid #ff5008;
   border-radius: 14px;
 }
 
+
+.confirm-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+
+.confirm-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .confirm-box strong {
-  display: block;
-  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.confirm-box p {
+  margin: 0;
+  color: #000;
+  line-height: 1.6;
 }
 
 /* ================= RESPONSIVE ================= */
@@ -288,11 +308,29 @@ body {
       <button class="btn-copy" onclick="copyToClipboard('706143575600')">Copy</button>
     </div>
 
-    <!-- CONFIRMATION -->
+   <!-- CONFIRMATION -->
     <div class="confirm-box">
-      <strong>Konfirmasi</strong>
-      Jika Saudara ingin mendapatkan bukti transfer dengan nama pengirim, Khusus untuk Persepuluhan dan pembangunan,
-    silahkan transfer menggunakan nomor rekening(bukan scan QR Code).
+    
+    <div class="confirm-header">
+        
+        <div class="confirm-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="#ff5008" stroke-width="2"/>
+            <line x1="12" y1="10" x2="12" y2="16" stroke="#ff5008" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="7" r="1.5" fill="#ff5008"/>
+        </svg>
+        </div>
+
+        <strong>Konfirmasi</strong>
+
+    </div>
+
+    <p>
+        Jika Saudara ingin mendapatkan bukti transfer dengan nama pengirim,
+        khusus untuk Persepuluhan dan Pembangunan, silakan transfer menggunakan
+        nomor rekening (bukan scan QR Code).
+    </p>
+
     </div>
 
   </div>
