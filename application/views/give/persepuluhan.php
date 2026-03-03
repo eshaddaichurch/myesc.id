@@ -15,6 +15,33 @@ body {
 }
 
 /* ================= SECTION ================= */
+.generosity-hero {
+  position: relative;
+  min-height: 100svh; /* paling aman untuk mobile modern */
+  width: 100%;
+  background: url("<?php echo base_url('myesc.id/assets/gambar/giving.jpg'); ?>") center center no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding: 80px 20px;
+}
+
+.generosity-hero {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+
+
+.generosity-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
 
 .giving-wrapper {
   padding: 120px 20px 80px;
@@ -237,6 +264,7 @@ body {
 
 <?php $this->load->view('template/festavalive/topmenu'); ?>
 
+<div class="generosity-hero">
 <section class="giving-wrapper">
   <div class="giving-container">
 
@@ -305,10 +333,11 @@ body {
     <div class="confirm-box">
       <strong>Konfirmasi</strong>
       Jika Saudara ingin mendapatkan bukti transfer dengan nama pengirim, Khusus untuk Persepuluhan dan pembangunan,
-    silahkan transfer menggunakan nomor rekening(bukan scan QR Code) dan kirimkan bukti transfer ke email: info@gesabethel.com
+    silahkan transfer menggunakan nomor rekening(bukan scan QR Code).
     </div>
 
   </div>
+</div>
 </section>
 
 <script>
