@@ -20,7 +20,7 @@ class Give extends CI_Controller {
 		$data['menu'] = '';
 	}
 	$data["rowinfogereja"] = $this->Home_model->get_infogereja();	
-	$this->load->view('give/persembahan',$data);
+	$this->load->view('give/giving',$data);
 }
 	
 
