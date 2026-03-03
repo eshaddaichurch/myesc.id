@@ -264,8 +264,9 @@ body {
 
 <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-<div class="generosity-hero">
+
 <section class="giving-wrapper">
+<div class="generosity-hero">
   <div class="giving-container">
 
     <h2 class="section-title">Persembahan Persepuluhan</h2>
