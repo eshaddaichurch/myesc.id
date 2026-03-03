@@ -26,7 +26,7 @@ body {
 }
 
 .section-title {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 600;
   margin-bottom: 30px;
   color: #111827;
@@ -61,7 +61,7 @@ body {
   flex: 1;
 }
 .qr-right h3 {
-  font-size: 22px;
+  font-size: 15px;
   margin-bottom: 15px;
   font-weight: 600;
 }
@@ -73,7 +73,7 @@ body {
 }
 
 .qr-content h3 {
-  font-size: 20px;
+  font-size: 15px;
   margin-bottom: 10px;
 }
 
@@ -134,7 +134,7 @@ body {
 /* ================= BANK SECTION ================= */
 
 .bank-title {
-  font-size: 22px;
+  font-size: 15px;
   font-weight: 600;
   margin: 50px 0 20px;
 }
