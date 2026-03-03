@@ -26,7 +26,7 @@ body {
 }
 
 .section-title {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 30px;
   color: #111827;
@@ -52,7 +52,7 @@ body {
 }
 
 .qr-left img {
-  width: 220px;
+  width: 240px;
   border-radius: 14px;
 }
 
