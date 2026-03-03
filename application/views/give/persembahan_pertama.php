@@ -123,7 +123,7 @@ body {
   }
 
   .qr-left img {
-    width: 180px;
+    width: 240px;
   }
 
   .qr-right {

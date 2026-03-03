@@ -119,12 +119,14 @@
   font-size: 18px;
   margin-bottom: 15px;
   opacity: 0.9;
+  color: #ffffff;
 }
 
 .choose {
   margin-bottom: 40px;
   font-size: 16px;
   opacity: 0.8;
+  color: #ffffff;
 }
 
 .region-grid {
@@ -167,11 +169,13 @@
   }
 
   .subtitle {
-    font-size: 15px;
+    font-size: 18px;
+    color: #ffffff;
   }
 
   .choose {
     font-size: 14px;
+    color: #ffffff;
   }
 }
 
