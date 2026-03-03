@@ -123,7 +123,7 @@ body {
   }
 
   .qr-left img {
-    width: 180px;
+    width: 240px;
   }
 
   .qr-right {
@@ -187,7 +187,7 @@ body {
 }
 
 .btn-copy {
-  background: #e5e7eb;
+  background: #ff5008;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
@@ -260,13 +260,13 @@ body {
 <section class="giving-wrapper">
   <div class="giving-container">
 
-    <h2 class="section-title">Persembahan Persepuluhan</h2>
+    <h2 class="section-title">Pembangunan</h2>
 
     <!-- QR SECTION -->
     <div class="qr-card">
     
         <div class="qr-left">
-            <img src="<?= base_url('myesc.id/assets/gambar/perpuluhan.png'); ?>" alt="QRIS">
+            <img src="<?= base_url('myesc.id/assets/gambar/pembangunan.png'); ?>" alt="QRIS">
         </div>
 
         <div class="qr-right">
@@ -276,7 +276,7 @@ body {
             (GoPay, OVO, Dana, LinkAja, atau aplikasi bank lainnya).
             </p>
 
-            <a href="<?= base_url('myesc.id/assets/gambar/perpuluhan.png'); ?>" 
+            <a href="<?= base_url('myesc.id/assets/gambar/pembangunan.png'); ?>" 
             download 
             class="btn-orange">
             Download QR Code
@@ -300,12 +300,12 @@ body {
         <div class="bank-icon">🏦</div>
         <div>
           <div class="rekening">
-            029 227 6611 <span class="badge-bank">BCA</span>
+            7061 4359 5600 <span class="badge-bank">QRIS CIMB</span>
           </div>
-          <div class="bank-name">Gereja Bethel Indonesia</div>
+          <div class="bank-name">Gereja Bethel Indonesia Jemaat El Shaddai</div>
         </div>
       </div>
-      <button class="btn-copy" onclick="copyToClipboard('0292276611')">Copy</button>
+      <button class="btn-copy" onclick="copyToClipboard('706143595600')">Copy</button>
     </div>
 
     <div class="bank-card">
@@ -313,14 +313,15 @@ body {
         <div class="bank-icon">🏦</div>
         <div>
           <div class="rekening">
-            7061 4361 6500 <span class="badge-bank">QRIS CIMB</span>
+            029 227 6115 <span class="badge-bank">BCA</span>
           </div>
           <div class="bank-name">Gereja Bethel Indonesia</div>
         </div>
       </div>
-      <button class="btn-copy" onclick="copyToClipboard('7061 4361 6500')">Copy</button>
+      <button class="btn-copy" onclick="copyToClipboard('0292276115')">Copy</button>
     </div>
 
+   <!-- CONFIRMATION -->
     <div class="confirm-box">
     
     <div class="confirm-header">

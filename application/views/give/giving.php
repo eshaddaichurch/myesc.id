@@ -211,7 +211,6 @@
       <a href="<?= base_url('give/page/pembangunan'); ?>" class="region-btn">PEMBANGUNAN</a>
       <a href="<?= base_url('give/page/persembahan_pertama'); ?>" class="region-btn">PERSEMBAHAN PERTAMA</a>
       <a href="<?= base_url('give/page/persembahan_kedua'); ?>" class="region-btn">PERSEMBAHAN KEDUA</a>
-      <a href="<?= base_url('give/page/yayasan_yesaya_58'); ?>" class="region-btn">YAYASAN YESAYA 58</a>
     </div>
   </div>
 </div>
