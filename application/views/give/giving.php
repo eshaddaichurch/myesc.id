@@ -195,19 +195,19 @@
   <div class="hero-content">
     <h1>Giving</h1>
     <p class="subtitle">
-      Donasi secara online dengan cepat, mudah dan aman menggunakan nomor telepon atau alamat email Anda.
+    Memberi adalah ungkapan syukur,
+    <br>ketaatan, dan kasih kepada Tuhan.
     </p>
     <p class="choose">
-      Silakan pilih tempat Anda ingin memberikan.
+    Pilih tujuan persembahan Anda di bawah ini.
     </p>
 
     <div class="region-grid">
       <a href="<?= base_url('persepuluhan'); ?>" class="region-btn">PERSEPULUHAN</a>
       <a href="<?= base_url('pembangunan'); ?>" class="region-btn">PEMBANGUNAN</a>
-      <a href="<?= base_url('persembahan'); ?>" class="region-btn">PERSEMBAHAN PERTAMA</a>
-      <a href="<?= base_url('persembahan'); ?>" class="region-btn">PERSEMBAHAN KEDUA</a>
-      <a href="<?= base_url('persembahan'); ?>" class="region-btn">YAYASAN YESAYA 58</a>
-      <a href="<?= base_url('persembahan'); ?>" class="region-btn">PERSEMBAHAN</a>
+      <a href="<?= base_url('persembahan_pertama'); ?>" class="region-btn">PERSEMBAHAN PERTAMA</a>
+      <a href="<?= base_url('persembahan_kedua'); ?>" class="region-btn">PERSEMBAHAN KEDUA</a>
+      <a href="<?= base_url('yayasan_yesaya_58'); ?>" class="region-btn">YAYASAN YESAYA 58</a>
     </div>
   </div>
 </div>
