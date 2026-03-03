@@ -26,9 +26,6 @@ class Give extends CI_Controller {
 	// halaman detail dinamis
 	public function page($slug = null)
 	{
-		if (!$slug) {
-			show_404();
-		}
 
 		$data['title'] = strtoupper($slug);
 		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
