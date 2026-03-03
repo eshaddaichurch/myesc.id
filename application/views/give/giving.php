@@ -75,15 +75,24 @@
 
 .generosity-hero {
   position: relative;
-  min-height: 100svh; /* lebih aman dari 100vh di mobile */
-  padding: 80px 20px;
-  background: url("<?php echo base_url('myesc.id/assets/gambar/bg-giving.jpg'); ?>") center/cover no-repeat;
+  min-height: 100svh; /* paling aman untuk mobile modern */
+  width: 100%;
+  background: url("<?php echo base_url('myesc.id/assets/gambar/giving.jpg'); ?>") center center no-repeat;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: #fff;
+  padding: 80px 20px;
 }
+
+.generosity-hero {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+
 
 .generosity-hero::before {
   content: "";
@@ -127,7 +136,7 @@
 
 .region-btn {
   padding: 14px 30px;
-  border: 2px solid #fff;
+  border: 1px solid #6c757d;
   border-radius: 50px;
   background: transparent;
   color: #fff;
