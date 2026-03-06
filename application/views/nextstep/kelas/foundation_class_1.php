@@ -52,6 +52,7 @@ $this->load->view('template/festavalive/header'); ?>
       }
 
       .schedule-title{
+        color : #ffffff;
         font-size:26px;
         font-weight:600;
         margin:50px 0 30px 0;
@@ -174,20 +175,7 @@ $this->load->view('template/festavalive/header'); ?>
 
     <body>
 
-      <section class="membership-section">
-        <h1>Foundation Class 1</h1>
-        <p>Foundation Class 1 Salvation and Baptism (FC 1) adalah kelas dasar yang bertujuan membantu jemaat memahami secara mendalam arti keselamatan dan baptisan, dua aspek penting dalam kehidupan orang beriman. Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.</p>
-        
-        <p>Topik Pembelajaran :</p>
-        
-        <p>1. Keselamatan dalam Kristus Membahas firman Tuhan mengenai keselamatan sebagai anugerah dari Allah, bukan hasil usaha manusia, dengan dasar ayat dari Efesus 2:8-9.</p>
-        
-        <p>2. Baptisan Air dan Roh Kudus Memaparkan arti simbolis dan spiritual dari baptisan, sekaligus pentingnya komitmen pribadi dalam menerima baptisan sebagai wujud iman, sesuai Roma 6:3-4 dan Kisah Para Rasul 2:38.</p>
-        
-        <p>Kelas ini dikemas secara interaktif dengan diskusi dan tanya jawab, memungkinkan setiap jemaat untuk menggali konsep-konsep penting, bertanya, dan berbagi pengalaman guna memperdalam iman. Setelah mengikuti kelas ini, jemaat diharapkan semakin siap melangkah dalam iman dan menerima baptisan sebagai bentuk ketaatan perubahan hidup dalam Kristus.</p>
-
-
-      </section>
+      
 
 
     <!-- Untuk Mobile -->
@@ -303,8 +291,8 @@ $this->load->view('template/festavalive/header'); ?>
             </h1>
 
             <p class="equip-desc">
-              Temukan makna mendalam dari keselamatan dan langkah ketaatan melalui baptisan.
-              Mari bertumbuh bersama dalam fondasi iman yang kuat dalam perjalanan spiritual Anda.
+            Foundation Class 1 Salvation and Baptism (FC 1) adalah kelas dasar yang bertujuan membantu jemaat memahami secara mendalam arti keselamatan dan baptisan, dua aspek penting dalam kehidupan orang beriman. 
+            Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.
             </p>
           </div>
 
