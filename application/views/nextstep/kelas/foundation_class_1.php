@@ -1,3 +1,4 @@
+
 <?php
 
 use PhpParser\Node\Stmt\Echo_;
@@ -74,7 +75,7 @@ $this->load->view('template/festavalive/header');
 
       .equip-hero p.subtitle {
         font-size: 16px;
-        color: #888;
+        color: #fff;
         max-width: 600px;
         line-height: 1.7;
       }
@@ -167,6 +168,7 @@ $this->load->view('template/festavalive/header');
 
       .schedule-card .card-body {
         padding: 24px;
+        background: #000;
       }
 
       .card-top-row {
@@ -449,7 +451,7 @@ $this->load->view('template/festavalive/header');
         </div>
         <h1>Foundation Class 1</h1>
         <p class="subtitle">Foundation Class 1 Salvation and Baptism (FC 1) adalah kelas dasar yang bertujuan membantu jemaat memahami secara mendalam arti keselamatan dan baptisan, dua aspek penting dalam kehidupan orang beriman.
-           Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.</p>
+        Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.</p>
       </div>
       <div class="equip-divider"><hr></div>
     </section>
