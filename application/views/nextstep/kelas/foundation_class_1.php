@@ -395,25 +395,114 @@ $this->load->view('template/festavalive/header');
       }
     }
 
+
+    .equip-section{
+  background:#0b0f14;
+  padding:80px 0;
+  color:#fff;
+}
+
+.promo-title{
+  font-size:40px;
+  font-weight:700;
+  color:#fff;
+}
+
+.equip-section .card{
+  background:#12171d;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:all .3s ease;
+}
+
+.equip-section .card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 15px 40px rgba(0,0,0,0.4);
+}
+
+.equip-section .card-img-top{
+  height:200px;
+  object-fit:cover;
+}
+
+.equip-section .card-body{
+  padding:25px;
+}
+
+.equip-section h4{
+  font-size:22px;
+  font-weight:700;
+  color:#fff;
+}
+
+.equip-section p{
+  color:#b7c1cc;
+  font-size:15px;
+}
+
+.equip-section .badge{
+  background:#1f2a36;
+  font-weight:500;
+}
+
+.equip-section .btn-success{
+  background:#ff6a00;
+  border:none;
+  border-radius:10px;
+  font-weight:600;
+  padding:12px;
+  transition:0.3s;
+}
+
+.equip-section .btn-success:hover{
+  background:#ff7f22;
+}
+
+.equip-section .alert{
+  border-radius:12px;
+}
+
+.equip-section hr{
+  border-color:rgba(255,255,255,0.08);
+}
+
+@media(max-width:768px){
+
+  .promo-title{
+    font-size:28px;
+  }
+
+  .equip-section{
+    padding:50px 15px;
+  }
+
+}
+
       /*whatiscare*/
     </style>
     </head>
 
     <body>
 
-      <section class="membership-section">
-        <h1>Foundation Class 1</h1>
-        <p>Foundation Class 1 Salvation and Baptism (FC 1) adalah kelas dasar yang bertujuan membantu jemaat memahami secara mendalam arti keselamatan dan baptisan, dua aspek penting dalam kehidupan orang beriman. Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.</p>
-        
-        <p>Topik Pembelajaran :</p>
-        
-        <p>1. Keselamatan dalam Kristus Membahas firman Tuhan mengenai keselamatan sebagai anugerah dari Allah, bukan hasil usaha manusia, dengan dasar ayat dari Efesus 2:8-9.</p>
-        
-        <p>2. Baptisan Air dan Roh Kudus Memaparkan arti simbolis dan spiritual dari baptisan, sekaligus pentingnya komitmen pribadi dalam menerima baptisan sebagai wujud iman, sesuai Roma 6:3-4 dan Kisah Para Rasul 2:38.</p>
-        
-        <p>Kelas ini dikemas secara interaktif dengan diskusi dan tanya jawab, memungkinkan setiap jemaat untuk menggali konsep-konsep penting, bertanya, dan berbagi pengalaman guna memperdalam iman. Setelah mengikuti kelas ini, jemaat diharapkan semakin siap melangkah dalam iman dan menerima baptisan sebagai bentuk ketaatan perubahan hidup dalam Kristus.</p>
+      <section class="equip-section">
+        <div class="container">
 
+        <div style="max-width:700px;margin-bottom:60px;">
+        <span style="background:#2b1b10;color:#ff7f22;padding:6px 14px;border-radius:20px;font-size:13px;">
+        EQUIP PROGRAM
+        </span>
 
+        <h1 style="font-size:48px;font-weight:800;margin-top:15px;">
+        Foundation Class 1
+        </h1>
+
+        <p style="color:#9aa6b2;margin-top:10px;">
+        Temukan makna mendalam dari keselamatan dan langkah ketaatan melalui baptisan.
+        Mari bertumbuh bersama dalam fondasi iman yang kuat dalam perjalanan spiritual Anda.
+        </p>
+
+        </div>
       </section>
 
 
@@ -517,88 +606,90 @@ $this->load->view('template/festavalive/header');
 
 
        <!-- SECTION: Jadwal Kelas (PENEMPATAN CARD DI SINI) -->
-    <section class="page-content promo-section d-none d-md-block">
-      <div class="container">
-        <div class="row justify-content-center">
+    <div class="row justify-content-center">
+      <section class="equip-section page-content promo-section">
+        <div class="container">
+          <div class="row justify-content-center">
 
-          <div class="col-12 mb-4 text-center">
-            <h2 class="promo-title">Jadwal Pendaftaran Kelas</h2>
-            <hr class="w-25 mx-auto">
-          </div>
+            <div class="col-12 mb-4 text-center">
+              <h2 class="promo-title">Jadwal Pendaftaran Kelas</h2>
+              <hr class="w-25 mx-auto">
+            </div>
 
-          <?php
-          if ($rsJadwal->num_rows() > 0) {
-            foreach ($rsJadwal->result() as $rowJadwal) {
-              $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
-              $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
-              $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
-              $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
+            <?php
+            if ($rsJadwal->num_rows() > 0) {
+              foreach ($rsJadwal->result() as $rowJadwal) {
+                $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
+                $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
+                $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
+                $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
 
-              $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai <br><small class='text-muted'>s/d</small><br> $tglselesai";
-              $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB <br><small class='text-muted'>s/d</small><br> $jamSelesai WIB";
+                $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai <br><small class='text-muted'>s/d</small><br> $tglselesai";
+                $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB <br><small class='text-muted'>s/d</small><br> $jamSelesai WIB";
 
-              $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
-              $nJumlah = $this->db->query("SELECT COUNT(*) as jlh FROM jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND statuskonfirmasi<>'Ditolak'")->row()->jlh;
-              $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : ($nJumlah == $maxJemaat ? "<span class='text-danger'>$nJumlah/$maxJemaat</span>" : "$nJumlah/$maxJemaat");
+                $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
+                $nJumlah = $this->db->query("SELECT COUNT(*) as jlh FROM jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND statuskonfirmasi<>'Ditolak'")->row()->jlh;
+                $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : ($nJumlah == $maxJemaat ? "<span class='text-danger'>$nJumlah/$maxJemaat</span>" : "$nJumlah/$maxJemaat");
 
-              $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
+                $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
 
-              $button = !$sudahPernahDaftar
-                ? '<a href="#" class="btn btn-success btn-lg w-100" id="btnDaftar" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '">Daftar Sekarang</a>'
-                : '';
-              ?>
-              <div class="col-md-6 col-lg-5 mb-5">
-                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                  <img src="<?php echo base_url('myesc.id/assets/gambar/bgkelas.jpg'); ?>" class="card-img-top" alt="Banner Event" style="object-fit: cover; height: 220px;">
-                  <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                      <h4 class="fw-bold"><i class="bi bi-calendar-event me-2"></i> <?php echo $rowJadwal->namaevent ?></h4>
-                      <span class="badge bg-secondary fs-6">Peserta: <?php echo $jumlahPeserta ?></span>
+                $button = !$sudahPernahDaftar
+                  ? '<a href="#" class="btn btn-success btn-lg w-100" id="btnDaftar" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '">Daftar Sekarang</a>'
+                  : '';
+                ?>
+                <div class="col-md-6 col-lg-5 mb-5">
+                  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                    <img src="<?php echo base_url('myesc.id/assets/gambar/bgkelas.jpg'); ?>" class="card-img-top" alt="Banner Event" style="object-fit: cover; height: 220px;">
+                    <div class="card-body p-4">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="fw-bold"><i class="bi bi-calendar-event me-2"></i> <?php echo $rowJadwal->namaevent ?></h4>
+                        <span class="badge bg-secondary fs-6">Peserta: <?php echo $jumlahPeserta ?></span>
+                      </div>
+                      <p class="fs-5 mb-2"><strong>📆 Tanggal:</strong><br><?php echo $tglEvent ?></p>
+                      <p class="fs-5 mb-2"><strong>⏰ Jam:</strong><br><?php echo $jamEvent ?></p>
+                      <div class="mt-4"><?php echo $button ?></div>
                     </div>
-                    <p class="fs-5 mb-2"><strong>📆 Tanggal:</strong><br><?php echo $tglEvent ?></p>
-                    <p class="fs-5 mb-2"><strong>⏰ Jam:</strong><br><?php echo $jamEvent ?></p>
-                    <div class="mt-4"><?php echo $button ?></div>
-                  </div>
 
-                  <?php if ($sudahPernahDaftar): ?>
-                    <?php
-                    $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND idjemaat='{$this->session->userdata('idjemaat')}'");
-                    if ($rsDaftar->num_rows() > 0):
-                      foreach ($rsDaftar->result() as $rowDaftar):
-                        $status = $rowDaftar->statuskonfirmasi;
-                        $tglDaftar = date('d-m-Y H:i:s', strtotime($rowDaftar->tglregistrasi));
-                        $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
-                        $pesan = $status == 'Menunggu'
-                          ? 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!'
-                          : ($status == 'Disetujui'
-                            ? 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>! Silahkan datang pada waktu jadwal yang telah ditentukan.'
-                            : 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi);
-                        ?>
-                        <div class="card-footer bg-light">
-                          <div class="alert alert-<?php echo $alertClass ?> mb-0" style="font-size: 0.9rem;">
-                            <strong>👤 Nama Jemaat:</strong> <?php echo $rowDaftar->namalengkap ?><br>
-                            <strong>🗓️ Tgl Pengajuan:</strong> <?php echo $tglDaftar ?><br>
-                            <strong>Status:</strong> <?php echo $status ?><br><br>
-                            <?php echo $pesan ?>
+                    <?php if ($sudahPernahDaftar): ?>
+                      <?php
+                      $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND idjemaat='{$this->session->userdata('idjemaat')}'");
+                      if ($rsDaftar->num_rows() > 0):
+                        foreach ($rsDaftar->result() as $rowDaftar):
+                          $status = $rowDaftar->statuskonfirmasi;
+                          $tglDaftar = date('d-m-Y H:i:s', strtotime($rowDaftar->tglregistrasi));
+                          $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
+                          $pesan = $status == 'Menunggu'
+                            ? 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!'
+                            : ($status == 'Disetujui'
+                              ? 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>! Silahkan datang pada waktu jadwal yang telah ditentukan.'
+                              : 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi);
+                          ?>
+                          <div class="card-footer bg-light">
+                            <div class="alert alert-<?php echo $alertClass ?> mb-0" style="font-size: 0.9rem;">
+                              <strong>👤 Nama Jemaat:</strong> <?php echo $rowDaftar->namalengkap ?><br>
+                              <strong>🗓️ Tgl Pengajuan:</strong> <?php echo $tglDaftar ?><br>
+                              <strong>Status:</strong> <?php echo $status ?><br><br>
+                              <?php echo $pesan ?>
+                            </div>
                           </div>
-                        </div>
-                    <?php endforeach;
-                    endif; ?>
-                  <?php endif; ?>
+                      <?php endforeach;
+                      endif; ?>
+                    <?php endif; ?>
+                  </div>
                 </div>
-              </div>
-          <?php
+            <?php
+              }
+            } else {
+              echo '
+                <div class="col-12 text-center">
+                  <div class="alert alert-info">Jadwal kelas ' . $rowKelas->namakelas . ' belum dibuka.</div>
+                </div>';
             }
-          } else {
-            echo '
-              <div class="col-12 text-center">
-                <div class="alert alert-info">Jadwal kelas ' . $rowKelas->namakelas . ' belum dibuka.</div>
-              </div>';
-          }
-          ?>
+            ?>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <!-- jQuery dulu -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
