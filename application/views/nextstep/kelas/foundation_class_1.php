@@ -37,7 +37,7 @@ $this->load->view('template/festavalive/header');
       .equip-badge{
         display:inline-block;
         padding:6px 14px;
-        background:#2a1a0f;
+        background:#ff5008;
         border-radius:20px;
         font-size:12px;
         letter-spacing:1px;
@@ -45,7 +45,7 @@ $this->load->view('template/festavalive/header');
       }
 
       .equip-title{
-        font-size:48px;
+        font-size:25px;
         font-weight:700;
         margin-bottom:15px;
       }
@@ -57,7 +57,7 @@ $this->load->view('template/festavalive/header');
 
       .schedule-title{
         color : #ffffff;
-        font-size:26px;
+        font-size:15px;
         font-weight:600;
         margin:50px 0 30px 0;
       }
@@ -82,7 +82,7 @@ $this->load->view('template/festavalive/header');
       }
 
       .class-body{
-        padding:24px;
+        padding:65px;
       }
 
       .class-title{
@@ -117,11 +117,38 @@ $this->load->view('template/festavalive/header');
         border:none;
         color:#fff;
         font-weight:600;
-        transition:.3s;
+        text-decoration:none;
+        display:inline-block;
+        transition:0.3s;
       }
 
+      /* hover */
       .btn-daftar:hover{
         background:#e14d16;
+        color:#fff;
+      }
+
+      /* ketika di klik */
+      .btn-daftar:active{
+        background:#c94312;
+        color:#fff;
+      }
+
+      /* ketika focus (ini biasanya yang bikin warna aneh) */
+      .btn-daftar:focus{
+        outline:none;
+        box-shadow:none;
+        color:#fff;
+      }
+
+      /* visited link */
+      .btn-daftar:visited{
+        color:#fff;
+      }
+
+      .btn-daftar:focus-visible{
+        outline:none;
+        box-shadow:none;
       }
 
       .help-box{
@@ -142,13 +169,13 @@ $this->load->view('template/festavalive/header');
 
       .help-box p{
         margin:5px 0 0 0;
-        color:#a1a1aa;
+        color:#ffffff;
       }
 
       .help-btn{
         border:1px solid #ff5a1f;
         padding:12px 24px;
-        border-radius:10px;
+        border-radius:40px;
         color:#ff5a1f;
         text-decoration:none;
         font-weight:600;
@@ -157,6 +184,10 @@ $this->load->view('template/festavalive/header');
       .help-btn:hover{
         background:#ff5a1f;
         color:#fff;
+      }
+
+      .help-title{
+        color:#ff5008;
       }
 
       @media(max-width:768px){
@@ -387,7 +418,7 @@ $this->load->view('template/festavalive/header');
           <div class="help-box">
 
             <div>
-              <h4>Butuh bantuan pendaftaran?</h4>
+            <h4 class="help-title">Butuh bantuan pendaftaran?</h4>
 
               <p>
                 Hubungi hotline Equip pada tombol "Hubungi Kami" jika Anda mengalami kesulitan saat
