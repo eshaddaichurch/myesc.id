@@ -51,7 +51,7 @@ $this->load->view('template/festavalive/header');
       }
 
       .equip-desc{
-        color:#a1a1aa;
+        color:#fff;
         font-size:18px;
       }
 
@@ -216,7 +216,7 @@ $this->load->view('template/festavalive/header');
       }
 
       .equip-title{
-        font-size:28px;
+        font-size:16px;
         line-height:1.3;
       }
 
@@ -225,7 +225,7 @@ $this->load->view('template/festavalive/header');
       }
 
       .schedule-title{
-        font-size:20px;
+        font-size:16px;
       }
 
       .class-img{
@@ -299,7 +299,7 @@ $this->load->view('template/festavalive/header');
 
           <!-- TITLE -->
           <h3 class="schedule-title">
-            📅 Jadwal Kelas Mendatang
+            Jadwal Kelas Mendatang
           </h3>
 
 
