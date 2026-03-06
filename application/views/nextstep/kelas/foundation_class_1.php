@@ -1,583 +1,688 @@
-<?php $this->load->view('template/festavalive/header'); ?>
+
+<?php
+
+use PhpParser\Node\Stmt\Echo_;
+
+$this->load->view('template/festavalive/header');
+?>
 
 <body>
 
   <main>
 
+
+
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
+
+
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
       @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      
+      $main-green: #79dd09 !default;
+      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
+      $main-yellow: #bdbb49 !default;
+      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
+      $main-red: #bd150b !default;
+      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
+      $main-blue: #0076bd !default;
+      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
+
+      /* This pen */
+
+
+
+
+      .dark {
+        background: #110f16;
+      }
+
+      /*--------------------------------------------------------------
+                    # Breadcrumbs
+                    --------------------------------------------------------------*/
+      .breadcrumbs {
+        padding: 140px 0 60px 0;
+        min-height: 30vh;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .breadcrumbs:before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.6);
+        position: absolute;
+        inset: 0;
+      }
+
+      .breadcrumbs h2 {
+        font-size: 56px;
+        font-weight: 500;
+        color: #fff;
+        font-family: var(--font-secondary);
+      }
+
+      .breadcrumbs ol {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0 0 10px 0;
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-primary);
+      }
+
+      .breadcrumbs ol a {
+        color: rgba(255, 255, 255, 0.8);
+        transition: 0.3s;
+      }
+
+      .breadcrumbs ol a:hover {
+        text-decoration: underline;
+      }
+
+      .breadcrumbs ol li+li {
+        padding-left: 10px;
+      }
+
+      .breadcrumbs ol li+li::before {
+        display: inline-block;
+        padding-right: 10px;
+        color: #fff;
+        content: "/";
+      }
+
+
+      .light {
+        background: #f3f5f7;
+      }
+
+      a,
+      a:hover {
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+      }
+
+      #pageHeaderTitle {
+        margin: 2rem 0;
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 2.5rem;
+      }
+
+      /* Cards */
+      .postcard {
+        flex-wrap: wrap;
+        display: flex;
+
+        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
+        border-radius: 10px;
+        margin: 0 0 4rem 0;
+        overflow: hidden;
+        position: relative;
+        color: #ffffff;
+
+        &.dark {
+          background-color: #18151f;
+        }
+
+        &.light {
+          background-color: #e1e5ea;
+        }
+
+        .t-dark {
+          color: #18151f;
+        }
+
+        a {
+          color: inherit;
+        }
+
+        h1,
+        .h1 {
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          line-height: 1.2;
+        }
+
+        .small {
+          font-size: 80%;
+        }
+
+        .postcard__title {
+          font-size: 1.75rem;
+          padding-left: 10px;
+        }
+
+        .postcard__img {
+          max-height: 180px;
+          width: 100%;
+          object-fit: cover;
+          position: relative;
+        }
+
+        .postcard__img_link {
+          display: contents;
+        }
+
+        .postcard__bar {
+          width: 50px;
+          height: 10px;
+          margin: 10px 0;
+          border-radius: 5px;
+          background-color: #424242;
+          transition: width 0.2s ease;
+        }
+
+        .postcard__text {
+          padding: 2.5rem;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .postcard__preview-txt {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: left;
+          height: 100%;
+        }
+
+        .postcard__tagbox {
+          display: flex;
+          flex-flow: row wrap;
+          font-size: 14px;
+          margin: 20px 0 0 0;
+          padding: 0;
+          justify-content: center;
+
+          .tag__item {
+
+            display: inline-block;
+            background: #FAF0E6;
+            border-radius: 3px;
+            padding: 2.5px 10px;
+            margin: 0 5px 5px 0;
+            cursor: default;
+            user-select: none;
+            transition: background-color 0.3s;
+
+            &:hover {
+              background: #FFD09B;
+            }
+          }
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-image: linear-gradient(-70deg, #424242, transparent 50%);
+          opacity: 1;
+          border-radius: 10px;
+        }
+
+        &:hover .postcard__bar {
+          width: 100px;
+        }
+      }
+
+      @media screen and (min-width: 769px) {
+        .postcard {
+          flex-wrap: inherit;
+
+          .postcard__title {
+            font-size: 2rem;
+          }
+
+          .postcard__tagbox {
+            justify-content: start;
+          }
+
+          .postcard__img {
+            max-width: 300px;
+            max-height: 100%;
+            transition: transform 0.3s ease;
+          }
+
+          .postcard__text {
+            padding-left: 4rem;
+            width: 100%;
+
+          }
+
+          .media.postcard__text:before {
+            content: "";
+            position: absolute;
+            display: block;
+            background: #18151f;
+            top: -20%;
+            height: 130%;
+            width: 55px;
+          }
+
+          &:hover .postcard__img {
+            transform: scale(1.1);
+          }
+
+          &:nth-child(2n+1) {
+            flex-direction: row;
+          }
+
+          &:nth-child(2n+0) {
+            flex-direction: row-reverse;
+          }
+
+          &:nth-child(2n+1) .postcard__text::before {
+            left: -12px !important;
+            transform: rotate(4deg);
+          }
+
+          &:nth-child(2n+0) .postcard__text::before {
+            right: -12px !important;
+            transform: rotate(-4deg);
+          }
+        }
+      }
+
+      @media screen and (min-width: 1024px) {
+        .postcard__text {
+          padding: 2rem 3.5rem;
+        }
+
+        .postcard__text:before {
+          content: "";
+          position: absolute;
+          display: block;
+
+          top: -20%;
+          height: 130%;
+          width: 55px;
+        }
+
+        .postcard.dark {
+          .postcard__text:before {
+            background: #18151f;
+          }
+        }
+
+        .postcard.light {
+          .postcard__text:before {
+            background: #e1e5ea;
+          }
+        }
+      }
+    </style>
+
+
+    <style>
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
 
-      body {
+
+
+      /* body {
+        margin: 0;
         font-family: 'Figtree', sans-serif;
-        background-color: #0a0a0a;
-        color: #ffffff;
-        line-height: 1.6;
-      }
+        background-color: #fff;
+        color: #444;
+      } */
 
-      /* Header Section */
-      .equip-header {
-        padding: 80px 20px 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
+      body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(63deg, #fffaf5, #ffb347);
+      font-family: 'Figtree', sans-serif;
+      color: #111;
+      line-height: 1.7;
+    }
 
-      .equip-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 20px;
-        color: #fff;
-      }
+    .membership-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 230px 20px;
+    }
 
-      .equip-badge::before {
-        content: "🎓";
-      }
+    .membership-section h1 {
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
 
-      .equip-title {
-        font-size: 56px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        line-height: 1.2;
-      }
+    .membership-section p {
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: rgb(0, 0, 0) !important;
+    }
 
-      .equip-description {
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.7);
-        max-width: 800px;
-        line-height: 1.8;
-      }
+    .btn-membership {
+      margin-top: 40px;
+      display: inline-block;
+      background-color: #000;
+      color: #fff;
+      padding: 14px 24px;
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
 
-      /* Schedule Section */
-      .schedule-section {
-        padding: 40px 20px 80px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
+    .btn-membership:hover {
+      background-color: #333;
+    }
 
-      .section-title {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 30px;
-      }
-
-      .section-title::before {
-        content: "📅";
-        font-size: 28px;
-      }
-
-      .schedule-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 24px;
-      }
-
-      .schedule-card {
-        background: #1a1a1a;
-        border-radius: 16px;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .schedule-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      }
-
-      .card-image {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-        background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-      }
-
-      .card-content {
-        padding: 24px;
-      }
-
-      .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 20px;
-      }
-
-      .card-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin: 0;
-      }
-
-      .capacity-badge {
-        text-align: right;
-      }
-
-      .capacity-label {
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.5);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      .capacity-value {
-        font-size: 14px;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.9);
-      }
-
-      .capacity-value.full {
-        color: #ff4757;
-      }
-
-      .card-info {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-bottom: 24px;
-      }
-
-      .info-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 14px;
-      }
-
-      .info-icon {
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ff6b35;
-      }
-
-      .btn-daftar {
-        width: 100%;
-        background: #ff6b35;
-        color: #fff;
-        border: none;
-        padding: 16px 24px;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
-      }
-
-      .btn-daftar:hover {
-        background: #ff5722;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
-      }
-
-      .btn-daftar:disabled {
-        background: #333;
-        cursor: not-allowed;
-        transform: none;
-      }
-
-      /* Help Section */
-      .help-section {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px 80px;
-      }
-
-      .help-card {
-        background: #1a1a1a;
-        border-radius: 16px;
-        padding: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        flex-wrap: wrap;
-      }
-
-      .help-content {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        flex: 1;
-      }
-
-      .help-icon {
-        width: 48px;
-        height: 48px;
-        background: rgba(255, 107, 53, 0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        flex-shrink: 0;
-      }
-
-      .help-text h3 {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 4px;
-      }
-
-      .help-text p {
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.6);
-        margin: 0;
-      }
-
-      .btn-hubungi {
-        background: transparent;
-        border: 2px solid #ff6b35;
-        color: #ff6b35;
-        padding: 14px 28px;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        white-space: nowrap;
-      }
-
-      .btn-hubungi:hover {
-        background: #ff6b35;
-        color: #fff;
-      }
-
-      /* Alert Styles */
-      .alert-custom {
-        padding: 16px;
-        border-radius: 8px;
-        margin-top: 16px;
-        font-size: 14px;
-      }
-
-      .alert-warning {
-        background: rgba(255, 193, 7, 0.1);
-        border-left: 4px solid #ffc107;
-        color: #ffc107;
-      }
-
-      .alert-success {
-        background: rgba(40, 167, 69, 0.1);
-        border-left: 4px solid #28a745;
-        color: #28a745;
-      }
-
-      .alert-danger {
-        background: rgba(220, 53, 69, 0.1);
-        border-left: 4px solid #dc3545;
-        color: #dc3545;
-      }
-
-      .badge-status {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-        margin-left: 10px;
-      }
-
-      .badge-success {
-        background: rgba(40, 167, 69, 0.2);
-        color: #28a745;
-      }
-
-      .badge-secondary {
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.7);
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .equip-title {
-          font-size: 36px;
-        }
-
-        .equip-description {
-          font-size: 16px;
-        }
-
-        .schedule-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .help-card {
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .help-content {
-          flex-direction: column;
-        }
-
-        .btn-hubungi {
-          width: 100%;
-          justify-content: center;
-        }
-      }
-
-      /* Hide original sections */
+    @media (max-width: 768px) {
       .membership-section {
-        display: none !important;
+        padding: 120px 20px;
       }
 
-      .page-content {
-        display: none !important;
+      .membership-section h1 {
+        font-size: 36px;
       }
+
+      .membership-section p {
+        font-size: 16px !important;
+        color: rgb(0, 0, 0) !important;
+        text-align: justify;
+      }
+    }
+
+      /*whatiscare*/
     </style>
+    </head>
 
-    <!-- Header Section -->
-    <section class="equip-header">
-      <div class="equip-badge">EQUIP PROGRAM</div>
-      <h1 class="equip-title">Foundation Class 1</h1>
-      <p class="equip-description">
-        Temukan makna mendalam dari keselamatan dan langkah ketaatan melalui baptisan. Mari bertumbuh bersama dalam fondasi iman yang kuat dalam perjalanan spiritual Anda.
-      </p>
-    </section>
+    <body>
 
-    <!-- Schedule Section -->
-    <section class="schedule-section">
-      <h2 class="section-title">Jadwal Kelas Mendatang</h2>
-      
-      <div class="schedule-grid">
-        <?php
-        if ($rsJadwal->num_rows() > 0) {
-          $cardCount = 0;
-          foreach ($rsJadwal->result() as $rowJadwal) {
-            $cardCount++;
-            $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
-            $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
-            $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
-            $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
+      <section class="membership-section">
+        <h1>Foundation Class 1</h1>
+        <p>Foundation Class 1 Salvation and Baptism (FC 1) adalah kelas dasar yang bertujuan membantu jemaat memahami secara mendalam arti keselamatan dan baptisan, dua aspek penting dalam kehidupan orang beriman. Kelas ini mengajak jemaat untuk mengenal lebih dalam anugerah keselamatan dari Yesus Kristus serta memahami peran baptisan sebagai langkah iman dalam menerima kasih karunia-Nya.</p>
+        
+        <p>Topik Pembelajaran :</p>
+        
+        <p>1. Keselamatan dalam Kristus Membahas firman Tuhan mengenai keselamatan sebagai anugerah dari Allah, bukan hasil usaha manusia, dengan dasar ayat dari Efesus 2:8-9.</p>
+        
+        <p>2. Baptisan Air dan Roh Kudus Memaparkan arti simbolis dan spiritual dari baptisan, sekaligus pentingnya komitmen pribadi dalam menerima baptisan sebagai wujud iman, sesuai Roma 6:3-4 dan Kisah Para Rasul 2:38.</p>
+        
+        <p>Kelas ini dikemas secara interaktif dengan diskusi dan tanya jawab, memungkinkan setiap jemaat untuk menggali konsep-konsep penting, bertanya, dan berbagi pengalaman guna memperdalam iman. Setelah mengikuti kelas ini, jemaat diharapkan semakin siap melangkah dalam iman dan menerima baptisan sebagai bentuk ketaatan perubahan hidup dalam Kristus.</p>
 
-            $hari = date('l', strtotime($rowJadwal->tglmulai));
-            $hariIndonesia = [
-              'Sunday' => 'Minggu',
-              'Monday' => 'Senin',
-              'Tuesday' => 'Selasa',
-              'Wednesday' => 'Rabu',
-              'Thursday' => 'Kamis',
-              'Friday' => 'Jumat',
-              'Saturday' => 'Sabtu'
-            ];
-            $hariID = $hariIndonesia[$hari] ?? $hari;
 
-            $tglEvent = ($tglmulai == $tglselesai) ? "$hariID, $tglmulai" : "$tglmulai s/d $tglselesai";
-            $jamEvent = ($jamMulai == $jamSelesai) ? "$jamMulai WIB" : "$jamMulai-$jamSelesai WIB";
+      </section>
 
-            $maxJemaat = $rowJadwal->jumlahjemaat ?: 30;
-            $nJumlah = $this->db->query("
-              SELECT COUNT(*) AS jlh FROM jadwaleventregistrasi
-              WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND statuskonfirmasi<>'Ditolak'
-            ")->row()->jlh;
 
-            $isFull = $nJumlah >= $maxJemaat;
-            $jumlahPeserta = "$nJumlah/$maxJemaat";
+    <!-- Untuk Mobile -->
+    <section class="page-content section-padding d-md-none d-sm-block">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="card" data-aos="zoom-in">
+              <div class="card-body">
+                <div class="row">
 
-            $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
+                  <?php
+                  if ($rsJadwal->num_rows() > 0) {
+                    foreach ($rsJadwal->result() as $rowJadwal) {
+                      $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
+                      $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
 
-            $rsLokasi = $this->db->query("SELECT * FROM jadwaleventdetailtanggal WHERE idjadwalevent = '" . $rowJadwal->idjadwalevent . "' LIMIT 1");
-            $namaLokasi = ($rsLokasi->num_rows() > 0) ? $rsLokasi->row()->lokasievent : 'Main Hall';
+                      $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
+                      $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
 
-            // Alternate images
-            $imageClass = ($cardCount % 2 == 1) ? 'person' : 'classroom';
-            $imageUrl = base_url('myesc.id/assets/gambar/bgkelas.jpg');
-            ?>
-          <div class="schedule-card">
-            <img src="<?php echo $imageUrl; ?>" alt="Foundation Class 1" class="card-image">
-            <div class="card-content">
-              <div class="card-header">
-                <h3 class="card-title"><?php echo $rowJadwal->namaevent; ?>
-                  <?php if ($sudahPernahDaftar): ?>
-                    <span class="badge-status badge-success">Sudah Daftar</span>
-                  <?php else: ?>
-                    <span class="badge-status badge-secondary">Baru</span>
-                  <?php endif; ?>
-                </h3>
-                <div class="capacity-badge">
-                  <div class="capacity-label">Kapasitas</div>
-                  <div class="capacity-value <?php echo $isFull ? 'full' : ''; ?>">Peserta: <?php echo $jumlahPeserta; ?></div>
-                </div>
-              </div>
+                      $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai s/d $tglselesai";
+                      $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB s/d $jamSelesai WIB";
 
-              <div class="card-info">
-                <div class="info-item">
-                  <span class="info-icon">📅</span>
-                  <span><?php echo $tglEvent; ?></span>
-                </div>
-                <div class="info-item">
-                  <span class="info-icon">🕐</span>
-                  <span><?php echo $jamEvent; ?></span>
-                </div>
-                <div class="info-item">
-                  <span class="info-icon">📍</span>
-                  <span><?php echo $namaLokasi; ?></span>
-                </div>
-              </div>
+                      $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
 
-              <?php if ($sudahPernahDaftar): ?>
-                <?php
-                $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND idjemaat='" . $this->session->userdata('idjemaat') . "'");
-                if ($rsDaftar->num_rows() > 0) {
-                  foreach ($rsDaftar->result() as $rowDaftar) {
-                    $status = $rowDaftar->statuskonfirmasi;
-                    $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
-                    $pesan = '';
+                      $nJumlah = $this->db->query("
+                        SELECT COUNT(*) AS jlh FROM jadwaleventregistrasi
+                        WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND statuskonfirmasi<>'Ditolak'
+                      ")->row()->jlh;
 
-                    if ($status == 'Menunggu') {
-                      $pesan = 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!';
-                    } elseif ($status == 'Disetujui') {
-                      $pesan = 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>!<br>Silahkan datang pada waktu jadwal yang telah ditentukan.';
-                    } elseif ($status == 'Ditolak') {
-                      $pesan = 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi;
+                      $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : (
+                        $nJumlah == $maxJemaat
+                          ? '<span class="text-danger">' . $nJumlah . '/' . $maxJemaat . '</span>'
+                          : $nJumlah . '/' . $maxJemaat
+                      );
+
+                      $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
+
+                      $button = $sudahPernahDaftar ? '' : '<a href="#" class="btn btn-success btn-sm" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '" id="btnDaftar">Daftar Sekarang</a>';
+
+                      $rsLokasi = $this->db->query("SELECT * FROM jadwaleventdetailtanggal WHERE idjadwalevent = '" . $rowJadwal->idjadwalevent . "' LIMIT 1");
+                      $namaLokasi = ($rsLokasi->num_rows() > 0) ? $rsLokasi->row()->lokasievent : '';
+
+                      echo '
+                        <div class="col-12" data-aos="fade-up">
+                          <h5>' . $rowJadwal->namaevent . '
+                            ' . ($sudahPernahDaftar ? '<span class="badge bg-success badge-status">Sudah Daftar</span>' : '<span class="badge bg-secondary badge-status">Baru</span>') . '
+                          </h5>
+                        </div>
+                        <div class="col-12"><i class="fas fa-map-marker-alt me-2"></i> ' . $namaLokasi . '</div>
+                        <div class="col-12"><i class="fa fa-calendar me-2"></i> ' . $tglEvent . '</div>
+                        <div class="col-12"><i class="far fa-clock me-2"></i> ' . $jamEvent . '</div>
+                        <div class="col-12"><i class="fas fa-user-check me-2"></i> ' . $jumlahPeserta . '</div>
+                      ';
+
+                      if ($sudahPernahDaftar) {
+                        $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='" . $rowJadwal->idjadwalevent . "' AND idjemaat='" . $this->session->userdata('idjemaat') . "'");
+                        if ($rsDaftar->num_rows() > 0) {
+                          foreach ($rsDaftar->result() as $rowDaftar) {
+                            $status = $rowDaftar->statuskonfirmasi;
+                            $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
+                            $pesan = '';
+
+                            if ($status == 'Menunggu') {
+                              $pesan = 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!';
+                            } elseif ($status == 'Disetujui') {
+                              $pesan = 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>!<br>Silahkan datang pada waktu jadwal yang telah ditentukan.';
+                            } elseif ($status == 'Ditolak') {
+                              $pesan = 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi;
+                            }
+
+                            echo '
+                              <div class="col-12 mt-3 ps-3">
+                                <div class="alert alert-' . $alertClass . '" role="alert">
+                                  <strong>Status Pengajuan : ' . $status . '</strong><br><br>' . $pesan . '
+                                </div>
+                              </div>';
+                          }
+                        }
+                      }
+
+                      echo '
+                        <div class="col-12 mt-3">' . $button . '</div>
+                        <hr class="my-4">';
                     }
-                    ?>
-                    <div class="alert-custom alert-<?php echo $alertClass; ?>">
-                      <strong>Status: <?php echo $status; ?></strong><br>
-                      <?php echo $pesan; ?>
-                    </div>
-                <?php
+                  } else {
+                    echo '<div class="text-center">Jadwal kelas belum dibuka...</div>';
                   }
-                }
-                ?>
-              <?php else: ?>
-                <?php if (!$isFull): ?>
-                  <button class="btn-daftar" data-idjadwalevent="<?php echo $rowJadwal->idjadwalevent; ?>" id="btnDaftar">
-                    Daftar Sekarang
-                  </button>
-                <?php else: ?>
-                  <button class="btn-daftar" disabled>
-                    Kelas Penuh
-                  </button>
-                <?php endif; ?>
-              <?php endif; ?>
+                  ?>
+
+                </div>
+              </div>
             </div>
           </div>
-        <?php
-          }
-        } else {
-          echo '<div class="col-12 text-center" style="color: rgba(255,255,255,0.6); padding: 60px;">Jadwal kelas belum dibuka...</div>';
-        }
-        ?>
-      </div>
-    </section>
-
-    <!-- Help Section -->
-    <section class="help-section">
-      <div class="help-card">
-        <div class="help-content">
-          <div class="help-icon">❓</div>
-          <div class="help-text">
-            <h3>Butuh bantuan pendaftaran?</h3>
-            <p>Hubungi sekretariat gereja jika Anda mengalami kesulitan saat mendaftar kelas Equip.</p>
-          </div>
         </div>
-        <a href="#" class="btn-hubungi" onclick="window.location.href='<?php echo site_url('akun/ubahprofil'); ?>'; return false;">
-          💬 Hubungi Kami
-        </a>
       </div>
     </section>
 
-    <!-- jQuery -->
+
+
+
+       <!-- SECTION: Jadwal Kelas (PENEMPATAN CARD DI SINI) -->
+    <section class="page-content promo-section d-none d-md-block">
+      <div class="container">
+        <div class="row justify-content-center">
+
+          <div class="col-12 mb-4 text-center">
+            <h2 class="promo-title">Jadwal Pendaftaran Kelas</h2>
+            <hr class="w-25 mx-auto">
+          </div>
+
+          <?php
+          if ($rsJadwal->num_rows() > 0) {
+            foreach ($rsJadwal->result() as $rowJadwal) {
+              $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
+              $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
+              $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
+              $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
+
+              $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai <br><small class='text-muted'>s/d</small><br> $tglselesai";
+              $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB <br><small class='text-muted'>s/d</small><br> $jamSelesai WIB";
+
+              $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
+              $nJumlah = $this->db->query("SELECT COUNT(*) as jlh FROM jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND statuskonfirmasi<>'Ditolak'")->row()->jlh;
+              $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : ($nJumlah == $maxJemaat ? "<span class='text-danger'>$nJumlah/$maxJemaat</span>" : "$nJumlah/$maxJemaat");
+
+              $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
+
+              $button = !$sudahPernahDaftar
+                ? '<a href="#" class="btn btn-success btn-lg w-100" id="btnDaftar" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '">Daftar Sekarang</a>'
+                : '';
+              ?>
+              <div class="col-md-6 col-lg-5 mb-5">
+                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                  <img src="<?php echo base_url('myesc.id/assets/gambar/bgkelas.jpg'); ?>" class="card-img-top" alt="Banner Event" style="object-fit: cover; height: 220px;">
+                  <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h4 class="fw-bold"><i class="bi bi-calendar-event me-2"></i> <?php echo $rowJadwal->namaevent ?></h4>
+                      <span class="badge bg-secondary fs-6">Peserta: <?php echo $jumlahPeserta ?></span>
+                    </div>
+                    <p class="fs-5 mb-2"><strong>📆 Tanggal:</strong><br><?php echo $tglEvent ?></p>
+                    <p class="fs-5 mb-2"><strong>⏰ Jam:</strong><br><?php echo $jamEvent ?></p>
+                    <div class="mt-4"><?php echo $button ?></div>
+                  </div>
+
+                  <?php if ($sudahPernahDaftar): ?>
+                    <?php
+                    $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND idjemaat='{$this->session->userdata('idjemaat')}'");
+                    if ($rsDaftar->num_rows() > 0):
+                      foreach ($rsDaftar->result() as $rowDaftar):
+                        $status = $rowDaftar->statuskonfirmasi;
+                        $tglDaftar = date('d-m-Y H:i:s', strtotime($rowDaftar->tglregistrasi));
+                        $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
+                        $pesan = $status == 'Menunggu'
+                          ? 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!'
+                          : ($status == 'Disetujui'
+                            ? 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>! Silahkan datang pada waktu jadwal yang telah ditentukan.'
+                            : 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi);
+                        ?>
+                        <div class="card-footer bg-light">
+                          <div class="alert alert-<?php echo $alertClass ?> mb-0" style="font-size: 0.9rem;">
+                            <strong>👤 Nama Jemaat:</strong> <?php echo $rowDaftar->namalengkap ?><br>
+                            <strong>🗓️ Tgl Pengajuan:</strong> <?php echo $tglDaftar ?><br>
+                            <strong>Status:</strong> <?php echo $status ?><br><br>
+                            <?php echo $pesan ?>
+                          </div>
+                        </div>
+                    <?php endforeach;
+                    endif; ?>
+                  <?php endif; ?>
+                </div>
+              </div>
+          <?php
+            }
+          } else {
+            echo '
+              <div class="col-12 text-center">
+                <div class="alert alert-info">Jadwal kelas ' . $rowKelas->namakelas . ' belum dibuka.</div>
+              </div>';
+          }
+          ?>
+        </div>
+      </div>
+    </section>
+
+    <!-- jQuery dulu -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- SweetAlert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script>
-      $(document).on('click', '#btnDaftar', function(e) {
-        var idjadwalevent = $(this).attr('data-idjadwalevent');
 
-        e.preventDefault();
 
-        $.ajax({
-          url: '<?= site_url('nextstep/ajaxCeStatusWhatsAPP') ?>',
-          type: 'GET',
-          dataType: 'json',
-        })
-        .done(function(response) {
 
-          if (response.statusverifikasiwa) {
+<script>
+    $(document).on('click', '#btnDaftar', function(e) {
+      var idjadwalevent = $(this).attr('data-idjadwalevent');
 
-            swal({
-              title: "Daftar Kelas?",
-              text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
-              icon: "info",
-              buttons: ["Batal!", "Ya!"],
-              dangerMode: true,
-            })
-            .then((daftarkelas) => {
-              if (daftarkelas) {
+      e.preventDefault();
 
-                $.ajax({
-                    url: '<?php echo site_url('nextstep/daftar') ?>',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                      'idjadwalevent': idjadwalevent
-                    },
-                  })
-                  .done(function(daftarResult) {
-                    console.log(daftarResult);
+      $.ajax({
+        url: '<?= site_url('nextstep/ajaxCeStatusWhatsAPP') ?>',
+        type: 'GET',
+        dataType: 'json',
+      })
+      .done(function(response) {
 
-                    if (daftarResult.success) {
-                      swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
-                        .then(function() {
-                          window.open("<?php echo site_url('nextstep/kelas/' . $kelas_slug . '/' . $this->encrypt->encode($menu)) ?>", "_self");
-                        });
-                    } else {
-                      swal("Gagal", daftarResult.msg, "info");
-                    }
-                  })
-                  .fail(function() {
-                    console.log("error");
-                  });
+        if (response.statusverifikasiwa) {
 
-              }
-            });
 
-          } else {
-            swal({
-              title: "Nomor WhatsApp Belum Terverifikasi",
-              text: "Silahkan verifikasi nomor whatsapp terlebih dahulu!",
-              icon: "info",
-            })
-            .then(() => {
-              window.location.href = '<?php echo site_url('akun/ubahprofil') ?>';
-            });
-          }
-        })
-        .fail(function() {
-          console.log('error');
-          swal("Gagal", "Terjadi kesalahan", "error");
-        });
+          swal({
+            title: "Daftar Kelas?",
+            text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
+            icon: "info",
+            buttons: ["Batal!", "Ya!"],
+            dangerMode: true,
+          })
+          .then((daftarkelas) => {
+            if (daftarkelas) {
 
+              $.ajax({
+                  url: '<?php echo site_url('nextstep/daftar') ?>',
+                  type: 'POST',
+                  dataType: 'json',
+                  data: {
+                    'idjadwalevent': idjadwalevent
+                  },
+                })
+                .done(function(daftarResult) {
+                  console.log(daftarResult);
+
+                  if (daftarResult.success) {
+                    swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
+                      .then(function() {
+                        window.open("<?php echo site_url('nextstep/kelas/' . $kelas_slug . '/' . $this->encrypt->encode($menu)) ?>", "_self");
+                      });
+                  } else {
+                    swal("Gagal", daftarResult.msg, "info");
+                  }
+                })
+                .fail(function() {
+                  console.log("error");
+                });
+
+            }
+          });
+
+          
+        }else{
+          swal({
+            title: "Nomor WhatsApp Belum Terverifikasi",
+            text: "Silahkan verifikasi nomor whatsapp terlebih dahulu!",
+            icon: "info",            
+          })
+          .then(() => {
+            window.location.href = '<?php echo site_url('akun/ubahprofil') ?>';
+          });
+        }
+      })
+      .fail(function() {
+        console.log('error');
+        swal("Gagal", "Terjadi kesalahan", "error");
       });
-    </script>
+      
+      
 
-    <?php $this->load->view('template/festavalive/footer'); ?>
+    });
+  </script>
+      
+
+      <?php $this->load->view('template/festavalive/footer'); ?>
