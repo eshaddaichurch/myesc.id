@@ -173,181 +173,81 @@ $this->load->view('template/festavalive/header');
 
       }
 
+
+      @media (max-width:768px){
+
+      .equip-section{
+        padding:70px 0;
+      }
+
+      .equip-header{
+        margin-bottom:30px;
+      }
+
+      .equip-title{
+        font-size:28px;
+        line-height:1.3;
+      }
+
+      .equip-desc{
+        font-size:15px;
+      }
+
+      .schedule-title{
+        font-size:20px;
+      }
+
+      .class-img{
+        height:180px;
+      }
+
+      .class-body{
+        padding:18px;
+      }
+
+      .class-title{
+        font-size:18px;
+      }
+
+      .class-capacity{
+        float:none;
+        display:block;
+        margin-top:4px;
+        font-size:12px;
+      }
+
+      .class-info{
+        font-size:13px;
+      }
+
+      .btn-daftar{
+        padding:10px;
+        font-size:14px;
+      }
+
+      .help-box{
+        flex-direction:column;
+        text-align:center;
+        gap:18px;
+        padding:22px;
+      }
+
+      .help-btn{
+        width:100%;
+        text-align:center;
+      }
+
+      }
+
       /*whatiscare*/
     </style>
     </head>
 
     <body>
 
-      
-
-
-    <!-- Untuk Mobile -->
-    <!-- MOBILE VIEW -->
-    <section class="page-content section-padding d-md-none d-sm-block">
-      <div class="container">
-        <div class="row justify-content-center">
-
-          <?php
-          if ($rsJadwal->num_rows() > 0) {
-            foreach ($rsJadwal->result() as $rowJadwal) {
-              $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
-              $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
-
-              $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
-              $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
-
-              $tglEvent = ($tglmulai == $tglselesai)
-                ? $tglmulai
-                : "$tglmulai s/d $tglselesai";
-
-              $jamEvent = ($jamMulai == $jamSelesai)
-                ? $jamMulai
-                : "$jamMulai WIB s/d $jamSelesai WIB";
-
-              $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
-
-              $nJumlah = $this->db->query("
-                SELECT COUNT(*) AS jlh
-                FROM jadwaleventregistrasi
-                WHERE idjadwalevent = '" . $rowJadwal->idjadwalevent . "'
-                AND statuskonfirmasi <> 'Ditolak'
-              ")->row()->jlh;
-
-              $jumlahPeserta = ($maxJemaat == 0)
-                ? $nJumlah
-                : (
-                  $nJumlah == $maxJemaat
-                    ? '<span class="text-danger">' . $nJumlah . '/' . $maxJemaat . '</span>'
-                    : $nJumlah . '/' . $maxJemaat
-                );
-
-              $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar(
-                $rowJadwal->idjadwalevent,
-                $this->session->userdata('idjemaat')
-              );
-
-              $button = $sudahPernahDaftar
-                ? ''
-                : '<a href="#" class="btn btn-success w-100 mt-3"
-                    data-idjadwalevent="' . $rowJadwal->idjadwalevent . '"
-                    id="btnDaftar">
-                    Daftar Sekarang
-                  </a>';
-
-              $rsLokasi = $this->db->query("
-                SELECT *
-                FROM jadwaleventdetailtanggal
-                WHERE idjadwalevent = '" . $rowJadwal->idjadwalevent . "'
-                LIMIT 1
-              ");
-
-              $namaLokasi = ($rsLokasi->num_rows() > 0)
-                ? $rsLokasi->row()->lokasievent
-                : '';
-              ?>
-
-            <div class="col-12 mb-4">
-              <div class="card shadow-sm border-0" data-aos="fade-up">
-                <div class="card-body">
-
-                  <!-- TITLE -->
-                  <div class="d-flex justify-content-between align-items-start mb-3">
-                    <h5 class="mb-0">
-                      <?= $rowJadwal->namaevent ?>
-                    </h5>
-
-                    <?php if ($sudahPernahDaftar) { ?>
-                      <span class="badge bg-success">Sudah Daftar</span>
-                    <?php } else { ?>
-                      <span class="badge bg-secondary">Baru</span>
-                    <?php } ?>
-                  </div>
-
-                  <!-- INFO -->
-                  <div class="event-info mb-2">
-                    <i class="fas fa-map-marker-alt me-2 text-danger"></i>
-                    <?= $namaLokasi ?>
-                  </div>
-
-                  <div class="event-info mb-2">
-                    <i class="fa fa-calendar me-2 text-primary"></i>
-                    <?= $tglEvent ?>
-                  </div>
-
-                  <div class="event-info mb-2">
-                    <i class="far fa-clock me-2 text-warning"></i>
-                    <?= $jamEvent ?>
-                  </div>
-
-                  <div class="event-info mb-2">
-                    <i class="fas fa-user-check me-2 text-success"></i>
-                    <?= $jumlahPeserta ?>
-                  </div>
-
-                  <!-- STATUS -->
-                  <?php
-                  if ($sudahPernahDaftar) {
-                    $rsDaftar = $this->db->query("
-                      SELECT *
-                      FROM v_jadwaleventregistrasi
-                      WHERE idjadwalevent = '" . $rowJadwal->idjadwalevent . "'
-                      AND idjemaat = '" . $this->session->userdata('idjemaat') . "'
-                    ");
-
-                    if ($rsDaftar->num_rows() > 0) {
-                      foreach ($rsDaftar->result() as $rowDaftar) {
-                        $status = $rowDaftar->statuskonfirmasi;
-
-                        $alertClass = $status == 'Menunggu'
-                          ? 'warning'
-                          : ($status == 'Disetujui' ? 'success' : 'danger');
-
-                        $pesan = '';
-
-                        if ($status == 'Menunggu') {
-                          $pesan = 'Pengajuan pendaftaran kelas anda masih dalam proses <b>Menunggu</b>.';
-                        } elseif ($status == 'Disetujui') {
-                          $pesan = 'Pendaftaran kelas sudah <b>Disetujui</b>. Silahkan datang sesuai jadwal.';
-                        } elseif ($status == 'Ditolak') {
-                          $pesan = 'Pengajuan pendaftaran <b>Ditolak</b>. <br>' . $rowDaftar->keterangankonfirmasi;
-                        }
-                        ?>
-
-                        <div class="alert alert-<?= $alertClass ?> mt-3">
-                          <strong>Status : <?= $status ?></strong><br>
-                          <?= $pesan ?>
-                        </div>
-
-                  <?php
-                      }
-                    }
-                  }
-                  ?>
-
-                  <!-- BUTTON -->
-                  <?= $button ?>
-
-                </div>
-              </div>
-            </div>
-
-          <?php
-            }
-          } else {
-            echo '<div class="text-center">Jadwal kelas belum dibuka...</div>';
-          }
-          ?>
-
-        </div>
-      </div>
-    </section>
-
-
-
 
        <!-- SECTION: Jadwal Kelas (PENEMPATAN CARD DI SINI) -->
-       <section class="equip-section d-none d-md-block">
+       <section class="equip-section d-block">
 
         <div class="container">
 
@@ -416,7 +316,7 @@ $this->load->view('template/festavalive/header');
             ?>
 
             <!-- CARD -->
-            <div class="col-md-6 mb-4">
+            <div class="col-12 col-md-6 mb-4">
 
               <div class="class-card">
 
