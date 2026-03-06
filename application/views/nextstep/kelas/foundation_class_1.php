@@ -16,383 +16,157 @@ $this->load->view('template/festavalive/header'); ?>
 
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
 
-      /* This pen */
+      /* ===== EQUIP CLASS STYLE ===== */
 
-
-
-
-      .dark {
-        background: #110f16;
+      .equip-section{
+        padding:120px 0;
+        background:#0b0b0c;
+        color:#fff;
       }
 
-      /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-      .breadcrumbs {
-        padding: 140px 0 60px 0;
-        min-height: 30vh;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+      .equip-header{
+        max-width:800px;
+        margin-bottom:50px;
       }
 
-      .breadcrumbs:before {
-        content: "";
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        inset: 0;
+      .equip-badge{
+        display:inline-block;
+        padding:6px 14px;
+        background:#2a1a0f;
+        border-radius:20px;
+        font-size:12px;
+        letter-spacing:1px;
+        margin-bottom:15px;
       }
 
-      .breadcrumbs h2 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #fff;
-        font-family: var(--font-secondary);
+      .equip-title{
+        font-size:48px;
+        font-weight:700;
+        margin-bottom:15px;
       }
 
-      .breadcrumbs ol {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0 0 10px 0;
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-primary);
+      .equip-desc{
+        color:#a1a1aa;
+        font-size:18px;
       }
 
-      .breadcrumbs ol a {
-        color: rgba(255, 255, 255, 0.8);
-        transition: 0.3s;
+      .schedule-title{
+        font-size:26px;
+        font-weight:600;
+        margin:50px 0 30px 0;
       }
 
-      .breadcrumbs ol a:hover {
-        text-decoration: underline;
+      .class-card{
+        background:#151518;
+        border-radius:16px;
+        overflow:hidden;
+        border:1px solid #27272a;
+        transition:all .3s ease;
       }
 
-      .breadcrumbs ol li+li {
-        padding-left: 10px;
+      .class-card:hover{
+        transform:translateY(-6px);
+        border-color:#ff5a1f;
       }
 
-      .breadcrumbs ol li+li::before {
-        display: inline-block;
-        padding-right: 10px;
-        color: #fff;
-        content: "/";
+      .class-img{
+        width:100%;
+        height:200px;
+        object-fit:cover;
       }
 
-
-      .light {
-        background: #f3f5f7;
+      .class-body{
+        padding:24px;
       }
 
-      a,
-      a:hover {
-        text-decoration: none;
-        transition: color 0.3s ease-in-out;
+      .class-title{
+        font-size:20px;
+        font-weight:600;
+        margin-bottom:10px;
       }
 
-      #pageHeaderTitle {
-        margin: 2rem 0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2.5rem;
+      .class-capacity{
+        font-size:13px;
+        color:#a1a1aa;
+        float:right;
       }
 
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
-        display: flex;
-
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
-        overflow: hidden;
-        position: relative;
-        color: #ffffff;
-
-        &.dark {
-          background-color: #18151f;
-        }
-
-        &.light {
-          background-color: #e1e5ea;
-        }
-
-        .t-dark {
-          color: #18151f;
-        }
-
-        a {
-          color: inherit;
-        }
-
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
-
-        .small {
-          font-size: 80%;
-        }
-
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
-
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
-
-        .postcard__img_link {
-          display: contents;
-        }
-
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
-
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
-        }
-
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
-        }
-
-        &:before {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
-        }
-
-        &:hover .postcard__bar {
-          width: 100px;
-        }
+      .class-info{
+        font-size:14px;
+        color:#cfcfd4;
+        margin:6px 0;
       }
 
-      @media screen and (min-width: 769px) {
-        .postcard {
-          flex-wrap: inherit;
-
-          .postcard__title {
-            font-size: 2rem;
-          }
-
-          .postcard__tagbox {
-            justify-content: start;
-          }
-
-          .postcard__img {
-            max-width: 300px;
-            max-height: 100%;
-            transition: transform 0.3s ease;
-          }
-
-          .postcard__text {
-            padding-left: 4rem;
-            width: 100%;
-
-          }
-
-          .media.postcard__text:before {
-            content: "";
-            position: absolute;
-            display: block;
-            background: #18151f;
-            top: -20%;
-            height: 130%;
-            width: 55px;
-          }
-
-          &:hover .postcard__img {
-            transform: scale(1.1);
-          }
-
-          &:nth-child(2n+1) {
-            flex-direction: row;
-          }
-
-          &:nth-child(2n+0) {
-            flex-direction: row-reverse;
-          }
-
-          &:nth-child(2n+1) .postcard__text::before {
-            left: -12px !important;
-            transform: rotate(4deg);
-          }
-
-          &:nth-child(2n+0) .postcard__text::before {
-            right: -12px !important;
-            transform: rotate(-4deg);
-          }
-        }
+      .class-info i{
+        color:#ff5a1f;
+        margin-right:8px;
       }
 
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
-        }
-      }
-    </style>
-
-
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      .btn-daftar{
+        width:100%;
+        margin-top:20px;
+        padding:12px;
+        border-radius:8px;
+        background:#ff5a1f;
+        border:none;
+        color:#fff;
+        font-weight:600;
+        transition:.3s;
       }
 
-
-
-      /* body {
-        margin: 0;
-        font-family: 'Figtree', sans-serif;
-        background-color: #fff;
-        color: #444;
-      } */
-
-      body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(63deg, #fffaf5, #ffb347);
-      font-family: 'Figtree', sans-serif;
-      color: #111;
-      line-height: 1.7;
-    }
-
-    .membership-section {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 230px 20px;
-    }
-
-    .membership-section h1 {
-      font-size: 52px;
-      font-weight: 700;
-      margin-bottom: 40px;
-    }
-
-    .membership-section p {
-      margin-bottom: 20px;
-      font-size: 18px;
-      color: rgb(0, 0, 0) !important;
-    }
-
-    .btn-membership {
-      margin-top: 40px;
-      display: inline-block;
-      background-color: #000;
-      color: #fff;
-      padding: 14px 24px;
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: 4px;
-      transition: background 0.3s ease;
-    }
-
-    .btn-membership:hover {
-      background-color: #333;
-    }
-
-    @media (max-width: 768px) {
-      .membership-section {
-        padding: 120px 20px;
+      .btn-daftar:hover{
+        background:#e14d16;
       }
 
-      .membership-section h1 {
-        font-size: 36px;
+      .help-box{
+        margin-top:60px;
+        background:#18181b;
+        border:1px solid #2a2a2e;
+        border-radius:16px;
+        padding:30px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
       }
 
-      .membership-section p {
-        font-size: 16px !important;
-        color: rgb(0, 0, 0) !important;
-        text-align: justify;
+      .help-box h4{
+        margin:0;
+        font-size:20px;
       }
-    }
+
+      .help-box p{
+        margin:5px 0 0 0;
+        color:#a1a1aa;
+      }
+
+      .help-btn{
+        border:1px solid #ff5a1f;
+        padding:12px 24px;
+        border-radius:10px;
+        color:#ff5a1f;
+        text-decoration:none;
+        font-weight:600;
+      }
+
+      .help-btn:hover{
+        background:#ff5a1f;
+        color:#fff;
+      }
+
+      @media(max-width:768px){
+
+      .equip-title{
+        font-size:32px;
+      }
+
+      .help-box{
+        flex-direction:column;
+        gap:20px;
+        text-align:center;
+      }
+
+      }
 
       /*whatiscare*/
     </style>
@@ -516,85 +290,165 @@ $this->load->view('template/festavalive/header'); ?>
 
 
        <!-- SECTION: Jadwal Kelas (PENEMPATAN CARD DI SINI) -->
-    <section class="page-content promo-section d-none d-md-block">
-      <div class="container">
-        <div class="row justify-content-center">
+       <section class="equip-section d-none d-md-block">
 
-          <div class="col-12 mb-4 text-center">
-            <h2 class="promo-title">Jadwal Pendaftaran Kelas</h2>
-            <hr class="w-25 mx-auto">
+        <div class="container">
+
+          <!-- HEADER -->
+          <div class="equip-header">
+            <span class="equip-badge">EQUIP PROGRAM</span>
+
+            <h1 class="equip-title">
+              Foundation Class 1
+            </h1>
+
+            <p class="equip-desc">
+              Temukan makna mendalam dari keselamatan dan langkah ketaatan melalui baptisan.
+              Mari bertumbuh bersama dalam fondasi iman yang kuat dalam perjalanan spiritual Anda.
+            </p>
           </div>
 
-          <?php
-          if ($rsJadwal->num_rows() > 0) {
-            foreach ($rsJadwal->result() as $rowJadwal) {
-              $tglmulai = date('d-m-Y', strtotime($rowJadwal->tglmulai));
-              $tglselesai = date('d-m-Y', strtotime($rowJadwal->tglselesai));
-              $jamMulai = date('H:i', strtotime($rowJadwal->tglmulai));
-              $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
 
-              $tglEvent = ($tglmulai == $tglselesai) ? $tglmulai : "$tglmulai <br><small class='text-muted'>s/d</small><br> $tglselesai";
-              $jamEvent = ($jamMulai == $jamSelesai) ? $jamMulai : "$jamMulai WIB <br><small class='text-muted'>s/d</small><br> $jamSelesai WIB";
+          <!-- TITLE -->
+          <h3 class="schedule-title">
+            📅 Jadwal Kelas Mendatang
+          </h3>
 
-              $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
-              $nJumlah = $this->db->query("SELECT COUNT(*) as jlh FROM jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND statuskonfirmasi<>'Ditolak'")->row()->jlh;
-              $jumlahPeserta = ($maxJemaat == 0) ? $nJumlah : ($nJumlah == $maxJemaat ? "<span class='text-danger'>$nJumlah/$maxJemaat</span>" : "$nJumlah/$maxJemaat");
 
-              $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($rowJadwal->idjadwalevent, $this->session->userdata('idjemaat'));
+          <div class="row">
 
-              $button = !$sudahPernahDaftar
-                ? '<a href="#" class="btn btn-success btn-lg w-100" id="btnDaftar" data-idjadwalevent="' . $rowJadwal->idjadwalevent . '">Daftar Sekarang</a>'
-                : '';
-          ?>
-              <div class="col-md-6 col-lg-5 mb-5">
-                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                  <img src="<?php echo base_url('myesc.id/assets/gambar/bgkelas.jpg'); ?>" class="card-img-top" alt="Banner Event" style="object-fit: cover; height: 220px;">
-                  <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                      <h4 class="fw-bold"><i class="bi bi-calendar-event me-2"></i> <?php echo $rowJadwal->namaevent ?></h4>
-                      <span class="badge bg-secondary fs-6">Peserta: <?php echo $jumlahPeserta ?></span>
-                    </div>
-                    <p class="fs-5 mb-2"><strong>📆 Tanggal:</strong><br><?php echo $tglEvent ?></p>
-                    <p class="fs-5 mb-2"><strong>⏰ Jam:</strong><br><?php echo $jamEvent ?></p>
-                    <div class="mt-4"><?php echo $button ?></div>
+        <?php
+        if ($rsJadwal->num_rows() > 0) {
+
+          foreach ($rsJadwal->result() as $rowJadwal) {
+
+            $tglmulai   = date('d F Y', strtotime($rowJadwal->tglmulai));
+            $jamMulai   = date('H:i', strtotime($rowJadwal->tglmulai));
+            $jamSelesai = date('H:i', strtotime($rowJadwal->tglselesai));
+
+            $maxJemaat = $rowJadwal->jumlahjemaat ?: 0;
+
+            $nJumlah = $this->db->query("
+              SELECT COUNT(*) AS jlh 
+              FROM jadwaleventregistrasi
+              WHERE idjadwalevent = '{$rowJadwal->idjadwalevent}'
+              AND statuskonfirmasi <> 'Ditolak'
+            ")->row()->jlh;
+
+            $jumlahPeserta = ($maxJemaat == 0)
+              ? $nJumlah
+              : $nJumlah . '/' . $maxJemaat;
+
+            $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar(
+              $rowJadwal->idjadwalevent,
+              $this->session->userdata('idjemaat')
+            );
+
+            $button = !$sudahPernahDaftar
+              ? '<a href="#" class="btn-daftar" id="btnDaftar" data-idjadwalevent="'.$rowJadwal->idjadwalevent.'">Daftar Sekarang</a>'
+              : '';
+
+            $rsLokasi = $this->db->query("
+              SELECT * 
+              FROM jadwaleventdetailtanggal
+              WHERE idjadwalevent = '{$rowJadwal->idjadwalevent}'
+              LIMIT 1
+            ");
+
+            $namaLokasi = ($rsLokasi->num_rows() > 0)
+              ? $rsLokasi->row()->lokasievent
+              : "";
+        ?>
+
+            <!-- CARD -->
+            <div class="col-md-6 mb-4">
+
+              <div class="class-card">
+
+                <!-- IMAGE -->
+                <img 
+                  src="<?= base_url('myesc.id/assets/gambar/bgkelas.jpg'); ?>" 
+                  class="class-img"
+                >
+
+                <!-- BODY -->
+                <div class="class-body">
+
+                  <!-- TITLE -->
+                  <div class="class-title">
+                    <?= $rowJadwal->namaevent ?>
+
+                    <span class="class-capacity">
+                      Peserta: <?= $jumlahPeserta ?>
+                    </span>
                   </div>
 
-                  <?php if ($sudahPernahDaftar): ?>
-                    <?php
-                    $rsDaftar = $this->db->query("SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent='{$rowJadwal->idjadwalevent}' AND idjemaat='{$this->session->userdata('idjemaat')}'");
-                    if ($rsDaftar->num_rows() > 0):
-                      foreach ($rsDaftar->result() as $rowDaftar):
-                        $status = $rowDaftar->statuskonfirmasi;
-                        $tglDaftar = date('d-m-Y H:i:s', strtotime($rowDaftar->tglregistrasi));
-                        $alertClass = $status == 'Menunggu' ? 'warning' : ($status == 'Disetujui' ? 'success' : 'danger');
-                        $pesan = $status == 'Menunggu' ? 'Pengajuan pendaftaran kelas anda masih dalam proses <strong>Menunggu</strong>!'
-                          : ($status == 'Disetujui' ? 'Pengajuan pendaftaran kelas sudah <strong>Disetujui</strong>! Silahkan datang pada waktu jadwal yang telah ditentukan.'
-                            : 'Pengajuan pendaftaran kelas <strong>Ditolak</strong>!<br>' . $rowDaftar->keterangankonfirmasi);
-                    ?>
-                        <div class="card-footer bg-light">
-                          <div class="alert alert-<?php echo $alertClass ?> mb-0" style="font-size: 0.9rem;">
-                            <strong>👤 Nama Jemaat:</strong> <?php echo $rowDaftar->namalengkap ?><br>
-                            <strong>🗓️ Tgl Pengajuan:</strong> <?php echo $tglDaftar ?><br>
-                            <strong>Status:</strong> <?php echo $status ?><br><br>
-                            <?php echo $pesan ?>
-                          </div>
-                        </div>
-                    <?php endforeach; endif; ?>
-                  <?php endif; ?>
+                  <!-- DATE -->
+                  <div class="class-info">
+                    <i class="bi bi-calendar"></i>
+                    <?= $tglmulai ?>
+                  </div>
+
+                  <!-- TIME -->
+                  <div class="class-info">
+                    <i class="bi bi-clock"></i>
+                    <?= $jamMulai ?> - <?= $jamSelesai ?> WIB
+                  </div>
+
+                  <!-- LOCATION -->
+                  <div class="class-info">
+                    <i class="bi bi-geo-alt"></i>
+                    <?= $namaLokasi ?>
+                  </div>
+
+                  <!-- BUTTON -->
+                  <?= $button ?>
+
                 </div>
+
               </div>
-          <?php
-            }
-          } else {
-            echo '
-              <div class="col-12 text-center">
-                <div class="alert alert-info">Jadwal kelas ' . $rowKelas->namakelas . ' belum dibuka.</div>
-              </div>';
+
+            </div>
+
+        <?php
           }
-          ?>
+        } else {
+        ?>
+
+          <div class="col-12 text-center">
+            <div class="alert alert-info">
+              Jadwal kelas belum dibuka.
+            </div>
+          </div>
+
+        <?php
+        }
+        ?>
+
+          </div>
+
+
+          <!-- HELP BOX -->
+          <div class="help-box">
+
+            <div>
+              <h4>Butuh bantuan pendaftaran?</h4>
+
+              <p>
+                Hubungi hotline Equip pada tombol "Hubungi Kami" jika Anda mengalami kesulitan saat
+                mendaftar kelas Equip.
+              </p>
+            </div>
+
+            <a href="https://wa.me/6285183023883" target="_blank" class="help-btn">
+              Hubungi Kami
+            </a>
+
+          </div>
+
+
         </div>
-      </div>
-    </section>
+        </section>
 
     <!-- jQuery dulu -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

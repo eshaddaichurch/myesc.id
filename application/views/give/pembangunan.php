@@ -260,7 +260,7 @@ body {
 <section class="giving-wrapper">
   <div class="giving-container">
 
-    <h2 class="section-title">Pembangunan</h2>
+    <h2 class="section-title">Persembahan Pembangunan</h2>
 
     <!-- QR SECTION -->
     <div class="qr-card">
