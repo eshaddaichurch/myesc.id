@@ -36,7 +36,7 @@ if ($rsDc->num_rows() > 0) {
 
         $table .= '
                 <tr style="font-size:12px;">
-                        <td width="5%" style="text-align:center;">' . $no++ .'</td>
+                        <td width="5%" style="text-align:center;">' . $no .'</td>
                         <td width="40%" style="text-align:left;">' . $row->namadc . '</td>
                         <td width="25%" style="text-align:center;">' . $row->namadm . '</td>
                         <td width="15%" style="text-align:center;">' . substr($namaCt, 0, -2) . '</td>
