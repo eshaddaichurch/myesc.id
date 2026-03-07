@@ -187,6 +187,7 @@ class Disciples_community extends MY_Controller
 			echo json_encode(array('msg' => 'Silahkan login terlebih dahulu untuk melanjutkan!'));
 			exit();
 		}
+		
 		//Periksa apakah ada permohonan sebelumnya
 		$rsPeriksaPermohonan = $this->db->query("
 			select * from dcmember_permohonan where idjemaat = '$idjemaat' and statuskonfirmasi = 'Menunggu Konfirmasi'

@@ -34,9 +34,25 @@ class Whatsappblast extends MY_Controller {
         $usiaawal = $this->input->get('usiaawal');
         $usiasampai = $this->input->get('usiasampai');
 
-        $jumlahJemaat = $this->Whatsappblast_model->getJumlahJemaat($statuspernikahan, $statusjemaat, $jeniskelamin, $dcoption, $iddc, $usiaoption, $usiaawal, $usiasampai);
+        $jumlahJemaat = $this->Whatsappblast_model->getDetailWaBlast($statuspernikahan, $statusjemaat, $jeniskelamin, $dcoption, $iddc, $usiaoption, $usiaawal, $usiasampai);
         
-        echo json_encode($jumlahJemaat);        
+        echo json_encode($jumlahJemaat->result());        
+    }
+
+    public function getDetailWaBlast()
+    {
+        $statuspernikahan = $this->input->get('statuspernikahan');
+        $statusjemaat = $this->input->get('statusjemaat');
+        $jeniskelamin = $this->input->get('jeniskelamin');
+        $dcoption = $this->input->get('dcoption');
+        $iddc = $this->input->get('iddc');
+        $usiaoption = $this->input->get('usiaoption');
+        $usiaawal = $this->input->get('usiaawal');
+        $usiasampai = $this->input->get('usiasampai');
+
+        $rsJemaat = $this->Whatsappblast_model->getDetailWaBlast($statuspernikahan, $statusjemaat, $jeniskelamin, $dcoption, $iddc, $usiaoption, $usiaawal, $usiasampai);
+        
+        echo json_encode($rsJemaat->result());  
     }
 
 }

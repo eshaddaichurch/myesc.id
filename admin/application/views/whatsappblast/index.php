@@ -34,8 +34,52 @@
                     </div>
 
                     <div class="col-12 mb-5">
-                        <label for="">TEXT WHATSAPP YANG AKAN DIKIRIM:</label>
-                        <textarea name="textWa" id="textWa" class="form-control" placeholder="Ketikkan text whatsapp yang akan dikirim" rows="10"></textarea>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="">TEXT WHATSAPP YANG AKAN DIKIRIM:</label>
+                                    <textarea name="textWa" id="textWa" class="form-control" placeholder="Ketikkan text whatsapp yang akan dikirim" rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <button class="btn btn-sm btn-success float-right">Simpan Sebagai Template</button>
+                            </div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 mb-3">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <label for="">Template Text:</label>
+                                                    </div>
+                                                    <div class="col-12 text-lg">
+                                                        <div class="badge badge-success template">
+                                                            <a href="" class="text-white" data-template="selamatpaskah">Selamat Hari Paskah</a> <a href="" class="text-danger ml-2"><i class="fa fa-trash"></i></a>
+                                                        </div>
+
+                                                        <div class="badge badge-success template">
+                                                            <a href="" class="text-white" data-template="selamatpaskah">Selamat Hari Minggu</a> <a href="" class="text-danger ml-2"><i class="fa fa-trash"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-12">
+                                                <label for="">Tags:</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-sm btn-secondary btn-tag" data-tag="[[idjemaat]]">[[idjemaat]]</button>
+                                                <button class="btn btn-sm btn-secondary btn-tag" data-tag="[[namalengkap]]">[[namalengkap]]</button>
+                                                <button class="btn btn-sm btn-secondary btn-tag" data-tag="[[email]]">[[email]]</button>
+                                                <button class="btn btn-sm btn-secondary btn-tag" data-tag="[[nohp]]">[[nohp]]</button>                                                                                               
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-md-8">
@@ -53,6 +97,10 @@
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="statuspernikahanoption" id="statuspernikahan3" value="Kawin">
                                     <label class="form-check-label" for="statuspernikahan3">Kawin</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="statuspernikahanoption" id="statuspernikahan4" value="Janda/ Duda">
+                                    <label class="form-check-label" for="statuspernikahan4">Janda/ Duda</label>
                                 </div>
                             </div>
                         </div>
@@ -74,8 +122,8 @@
                                     <label class="form-check-label" for="statusjemaat3">Simpatisan</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="statusjemaatoption" id="statusjemaat3" value="Umum">
-                                    <label class="form-check-label" for="statusjemaat3">Registered</label>
+                                    <input class="form-check-input" type="radio" name="statusjemaatoption" id="statusjemaat4" value="Registered">
+                                    <label class="form-check-label" for="statusjemaat4">Registered</label>
                                 </div>
                             </div>
                         </div>
@@ -165,18 +213,21 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="card">
-                                            <div class="card-body bg-info">
+                                            <div class="card-body bg-gray" style="height: 200px;">
                                                 <div class="text-center display-block font-weight-bold">JUMLAH JEMAAT</div>
-                                                <h1 class="text-center mt-3 mb-3">0</h1>
+                                                <h1 class="text-center mt-3 mb-3" id="totalJemaat">0</h1>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="card">
-                                            <div class="card-body bg-success">
+                                            <div class="card-body bg-success" style="height: 200px;">
                                                 <div class="text-center display-block font-weight-bold">JUMLAH TERPILIH</div>
-                                                <h1 class="text-center mt-3 mb-3">0</h1>
+                                                <h1 class="text-center mt-3 mb-3" id="totalJemaatTerpilih">0</h1>
+                                                <div class="text-center display-block">
+                                                    <a href="#" class="text-white" id="btnLihatDetail">Lihat Detail</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -223,7 +274,9 @@
 <?php $this->load->view("template/footer") ?>
 
 
+<?php $this->load->view('whatsappblast/modaldetail');
 
+ ?>
 <script type="text/javascript">
   
   
@@ -231,7 +284,7 @@
 
         $('.select2').select2();
         $("form").attr('autocomplete', 'off');
-
+        getJumlahJemaat();
     }); 
   
 
@@ -266,8 +319,17 @@
         getJumlahJemaat();
     });
 
+    $('input[name="usiaawal"]').on('change', function() {
+        getJumlahJemaat();
+    });
+
+    $('input[name="usiasampai"]').on('change', function() {
+        getJumlahJemaat();
+    });
+
     function getJumlahJemaat() {
         var jumlahjemaat = 0;
+        
         var statuspernikahan = $('input[name="statuspernikahanoption"]:checked').val();
         var statusjemaat = $('input[name="statusjemaatoption"]:checked').val();
         var jeniskelamin = $('input[name="jeniskelaminoption"]:checked').val();
@@ -287,8 +349,9 @@
             'usiaawal': usiaawal,
             'usiasampai': usiasampai,
         };
-
-        console.log(formdata);
+        
+        //kosongkan tbody detail
+        $('#tbodyDetailWaBlast').html("");
 
         $.ajax({
             url: '<?= site_url('whatsappblast/getJumlahJemaat') ?>',
@@ -297,7 +360,30 @@
             data: formdata,
         })
         .done(function(response) {
-            console.log(response);
+            // console.log(response);
+            $('#totalJemaatTerpilih').html(response.length);
+            
+            //tampilkan detail di modal
+            var html = "";
+            var no = 1;
+            if (response.length > 0) {
+                $.each(response, function(key, value){
+                    html += "<tr>";
+                    html += "<td class='text-center'>"+no+"</td>";
+                    html += "<td class='text-left'>"+value.namalengkap+"</td>";
+                    html += "<td class='text-center'>"+(value.namadc == null ? "-" : value.namadc)+"</td>";
+                    html += "<td class='text-center'>"+value.nohp+"</td>";
+                    html += "</tr>";
+                    no++;
+                });
+                $("#tbodyDetailWaBlast").html(html);
+                
+            }else{
+                html += "<tr>";
+                html += "<td colspan='4' class='text-center'>Tidak Ada Data</td>";
+                html += "</tr>";
+                $("#tbodyDetailWaBlast").html(html);
+            }
         })
         .fail(function() {
             console.log('error');
@@ -305,7 +391,32 @@
 
         
     }
-  
+
+    $(document).on('click', '#btnLihatDetail', function(e) {
+        e.preventDefault();
+        $("#modalDetailWaBlast").modal("show");
+    });
+
+    $(document).on('click', '.btn-tag', function() {
+        var tag = $(this).attr('data-tag');
+        var textarea = $('#textWa')[0]; // Ambil DOM element (bukan jQuery object)
+        
+        var textWa = $('#textWa').val();
+        var pos = textarea.selectionStart; // Posisi kursor saat ini
+        
+        // Insert tag di posisi kursor
+        var textWaBaru = textWa.substring(0, pos) + tag + textWa.substring(pos);
+        $('#textWa').val(textWaBaru);
+        
+        // Hitung posisi kursor baru
+        var newPos = pos + tag.length;
+        
+        // Set ulang posisi kursor (start dan end sama = cursor, bukan seleksi)
+        textarea.setSelectionRange(newPos, newPos);
+        
+        // Focus ke textarea
+        $('#textWa').focus();
+    });
 </script>
 
 </body>

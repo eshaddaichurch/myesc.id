@@ -132,6 +132,17 @@ class Dcmember extends MY_Controller
         $tanggalupdate             = date('Y-m-d H:i:s');
         $statusaktif         = $this->input->post('statusaktif');
 
+        
+        if ($this->Dcmember_model->sudahBergabungDc($idjemaat)) {
+            $pesan = '<div>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <strong>Gagal!</strong> Jemaat ini sudah tergabung di dalam DC!
+                        </div>
+                    </div>';        
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('dcmember');
+        }
 
         if ($iddcmember == '') {
 

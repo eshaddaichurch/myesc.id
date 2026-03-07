@@ -78,15 +78,17 @@ INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, no
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
 	VALUES('M500', 'Disciples Community', NULL, NULL, 'Aktif', 50, 0, 'fas fa-address-card');
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
-	VALUES('M504', 'Konfirmasi DCM', 'M500', 'konfirmasidcm', 'Aktif', 51, 1, NULL);
+	VALUES('M506', 'Dashboard DC', 'M500', 'dashboarddc', 'Aktif', 51, 1, NULL);	
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
-	VALUES('M501', 'List Data DC', 'M500', 'disciplescommunity', 'Aktif', 52, 1, NULL);
+	VALUES('M504', 'Konfirmasi DCM', 'M500', 'konfirmasidcm', 'Aktif', 52, 1, NULL);
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
-	VALUES('M502', 'DC Member', 'M500', 'dcmember', 'Aktif', 53, 1, NULL);
+	VALUES('M501', 'List Data DC', 'M500', 'disciplescommunity', 'Aktif', 53, 1, NULL);
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
-	VALUES('M503', 'Absen DC', 'M500', 'absensidc', 'Aktif', 54, 1, NULL);
+	VALUES('M502', 'DC Member', 'M500', 'dcmember', 'Aktif', 54, 1, NULL);
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
-	VALUES('M505', 'DC Member Progress', 'M500', 'dcmemberprogress', 'Aktif', 55, 1, NULL);	
+	VALUES('M503', 'Absen DC', 'M500', 'absensidc', 'Aktif', 55, 1, NULL);
+INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
+	VALUES('M505', 'DC Member Progress', 'M500', 'dcmemberprogress', 'Aktif', 56, 1, NULL);	
 		
 
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)

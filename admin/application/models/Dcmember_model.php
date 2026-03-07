@@ -93,6 +93,18 @@ class Dcmember_model extends CI_Model {
         return $this->db->update($this->tabel, $data);
     }
 
+    public function sudahBergabungDc($idjemaat)
+    {
+        $rsBergabung = $this->db->query("
+            select * from v_dcmember where idjemaat = '$idjemaat' and statusaktif = 'Aktif'
+        ");
+        if ($rsBergabung->num_rows()>0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
 
 
