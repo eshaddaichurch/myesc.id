@@ -89,6 +89,8 @@ INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, no
 	VALUES('M503', 'Absen DC', 'M500', 'absensidc', 'Aktif', 55, 1, NULL);
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
 	VALUES('M505', 'DC Member Progress', 'M500', 'dcmemberprogress', 'Aktif', 56, 1, NULL);	
+INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
+	VALUES('M507', 'Resume DC', 'M500', 'resumedc', 'Aktif', 57, 1, NULL);	
 		
 
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
