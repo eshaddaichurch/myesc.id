@@ -497,5 +497,5 @@ function since($datetime, $full = false)
 
 	function parentUrl()
 	{
-		return 'https://myesc.id/';
+		return 'https://myesc.id/myesc.id/';
 	}
