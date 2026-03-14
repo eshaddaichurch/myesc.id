@@ -1,454 +1,502 @@
-
-<?php
-
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
+<?php $this->load->view('template/festavalive/header'); ?>
 
 <body>
-
   <main>
-
-
-
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-
-
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-      /* This pen */
-
-
-
-
-      .dark {
-        background: #110f16;
+      /* =============================================
+         ROOT & RESET
+      ============================================= */
+      :root {
+        --bg-base:       #0f0e13;
+        --bg-card:       #1a1824;
+        --bg-card-hover: #1f1d2c;
+        --accent:        #e04607;
+        --accent-soft:   rgba(224, 70, 7, 0.15);
+        --green:         #22c55e;
+        --green-soft:    rgba(34, 197, 94, 0.15);
+        --gray:          #64748b;
+        --gray-soft:     rgba(100, 116, 139, 0.15);
+        --orange-soft:   rgba(224, 70, 7, 0.12);
+        --text-primary:  #f1f5f9;
+        --text-muted:    #94a3b8;
+        --border:        rgba(255,255,255,0.07);
+        --font:          'Plus Jakarta Sans', sans-serif;
+        --radius:        16px;
       }
 
-      /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-      .breadcrumbs {
-        padding: 140px 0 60px 0;
-        min-height: 30vh;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+      html, body {
+        margin: 0; padding: 0;
+        background: var(--bg-base);
+        font-family: var(--font);
+        color: var(--text-primary);
+        line-height: 1.65;
       }
 
-      .breadcrumbs:before {
-        content: "";
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        inset: 0;
+      *, *::before, *::after { box-sizing: border-box; }
+
+      /* =============================================
+         PAGE WRAPPER
+      ============================================= */
+      .ks-page {
+        min-height: 100vh;
+        padding: 140px 0 100px;
       }
 
-      .breadcrumbs h2 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #fff;
-        font-family: var(--font-secondary);
+      @media (max-width: 767px) {
+        .ks-page { padding: 100px 0 80px; }
       }
 
-      .breadcrumbs ol {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0 0 10px 0;
+      /* =============================================
+         PAGE HEADER
+      ============================================= */
+      .ks-header {
+        margin-bottom: 48px;
+      }
+
+      .ks-header h1 {
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        font-weight: 800;
+        color: var(--text-primary);
+        margin: 0 0 8px;
+        letter-spacing: -0.03em;
+      }
+
+      .ks-header p {
+        font-size: 1rem;
+        color: var(--text-muted);
         margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-primary);
       }
 
-      .breadcrumbs ol a {
-        color: rgba(255, 255, 255, 0.8);
-        transition: 0.3s;
-      }
-
-      .breadcrumbs ol a:hover {
-        text-decoration: underline;
-      }
-
-      .breadcrumbs ol li+li {
-        padding-left: 10px;
-      }
-
-      .breadcrumbs ol li+li::before {
-        display: inline-block;
-        padding-right: 10px;
-        color: #fff;
-        content: "/";
-      }
-
-
-      .light {
-        background: #f3f5f7;
-      }
-
-      a,
-      a:hover {
-        text-decoration: none;
-        transition: color 0.3s ease-in-out;
-      }
-
-      #pageHeaderTitle {
-        margin: 2rem 0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2.5rem;
-      }
-
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
+      /* =============================================
+         CLASS CARDS
+      ============================================= */
+      .ks-list {
         display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
 
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
+      .ks-card {
+        display: flex;
+        background: var(--bg-card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        animation: fadeUp 0.5s ease both;
+      }
+
+      .ks-card:hover {
+        transform: translateY(-3px);
+        background: var(--bg-card-hover);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      }
+
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Staggered animation delay */
+      .ks-card:nth-child(1) { animation-delay: 0.05s; }
+      .ks-card:nth-child(2) { animation-delay: 0.12s; }
+      .ks-card:nth-child(3) { animation-delay: 0.19s; }
+      .ks-card:nth-child(4) { animation-delay: 0.26s; }
+      .ks-card:nth-child(5) { animation-delay: 0.33s; }
+
+      /* Locked card styling */
+      .ks-card.is-locked {
+        opacity: 0.72;
+      }
+
+      /* --- Thumbnail --- */
+      .ks-card__thumb {
+        width: 280px;
+        min-width: 280px;
         overflow: hidden;
         position: relative;
-        color: #ffffff;
+        background: #0f0e13;
+      }
 
-        &.dark {
-          background-color: #18151f;
-        }
+      .ks-card__thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+        filter: brightness(0.85);
+      }
 
-        &.light {
-          background-color: #e1e5ea;
-        }
+      .ks-card:hover .ks-card__thumb img {
+        transform: scale(1.06);
+      }
 
-        .t-dark {
-          color: #18151f;
-        }
+      /* Overlay gradient on thumb */
+      .ks-card__thumb::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent 60%, var(--bg-card) 100%);
+        pointer-events: none;
+      }
 
-        a {
-          color: inherit;
-        }
+      /* Locked overlay */
+      .ks-card.is-locked .ks-card__thumb::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(15,14,19,0.45);
+        z-index: 1;
+      }
 
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
+      /* --- Body --- */
+      .ks-card__body {
+        flex: 1;
+        padding: 28px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-        .small {
-          font-size: 80%;
-        }
+      /* --- Top row: badge + date --- */
+      .ks-card__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
 
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
+      .ks-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 6px;
+      }
 
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
+      .ks-badge.lulus {
+        background: var(--green-soft);
+        color: var(--green);
+        border: 1px solid rgba(34,197,94,0.25);
+      }
 
-        .postcard__img_link {
-          display: contents;
-        }
+      .ks-badge.belum-lulus {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid rgba(224,70,7,0.3);
+      }
 
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
+      .ks-badge.terkunci {
+        background: var(--gray-soft);
+        color: var(--gray);
+        border: 1px solid rgba(100,116,139,0.2);
+      }
 
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
+      .ks-badge.tersedia {
+        background: var(--orange-soft);
+        color: #fb923c;
+        border: 1px solid rgba(251,146,60,0.25);
+      }
+
+      .ks-badge svg {
+        width: 12px; height: 12px;
+        flex-shrink: 0;
+      }
+
+      .ks-card__date {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+      }
+
+      /* --- Title --- */
+      .ks-card__title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+      }
+
+      .ks-card.is-locked .ks-card__title {
+        color: #64748b;
+      }
+
+      /* --- Description --- */
+      .ks-card__desc {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* --- Action button --- */
+      .ks-card__footer {
+        margin-top: auto;
+        padding-top: 8px;
+      }
+
+      .ks-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        border-radius: 50px;
+        font-family: var(--font);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: none;
+      }
+
+      .ks-btn.primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 4px 20px rgba(224,70,7,0.35);
+      }
+
+      .ks-btn.primary:hover {
+        background: #c73d06;
+        box-shadow: 0 6px 28px rgba(224,70,7,0.5);
+        transform: translateY(-1px);
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .ks-btn.disabled {
+        background: rgba(100,116,139,0.15);
+        color: #475569;
+        border: 1px solid rgba(100,116,139,0.2);
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .ks-btn svg {
+        width: 15px; height: 15px;
+      }
+
+      /* =============================================
+         EMPTY STATE
+      ============================================= */
+      .ks-empty {
+        text-align: center;
+        padding: 64px 24px;
+        background: var(--bg-card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+      }
+
+      .ks-empty svg {
+        width: 48px; height: 48px;
+        color: var(--gray);
+        margin-bottom: 16px;
+        opacity: 0.6;
+      }
+
+      .ks-empty p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin: 0;
+      }
+
+      /* =============================================
+         HELP BANNER
+      ============================================= */
+      .ks-help {
+        margin-top: 40px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px 36px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        animation: fadeUp 0.5s ease 0.5s both;
+      }
+
+      .ks-help__icon {
+        width: 60px; height: 60px;
+        border-radius: 14px;
+        background: var(--accent-soft);
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .ks-help__icon svg {
+        width: 28px; height: 28px;
+        color: var(--accent);
+      }
+
+      .ks-help__text {
+        flex: 1;
+      }
+
+      .ks-help__text h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 4px;
+      }
+
+      .ks-help__text p {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin: 0;
+      }
+
+      /* =============================================
+         RESPONSIVE
+      ============================================= */
+      @media (max-width: 768px) {
+        .ks-card {
           flex-direction: column;
         }
 
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
+        .ks-card__thumb {
+          width: 100%;
+          min-width: unset;
+          height: 200px;
         }
 
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
+        .ks-card__thumb::after {
+          background: linear-gradient(0deg, var(--bg-card) 0%, transparent 60%);
         }
 
-        &:before {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
+        .ks-card__body {
+          padding: 20px 20px 24px;
         }
 
-        &:hover .postcard__bar {
-          width: 100px;
-        }
-      }
-
-      @media screen and (min-width: 769px) {
-        .postcard {
-          flex-wrap: inherit;
-
-          .postcard__title {
-            font-size: 2rem;
-          }
-
-          .postcard__tagbox {
-            justify-content: start;
-          }
-
-          .postcard__img {
-            max-width: 300px;
-            max-height: 100%;
-            transition: transform 0.3s ease;
-          }
-
-          .postcard__text {
-            padding-left: 4rem;
-            width: 100%;
-
-          }
-
-          .media.postcard__text:before {
-            content: "";
-            position: absolute;
-            display: block;
-            background: #18151f;
-            top: -20%;
-            height: 130%;
-            width: 55px;
-          }
-
-          &:hover .postcard__img {
-            transform: scale(1.1);
-          }
-
-          &:nth-child(2n+1) {
-            flex-direction: row;
-          }
-
-          &:nth-child(2n+0) {
-            flex-direction: row-reverse;
-          }
-
-          &:nth-child(2n+1) .postcard__text::before {
-            left: -12px !important;
-            transform: rotate(4deg);
-          }
-
-          &:nth-child(2n+0) .postcard__text::before {
-            right: -12px !important;
-            transform: rotate(-4deg);
-          }
-        }
-      }
-
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
+        .ks-help {
+          flex-direction: column;
+          text-align: center;
+          padding: 28px 24px;
+          gap: 16px;
         }
       }
     </style>
 
+    <!-- ============================================================
+         PAGE CONTENT
+    ============================================================= -->
+    <section class="ks-page">
+      <div class="container">
 
-    <style>
-    /* * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(63deg, #fffaf5, #ffb347);
-        font-family: 'Figtree', sans-serif;
-        color: #111;
-        line-height: 1.7;
-    } */
-
-    /* Reset jangan terlalu agresif */
-    * {
-    box-sizing: border-box;
-    }
-
-    html, body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(63deg, #fffaf5, #ffb347);
-    font-family: 'Figtree', sans-serif;
-    color: #111;
-    line-height: 1.7;
-    }
-
-    /* Default untuk mobile */
-    .page-content {
-    padding-top: 80px !important;   /* navbar mobile biasanya lebih pendek */
-    padding-bottom: 80px !important;
-    }
-
-    /* Untuk tablet ke atas */
-    @media (min-width: 768px) {
-    .page-content {
-        padding-top: 120px !important;
-        padding-bottom: 100px !important;
-    }
-    }
-
-    /* Untuk desktop (>= 1200px misalnya) */
-    @media (min-width: 1200px) {
-    .page-content {
-        padding-top: 160px !important;
-        padding-bottom: 151px !important;
-    }
-    }
-
-
-    </style>
-    </head>
-
-    <body>
-
-
-    <section class="page-content section-padding">
-        <div class="container">
-            <div class="row g-4">
-            <?php
-            if ($rskelas->num_rows() > 0) {
-                foreach ($rskelas->result() as $row) {
-                $kelas_slug = $this->db->query("SELECT * FROM kelas WHERE idkelas='" . $row->idkelas . "'")->row()->kelas_slug;
-
-                $tglsertifikat = !empty($row->tglsertifikat) ? tglindonesia($row->tglsertifikat) : '—';
-
-                if ($row->statuslulus == '1') {
-                    $statuslulus = '<span class="badge bg-success px-3 py-2">Lulus</span>';
-                    $btnAksi = '<a href="' . site_url('akun/sertifikat/' . $row->idregistrasikelas) . '" 
-                                class="btn btn-sm text-white rounded-pill px-3 py-1" 
-                                style="background-color:#e04607;" 
-                                target="_blank">Lihat Sertifikat</a>';
-                } else {
-                    $statuslulus = '<span class="badge bg-danger px-3 py-2">Belum Lulus</span>';
-                    $btnAksi = '<a href="' . site_url('nextstep/kelas/' . $kelas_slug . '/') . '" 
-                                class="btn btn-sm text-white rounded-pill px-3 py-1" 
-                                style="background-color:#e04607;">Registrasi Kelas</a>';
-                }
-                
-
-                // echo "
-                // <div class='col-12 col-md-6 col-lg-4'>
-                //     <div class='card h-100 shadow-sm border-0'>
-                //     <div class='card-body d-flex flex-column'>
-                //         <h5 class='fw-bold mb-2 text-dark'>{$row->namakelas}</h5>
-                //         <div class='mb-2'>{$statuslulus}</div>
-                //         <p class='mb-3 text-muted'>Tgl Kelulusan: {$tglsertifikat}</p>
-                //         <div class='mt-auto'>{$btnAksi}</div>
-                //     </div>
-                //     </div>
-                // </div>
-                // ";
-                echo "
-                <div class='col-12 col-md-6 col-lg-4'>
-                <div class='card h-100 shadow-sm border-0'>
-                    <div class='card-body d-flex flex-column'>
-
-                    <div class='d-flex justify-content-between align-items-center mb-2'>
-                        <h5 class='fw-bold mb-0 text-dark'>{$row->namakelas}</h5>
-                        {$statuslulus}
-                    </div>
-
-                    <p class='mb-3 text-muted'>Tgl Kelulusan: {$tglsertifikat}</p>
-                    <div class='mt-auto'>{$btnAksi}</div>
-
-                    </div>
-                </div>
-                </div>
-                ";
-                }
-            } else {
-                echo "
-                <div class='col-12 text-center'>
-                <div class='alert alert-info'>Belum ada kelas yang diikuti.</div>
-                </div>";
-            }
-            ?>
-            </div>
+        <!-- Header -->
+        <div class="ks-header">
+          <h1>Riwayat Kelas Saya</h1>
+          <p>Kelola progres belajar dan sertifikat Anda di satu tempat.</p>
         </div>
+
+        <!-- Card List -->
+        <div class="ks-list">
+          <?php
+          if ($rskelas->num_rows() > 0):
+            foreach ($rskelas->result() as $row):
+              $kelas_slug = $this->db->query("SELECT * FROM kelas WHERE idkelas='" . $row->idkelas . "'")->row()->kelas_slug;
+              $tglsertifikat = !empty($row->tglsertifikat) ? tglindonesia($row->tglsertifikat) : '—';
+
+              /* ---------- Badge & Button ---------- */
+              if ($row->statuslulus == '1') {
+                $badgeClass = 'lulus';
+                $badgeIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+                $badgeLabel = 'Lulus';
+                $dateLabel = 'Selesai pada ' . $tglsertifikat;
+                $lockedClass = '';
+                $btn = '<a href="' . site_url('akun/sertifikat/' . $row->idregistrasikelas) . '" 
+                          class="ks-btn primary" target="_blank">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                          Lihat Sertifikat
+                        </a>';
+              } else {
+                $badgeClass = 'belum-lulus';
+                $badgeIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+                $badgeLabel = 'Belum Lulus';
+                $dateLabel = 'Tgl Sertifikat: ' . $tglsertifikat;
+                $lockedClass = '';
+                $btn = '<a href="' . site_url('nextstep/kelas/' . $kelas_slug . '/') . '" 
+                          class="ks-btn primary">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                          Registrasi Kelas
+                        </a>';
+              }
+
+              echo "
+              <div class='ks-card {$lockedClass}'>
+                <div class='ks-card__thumb'>
+                  <img src='" . base_url('assets/images/kelas-placeholder.jpg') . "' alt='{$row->namakelas}' loading='lazy'>
+                </div>
+                <div class='ks-card__body'>
+                  <div class='ks-card__top'>
+                    <span class='ks-badge {$badgeClass}'>
+                      {$badgeIcon}
+                      {$badgeLabel}
+                    </span>
+                    <span class='ks-card__date'>{$dateLabel}</span>
+                  </div>
+                  <h2 class='ks-card__title'>{$row->namakelas}</h2>
+                  <p class='ks-card__desc'>Kelas {$row->namakelas} — tingkatkan pengetahuan dan iman Anda bersama komunitas kami.</p>
+                  <div class='ks-card__footer'>
+                    {$btn}
+                  </div>
+                </div>
+              </div>
+              ";
+            endforeach;
+          else:
+            echo "
+            <div class='ks-empty'>
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
+                <path d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/><path d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/>
+              </svg>
+              <p>Belum ada kelas yang diikuti.</p>
+            </div>
+            ";
+          endif;
+          ?>
+        </div><!-- /.ks-list -->
+
+        <!-- Help Banner -->
+        <div class="ks-help">
+          <div class="ks-help__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div class="ks-help__text">
+            <h3>Butuh bantuan dengan sertifikat Anda?</h3>
+            <p>Jika Anda telah menyelesaikan kelas namun sertifikat belum muncul atau terdapat kesalahan data, tim admin kami siap membantu Anda.</p>
+          </div>
+          <a href="https://wa.me/6285183023883" target="_blank" class="btn-hubungi">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          Hubungi Kami
+        </a>
+        </div>
+
+      </div><!-- /.container -->
     </section>
 
-
     <script>
-        $(document).on('change', '#foto', function(e) {
-            $('#formUpload').submit();
-        });
+      $(document).on('change', '#foto', function(e) {
+        $('#formUpload').submit();
+      });
     </script>
-      
 
-      <?php $this->load->view('template/festavalive/footer'); ?>
+    <?php $this->load->view('template/festavalive/footer'); ?>
+  </main>
+</body>
