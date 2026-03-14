@@ -132,7 +132,7 @@ class Resumedc extends MY_Controller
         $tglinsert  = date('Y-m-d H:i:s');
         $tglupdate  = date('Y-m-d H:i:s');
 
-        $fileshared = $this->App->uploadPdf($_FILES, "fileshared", $fileshared_lama, "sharedfiles/resumedc");
+        $fileshared = $this->App->uploadPdf($_FILES, "fileshared", $fileshared_lama, "sharedfiles/resumedc", '5000');
         if (empty($fileshared)) {
             $pesan = '<div>
                         <div class="alert alert-danger alert-dismissable">

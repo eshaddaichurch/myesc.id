@@ -108,7 +108,7 @@ class App extends CI_Model
 		return $foto;
 	}
 
-	public function uploadPdf($file, $namaFile, $namaFileLama, $foldername)
+	public function uploadPdf($file, $namaFile, $namaFileLama, $foldername, $filesize = '2000')
 	{
 		$this->load->library('image_lib');
 
@@ -116,7 +116,7 @@ class App extends CI_Model
 			$config['upload_path']          = 'uploads/' . $foldername . '/';
 			$config['allowed_types']        = 'pdf';
 			$config['remove_space']         = TRUE;
-			$config['max_size']            = '2000KB';
+			$config['max_size']            = $filesize . 'KB'; //in KB
 
 
 			$this->load->library('upload', $config);
