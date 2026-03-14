@@ -478,7 +478,7 @@
           </div>
           <div class="ks-help__text">
             <h3>Butuh bantuan dengan sertifikat Anda?</h3>
-            <p>Jika Anda telah menyelesaikan kelas namun sertifikat belum muncul atau terdapat kesalahan data, tim admin kami siap membantu Anda.</p>
+            <p>Jika Anda telah menyelesaikan kelas namun sertifikat belum muncul atau terdapat kesalahan data, tim equip kami siap membantu Anda.</p>
           </div>
           <a href="https://wa.me/6285183023883" target="_blank" class="btn-hubungi">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
