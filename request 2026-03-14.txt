@@ -1,0 +1,13 @@
+DC
+=======
+disciples community Ketika tambah/edit data buatkan parent dc, dan parent dm.
+dm bisa mengajukan penggunaan ruangan (kayak penjadwalan), dan di confirm oleh admin dan notif lewat WhatsApp
+
+
+care
+=======
+Ketika ada pengajuan dari jemaat, maka departemen care dapat notif WhatsApp
+Laporan Care.
+
+
+upload scanan KAJ agar jemaat bisa download dan cetak seorang.
