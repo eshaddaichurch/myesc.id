@@ -57,7 +57,7 @@
             if ($rsDcmember->num_rows() > 0) {
               foreach ($rsDcmember->result() as $row) {
                 if (!empty($row->foto)) {
-                  $foto = base_url('../admin/uploads/jemaat/' . $row->foto);
+                  $foto = parentUrl() . '/admin/uploads/jemaat/' . $row->foto;
                 } else {
                   $foto = base_url('images/user-01.png');
                 }
