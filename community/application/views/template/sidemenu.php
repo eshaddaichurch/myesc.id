@@ -18,7 +18,7 @@
         <img src="<?php echo $this->session->userdata('foto'); ?>" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block"><?php echo $this->session->userdata('namapanggilan'); ?></a>
+        <a href="#" class="d-block"><?php echo $this->session->userdata('namalengkap'); ?></a>
       </div>
     </div>
 
@@ -66,6 +66,15 @@
             <i class="nav-icon fas fa-tasks"></i>
             <p>
               Progress DC Member
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="<?php echo (site_url('resumedc')) ?>" class="nav-link <?php echo ($menu == 'resumedc') ? 'active' : '' ?>">
+            <i class="nav-icon fas fa-file"></i>
+            <p>
+              File DC
             </p>
           </a>
         </li>

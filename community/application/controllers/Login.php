@@ -43,7 +43,7 @@ class Login extends CI_Controller
                 if (empty($result->foto)) {
                     $foto = base_url('images/user-01.png');
                 } else {
-                    $foto = base_url('uploads/pengguna/' . $result->foto);
+                    $foto = base_url('../admin/uploads/jemaat/' . $result->foto);
                 }
 
                 $data = array(

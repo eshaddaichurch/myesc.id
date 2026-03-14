@@ -494,3 +494,8 @@ function since($datetime, $full = false)
 		}
 
 	}
+
+	function parentUrl()
+	{
+		return 'http://localhost/myesc/myesc.id';
+	}

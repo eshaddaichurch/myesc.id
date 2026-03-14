@@ -1,36 +1,36 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dcmember extends MY_Controller
+class Resumedc extends MY_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->islogin();
-        $this->load->model('DcmemberModel');
+        $this->load->model('ResumedcModel');
         $this->load->library('image_lib');
     }
 
     public function index()
     {
-        $data['rsDcmember'] = $this->DcmemberModel->get_all();
-        $data['menu'] = 'dcmember';
-        $this->load->view('dcmember/index', $data);
+        $data['rsResume'] = $this->ResumedcModel->get_all();
+        $data['menu'] = 'resumedc';
+        $this->load->view('resumedc/index', $data);
     }
 
     public function tambah()
     {
         $data['iddc'] = '';
         $data['menu'] = 'ddcmember';
-        $this->load->view('dcmember/form', $data);
+        $this->load->view('resumedc/form', $data);
     }
 
     public function edit($iddcmember)
     {
         $iddcmember = $this->encrypt->decode($iddcmember);
 
-        if ($this->DcmemberModel->get_by_id($iddcmember)->num_rows() < 1) {
+        if ($this->ResumedcModel->get_by_id($iddcmember)->num_rows() < 1) {
             $pesan = '<div>
                         <div class="alert alert-danger alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
@@ -38,12 +38,12 @@ class Dcmember extends MY_Controller
                         </div>
                     </div>';
             $this->session->set_flashdata('pesan', $pesan);
-            redirect('dcmember');
+            redirect('resumedc');
             exit();
         };
         $data['iddcmember'] = $iddcmember;
-        $data['menu'] = 'dcmember';
-        $this->load->view('dcmember/form', $data);
+        $data['menu'] = 'resumedc';
+        $this->load->view('resumedc/form', $data);
     }
 
     public function datatablesource()
@@ -81,7 +81,7 @@ class Dcmember extends MY_Controller
             foreach ($RsData->result() as $rowdata) {
 
                 if (!empty($rowdata->foto)) {
-                    $foto = '<img src="' . parentUrl().'/admin/uploads/jemaat/' . $rowdata->foto. '" alt=""  
+                    $foto = '<img src="' . base_url("../admin/uploads/jemaat/" . $rowdata->foto) . '" alt=""  
                     >';
                 } else {
                     $foto = '<img src="' . base_url('images/user-01.png') . '" alt="" style="width:100%;">';
@@ -96,8 +96,8 @@ class Dcmember extends MY_Controller
                 $row[] = $rowdata->statuskeanggotaan;
                 $row[] = $rowdata->keterangan;
                 $row[] = $rowdata->statusaktif;
-                $row[] = '<a href="' . site_url('dcmember/edit/' . $this->encrypt->encode($rowdata->iddcmember)) . '" class="btn btn-sm btn-warning btn-circle"><i class="fa fa-edit"></i></a> | 
-                                <a href="' . site_url('dcmember/delete/' . $this->encrypt->encode($rowdata->iddcmember)) . '" class="btn btn-sm btn-danger btn-circle" id="hapus"><i class="fa fa-trash"></i></a>';
+                $row[] = '<a href="' . site_url('resumedc/edit/' . $this->encrypt->encode($rowdata->iddcmember)) . '" class="btn btn-sm btn-warning btn-circle"><i class="fa fa-edit"></i></a> | 
+                                <a href="' . site_url('resumedc/delete/' . $this->encrypt->encode($rowdata->iddcmember)) . '" class="btn btn-sm btn-danger btn-circle" id="hapus"><i class="fa fa-trash"></i></a>';
                 $data[] = $row;
             }
         }
@@ -116,7 +116,7 @@ class Dcmember extends MY_Controller
     public function delete($iddcmember)
     {
         $iddcmember = $this->encrypt->decode($iddcmember);
-        $rsdata = $this->DcmemberModel->get_by_id($iddcmember);
+        $rsdata = $this->ResumedcModel->get_by_id($iddcmember);
         if ($rsdata->num_rows() < 1) {
             $pesan = '<div>
                                                 <div class="alert alert-danger alert-dismissable">
@@ -125,11 +125,11 @@ class Dcmember extends MY_Controller
                                                 </div>
                                             </div>';
             $this->session->set_flashdata('pesan', $pesan);
-            redirect('dcmember ');
+            redirect('resumedc ');
             exit();
         };
 
-        $hapus = $this->DcmemberModel->hapus($iddcmember);
+        $hapus = $this->ResumedcModel->hapus($iddcmember);
         if ($hapus) {
             $pesan = '<div>
                         <div class="alert alert-success alert-dismissable">
@@ -148,7 +148,7 @@ class Dcmember extends MY_Controller
         }
 
         $this->session->set_flashdata('pesan', $pesan);
-        redirect('dcmember');
+        redirect('resumedc');
     }
 
 
@@ -181,7 +181,7 @@ class Dcmember extends MY_Controller
                 'statusaktif'   => $statusaktif,
             );
 
-            $simpan = $this->DcmemberModel->simpan($data);
+            $simpan = $this->ResumedcModel->simpan($data);
         } else {
 
             $data = array(
@@ -194,7 +194,7 @@ class Dcmember extends MY_Controller
                 'tanggalupdate'   => $tanggalupdate,
                 'statusaktif'   => $statusaktif,
             );
-            $simpan = $this->DcmemberModel->update($data, $iddcmember);
+            $simpan = $this->ResumedcModel->update($data, $iddcmember);
         }
 
         if ($simpan) {
@@ -216,7 +216,7 @@ class Dcmember extends MY_Controller
         }
 
         $this->session->set_flashdata('pesan', $pesan);
-        redirect('dcmember');
+        redirect('resumedc');
     }
 
 
@@ -224,7 +224,7 @@ class Dcmember extends MY_Controller
     {
 
         $iddcmember = $this->input->post('iddcmember');
-        $RsData = $this->DcmemberModel->get_by_id($iddcmember)->row();
+        $RsData = $this->ResumedcModel->get_by_id($iddcmember)->row();
 
         $data = array(
             'iddcmember'   => $RsData->iddcmember,
