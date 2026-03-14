@@ -68,7 +68,7 @@
                             <span class="text-muted text-sm" style="margin-top: -30px;">Dibuat: '.tgldatetime($row->tglpublish).'</span>
                           </div>
                           <div class="col-12 mt-3">
-                          <a href="' . base_url('../admin/uploads/sharedfiles/resumedc/' . $row->fileshared) . '" class="btn btn-sm btn-primary" download="' . $row->fileshared .'"><i class="fa fa-download"></i> Download</a>
+                          <a href="' . parentUrl(). 'admin/uploads/sharedfiles/resumedc/' . $row->fileshared . '" class="btn btn-sm btn-primary" download="' . $row->fileshared .'"><i class="fa fa-download"></i> Download</a>
                           </div>
                           
 
