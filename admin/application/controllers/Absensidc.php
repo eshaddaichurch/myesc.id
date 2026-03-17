@@ -357,6 +357,6 @@ class Absensidc extends MY_Controller
             'arrDetailPeserta' => $arrDetailPeserta,  // ✅ tambahan
         );
 
-        $this->load->view('absensidc/cetak_pdf', $data);
+        $this->load->view('absensidc/cetakdc_pdf', $data);
     }
 }
