@@ -92,27 +92,42 @@ $table .= '
   <thead>
     <tr style="font-size:11px; font-weight:bold; background-color:#c0392b; color:#ffffff;">
       <th width="4%"  style="text-align:center;">No</th>
-      <th width="22%" style="text-align:center;">Nama DC</th>
-      <th width="18%" style="text-align:center;">Nama DM</th>
-      <th width="25%" style="text-align:center;">Tanggal Absen</th>
-      <th width="10%" style="text-align:center;">Total Peserta</th>
-      <th width="21%" style="text-align:center;">Keterangan</th>
+      <th width="20%" style="text-align:center;">Nama DC</th>
+      <th width="15%" style="text-align:center;">Nama DM</th>
+      <th width="22%" style="text-align:center;">Tanggal Absen</th>
+      <th width="8%"  style="text-align:center;">Total</th>
+      <th width="31%" style="text-align:center;">Nama Peserta</th>
     </tr>
   </thead>
   <tbody>';
 
 $no = 1;
 if ($rsAbsensi->num_rows() > 0) {
+    // ✅ Reset pointer result set karena sudah di-loop di controller
+    $rsAbsensi->result();
+
     foreach ($rsAbsensi->result() as $row) {
         $bgColor = ($no % 2 == 0) ? 'background-color:#fef9f9;' : '';
+
+        // ✅ Susun list nama peserta
+        $listPeserta = '';
+        if (!empty($arrDetailPeserta[$row->idabsen])) {
+            $noPeserta = 1;
+            foreach ($arrDetailPeserta[$row->idabsen] as $namaPeserta) {
+                $listPeserta .= $noPeserta++ . '. ' . htmlspecialchars($namaPeserta) . '<br>';
+            }
+        } else {
+            $listPeserta = '<i style="color:#aaa;">-</i>';
+        }
+
         $table .= '
         <tr style="font-size:11px; ' . $bgColor . '">
-          <td width="4%"  style="text-align:center;">' . $no++ . '</td>
-          <td width="22%" style="text-align:left;"><b>' . htmlspecialchars($row->namadc) . '</b></td>
-          <td width="18%" style="text-align:left;">' . htmlspecialchars($row->namadm) . '</td>
-          <td width="25%" style="text-align:center;">' . formatHariTanggalJam($row->tglabsen) . '</td>
-          <td width="10%" style="text-align:center;"><b>' . $row->totalpeserta . '</b></td>
-          <td width="21%" style="text-align:left;">' . htmlspecialchars($row->keterangan) . '</td>
+          <td width="4%"  style="text-align:center; vertical-align:top;">' . $no++ . '</td>
+          <td width="20%" style="text-align:left;   vertical-align:top;"><b>' . htmlspecialchars($row->namadc) . '</b></td>
+          <td width="15%" style="text-align:left;   vertical-align:top;">' . htmlspecialchars($row->namadm) . '</td>
+          <td width="22%" style="text-align:center; vertical-align:top;">' . formatHariTanggalJam($row->tglabsen) . '</td>
+          <td width="8%"  style="text-align:center; vertical-align:top;"><b>' . $row->totalpeserta . '</b></td>
+          <td width="31%" style="text-align:left;   vertical-align:top; font-size:10px;">' . $listPeserta . '</td>
         </tr>';
     }
 } else {

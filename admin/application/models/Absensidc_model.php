@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Absensidc_model extends CI_Model
 {
-
     public function get_all()
     {
         return $this->db->get('v_dcabsen');
@@ -33,5 +32,11 @@ class Absensidc_model extends CI_Model
         $this->db->order_by('kategoridc', 'asc');
         $this->db->order_by('namadc', 'asc');
         return $this->db->get('v_disciplescommunity');
+    }
+
+    public function getDetailPeserta($idabsen)
+    {
+        $this->db->where('idabsen', $idabsen);
+        return $this->db->get('v_dcabsen_detail');
     }
 }

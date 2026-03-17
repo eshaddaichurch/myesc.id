@@ -316,8 +316,8 @@ class Absensidc extends MY_Controller
         $iddc = urldecode($iddc);
 
         $rsAbsensi = $this->Absensidc_model->getListAbsensi($tglawal, $tglakhir, $iddc);
-        $namaDc = '';
 
+        $namaDc = '';
         if ($iddc != '') {
             $rsDcSingle = $this->Absensidc_model->getDc();
             if ($rsDcSingle->num_rows() > 0) {
@@ -330,6 +330,21 @@ class Absensidc extends MY_Controller
             }
         }
 
+        // ✅ Ambil detail peserta per absensi
+        $arrDetailPeserta = array();
+        if ($rsAbsensi->num_rows() > 0) {
+            foreach ($rsAbsensi->result() as $row) {
+                $rsPeserta = $this->Absensidc_model->getDetailPeserta($row->idabsen);
+                $arrPeserta = array();
+                if ($rsPeserta->num_rows() > 0) {
+                    foreach ($rsPeserta->result() as $peserta) {
+                        $arrPeserta[] = $peserta->namalengkap;  // sesuaikan nama kolom
+                    }
+                }
+                $arrDetailPeserta[$row->idabsen] = $arrPeserta;
+            }
+        }
+
         $rowInfoGereja = $this->db->query('select * from infogereja')->row();
 
         $data = array(
@@ -339,8 +354,9 @@ class Absensidc extends MY_Controller
             'iddc' => $iddc,
             'namaDc' => $namaDc,
             'rowInfoGereja' => $rowInfoGereja,
+            'arrDetailPeserta' => $arrDetailPeserta,  // ✅ tambahan
         );
 
-        $this->load->view('absensidc/cetakdc_pdf', $data);
+        $this->load->view('absensidc/cetak_pdf', $data);
     }
 }
