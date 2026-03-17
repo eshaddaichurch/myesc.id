@@ -341,6 +341,6 @@ class Absensidc extends MY_Controller
             'rowInfoGereja' => $rowInfoGereja,
         );
 
-        $this->load->view('absensidc/cetak_pdf', $data);
+        $this->load->view('absensidc/cetakdc_pdf', $data);
     }
 }
