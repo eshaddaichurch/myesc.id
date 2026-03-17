@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Absensidc extends MY_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -73,10 +72,10 @@ class Absensidc extends MY_Controller
         }
 
         $output = array(
-            "draw" => $_POST['draw'],
-            "recordsTotal" => $this->Absensidc_model->count_all(),
-            "recordsFiltered" => $this->Absensidc_model->count_filtered(),
-            "data" => $data,
+            'draw' => $_POST['draw'],
+            'recordsTotal' => $this->Absensidc_model->count_all(),
+            'recordsFiltered' => $this->Absensidc_model->count_filtered(),
+            'data' => $data,
         );
         echo json_encode($output);
     }
@@ -119,48 +118,42 @@ class Absensidc extends MY_Controller
         redirect('absensidc');
     }
 
-
-
-
     public function simpan()
     {
-        $iddcmember             = $this->input->post('iddcmember');
-        $iddc             = $this->input->post('iddc');
-        $idjemaat             = $this->input->post('idjemaat');
-        $statuskeanggotaan             = $this->input->post('statuskeanggotaan');
-        $keterangan             = $this->input->post('keterangan');
-        $tanggalinsert             = date('Y-m-d H:i:s');
-        $tanggalupdate             = date('Y-m-d H:i:s');
-        $statusaktif         = $this->input->post('statusaktif');
-
+        $iddcmember = $this->input->post('iddcmember');
+        $iddc = $this->input->post('iddc');
+        $idjemaat = $this->input->post('idjemaat');
+        $statuskeanggotaan = $this->input->post('statuskeanggotaan');
+        $keterangan = $this->input->post('keterangan');
+        $tanggalinsert = date('Y-m-d H:i:s');
+        $tanggalupdate = date('Y-m-d H:i:s');
+        $statusaktif = $this->input->post('statusaktif');
 
         if ($iddcmember == '') {
-
             $iddcmember = $this->db->query("select create_iddcmember('" . $iddc . "') as iddcmember")->row()->iddcmember;
 
             $data = array(
-                'iddcmember'   => $iddcmember,
-                'iddc'   => $iddc,
-                'idjemaat'   => $idjemaat,
-                'statuskeanggotaan'   => $statuskeanggotaan,
-                'keterangan'   => $keterangan,
-                'tanggalinsert'   => $tanggalinsert,
-                'tanggalupdate'   => $tanggalupdate,
-                'statusaktif'   => $statusaktif,
+                'iddcmember' => $iddcmember,
+                'iddc' => $iddc,
+                'idjemaat' => $idjemaat,
+                'statuskeanggotaan' => $statuskeanggotaan,
+                'keterangan' => $keterangan,
+                'tanggalinsert' => $tanggalinsert,
+                'tanggalupdate' => $tanggalupdate,
+                'statusaktif' => $statusaktif,
             );
 
             $simpan = $this->Absensidc_model->simpan($data);
         } else {
-
             $data = array(
-                'iddcmember'   => $iddcmember,
-                'iddc'   => $iddc,
-                'idjemaat'   => $idjemaat,
-                'statuskeanggotaan'   => $statuskeanggotaan,
-                'keterangan'   => $keterangan,
-                'tanggalinsert'   => $tanggalinsert,
-                'tanggalupdate'   => $tanggalupdate,
-                'statusaktif'   => $statusaktif,
+                'iddcmember' => $iddcmember,
+                'iddc' => $iddc,
+                'idjemaat' => $idjemaat,
+                'statuskeanggotaan' => $statuskeanggotaan,
+                'keterangan' => $keterangan,
+                'tanggalinsert' => $tanggalinsert,
+                'tanggalupdate' => $tanggalupdate,
+                'statusaktif' => $statusaktif,
             );
             $simpan = $this->Absensidc_model->update($data, $iddcmember);
         }
@@ -187,44 +180,41 @@ class Absensidc extends MY_Controller
         redirect('absensidc');
     }
 
-
     public function get_edit_data()
     {
-
         $iddcmember = $this->input->post('iddcmember');
         $RsData = $this->Absensidc_model->get_by_id($iddcmember)->row();
 
         $data = array(
-            'iddcmember'   => $RsData->iddcmember,
-            'iddc'   => $RsData->iddc,
-            'idjemaat'   => $RsData->idjemaat,
-            'statuskeanggotaan'   => $RsData->statuskeanggotaan,
-            'keterangan'   => $RsData->keterangan,
-            'statusaktif'   => $RsData->statusaktif,
+            'iddcmember' => $RsData->iddcmember,
+            'iddc' => $RsData->iddc,
+            'idjemaat' => $RsData->idjemaat,
+            'statuskeanggotaan' => $RsData->statuskeanggotaan,
+            'keterangan' => $RsData->keterangan,
+            'statusaktif' => $RsData->statusaktif,
         );
         echo json_encode($data);
     }
 
     public function upload_foto($file, $nama)
     {
-
         if (!empty($file[$nama]['name'])) {
-            $config['upload_path']          = 'uploads/dc/';
-            $config['allowed_types']        = 'gif|jpg|png|jpeg';
-            $config['remove_space']         = TRUE;
-            $config['max_size']             = '2000KB';
+            $config['upload_path'] = 'uploads/dc/';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $config['remove_space'] = TRUE;
+            $config['max_size'] = '2000KB';
 
             $this->load->library('upload', $config);
 
             if ($this->upload->do_upload($nama)) {
                 $foto = $this->upload->data('file_name');
                 $size = $this->upload->data('file_size');
-                $ext  = $this->upload->data('file_ext');
+                $ext = $this->upload->data('file_ext');
             } else {
-                $foto = "";
+                $foto = '';
             }
         } else {
-            $foto = "";
+            $foto = '';
         }
         return $foto;
     }
@@ -232,17 +222,16 @@ class Absensidc extends MY_Controller
     public function update_upload_foto($file, $nama, $file_lama)
     {
         if (!empty($file[$nama]['name'])) {
-            $config['upload_path']          = 'uploads/dc/';
-            $config['allowed_types']        = 'gif|jpg|png|jpeg';
-            $config['remove_space']         = TRUE;
-            $config['max_size']            = '2000KB';
-
+            $config['upload_path'] = 'uploads/dc/';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $config['remove_space'] = TRUE;
+            $config['max_size'] = '2000KB';
 
             $this->load->library('upload', $config);
             if ($this->upload->do_upload($nama)) {
                 $foto = $this->upload->data('file_name');
                 $size = $this->upload->data('file_size');
-                $ext  = $this->upload->data('file_ext');
+                $ext = $this->upload->data('file_ext');
             } else {
                 $foto = $file_lama;
             }
@@ -263,13 +252,12 @@ class Absensidc extends MY_Controller
 
         $arrAbsen = array();
         if ($rsAbsensi->num_rows() > 0) {
-
             foreach ($rsAbsensi->result() as $row) {
                 $foto = base_url('images/nofoto.png');
                 if (!empty($row->foto)) {
                     $urlCommunity = $this->App->getSettings('url_community');
                     if (!empty($urlCommunity)) {
-                        $foto =  $urlCommunity . '/uploads/absensi/' . $row->foto;
+                        $foto = $urlCommunity . '/uploads/absensi/' . $row->foto;
                     }
                 }
                 $arrAbsen[] = array(
@@ -308,7 +296,7 @@ class Absensidc extends MY_Controller
         if (!empty($rsAbsensi->row()->foto)) {
             $urlCommunity = $this->App->getSettings('url_community');
             if (!empty($urlCommunity)) {
-                $foto =  $urlCommunity . '/uploads/absensi/' . $rsAbsensi->row()->foto;
+                $foto = $urlCommunity . '/uploads/absensi/' . $rsAbsensi->row()->foto;
             }
         }
 
@@ -317,5 +305,42 @@ class Absensidc extends MY_Controller
         $data['idabsen'] = $idabsen;
         $data['menu'] = 'absensidc';
         $this->load->view('absensidc/detail', $data);
+    }
+
+    public function cetakPdf($tglawal, $tglakhir, $iddc = '')
+    {
+        error_reporting(0);
+
+        $this->load->library('Pdf');
+
+        $iddc = urldecode($iddc);
+
+        $rsAbsensi = $this->Absensidc_model->getListAbsensi($tglawal, $tglakhir, $iddc);
+        $namaDc = '';
+
+        if ($iddc != '') {
+            $rsDcSingle = $this->Absensidc_model->getDc();
+            if ($rsDcSingle->num_rows() > 0) {
+                foreach ($rsDcSingle->result() as $row) {
+                    if ($row->iddc == $iddc) {
+                        $namaDc = $row->namadc;
+                        break;
+                    }
+                }
+            }
+        }
+
+        $rowInfoGereja = $this->db->query('select * from infogereja')->row();
+
+        $data = array(
+            'rsAbsensi' => $rsAbsensi,
+            'tglawal' => $tglawal,
+            'tglakhir' => $tglakhir,
+            'iddc' => $iddc,
+            'namaDc' => $namaDc,
+            'rowInfoGereja' => $rowInfoGereja,
+        );
+
+        $this->load->view('absensidc/cetak_pdf', $data);
     }
 }
