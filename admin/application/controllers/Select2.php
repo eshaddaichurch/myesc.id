@@ -16,7 +16,7 @@ class Select2 extends CI_Controller {
         // Jika ada input pencarian, gunakan LIKE, jika tidak, ambil semua
         $this->db->select('idjemaat, namalengkap, jeniskelamin, statuspernikahan');
         $this->db->from('jemaat');
-        $this->db->where_not_in('statusjemaat', ['Meninggal', 'Pindah']);
+        // $this->db->where_not_in('statusjemaat', ['Meninggal', 'Pindah']);
         
         if (!empty($search)) {
             $this->db->like('namalengkap', $search);

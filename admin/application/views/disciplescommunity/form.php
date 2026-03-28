@@ -206,6 +206,26 @@ $this->load->view("template/sidemenu");
 
                       </div>
 
+                      <div class="col-12 mt-3">
+                        <h5 class="text-muted">Hirarki DC</h5>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-group row">
+                          <label for="">Parent DC</label>
+                          <select name="iddcparent" id="iddcparent" class="form-control select2">
+                            <option value="">Pilih Parent DC ...</option>
+                          </select>
+                        </div>
+                        <div class="form-group row">
+                          <label for="">Parent DM</label>
+                          <select name="idjemaatparentdm" id="idjemaatparentdm" class="form-control">
+                          </select>
+                        </div>
+                      </div>
+
+
+
 
 
                     </div>
@@ -321,6 +341,34 @@ $this->load->view("template/sidemenu");
     $("#rtrw").mask("000/000", {
       placeholder: "000/000"
     });
+
+    // Untuk pencarian jemaat (DM) - perbaiki ini
+    $('#idjemaatparentdm').select2({
+        placeholder: 'Pilih nama DM...',
+        minimumInputLength: 0,
+        allowClear: true,
+        ajax: {
+            url: "<?php echo site_url('Select2/searchJemaat') ?>", 
+            dataType: 'json',
+            delay: 500, // Turunkan delay jadi 500ms lebih responsif
+            data: function(params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function(data) {
+                console.log('Response dari server:', data);
+                console.log('Status response:', data); // Tambahkan ini
+                return {
+                    results: data.results, 
+                };
+            },
+            cache: true
+        },
+        templateResult: formatJemaat,
+        templateSelection: formatJemaatSelection
+    });
+
   }); //end (document).ready
 
 
@@ -366,6 +414,41 @@ $this->load->view("template/sidemenu");
       });
 
   }
+
+  
+
+// Fungsi untuk menampilkan hasil di dropdown dengan format yang lebih baik
+function formatJemaat(jemaat) {
+    if (jemaat.loading) {
+        return jemaat.text;
+    }
+    
+    // Cek apakah data memiliki properti yang diperlukan
+    var jeniskelamin = jemaat.jeniskelamin || jemaat.jenis_kelamin || '-';
+    var status = jemaat.statuspernikahan || jemaat.status_nikah || '-';
+    
+    var $container = $(
+        '<div class="p-2 border-bottom">' +
+        '<div class="font-weight-bold">' + jemaat.text + '</div>' +
+        '<div class="text-muted small">' +
+        '<span class="mr-2"><i class="fa fa-venus-mars"></i> ' + jeniskelamin + '</span>' +
+        '<span><i class="fa fa-heart"></i> ' + status + '</span>' +
+        '</div>' +
+        '</div>'
+    );
+    return $container;
+}
+
+// Fungsi untuk menampilkan hasil yang dipilih
+function formatJemaatSelection(jemaat) {
+    // Jika jemaat adalah objek dengan properti text
+    if (jemaat && jemaat.text) {
+        return jemaat.text;
+    }
+    // Jika jemaat adalah string ID (saat initial load)
+    return $(jemaat.element).data('nama') || jemaat.id || jemaat;
+}
+
 
   // function getdesa(idkecamatan, iddesadefault = "") {
 

@@ -221,21 +221,20 @@
       ajax: {
           url: "<?php echo site_url('Select2/searchJemaat') ?>", 
           dataType: 'json',
-          delay: 250, // Delay saat mengetik (ms)
+          delay: 1000, // Delay saat mengetik (ms)
           data: function(params) {
               return {
                   q: params.term, 
               };
           },
           processResults: function(data) {
-              return {
+            console.log(data);
+            return {
                   results: data.results, 
               };
           },
           cache: true
       },
-      templateResult: formatJemaat, // Fungsi untuk menampilkan hasil di dropdown
-      templateSelection: formatJemaatSelection // Fungsi untuk menampilkan hasil yang dipilih
   });
 
   // Fungsi untuk menampilkan hasil di dropdown
@@ -256,7 +255,7 @@
 
   // Fungsi untuk menampilkan hasil yang dipilih
   function formatJemaatSelection(jemaat) {
-      return jemaat.text; // Hanya tampilkan nama barang saat dipilih
+      return jemaat.text; // Hanya tampilkan nama jemaat saat dipilih
   }
 </script>
 
