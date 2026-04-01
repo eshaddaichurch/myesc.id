@@ -49,7 +49,7 @@ class Bookingruangan extends MY_Controller
             foreach ($rsRuanganTersedia->result() as $row) {
                 $foto = base_url('images/nofoto.png');
                 if (!empty($row->foto))
-                    $foto = base_url('/admin/uploads/ruangan/' . $row->foto);
+                    $foto = base_url('uploads/ruangan/' . $row->foto);
                 $tersedia[] = array(
                     'idruangan' => $row->idruangan,
                     'namaruangan' => $row->namaruangan,
@@ -66,7 +66,7 @@ class Bookingruangan extends MY_Controller
             foreach ($rsRuanganTerpakai->result() as $row) {
                 $foto = base_url('images/nofoto.png');
                 if (!empty($row->foto))
-                    $foto = base_url('/admin/uploads/ruangan/' . $row->foto);
+                    $foto = base_url('uploads/ruangan/' . $row->foto);
                 $terpakai[] = array(
                     'idruangan' => $row->idruangan,
                     'namaruangan' => $row->namaruangan,
