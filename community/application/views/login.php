@@ -277,6 +277,10 @@ body {
 
 </div>
 
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
 <script>
 function togglePassword() {
     const pass = document.getElementById("password");
@@ -291,6 +295,7 @@ function togglePassword() {
     }
 }
 </script>
+
 
 
 </body>

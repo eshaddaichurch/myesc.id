@@ -94,6 +94,18 @@
           </a>
         </li>
 
+
+        <!-- ✅ TAMBAHKAN DI SINI -->
+        <li class="nav-item">
+          <a href="<?php echo (site_url('bookingruangan')) ?>" class="nav-link <?php echo ($menu == 'bookingruangan') ? 'active' : '' ?>">
+            <i class="nav-icon fas fa-door-open"></i>
+            <p>
+              Booking Ruangan
+            </p>
+          </a>
+        </li>
+        <!-- ✅ AKHIR TAMBAHAN -->
+
         <?php } ?>
 
 

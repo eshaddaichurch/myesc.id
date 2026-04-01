@@ -42,16 +42,16 @@
 
 
 <!-- jquery-confirm  -->
-<script src="<?php echo (base_url("assets/")) ?>jquery-confirm/js/jquery-confirm.min.js"></script>
+<script src="<?php echo (base_url('assets/')) ?>jquery-confirm/js/jquery-confirm.min.js"></script>
 
 <!-- jquery-mask -->
-<script type="text/javascript" src="<?php echo base_url("assets/") ?>jquery_mask/jquery.mask.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/') ?>jquery_mask/jquery.mask.js"></script>
 
 <!-- Bootstrap validator -->
-<script src="<?php echo (base_url("assets/")) ?>bootstrap-validator/js/bootstrapValidator.js"></script>
+<script src="<?php echo (base_url('assets/')) ?>bootstrap-validator/js/bootstrapValidator.js"></script>
 
 <!-- jquery-ui -->
-<script src="<?php echo (base_url("assets/")) ?>jquery-ui/jquery-ui-2.js"></script>
+<script src="<?php echo (base_url('assets/')) ?>jquery-ui/jquery-ui-2.js"></script>
 
 <!-- select2 -->
 <script src="<?php echo (base_url()) ?>assets/select2/js/select2.min.js"></script>
