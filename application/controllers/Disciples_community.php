@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Disciples_community extends MY_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -14,11 +13,11 @@ class Disciples_community extends MY_Controller
 	public function index($idmenu = null)
 	{
 		$data['menu'] = $idmenu;
-		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
+		$data['rowinfogereja'] = $this->Home_model->get_infogereja();
 		$this->load->view('community/dc/esccommunity', $data);
 	}
 
-	public function list($idmenu = "")
+	public function list($idmenu = '')
 	{
 		$rsDC = $this->db->query("
 			select * from v_disciplescommunity where statusaktif = 'Aktif'
@@ -28,7 +27,7 @@ class Disciples_community extends MY_Controller
 		$idmenu = $this->encrypt->decode($idmenu);
 		$data['menu'] = $idmenu;
 		$data['rsDC'] = $rsDC;
-		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
+		$data['rowinfogereja'] = $this->Home_model->get_infogereja();
 		$this->load->view('community/dc/listdata', $data);
 	}
 
@@ -54,8 +53,8 @@ class Disciples_community extends MY_Controller
 		$this->db->where('statusaktif', 'Aktif');
 
 		if (!empty($idkategoridc)) {
-			$this->db->where('kategoridc', $idkategoridc); // BUKAN idkategoridc
-		}		
+			$this->db->where('kategoridc', $idkategoridc);  // BUKAN idkategoridc
+		}
 		if (!empty($idkabupaten)) {
 			$this->db->where('idkabupaten', $idkabupaten);
 		}
@@ -85,15 +84,14 @@ class Disciples_community extends MY_Controller
 				array_push($data, array(
 					'iddc' => $row->iddc,
 					'namadc' => $row->namadc,
-					'namadm' => $row->namadm, // Tambahkan ini
+					'namadm' => $row->namadm,  // Tambahkan ini
 					'alamatdc' => $row->alamatdc,
-					'haridc' => $row->haridc, // Optional kalau perlu di modal
-					'jamdc' => $row->jamdc,   // Optional kalau perlu di modal
+					'haridc' => $row->haridc,  // Optional kalau perlu di modal
+					'jamdc' => $row->jamdc,  // Optional kalau perlu di modal
 					'kategoridc' => $row->kategoridc,
-					'fotodm' => $row->fotodm, // Ini yang benar (bukan fotodc)
+					'fotodm' => $row->fotodm,  // Ini yang benar (bukan fotodc)
 					'iddcEncrypt' => $this->encrypt->encode($row->iddc),
 				));
-				
 			}
 		}
 
@@ -108,7 +106,7 @@ class Disciples_community extends MY_Controller
 	{
 		$this->wajibLogin();
 		$iddc = $this->encrypt->decode($iddc);
-		$idmenu = "";
+		$idmenu = '';
 
 		$idmenu = $this->encrypt->decode($idmenu);
 		// $rowDC = $this->Disciples_community_model->getDC($iddc);
@@ -116,7 +114,7 @@ class Disciples_community extends MY_Controller
 		// $data['rowDC'] = $rowDC->row();
 		$data['iddc'] = $iddc;
 		$data['menu'] = $idmenu;
-		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
+		$data['rowinfogereja'] = $this->Home_model->get_infogereja();
 		$this->load->view('community/dc/bergabung', $data);
 	}
 
@@ -144,15 +142,11 @@ class Disciples_community extends MY_Controller
 
 		if ($cekDC->num_rows() > 0) {
 			$pesan = "<script>
-                            swal('Upps!', 'Anda sudah tergabung dengan dc " . $cekDC->result()[0]->namadc. ".', 'warning');
-                        </script>";				
-				$this->session->set_flashdata('pesan', $pesan);
+                            swal('Upps!', 'Anda sudah tergabung dengan dc " . $cekDC->result()[0]->namadc . ".', 'warning');
+                        </script>";
+			$this->session->set_flashdata('pesan', $pesan);
 			redirect('disciples_community/list');
 		}
-		
-
-		
-
 
 		$dataPemohon = array(
 			'tglpermohonan' => date('Y-m-d H:i:s'),
@@ -161,7 +155,7 @@ class Disciples_community extends MY_Controller
 			'keterangan' => $keteranganpermohonan,
 			'statuskonfirmasi' => 'Menunggu Konfirmasi',
 		);
-		
+
 		$simpan = $this->Disciples_community_model->simpanpermohonanbergabung($dataPemohon);
 		if ($simpan) {
 			$pesan = "<script>
@@ -178,7 +172,7 @@ class Disciples_community extends MY_Controller
 	}
 
 	public function ajaxSimpanPermohonan()
-	{		
+	{
 		$iddc = $this->input->post('iddc');
 		$iddc = $this->encrypt->decode($iddc);
 		$idjemaat = $this->session->userdata('idjemaat');
@@ -187,8 +181,8 @@ class Disciples_community extends MY_Controller
 			echo json_encode(array('msg' => 'Silahkan login terlebih dahulu untuk melanjutkan!'));
 			exit();
 		}
-		
-		//Periksa apakah ada permohonan sebelumnya
+
+		// Periksa apakah ada permohonan sebelumnya
 		$rsPeriksaPermohonan = $this->db->query("
 			select * from dcmember_permohonan where idjemaat = '$idjemaat' and statuskonfirmasi = 'Menunggu Konfirmasi'
 		");
@@ -197,7 +191,7 @@ class Disciples_community extends MY_Controller
 			exit();
 		}
 
-		//Periksa apakah sudah tergabung dalam dc
+		// Periksa apakah sudah tergabung dalam dc
 		$cekDC = $this->db->query("
 			select * from v_dcmember where idjemaat = '$idjemaat' and statusaktif = 'Aktif'
 		");
@@ -205,40 +199,84 @@ class Disciples_community extends MY_Controller
 			echo json_encode(array('msg' => 'Anda sudah tergabung dengan dc ' . $cekDC->result()[0]->namadc . '.'));
 			exit();
 		}
-		
+
 		$dataPemohon = array(
 			'tglpermohonan' => date('Y-m-d H:i:s'),
 			'iddc' => $iddc,
 			'idjemaat' => $idjemaat,
 			'statuskonfirmasi' => 'Menunggu Konfirmasi',
 		);
-		
+
 		$simpan = $this->Disciples_community_model->simpanpermohonanbergabung($dataPemohon);
 		if ($simpan) {
-			//Kirim Whatsapp Ke Jemaat
+			// Kirim Whatsapp Ke Jemaat
 			$rowDc = $this->Disciples_community_model->getDC($iddc)->row();
 
-			$rowJemaat = $this->App->getInfoJemaat($idjemaat);            
-			$pesanWA = "Shalom " . ucwords(strtolower($rowJemaat->namalengkap))  . "! Terima kasih telah mendaftar sebagai bagian dari *" . $rowDc->namadc . "* pada tanggal " . date('Y-m-d H:i:s') . ".
+			$rowJemaat = $this->App->getInfoJemaat($idjemaat);
+			$pesanWA = 'Shalom ' . ucwords(strtolower($rowJemaat->namalengkap)) . '! Terima kasih telah mendaftar sebagai bagian dari *' . $rowDc->namadc . '* pada tanggal ' . date('Y-m-d H:i:s') . '.
 Kami sangat menghargai setiap langkah iman yang Saudara ambil untuk bertumbuh dan dimuridkan.
 Saat ini data pendaftaran Saudara sudah kami terima.
 *Tim kami akan segera menghubungi Saudara melalui WhatsApp* untuk informasi dan langkah selanjutnya. 
-Tuhan Yesus memberkati";			
+Tuhan Yesus memberkati';
 			$this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
 
-
-			$pesanWADM = "Shalom DM " . ucwords(strtolower($rowDc->namadm)) . ",
-Ada *pendaftaran DCM baru atas nama " . ucwords(strtolower($rowJemaat->namalengkap)) . "* yang menunggu untuk ditindaklanjuti.
+			$pesanWADM = 'Shalom DM ' . ucwords(strtolower($rowDc->namadm)) . ',
+Ada *pendaftaran DCM baru atas nama ' . ucwords(strtolower($rowJemaat->namalengkap)) . '* yang menunggu untuk ditindaklanjuti.
 Mohon segera melakukan pengecekan dan approval melalui *Website https://dc.myesc.id*, agar proses pemuridan dapat berjalan tepat waktu.
 Terima kasih atas kesediaan dan kesetiaan DM dalam melayani dan membangun murid Kristus.
-Tuhan memberkati pelayanan Saudara";
-$this->whatsapp->send_message(formatNomorWhatsapp($rowDc->nohpdm), $pesanWADM);
+Tuhan memberkati pelayanan Saudara';
+			$this->whatsapp->send_message(formatNomorWhatsapp($rowDc->nohpdm), $pesanWADM);
 
+			// ✅ TAMBAHKAN DI SINI - Kirim Push Notification ke DM
+			$this->_kirimPushNotifikasi(
+				$rowDc->iddc,
+				'Permohonan Bergabung Baru 🔔',
+				ucwords(strtolower($rowJemaat->namalengkap)) . ' ingin bergabung di ' . $rowDc->namadc
+			);
 
-			echo json_encode(array('success' => true));			
+			echo json_encode(array('success' => true));
 		} else {
 			echo json_encode(array('msg' => 'Permohonan gagal disimpan.'));
-		}		
+		}
+	}
+
+	private function _kirimPushNotifikasi($iddc, $judul, $pesan)
+	{
+		// Ambil token dari database
+		$rsToken = $this
+			->db
+			->where('iddc', $iddc)
+			->get('push_tokens')
+			->row();
+
+		if (!$rsToken || empty($rsToken->token)) {
+			return;  // Tidak ada token, skip
+		}
+
+		$token = $rsToken->token;
+
+		// Kirim ke Expo Push Notification Service
+		$data = [
+			'to' => $token,
+			'title' => $judul,
+			'body' => $pesan,
+			'sound' => 'default',
+			'data' => ['iddc' => $iddc],
+		];
+
+		$ch = curl_init('https://exp.host/--/api/v2/push/send');
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, [
+			'Content-Type: application/json',
+			'Accept: application/json',
+		]);
+
+		$response = curl_exec($ch);
+		curl_close($ch);
+
+		return $response;
 	}
 
 	public function getInformasiDC()
