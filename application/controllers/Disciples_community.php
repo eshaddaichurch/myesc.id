@@ -242,7 +242,6 @@ Tuhan memberkati pelayanan Saudara';
 
 	private function _kirimPushNotifikasi($iddc, $judul, $pesan)
 	{
-		// Ambil token dari database
 		$rsToken = $this
 			->db
 			->where('iddc', $iddc)
@@ -250,19 +249,19 @@ Tuhan memberkati pelayanan Saudara';
 			->row();
 
 		if (!$rsToken || empty($rsToken->token)) {
-			return;  // Tidak ada token, skip
+			return;
 		}
 
 		$token = $rsToken->token;
 
-		// Kirim ke Expo Push Notification Service
-		$data = [
+		// ✅ Harus array of object, bukan object biasa
+		$data = [[
 			'to' => $token,
 			'title' => $judul,
 			'body' => $pesan,
 			'sound' => 'default',
 			'data' => ['iddc' => $iddc],
-		];
+		]];
 
 		$ch = curl_init('https://exp.host/--/api/v2/push/send');
 		curl_setopt($ch, CURLOPT_POST, true);
@@ -271,6 +270,7 @@ Tuhan memberkati pelayanan Saudara';
 		curl_setopt($ch, CURLOPT_HTTPHEADER, [
 			'Content-Type: application/json',
 			'Accept: application/json',
+			'Accept-Encoding: gzip, deflate',
 		]);
 
 		$response = curl_exec($ch);
