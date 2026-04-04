@@ -48,4 +48,6 @@ class SavePushToken extends CI_Controller
 
         echo json_encode(['status' => true, 'message' => 'Token berhasil disimpan']);
     }
+    
 }
+s
