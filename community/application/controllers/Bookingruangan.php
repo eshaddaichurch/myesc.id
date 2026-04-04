@@ -47,16 +47,18 @@ class Bookingruangan extends MY_Controller
         $tersedia = array();
         if ($rsRuanganTersedia->num_rows() > 0) {
             foreach ($rsRuanganTersedia->result() as $row) {
+                // ✅ fix di sini
                 $foto = base_url('images/nofoto.png');
-                if (!empty($row->foto))
-                    $fotoSrc = base_url('uploads/ruangan/' . $row->foto);
+                if (!empty($row->foto)) {
+                    $foto = base_url('uploads/ruangan/' . $row->foto);
+                }
                 $tersedia[] = array(
                     'idruangan' => $row->idruangan,
                     'namaruangan' => $row->namaruangan,
                     'kapasitas' => $row->kapasitas,
                     'lokasi' => $row->lokasi,
                     'fasilitas' => $row->fasilitas,
-                    'foto' => $foto,
+                    'foto' => $foto,  // ✅ sekarang benar
                 );
             }
         }
@@ -64,16 +66,18 @@ class Bookingruangan extends MY_Controller
         $terpakai = array();
         if ($rsRuanganTerpakai->num_rows() > 0) {
             foreach ($rsRuanganTerpakai->result() as $row) {
+                // ✅ fix di sini
                 $foto = base_url('images/nofoto.png');
-                if (!empty($row->foto))
-                    $fotoSrc = base_url('uploads/ruangan/' . $row->foto);
+                if (!empty($row->foto)) {
+                    $foto = base_url('uploads/ruangan/' . $row->foto);
+                }
                 $terpakai[] = array(
                     'idruangan' => $row->idruangan,
                     'namaruangan' => $row->namaruangan,
                     'kapasitas' => $row->kapasitas,
                     'lokasi' => $row->lokasi,
                     'fasilitas' => $row->fasilitas,
-                    'foto' => $foto,
+                    'foto' => $foto,  // ✅ sekarang benar
                     'namadc' => $row->namadc,
                     'namapembooking' => $row->namapembooking,
                     'jamulai' => $row->jamulai,
