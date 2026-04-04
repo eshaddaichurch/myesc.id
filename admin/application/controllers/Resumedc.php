@@ -165,8 +165,8 @@ class Resumedc extends MY_Controller
             // ✅ Kirim notif hanya jika status Publish
             if ($simpan && $status == 'Publish') {
                 $this->_kirimPushNotifikasiSemua(
-                    'Panduan DC Baru 📄',
-                    'Panduan baru telah ditambahkan: ' . $title
+                    'Shalom DM',
+                    'Ada file baru telah diupload: ' . $title
                 );
             }
 
@@ -199,8 +199,8 @@ class Resumedc extends MY_Controller
             // ✅ Kirim notif hanya saat pertama kali publish
             if ($simpan && $kirimNotif) {
                 $this->_kirimPushNotifikasiSemua(
-                    'Panduan DC Baru 📄',
-                    'Panduan baru telah ditambahkan: ' . $title
+                    'Shalom DM',
+                    'Ada file baru telah diupload: ' . $title
                 );
             }
         }
