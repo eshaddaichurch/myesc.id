@@ -33,7 +33,7 @@ $this->load->view('template/sidemenu');
         <?php
         $pesan = $this->session->flashdata('pesan');
         if (!empty($pesan))
-            echo $pesan;
+          echo $pesan;
         ?>
 
         <div class="mb-3">
@@ -214,11 +214,16 @@ $(document).ready(function () {
             </button>`;
           }
 
+          var fotoSrc = base_url('images/nofoto.png');
+          if (r.foto) {
+            fotoSrc = base_url('uploads/ruangan/' + r.foto);
+          }
+
           var card = `
           <div class="col-md-4 mb-3">
             <div class="card card-ruangan border-success h-100">
               <div style="position:relative;">
-                <img src="${r.foto}" class="card-img-top" style="height:160px; object-fit:cover;">
+                <img src="${fotoSrc}" class="card-img-top" style="height:160px; object-fit:cover;">
                 <span class="badge badge-success" style="position:absolute; top:8px; right:8px; font-size:12px;">
                   <i class="fa fa-check"></i> Tersedia
                 </span>
