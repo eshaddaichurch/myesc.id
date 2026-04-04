@@ -47,10 +47,10 @@ class Bookingruangan extends MY_Controller
         $tersedia = array();
         if ($rsRuanganTersedia->num_rows() > 0) {
             foreach ($rsRuanganTersedia->result() as $row) {
-                // ✅ fix di sini
-                $foto = base_url('images/nofoto.png');
+                // ✅ pakai domain admin
+                $foto = 'https://admin.myesc.id/images/nofoto.png';
                 if (!empty($row->foto)) {
-                    $foto = base_url('uploads/ruangan/' . $row->foto);
+                    $foto = 'https://admin.myesc.id/uploads/ruangan/' . $row->foto;
                 }
                 $tersedia[] = array(
                     'idruangan' => $row->idruangan,
@@ -58,7 +58,7 @@ class Bookingruangan extends MY_Controller
                     'kapasitas' => $row->kapasitas,
                     'lokasi' => $row->lokasi,
                     'fasilitas' => $row->fasilitas,
-                    'foto' => $foto,  // ✅ sekarang benar
+                    'foto' => $foto,
                 );
             }
         }
@@ -66,10 +66,10 @@ class Bookingruangan extends MY_Controller
         $terpakai = array();
         if ($rsRuanganTerpakai->num_rows() > 0) {
             foreach ($rsRuanganTerpakai->result() as $row) {
-                // ✅ fix di sini
-                $foto = base_url('images/nofoto.png');
+                // ✅ pakai domain admin
+                $foto = 'https://admin.myesc.id/images/nofoto.png';
                 if (!empty($row->foto)) {
-                    $foto = base_url('uploads/ruangan/' . $row->foto);
+                    $foto = 'https://admin.myesc.id/uploads/ruangan/' . $row->foto;
                 }
                 $terpakai[] = array(
                     'idruangan' => $row->idruangan,
@@ -77,7 +77,7 @@ class Bookingruangan extends MY_Controller
                     'kapasitas' => $row->kapasitas,
                     'lokasi' => $row->lokasi,
                     'fasilitas' => $row->fasilitas,
-                    'foto' => $foto,  // ✅ sekarang benar
+                    'foto' => $foto,
                     'namadc' => $row->namadc,
                     'namapembooking' => $row->namapembooking,
                     'jamulai' => $row->jamulai,
