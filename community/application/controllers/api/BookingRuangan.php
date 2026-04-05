@@ -44,9 +44,10 @@ class BookingRuangan extends CI_Controller
 
         $tersedia = [];
         foreach ($rsRuanganTersedia->result() as $row) {
+            // ✅ fix domain
             $foto = !empty($row->foto)
-                ? base_url('uploads/ruangan/' . $row->foto)
-                : base_url('images/nofoto.png');
+                ? 'https://admin.myesc.id/uploads/ruangan/' . $row->foto
+                : 'https://admin.myesc.id/images/nofoto.png';
 
             $tersedia[] = [
                 'idruangan' => $row->idruangan,
@@ -60,9 +61,10 @@ class BookingRuangan extends CI_Controller
 
         $terpakai = [];
         foreach ($rsRuanganTerpakai->result() as $row) {
+            // ✅ fix domain
             $foto = !empty($row->foto)
-                ? base_url('uploads/ruangan/' . $row->foto)
-                : base_url('images/nofoto.png');
+                ? 'https://admin.myesc.id/uploads/ruangan/' . $row->foto
+                : 'https://admin.myesc.id/images/nofoto.png';
 
             $terpakai[] = [
                 'idruangan' => $row->idruangan,
