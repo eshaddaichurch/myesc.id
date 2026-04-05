@@ -16,22 +16,26 @@ class AbsendcApi extends CI_Controller
         $this->load->helper('mdata_helper');
     }
 
-    /* ===============================
+    /*
+     * ===============================
      * HELPER RESPONSE
-     * =============================== */
+     * ===============================
+     */
     private function response($status, $data = [], $message = '')
     {
         echo json_encode([
-            'status'  => $status,
+            'status' => $status,
             'message' => $message,
-            'data'    => $data
+            'data' => $data
         ]);
         exit;
     }
 
-    /* ===============================
+    /*
+     * ===============================
      * VALIDASI HEADER IDDC
-     * =============================== */
+     * ===============================
+     */
     private function validateIddcHeader()
     {
         $headers = $this->input->request_headers();
@@ -58,15 +62,17 @@ class AbsendcApi extends CI_Controller
         return $iddc;
     }
 
-
-    /* ===============================
+    /*
+     * ===============================
      * 📌 MEMBER DC
-     * =============================== */
+     * ===============================
+     */
     public function member()
     {
         $iddc = $this->validateIddcHeader();
 
-        $data = $this->db
+        $data = $this
+            ->db
             ->where('iddc', $iddc)
             ->order_by('namalengkap', 'ASC')
             ->get('v_dcmember')
@@ -74,13 +80,15 @@ class AbsendcApi extends CI_Controller
 
         $this->response(true, [
             'total' => count($data),
-            'data'  => $data
+            'data' => $data
         ]);
     }
 
-    /* ===============================
+    /*
+     * ===============================
      * 📌 LIST ABSENSI
-     * =============================== */
+     * ===============================
+     */
     public function list()
     {
         $iddc = $this->validateIddcHeader();
@@ -90,21 +98,23 @@ class AbsendcApi extends CI_Controller
         $data = [];
         foreach ($rs->result() as $row) {
             $data[] = [
-                'idabsen'        => $row->idabsen,
-                'tglabsen'       => $row->tglabsen,
-                'totalpeserta'   => (int) $row->totalpeserta,
-                'keterangan'     => $row->keterangan,
+                'idabsen' => $row->idabsen,
+                'tglabsen' => $row->tglabsen,
+                'totalpeserta' => (int) $row->totalpeserta,
+                'keterangan' => $row->keterangan,
                 'formatted_date' => formatHariTanggalJam($row->tglabsen),
-                'foto'           => $row->foto
+                'foto' => $row->foto
             ];
         }
 
         $this->response(true, $data);
     }
 
-    /* ===============================
+    /*
+     * ===============================
      * 📌 DETAIL ABSENSI
-     * =============================== */
+     * ===============================
+     */
     public function detail($idabsen)
     {
         $iddc = $this->validateIddcHeader();
@@ -125,45 +135,47 @@ class AbsendcApi extends CI_Controller
 
         $this->response(true, [
             'absensi' => [
-                'idabsen'        => $row->idabsen,
-                'tglabsen'       => $row->tglabsen,
-                'keterangan'     => $row->keterangan,
-                'totalpeserta'   => (int) $row->totalpeserta,
+                'idabsen' => $row->idabsen,
+                'tglabsen' => $row->tglabsen,
+                'keterangan' => $row->keterangan,
+                'totalpeserta' => (int) $row->totalpeserta,
                 'formatted_date' => formatHariTanggalJam($row->tglabsen),
-                'foto'           => $row->foto
+                'foto' => $row->foto
             ],
             'peserta' => $peserta->result_array()
         ]);
     }
 
-    /* ===============================
+    /*
+     * ===============================
      * 📌 SIMPAN ABSENSI
-     * =============================== */
+     * ===============================
+     */
     // public function simpan()
     // {
     //     try {
     //         $raw = json_decode($this->input->raw_input_stream, true);
-    
+
     //         if (!$raw) {
     //             $this->response(false, [], 'Payload JSON kosong');
     //             return;
     //         }
-    
+
     //         if (empty($raw['iddc'])) {
     //             $this->response(false, [], 'iddc wajib');
     //             return;
     //         }
-    
+
     //         if (empty($raw['idpengguna'])) {
     //             $this->response(false, [], 'idpengguna wajib');
     //             return;
     //         }
-    
+
     //         if (!isset($raw['idjemaat']) || !is_array($raw['idjemaat'])) {
     //             $this->response(false, [], 'Data idjemaat tidak valid');
     //             return;
     //         }
-    
+
     //         $data = [
     //             'iddc'         => $raw['iddc'],
     //             'idpengguna'   => $raw['idpengguna'],
@@ -171,26 +183,26 @@ class AbsendcApi extends CI_Controller
     //             'totalpeserta' => count($raw['idjemaat']),
     //             'tglabsen'     => date('Y-m-d H:i:s'),
     //         ];
-    
+
     //         $this->db->trans_begin();
     //         $this->db->insert('dcabsen', $data);
-    
+
     //         if ($this->db->trans_status() === FALSE) {
     //             $error = $this->db->error();
     //             $this->db->trans_rollback();
-    
+
     //             $this->response(false, [
     //                 'db_error' => $error,
     //                 'payload'  => $data
     //             ], 'Gagal menyimpan absensi');
     //             return;
     //         }
-    
+
     //         $this->db->trans_commit();
-    
+
     //         $this->response(true, [], 'Absensi berhasil disimpan');
     //         return;
-    
+
     //     } catch (Throwable $e) {
     //         $this->response(false, [
     //             'exception' => $e->getMessage()
@@ -198,7 +210,6 @@ class AbsendcApi extends CI_Controller
     //         return;
     //     }
     // }
-    
 
     public function simpan()
     {
@@ -221,9 +232,11 @@ class AbsendcApi extends CI_Controller
                 $this->response(false, [], 'Data idjemaat tidak valid');
             }
 
-            /* ===============================
-            * 🔥 HANDLE FOTO BASE64
-            * =============================== */
+            /*
+             * ===============================
+             * 🔥 HANDLE FOTO BASE64
+             * ===============================
+             */
             $nama_file = null;
 
             if (!empty($raw['foto'])) {
@@ -244,25 +257,27 @@ class AbsendcApi extends CI_Controller
                 file_put_contents($folder . $nama_file, $binary);
             }
 
-            /* ===============================
-            * 🔥 INSERT DATABASE
-            * =============================== */
+            /*
+             * ===============================
+             * 🔥 INSERT DATABASE
+             * ===============================
+             */
             $this->db->trans_begin();
 
             $this->db->insert('dcabsen', [
-                'iddc'         => $raw['iddc'],
-                'idpengguna'   => $raw['idpengguna'],
-                'keterangan'   => $raw['keterangan'] ?? '',
+                'iddc' => $raw['iddc'],
+                'idpengguna' => $raw['idpengguna'],
+                'keterangan' => $raw['keterangan'] ?? '',
                 'totalpeserta' => count($raw['idjemaat']),
-                'tglabsen'     => date('Y-m-d H:i:s'),
-                'foto'         => $nama_file, // ✅ BUKAN BASE64
+                'tglabsen' => !empty($raw['tglabsen']) ? $raw['tglabsen'] : date('Y-m-d H:i:s'),
+                'foto' => $nama_file,  // ✅ BUKAN BASE64
             ]);
 
             $idabsen = $this->db->insert_id();
 
             foreach ($raw['idjemaat'] as $idjemaat) {
                 $this->db->insert('dcabsen_detail', [
-                    'idabsen'  => $idabsen,
+                    'idabsen' => $idabsen,
                     'idjemaat' => $idjemaat
                 ]);
             }
@@ -277,17 +292,10 @@ class AbsendcApi extends CI_Controller
             $this->response(true, [
                 'idabsen' => $idabsen
             ], 'Absensi berhasil disimpan');
-
         } catch (Throwable $e) {
             $this->response(false, [
                 'exception' => $e->getMessage()
             ], 'Exception server');
         }
     }
-
-
-
-
-
-
 }
