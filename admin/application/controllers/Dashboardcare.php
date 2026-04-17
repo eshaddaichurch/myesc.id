@@ -34,41 +34,47 @@ class Dashboardcare extends MY_controller
 
     /**
      * Get grafik jemaat baru per bulan
-     * FIX: Tambah null check dan error handling
+     * FIX: Jika num_rows()===0, tetap kirim array 0 (bukan 404) agar JS tidak NaN
      */
     public function getgrafikjemaatbaru()
     {
+        $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
+
         try {
             $result = $this->Dashboardcare_model->getgrafikjemaatbaru();
 
-            // FIX #1: Check apakah query return result
-            if (!$result || $result->num_rows() === 0) {
-                $this->_sendErrorResponse('Data grafik jemaat baru tidak ditemukan', 404);
+            // FIX: Jika query gagal total
+            if (!$result) {
+                $this->_sendErrorResponse('Query gagal dijalankan', 500);
+                return;
+            }
+
+            // FIX: Jika tidak ada baris sama sekali, kirim data kosong (bukan 404)
+            if ($result->num_rows() === 0) {
+                echo json_encode(array(
+                    'success' => true,
+                    'datatanggal' => $bulan,
+                    'jumlahjemaat' => array_fill(0, 12, 0),
+                    'totaljemaat' => 0,
+                ));
                 return;
             }
 
             $rskelas = $result->row();
 
-            // FIX #2: Define bulan array
-            $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-
-            // FIX #3: Build jumlahjemaat array dengan null check per bulan
             $jumlahjemaat = array();
             foreach ($bulan as $b) {
                 $jumlahjemaat[] = isset($rskelas->$b) ? intval($rskelas->$b) : 0;
             }
 
-            // FIX #4: Hitung total dengan array_sum (lebih clean)
             $totaljemaat = array_sum($jumlahjemaat);
 
-            $data = array(
+            echo json_encode(array(
                 'success' => true,
                 'datatanggal' => $bulan,
                 'jumlahjemaat' => $jumlahjemaat,
                 'totaljemaat' => $totaljemaat,
-            );
-
-            echo json_encode($data);
+            ));
         } catch (Exception $e) {
             $this->_sendErrorResponse('Error: ' . $e->getMessage(), 500);
         }
@@ -76,41 +82,45 @@ class Dashboardcare extends MY_controller
 
     /**
      * Get grafik marriage class per bulan
-     * FIX: Tambah null check dan error handling
+     * FIX: Jika num_rows()===0, tetap kirim array 0 (bukan 404) agar JS tidak NaN
      */
     public function getgrafikmarriage()
     {
+        $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
+
         try {
             $result = $this->Dashboardcare_model->getgrafikmarriage();
 
-            // FIX #1: Check apakah query return result
-            if (!$result || $result->num_rows() === 0) {
-                $this->_sendErrorResponse('Data grafik marriage tidak ditemukan', 404);
+            if (!$result) {
+                $this->_sendErrorResponse('Query gagal dijalankan', 500);
+                return;
+            }
+
+            if ($result->num_rows() === 0) {
+                echo json_encode(array(
+                    'success' => true,
+                    'datatanggal' => $bulan,
+                    'jumlahjemaat' => array_fill(0, 12, 0),
+                    'totaljemaat' => 0,
+                ));
                 return;
             }
 
             $rskelas = $result->row();
 
-            // FIX #2: Define bulan array
-            $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-
-            // FIX #3: Build jumlahjemaat array dengan null check per bulan
             $jumlahjemaat = array();
             foreach ($bulan as $b) {
                 $jumlahjemaat[] = isset($rskelas->$b) ? intval($rskelas->$b) : 0;
             }
 
-            // FIX #4: Hitung total dengan array_sum
             $totaljemaat = array_sum($jumlahjemaat);
 
-            $data = array(
+            echo json_encode(array(
                 'success' => true,
                 'datatanggal' => $bulan,
                 'jumlahjemaat' => $jumlahjemaat,
                 'totaljemaat' => $totaljemaat,
-            );
-
-            echo json_encode($data);
+            ));
         } catch (Exception $e) {
             $this->_sendErrorResponse('Error: ' . $e->getMessage(), 500);
         }
@@ -118,41 +128,45 @@ class Dashboardcare extends MY_controller
 
     /**
      * Get grafik baptis per bulan
-     * FIX: Tambah null check dan error handling
+     * FIX: Jika num_rows()===0, tetap kirim array 0 (bukan 404) agar JS tidak NaN
      */
     public function getgrafikbaptis()
     {
+        $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
+
         try {
             $result = $this->Dashboardcare_model->getgrafikbaptis();
 
-            // FIX #1: Check apakah query return result
-            if (!$result || $result->num_rows() === 0) {
-                $this->_sendErrorResponse('Data grafik baptis tidak ditemukan', 404);
+            if (!$result) {
+                $this->_sendErrorResponse('Query gagal dijalankan', 500);
+                return;
+            }
+
+            if ($result->num_rows() === 0) {
+                echo json_encode(array(
+                    'success' => true,
+                    'datatanggal' => $bulan,
+                    'jumlahjemaat' => array_fill(0, 12, 0),
+                    'totaljemaat' => 0,
+                ));
                 return;
             }
 
             $rsAkta = $result->row();
 
-            // FIX #2: Define bulan array
-            $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-
-            // FIX #3: Build jumlahjemaat array dengan null check per bulan
             $jumlahjemaat = array();
             foreach ($bulan as $b) {
                 $jumlahjemaat[] = isset($rsAkta->$b) ? intval($rsAkta->$b) : 0;
             }
 
-            // FIX #4: Hitung total dengan array_sum
             $totaljemaat = array_sum($jumlahjemaat);
 
-            $data = array(
+            echo json_encode(array(
                 'success' => true,
                 'datatanggal' => $bulan,
                 'jumlahjemaat' => $jumlahjemaat,
                 'totaljemaat' => $totaljemaat,
-            );
-
-            echo json_encode($data);
+            ));
         } catch (Exception $e) {
             $this->_sendErrorResponse('Error: ' . $e->getMessage(), 500);
         }
@@ -160,7 +174,6 @@ class Dashboardcare extends MY_controller
 
     /**
      * Helper: Send error response as JSON
-     * FIX: Standardized error response
      */
     private function _sendErrorResponse($message, $code = 400)
     {

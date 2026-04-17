@@ -102,7 +102,7 @@ $this->load->view('template/sidemenu');
                         </div>
                     </div>
 
-                    <!-- BAR CHART: Jemaat Baru per Bulan -->
+                    <!-- BAR CHART: Jemaat Baru -->
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header border-0">
@@ -113,7 +113,6 @@ $this->load->view('template/sidemenu');
                             <div class="card-body">
                                 <div class="d-flex">
                                     <p class="d-flex flex-column">
-                                        <!-- FIX: Pesan lebih informatif (Tahun <?php echo date('Y') ?>) -->
                                         <span class="text-bold text-lg">Jumlah: <span id="lbljemaatbaru">0</span></span>
                                         <span>Tahun <?php echo date('Y'); ?></span>
                                     </p>
@@ -162,7 +161,6 @@ $this->load->view('template/sidemenu');
                         <div class="card">
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
-                                    <!-- FIX: Tambah echo -->
                                     <h3 class="card-title">Jemaat Dibaptis Tahun <?php echo date('Y'); ?></h3>
                                 </div>
                             </div>
@@ -198,13 +196,13 @@ $this->load->view('template/sidemenu');
 <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 
 <script>
-    // FIX #1: Deklarasi chart variabel di luar agar bisa di-destroy
-    var pieChartInstance = null;
+    // Deklarasi instance chart di luar agar bisa di-destroy saat reload
+    var pieChartInstance      = null;
     var grafikJemaatBaruChart = null;
-    var grafikMarriageChart = null;
-    var grafikBaptisChart = null;
+    var grafikMarriageChart   = null;
+    var grafikBaptisChart     = null;
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         loadInfoBox();
         loadAllCharts();
     });
@@ -216,13 +214,13 @@ $this->load->view('template/sidemenu');
             type: 'GET',
             dataType: 'json',
         })
-        .done(function(data) {
+        .done(function (data) {
             $('.jumlahjemaatbaru').html(data.jumlahjemaatbaru || 0);
             $('.jumlahjemaatsemua').html(data.jumlahjemaatsemua || 0);
             $('.jumlahjemaatsimpatisan').html(data.jumlahjemaatsimpatisan || 0);
             $('.jumlahjemaatsudahdibaptis').html(data.jumlahjemaatbaptis || 0);
         })
-        .fail(function() {
+        .fail(function () {
             console.error("AJAX Error: getinfobox - gagal memuat data info box");
         });
     }
@@ -233,32 +231,26 @@ $this->load->view('template/sidemenu');
             fontColor: '#495057',
             fontStyle: 'bold'
         };
-        var mode = 'index';
+        var mode      = 'index';
         var intersect = true;
-
-        // Chart options yang sama untuk semua bar chart
         var chartOptions = buildChartOptions(mode, intersect, ticksStyle);
 
-        // Load Pie Chart + Bar Chart Jemaat Baru
-        loadJemaatBaruCharts(chartOptions, ticksStyle);
-
-        // Load Bar Chart Marriage
-        loadMarriageChart(chartOptions, ticksStyle);
-
-        // Load Bar Chart Baptis
-        loadBaptisChart(chartOptions, ticksStyle);
+        loadJemaatBaruCharts(chartOptions);
+        loadMarriageChart(chartOptions);
+        loadBaptisChart(chartOptions);
     }
 
     // ===== JEMAAT BARU (PIE + BAR) =====
-    function loadJemaatBaruCharts(chartOptions, ticksStyle) {
+    function loadJemaatBaruCharts(chartOptions) {
         $.ajax({
             url: '<?php echo site_url('dashboardcare/getgrafikjemaatbaru') ?>',
             type: 'GET',
             dataType: 'json',
         })
-        .done(function(data) {
-            if (!data || !data.datatanggal) {
-                console.error("API getgrafikjemaatbaru: data kosong atau format salah");
+        .done(function (data) {
+            // FIX: Validasi format data sebelum render chart
+            if (!data || !data.datatanggal || !data.jumlahjemaat) {
+                console.error("API getgrafikjemaatbaru: format data tidak valid", data);
                 return;
             }
 
@@ -267,8 +259,8 @@ $this->load->view('template/sidemenu');
                 pieChartInstance.destroy();
             }
 
-            var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
-            pieChartInstance = new Chart(pieChartCanvas, {
+            var pieCtx = $('#pieChart').get(0).getContext('2d');
+            pieChartInstance = new Chart(pieCtx, {
                 type: 'pie',
                 data: {
                     labels: data.datatanggal,
@@ -301,13 +293,13 @@ $this->load->view('template/sidemenu');
             }
 
             $('#lbljemaatbaru').html(data.totaljemaat || 0);
-            var barChartCanvas = $('#grafikjemaatbaru').get(0).getContext('2d');
-            grafikJemaatBaruChart = new Chart(barChartCanvas, {
+
+            var barCtx = $('#grafikjemaatbaru').get(0).getContext('2d');
+            grafikJemaatBaruChart = new Chart(barCtx, {
                 type: 'bar',
                 data: {
                     labels: data.datatanggal,
                     datasets: [{
-                        type: 'bar',
                         label: 'Jemaat Baru',
                         data: data.jumlahjemaat,
                         backgroundColor: '#557ae0',
@@ -318,21 +310,21 @@ $this->load->view('template/sidemenu');
                 options: chartOptions
             });
         })
-        .fail(function(xhr, status, error) {
+        .fail(function (xhr, status, error) {
             console.error("AJAX Error: getgrafikjemaatbaru -", status, error);
         });
     }
 
     // ===== MARRIAGE CLASS =====
-    function loadMarriageChart(chartOptions, ticksStyle) {
+    function loadMarriageChart(chartOptions) {
         $.ajax({
             url: '<?php echo site_url('dashboardcare/getgrafikmarriage') ?>',
             type: 'GET',
             dataType: 'json',
         })
-        .done(function(data) {
-            if (!data || !data.datatanggal) {
-                console.error("API getgrafikmarriage: data kosong atau format salah");
+        .done(function (data) {
+            if (!data || !data.datatanggal || !data.jumlahjemaat) {
+                console.error("API getgrafikmarriage: format data tidak valid", data);
                 return;
             }
 
@@ -341,13 +333,13 @@ $this->load->view('template/sidemenu');
             }
 
             $('#lblmarriage').html(data.totaljemaat || 0);
-            var barChartCanvas = $('#grafikmarriage').get(0).getContext('2d');
-            grafikMarriageChart = new Chart(barChartCanvas, {
+
+            var barCtx = $('#grafikmarriage').get(0).getContext('2d');
+            grafikMarriageChart = new Chart(barCtx, {
                 type: 'bar',
                 data: {
                     labels: data.datatanggal,
                     datasets: [{
-                        type: 'bar',
                         label: 'Marriage Class',
                         data: data.jumlahjemaat,
                         backgroundColor: '#28a745',
@@ -358,21 +350,21 @@ $this->load->view('template/sidemenu');
                 options: chartOptions
             });
         })
-        .fail(function(xhr, status, error) {
+        .fail(function (xhr, status, error) {
             console.error("AJAX Error: getgrafikmarriage -", status, error);
         });
     }
 
     // ===== BAPTIS =====
-    function loadBaptisChart(chartOptions, ticksStyle) {
+    function loadBaptisChart(chartOptions) {
         $.ajax({
             url: '<?php echo site_url('dashboardcare/getgrafikbaptis') ?>',
             type: 'GET',
             dataType: 'json',
         })
-        .done(function(data) {
-            if (!data || !data.datatanggal) {
-                console.error("API getgrafikbaptis: data kosong atau format salah");
+        .done(function (data) {
+            if (!data || !data.datatanggal || !data.jumlahjemaat) {
+                console.error("API getgrafikbaptis: format data tidak valid", data);
                 return;
             }
 
@@ -381,13 +373,13 @@ $this->load->view('template/sidemenu');
             }
 
             $('#lblbaptis').html(data.totaljemaat || 0);
-            var barChartCanvas = $('#grafikbaptis').get(0).getContext('2d');
-            grafikBaptisChart = new Chart(barChartCanvas, {
+
+            var barCtx = $('#grafikbaptis').get(0).getContext('2d');
+            grafikBaptisChart = new Chart(barCtx, {
                 type: 'bar',
                 data: {
                     labels: data.datatanggal,
                     datasets: [{
-                        type: 'bar',
                         label: 'Dibaptis',
                         data: data.jumlahjemaat,
                         backgroundColor: '#ffc107',
@@ -398,7 +390,7 @@ $this->load->view('template/sidemenu');
                 options: chartOptions
             });
         })
-        .fail(function(xhr, status, error) {
+        .fail(function (xhr, status, error) {
             console.error("AJAX Error: getgrafikbaptis -", status, error);
         });
     }
