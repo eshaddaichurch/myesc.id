@@ -192,6 +192,23 @@ class Dashboardcare extends MY_controller
         // Ambil data untuk dikirim ke view
         $rsJemaatBaru = $this->Dashboardcare_model->getJemaatBaruPeriode($tglawal, $tglakhir);
 
+        // -------------------------------------------------------
+        // GUARD: Jika query gagal (tabel/kolom tidak ditemukan),
+        // tampilkan pesan error yang jelas daripada crash
+        // -------------------------------------------------------
+        if ($rsJemaatBaru === false || $rsJemaatBaru === null) {
+            $lastQuery = $this->db->last_query();
+            $dbError = $this->db->error();
+            show_error(
+                '<b>Query getJemaatBaruPeriode() gagal.</b><br><br>'
+                    . '<b>DB Error:</b> [' . $dbError['code'] . '] ' . $dbError['message'] . '<br><br>'
+                    . '<b>Query yang dijalankan:</b><br><pre>' . $lastQuery . '</pre>'
+                    . '<br>Sesuaikan nama tabel dan kolom di Dashboardcare_model::getJemaatBaruPeriode()',
+                500
+            );
+            return;
+        }
+
         $data = array(
             'rowInfoGereja' => $this->_getInfoGereja(),
             'rsJemaatBaru' => $rsJemaatBaru,
