@@ -135,11 +135,10 @@ $tabelHtml .= '
     <thead>
         <tr style="font-size:11px; font-weight:bold; background-color:#dddddd;">
             <th width="5%"  style="text-align:center;">No</th>
-            <th width="16%" style="text-align:center;">Tgl Bergabung</th>
-            <th width="37%" style="text-align:center;">Nama Lengkap</th>
-            <th width="8%"  style="text-align:center;">JK</th>
-            <th width="9%"  style="text-align:center;">Umur</th>
-            <th width="25%" style="text-align:center;">Nama DC</th>
+            <th width="20%" style="text-align:center;">Tgl Bergabung</th>
+            <th width="50%" style="text-align:center;">Nama Lengkap</th>
+            <th width="10%" style="text-align:center;">JK</th>
+            <th width="15%" style="text-align:center;">Umur</th>
         </tr>
     </thead>
     <tbody>';
@@ -153,18 +152,17 @@ if ($rsJemaatBaru->num_rows() > 0) {
         $tabelHtml .= '
         <tr style="font-size:11px; background-color:' . $bgColor . ';">
             <td width="5%"  style="text-align:center;">' . $no . '</td>
-            <td width="16%" style="text-align:center;">' . tglindonesia($row->tanggalinsert) . '</td>
-            <td width="37%" style="text-align:left;">' . htmlspecialchars($row->namalengkap) . '</td>
-            <td width="8%"  style="text-align:center;">' . $jk . '</td>
-            <td width="9%"  style="text-align:center;">' . ($row->umur ?? '-') . '</td>
-            <td width="25%" style="text-align:left;">' . htmlspecialchars($row->namadc ?? '-') . '</td>
+            <td width="20%" style="text-align:center;">' . tglindonesia($row->tanggalinsert) . '</td>
+            <td width="50%" style="text-align:left;">' . htmlspecialchars($row->namalengkap) . '</td>
+            <td width="10%" style="text-align:center;">' . $jk . '</td>
+            <td width="15%" style="text-align:center;">' . ($row->umur ?? '-') . '</td>
         </tr>';
         $no++;
     }
 } else {
     $tabelHtml .= '
         <tr>
-            <td colspan="6" style="font-size:11px; text-align:center; font-style:italic; padding:8px;">
+            <td colspan="5" style="font-size:11px; text-align:center; font-style:italic; padding:8px;">
                 Tidak ada data jemaat baru pada periode ini.
             </td>
         </tr>';

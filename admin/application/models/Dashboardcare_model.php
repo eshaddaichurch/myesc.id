@@ -123,12 +123,9 @@ class Dashboardcare_model extends CI_Model
             SELECT 
                 j.namalengkap,
                 j.jeniskelamin,
-                j.tgllahir,
-                TIMESTAMPDIFF(YEAR, j.tgllahir, CURDATE()) AS umur,
                 j.tanggalinsert,
-                IFNULL(dc.namadc, '-') AS namadc
+                TIMESTAMPDIFF(YEAR, j.tanggallahir, CURDATE()) AS umur
             FROM jemaat j
-            LEFT JOIN dc ON j.iddc = dc.iddc
             WHERE j.statusjemaat = 'Jemaat'
                 AND j.tanggalinsert BETWEEN ? AND ?
             ORDER BY j.tanggalinsert ASC

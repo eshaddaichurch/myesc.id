@@ -126,7 +126,6 @@ $tglCetak = date('d-m-Y H:i');
             <th>Nama Lengkap</th>
             <th>Jenis Kelamin</th>
             <th>Umur</th>
-            <th>Nama DC</th>
         </tr>
     </thead>
     <tbody>
@@ -140,12 +139,11 @@ $tglCetak = date('d-m-Y H:i');
                     <td><?php echo htmlspecialchars($row->namalengkap); ?></td>
                     <td style="text-align:center;"><?php echo $jk; ?></td>
                     <td style="text-align:center;"><?php echo $row->umur ?? '-'; ?></td>
-                    <td><?php echo htmlspecialchars($row->namadc ?? '-'); ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="6" style="text-align:center; font-style:italic; font-size:10pt; padding:8px;">
+                <td colspan="5" style="text-align:center; font-style:italic; font-size:10pt; padding:8px;">
                     Tidak ada data jemaat baru pada periode ini.
                 </td>
             </tr>
