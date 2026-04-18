@@ -24,10 +24,16 @@ $this->load->view('template/sidemenu');
                     <div class="col-md-12">
                         <?php
                         $pesan = $this->session->flashdata('pesan');
-                        if (!empty($pesan)) {
+                        if (!empty($pesan))
                             echo $pesan;
-                        }
                         ?>
+                    </div>
+
+                    <!-- Tombol Cetak -->
+                    <div class="col-12 mb-3 text-right">
+                        <button type="button" class="btn btn-danger" onclick="showModalCetak()">
+                            <i class="fas fa-file-pdf"></i> Cetak PDF
+                        </button>
                     </div>
 
                     <!-- Info Box: Jemaat Baru -->
@@ -35,24 +41,20 @@ $this->load->view('template/sidemenu');
                         <div class="small-box bg-info">
                             <div class="inner">
                                 <h3 class="jumlahjemaatbaru">0</h3>
-                                <p>Jemaat Baru</p>
+                                <p>Jemaat Baru Tahun Ini</p>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
+                            <div class="icon"><i class="ion ion-bag"></i></div>
                         </div>
                     </div>
 
-                    <!-- Info Box: Jumlah Jemaat Semua -->
+                    <!-- Info Box: Jumlah Jemaat -->
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <h3 class="jumlahjemaatsemua">0</h3>
                                 <p>Jumlah Jemaat</p>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
+                            <div class="icon"><i class="ion ion-stats-bars"></i></div>
                         </div>
                     </div>
 
@@ -63,9 +65,7 @@ $this->load->view('template/sidemenu');
                                 <h3 class="jumlahjemaatsimpatisan">0</h3>
                                 <p>Jumlah Simpatisan</p>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
+                            <div class="icon"><i class="ion ion-person-add"></i></div>
                         </div>
                     </div>
 
@@ -76,9 +76,7 @@ $this->load->view('template/sidemenu');
                                 <h3 class="jumlahjemaatsudahdibaptis">0</h3>
                                 <p>Sudah Dibaptis</p>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
+                            <div class="icon"><i class="ion ion-person-add"></i></div>
                         </div>
                     </div>
 
@@ -97,7 +95,7 @@ $this->load->view('template/sidemenu');
                                 </div>
                             </div>
                             <div class="card-body">
-                                <canvas id="pieChart" style="min-height: 250px; height: 350px; max-width: 100%;"></canvas>
+                                <canvas id="pieChart" style="min-height:250px; height:350px; max-width:100%;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -106,9 +104,7 @@ $this->load->view('template/sidemenu');
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Jemaat Baru</h3>
-                                </div>
+                                <h3 class="card-title">Jemaat Baru</h3>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex">
@@ -121,9 +117,7 @@ $this->load->view('template/sidemenu');
                                     <canvas id="grafikjemaatbaru" height="200"></canvas>
                                 </div>
                                 <div class="d-flex flex-row justify-content-end">
-                                    <span class="mr-2">
-                                        <i class="fas fa-square text-primary"></i> Jumlah Jemaat
-                                    </span>
+                                    <span class="mr-2"><i class="fas fa-square text-primary"></i> Jumlah Jemaat</span>
                                 </div>
                             </div>
                         </div>
@@ -133,9 +127,7 @@ $this->load->view('template/sidemenu');
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Marriage Class</h3>
-                                </div>
+                                <h3 class="card-title">Marriage Class</h3>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex">
@@ -148,9 +140,7 @@ $this->load->view('template/sidemenu');
                                     <canvas id="grafikmarriage" height="200"></canvas>
                                 </div>
                                 <div class="d-flex flex-row justify-content-end">
-                                    <span class="mr-2">
-                                        <i class="fas fa-square text-primary"></i> Jumlah Jemaat
-                                    </span>
+                                    <span class="mr-2"><i class="fas fa-square" style="color:#28a745;"></i> Marriage Class</span>
                                 </div>
                             </div>
                         </div>
@@ -160,9 +150,7 @@ $this->load->view('template/sidemenu');
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Jemaat Dibaptis Tahun <?php echo date('Y'); ?></h3>
-                                </div>
+                                <h3 class="card-title">Jemaat Dibaptis Tahun <?php echo date('Y'); ?></h3>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex">
@@ -175,15 +163,55 @@ $this->load->view('template/sidemenu');
                                     <canvas id="grafikbaptis" height="200"></canvas>
                                 </div>
                                 <div class="d-flex flex-row justify-content-end">
-                                    <span class="mr-2">
-                                        <i class="fas fa-square text-primary"></i> Jumlah Jemaat
-                                    </span>
+                                    <span class="mr-2"><i class="fas fa-square" style="color:#ffc107;"></i> Dibaptis</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     MODAL CETAK PDF
+===================================================== -->
+<div class="modal fade" id="modalCetak" tabindex="-1" role="dialog" aria-labelledby="modalCetakLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="modalCetakLabel">
+                    <i class="fas fa-file-pdf"></i> Cetak Laporan Dashboard Care
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="cetakTglawal"><i class="fas fa-calendar-alt"></i> Tanggal Awal</label>
+                    <input type="date" class="form-control" id="cetakTglawal"
+                           value="<?php echo date('Y-m-01'); ?>">
+                </div>
+                <div class="form-group">
+                    <label for="cetakTglakhir"><i class="fas fa-calendar-alt"></i> Tanggal Akhir</label>
+                    <input type="date" class="form-control" id="cetakTglakhir"
+                           value="<?php echo date('Y-m-t'); ?>">
+                </div>
+                <div class="alert alert-info mb-0">
+                    <i class="fas fa-info-circle"></i>
+                    Laporan akan menampilkan data jemaat baru yang bergabung pada periode yang dipilih.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Batal
+                </button>
+                <button type="button" class="btn btn-danger" onclick="doCetak('pdf')">
+                    <i class="fas fa-file-pdf"></i> Cetak PDF
+                </button>
             </div>
         </div>
     </div>
@@ -196,7 +224,6 @@ $this->load->view('template/sidemenu');
 <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 
 <script>
-    // Deklarasi instance chart di luar agar bisa di-destroy saat reload
     var pieChartInstance      = null;
     var grafikJemaatBaruChart = null;
     var grafikMarriageChart   = null;
@@ -207,7 +234,7 @@ $this->load->view('template/sidemenu');
         loadAllCharts();
     });
 
-    // ===== LOAD INFO BOX =====
+    // ===== INFO BOX =====
     function loadInfoBox() {
         $.ajax({
             url: '<?php echo site_url('dashboardcare/getinfobox') ?>',
@@ -221,20 +248,14 @@ $this->load->view('template/sidemenu');
             $('.jumlahjemaatsudahdibaptis').html(data.jumlahjemaatbaptis || 0);
         })
         .fail(function () {
-            console.error("AJAX Error: getinfobox - gagal memuat data info box");
+            console.error("AJAX Error: getinfobox");
         });
     }
 
-    // ===== LOAD ALL CHARTS =====
+    // ===== ALL CHARTS =====
     function loadAllCharts() {
-        var ticksStyle = {
-            fontColor: '#495057',
-            fontStyle: 'bold'
-        };
-        var mode      = 'index';
-        var intersect = true;
-        var chartOptions = buildChartOptions(mode, intersect, ticksStyle);
-
+        var ticksStyle = { fontColor: '#495057', fontStyle: 'bold' };
+        var chartOptions = buildChartOptions('index', true, ticksStyle);
         loadJemaatBaruCharts(chartOptions);
         loadMarriageChart(chartOptions);
         loadBaptisChart(chartOptions);
@@ -248,28 +269,23 @@ $this->load->view('template/sidemenu');
             dataType: 'json',
         })
         .done(function (data) {
-            // FIX: Validasi format data sebelum render chart
             if (!data || !data.datatanggal || !data.jumlahjemaat) {
-                console.error("API getgrafikjemaatbaru: format data tidak valid", data);
+                console.error("getgrafikjemaatbaru: format data tidak valid", data);
                 return;
             }
 
-            // === PIE CHART ===
-            if (pieChartInstance) {
-                pieChartInstance.destroy();
-            }
-
-            var pieCtx = $('#pieChart').get(0).getContext('2d');
-            pieChartInstance = new Chart(pieCtx, {
+            // PIE CHART
+            if (pieChartInstance) pieChartInstance.destroy();
+            pieChartInstance = new Chart($('#pieChart').get(0).getContext('2d'), {
                 type: 'pie',
                 data: {
                     labels: data.datatanggal,
                     datasets: [{
                         data: data.jumlahjemaat,
                         backgroundColor: [
-                            '#f56954', '#00a65a', '#f39c12', '#00c0ef',
-                            '#3c8dbc', '#d2d6de', '#605ca8', '#00a2b5',
-                            '#dd4b39', '#222222', '#f39c12', '#00c0ef'
+                            '#f56954','#00a65a','#f39c12','#00c0ef',
+                            '#3c8dbc','#d2d6de','#605ca8','#00a2b5',
+                            '#dd4b39','#222222','#e91e63','#009688'
                         ],
                     }]
                 },
@@ -277,35 +293,22 @@ $this->load->view('template/sidemenu');
                     maintainAspectRatio: false,
                     responsive: true,
                     plugins: {
-                        labels: [{
-                            render: 'label',
-                            position: 'outside'
-                        }, {
-                            render: 'value'
-                        }]
+                        labels: [
+                            { render: 'label', position: 'outside' },
+                            { render: 'value' }
+                        ]
                     }
                 }
             });
 
-            // === BAR CHART ===
-            if (grafikJemaatBaruChart) {
-                grafikJemaatBaruChart.destroy();
-            }
-
+            // BAR CHART
+            if (grafikJemaatBaruChart) grafikJemaatBaruChart.destroy();
             $('#lbljemaatbaru').html(data.totaljemaat || 0);
-
-            var barCtx = $('#grafikjemaatbaru').get(0).getContext('2d');
-            grafikJemaatBaruChart = new Chart(barCtx, {
+            grafikJemaatBaruChart = new Chart($('#grafikjemaatbaru').get(0).getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: data.datatanggal,
-                    datasets: [{
-                        label: 'Jemaat Baru',
-                        data: data.jumlahjemaat,
-                        backgroundColor: '#557ae0',
-                        borderColor: '#557ae0',
-                        fill: true
-                    }]
+                    datasets: [{ label: 'Jemaat Baru', data: data.jumlahjemaat, backgroundColor: '#557ae0', borderColor: '#557ae0' }]
                 },
                 options: chartOptions
             });
@@ -315,7 +318,7 @@ $this->load->view('template/sidemenu');
         });
     }
 
-    // ===== MARRIAGE CLASS =====
+    // ===== MARRIAGE =====
     function loadMarriageChart(chartOptions) {
         $.ajax({
             url: '<?php echo site_url('dashboardcare/getgrafikmarriage') ?>',
@@ -324,28 +327,16 @@ $this->load->view('template/sidemenu');
         })
         .done(function (data) {
             if (!data || !data.datatanggal || !data.jumlahjemaat) {
-                console.error("API getgrafikmarriage: format data tidak valid", data);
+                console.error("getgrafikmarriage: format data tidak valid", data);
                 return;
             }
-
-            if (grafikMarriageChart) {
-                grafikMarriageChart.destroy();
-            }
-
+            if (grafikMarriageChart) grafikMarriageChart.destroy();
             $('#lblmarriage').html(data.totaljemaat || 0);
-
-            var barCtx = $('#grafikmarriage').get(0).getContext('2d');
-            grafikMarriageChart = new Chart(barCtx, {
+            grafikMarriageChart = new Chart($('#grafikmarriage').get(0).getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: data.datatanggal,
-                    datasets: [{
-                        label: 'Marriage Class',
-                        data: data.jumlahjemaat,
-                        backgroundColor: '#28a745',
-                        borderColor: '#28a745',
-                        fill: true
-                    }]
+                    datasets: [{ label: 'Marriage Class', data: data.jumlahjemaat, backgroundColor: '#28a745', borderColor: '#28a745' }]
                 },
                 options: chartOptions
             });
@@ -364,28 +355,16 @@ $this->load->view('template/sidemenu');
         })
         .done(function (data) {
             if (!data || !data.datatanggal || !data.jumlahjemaat) {
-                console.error("API getgrafikbaptis: format data tidak valid", data);
+                console.error("getgrafikbaptis: format data tidak valid", data);
                 return;
             }
-
-            if (grafikBaptisChart) {
-                grafikBaptisChart.destroy();
-            }
-
+            if (grafikBaptisChart) grafikBaptisChart.destroy();
             $('#lblbaptis').html(data.totaljemaat || 0);
-
-            var barCtx = $('#grafikbaptis').get(0).getContext('2d');
-            grafikBaptisChart = new Chart(barCtx, {
+            grafikBaptisChart = new Chart($('#grafikbaptis').get(0).getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: data.datatanggal,
-                    datasets: [{
-                        label: 'Dibaptis',
-                        data: data.jumlahjemaat,
-                        backgroundColor: '#ffc107',
-                        borderColor: '#ffc107',
-                        fill: true
-                    }]
+                    datasets: [{ label: 'Dibaptis', data: data.jumlahjemaat, backgroundColor: '#ffc107', borderColor: '#ffc107' }]
                 },
                 options: chartOptions
             });
@@ -395,43 +374,48 @@ $this->load->view('template/sidemenu');
         });
     }
 
-    // ===== HELPER: Build Chart Options =====
+    // ===== HELPER: Chart Options =====
     function buildChartOptions(mode, intersect, ticksStyle) {
         return {
             maintainAspectRatio: false,
-            tooltips: {
-                mode: mode,
-                intersect: intersect
-            },
-            hover: {
-                mode: mode,
-                intersect: intersect
-            },
-            legend: {
-                display: false
-            },
+            tooltips: { mode: mode, intersect: intersect },
+            hover:    { mode: mode, intersect: intersect },
+            legend:   { display: false },
             scales: {
                 yAxes: [{
-                    gridLines: {
-                        display: true,
-                        lineWidth: '4px',
-                        color: 'rgba(0, 0, 0, .2)',
-                        zeroLineColor: 'transparent'
-                    },
-                    ticks: $.extend({
-                        beginAtZero: true,
-                        suggestedMax: 10
-                    }, ticksStyle)
+                    gridLines: { display: true, lineWidth: '4px', color: 'rgba(0,0,0,.2)', zeroLineColor: 'transparent' },
+                    ticks: $.extend({ beginAtZero: true, suggestedMax: 10 }, ticksStyle)
                 }],
                 xAxes: [{
                     display: true,
-                    gridLines: {
-                        display: false
-                    },
+                    gridLines: { display: false },
                     ticks: ticksStyle
                 }]
             }
         };
+    }
+
+    // ===== MODAL CETAK =====
+    function showModalCetak() {
+        $('#modalCetak').modal('show');
+    }
+
+    function doCetak(jenisCetakan) {
+        var tglawal  = $('#cetakTglawal').val();
+        var tglakhir = $('#cetakTglakhir').val();
+
+        if (!tglawal || !tglakhir) {
+            Swal.fire('Perhatian', 'Tanggal awal dan akhir harus diisi!', 'warning');
+            return;
+        }
+        if (tglawal > tglakhir) {
+            Swal.fire('Perhatian', 'Tanggal awal tidak boleh lebih besar dari tanggal akhir!', 'warning');
+            return;
+        }
+
+        $('#modalCetak').modal('hide');
+        var url = '<?php echo site_url('dashboardcare/cetak') ?>/' + jenisCetakan + '/' + tglawal + '/' + tglakhir;
+        window.open(url, '_blank');
     }
 </script>
 

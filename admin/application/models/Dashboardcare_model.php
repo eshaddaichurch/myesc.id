@@ -5,9 +5,6 @@ class Dashboardcare_model extends CI_Model
 {
     function __construct() {}
 
-    /**
-     * FIX: date('Y-m-d') diganti date('Y') agar filter YEAR() bekerja benar
-     */
     public function getJemaatBaru()
     {
         return $this->db->query(
@@ -45,9 +42,6 @@ class Dashboardcare_model extends CI_Model
         )->row()->jumlah;
     }
 
-    /**
-     * FIX: Tahun hardcoded '2023' diganti date('Y') agar selalu ambil tahun berjalan
-     */
     public function getgrafikjemaatbaru()
     {
         $query = "
@@ -117,6 +111,29 @@ class Dashboardcare_model extends CI_Model
                 AND YEAR(tglakta) = '" . date('Y') . "'
         ";
         return $this->db->query($query);
+    }
+
+    /**
+     * Ambil data jemaat baru berdasarkan range tanggal untuk cetak PDF
+     * Kolom tanggal pakai: tanggalinsert (sesuai tabel jemaat)
+     */
+    public function getJemaatBaruPeriode($tglawal, $tglakhir)
+    {
+        $sql = "
+            SELECT 
+                j.namalengkap,
+                j.jeniskelamin,
+                j.tgllahir,
+                TIMESTAMPDIFF(YEAR, j.tgllahir, CURDATE()) AS umur,
+                j.tanggalinsert,
+                IFNULL(dc.namadc, '-') AS namadc
+            FROM jemaat j
+            LEFT JOIN dc ON j.iddc = dc.iddc
+            WHERE j.statusjemaat = 'Jemaat'
+                AND j.tanggalinsert BETWEEN ? AND ?
+            ORDER BY j.tanggalinsert ASC
+        ";
+        return $this->db->query($sql, array($tglawal, $tglakhir));
     }
 }
 
