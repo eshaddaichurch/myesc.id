@@ -164,8 +164,9 @@ class Dashboardcare extends MY_controller
     }
 
     // =========================================================
-    // CETAK PDF
+    // CETAK PDF / EXCEL
     // URL: dashboardcare/cetak/pdf/2025-01-01/2025-01-31
+    // URL: dashboardcare/cetak/excel/2025-01-01/2025-01-31
     // =========================================================
 
     public function cetak($jenisCetakan = 'pdf', $tglawal = '', $tglakhir = '')
@@ -183,8 +184,10 @@ class Dashboardcare extends MY_controller
             return;
         }
 
-        // Load library PDF
-        $this->load->library('Pdf');
+        // Load library PDF hanya jika cetak PDF
+        if ($jenisCetakan === 'pdf') {
+            $this->load->library('Pdf');
+        }
 
         // Ambil data untuk dikirim ke view
         $rsJemaatBaru = $this->Dashboardcare_model->getJemaatBaruPeriode($tglawal, $tglakhir);
@@ -202,6 +205,8 @@ class Dashboardcare extends MY_controller
 
         if ($jenisCetakan === 'pdf') {
             $this->load->view('dashboard/cetakcare_pdf', $data);
+        } elseif ($jenisCetakan === 'excel') {
+            $this->load->view('dashboard/cetakcare_excel', $data);
         }
     }
 

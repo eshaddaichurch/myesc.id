@@ -31,7 +31,10 @@ $this->load->view('template/sidemenu');
 
                     <!-- Tombol Cetak -->
                     <div class="col-12 mb-3 text-right">
-                        <button type="button" class="btn btn-danger" onclick="showModalCetak()">
+                        <button type="button" class="btn btn-success mr-1" onclick="showModalCetak('excel')">
+                            <i class="fas fa-file-excel"></i> Cetak Excel
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="showModalCetak('pdf')">
                             <i class="fas fa-file-pdf"></i> Cetak PDF
                         </button>
                     </div>
@@ -176,14 +179,15 @@ $this->load->view('template/sidemenu');
 </div>
 
 <!-- =====================================================
-     MODAL CETAK PDF
+     MODAL CETAK PDF / EXCEL
 ===================================================== -->
 <div class="modal fade" id="modalCetak" tabindex="-1" role="dialog" aria-labelledby="modalCetakLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
+            <div class="modal-header text-white" id="modalCetakHeader">
                 <h5 class="modal-title" id="modalCetakLabel">
-                    <i class="fas fa-file-pdf"></i> Cetak Laporan Dashboard Care
+                    <i id="modalCetakIcon" class="fas fa-file-pdf"></i>
+                    <span id="modalCetakTitle">Cetak Laporan Dashboard Care</span>
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -200,7 +204,7 @@ $this->load->view('template/sidemenu');
                     <input type="date" class="form-control" id="cetakTglakhir"
                            value="<?php echo date('Y-m-t'); ?>">
                 </div>
-                <div class="alert alert-info mb-0">
+                <div class="alert alert-info mb-0" id="modalCetakInfo">
                     <i class="fas fa-info-circle"></i>
                     Laporan akan menampilkan data jemaat baru yang bergabung pada periode yang dipilih.
                 </div>
@@ -209,8 +213,9 @@ $this->load->view('template/sidemenu');
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times"></i> Batal
                 </button>
-                <button type="button" class="btn btn-danger" onclick="doCetak('pdf')">
-                    <i class="fas fa-file-pdf"></i> Cetak PDF
+                <button type="button" class="btn" id="modalCetakBtn" onclick="doCetak()">
+                    <i id="modalCetakBtnIcon" class="fas fa-file-pdf"></i>
+                    <span id="modalCetakBtnText">Cetak PDF</span>
                 </button>
             </div>
         </div>
@@ -396,11 +401,34 @@ $this->load->view('template/sidemenu');
     }
 
     // ===== MODAL CETAK =====
-    function showModalCetak() {
+    // jenisCetakan: 'pdf' atau 'excel'
+    var _jenisCetakan = 'pdf'; // variabel global untuk menyimpan pilihan jenis cetak
+
+    function showModalCetak(jenis) {
+        _jenisCetakan = jenis || 'pdf';
+
+        if (_jenisCetakan === 'excel') {
+            $('#modalCetakHeader').removeClass('bg-danger').addClass('bg-success');
+            $('#modalCetakIcon').attr('class', 'fas fa-file-excel');
+            $('#modalCetakTitle').text('Cetak Excel - Laporan Dashboard Care');
+            $('#modalCetakBtn').removeClass('btn-danger').addClass('btn-success');
+            $('#modalCetakBtnIcon').attr('class', 'fas fa-file-excel');
+            $('#modalCetakBtnText').text('Cetak Excel');
+            $('#modalCetakInfo').html('<i class="fas fa-info-circle"></i> Laporan akan diunduh sebagai file Excel (.xls).');
+        } else {
+            $('#modalCetakHeader').removeClass('bg-success').addClass('bg-danger');
+            $('#modalCetakIcon').attr('class', 'fas fa-file-pdf');
+            $('#modalCetakTitle').text('Cetak PDF - Laporan Dashboard Care');
+            $('#modalCetakBtn').removeClass('btn-success').addClass('btn-danger');
+            $('#modalCetakBtnIcon').attr('class', 'fas fa-file-pdf');
+            $('#modalCetakBtnText').text('Cetak PDF');
+            $('#modalCetakInfo').html('<i class="fas fa-info-circle"></i> Laporan akan ditampilkan sebagai file PDF di tab baru.');
+        }
+
         $('#modalCetak').modal('show');
     }
 
-    function doCetak(jenisCetakan) {
+    function doCetak() {
         var tglawal  = $('#cetakTglawal').val();
         var tglakhir = $('#cetakTglakhir').val();
 
@@ -414,7 +442,7 @@ $this->load->view('template/sidemenu');
         }
 
         $('#modalCetak').modal('hide');
-        var url = '<?php echo site_url('dashboardcare/cetak') ?>/' + jenisCetakan + '/' + tglawal + '/' + tglakhir;
+        var url = '<?php echo site_url('dashboardcare/cetak') ?>/' + _jenisCetakan + '/' + tglawal + '/' + tglakhir;
         window.open(url, '_blank');
     }
 </script>
