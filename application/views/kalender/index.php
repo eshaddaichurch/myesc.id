@@ -192,18 +192,101 @@
   .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
 
   @media (max-width: 768px) {
-    .cal-hero, .cal-controls, .cal-main { padding-left: 16px; padding-right: 16px; }
-    .cal-hero { padding-top: 40px; }
-    .cal-controls { flex-direction: column; align-items: flex-start; }
+    /* Layout */
+    .cal-hero, .cal-controls, .cal-main { padding-left: 12px; padding-right: 12px; }
+    .cal-hero { padding-top: 36px; padding-bottom: 20px; }
+    .cal-hero h1 { font-size: 32px; }
+    .cal-hero p  { font-size: 14px; }
+    .cal-controls { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .month-nav h2 { min-width: 120px; font-size: 17px; }
+
+    /* Month grid — compact */
+    .month-grid-header div { padding: 8px 2px; font-size: 10px; letter-spacing: 0.5px; }
+
+    .day-cell {
+      min-height: 48px;
+      padding: 5px 3px;
+      cursor: pointer;
+    }
+    .day-cell.has-event { background: #fffdf9; }
+    .day-cell.is-today  { outline: 2px solid var(--orange); outline-offset: -2px; }
+
+    .day-num { font-size: 12px; margin-bottom: 4px; text-align: center; }
+
+    /* Sembunyikan chip teks di mobile — ganti jadi dots */
+    .event-chip { display: none !important; }
+
+    /* Dot container */
+    .dot-row {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 3px;
+    }
+    .event-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%; flex-shrink: 0;
+    }
+
+    /* Panel detail event (slide up dari bawah) */
+    .mobile-event-panel {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: white;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -4px 30px rgba(0,0,0,0.18);
+      z-index: 9999;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 0 0 24px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .mobile-event-panel.open {
+      display: block;
+      transform: translateY(0);
+    }
+    .panel-handle {
+      width: 40px; height: 4px; border-radius: 2px;
+      background: #ddd; margin: 12px auto 0;
+    }
+    .panel-date-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; font-weight: 700;
+      color: var(--brown); padding: 14px 20px 10px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .panel-event-item {
+      display: flex; align-items: flex-start;
+      gap: 12px; padding: 14px 20px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .panel-event-item:last-child { border-bottom: none; }
+    .panel-event-bar {
+      width: 4px; min-height: 44px; border-radius: 2px; flex-shrink: 0; margin-top: 2px;
+    }
+    .panel-event-name  { font-weight: 700; font-size: 14px; color: var(--brown); }
+    .panel-event-kelas { font-size: 12px; color: var(--gray); margin-top: 2px; }
+    .panel-event-time  { font-size: 12px; color: var(--orange); font-weight: 600; margin-top: 4px; }
+    .panel-event-jenis {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; margin-top: 4px;
+      display: inline-block; padding: 2px 8px; border-radius: 50px; color: white;
+    }
+    .panel-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.3); z-index: 9998;
+    }
+    .panel-overlay.open { display: block; }
+
+    /* List view di mobile */
     .event-table-header,
     .event-row { grid-template-columns: 2fr 1.5fr; }
     .event-row > *:nth-child(3),
     .event-row > *:nth-child(4),
     .event-table-header > *:nth-child(3),
     .event-table-header > *:nth-child(4) { display: none; }
-    .day-cell { min-height: 72px; }
-    .event-chip { font-size: 9px; padding: 2px 5px; }
-    .month-nav h2 { min-width: 140px; font-size: 18px; }
+    .event-row { padding: 14px 16px; }
+    .event-table-header { padding: 10px 16px; }
   }
 </style>
 
@@ -308,11 +391,11 @@ function resolveColor($warnapenjadwalan, $jenisKey, $colorMap)
 ?>
 
 <!-- HERO -->
-<div class="cal-hero">
+<!-- <div class="cal-hero">
   <div class="label">Our Calendar</div>
   <h1>Gathering in <span>Spirit</span><br>and Truth.</h1>
   <p>Temukan kesempatan untuk terhubung, bertumbuh, dan melayani dalam komunitas. Dari ibadah mingguan hingga pertemuan spesial.</p>
-</div>
+</div> -->
 
 <!-- CONTROLS -->
 <div class="cal-controls">
@@ -357,13 +440,33 @@ function resolveColor($warnapenjadwalan, $jenisKey, $colorMap)
             if ($dateKey === $today)
                 $cls .= ' is-today';
 
-            echo '<div class="' . $cls . '">';
+            // Siapkan data event untuk panel mobile (JSON)
+            $mobileData = [];
+            if (isset($eventMap[$dateKey])) {
+                foreach ($eventMap[$dateKey] as $ev) {
+                    $jkEv = getJenisKey($ev->jenisjadwal ?? '');
+                    $mobileData[] = [
+                        'nama' => $ev->namaevent ?? '',
+                        'kelas' => $ev->namakelas ?? '',
+                        'jam' => date('H:i', strtotime($ev->jammulai)) . ' WIB' . (!empty($ev->jamselesai) ? ' - ' . date('H:i', strtotime($ev->jamselesai)) . ' WIB' : ''),
+                        'jenis' => $ev->jenisjadwal ?? '',
+                        'color' => resolveColor($ev->warnapenjadwalan ?? '', $jkEv, $colorMap),
+                    ];
+                }
+                $cls .= ' has-event';
+            }
+
+            $dataAttr = !empty($mobileData) ? ' data-events="' . htmlspecialchars(json_encode($mobileData, JSON_UNESCAPED_UNICODE)) . '" data-label="' . hariID($ts) . ', ' . $d . ' ' . namaBulanShortID($bulanInt) . '"' : '';
+
+            echo '<div class="' . $cls . '"' . $dataAttr . '>';
             echo '<div class="day-num">' . $d . '</div>';
 
             if (isset($eventMap[$dateKey])) {
                 $evList = $eventMap[$dateKey];
                 $total = count($evList);
                 $shown = 0;
+
+                // Desktop: chip teks
                 foreach ($evList as $ev) {
                     if ($shown >= 3) {
                         echo '<div class="event-chip chip-default">+' . ($total - 3) . ' lagi</div>';
@@ -374,6 +477,19 @@ function resolveColor($warnapenjadwalan, $jenisKey, $colorMap)
                     echo '<div class="event-chip" style="background:' . htmlspecialchars($color) . '" title="' . htmlspecialchars($ev->namaevent) . '">' . htmlspecialchars($ev->namaevent) . '</div>';
                     $shown++;
                 }
+
+                // Mobile: dot warna (maks 4 dot)
+                echo '<div class="dot-row">';
+                $dotShown = 0;
+                foreach ($evList as $ev) {
+                    if ($dotShown >= 4)
+                        break;
+                    $jk = getJenisKey($ev->jenisjadwal ?? '');
+                    $color = resolveColor($ev->warnapenjadwalan ?? '', $jk, $colorMap);
+                    echo '<div class="event-dot" style="background:' . htmlspecialchars($color) . '"></div>';
+                    $dotShown++;
+                }
+                echo '</div>';
             }
             echo '</div>';
         }
@@ -503,8 +619,17 @@ foreach ($jenisFound as $jk => $jv) {
 
 </div><!-- .cal-main -->
 
+<!-- ====== MOBILE EVENT PANEL ====== -->
+<div class="panel-overlay" id="panelOverlay"></div>
+<div class="mobile-event-panel" id="mobilePanel">
+  <div class="panel-handle"></div>
+  <div class="panel-date-title" id="panelDateTitle"></div>
+  <div id="panelEventList"></div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+// ===== Toggle Month / List View =====
 function switchView(view) {
   document.getElementById('monthView').style.display = view === 'month' ? 'block' : 'none';
   document.getElementById('listView').style.display  = view === 'list'  ? 'block' : 'none';
@@ -513,12 +638,11 @@ function switchView(view) {
   try { localStorage.setItem('calView_esc', view); } catch(e) {}
 }
 
-// Restore saved view
 (function() {
   try { if (localStorage.getItem('calView_esc') === 'list') switchView('list'); } catch(e) {}
 })();
 
-// Filter buttons
+// ===== Filter list view =====
 document.querySelectorAll('.filter-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -529,6 +653,61 @@ document.querySelectorAll('.filter-btn').forEach(function(btn) {
     });
   });
 });
+
+// ===== Mobile: klik day-cell buka panel =====
+var panel   = document.getElementById('mobilePanel');
+var overlay = document.getElementById('panelOverlay');
+
+function openPanel(label, events) {
+  document.getElementById('panelDateTitle').textContent = label;
+  var html = '';
+  events.forEach(function(ev) {
+    html += '<div class="panel-event-item">'
+          +   '<div class="panel-event-bar" style="background:'+ev.color+'"></div>'
+          +   '<div>'
+          +     '<div class="panel-event-name">'+escHtml(ev.nama)+'</div>'
+          +     (ev.kelas ? '<div class="panel-event-kelas">'+escHtml(ev.kelas)+'</div>' : '')
+          +     '<div class="panel-event-time">'+escHtml(ev.jam)+'</div>'
+          +     '<span class="panel-event-jenis" style="background:'+ev.color+'">'+escHtml(ev.jenis)+'</span>'
+          +   '</div>'
+          + '</div>';
+  });
+  document.getElementById('panelEventList').innerHTML = html;
+  panel.classList.add('open');
+  overlay.classList.add('open');
+}
+
+function closePanel() {
+  panel.classList.remove('open');
+  overlay.classList.remove('open');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Hanya aktif di mobile (layar ≤ 768px)
+document.querySelectorAll('.day-cell.has-event').forEach(function(cell) {
+  cell.addEventListener('click', function() {
+    if (window.innerWidth > 768) return; // desktop: tidak buka panel
+    var raw    = this.getAttribute('data-events');
+    var label  = this.getAttribute('data-label');
+    if (!raw) return;
+    try {
+      var events = JSON.parse(raw);
+      openPanel(label, events);
+    } catch(e) {}
+  });
+});
+
+overlay.addEventListener('click', closePanel);
+
+// Swipe down untuk tutup panel
+var startY = 0;
+panel.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; }, {passive:true});
+panel.addEventListener('touchend',   function(e) {
+  if (e.changedTouches[0].clientY - startY > 60) closePanel();
+}, {passive:true});
 </script>
 
 <?php $this->load->view('template/festavalive/footer'); ?>
