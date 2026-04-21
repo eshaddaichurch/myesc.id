@@ -1,199 +1,194 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class MYPDF extends TCPDF
 {
-
-    //Page header
+    // Page header
     public function Header()
     {
-
-        $this->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
-
-        // set header and footer fonts
         $this->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $this->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-        // set margins
-        //$this->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         $this->SetMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
         $this->SetHeaderMargin(PDF_MARGIN_HEADER);
         $this->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        // set image scale factor
         $this->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-        // set default header data
-        $cop = '';
-
-        // $this->writeHTML($cop, true, false, false, false, '');
-        // // set margins
-        // $this->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        // $this->SetHeaderMargin(PDF_MARGIN_HEADER);
-        // set default header data
-
     }
 
     // Page footer
     public function Footer()
     {
-        // Position at 15 mm from bottom
         $this->SetY(-15);
-        // Set font
         $this->SetFont('helvetica', 'I', 8);
-        // Page number
         $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 }
 
-// create new PDF document
+// ===== Buat PDF =====
 $pdf = new MYPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
+$pdf->SetCreator('El Shaddai Church');
+$pdf->SetAuthor('System');
+$pdf->SetTitle('Laporan Member Baru DC');
+$pdf->SetPrintHeader(false);  // FIX: Nonaktifkan header default TCPDF agar tidak overlap
+$pdf->SetPrintFooter(true);
+$pdf->SetMargins(15, 15, 15);
+$pdf->SetFooterMargin(10);
+$pdf->SetAutoPageBreak(true, 25);
+
 $pdf->AddPage();
+$pdf->SetFont('times', '', 12);
 
-$titleHalaman = '<table cellpadding="5">
-            <tbody>
-                <tr style="font-weight: bold;">
-                    <td width="10%" style="text-align: center;"><img src="' . base_url('images/icon.png') . '" alt="" width="55px;"></td>
-                    <td width="80%" style="text-align: left;"><span style="font-size: 20px;">'.$rowInfoGereja->namagereja.'</span>
-                        <br><span style="font-size: 12px;">'.$rowInfoGereja->alamatgereja.'</span>
-                        <br><span style="font-size: 12px;">Email: '.$rowInfoGereja->emailgereja.'</span>
-                    </td>
-                </tr>   
-            </tbody>
-            </table>';
+// ===== HEADER GEREJA =====
+$logoPath = base_url('images/icon.png');
+$namaGereja = isset($rowInfoGereja->namagereja) ? $rowInfoGereja->namagereja : '-';
+$alamatGereja = isset($rowInfoGereja->alamatgereja) ? $rowInfoGereja->alamatgereja : '-';
+$emailGereja = isset($rowInfoGereja->emailgereja) ? $rowInfoGereja->emailgereja : '-';
 
-$pdf->SetFont('times', '', 16);
+$titleHalaman = '
+<table cellpadding="5">
+    <tbody>
+        <tr>
+            <td width="12%" style="text-align:center; vertical-align:middle;">
+                <img src="' . $logoPath . '" alt="Logo" width="55">
+            </td>
+            <td width="88%" style="text-align:left; vertical-align:middle;">
+                <span style="font-size:18px; font-weight:bold;">' . $namaGereja . '</span><br>
+                <span style="font-size:11px;">' . $alamatGereja . '</span><br>
+                <span style="font-size:11px;">Email: ' . $emailGereja . '</span>
+            </td>
+        </tr>
+    </tbody>
+</table>';
+
 $pdf->writeHTML($titleHalaman, true, false, false, false, '');
-$pdf->SetTopMargin(0);
 
+// Garis pemisah
+$pdf->SetLineWidth(0.5);
+$pdf->Line(15, $pdf->GetY(), 195, $pdf->GetY());
+$pdf->Ln(3);
 
-$title = '<h3 style="text-align: center;">DISCIPLES COMMUNITY REPORT</h3>';
+// ===== JUDUL LAPORAN =====
+$pdf->SetFont('times', 'B', 14);
+$pdf->Cell(0, 8, 'LAPORAN MEMBER BARU DISCIPLES COMMUNITY', 0, 1, 'C');
+$pdf->Ln(2);
 
-$pdf->SetFont('times', '', 16);
-$pdf->writeHTML($title, true, false, false, false, '');
-
-
-$subTitle .= '<br><br><table border="0" cellpadding="5">
-                <thead>
-                    <tr style="font-size:12px; font-weight:bold;">
-                        <th width="25%" style="text-align:left;">JUMLAH DC</th>
-                        <th width="5%" style="text-align:center;">:</th>
-                        <th width="70%" style="text-align:left;">' . $jumlahDc . ' DC</th>                        
-                    </tr>
-                    <tr style="font-size:12px; font-weight:bold;">
-                        <th width="25%" style="text-align:left;">JUMLAH MEMBER</th>
-                        <th width="5%" style="text-align:center;">:</th>
-                        <th width="70%" style="text-align:left;">' . $jumlahMember .  ' Orang</th>
-                    </tr>
-                </thead>
-            </table>
-';
+// ===== INFO RINGKAS =====
+// FIX: Inisialisasi $subTitle dengan = bukan .= agar tidak PHP Warning
+$subTitle = '
+<table border="0" cellpadding="4">
+    <tbody>
+        <tr style="font-size:11px;">
+            <td width="25%"><b>Jumlah DC</b></td>
+            <td width="5%" style="text-align:center;">:</td>
+            <td width="70%">' . (isset($jumlahDc) ? $jumlahDc : 0) . ' DC</td>
+        </tr>
+        <tr style="font-size:11px;">
+            <td width="25%"><b>Jumlah Member</b></td>
+            <td width="5%" style="text-align:center;">:</td>
+            <td width="70%">' . (isset($jumlahMember) ? $jumlahMember : 0) . ' Orang</td>
+        </tr>
+    </tbody>
+</table>';
 
 $pdf->SetFont('times', '', 11);
-$pdf->writeHTML($subTitle, true, false, false, false, 'R');
+$pdf->writeHTML($subTitle, true, false, false, false, '');
+$pdf->Ln(2);
 
+// Garis pemisah
+$pdf->Line(15, $pdf->GetY(), 195, $pdf->GetY());
+$pdf->Ln(4);
 
-$tabelDc = '<h5>DATA DISCPLES COMMUNITY</h5><br>';
-$tabelDc .= '<table border="1" cellpadding="5">
-                <thead>
-                    <tr style="font-size:12px; font-weight:bold;">
-                        <th width="5%" style="text-align:center;">No</th>
-                        <th width="40%" style="text-align:center;">Nama DC</th>
-                        <th width="25%" style="text-align:center;">Nama DM</th>
-                        <th width="15%" style="text-align:center;">Nama CT</th>
-                        <th width="15%" style="text-align:center;">Jumlah Member</th>
-                    </tr>
-                </thead></tbody>';
-
-$no = 1;
-if ($rsDc->num_rows() > 0) {
-    foreach ($rsDc->result() as $row) {
-        $namaCt = '';
-        $noCt = 1;
-        $rsCt = $this->Dashboarddc_model->getCT($row->iddc);
-        if ($rsCt->num_rows()>0) {
-            foreach ($rsCt->result() as $rowCt) {
-                $namaCt .= $noCt++ .'. '. $rowCt->namalengkap.', ';
-            }
-        }
-
-        $jumlahMemberDc = $this->Dashboarddc_model->getJumlahMemberDc($row->iddc);
-
-        $tabelDc .= '
-                <tr style="font-size:12px;">
-                        <td width="5%" style="text-align:center;">' . $no .'</td>
-                        <td width="40%" style="text-align:left;">' . $row->namadc . '</td>
-                        <td width="25%" style="text-align:center;">' . $row->namadm . '</td>
-                        <td width="15%" style="text-align:center;">' . substr($namaCt, 0, -2) . '</td>
-                        <td width="15%" style="text-align:center;">' . $jumlahMemberDc . '</td>
-                    </tr>';
-        $no++;
-    }
+// ===== FORMAT PERIODE =====
+// FIX: Gunakan tglindonesia() agar format tanggal konsisten
+if (function_exists('tglindonesia')) {
+    $periodeAwal = tglindonesia($tglawal);
+    $periodeAkhir = tglindonesia($tglakhir);
+} else {
+    // Fallback manual jika helper tidak tersedia
+    $periodeAwal = date('d-m-Y', strtotime($tglawal));
+    $periodeAkhir = date('d-m-Y', strtotime($tglakhir));
 }
 
-$tabelDc .= '</tbody></table>';
+$periode = ($tglawal != $tglakhir)
+    ? $periodeAwal . ' s/d ' . $periodeAkhir
+    : $periodeAwal;
 
-$pdf->writeHTML($tabelDc, true, false, false, false, '');
+// ===== TABEL MEMBER BARU =====
+// FIX: Tabel DC dihapus — hanya tampilkan member baru sesuai permintaan
+$pdf->SetFont('times', 'B', 11);
+$pdf->Cell(0, 7, 'Data Member Baru Periode: ' . $periode, 0, 1, 'L');
+$pdf->Ln(2);
 
-
-
-if ($tglawal != $tglakhir) {
-    $periode = $tglawal.' s/d '.$tglakhir;
-}else{
-    $periode = $tglawal;
-}
-$table = '<h5>Data Member Baru Periode '.$periode.'</h5><br>';
-$table .= '<table border="1" cellpadding="5">';
+$table = '<table border="1" cellpadding="4">';
 $table .= '
-            <thead>
-                <tr style="font-size:12px; font-weight:bold;">
-                    <th width="5%" style="text-align:center;">No</th>
-                    <th width="15%" style="text-align:center;">Tanggal</th>
-                    <th width="45%" style="text-align:center;">Nama Lengkap</th>
-                    <th width="10%" style="text-align:center;">Jenis Kelamin</th>
-                    <th width="10%" style="text-align:center;">Umur</th>
-                    <th width="15%" style="text-align:center;">Nama Dc</th>
-                </tr>
-            </thead></tbody>';
+    <thead>
+        <tr style="font-size:11px; font-weight:bold; background-color:#f0f0f0;">
+            <th width="5%"  style="text-align:center;">No</th>
+            <th width="15%" style="text-align:center;">Tanggal</th>
+            <th width="40%" style="text-align:center;">Nama Lengkap</th>
+            <th width="10%" style="text-align:center;">JK</th>
+            <th width="10%" style="text-align:center;">Umur</th>
+            <th width="20%" style="text-align:center;">Nama DC</th>
+        </tr>
+    </thead>
+    <tbody>';
 
 $no = 1;
 
-if ($rsMemberBaru->num_rows() > 0) {
+if (isset($rsMemberBaru) && $rsMemberBaru->num_rows() > 0) {
     foreach ($rsMemberBaru->result() as $row) {
+        $jk = (isset($row->jeniskelamin) && $row->jeniskelamin == 'Laki-laki') ? 'L' : 'P';
 
-        if ($row->jeniskelamin=='Laki-laki') {
-            $jeniskelamin = 'L';
-        }else{
-            $jeniskelamin = 'P';
+        // FIX: Gunakan tglindonesia() dengan fallback
+        $tglKonfirmasi = '';
+        if (!empty($row->tglkonfirmasi)) {
+            $tglKonfirmasi = function_exists('tglindonesia')
+                ? tglindonesia($row->tglkonfirmasi)
+                : date('d-m-Y', strtotime($row->tglkonfirmasi));
         }
+
+        $namaLengkap = isset($row->namalengkap) ? htmlspecialchars($row->namalengkap) : '-';
+        $umur = isset($row->umur) ? $row->umur : '-';
+        $namaDc = isset($row->namadc) ? htmlspecialchars($row->namadc) : '-';
+
+        // Warna baris selang-seling
+        $bgColor = ($no % 2 === 0) ? 'background-color:#f9f9f9;' : '';
+
         $table .= '
-        <tr style="font-size:11px;">
-            <td width="5%" style="text-align:center;">' . $no++ . '</td>
-            <td width="15%" style="text-align:center;">' . tglindonesia($row->tglkonfirmasi) . '</td>
-            <td width="45%" style="text-align:left;">' . $row->namalengkap . '</td>
-            <td width="10%" style="text-align:center;">' . $jeniskelamin . '</td>
-            <td width="10%" style="text-align:center;">' . $row->umur . '</td>
-            <td width="15%" style="text-align:left;">' . $row->namadc . '</td>
-        </tr>
-        ';
-
+        <tr style="font-size:10px; ' . $bgColor . '">
+            <td width="5%"  style="text-align:center;">' . $no++ . '</td>
+            <td width="15%" style="text-align:center;">' . $tglKonfirmasi . '</td>
+            <td width="40%" style="text-align:left;">' . $namaLengkap . '</td>
+            <td width="10%" style="text-align:center;">' . $jk . '</td>
+            <td width="10%" style="text-align:center;">' . $umur . '</td>
+            <td width="20%" style="text-align:left;">' . $namaDc . '</td>
+        </tr>';
     }
-
 } else {
     $table .= '
-                <tr>
-                    <td width="100%" style="font-size:12px; text-align:center;" colspan="7">Data tidak ditemukan...</td>
-                </tr>
-            ';
+        <tr>
+            <td colspan="6" style="font-size:11px; text-align:center; padding:8px;">
+                Data tidak ditemukan untuk periode ini.
+            </td>
+        </tr>';
 }
 
-$table .= ' </tbody>
-            </table>';
+$table .= '</tbody></table>';
 
-$pdf->SetTopMargin(35);
 $pdf->SetFont('times', '', 10);
 $pdf->writeHTML($table, true, false, false, false, '');
 
-$tglcetak = date('d-m-Y');
+// ===== TOTAL =====
+$totalMember = isset($rsMemberBaru) ? $rsMemberBaru->num_rows() : 0;
+$pdf->Ln(3);
+$pdf->SetFont('times', 'B', 10);
+$pdf->Cell(0, 6, 'Total Member Baru: ' . $totalMember . ' Orang', 0, 1, 'R');
 
-$pdf->Output();
+// ===== TANDA TANGAN =====
+$pdf->Ln(10);
+$tglCetak = function_exists('tglindonesia') ? tglindonesia(date('Y-m-d')) : date('d-m-Y');
+$pdf->SetFont('times', '', 10);
+$pdf->Cell(0, 5, 'Dicetak pada: ' . $tglCetak, 0, 1, 'R');
+
+// ===== OUTPUT =====
+$pdf->Output('laporan_member_baru_dc_' . date('Ymd') . '.pdf', 'I');
