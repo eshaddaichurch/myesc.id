@@ -1,775 +1,534 @@
+<?php $this->load->view('template/festavalive/header'); ?>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Figtree:wght@400;500;600;700&display=swap');
 
-<?php
+  :root {
+    --cream: #f5f0e8;
+    --orange: #e8621a;
+    --brown: #2c1a0e;
+    --brown-mid: #5c3d2e;
+    --gray: #888;
+    --gray-light: #e8e4dc;
+    --white: #ffffff;
+  }
 
-use PhpParser\Node\Stmt\Echo_;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-$this->load->view('template/festavalive/header'); ?>
+  body {
+    font-family: 'Figtree', sans-serif;
+    background-color: var(--cream);
+    color: var(--brown);
+  }
+
+  .cal-hero {
+    padding: 80px 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .cal-hero .label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 16px;
+  }
+  .cal-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 900; line-height: 1.05; color: var(--brown);
+  }
+  .cal-hero h1 span { color: var(--orange); }
+  .cal-hero p {
+    margin-top: 20px; font-size: 16px; color: var(--brown-mid);
+    max-width: 420px; line-height: 1.7;
+  }
+
+  .cal-controls {
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 60px 24px;
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .month-nav { display: flex; align-items: center; gap: 12px; }
+  .month-nav h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700; color: var(--brown); min-width: 175px;
+  }
+  .nav-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--gray-light); background: white;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; color: var(--brown); font-size: 18px;
+    text-decoration: none; line-height: 1;
+  }
+  .nav-btn:hover { border-color: var(--orange); color: var(--orange); background: #fff7f3; }
+
+  .view-toggle {
+    display: flex; gap: 8px; background: var(--white);
+    border-radius: 50px; padding: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .view-toggle button {
+    border: none; cursor: pointer; padding: 8px 20px; border-radius: 50px;
+    font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600;
+    transition: all 0.2s; background: transparent; color: var(--gray);
+  }
+  .view-toggle button.active {
+    background: var(--orange); color: white;
+    box-shadow: 0 2px 8px rgba(232,98,26,0.35);
+  }
+
+  .cal-main { max-width: 1200px; margin: 0 auto; padding: 0 60px 60px; }
+  #monthView { display: block; }
+  #listView  { display: none; }
+
+  /* === MONTH GRID === */
+  .month-grid {
+    background: white; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+  }
+  .month-grid-header {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    background: var(--gray-light);
+  }
+  .month-grid-header div {
+    padding: 12px 8px; text-align: center;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--brown-mid);
+  }
+  .month-grid-body { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .day-cell {
+    min-height: 110px; padding: 10px 8px;
+    border-right: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .day-cell:nth-child(7n) { border-right: none; }
+  .day-num { font-size: 14px; font-weight: 600; color: var(--brown-mid); margin-bottom: 6px; }
+  .day-cell.is-sunday .day-num,
+  .day-cell.is-today  .day-num { color: var(--orange); font-weight: 700; }
+  .day-cell.other-month { background: #fafaf8; }
+  .day-cell.other-month .day-num { color: #ccc; }
+
+  .event-chip {
+    display: block; font-size: 10px; font-weight: 600;
+    padding: 3px 7px; border-radius: 4px; margin-bottom: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-transform: uppercase; letter-spacing: 0.5px; color: white;
+  }
+  /* fallback colors jika warnapenjadwalan kosong */
+  .chip-ibadah   { background: #e8621a; }
+  .chip-doa      { background: #c49a14; }
+  .chip-dc       { background: #2d6b5e; }
+  .chip-nextstep { background: #1a6b3c; }
+  .chip-youth    { background: #5b4a8a; }
+  .chip-default  { background: #888; }
+
+  /* === LEGEND === */
+  .cal-legend {
+    display: flex; justify-content: center;
+    gap: 24px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--brown-mid);
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* === LIST VIEW === */
+  .list-controls {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+  }
+  .filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .filter-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--gray);
+  }
+  .filter-btn {
+    border: 1.5px solid var(--gray-light); background: white;
+    border-radius: 50px; padding: 6px 16px; font-size: 13px; font-weight: 600;
+    font-family: 'Figtree', sans-serif; cursor: pointer;
+    transition: all 0.2s; color: var(--brown-mid);
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--orange); border-color: var(--orange); color: white;
+  }
+
+  .event-table {
+    background: white; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.07); width: 100%;
+  }
+  .event-table-header {
+    display: grid; grid-template-columns: 2.5fr 1.5fr 1.5fr 1fr;
+    padding: 14px 24px; background: var(--gray-light);
+  }
+  .event-table-header span {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--brown-mid);
+  }
+  .event-row {
+    display: grid; grid-template-columns: 2.5fr 1.5fr 1.5fr 1fr;
+    padding: 18px 24px; border-bottom: 1px solid var(--gray-light);
+    align-items: center; transition: background 0.15s;
+  }
+  .event-row:last-child { border-bottom: none; }
+  .event-row:hover { background: #fdfaf7; }
+
+  .event-name-cell { display: flex; align-items: center; gap: 12px; }
+  .event-color-bar { width: 5px; height: 46px; border-radius: 3px; flex-shrink: 0; }
+  .event-name { font-weight: 700; font-size: 15px; color: var(--brown); }
+  .event-subtitle { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .event-tema { font-size: 12px; color: var(--orange); font-weight: 600; margin-top: 2px; }
+  .event-datetime { font-size: 14px; color: var(--brown-mid); font-weight: 600; }
+  .event-time-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+  .cat-badge {
+    display: inline-block; padding: 4px 12px; border-radius: 50px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; color: white;
+  }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--gray); }
+  .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+
+  @media (max-width: 768px) {
+    .cal-hero, .cal-controls, .cal-main { padding-left: 16px; padding-right: 16px; }
+    .cal-hero { padding-top: 40px; }
+    .cal-controls { flex-direction: column; align-items: flex-start; }
+    .event-table-header,
+    .event-row { grid-template-columns: 2fr 1.5fr; }
+    .event-row > *:nth-child(3),
+    .event-row > *:nth-child(4),
+    .event-table-header > *:nth-child(3),
+    .event-table-header > *:nth-child(4) { display: none; }
+    .day-cell { min-height: 72px; }
+    .event-chip { font-size: 9px; padding: 2px 5px; }
+    .month-nav h2 { min-width: 140px; font-size: 18px; }
+  }
+</style>
 
 <body>
-
-  <main>
-
-
-
-    <?php $this->load->view('template/festavalive/topmenu'); ?>
-
-
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
-
-      /* This pen */
-
-
-
-
-      .dark {
-        background: #110f16;
-      }
-
-      /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-      .breadcrumbs {
-        padding: 140px 0 60px 0;
-        min-height: 30vh;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      .breadcrumbs:before {
-        content: "";
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        inset: 0;
-      }
-
-      .breadcrumbs h2 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #fff;
-        font-family: var(--font-secondary);
-      }
-
-      .breadcrumbs ol {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0 0 10px 0;
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-primary);
-      }
-
-      .breadcrumbs ol a {
-        color: rgba(255, 255, 255, 0.8);
-        transition: 0.3s;
-      }
-
-      .breadcrumbs ol a:hover {
-        text-decoration: underline;
-      }
-
-      .breadcrumbs ol li+li {
-        padding-left: 10px;
-      }
-
-      .breadcrumbs ol li+li::before {
-        display: inline-block;
-        padding-right: 10px;
-        color: #fff;
-        content: "/";
-      }
-
-
-      .light {
-        background: #f3f5f7;
-      }
-
-      a,
-      a:hover {
-        text-decoration: none;
-        transition: color 0.3s ease-in-out;
-      }
-
-      #pageHeaderTitle {
-        margin: 2rem 0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2.5rem;
-      }
-
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
-        display: flex;
-
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
-        overflow: hidden;
-        position: relative;
-        color: #ffffff;
-
-        &.dark {
-          background-color: #18151f;
-        }
-
-        &.light {
-          background-color: #e1e5ea;
-        }
-
-        .t-dark {
-          color: #18151f;
-        }
-
-        a {
-          color: inherit;
-        }
-
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
-
-        .small {
-          font-size: 80%;
-        }
-
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
-
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
-
-        .postcard__img_link {
-          display: contents;
-        }
-
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
-
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
-        }
-
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
-        }
-
-        &:before {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
-        }
-
-        &:hover .postcard__bar {
-          width: 100px;
-        }
-      }
-
-      @media screen and (min-width: 769px) {
-        .postcard {
-          flex-wrap: inherit;
-
-          .postcard__title {
-            font-size: 2rem;
-          }
-
-          .postcard__tagbox {
-            justify-content: start;
-          }
-
-          .postcard__img {
-            max-width: 300px;
-            max-height: 100%;
-            transition: transform 0.3s ease;
-          }
-
-          .postcard__text {
-            padding-left: 4rem;
-            width: 100%;
-
-          }
-
-          .media.postcard__text:before {
-            content: "";
-            position: absolute;
-            display: block;
-            background: #18151f;
-            top: -20%;
-            height: 130%;
-            width: 55px;
-          }
-
-          &:hover .postcard__img {
-            transform: scale(1.1);
-          }
-
-          &:nth-child(2n+1) {
-            flex-direction: row;
-          }
-
-          &:nth-child(2n+0) {
-            flex-direction: row-reverse;
-          }
-
-          &:nth-child(2n+1) .postcard__text::before {
-            left: -12px !important;
-            transform: rotate(4deg);
-          }
-
-          &:nth-child(2n+0) .postcard__text::before {
-            right: -12px !important;
-            transform: rotate(-4deg);
-          }
-        }
-      }
-
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
-        }
-      }
-    </style>
-
-
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-
-
-      /* body {
-        margin: 0;
-        font-family: 'Figtree', sans-serif;
-        background-color: #fff;
-        color: #444;
-      } */
-
-      body {
-      margin: 0;
-      padding: 0;
-      /* background-color: #e9d6a8; */
-      background: linear-gradient(63deg, #fffaf5, #ffb347);
-      font-family: 'Figtree', sans-serif;
-      color: #111;
-      line-height: 1.7;
+<?php $this->load->view('template/festavalive/topmenu'); ?>
+
+<?php
+// ============================================================
+// HELPER FUNCTIONS
+// ============================================================
+
+/**
+ * Map jenisjadwal enum ke key sederhana untuk CSS class & filter
+ * Sesuaikan nilai string jika enum DB berbeda
+ */
+function getJenisKey($jenis)
+{
+    $j = strtolower(trim($jenis ?? ''));
+    if (strpos($j, 'ibadah') !== false)
+        return 'ibadah';
+    if (strpos($j, 'doa') !== false || strpos($j, 'fasting') !== false || strpos($j, 'menara') !== false)
+        return 'doa';
+    if (strpos($j, 'disciple') !== false || $j === 'dc')
+        return 'dc';
+    if (strpos($j, 'next step') !== false)
+        return 'nextstep';
+    if (strpos($j, 'youth') !== false || strpos($j, 'remaja') !== false || strpos($j, 'pemuda') !== false)
+        return 'youth';
+    return 'default';
+}
+
+function namaBulanID($m)
+{
+    $a = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+        '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
+        '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+    return $a[str_pad((int) $m, 2, '0', STR_PAD_LEFT)] ?? '';
+}
+
+function namaBulanShortID($m)
+{
+    $a = ['01' => 'Jan', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr',
+        '05' => 'Mei', '06' => 'Jun', '07' => 'Jul', '08' => 'Agu',
+        '09' => 'Sep', '10' => 'Okt', '11' => 'Nov', '12' => 'Des'];
+    return $a[str_pad((int) $m, 2, '0', STR_PAD_LEFT)] ?? '';
+}
+
+function hariID($ts)
+{
+    $a = ['Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'];
+    return $a[date('l', $ts)] ?? date('l', $ts);
+}
+
+// Fallback color map per jenis key
+$colorMap = [
+    'ibadah' => '#e8621a',
+    'doa' => '#c49a14',
+    'dc' => '#2d6b5e',
+    'nextstep' => '#1a6b3c',
+    'youth' => '#5b4a8a',
+    'default' => '#888888',
+];
+
+// ============================================================
+// DATA PREP
+// ============================================================
+$bulanInt = (int) $bulanEvent;
+$tahunInt = (int) $tahunEvent;
+$today = date('Y-m-d');
+
+$eventMap = [];  // tgljadwal => [rows]
+$allEvents = [];
+$jenisFound = [];  // jenis key yang ada di bulan ini
+
+if ($rsEvent->num_rows() > 0) {
+    foreach ($rsEvent->result() as $row) {
+        $tgl = date('Y-m-d', strtotime($row->tgljadwal));
+        $eventMap[$tgl][] = $row;
+        $allEvents[] = $row;
+        $jk = getJenisKey($row->jenisjadwal ?? '');
+        $jenisFound[$jk] = $row->jenisjadwal ?? $jk;
     }
+}
 
-    .card-judul {
-      padding: 10px 10px 10px 10px;
-      background-color: #cdcdcd;
-    }
+// Grid calc
+$firstDay = mktime(0, 0, 0, $bulanInt, 1, $tahunInt);
+$startDow = (int) date('w', $firstDay);
+$daysInMonth = (int) date('t', $firstDay);
+$prevTs = ($bulanInt == 1) ? mktime(0, 0, 0, 12, 1, $tahunInt - 1) : mktime(0, 0, 0, $bulanInt - 1, 1, $tahunInt);
+$daysInPrev = (int) date('t', $prevTs);
+$bulanLabel = namaBulanID($bulanInt) . ' ' . $tahunInt;
 
-    .card-judul span {
-      margin-top: 8px;
-      font-weight: bold;
-      font-size: 20px;
-      margin-top: 20px;
-    }
+// Helper: resolve warna chip
+function resolveColor($warnapenjadwalan, $jenisKey, $colorMap)
+{
+    $w = ltrim(trim($warnapenjadwalan ?? ''), '#');
+    if (preg_match('/^[0-9A-Fa-f]{6}$/', $w))
+        return '#' . $w;
+    return $colorMap[$jenisKey] ?? '#888';
+}
+?>
 
+<!-- HERO -->
+<div class="cal-hero">
+  <div class="label">Our Calendar</div>
+  <h1>Gathering in <span>Spirit</span><br>and Truth.</h1>
+  <p>Temukan kesempatan untuk terhubung, bertumbuh, dan melayani dalam komunitas. Dari ibadah mingguan hingga pertemuan spesial.</p>
+</div>
 
-    .card-event {
-      margin: 0;
-      padding: 0;
-      /* background-color: #ff6d6d; */
-      font-family: arial
-    }
+<!-- CONTROLS -->
+<div class="cal-controls">
+  <div class="month-nav">
+    <a href="<?php echo site_url('kalender/lihatbulan/' . $bulanSebelum . '/' . $tahunSebelum . '/' . $this->encrypt->encode($menu)) ?>" class="nav-btn">&#8249;</a>
+    <h2><?php echo $bulanLabel ?></h2>
+    <a href="<?php echo site_url('kalender/lihatbulan/' . $bulanBerikut . '/' . $tahunBerikut . '/' . $this->encrypt->encode($menu)) ?>" class="nav-btn">&#8250;</a>
+  </div>
+  <div class="view-toggle">
+    <button id="btnMonth" class="active" onclick="switchView('month')">&#128197; Month View</button>
+    <button id="btnList"  onclick="switchView('list')">&#9776; List View</button>
+  </div>
+</div>
 
-    .box {
-      margin: 0 0;
-      height: 100%;
-      overflow: hidden;
-      padding: 10px 0 40px 80px
-    }
+<!-- MAIN -->
+<div class="cal-main">
 
-    .box ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      position: relative;
-      transition: all 0.5s linear;
-      top: 0
-    }
-
-    .box ul:last-of-type {
-      top: 10px
-    }
-
-    .box ul:before {
-      content: "";
-      display: block;
-      width: 0;
-      height: 100%;
-      border: 0.3px dashed;
-      color: #D0B8A8;
-
-      position: absolute;
-      top: 0;
-      left: 30px
-    }
-
-    .box ul li {
-      margin: 20px 60px 60px;
-      position: relative;
-      padding: 10px 10px;
-      background: rgba(227, 225, 217, 1);
-      color: #000000;
-      border-radius: 10px;
-      line-height: 20px;
-      width: 75%
-    }
-
-
-    .box ul li>span {
-      content: "";
-      display: block;
-      width: 0;
-      height: 100%;
-      border: 1px solid;
-      position: absolute;
-      top: 0;
-      left: -30px
-    }
-
-    .box ul li>span:before,
-    .box ul li>span:after {
-      content: "";
-      display: block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #000000;
-      border: 2px solid;
-      position: absolute;
-      left: -7.5px
-    }
-
-    .box ul li>span:before {
-      top: -10px
-    }
-
-    .box ul li>span:after {
-      top: 95%
-    }
-
-    .box .title {
-      text-transform: uppercase;
-      font-weight: 700;
-      font-size: 12px;
-      margin-bottom: 5px
-    }
-
-    .box .info:first-letter {
-      text-transform: capitalize;
-      line-height: 1.7
-    }
-
-    .box .name {
-      margin-top: 10px;
-      text-transform: capitalize;
-      font-style: italic;
-      text-align: right;
-      margin-right: 20px
-    }
-
-    .jam {
-      /* color:white; */
-      font-style: italic;
-
-    }
-
-    .btn-daftar-kelas {
-      display: inline-block;
-      margin-top: 10px;
-    }
-
-
-    .box .time span {
-      position: absolute;
-      left: -120px;
-      /* color: #fff; */
-      font-size: 80%;
-      font-weight: bold;
-    }
-
-    .box .time span:first-child {
-      top: -16px
-    }
-
-
-    .box .time span:last-child {
-      top: 1%
-    }
-
-
-    .arrow {
-      position: absolute;
-      top: 105%;
-      left: 22%;
-      cursor: pointer;
-      height: 20px;
-      width: 20px
-    }
-
-    .arrow:hover {
-      -webkit-animation: arrow 1s linear infinite;
-      -moz-animation: arrow 1s linear infinite;
-      -o-animation: arrow 1s linear infinite;
-      animation: arrow 1s linear infinite;
-    }
-
-    .box ul:last-of-type .arrow {
-      position: absolute;
-      top: 105%;
-      left: 22%;
-      transform: rotateX(180deg);
-      cursor: pointer;
-    }
-
-    svg {
-      width: 20px;
-      height: 20px
-    }
-
-    @keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
-
-    @-webkit-keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
-
-    @-moz-keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
-
-    @-o-keyframes arrow {
-
-      0%,
-      100% {
-        top: 105%
-      }
-
-      50% {
-        top: 106%
-      }
-    }
-
-      /*whatiscare*/
-    </style>
-    </head>
-
-    <body>
-
-    <section class="section-padding">
-      <div class="container">
-        
+  <!-- ====== MONTH VIEW ====== -->
+  <div id="monthView">
+    <div class="month-grid">
+      <div class="month-grid-header">
+        <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div>
+        <div>Kam</div><div>Jum</div><div>Sab</div>
       </div>
-    </section>
+      <div class="month-grid-body">
 
+        <?php
+        // Sel kosong awal (bulan sebelumnya)
+        for ($i = 0; $i < $startDow; $i++) {
+            $d = $daysInPrev - ($startDow - $i - 1);
+            echo '<div class="day-cell other-month"><div class="day-num">' . $d . '</div></div>';
+        }
 
-    <section class="page-content section-padding">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 card-judul">
-                    <h5 class="text-center">
-                      <a href="<?php echo site_url('kalender/lihatbulan/' . $bulanSebelum . '/' . $tahunSebelum . '/' . $this->encrypt->encode($menu)) ?>" class="btn btn-md float-start"><i class="fa fa-chevron-circle-left"></i></a>
-                      <span><?php echo bulan($bulanEvent) . ' ' . $tahunEvent ?></span>
-                      <a href="<?php echo site_url('kalender/lihatbulan/' . $bulanBerikut . '/' . $tahunBerikut . '/' . $this->encrypt->encode($menu)) ?>" class="btn btn-md float-end"><i class="fa fa-chevron-circle-right"></i></a>
-                    </h5>
-                  </div>
-                  <div class="col-12 card-event">
+        // Hari bulan ini
+        for ($d = 1; $d <= $daysInMonth; $d++) {
+            $dateKey = $tahunInt . '-' . str_pad($bulanInt, 2, '0', STR_PAD_LEFT) . '-' . str_pad($d, 2, '0', STR_PAD_LEFT);
+            $ts = mktime(0, 0, 0, $bulanInt, $d, $tahunInt);
+            $dow = (int) date('w', $ts);
+            $cls = 'day-cell';
+            if ($dow === 0)
+                $cls .= ' is-sunday';
+            if ($dateKey === $today)
+                $cls .= ' is-today';
 
-                    <?php
-                    if ($rsEvent->num_rows() > 0) {
-                      echo '
-                          <div class="box">
+            echo '<div class="' . $cls . '">';
+            echo '<div class="day-num">' . $d . '</div>';
 
-                            <ul id="first-list">
-
-                          ';
-                      $idjadwalevent_old = '';
-
-                      foreach ($rsEvent->result() as $row) {
-                        $button = '';
-                        if ($idjadwalevent_old != $row->idjadwalevent) {
-                          $sudahPernahDaftar = $this->Nextstep_model->sudahPernahDaftar($row->idjadwalevent, $this->session->userdata('idjemaat'));
-
-                          // if ($sudahPernahDaftar) {
-                          //   $button = '<button href="#" class="btn btn-success btn-sm" data-idjadwalevent="' . $row->idjadwalevent . '" disabled>Daftar Sekarang</button>';
-                          // } else {
-                          //   $button = '<button href="#" class="btn btn-success btn-sm btnDaftar" data-idjadwalevent="' . $row->idjadwalevent . '">Daftar Sekarang</button>';
-                          // }
-                          $button = '';
-                        }
-
-                        if ($row->jenisjadwal == 'Kelas Next Step') {
-                          echo '
-                                <li>
-                                  
-                                  <span></span>
-                                 
-                                  <div class="title" style="font-size:18px;">' . $row->namaevent . '</div>
-                                  <div class="" style="font-size:12px;">' . $row->namakelas . '</div>
-                                   <div class="jam">
-                                    <sub>Pukul ' . date('H:i', strtotime($row->jammulai)) . ' WIB</sub>
-                                    </div>
-                                  <div class="btn-daftar-kelas">
-                                    ' . $button . '
-                                  </div>
-                                  <div class="time">
-                                  <span>' . hari($row->tgljadwal) . ', ' . date('d', strtotime($row->tgljadwal)) . '</span>                                                                  
-                                  </div>
-                                </li>
-                                ';
-                        } else {
-
-                          echo '
-                                <li>
-                                  
-                                  <span></span>
-                                 
-                                  <div class="title">' . $row->namaevent . '</div>
-                                   <div class="jam">
-                                    <sub>Pukul ' . date('H:i', strtotime($row->jammulai)) . ' WIB</sub>
-                                    </div>
-                                  <div class="btn-daftar-kelas">
-                                    ' . $button . '
-                                  </div>
-                                  <div class="time">
-                                  <span>' . hari($row->tgljadwal) . ', ' . date('d', strtotime($row->tgljadwal)) . '</span>                                                                  
-                                  </div>
-                                </li>
-                                ';
-                        }
-                        $idjadwalevent_old = $row->idjadwalevent;
-                      }
-
-                      echo '
-                            </ul>
-                          </div>
-
-                        ';
-                    } else {
-                      echo '
-                          <div class="text-center mt-3">Jadwal event tidak ada..</div>
-                        ';
+            if (isset($eventMap[$dateKey])) {
+                $evList = $eventMap[$dateKey];
+                $total = count($evList);
+                $shown = 0;
+                foreach ($evList as $ev) {
+                    if ($shown >= 3) {
+                        echo '<div class="event-chip chip-default">+' . ($total - 3) . ' lagi</div>';
+                        break;
                     }
-                    ?>
+                    $jk = getJenisKey($ev->jenisjadwal ?? '');
+                    $color = resolveColor($ev->warnapenjadwalan ?? '', $jk, $colorMap);
+                    echo '<div class="event-chip" style="background:' . htmlspecialchars($color) . '" title="' . htmlspecialchars($ev->namaevent) . '">' . htmlspecialchars($ev->namaevent) . '</div>';
+                    $shown++;
+                }
+            }
+            echo '</div>';
+        }
+
+        // Sel kosong akhir
+        $total = $startDow + $daysInMonth;
+        $remaining = (7 - ($total % 7)) % 7;
+        for ($i = 1; $i <= $remaining; $i++) {
+            echo '<div class="day-cell other-month"><div class="day-num">' . $i . '</div></div>';
+        }
+        ?>
+
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="cal-legend">
+      <?php
+$legendLabels = [
+    'ibadah' => 'Ibadah / Worship',
+    'doa' => 'Doa Bersama',
+    'dc' => 'Disciple Community',
+    'nextstep' => 'Next Step',
+    'youth' => 'Youth / Pemuda',
+    'default' => 'Lainnya',
+];
+foreach ($jenisFound as $jk => $jv) {
+    $lbl = $legendLabels[$jk] ?? ucfirst($jk);
+    $color = $colorMap[$jk] ?? '#888';
+    echo '<div class="legend-item"><div class="legend-dot" style="background:' . $color . '"></div>' . htmlspecialchars($lbl) . '</div>';
+}
+?>
+    </div>
+  </div><!-- /monthView -->
 
 
+  <!-- ====== LIST VIEW ====== -->
+  <div id="listView">
+    <div class="list-controls">
+      <div class="filter-group">
+        <span class="filter-label">Filter by:</span>
+        <button class="filter-btn active" data-filter="all">All Events</button>
+        <?php
+        $filterLabels = [
+            'ibadah' => 'Ibadah',
+            'doa' => 'Doa Bersama',
+            'dc' => 'Disciple Community',
+            'nextstep' => 'Next Step',
+            'youth' => 'Youth',
+            'default' => 'Lainnya',
+        ];
+        foreach ($jenisFound as $jk => $jv) {
+            $lbl = $filterLabels[$jk] ?? ucfirst($jk);
+            echo '<button class="filter-btn" data-filter="' . htmlspecialchars($jk) . '">' . htmlspecialchars($lbl) . '</button>';
+        }
+        ?>
+      </div>
+    </div>
 
+    <div class="event-table">
+      <div class="event-table-header">
+        <span>Event Name</span>
+        <span>Tanggal &amp; Jam</span>
+        <span>Jenis Jadwal</span>
+        <span>Tema</span>
+      </div>
 
+      <?php if (count($allEvents) > 0): ?>
+        <?php
+        foreach ($allEvents as $row):
+            $jk = getJenisKey($row->jenisjadwal ?? '');
+            $color = resolveColor($row->warnapenjadwalan ?? '', $jk, $colorMap);
+            $ts = strtotime($row->tgljadwal);
+            $tglFmt = hariID($ts) . ', ' . date('d', $ts) . ' ' . namaBulanShortID(date('m', $ts)) . ' ' . date('Y', $ts);
+            $jamMulai = date('H:i', strtotime($row->jammulai));
+            $jamSelesai = !empty($row->jamselesai) ? date('H:i', strtotime($row->jamselesai)) : '';
+            ?>
+        <div class="event-row" data-type="<?php echo htmlspecialchars($jk) ?>">
 
-
-
-
-
-                  </div>
-
-                </div>
-              </div>
+          <!-- Nama event -->
+          <div class="event-name-cell">
+            <div class="event-color-bar" style="background:<?php echo $color ?>"></div>
+            <div>
+              <div class="event-name"><?php echo htmlspecialchars($row->namaevent) ?></div>
+              <?php if (!empty($row->namakelas)): ?>
+                <div class="event-subtitle"><?php echo htmlspecialchars($row->namakelas) ?></div>
+              <?php endif ?>
+              <?php if (!empty($row->tema)): ?>
+                <div class="event-tema"><?php echo htmlspecialchars($row->tema) ?></div>
+              <?php endif ?>
             </div>
           </div>
+
+          <!-- Tanggal & Jam -->
+          <div>
+            <div class="event-datetime"><?php echo $tglFmt ?></div>
+            <div class="event-time-sub">
+              <?php echo $jamMulai ?> WIB
+              <?php if ($jamSelesai): echo '&ndash; ' . $jamSelesai . ' WIB'; endif ?>
+            </div>
+          </div>
+
+          <!-- Jenis -->
+          <div>
+            <span class="cat-badge" style="background:<?php echo $color ?>">
+              <?php echo htmlspecialchars($row->jenisjadwal ?? '-') ?>
+            </span>
+          </div>
+
+          <!-- Subtema -->
+          <div style="font-size:13px; color:var(--brown-mid); line-height:1.5">
+            <?php echo !empty($row->subtema) ? htmlspecialchars($row->subtema) : '<span style="color:#ccc">&mdash;</span>' ?>
+          </div>
+
         </div>
-    </section>
+        <?php endforeach ?>
 
+      <?php else: ?>
+        <div class="empty-state">
+          <div class="icon">&#128197;</div>
+          <p>Tidak ada jadwal event untuk <strong><?php echo $bulanLabel ?></strong>.</p>
+        </div>
+      <?php endif ?>
 
-    <!-- jQuery dulu -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </div><!-- .event-table -->
+  </div><!-- /listView -->
 
-    <!-- SweetAlert -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</div><!-- .cal-main -->
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function switchView(view) {
+  document.getElementById('monthView').style.display = view === 'month' ? 'block' : 'none';
+  document.getElementById('listView').style.display  = view === 'list'  ? 'block' : 'none';
+  document.getElementById('btnMonth').classList.toggle('active', view === 'month');
+  document.getElementById('btnList').classList.toggle('active', view === 'list');
+  try { localStorage.setItem('calView_esc', view); } catch(e) {}
+}
 
+// Restore saved view
+(function() {
+  try { if (localStorage.getItem('calView_esc') === 'list') switchView('list'); } catch(e) {}
+})();
 
-    <script>
-      $(document).ready(function() {
-
-      });
-
-
-    $(document).on('click', '.btnDaftar', function(e) {
-      var idjadwalevent = $(this).attr('data-idjadwalevent');
-      e.preventDefault();
-
-      swal({
-          title: "Daftar Kelas?",
-          text: "Anda ingin mendaftar di kelas ini? Pastikan anda sudah memenuhi persyaratan untuk mendaftar.",
-          icon: "warning",
-          buttons: ["Batal!", "Ya!"],
-          dangerMode: true,
-        })
-        .then((daftarkelas) => {
-          if (daftarkelas) {
-
-            $.ajax({
-                url: '<?php echo site_url('nextstep/daftar') ?>',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                  'idjadwalevent': idjadwalevent
-                },
-              })
-              .done(function(daftarResult) {
-                console.log(daftarResult);
-
-                if (daftarResult.success) {
-                  swal("Berhasil", "Pengajuan pendaftaran kelas next step anda berhasil disimpan. Periksa kembali status pengajuan pendaftaran anda dalam 2x24 Jam", "success")
-                    .then(function() {
-                      window.open("<?php echo site_url('nextstep/kelas/') ?>" + daftarResult.kelas_slug + "/" + daftarResult.menu, "_self ");
-                    });
-                } else {
-                  swal("Gagal", daftarResult.msg, "info");
-                }
-              })
-              .fail(function() {
-                console.log("error");
-              });
-
-          }
-        });
-
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    var filter = this.getAttribute('data-filter');
+    document.querySelectorAll('.event-row').forEach(function(row) {
+      row.style.display = (filter === 'all' || row.getAttribute('data-type') === filter) ? '' : 'none';
     });
+  });
+});
+</script>
 
-    // var downArrow = document.getElementById("btn1");
-    // var upArrow = document.getElementById("btn2");
-
-    // downArrow.onclick = function() {
-    //   'use strict';
-    //   document.getElementById("first-list").style = "top:-620px";
-    //   document.getElementById("second-list").style = "top:-620px";
-    //   downArrow.style = "display:none";
-    //   upArrow.style = "display:block";
-    // };
-
-    // upArrow.onclick = function() {
-    //   'use strict';
-    //   document.getElementById("first-list").style = "top:0";
-    //   document.getElementById("second-list").style = "top:80px";
-    //   upArrow.style = "display:none";
-    //   downArrow.style = "display:block";
-    // };
-    </script>
-      
-
-      <?php $this->load->view('template/festavalive/footer'); ?>
+<?php $this->load->view('template/festavalive/footer'); ?>
