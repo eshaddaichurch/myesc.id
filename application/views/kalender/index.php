@@ -393,7 +393,7 @@ function resolveColor($warnapenjadwalan, $jenisKey, $colorMap)
 <!-- HERO -->
 <div class="cal-hero">
   <div class="label">Our Calendar</div>
-  <h1>Gathering in <span>Spirit</span><br>and Truth.</h1>
+  <!-- <h1>Gathering in <span>Spirit</span><br>and Truth.</h1> -->
   <p>Temukan kesempatan untuk terhubung, bertumbuh, dan melayani dalam komunitas. Dari ibadah mingguan hingga pertemuan spesial.</p>
 </div>
 
