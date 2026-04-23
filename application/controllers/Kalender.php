@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Kalender extends MY_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -12,35 +11,55 @@ class Kalender extends MY_Controller
 		$this->load->model('Nextstep_model');
 	}
 
+	// ============================================================
+	// HELPER: hitung bulan sebelum & berikut dengan benar
+	// ============================================================
+	private function _hitungNavBulan($bulanEvent, $tahunEvent)
+	{
+		$bulanSebelum = $bulanEvent - 1;
+		$tahunSebelum = $tahunEvent;
+		$bulanBerikut = $bulanEvent + 1;
+		$tahunBerikut = $tahunEvent;
+
+		if ($bulanEvent == 1) {
+			$bulanSebelum = 12;
+			$tahunSebelum = $tahunEvent - 1;
+		}
+		if ($bulanEvent == 12) {
+			$bulanBerikut = 1;
+			$tahunBerikut = $tahunEvent + 1;
+		}
+
+		return [$bulanSebelum, $tahunSebelum, $bulanBerikut, $tahunBerikut];
+	}
+
+	// ============================================================
+	// index() — tampilkan bulan ini
+	// ============================================================
 	public function index($idmenu)
 	{
-		$bulanEvent = date('m');
-		$tahunEvent = date('Y');
-
+		$bulanEvent = (int) date('m');
+		$tahunEvent = (int) date('Y');
 		$idmenu = $this->encrypt->decode($idmenu);
-		$rsEvent = $this->db->query("
-			select * from v_jadwaleventdetailtanggal_2 
-			where month(tgljadwal)=$bulanEvent and year(tgljadwal)=$tahunEvent 
-				and statuskonfirmasi = 'Disetujui'
-				order by tgljadwal, jammulai
-			");
-		$bulanSebelum = $bulanEvent - 1;
-		$tahunSebelum = $tahunEvent;
-		$bulanBerikut = $bulanEvent + 1;
-		$tahunBerikut = $tahunEvent;
 
-		if ($bulanEvent == 1) {
-			$bulanSebelum = 12;
-			$tahunSebelum = $tahunEvent - 1;
-		}
+		// FIX: pakai ->result_array() lalu convert ke object,
+		//      atau simpan langsung sebagai array of object
+		$query = $this->db->query("
+      SELECT * FROM v_jadwaleventdetailtanggal_2
+      WHERE MONTH(tgljadwal) = $bulanEvent
+        AND YEAR(tgljadwal)  = $tahunEvent
+        AND statuskonfirmasi = 'Disetujui'
+      ORDER BY tgljadwal, jammulai
+    ");
 
-		if ($bulanEvent == 12) {
-			$bulanBerikut = 1;
-			$tahunBerikut = $tahunEvent + 1;
-		}
+		// Konversi ke array biasa agar tidak habis saat di-loop
+		$rsEvent = $query->result();  // array of stdClass — aman di-loop berkali-kali
 
-		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
-		$data['rsEvent'] = $rsEvent;
+		list($bulanSebelum, $tahunSebelum, $bulanBerikut, $tahunBerikut) =
+			$this->_hitungNavBulan($bulanEvent, $tahunEvent);
+
+		$data['rowinfogereja'] = $this->Home_model->get_infogereja();
+		$data['rsEvent'] = $rsEvent;  // <-- array of object, BUKAN CI result object
 		$data['bulanEvent'] = $bulanEvent;
 		$data['tahunEvent'] = $tahunEvent;
 		$data['bulanSebelum'] = $bulanSebelum;
@@ -48,32 +67,34 @@ class Kalender extends MY_Controller
 		$data['bulanBerikut'] = $bulanBerikut;
 		$data['tahunBerikut'] = $tahunBerikut;
 		$data['menu'] = $idmenu;
+
 		$this->load->view('kalender/index', $data);
 	}
 
+	// ============================================================
+	// lihatbulan() — navigasi bulan
+	// ============================================================
 	public function lihatbulan($bulanEvent, $tahunEvent, $idmenu)
 	{
+		$bulanEvent = (int) $bulanEvent;
+		$tahunEvent = (int) $tahunEvent;
 		$idmenu = $this->encrypt->decode($idmenu);
-		$rsEvent = $this->db->query("
-			select * from v_jadwaleventdetailtanggal_2 where month(tgljadwal)=$bulanEvent and year(tgljadwal)=$tahunEvent order by tgljadwal, jammulai
-			");
 
-		$bulanSebelum = $bulanEvent - 1;
-		$tahunSebelum = $tahunEvent;
-		$bulanBerikut = $bulanEvent + 1;
-		$tahunBerikut = $tahunEvent;
+		$query = $this->db->query("
+      SELECT * FROM v_jadwaleventdetailtanggal_2
+      WHERE MONTH(tgljadwal) = $bulanEvent
+        AND YEAR(tgljadwal)  = $tahunEvent
+        AND statuskonfirmasi = 'Disetujui'
+      ORDER BY tgljadwal, jammulai
+    ");
 
-		if ($bulanEvent == 1) {
-			$bulanSebelum = 12;
-			$tahunSebelum = $tahunEvent - 1;
-		}
+		// Konversi ke array biasa
+		$rsEvent = $query->result();
 
-		if ($bulanEvent == 12) {
-			$bulanBerikut = 1;
-			$tahunBerikut = $tahunEvent + 1;
-		}
+		list($bulanSebelum, $tahunSebelum, $bulanBerikut, $tahunBerikut) =
+			$this->_hitungNavBulan($bulanEvent, $tahunEvent);
 
-		$data["rowinfogereja"] = $this->Home_model->get_infogereja();
+		$data['rowinfogereja'] = $this->Home_model->get_infogereja();
 		$data['rsEvent'] = $rsEvent;
 		$data['bulanEvent'] = $bulanEvent;
 		$data['tahunEvent'] = $tahunEvent;
@@ -82,15 +103,22 @@ class Kalender extends MY_Controller
 		$data['bulanBerikut'] = $bulanBerikut;
 		$data['tahunBerikut'] = $tahunBerikut;
 		$data['menu'] = $idmenu;
+
 		$this->load->view('kalender/index', $data);
 	}
 
+	// ============================================================
+	// getEvent() — API JSON untuk keperluan lain
+	// ============================================================
 	public function getEvent()
 	{
-		$rsEvent = $this->db->query("
-				select * from v_jadwaleventdetailtanggal_2 where statuskonfirmasi='Disetujui' and tampilkandiwebsite='Ya' order by tgljadwal, jammulai
-			");
-		echo json_encode($rsEvent->result());
+		$query = $this->db->query("
+      SELECT * FROM v_jadwaleventdetailtanggal_2
+      WHERE statuskonfirmasi  = 'Disetujui'
+        AND tampilkandiwebsite = 'Ya'
+      ORDER BY tgljadwal, jammulai
+    ");
+		echo json_encode($query->result());
 	}
 }
 

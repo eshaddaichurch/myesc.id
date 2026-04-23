@@ -362,8 +362,10 @@ $eventMap = [];  // tgljadwal => [rows]
 $allEvents = [];
 $jenisFound = [];  // jenis key yang ada di bulan ini
 
-if ($rsEvent->num_rows() > 0) {
-    foreach ($rsEvent->result() as $row) {
+// $rsEvent sudah berupa plain array of stdClass dari controller
+// (hasil ->result()), jadi langsung foreach — tidak perlu ->result() lagi
+if (!empty($rsEvent)) {
+    foreach ($rsEvent as $row) {
         $tgl = date('Y-m-d', strtotime($row->tgljadwal));
         $eventMap[$tgl][] = $row;
         $allEvents[] = $row;
@@ -392,8 +394,8 @@ function resolveColor($warnapenjadwalan, $jenisKey, $colorMap)
 
 <!-- HERO -->
 <div class="cal-hero">
-  <div class="label">Our Calendar</div>
-  <!-- <h1>Gathering in <span>Spirit</span><br>and Truth.</h1> -->
+  <!-- <div class="label">Our Calendar</div> -->
+  <h1>Our <span>Calendar</span></h1>
   <p>Temukan kesempatan untuk terhubung, bertumbuh, dan melayani dalam komunitas. Dari ibadah mingguan hingga pertemuan spesial.</p>
 </div>
 
