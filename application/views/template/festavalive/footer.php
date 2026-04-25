@@ -1,121 +1,77 @@
-    <footer class="site-footer">
-        <div class="site-footer-top">
-            <div class="container">
-                <div class="row">
+<footer class="site-footer" style="background:#111; color:#fff; font-family:inherit; padding:0;">
 
-                    <div class="col-lg-6 col-12">
-                        <h2 class="text-white mb-lg-0">El Shaddai Church</h2>
-                    </div>
+  <!-- Top Bar -->
+  <div style="border-bottom:0.5px solid rgba(255,255,255,0.12); padding:3rem 2.5rem 2rem; display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+    <div>
+      <h2 style="font-size:28px; font-weight:500; margin:0; color:#fff;">El Shaddai Church</h2>
+      <p style="font-size:12px; color:rgba(255,255,255,0.4); margin:4px 0 0; text-transform:uppercase; letter-spacing:0.06em;">Pontianak, Kalimantan Barat</p>
+    </div>
+    <a href="<?php echo site_url('') ?>/ourlocation/index/V05TSFJlBWcLYQ~~" style="display:inline-flex; align-items:center; gap:6px; font-size:13px; color:rgba(255,255,255,0.55); border:0.5px solid rgba(255,255,255,0.2); padding:6px 14px; border-radius:20px; text-decoration:none;">
+      📍 Lihat di Maps
+    </a>
+  </div>
 
-                </div>
-            </div>
-        </div>
+  <!-- Columns -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:2rem; padding:2.5rem; border-bottom:0.5px solid rgba(255,255,255,0.1);">
 
-        <div class="container">
-            <div class="row">
+    <!-- Kontak -->
+    <div>
+      <p style="font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin:0 0 14px;">Kontak</p>
+      <p style="font-size:14px; color:rgba(255,255,255,0.75); margin:0 0 6px;">
+        <a href="tel:+6285550001187" style="color:inherit; text-decoration:none;">+62 855 5000 1187</a>
+      </p>
+      <p style="font-size:14px; color:rgba(255,255,255,0.75); margin:0;">
+        <a href="mailto:connect@myesc.id" style="color:inherit; text-decoration:none;">connect@myesc.id</a>
+      </p>
+    </div>
 
-                <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
-                    <h5 class="site-footer-title mb-3">Contact Us?</h5>
+    <!-- Lokasi -->
+    <div>
+      <p style="font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin:0 0 14px;">Lokasi</p>
+      <p style="font-size:14px; color:rgba(255,255,255,0.75); margin:0 0 10px; line-height:1.6;">Jl. Prof. M. Yamin No.1 A<br>Pontianak, Kalimantan Barat</p>
+    </div>
 
-                    <p class="text-white d-flex mb-1">
-                        <a href="tel: 090-080-0760" class="site-footer-link">
-                            +62 855 5000 1187
-                        </a>
-                    </p>
+    <!-- Sosial Media -->
+    <div>
+      <p style="font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin:0 0 14px;">Sosial Media</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
 
-                    <p class="text-white d-flex">
-                        <a href="mailto:hello@company.com" class="site-footer-link">
-                            elshaddaichurch@gmail.com
-                        </a>
-                    </p>
-                </div>
+        <a href="https://www.instagram.com/elshaddai_church/" target="_blank" rel="noopener"
+           style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; border:0.5px solid rgba(255,255,255,0.15); font-size:12px; color:rgba(255,255,255,0.7); text-decoration:none;">
+          <span class="bi-instagram" style="font-size:15px;"></span> Instagram
+        </a>
 
-                <div class="col-lg-3 col-md-6 col-11 mb-4 mb-lg-0 mb-md-0">
-                    <h5 class="site-footer-title mb-3">Location</h5>
+        <a href="https://www.youtube.com/@elshaddaichurchpontianak" target="_blank" rel="noopener"
+           style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; border:0.5px solid rgba(255,255,255,0.15); font-size:12px; color:rgba(255,255,255,0.7); text-decoration:none;">
+          <span class="bi-youtube" style="font-size:15px;"></span> YouTube
+        </a>
 
-                    <p class="text-white d-flex mt-3 mb-2">
-                        Jl. Prof. M. Yamin No.1 A Pontianak Kalimantan Barat</p>
+        <a href="https://open.spotify.com/artist/0ttHVHLE08tW3WQJySwIOz" target="_blank" rel="noopener"
+           style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; border:0.5px solid rgba(255,255,255,0.15); font-size:12px; color:rgba(255,255,255,0.7); text-decoration:none;">
+          <span class="bi-spotify" style="font-size:15px;"></span> Spotify
+        </a>
 
-                    <a class="link-fx-1 color-contrast-higher mt-3" href="<?php echo site_url('') ?>/ourlocation/index/V05TSFJlBWcLYQ~~">
-                        <span>Our Maps</span>
-                        <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
-                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="16" cy="16" r="15.5"></circle>
-                                <line x1="10" y1="18" x2="16" y2="12"></line>
-                                <line x1="16" y1="12" x2="22" y2="18"></line>
-                            </g>
-                        </svg>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
-                    <h5 class="site-footer-title mb-3">Social</h5>
+        <a href="https://www.threads.com/@elshaddai_church" target="_blank" rel="noopener"
+           style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; border:0.5px solid rgba(255,255,255,0.15); font-size:12px; color:rgba(255,255,255,0.7); text-decoration:none;">
+          <span class="bi-threads" style="font-size:15px;"></span> Threads
+        </a>
 
-                    <p class="text-white d-flex mb-1">
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex;">
-                        <li class="social-icon-item" style="margin-right: 10px;">
-                            <a href=https://www.instagram.com/elshaddai_church/ class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
-                                <span class="bi-instagram"></span>
-                            </a>
-                        </li>
-                    </ul>
+      </div>
+    </div>
 
-                    </p>
+  </div>
 
-                    <p class="text-white d-flex mb-1">
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex;">
-                        <li class="social-icon-item" style="margin-right: 10px;">
-                            <a href=https://open.spotify.com/intl-id/artist/0ttHVHLE08tW3WQJySwIOz class="social-icon-link" target="_blank" rel="noopener" style="text-decoration: none; color: white; font-size: 24px;">
-                                <span class="bi bi-spotify"></span>
-                            </a>
-                        </li>
-                    </ul>
+  <!-- Bottom Bar -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:1.25rem 2.5rem; flex-wrap:wrap; gap:1rem;">
+    <p style="font-size:12px; color:rgba(255,255,255,0.35); margin:0;">
+      © 2023–<?php echo date('Y') ?> El Shaddai Church. All rights reserved.
+    </p>
+  </div>
 
-                    </p>
+  <!-- Semua script & PHP original kamu tetap di sini -->
+  ...
 
-
-
-                    <p class="text-white d-flex mb-1">
-                        <li class="social-icon-item">
-                            <a href="https://www.youtube.com/@elshaddaichurchpontianak" class="social-icon-link" target="_blank">
-                                <span class="bi-youtube"></span>
-                            </a>
-                        </li>
-                    </p>
-
-
-
-                </div>
-            </div>
-        </div>
-
-        <div class="site-footer-bottom">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-lg-3 col-12 mt-5">
-                        <p class="copyright-text">Copyright © 2023 - <?php echo date('Y') ?> El Shaddai Church</p>
-                        <!-- <p class="copyright-text">Distributed by: <a href="https://themewagon.com">ThemeWagon</a></p> -->
-                    </div>
-
-                    <div class="col-lg-8 col-12 mt-lg-5">
-                        <ul class="site-footer-links">
-                            <!-- <li class="site-footer-link-item">
-                                <a href="#" class="site-footer-link">Terms &amp; Conditions</a>
-                            </li> -->
-
-                            <!-- <li class="site-footer-link-item">
-                                <a href="#" class="site-footer-link">Privacy Policy</a>
-                            </li>
-
-                            <li class="site-footer-link-item">
-                                <a href="#" class="site-footer-link">Your Feedback</a>
-                            </li> -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+</footer>
 
     <!--
 
@@ -131,7 +87,21 @@ T e m p l a t e M o
             width: 50%;
             height: 50%;
             z-index: 9999;
-            background: url('<?php echo base_url("myesc.id/images/Spinner-3.gif") ?>') 100% 100% no-repeat;
+            background: url('<?php echo base_url('myesc.id/images/Spinner-3.gif') ?>') 100% 100% no-repeat;
+        }
+
+        @media (max-width: 576px) {
+        .esc-top {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .esc-cols {
+            padding: 1.5rem 1.25rem;
+            gap: 1.5rem;
+        }
+        .esc-bottom {
+            padding: 1rem 1.25rem;
+        }
         }
     </style>
     <div class="loader"></div>
@@ -158,16 +128,16 @@ T e m p l a t e M o
     <script type="text/javascript" src="<?php echo base_url(); ?>myesc.id/admin/assets/bootbox/bootbox.js"></script>
 
     <!-- jquery-confirm  -->
-    <script src="<?php echo (base_url("myesc.id/admin/assets/")) ?>jquery-confirm/js/jquery-confirm.min.js"></script>
+    <script src="<?php echo (base_url('myesc.id/admin/assets/')) ?>jquery-confirm/js/jquery-confirm.min.js"></script>
 
     <!-- jquery-mask -->
-    <script type="text/javascript" src="<?php echo base_url("myesc.id/admin/assets/") ?>jquery_mask/jquery.mask.js"></script>
+    <script type="text/javascript" src="<?php echo base_url('myesc.id/admin/assets/') ?>jquery_mask/jquery.mask.js"></script>
 
     <!-- Bootstrap validator -->
-    <script src="<?php echo (base_url("myesc.id/admin/assets/")) ?>bootstrap-validator/js/bootstrapValidator.js"></script>
+    <script src="<?php echo (base_url('myesc.id/admin/assets/')) ?>bootstrap-validator/js/bootstrapValidator.js"></script>
 
     <!-- jquery-ui -->
-    <script src="<?php echo (base_url("myesc.id/admin/assets/")) ?>jquery-ui/jquery-ui-2.js"></script>
+    <script src="<?php echo (base_url('myesc.id/admin/assets/')) ?>jquery-ui/jquery-ui-2.js"></script>
 
     <!-- select2 -->
     <script src="<?php echo (base_url()) ?>myesc.id/admin/assets/select2/js/select2.min.js"></script>
