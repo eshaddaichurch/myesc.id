@@ -516,6 +516,13 @@
     });
     overlay.addEventListener('click', closeDrawer);
     closeBtn.addEventListener('click', closeDrawer);
+
+    // Tutup drawer dulu sebelum modal login/registrasi/lupa password muncul
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.show-form-login, .show-form-registrasi, .show-form-lupapassword')) {
+            closeDrawer();
+        }
+    });
 }());
 
 function toggleMobSub(el) {
