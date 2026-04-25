@@ -21,12 +21,12 @@
 
       <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:12px;">
         <svg style="width:15px;height:15px;fill:#fff;opacity:0.3;flex-shrink:0;margin-top:2px;" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-        <a href="tel:+6285550001187" style="font-size:13px; color:#999; text-decoration:none;">+62 855 5000 1187</a>
+        <a href="tel:+6285550001187" style="font-size:13px; color:#fff; text-decoration:none;">+62 855 5000 1187</a>
       </div>
 
       <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:12px;">
         <svg style="width:15px;height:15px;fill:#fff;opacity:0.3;flex-shrink:0;margin-top:2px;" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        <a href="mailto:connect@myesc.id" style="font-size:13px; color:#999; text-decoration:none;">connect@myesc.id</a>
+        <a href="mailto:connect@myesc.id" style="font-size:13px; color:#fff; text-decoration:none;">connect@myesc.id</a>
       </div>
 
       <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:1.75rem;">
@@ -50,14 +50,14 @@
            style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid #141414; font-size:12px; color:#666; text-decoration:none; background:#050505;">
           <span class="bi-instagram" style="font-size:14px; opacity:0.7;"></span>
           <span style="flex:1;">Instagram</span>
-          <span style="font-size:10px; color:#333;">↗</span>
+          <span style="font-size:10px; color:#fff;">↗</span>
         </a>
 
         <a href="https://www.youtube.com/@elshaddaichurchpontianak" target="_blank" rel="noopener"
            style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid #141414; font-size:12px; color:#666; text-decoration:none; background:#050505;">
           <span class="bi-youtube" style="font-size:14px; opacity:0.7;"></span>
           <span style="flex:1;">YouTube</span>
-          <span style="font-size:10px; color:#333;">↗</span>
+          <span style="font-size:10px; color:#fff;">↗</span>
         </a>
 
       </div>
@@ -72,14 +72,14 @@
            style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid #141414; font-size:12px; color:#666; text-decoration:none; background:#050505;">
           <span class="bi-spotify" style="font-size:14px; opacity:0.7;"></span>
           <span style="flex:1;">Spotify</span>
-          <span style="font-size:10px; color:#333;">↗</span>
+          <span style="font-size:10px; color:#fff;">↗</span>
         </a>
 
         <a href="https://www.threads.com/@elshaddai_church" target="_blank" rel="noopener"
-           style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid #141414; font-size:12px; color:#666; text-decoration:none; background:#050505;">
-          <span class="bi-threads" style="font-size:14px; opacity:0.7;"></span>
-          <span style="flex:1;">Threads</span>
-          <span style="font-size:10px; color:#333;">↗</span>
+        style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid #141414; font-size:12px; color:#666; text-decoration:none; background:#050505;">
+        <svg style="width:14px;height:14px;fill:currentColor;flex-shrink:0;opacity:0.7;" viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847C8.97 6.026 10.834 5.068 12.99 5.068h.04c3.426.017 5.47 2.112 5.71 5.77a8.134 8.134 0 0 1 1.604 1.124c1.18 1.07 1.83 2.487 1.837 3.998.013 1.896-.68 3.73-1.894 4.914-1.814 1.776-4.16 2.109-6.1 2.126zM12.24 14.017c-.08 0-.159.002-.24.006-2.301.13-2.87 1.177-2.84 1.763.02.39.232.718.607.963.49.317 1.173.472 1.886.433 1.14-.062 1.977-.537 2.49-1.412.323-.554.514-1.278.57-2.157a11.07 11.07 0 0 0-2.473-.596z"/></svg>
+        <span style="flex:1;">Threads</span>
+        <span style="font-size:10px;color:#333;">↗</span>
         </a>
 
       </div>
@@ -89,14 +89,10 @@
 
   <!-- Bottom Bar -->
   <div class="esc-footer-bottom" style="display:flex; align-items:center; justify-content:space-between; padding:1.25rem 3rem; flex-wrap:wrap; gap:1rem;">
-    <p style="font-size:11px; color:#333; margin:0; letter-spacing:0.04em;">
+    <p style="font-size:11px; color:#fff; margin:0; letter-spacing:0.04em;">
       &copy; 2023&ndash;<?php echo date('Y') ?> El Shaddai Church &middot; All rights reserved
     </p>
-    <div style="display:flex; gap:2rem;">
-      <a href="#" style="font-size:11px; color:#333; text-decoration:none; letter-spacing:0.04em;">Beranda</a>
-      <a href="#" style="font-size:11px; color:#333; text-decoration:none; letter-spacing:0.04em;">Ibadah</a>
-      <a href="#" style="font-size:11px; color:#333; text-decoration:none; letter-spacing:0.04em;">Kontak</a>
-    </div>
+    
   </div>
 
 </footer>
