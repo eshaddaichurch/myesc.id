@@ -7,8 +7,8 @@
       <p style="font-size:11px; color:#555; margin:8px 0 0; text-transform:uppercase; letter-spacing:0.12em;">Pontianak · Kalimantan Barat</p>
     </div>
     <div style="text-align:right; max-width:240px;">
-      <p style="font-size:13px; color:#444; font-style:italic; line-height:1.7; margin:0;">"Karena Tuhan, Dia sendiri akan berperang bagimu"</p>
-      <p style="font-size:11px; color:#333; margin:4px 0 0; text-transform:uppercase; letter-spacing:0.08em;">Ulangan 3:22</p>
+      <p style="font-size:13px; color:#fff; font-style:italic; line-height:1.7; margin:0;">"Membangun Generasi Yang Menghidupi Amanat Agung"</p>
+      
     </div>
   </div>
 
