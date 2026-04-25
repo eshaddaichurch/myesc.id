@@ -1,547 +1,377 @@
-
-<?php
-
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
+<?php $this->load->view('template/festavalive/header'); ?>
 
 <body>
-
   <main>
-
-
-
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-
-
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
       @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
 
-      /* This pen */
+      * { box-sizing: border-box; }
 
-
-
-
-      .dark {
-        background: #110f16;
-      }
-
-      /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-      .breadcrumbs {
-        padding: 140px 0 60px 0;
-        min-height: 30vh;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      .breadcrumbs:before {
-        content: "";
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        inset: 0;
-      }
-
-      .breadcrumbs h2 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #fff;
-        font-family: var(--font-secondary);
-      }
-
-      .breadcrumbs ol {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0 0 10px 0;
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-primary);
-      }
-
-      .breadcrumbs ol a {
-        color: rgba(255, 255, 255, 0.8);
-        transition: 0.3s;
-      }
-
-      .breadcrumbs ol a:hover {
-        text-decoration: underline;
-      }
-
-      .breadcrumbs ol li+li {
-        padding-left: 10px;
-      }
-
-      .breadcrumbs ol li+li::before {
-        display: inline-block;
-        padding-right: 10px;
-        color: #fff;
-        content: "/";
-      }
-
-
-      .light {
-        background: #f3f5f7;
-      }
-
-      a,
-      a:hover {
-        text-decoration: none;
-        transition: color 0.3s ease-in-out;
-      }
-
-      #pageHeaderTitle {
-        margin: 2rem 0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2.5rem;
-      }
-
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
-        display: flex;
-
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
-        overflow: hidden;
-        position: relative;
-        color: #ffffff;
-
-        &.dark {
-          background-color: #18151f;
-        }
-
-        &.light {
-          background-color: #e1e5ea;
-        }
-
-        .t-dark {
-          color: #18151f;
-        }
-
-        a {
-          color: inherit;
-        }
-
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
-
-        .small {
-          font-size: 80%;
-        }
-
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
-
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
-
-        .postcard__img_link {
-          display: contents;
-        }
-
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
-
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
-        }
-
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
-        }
-
-        &:before {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
-        }
-
-        &:hover .postcard__bar {
-          width: 100px;
-        }
-      }
-
-      @media screen and (min-width: 769px) {
-        .postcard {
-          flex-wrap: inherit;
-
-          .postcard__title {
-            font-size: 2rem;
-          }
-
-          .postcard__tagbox {
-            justify-content: start;
-          }
-
-          .postcard__img {
-            max-width: 300px;
-            max-height: 100%;
-            transition: transform 0.3s ease;
-          }
-
-          .postcard__text {
-            padding-left: 4rem;
-            width: 100%;
-
-          }
-
-          .media.postcard__text:before {
-            content: "";
-            position: absolute;
-            display: block;
-            background: #18151f;
-            top: -20%;
-            height: 130%;
-            width: 55px;
-          }
-
-          &:hover .postcard__img {
-            transform: scale(1.1);
-          }
-
-          &:nth-child(2n+1) {
-            flex-direction: row;
-          }
-
-          &:nth-child(2n+0) {
-            flex-direction: row-reverse;
-          }
-
-          &:nth-child(2n+1) .postcard__text::before {
-            left: -12px !important;
-            transform: rotate(4deg);
-          }
-
-          &:nth-child(2n+0) .postcard__text::before {
-            right: -12px !important;
-            transform: rotate(-4deg);
-          }
-        }
-      }
-
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
-        }
-      }
-    </style>
-
-
-    <style>
-    /* * {
+      html, body {
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(63deg, #fffaf5, #ffb347);
+        background: #f5f5f5;
         font-family: 'Figtree', sans-serif;
         color: #111;
-        line-height: 1.7;
-    } */
+        line-height: 1.6;
+      }
 
-    /* Reset jangan terlalu agresif */
-    * {
-    box-sizing: border-box;
-    }
+      /* Padding agar tidak tertimpa navbar */
+      .page-content {
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+      }
+      @media (min-width: 768px) {
+        .page-content {
+          padding-top: 120px !important;
+          padding-bottom: 100px !important;
+        }
+      }
+      @media (min-width: 1200px) {
+        .page-content {
+          padding-top: 160px !important;
+          padding-bottom: 151px !important;
+        }
+      }
 
-    html, body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(63deg, #fffaf5, #ffb347);
-    font-family: 'Figtree', sans-serif;
-    color: #111;
-    line-height: 1.7;
-    }
+      /* ===== HERO SECTION ===== */
+      .profile-hero {
+        background: linear-gradient(135deg, #e04607 0%, #ff6b35 55%, #ffb347 100%);
+        border-radius: 20px;
+        padding: 32px 28px 60px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: -40px;
+      }
 
-    /* Tambahkan ruang agar konten tidak menimpa navbar */
-    /* Default untuk mobile */
-    .page-content {
-    padding-top: 80px !important;   /* navbar mobile biasanya lebih pendek */
-    padding-bottom: 80px !important;
-    }
-
-    /* Untuk tablet ke atas */
-    @media (min-width: 768px) {
-    .page-content {
-        padding-top: 120px !important;
-        padding-bottom: 100px !important;
-    }
-    }
-
-    /* Untuk desktop (>= 1200px misalnya) */
-    @media (min-width: 1200px) {
-    .page-content {
-        padding-top: 160px !important;
-        padding-bottom: 151px !important;
-    }
-    }
-
-
-
-
-    /* Judul section kecil */
-    .informasi-akun h5 {
-        font-size: 14px;
-        color: #fd661f;
-        font-weight: 600;
-        margin-bottom: 12px;
-    }
-
-    /* Label kecil */
-    .info-label {
-        font-size: 13px;
-        color: #6c757d;
-        margin-bottom: 4px;
-    }
-
-    /* Value isi */
-    .info-value {
-        font-size: 16px;
-        font-weight: 600;
-        color: #343a40;
-    }
-
-    /* Card informasi */
-    .info-card {
-        background-color: #fdfdfd;
-        transition: 0.2s ease-in-out;
-    }
-
-    .info-card:hover {
-        background-color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Agar tabel lama tetap rapi */
-    .informasi-akun table td {
-        font-size: 13px;
-        padding: 6px;
-        vertical-align: top;
-    }
-
-    /* Responsive foto */
-    .foto-profil {
-        max-width: 150px;
+      .profile-hero::before {
+        content: '';
+        position: absolute;
+        top: -50px; right: -50px;
+        width: 180px; height: 180px;
         border-radius: 50%;
-        border: 3px solid #eee;
-    }
+        background: rgba(255,255,255,0.07);
+        pointer-events: none;
+      }
 
-    /* Responsif mobile */
-    @media (max-width: 768px) {
-        .info-card {
-        text-align: center;
+      .profile-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30px; left: -10px;
+        width: 120px; height: 120px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.05);
+        pointer-events: none;
+      }
+
+      .hero-brand {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.85);
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .hero-body {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      /* Avatar */
+      .avatar-wrapper {
+        flex-shrink: 0;
+        width: 76px; height: 76px;
+        border-radius: 50%;
+        border: 3px solid rgba(255,255,255,0.55);
+        overflow: hidden;
+        background: rgba(255,255,255,0.15);
+        display: flex; align-items: center; justify-content: center;
+      }
+
+      .avatar-wrapper img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+      }
+
+      .avatar-placeholder {
+        width: 40px; height: 40px;
+        opacity: 0.85;
+        fill: white;
+      }
+
+      .hero-info { flex: 1; }
+
+      .hero-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        margin: 0 0 4px;
+        line-height: 1.3;
+      }
+
+      .hero-noaj {
+        font-size: 12px;
+        color: rgba(255,255,255,0.7);
+        margin: 0 0 10px;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.35);
+        padding: 4px 12px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 0.3px;
+      }
+
+      .status-pill-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #b8ffb8;
+      }
+
+      /* ===== MAIN CARD ===== */
+      .profile-main-card {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        padding: 52px 24px 24px;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ===== INFO GRID ===== */
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .info-item {
+        background: #fafafa;
+        border: 1px solid #f0f0f0;
+        border-radius: 12px;
+        padding: 12px 14px;
+      }
+
+      .info-item.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .info-lbl {
+        font-size: 10px;
+        font-weight: 600;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        margin-bottom: 4px;
+      }
+
+      .info-val {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      /* ===== ACTION BUTTONS ===== */
+      .action-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .action-link {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        text-decoration: none !important;
+        transition: transform 0.15s, box-shadow 0.15s;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .action-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      }
+
+      .action-link.primary {
+        background: linear-gradient(135deg, #e04607, #ff7c42);
+        color: #fff !important;
+      }
+
+      .action-link.secondary {
+        background: #fffbea;
+        color: #7a5c00 !important;
+        border: 1px solid #ffe08a;
+      }
+
+      .action-icon-box {
+        width: 36px; height: 36px;
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .action-link.primary .action-icon-box {
+        background: rgba(255,255,255,0.2);
+      }
+
+      .action-link.secondary .action-icon-box {
+        background: #fff3c4;
+      }
+
+      .action-icon-box svg {
+        width: 16px; height: 16px;
+      }
+
+      .action-label { flex: 1; }
+
+      .action-arrow {
+        font-size: 18px;
+        opacity: 0.5;
+      }
+
+      /* Responsive: di desktop foto dan data side-by-side */
+      @media (min-width: 768px) {
+        .profile-hero {
+          padding: 36px 40px 40px;
+          margin-bottom: 0;
+          border-radius: 20px 0 0 20px;
         }
-        .informasi-akun table td {
-        display: block;
-        width: 100% !important;
+        .profile-main-card {
+          padding: 32px;
+          border-radius: 0 20px 20px 0;
         }
-        .informasi-akun table tr {
-        margin-bottom: 10px;
-        display: block;
+        .profile-layout {
+          display: flex;
+          align-items: stretch;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 6px 32px rgba(0,0,0,0.1);
         }
-    }
+        .profile-hero { flex: 0 0 280px; margin-bottom: 0 !important; }
+        .profile-main-card { flex: 1; box-shadow: none; }
+        .hero-body { flex-direction: column; align-items: flex-start; }
+        .avatar-wrapper { width: 90px; height: 90px; }
+        .hero-name { font-size: 20px; }
+      }
     </style>
-    </head>
-
-    <body>
 
     <section class="page-content">
-            <div class="container">
-                <div class="row justify-content-center">
+      <div class="container">
+        <div class="profile-layout">
 
-                    <!-- Foto Profil + Status -->
-                    <div class="col-12 col-md-3 mb-3">
-                        <div class="card shadow-sm border-0 rounded-3 mt-4 mt-md-0">
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold mb-3">Foto Profil</h6>
-                                <?php if (!empty($rowProfil->foto)) { ?>
-                                    <img src="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) ?>" 
-                                        class="foto-profil img-fluid rounded-circle border mb-3" 
-                                        alt="Foto Profil" style="max-width:150px;">
-                                <?php } else { ?>
-                                    <img src="<?php echo base_url('myesc.id/images/nofoto.png') ?>" 
-                                        class="foto-profil img-fluid rounded-circle border mb-3" 
-                                        alt="Foto Profil" style="max-width:150px;">
-                                <?php } ?>
+          <!-- ===== HERO / FOTO ===== -->
+          <div class="profile-hero">
+            <div class="hero-brand">El Shaddai Church</div>
+            <div class="hero-body">
 
-                                <!-- Status Jemaat -->
-                                <div class="card py-2 px-3 rounded-3 text-white mx-auto" style="background-color:#e04607; max-width:200px;">
-                                    <small class="fw-semibold d-block">Status Jemaat</small>
-                                    <span class="fw-bold"><?php echo $rowProfil->statusjemaat; ?></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <!-- Foto Profil (logika sama seperti sebelumnya) -->
+              <div class="avatar-wrapper">
+                <?php if (!empty($rowProfil->foto)) { ?>
+                  <img src="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto) ?>"
+                       alt="Foto Profil">
+                <?php } else { ?>
+                  <svg class="avatar-placeholder" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                  </svg>
+                <?php } ?>
+              </div>
 
-                    <!-- Data Profil -->
-                    <div class="col-12 col-md-9">
-                        <div class="card shadow-sm border-0 rounded-3">
-                            <div class="card-body">
-                                <div class="row g-3">
-
-                                    <!-- No AJ -->
-                                    <div class="col-md-6">
-                                        <div class="info-card border shadow-sm p-3 rounded-3">
-                                            <div class="info-label">No. AJ</div>
-                                            <div class="info-value"><?php echo $rowProfil->noaj; ?></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Nama Lengkap -->
-                                    <div class="col-md-6">
-                                        <div class="info-card border shadow-sm p-3 rounded-3">
-                                            <div class="info-label">Nama Lengkap</div>
-                                            <div class="info-value"><?php echo $rowProfil->namalengkap; ?></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Jenis Kelamin -->
-                                    <div class="col-md-6">
-                                        <div class="info-card border shadow-sm p-3 rounded-3">
-                                            <div class="info-label">Jenis Kelamin</div>
-                                            <div class="info-value"><?php echo $rowProfil->jeniskelamin; ?></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Kewarganegaraan -->
-                                    <div class="col-md-6">
-                                        <div class="info-card border shadow-sm p-3 rounded-3">
-                                            <div class="info-label">Kewarganegaraan</div>
-                                            <div class="info-value"><?php echo $rowProfil->kewarganegaraan; ?></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Tombol -->
-                                    <!-- <div class="col-12 d-grid gap-2 mt-3">
-                                        <a href="<?php echo site_url('akun/ubahprofil') ?>" class="btn btn-primary">Ubah Profil</a>
-                                        <a href="<?php echo site_url('akun/gantipassword') ?>" class="btn btn-warning">Ubah Password</a>
-                                    </div> -->
-
-                                    <div class="col-12 d-grid gap-2 mt-3">
-                                        <a href="<?php echo site_url('akun/ubahprofil') ?>" 
-                                            class="btn text-white" 
-                                            style="background-color:#e04607;">
-                                            Ubah Profil
-                                        </a>
-                                        <a href="<?php echo site_url('akun/gantipassword') ?>" 
-                                            class="btn btn-warning">
-                                            Ubah Password
-                                        </a>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+              <div class="hero-info">
+                <p class="hero-name"><?php echo $rowProfil->namalengkap; ?></p>
+                <p class="hero-noaj">No. AJ: <?php echo $rowProfil->noaj ? $rowProfil->noaj : '—'; ?></p>
+                <div class="status-pill">
+                  <span class="status-pill-dot"></span>
+                  <?php echo $rowProfil->statusjemaat; ?>
                 </div>
-            </div>
-        </section>
+              </div>
 
+            </div>
+          </div>
+
+          <!-- ===== DATA PROFIL + TOMBOL ===== -->
+          <div class="profile-main-card">
+
+            <div class="info-grid">
+              <!-- No AJ -->
+              <div class="info-item">
+                <div class="info-lbl">No. AJ</div>
+                <div class="info-val"><?php echo $rowProfil->noaj ? $rowProfil->noaj : '—'; ?></div>
+              </div>
+
+              <!-- Status Jemaat -->
+              <div class="info-item">
+                <div class="info-lbl">Status Jemaat</div>
+                <div class="info-val"><?php echo $rowProfil->statusjemaat; ?></div>
+              </div>
+
+              <!-- Nama Lengkap -->
+              <div class="info-item full-width">
+                <div class="info-lbl">Nama Lengkap</div>
+                <div class="info-val"><?php echo $rowProfil->namalengkap; ?></div>
+              </div>
+
+              <!-- Jenis Kelamin -->
+              <div class="info-item">
+                <div class="info-lbl">Jenis Kelamin</div>
+                <div class="info-val"><?php echo $rowProfil->jeniskelamin; ?></div>
+              </div>
+
+              <!-- Kewarganegaraan -->
+              <div class="info-item">
+                <div class="info-lbl">Kewarganegaraan</div>
+                <div class="info-val"><?php echo $rowProfil->kewarganegaraan; ?></div>
+              </div>
+            </div>
+
+            <!-- Tombol aksi (href sama seperti sebelumnya) -->
+            <div class="action-list">
+              <a href="<?php echo site_url('akun/ubahprofil') ?>" class="action-link primary">
+                <div class="action-icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+                <span class="action-label">Ubah Profil</span>
+                <span class="action-arrow">›</span>
+              </a>
+
+              <a href="<?php echo site_url('akun/gantipassword') ?>" class="action-link secondary">
+                <div class="action-icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#a07800" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+                <span class="action-label">Ubah Password</span>
+                <span class="action-arrow">›</span>
+              </a>
+            </div>
+
+          </div><!-- /.profile-main-card -->
+        </div><!-- /.profile-layout -->
+      </div><!-- /.container -->
+    </section>
 
     <script>
-        $(document).on('change', '#foto', function(e) {
-            $('#formUpload').submit();
-        });
+      $(document).on('change', '#foto', function(e) {
+        $('#formUpload').submit();
+      });
     </script>
-      
 
-      <?php $this->load->view('template/festavalive/footer'); ?>
+    <?php $this->load->view('template/festavalive/footer'); ?>
