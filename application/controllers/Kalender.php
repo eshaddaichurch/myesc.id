@@ -46,9 +46,11 @@ class Kalender extends MY_Controller
 		//      atau simpan langsung sebagai array of object
 		$query = $this->db->query("
       SELECT * FROM v_jadwaleventdetailtanggal_2
-      WHERE MONTH(tgljadwal) = $bulanEvent
-        AND YEAR(tgljadwal)  = $tahunEvent
-        AND statuskonfirmasi = 'Disetujui'
+      WHERE MONTH(tgljadwal)   = $bulanEvent
+        AND YEAR(tgljadwal)    = $tahunEvent
+        AND statuskonfirmasi   = 'Disetujui'
+        AND tampilkandiwebsite = 'Ya'
+        AND diumumkankejemaat  = 'Ya'
       ORDER BY tgljadwal, jammulai
     ");
 
@@ -82,9 +84,11 @@ class Kalender extends MY_Controller
 
 		$query = $this->db->query("
       SELECT * FROM v_jadwaleventdetailtanggal_2
-      WHERE MONTH(tgljadwal) = $bulanEvent
-        AND YEAR(tgljadwal)  = $tahunEvent
-        AND statuskonfirmasi = 'Disetujui'
+      WHERE MONTH(tgljadwal)   = $bulanEvent
+        AND YEAR(tgljadwal)    = $tahunEvent
+        AND statuskonfirmasi   = 'Disetujui'
+        AND tampilkandiwebsite = 'Ya'
+        AND diumumkankejemaat  = 'Ya'
       ORDER BY tgljadwal, jammulai
     ");
 
