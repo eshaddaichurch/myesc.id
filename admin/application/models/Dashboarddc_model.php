@@ -123,6 +123,21 @@ class Dashboarddc_model extends CI_Model
             WHERE iddc = '$iddc' AND statusaktif = 'Aktif'
         ")->row()->jumlah;
     }
+
+    public function getAnggotaPerDc($iddc)
+    {
+        return $this->db->query("
+            SELECT 
+                j.namalengkap,
+                dm.statuskeanggotaan,
+                dm.tanggalinsert AS tglbergabung
+            FROM dcmember dm
+            JOIN jemaat j ON j.idjemaat = dm.idjemaat
+            WHERE dm.iddc       = '$iddc'
+            AND dm.statusaktif = 'Aktif'
+            ORDER BY dm.statuskeanggotaan DESC, j.namalengkap ASC
+        ");
+    }
 }
 
 /* End of file Dashboarddc_model.php */

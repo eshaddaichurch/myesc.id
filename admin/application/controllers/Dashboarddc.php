@@ -134,6 +134,27 @@ class Dashboarddc extends MY_controller
             $this->load->view('dashboard/cetakdc_excel', $data);
         }
     }
+
+    public function cetakLaporanAnggota()
+    {
+        error_reporting(0);
+
+        $this->load->library('Pdf');
+
+        $rowInfoGereja = $this->db->query('SELECT * FROM infogereja')->row();
+        $rsDc = $this->Dashboarddc_model->getDc();
+        $jumlahDc = $this->Dashboarddc_model->jumlahDc();
+        $jumlahMember = $this->Dashboarddc_model->jumlahMember();
+
+        $data = array(
+            'rowInfoGereja' => $rowInfoGereja,
+            'rsDc' => $rsDc,
+            'jumlahDc' => $jumlahDc,
+            'jumlahMember' => $jumlahMember,
+        );
+
+        $this->load->view('dashboard/cetakdc_anggota_pdf', $data);
+    }
 }
 
 /* End of file Dashboarddc.php */

@@ -107,6 +107,11 @@ $this->load->view('template/sidemenu');
                                                 <div class="col-md-4 pt-4">
                                                     <a href="#" class="btn btn-success btn-sm" id="btnCetakExcel"><i class="fa fa-file-excel"></i> Cetak Excel</a>
                                                     <a href="#" class="btn btn-danger btn-sm" id="btnCetakPdf"><i class="fa fa-file-pdf"></i> Cetak Pdf</a>
+
+                                                    <a href="<?= site_url('dashboarddc/cetakLaporanAnggota') ?>" 
+                                                    class="btn btn-dark btn-sm" target="_blank">
+                                                        <i class="fa fa-users"></i> Laporan Anggota
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
