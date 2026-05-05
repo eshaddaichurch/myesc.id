@@ -9,7 +9,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-color:rgb(0, 0, 0);
+      background-color: #e9d6a8;
       font-family: 'Figtree', sans-serif;
       color: #111;
       line-height: 1.7;
@@ -379,36 +379,10 @@
   }
 
 
-
-  .video-wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-}
-
-.custom-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover; /* Penting agar video cover seluruh area */
-  z-index: -1;
-}
-
-/* Fix khusus iOS: pastikan video tidak clickable/interactable */
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
   .custom-video {
     pointer-events: none;
+    -webkit-playsinline: true; /* legacy iOS */
   }
-}
 
 
 
@@ -439,10 +413,18 @@
       </div>
 
       <div class="video-wrap">
-        <video autoplay loop muted class="custom-video" poster="">
-          <source src="<?php echo base_url('myesc.id/admin/uploads/infogereja/') . $rowinfogereja->gambarhomepage ?>" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+      <video 
+        autoplay 
+        loop 
+        muted 
+        playsinline
+        webkit-playsinline
+        disablepictureinpicture
+        disableremoteplayback
+        class="custom-video" 
+        poster="">
+        <source src="<?php echo base_url('myesc.id/admin/uploads/infogereja/') . $rowinfogereja->gambarhomepage ?>" type="video/mp4">
+      </video>
       </div>
     </section>
 
@@ -490,24 +472,28 @@
 
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       const video = document.querySelector('.custom-video');
       
-      // Coba play, jika gagal (iOS sometimes still blocks), tampilkan poster
-      video.play().catch(error => {
-        console.log('Autoplay prevented, showing poster:', error);
-        video.setAttribute('poster', '<?php echo base_url('myesc.id/admin/uploads/infogereja/') . $rowinfogereja->gambarhomepage; ?>.jpg');
-        video.pause();
-      });
-
-      // Optional: Play on first user interaction (jika masih diblokir)
-      document.addEventListener('touchstart', function() {
-        if (video.paused) {
-          video.play().catch(() => {});
+      if (video) {
+        // Force play untuk iOS
+        video.muted = true;
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        
+        const playPromise = video.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch(function () {
+            // Jika autoplay gagal, coba lagi saat user touch
+            document.addEventListener('touchstart', function () {
+              video.play();
+            }, { once: true });
+          });
         }
-      }, { once: true });
+      }
     });
-</script>
+  </script>
 
 </body>
 </html>
