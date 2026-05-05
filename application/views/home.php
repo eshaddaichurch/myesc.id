@@ -9,7 +9,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #e9d6a8;
+      background-color:rgb(0, 0, 0);
       font-family: 'Figtree', sans-serif;
       color: #111;
       line-height: 1.7;
