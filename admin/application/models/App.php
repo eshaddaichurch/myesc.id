@@ -215,6 +215,12 @@ class App extends CI_Model
 		");
 	}
 
+	public function getPenjadwalan($idjadwalevent)
+	{
+		$this->db->where('idjadwalevent', $idjadwalevent);
+		return $this->db->get('v_jadwalevent');
+	}
+
 	public function replaceTagJemaat($varText, $idjemaat)
 	{
 		$rowJemaat = $this->App->getJemaat($idjemaat);
@@ -228,6 +234,24 @@ class App extends CI_Model
 			$varText = str_replace('[[namalengkap]]', '', $varText);
 			$varText = str_replace('[[nohp]]', '', $varText);
 			$varText = str_replace('[[namadc]]', '', $varText);
+		}
+		
+		return $varText;
+	}
+
+	public function replaceTagPenjadwalan($varText, $idjadwalevent)
+	{
+		$rowJemaat = $this->App->getPenjadwalan($idjadwalevent);
+		if ($rowJemaat->num_rows()>0) {
+			$rowJemaat = $rowJemaat->row();
+			$varText = str_replace('[[idjadwalevent]]', $rowJemaat->idjadwalevent, $varText);
+			$varText = str_replace('[[namaevent]]', $rowJemaat->namaevent, $varText);
+			$varText = str_replace('[[tglmulai]]', date('d-m-Y', strtotime($rowJemaat->tglmulai)), $varText);
+
+		}else{
+			$varText = str_replace('[[idjadwalevent]]', '', $varText);
+			$varText = str_replace('[[namaevent]]', '', $varText);
+			$varText = str_replace('[[tglmulai]]', '', $varText);
 		}
 		
 		return $varText;

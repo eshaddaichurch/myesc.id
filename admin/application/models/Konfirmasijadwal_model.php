@@ -22,6 +22,23 @@ class Konfirmasijadwal_model extends CI_Model {
 
     private function _get_datatables_query()
     {   
+
+        $tglawal = $_POST['tglawal'];
+        $tglakhir = $_POST['tglakhir'];
+        
+        $where = " cast(tglmulai as DATE) between '$tglawal' and '$tglakhir'";
+
+        $departement = $_POST['departement'];
+        if (!empty($departement)) {
+            $where .= " and iddepartement = '$departement'";
+        }
+
+        $jenisjadwal = $_POST['jenisjadwal'];
+        if (!empty($jenisjadwal)) {
+            $where .= " and jenisjadwal = '$jenisjadwal'";
+        }
+
+        $this->db->where($where);
         $this->db->from($this->tabelview);
         $i = 0;
         foreach ($this->column_search as $item) 

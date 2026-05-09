@@ -8,8 +8,8 @@ class Aktabaptisan_model extends CI_Model
     var $tabel     = 'aktabaptisan';
     var $idakta = 'idakta';
 
-    var $column_order = array(null, 'idakta', 'namajemaatanak', 'dilakukanoleh', 'namaderahakta', null);
-    var $column_search = array('idakta', 'namajemaatanak', 'dilakukanoleh', 'namadaerahakta');
+    var $column_order = array(null, 'idakta', 'namalengkap', 'dilakukanoleh', 'namagereja', null);
+    var $column_search = array('idakta', 'namalengkap', 'dilakukanoleh', 'namagereja');
     var $order = array('idakta' => 'desc'); // default order 
 
 

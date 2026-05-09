@@ -85,6 +85,17 @@
                            </div>
 
                            <div class="col-12">
+                             <div class="form-group">
+                               
+                               <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input custom-control-input-danger" type="checkbox" id="tampilkandiwebsite"  name="tampilkandiwebsite" value="Ya" <?php echo ($rowPengajuan->tampilkandiwebsite == 'Ya') ? 'checked' : '' ?>>
+                                <label for="tampilkandiwebsite" class="custom-control-label">Tampilkan di website myesc.id</label>
+                              </div>
+                              
+                             </div>
+                           </div>
+
+                           <div class="col-12">
                              <button class="btn btn-success btn-lg" id="btnDisetujui"><i class="fa fa-check"></i> Disetujui</button>
                              <button class="btn btn-danger btn-lg" id="btnDitolak"><i class="fa fa-times"></i> Ditolak</button>
                            </div>
@@ -524,6 +535,12 @@
    function simpan(status) {
      var idjadwalevent = $('#idjadwalevent').val();
      var keterangankonfirmasi = $('#keterangankonfirmasi').val();
+     if ($('#tampilkandiwebsite').prop('checked')) {
+        var tampilkandiwebsite = 'Ya';
+     }else{
+        var tampilkandiwebsite = 'Tidak';
+     }
+
 
      $.ajax({
          url: '<?php echo site_url('konfirmasijadwal/simpan') ?>',
@@ -532,7 +549,8 @@
          data: {
            'idjadwalevent': idjadwalevent,
            'status': status,
-           'keterangankonfirmasi': keterangankonfirmasi
+           'keterangankonfirmasi': keterangankonfirmasi,
+           'tampilkandiwebsite': tampilkandiwebsite
          },
        })
        .done(function(simpanResult) {

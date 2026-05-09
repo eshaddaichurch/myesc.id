@@ -15,16 +15,25 @@ class Konfirmasijadwal extends MY_Controller
 
     public function index()
     {
+        $departement = $this->db->query("
+            SELECT
+                iddepartement,
+                namadepartement
+            FROM
+                departement
+        ");
+
+        $data['departement'] = $departement;
         $data['menu'] = 'konfirmasijadwal';
         $this->load->view('konfirmasijadwal/listdata', $data);
     }
 
-    public function tambah()
-    {
-        $data['idjadwalevent'] = '';
-        $data['menu'] = 'konfirmasijadwal';
-        $this->load->view('konfirmasijadwal/form', $data);
-    }
+    // public function tambah()
+    // {
+    //     $data['idjadwalevent'] = '';
+    //     $data['menu'] = 'konfirmasijadwal';
+    //     $this->load->view('konfirmasijadwal/form', $data);
+    // }
 
     public function konfirmasi($idjadwalevent)
     {
@@ -42,6 +51,8 @@ class Konfirmasijadwal extends MY_Controller
             redirect('konfirmasijadwal');
             exit();
         };
+
+
 
         $data['rowPengajuan'] = $rowPengajuan->row();
         $data['idjadwalevent'] = $idjadwalevent;
@@ -96,6 +107,7 @@ class Konfirmasijadwal extends MY_Controller
                 $row[] = $tglevent;
                 $row[] = '<strong><a href="#" id="linklihatjadwal" data-idjadwalevent="' . $rowdata->idjadwalevent . '">' . $rowdata->namaevent . '</a></strong>' . '<br>' . $rowdata->namadepartement;
                 $row[] = $rowdata->jenisjadwal;
+                $row[] = $rowdata->tampilkandiwebsite;
                 $row[] = $statuskonfirmasi;
                 $row[] = '<a href="' . site_url('konfirmasijadwal/konfirmasi/' . $this->encrypt->encode($rowdata->idjadwalevent)) . '" class="btn btn-sm btn-success btn-circle"><i class="fa fa-check"></i> Konfirmasi</a>';
                 $data[] = $row;
@@ -154,12 +166,18 @@ class Konfirmasijadwal extends MY_Controller
         $idjadwalevent                 = $this->input->post('idjadwalevent');
         $statuskonfirmasi                = $this->input->post('status');
         $keterangankonfirmasi                = $this->input->post('keterangankonfirmasi');
-
+        $tampilkandiwebsite                 = $this->input->post('tampilkandiwebsite');
+        
+        if ($statuskonfirmasi == 'Ditolak') {
+            $tampilkandiwebsite = 'Tidak';
+        }
+        
         $data = array(
             'statuskonfirmasi'   => $statuskonfirmasi,
             'keterangankonfirmasi'   => $keterangankonfirmasi,
             'idpenggunakonfirmasi'   => $this->session->userdata('idjemaat'),
             'tglkonfirmasi'   => date('Y-m-d H:i:s'),
+            'tampilkandiwebsite'   => $tampilkandiwebsite,
         );
 
         // echo json_encode($data);

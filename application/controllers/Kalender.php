@@ -45,7 +45,7 @@ class Kalender extends MY_Controller
 		// FIX: pakai ->result_array() lalu convert ke object,
 		//      atau simpan langsung sebagai array of object
 		$query = $this->db->query("
-      SELECT * FROM v_jadwaleventdetailtanggal_2
+      SELECT * FROM v_jadwaleventdetailtanggal_tampildiwebsite
       WHERE MONTH(tgljadwal) = $bulanEvent
         AND YEAR(tgljadwal)  = $tahunEvent
         AND statuskonfirmasi = 'Disetujui'
@@ -81,7 +81,7 @@ class Kalender extends MY_Controller
 		$idmenu = $this->encrypt->decode($idmenu);
 
 		$query = $this->db->query("
-      SELECT * FROM v_jadwaleventdetailtanggal_2
+      SELECT * FROM v_jadwaleventdetailtanggal_tampildiwebsite
       WHERE MONTH(tgljadwal) = $bulanEvent
         AND YEAR(tgljadwal)  = $tahunEvent
         AND statuskonfirmasi = 'Disetujui'
@@ -113,7 +113,7 @@ class Kalender extends MY_Controller
 	public function getEvent()
 	{
 		$query = $this->db->query("
-      SELECT * FROM v_jadwaleventdetailtanggal_2
+      SELECT * FROM v_jadwaleventdetailtanggal_tampildiwebsite
       WHERE statuskonfirmasi  = 'Disetujui'
         AND tampilkandiwebsite = 'Ya'
       ORDER BY tgljadwal, jammulai

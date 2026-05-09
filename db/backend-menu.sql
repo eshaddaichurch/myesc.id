@@ -46,6 +46,10 @@ INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, no
 	VALUES('M600', 'Hagah', 'M000', 'hagah', 'Aktif', 28, 1, NULL);	
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
 	VALUES('M700', 'Otorisasi Sistem', 'M000', 'otorisasi', 'Aktif', 29, 1, NULL);	
+	
+INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
+	VALUES('M800', 'Pengaturan', 'M000', 'pengaturan', 'Aktif', 30, 1, NULL);	
+	
 
 INSERT INTO backmenus (idmenu, namamenu, parentidmenu, linkmenu, statusaktif, nomorurut, nlevels, fontawesomeicon)
 	VALUES('WA00', 'WhatsApp', NULL, NULL, 'Aktif', 35, 0, 'fab fa-whatsapp');

@@ -47,7 +47,70 @@
                 }
               ?>
             </div> 
-            <div class="col-md-12">
+
+            <div class="col-12">
+              
+              <!-- filter berdasarkan tanggal -->
+              
+
+
+               <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="">Filter Tanggal</label>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group row">                
+                        <div class="col-md-5">
+                          <input type="date" name="tglawal" id="tglawal" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                        </div>
+                        <label for="" class="col-md-2 text-center col-form-label">s/d</label>
+                        <div class="col-md-5">
+                          <input type="date" name="tglakhir" id="tglakhir" class="form-control" value="<?php echo date('Y-m-d', strtotime('+7 day')); ?>">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="">Filter Departemen</label>
+                    <select name="departement" id="departement" class="form-control select2">
+                      <option value="">Semua Departement</option>
+                      <?php foreach ($departement->result() as $value): ?>
+                        <option value="<?php echo $value->iddepartement ?>"><?php echo $value->namadepartement ?></option>
+                      <?php endforeach ?>
+                    </select>                    
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="">Filter Jenis Event</label>
+                    <select name="jenisjadwal" id="jenisjadwal" class="form-control select2">
+                      <option value="">Semua Jenis Event</option>
+                      <option value="Disciple Community">Disciple Community</option>
+                      <option value="Doa Bersama">Doa Bersama</option>
+                      <option value="Ibadah Jemaat">Ibadah Jemaat</option>
+                      <option value="Latihan Acara/Musik">Latihan Acara/Musik</option>
+                      <option value="Meeting">Meeting</option>
+                      <option value="Pelayanan Jemaat">Pelayanan Jemaat</option>
+                      <option value="Team Night/Fellowship">Team Night/Fellowship</option>
+                      <option value="Filming">Filming</option>
+                      <option value="Kelas Next Step">Kelas Next Step</option>  
+                    </select>                    
+                  </div>  
+                </div>
+
+               </div>
+
+              
+
+            </div>
+            <div class="col-md-12 mt-3">
               <!-- datatable -->
               <div class="table-responsive">
                 <table class="table table-bordered table-striped table-condesed" id="table">
@@ -57,6 +120,7 @@
                       <th style="text-align: center;">Tanggal Event</th>
                       <th style="text-align: center;">Nama Event<br>Departemen</th>
                       <th style="text-align: center;">Jenis Event</th>
+                      <th style="text-align: center;">Tampil<br>di Myesc.id</th>
                       <th style="text-align: center;">Status Konfirmasi</th>
                       <th style="text-align: center; width: 15%;">Aksi</th>
                     </tr>
@@ -87,6 +151,7 @@
   var table;
 
   $(document).ready(function() {
+    $('.select2').select2();
 
     //defenisi datatable
     table = $("#table").DataTable({ 
@@ -96,7 +161,13 @@
         "order": [], 
          "ajax": {
             "url": "<?php echo site_url('konfirmasijadwal/datatablesource')?>",
-            "type": "POST"
+            "type": "POST",
+            "data": function ( d ) {
+                  d.tglawal = $('#tglawal').val(); 
+                  d.tglakhir = $('#tglakhir').val();
+                  d.departement = $('#departement').val();
+                  d.jenisjadwal = $('#jenisjadwal').val();
+              }
         },
         "columnDefs": [
                         { "targets": [ 0 ], "orderable": false, "className": "dt-body-center" },
@@ -104,7 +175,8 @@
                         { "targets": [ 2 ], "className": "dt-body-left" },
                         { "targets": [ 3 ], "className": "dt-body-center" },
                         { "targets": [ 4 ], "className": "dt-body-center" },
-                        { "targets": [ 5 ], "orderable": false, "className": "dt-body-center" },
+                        { "targets": [ 5 ], "className": "dt-body-center" },
+                        { "targets": [ 6 ], "orderable": false, "className": "dt-body-center" },
         ],
  
     });
@@ -122,6 +194,10 @@
       }
     });
   });  
+
+  $(document).on('change', '#tglawal, #tglakhir, #departement, #jenisjadwal', function() {
+    table.ajax.reload(); // Reload tabel dengan filter baru
+  });
   
 
 </script>

@@ -628,12 +628,19 @@ class Pengajuanjadwal extends MY_Controller
                 echo json_encode(array('msg' => 'Kode Eror: Gagal extract detail tanggal jadwal'));
                 exit();
             }
+
+            // Kirim WhatsApp Notifikasi
+            $nomorAdmin = $this->Settings->getValues('wa_event_admin');
+            $pesanWA = $this->Settings->getValues('wa_event_text');    
+            $pesanWA = $this->App->replaceTagPenjadwalan($pesanWA, $idjadwalevent);
+            $this->whatsapp->send_message(formatNomorWhatsapp($nomorAdmin), $pesanWA);  
         } else {
 
             $eror = $this->db->error();
             echo json_encode(array('msg' => 'Kode Eror: ' . $eror['code'] . ' ' . $eror['message']));
             exit();
         }
+
         echo json_encode(array('success' => true));
         exit();
     }
