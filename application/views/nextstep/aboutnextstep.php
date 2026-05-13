@@ -1,694 +1,384 @@
-<?php
-
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
+<?php $this->load->view('template/festavalive/header'); ?>
 
 <body>
+<main>
+  <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-  <main>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: #f5f0e8;
+      color: #1a1a1a;
+      line-height: 1.7;
+    }
 
-    <?php $this->load->view('template/festavalive/topmenu'); ?>
+    /* ===== HERO SECTION ===== */
+    .equip-hero {
+      background: #111;
+      color: #fff;
+      padding: 80px 24px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .equip-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 65% 40%, rgba(239,80,8,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .equip-hero__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .equip-hero__top {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .equip-hero__eyebrow {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .equip-hero__title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 0;
+    }
+    .equip-hero__divider {
+      width: 48px;
+      height: 3px;
+      background: #ef5008;
+      border-radius: 2px;
+      margin: 20px auto 0;
+    }
+    .equip-hero__content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .equip-hero__text {
+      flex: 1 1 340px;
+      max-width: 540px;
+    }
+    .equip-hero__text p {
+      font-size: 15px;
+      color: #bbb;
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+    .equip-pillars {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .equip-pillar {
+      background: rgba(239,80,8,0.12);
+      border-radius: 8px;
+      padding: 12px 16px;
+      flex: 1 1 100px;
+    }
+    .equip-pillar__label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .equip-pillar__desc {
+      font-size: 9px;
+      color: #999;
+    }
+    .equip-hero__video {
+      flex: 1 1 340px;
+      max-width: 520px;
+    }
+    .equip-video-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .equip-video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+    }
 
+    /* ===== CLASSES SECTION ===== */
+    .equip-classes {
+      padding: 80px 24px;
+      background: #f5f0e8;
+    }
+    .equip-classes__header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .equip-classes__eyebrow {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .equip-classes__title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 12px;
+    }
+    .equip-classes__sub {
+      font-size: 15px;
+      color: #666;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .equip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .equip-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: column;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .equip-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+    .equip-card__img-wrap {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #f0ebe0;
+    }
+    .equip-card__img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s ease;
+    }
+    .equip-card:hover .equip-card__img-wrap img {
+      transform: scale(1.05);
+    }
+    .equip-card__body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .equip-card__tag {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .equip-card__name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: auto;
+      padding-bottom: 16px;
+    }
+    .equip-card__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ef5008;
+      border: 1.5px solid #ef5008;
+      border-radius: 99px;
+      padding: 8px 18px;
+      text-decoration: none;
+      transition: all .2s ease;
+      width: fit-content;
+      background: transparent;
+    }
+    .equip-card__btn:hover {
+      background: #ef5008;
+      color: #fff;
+      text-decoration: none;
+    }
 
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      $main-green: #79dd09 !default;
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
-
-      /* This pen */
-
-
-      .dark {
-        background: #110f16;
+    /* Responsive */
+    @media (max-width: 600px) {
+      .equip-hero { padding: 60px 20px 48px; }
+      .equip-classes { padding: 60px 16px; }
+      .equip-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
       }
-
-      /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-      .breadcrumbs {
-        padding: 140px 0 60px 0;
-        min-height: 30vh;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      .breadcrumbs:before {
-        content: "";
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        inset: 0;
-      }
-
-      .breadcrumbs h2 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #fff;
-        font-family: var(--font-secondary);
-      }
-
-      .breadcrumbs ol {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0 0 10px 0;
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-primary);
-      }
-
-      .breadcrumbs ol a {
-        color: rgba(255, 255, 255, 0.8);
-        transition: 0.3s;
-      }
-
-      .breadcrumbs ol a:hover {
-        text-decoration: underline;
-      }
-
-      .breadcrumbs ol li+li {
-        padding-left: 10px;
-      }
-
-      .breadcrumbs ol li+li::before {
-        display: inline-block;
-        padding-right: 10px;
-        color: #fff;
-        content: "/";
-      }
-
-
-      .light {
-        background: #f3f5f7;
-      }
-
-      a,
-      a:hover {
-        text-decoration: none;
-        transition: color 0.3s ease-in-out;
-      }
-
-      #pageHeaderTitle {
-        margin: 2rem 0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2.5rem;
-      }
-
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
-        display: flex;
-
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
-        overflow: hidden;
-        position: relative;
-        color: #ffffff;
-
-        &.dark {
-          background-color: #18151f;
-        }
-
-        &.light {
-          background-color: #e1e5ea;
-        }
-
-        .t-dark {
-          color: #18151f;
-        }
-
-        a {
-          color: inherit;
-        }
-
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
-
-        .small {
-          font-size: 80%;
-        }
-
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
-
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
-
-        .postcard__img_link {
-          display: contents;
-        }
-
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
-
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
-        }
-
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
-        }
-
-        &:before {
-          content: "";
-          position: abslute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
-        }
-
-        &:hover .postcard__bar {
-          width: 100px;
-        }
-      }
-
-      @media screen and (min-width: 769px) {
-        .postcard {
-          flex-wrap: inherit;
-
-          .postcard__title {
-            font-size: 2rem;
-          }
-
-          .postcard__tagbox {
-            justify-content: start;
-          }
-
-          .postcard__img {
-            max-width: 300px;
-            max-height: 100%;
-            transition: transform 0.3s ease;
-          }
-
-          .postcard__text {
-            padding-left: 4rem;
-            width: 100%;
-
-          }
-
-          .media.postcard__text:before {
-            content: "";
-            position: absolute;
-            display: block;
-            background: #18151f;
-            top: -20%;
-            height: 130%;
-            width: 55px;
-          }
-
-          &:hover .postcard__img {
-            transform: scale(1.1);
-          }
-
-          &:nth-child(2n+1) {
-            flex-direction: row;
-          }
-
-          &:nth-child(2n+0) {
-            flex-direction: row-reverse;
-          }
-
-          &:nth-child(2n+1) .postcard__text::before {
-            left: -12px !important;
-            transform: rotate(4deg);
-          }
-
-          &:nth-child(2n+0) .postcard__text::before {
-            right: -12px !important;
-            transform: rotate(-4deg);
-          }
-        }
-      }
-
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
-        }
-      }
-    </style>
-
-
-<style>
-        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-
-        /* body {
-            font-family: 'Figtree', sans-serif;
-            background-color: #fafafa;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        } */
-
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #e9d6a8;
-            font-family: 'Figtree', sans-serif;
-            color: #111;
-            line-height: 1.7;
-            text-rendering: optimizeLegibility;
-        }
-
-        h1, h2, h3, h4, h5, h6, p, a, span, div, li, strong, em {
-            font-family: 'Figtree', sans-serif !important;
-        }
-
-
-      .section {
-        padding: 60px 20px;
-        text-align: center;
-      }
-
-      .section.light {
-        background-color: #141414;
-      }
-
-      h1,
-      h2 {
-        color: #333;
-        margin-bottom: 20px;
-      }
-
-      h1 {
-        font-size: 26px;
-        font-weight: 700;
-      }
-
-      h2 {
-        font-size: 22px;
-        font-weight: 700;
-      }
-
-      p {
-        font-size: 16px;
-        line-height: 1.6;
-        max-width: 800px;
-        margin: 0 auto 20px;
-      }
-
-      .button {
-        display: inline-block;
-        padding: 10px 24px;
-        border: 1px solid #999;
-        border-radius: 24px;
-        text-transform: uppercase;
-        font-size: 12px;
-        letter-spacing: 1px;
-        color: #ef5008;
-        background-color: transparent;
-        transition: all 0.3s ease;
-        text-decoration: none;
-      }
-
-      .button:hover {
-        background-color: #ef5008;
-        color: #fff;
-      }
-
-      /* Child Dedication Section */
-      .section.light.dedication {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 40px;
-        padding: 60px 20px;
-      }
-
-      .dedication-text {
-        flex: 1 1 400px;
-        max-width: 600px;
-        text-align: left;
-      }
-
-      .dedication-text blockquote {
-        font-style: italic;
-        color: #333;
-        margin-top: 20px;
-        border-left: 4px solid #ef5008;
-        padding-left: 16px;
-      }
-
-      .dedication-video {
-        flex: 1 1 400px;
-        max-width: 560px;
-      }
-
-      .dedication-video iframe {
-        width: 100%;
-        height: 315px;
-        border: none;
-      }
-
-
-
-      /*aboutcare*/
-      .musik-section {
-        padding: 60px 20px;
-        text-align: center;
-        background-color: #ffffff;
-      }
-
-      .musik-section h2 {
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #ef5008;
-      }
-
-      .subjudul {
-        font-size: 1.3rem;
-        color: #666;
-        margin-bottom: 40px;
-      }
-
-      .musik-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-      }
-
-      .musik-card {
-        border-radius: 12px;
-        width: 300px;
-        text-align: center;
-      }
-
-      .musik-card img {
-        width: 100%;
-        margin-bottom: 15px;
-      }
-
-      @media (max-width: 768px) {
-        
-        .musik-card img {
-          width: 80%;
-          margin-bottom: 15px;
-        }
-
-      }
-
-      .musik-card h3 {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin: 10px 0 10px;
-      }
-
-      .musik-card p {
-        font-size: 0.95rem;
-        color: #555;
-        margin-bottom: 15px;
-      }
-
-      .musik-card button {
-        border: 1px solid #ccc;
-        padding: 10px 30px;
-        border-radius: 30px;
-        background: transparent;
-        font-weight: bold;
-        color: #555;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .musik-card button:hover {
-        background-color: #ef5008;
-        color: white;
-        border-color: #555;
-      }
-
-      /*aboutcare*/
-
-      /*whatiscare*/
-      .who-is-care {
-        background-color: #1c1c1c;
-        color: #fff;
-        padding: 200px 20px;
-        text-align: center;
-        
-      }
-
-      /* @media (max-width: 768px) {
-        .who-is-care {
-          background-color: #1c1c1c;
-          color: #fff;
-          padding: 130px 20px;
-          text-align: center;
-        }
-      } */
-
-      .who-is-care h2 {
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 40px;
-        color: #ef5008;
-      }
-
-      /* @media (max-width: 768px) {
-        .who-is-care h2 {
-          font-size: 2.5rem;
-          font-weight: bold;
-          margin-bottom: 70px;
-          color: #ef5008;
-        }
-      } */
-
-      .container {
-        /* max-width: 1200px; */
-        margin: 0 auto;
-      }
-
-      .content {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 40px;
-        justify-content: center;
-      }
-
-      .left,
-      .right {
-        flex: 1 1 500px;
-        max-width: 600px;
-        text-align: left;
-      }
-
-      .left p,
-      .right p {
-        margin-bottom: 20px;
-        line-height: 1.8;
-        color: #ccc;
-      }
-
-
-      .title-kelas {
-        color: #545454; /* ganti sesuai warna yang kamu mau */
-      }
-
-
-      /*whatiscare*/
-    </style>
-    <!-- </head>
-
-    <body> -->
-
-
-
-      <!-- Konten -->
-      <section class="who-is-care">
-        <div class="container">
-          <h2>Apa Itu Equip?</h2>
-          <div class="content">
-            <div class="left">
-              <p>
-                ESC Equip adalah Wadah Bidang Pengajaran di El Shaddai Church (ESC) yang bertujuan mempersiapkan jemaat untuk bertumbuh dalam iman, sehingga mereka dapat menjadi serupa dengan Kristus, sebagaimana dinyatakan dalam Roma 8:29, “Sebab semua orang yang dipilih-Nya dari semula, mereka juga ditentukanNya dari semula untuk menjadi serupa dengan gambaran Anak-Nya.
-              </p>
-              <p>
-                Dengan Visi ESC "Menjadi Jemaat yang Serupa dengan Kristus Yesus" dan Misi ESC Planted: Tertanam dalam Kristus dan dalam Disciples Community.
-                Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid.
-                Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain, Equip menawarkan serangkaian Tahap atau Langkah yang terarah untuk menuntun jemaat ke dalam kedewasaan rohani sesuai Visi dan Misi ESC.
-              </p>
+      .equip-card__body { padding: 14px; }
+      .equip-hero__content { gap: 32px; }
+    }
+  </style>
+
+  <!-- HERO -->
+  <section class="equip-hero">
+    <div class="equip-hero__inner">
+      <div class="equip-hero__top">
+        <!-- <div class="equip-hero__eyebrow">El Shaddai Church</div> -->
+        <h1 class="equip-hero__title">ESC Equip</h1>
+        <div class="equip-hero__divider"></div>
+      </div>
+      <div class="equip-hero__content">
+        <div class="equip-hero__text">
+          <p>ESC Equip adalah Wadah Bidang Pengajaran di El Shaddai Church (ESC) yang bertujuan mempersiapkan jemaat untuk bertumbuh dalam iman, sehingga mereka dapat menjadi serupa dengan Kristus, sebagaimana dinyatakan dalam Roma 8:29, “Sebab semua orang yang dipilih-Nya dari semula, mereka juga ditentukanNya dari semula untuk menjadi serupa dengan gambaran Anak-Nya.</p>
+          <!-- <p>Dengan Visi ESC "Menjadi Jemaat yang Serupa dengan Kristus Yesus" dan Misi ESC Planted: Tertanam dalam Kristus dan dalam Disciples Community. Grow: Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid. Fruitful: Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain, Equip menawarkan serangkaian Tahap atau Langkah yang terarah untuk menuntun jemaat ke dalam kedewasaan rohani sesuai Visi dan Misi ESC.</p> -->
+          <div class="equip-pillars">
+            <div class="equip-pillar">
+              <div class="equip-pillar__label">Planted</div>
+              <div class="equip-pillar__desc">Tertanam dalam Kristus dan dalam Disciples Community</div>
             </div>
-            <div class="right">
-              <div class="dedication-video">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/_YdWDCUCqsY?si=KTQHbm174-iF6Hx1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              </div>
+            <div class="equip-pillar">
+              <div class="equip-pillar__label">Grow</div>
+              <div class="equip-pillar__desc">Bertumbuh dalam pengenalan akan Kristus dan berproses dibentuk sebagai murid</div>
+            </div>
+            <div class="equip-pillar">
+              <div class="equip-pillar__label">Fruitful</div>
+              <div class="equip-pillar__desc">Menjadi murid Kristus yang memuridkan dan berdampak bagi orang lain</div>
             </div>
           </div>
         </div>
-      </section>
-
-
-      <section class="musik-section">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 32px; font-weight: bold; color:ff5008; margin-bottom: 10px;">Equip</h2>
-            <p style="font-size: 16px; color: #555;">Seluruh kelas Equip</p>
-        </div>
-        <div class="musik-container">
-          <div class="musik-card">
-
-            <img src="<?php echo base_url('myesc.id/assets/gambar/fc1.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">FOUNDATION CLASS 1</h3>
-            <!-- <p>kami siap untuk mendoakan Anda..</p> -->
-            <a href="<?= site_url('nextstep/kelas/foundation_class_1') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-
-          </div>
-          <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/fc2.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">FOUNDATION CLASS 2</h3>
-            <!-- <p>Tuhan hadir untuk membantu Anda mengalami kelepasan dan pemulihan yang sejati..</p> -->
-            <a href="<?= site_url('nextstep/kelas/foundation_class_2') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-          </div>
-          <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/fc3.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">FOUNDATION CLASS 3</h3>
-            <!-- <p>Pergerakan pemuda di Hillsong Church, yang disajikan melalui musik.</p> -->
-            <a href="<?= site_url('nextstep/kelas/foundation_class_3') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-          </div>
-          <!-- <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/mc.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">MEMBERSHIP CLASS</h3>
-            
-            <a href="<?= site_url('nextstep/kelas/membership_class') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-          </div> -->
-          <!-- <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/vc.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">VOLUNTEER CLASS</h3>
-            
-            <a href="<?= site_url('nextstep/kelas/volunteer_class') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-          </div> -->
-          <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/gd1.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">GRADE 1</h3>
-            <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
-            <a href="<?= site_url('nextstep/kelas/grade_1') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-          </div>
-          <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/gd2.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">GRADE 2</h3>
-            <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
-            <a href="<?= site_url('nextstep/kelas/grade_2') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-          </div>
-          <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/gd3.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">GRADE 3</h3>
-            <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
-            <a href="<?= site_url('nextstep/kelas/grade_3') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
-          </div>
-          <div class="musik-card">
-            <img src="<?php echo base_url('myesc.id/assets/gambar/mc1.png'); ?>" alt="Deskripsi gambar">
-            <h3 class="title-kelas">MARRIAGE CLASS</h3>
-            <!-- <p>Hidup bersama kebenaran alkitabiah yang disesuaikan dengan anak-anak melalui nyanyian.</p> -->
-            <a href="<?= site_url('nextstep/kelas/marriage_class') ?>">
-              <button type="button">Lebih Lanjut</button>
-            </a>
+        <div class="equip-hero__video">
+          <div class="equip-video-wrap">
+            <iframe src="https://www.youtube.com/embed/_YdWDCUCqsY?si=KTQHbm174-iF6Hx1"
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
+  <!-- KELAS GRID -->
+  <section class="equip-classes">
+    <div class="equip-classes__header">
+      <div class="equip-classes__eyebrow">Program Pengajaran</div>
+      <h2 class="equip-classes__title">Kelas Equip</h2>
+      <!-- <p class="equip-classes__sub">Temukan kelas yang sesuai dengan tahap perjalanan rohani Anda</p> -->
+    </div>
+    <div class="equip-grid">
 
-      <?php $this->load->view('template/festavalive/footer'); ?>
+      <div class="equip-card">
+        <div class="equip-card__img-wrap">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/fc1.png'); ?>" alt="Foundation Class 1">
+        </div>
+        <div class="equip-card__body">
+          <div class="equip-card__tag">Foundation</div>
+          <div class="equip-card__name">Foundation Class 1</div>
+          <a class="equip-card__btn" href="<?= site_url('nextstep/kelas/foundation_class_1') ?>">
+            Lebih Lanjut →
+          </a>
+        </div>
+      </div>
+
+      <div class="equip-card">
+        <div class="equip-card__img-wrap">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/fc2.png'); ?>" alt="Foundation Class 2">
+        </div>
+        <div class="equip-card__body">
+          <div class="equip-card__tag">Foundation</div>
+          <div class="equip-card__name">Foundation Class 2</div>
+          <a class="equip-card__btn" href="<?= site_url('nextstep/kelas/foundation_class_2') ?>">
+            Lebih Lanjut →
+          </a>
+        </div>
+      </div>
+
+      <div class="equip-card">
+        <div class="equip-card__img-wrap">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/fc3.png'); ?>" alt="Foundation Class 3">
+        </div>
+        <div class="equip-card__body">
+          <div class="equip-card__tag">Foundation</div>
+          <div class="equip-card__name">Foundation Class 3</div>
+          <a class="equip-card__btn" href="<?= site_url('nextstep/kelas/foundation_class_3') ?>">
+            Lebih Lanjut →
+          </a>
+        </div>
+      </div>
+
+      <div class="equip-card">
+        <div class="equip-card__img-wrap">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/gd1.png'); ?>" alt="Grade 1">
+        </div>
+        <div class="equip-card__body">
+          <div class="equip-card__tag">Grade</div>
+          <div class="equip-card__name">Grade 1</div>
+          <a class="equip-card__btn" href="<?= site_url('nextstep/kelas/grade_1') ?>">
+            Lebih Lanjut →
+          </a>
+        </div>
+      </div>
+
+      <div class="equip-card">
+        <div class="equip-card__img-wrap">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/gd2.png'); ?>" alt="Grade 2">
+        </div>
+        <div class="equip-card__body">
+          <div class="equip-card__tag">Grade</div>
+          <div class="equip-card__name">Grade 2</div>
+          <a class="equip-card__btn" href="<?= site_url('nextstep/kelas/grade_2') ?>">
+            Lebih Lanjut →
+          </a>
+        </div>
+      </div>
+
+      <div class="equip-card">
+        <div class="equip-card__img-wrap">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/gd3.png'); ?>" alt="Grade 3">
+        </div>
+        <div class="equip-card__body">
+          <div class="equip-card__tag">Grade</div>
+          <div class="equip-card__name">Grade 3</div>
+          <a class="equip-card__btn" href="<?= site_url('nextstep/kelas/grade_3') ?>">
+            Lebih Lanjut →
+          </a>
+        </div>
+      </div>
+
+      <div class="equip-card">
+        <div class="equip-card__img-wrap">
+          <img src="<?php echo base_url('myesc.id/assets/gambar/mc1.png'); ?>" alt="Marriage Class">
+        </div>
+        <div class="equip-card__body">
+          <div class="equip-card__tag">Marriage</div>
+          <div class="equip-card__name">Marriage Class</div>
+          <a class="equip-card__btn" href="<?= site_url('nextstep/kelas/marriage_class') ?>">
+            Lebih Lanjut →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+<?php $this->load->view('template/festavalive/footer'); ?>
