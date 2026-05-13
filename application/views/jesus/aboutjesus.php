@@ -1,1016 +1,320 @@
-<?php
-
-use PhpParser\Node\Stmt\Echo_;
-
- $this->load->view('template/festavalive/header'); ?>
+<?php $this->load->view('template/festavalive/header'); ?>
 
 <body>
-
-    <main>
-
-
-
-        <?php $this->load->view('template/festavalive/topmenu'); ?>
-
-
-
-        <style>
-            @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-            @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-            $main-green: #79dd09 !default;
-            $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-            $main-yellow: #bdbb49 !default;
-            $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-            $main-red: #bd150b !default;
-            $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-            $main-blue: #0076bd !default;
-            $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
-
-            /* This pen */
-
-
-            .dark {
-                background: #110f16;
-            }
-            
-                   /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-                        .breadcrumbs {
-                          padding: 140px 0 60px 0;
-                          min-height: 30vh;
-                          position: relative;
-                          background-size: cover;
-                          background-position: center;
-                          background-repeat: no-repeat;
-                        }
-                    
-                        .breadcrumbs:before {
-                          content: "";
-                          background-color: rgba(0, 0, 0, 0.6);
-                          position: absolute;
-                          inset: 0;
-                        }
-                    
-                        .breadcrumbs h2 {
-                          font-size: 56px;
-                          font-weight: 500;
-                          color: #fff;
-                          font-family: var(--font-secondary);
-                        }
-                    
-                        .breadcrumbs ol {
-                          display: flex;
-                          flex-wrap: wrap;
-                          list-style: none;
-                          padding: 0 0 10px 0;
-                          margin: 0;
-                          font-size: 16px;
-                          font-weight: 600;
-                          color: var(--color-primary);
-                        }
-                    
-                        .breadcrumbs ol a {
-                          color: rgba(255, 255, 255, 0.8);
-                          transition: 0.3s;
-                        }
-                    
-                        .breadcrumbs ol a:hover {
-                          text-decoration: underline;
-                        }
-                    
-                        .breadcrumbs ol li+li {
-                          padding-left: 10px;
-                        }
-                    
-                        .breadcrumbs ol li+li::before {
-                          display: inline-block;
-                          padding-right: 10px;
-                          color: #fff;
-                          content: "/";
-                        }
-
-
-            .light {
-                background: #f3f5f7;
-            }
-
-            a,
-            a:hover {
-                text-decoration: none;
-                transition: color 0.3s ease-in-out;
-            }
-
-            #pageHeaderTitle {
-                margin: 2rem 0;
-                text-transform: uppercase;
-                text-align: center;
-                font-size: 2.5rem;
-            }
-
-            /* Cards */
-            .postcard {
-                flex-wrap: wrap;
-                display: flex;
-
-                box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-                border-radius: 10px;
-                margin: 0 0 4rem 0;
-                overflow: hidden;
-                position: relative;
-                color: #ffffff;
-
-                &.dark {
-                    background-color: #18151f;
-                }
-
-                &.light {
-                    background-color: #e1e5ea;
-                }
-
-                .t-dark {
-                    color: #18151f;
-                }
-
-                a {
-                    color: inherit;
-                }
-
-                h1,
-                .h1 {
-                    margin-bottom: 0.5rem;
-                    font-weight: 500;
-                    line-height: 1.2;
-                }
-
-                .small {
-                    font-size: 80%;
-                }
-
-                .postcard__title {
-                    font-size: 1.75rem;
-                    padding-left: 10px;
-                }
-
-                .postcard__img {
-                    max-height: 180px;
-                    width: 100%;
-                    object-fit: cover;
-                    position: relative;
-                }
-
-                .postcard__img_link {
-                    display: contents;
-                }
-
-                .postcard__bar {
-                    width: 50px;
-                    height: 10px;
-                    margin: 10px 0;
-                    border-radius: 5px;
-                    background-color: #424242;
-                    transition: width 0.2s ease;
-                }
-
-                .postcard__text {
-                    padding: 2.5rem;
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .postcard__preview-txt {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    text-align: left;
-                    height: 100%;
-                }
-
-                .postcard__tagbox {
-                    display: flex;
-                    flex-flow: row wrap;
-                    font-size: 14px;
-                    margin: 20px 0 0 0;
-                    padding: 0;
-                    justify-content: center;
-
-                    .tag__item {
-                       
-                        display: inline-block;
-                        background: #FAF0E6;
-                        border-radius: 3px;
-                        padding: 2.5px 10px;
-                        margin: 0 5px 5px 0;
-                        cursor: default;
-                        user-select: none;
-                        transition: background-color 0.3s;
-
-                        &:hover {
-                            background: #FFD09B;
-                        }
-                    }
-                }
-
-                &:before {
-                    content: "";
-                    position: abslute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    background-image: linear-gradient(-70deg, #424242, transparent 50%);
-                    opacity: 1;
-                    border-radius: 10px;
-                }
-
-                &:hover .postcard__bar {
-                    width: 100px;
-                }
-            }
-
-            @media screen and (min-width: 769px) {
-                .postcard {
-                    flex-wrap: inherit;
-
-                    .postcard__title {
-                        font-size: 2rem;
-                    }
-
-                    .postcard__tagbox {
-                        justify-content: start;
-                    }
-
-                    .postcard__img {
-                        max-width: 300px;
-                        max-height: 100%;
-                        transition: transform 0.3s ease;
-                    }
-
-                    .postcard__text {
-                        padding-left: 4rem;
-                        width: 100%;
-
-                    }
-
-                    .media.postcard__text:before {
-                        content: "";
-                        position: absolute;
-                        display: block;
-                        background: #18151f;
-                        top: -20%;
-                        height: 130%;
-                        width: 55px;
-                    }
-
-                    &:hover .postcard__img {
-                        transform: scale(1.1);
-                    }
-
-                    &:nth-child(2n+1) {
-                        flex-direction: row;
-                    }
-
-                    &:nth-child(2n+0) {
-                        flex-direction: row-reverse;
-                    }
-
-                    &:nth-child(2n+1) .postcard__text::before {
-                        left: -12px !important;
-                        transform: rotate(4deg);
-                    }
-
-                    &:nth-child(2n+0) .postcard__text::before {
-                        right: -12px !important;
-                        transform: rotate(-4deg);
-                    }
-                }
-            }
-
-            @media screen and (min-width: 1024px) {
-                .postcard__text {
-                    padding: 2rem 3.5rem;
-                }
-
-                .postcard__text:before {
-                    content: "";
-                    position: absolute;
-                    display: block;
-
-                    top: -20%;
-                    height: 130%;
-                    width: 55px;
-                }
-
-                .postcard.dark {
-                    .postcard__text:before {
-                        background: #18151f;
-                    }
-                }
-
-                .postcard.light {
-                    .postcard__text:before {
-                        background: #e1e5ea;
-                    }
-                }
-            }
-        
-        </style>
-        
-
-        
-
-<style>
-      body {
-    font-family: 'Figtree', sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    background-color: #fff;
-    }
-
-    /* .hero-section {
-       
-        background: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>')no-repeat center center/cover;
-        color: white;
-        text-align: center;
-        padding: 380px 20px;
-        
-    } */
-
-    
-    .rediscover-section {
-        background-image: url('<?php echo base_url("myesc.id/assets/gambar/jesus2.jpg"); ?>');
-        background-size: cover;       /* gambar menyesuaikan ukuran layar */
-        background-position: center;  /* fokus di tengah */
-        background-repeat: no-repeat; /* hilangkan duplikasi */
-        color: white;
-        text-align: center;
-        padding: 350px 20px;
-        }
-
-        .rediscover-section .content {
-        max-width: 800px;
-        margin: 0 auto;
-        }
-
-        /* Tambahan untuk tampilan mobile */
-        @media (max-width: 768px) {
-        .rediscover-section {
-            padding: 120px 15px;
-        }
-
-        .rediscover-section .content {
-            max-width: 100%;
-            font-size: 16px;
-        }
-        }
-
-        @media (max-width: 480px) {
-        .rediscover-section {
-            padding: 220px 10px;
-        }
-
-        .rediscover-section .content {
-            font-size: 14px;
-        }
-    }
-
-
-    
-
-
-    .new-beginning-section {
-    background-color: #1a1a1a; /* hitam biar kontras */
-    color: #f5f5f5; /* default abu terang, bukan putih full */
-    text-align: center;
-    padding: 80px 20px;
-    }
-
-    .new-beginning-section h2 {
-    font-size: 3rem;
-    margin-bottom: 30px;
-    font-weight: bold;
-    color: #ebd7a9; /* emas untuk judul */
-    }
-
-    .new-beginning-section .content {
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.8;
-    }
-
-    .new-beginning-section .content p {
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    color: #e0e0e0; /* abu terang untuk paragraf */
-    }
-
-    /* Tablet */
-    @media (max-width: 768px) {
-    .new-beginning-section {
-        padding: 60px 15px;
-    }
-
-    .new-beginning-section h2 {
-        font-size: 2.2rem;
-    }
-
-    .new-beginning-section .content p {
-        font-size: 1rem;
-        margin-bottom: 18px;
-    }
-
-    .new-beginning-section .content p em {
-    color: #ffffff; /* khusus teks dalam <em> jadi putih */
-    font-style: italic;
-    }
-    }
-
-    /* HP kecil */
-    @media (max-width: 480px) {
-    .new-section {
-        padding: 50px 10px;
-    }
-
-    .new-section h2 {
-        font-size: 1.8rem;
-    }
-
-    .new-section .content {
-        line-height: 1.6;
-    }
-
-    .new-section .content p {
-        font-size: 0.95rem;
-        margin-bottom: 15px;
-    }
-    }
-
-
-    .new-section {
-    background-color: #1a1a1a; /* hitam biar kontras */
-    color: #f5f5f5; /* default abu terang, bukan putih full */
-    text-align: center;
-    padding: 80px 20px;
-    }
-
-    .new-section h2 {
-    font-size: 3rem;
-    margin-bottom: 30px;
-    font-weight: bold;
-    color: #ebd7a9; /* emas untuk judul */
-    }
-
-    .new-section .content {
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.8;
-    }
-
-    .new-section .content p {
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    color: #e0e0e0; /* abu terang untuk paragraf */
-    }
-
-    /* Tablet */
-    @media (max-width: 768px) {
-    .new-section {
-        padding: 60px 15px;
-    }
-
-    .new-section h2 {
-        font-size: 2.2rem;
-    }
-
-    .new-section .content p {
-        font-size: 1rem;
-        margin-bottom: 18px;
-    }
-
-    .new-section .content p em {
-    color: #ffffff; /* khusus teks dalam <em> jadi putih */
-    font-style: italic;
-    }
-    }
-
-    /* HP kecil */
-    @media (max-width: 480px) {
-    .new-section {
-        padding: 50px 10px;
-    }
-
-    .new-section h2 {
-        font-size: 1.8rem;
-    }
-
-    .new-section .content {
-        line-height: 1.6;
-    }
-
-    .new-section .content p {
-        font-size: 0.95rem;
-        margin-bottom: 15px;
-    }
-    }
-
-/*     
-    .new-beginning-section {
-    padding: 80px 20px;
-    text-align: center;
-    background-color: #eeeeee;
-    font-family: 'Figtree', sans-serif;
-    }
-
-    @media (max-width: 768px) {
-    .new-beginning-section {
-        padding: 20px 0px;
-        text-align: center;
-        background-color: #eeeeee;
-        font-family: 'Figtree', sans-serif;
-    }
-    }
-
-    .new-beginning-section h2 {
-        font-family: 'Figtree', sans-serif;
-        font-size: 36px;
-        font-weight: 700;
-        margin-bottom: 30px;
-        color: #333;
-    }
-
-    .new-beginning-section .content {
-        max-width: 570px;
-        margin: auto;
-        font-size: 18px;
-        color: #444;
-        line-height: 2.8;
-    }
-
-    @media (max-width: 768px) {
-        .new-beginning-section .content {
-        max-width: 800px;
-        margin: auto;
-        font-size: 18px;
-        color: #444;
-        line-height: 1.8;
-    }
-    }
-
-   
-
-    .new-beginning-section em {
-        
-        color: #555;
-    }
-
-    .new-beginning-section strong {
-        font-weight: 600;
-        color: #111;
-    }
-
-    .new-beginning-section .congrats {
-        margin-top: 30px;
-        
-        color: #666;
-    }
-
-    .new-beginning-section .btn-learn {
-        margin-top: 30px;
-        display: inline-block;
-        background: #4CAF50;
-        color: white;
-        padding: 12px 25px;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background 0.3s ease;
-    }
-
-    .new-beginning-section .btn-learn:hover {
-        background: #388e3c;
-    } */
-
-
-
-
-    .follow-section {
-    padding: 80px 20px;
-    text-align: center;
-    background-color: #1a1a1a;
-    font-family: 'Figtree', sans-serif;
-    }
-
-    .follow-section h2 {
-        font-family: 'Figtree', sans-serif;
-        font-size: 32px;
-        font-weight: 700px;
-        margin-bottom: 8px;
-        color: #ebd7a9;
-    }
-
-
-    @media (max-width: 768px) {
-        .follow-section h2 {
-        font-family: 'Figtree', sans-serif;
-        font-size: 24px;
-        font-weight: 700px;
-        margin-bottom: 8px;
-        color: #ebd7a9;
-    }
-    }
-
-
-
-    .follow-section .content {
-        max-width: 800px;
-        margin: auto;
-        font-size: 18px;
-        color: #444;
-        line-height: 1.8;
-    }
-
-    .follow-section em {
-        
-        color: #555;
-    }
-
-    .follow-section strong {
-        font-weight: 600;
-        color: #111;
-    }
-
-    .follow-section .congrats {
-        margin-top: 30px;
-        
-        color: #666;
-    }
-
-    .follow-section .btn-learn {
-        margin-top: 30px;
-        display: inline-block;
-        background: #4CAF50;
-        color: white;
-        padding: 12px 25px;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background 0.3s ease;
-    }
-
-    .follow-section .btn-learn:hover {
-        background: #388e3c;
-    }
-
-    .follow-section {
-    padding: 155px;
-    }
-
-    @media (max-width: 768px) {
-        .follow-section {
-        padding: 13px;
-        }
-    }
-
-    .btn-modern {
-    padding: 30px 50px;
-    font-family: 'Figtree', sans-serif;
-    background-color: #969696; /* biru indigo */
-    color: #000000;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    }
-
-    @media (max-width: 768px) {
-        .btn-modern {
-        padding: 22px 24px;
-        font-family: 'Figtree', sans-serif;
-        background-color: #969696; /* biru indigo */
-        color: #000000;
-        border: none;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        }
-    }
-
-    /* Efek hover: membesar dan ubah warna */
-    .btn-modern:hover {
-        background-color: #000000;
-        transform: scale(1.05);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Efek click: sedikit mengecil */
-    .btn-modern:active {
-        transform: scale(0.98);
-    }
-
-
-
-
-
-
-    .jesus-section {
-    padding: 80px 20px;
-    text-align: center;
-    background-color: #eeeeee;
-    font-family: 'Figtree', sans-serif;
-    }
-
-    @media (max-width: 768px) {
-    .jesus-section {
-        padding: 20px 0px;
-        text-align: center;
-        background-color: #eeeeee;
-        font-family: 'Figtree', sans-serif;
-    }
-    }
-
-    .jesus-section h2 {
-        font-family: 'Figtree', sans-serif;
-        font-size: 36px;
-        font-weight: 700;
-        margin-bottom: 30px;
-        color: #333;
-    }
-
-    .jesus-section .content {
-        max-width: 800px;
-        margin: auto;
-        font-size: 18px;
-        color: #444;
-        line-height: 1.8;
-    }
-
-
-    @media (max-width: 768px) {
-        .jesus-section .content {
-        max-width: 800px;
-        margin: auto;
-        font-size: 18px;
-        color: #444;
-        line-height: 1.8;
-    }
-    }
-    
-
-    .jesus-section em {
-        
-        color: #555;
-    }
-
-    .jesus-section strong {
-        font-weight: 600;
-        color: #111;
-    }
-
-    .jesus-section .congrats {
-        margin-top: 30px;
-        
-        color: #666;
-    }
-
-    .jesus-section .btn-learn {
-        margin-top: 30px;
-        display: inline-block;
-        background: #4CAF50;
-        color: white;
-        padding: 12px 25px;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background 0.3s ease;
-    }
-
-    .jesus-section .btn-learn:hover {
-        background: #388e3c;
-    }
-
-
-
-
-
-    
-    .parallax-section {
-    background-image: url('myesc.id/assets/gambar/paralaxjesus.jpg');
-    height: 70vh; /* Default untuk desktop */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-    }
-
-    /* Tambahkan ini untuk tampilan mobile */
-    @media (max-width: 768px) {
-        .parallax-section {
-        background: url('<?php echo base_url("myesc.id/assets/gambar/paralaxjesus.jpg"); ?>')no-repeat center center/cover;
-        height: 50vh; /* Default untuk desktop */
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        text-align: center;
-        }
-    }
-
-
-    
-    .parallax-divider {
-    position: relative;
-    height: 400px; /* default untuk desktop */
-    background: url('<?php echo base_url("myesc.id/assets/gambar/paralaxjesus.jpg"); ?>')no-repeat center center/cover;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    text-align: center;
-    }
-
-    /* Untuk layar kecil seperti handphone */
-    @media (max-width: 767px) {
-    .parallax-divider {
-        height: 150px; /* atau 200px, sesuaikan dengan konten */
-        background-attachment: scroll; /* fallback karena background-attachment: fixed sering tidak berfungsi di mobile */
-    }
-    }
-
-
-    .parallax-divider p {
-    font-size: 19px;
-    color: #ffffff; /* putih terang */
-    max-width: 70%;
-    line-height: 1.6;
-    text-align: center;
-    left: 15%;
-    position: relative;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6); /* bayangan agar teks tetap kontras */
-    }
-
-    @media (max-width: 767px) {
-        
-        .parallax-divider p {
-        font-size: 11px;
-        color: #ffffff; /* putih terang */
-        max-width: 100%;
-        line-height: 1.6;
-        text-align: center;
-        left: 1%;
-        position: relative;
-        transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6); /* bayangan agar teks tetap kontras */
-        }
-    }
-
-
-    .parallax-text-wrapper {
-    padding: 100px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px); /* efek blur untuk kesan modern */
-    }
-
-    @media (max-width: 768px) {
-        .parallax-text-wrapper {
-        padding: 30px;
-        border-radius: 10px;
-        backdrop-filter: blur(10px); /* efek blur untuk kesan modern */
-        }
+<main>
+  <?php $this->load->view('template/festavalive/topmenu'); ?>
+
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: #111;
+      color: #f0f0f0;
+      line-height: 1.7;
+    }
+
+    /* ===== HERO ===== */
+    .js-hero {
+      position: relative;
+      min-height: 70vh;
+      background: url('<?php echo base_url('myesc.id/assets/gambar/jesus2.jpg'); ?>') center/cover no-repeat;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 60px;
+    }
+    .js-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(17,17,17,1) 0%, rgba(17,17,17,0.4) 60%, transparent 100%);
+    }
+    .js-hero__inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 0 24px;
+    }
+    .js-hero__eyebrow {
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .js-hero__title {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    .js-hero__sub {
+      font-size: 16px;
+      color: #aaa;
+      margin-top: 16px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== SIAPA YESUS ===== */
+    .js-who {
+      background: #111;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .js-who__inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .js-who__eyebrow {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .js-who__title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 40px;
+    }
+    .js-poem {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: left;
+    }
+    .js-poem__line {
+      padding: 20px 24px;
+      border-left: 3px solid #ef5008;
+      background: rgba(255,255,255,0.03);
+      border-radius: 0 8px 8px 0;
+    }
+    .js-poem__line p {
+      font-size: 16px;
+      color: #ccc;
+      line-height: 1.9;
+      font-style: italic;
+      margin: 0;
+    }
+    .js-poem__line p em {
+      color: #ebd7a9;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* ===== TENTANG YESUS ===== */
+    .js-about {
+      background: #f5f0e8;
+      padding: 80px 24px;
+    }
+    .js-about__inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .js-about__eyebrow {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .js-about__title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .js-about__body p {
+      font-size: 16px;
+      color: #444;
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+    .js-about__body p:last-child { margin-bottom: 0; }
+
+    /* ===== AYAT ===== */
+    .js-verse {
+      background: #1a1a1a;
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .js-verse::before {
+      content: '\201C';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 200px;
+      color: rgba(239,80,8,0.06);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .js-verse__inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .js-verse__divider {
+      width: 40px;
+      height: 2px;
+      background: #ef5008;
+      margin: 20px auto;
+    }
+    .js-verse__text {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: #ebd7a9;
+      line-height: 1.9;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    .js-verse__ref {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+    }
+
+    /* ===== CTA ===== */
+    .js-cta {
+      background: #111;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .js-cta__eyebrow {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ef5008;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .js-cta__title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .js-cta__sub {
+      font-size: 15px;
+      color: #aaa;
+      margin-bottom: 40px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .js-cta__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 40px;
+      background: #ef5008;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: all .25s ease;
+    }
+    .js-cta__btn:hover {
+      background: #c73e00;
+      color: #fff;
+      transform: scale(1.03);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .js-hero { min-height: 55vh; padding-bottom: 40px; }
+      .js-who, .js-about, .js-verse, .js-cta { padding: 60px 20px; }
+      .js-poem__line { padding: 16px 18px; }
     }
   </style>
-</head>
-<body>
 
- 
-  
-    <!-- Hero Section -->
-    <!-- <section class="hero-section">
-        <div class="content">
-            <h1 style="font-size: 6.2rem; margin-bottom: 20px; color: #e79746; font-weight: bold;">YESUS</h1>
+  <!-- HERO -->
+  <section class="js-hero">
+    <div class="js-hero__inner">
+      <div class="js-hero__eyebrow"></div>
+      <h1 class="js-hero__title">YESUS</h1>
+      <p class="js-hero__sub">Mengenal pribadi Yesus Kristus<br>Jalan Kebenaran, dan Hidup</p>
+    </div>
+  </section>
+
+  <!-- SIAPA YESUS -->
+  <section class="js-who">
+    <div class="js-who__inner">
+      <div class="js-who__eyebrow"></div>
+      <h2 class="js-who__title">Siapa Itu Yesus?</h2>
+      <div class="js-poem">
+        <div class="js-poem__line">
+          <p>Kebenaran yang kekal. Penggenapan janji. Pribadi yang lahir untuk memberikan <em>keselamatan</em>.</p>
         </div>
-    </section> -->
-
-    <section class="rediscover-section">
-      <div class="content">
-        <!-- <h1 style="font-size: 5.2rem; margin-bottom: 20px; color: #ffffff; font-weight: bold;"></h1> -->
-        
-      </div>
-    </section>
-
-    <!-- Tentang Yesus -->
-    <section class="new-beginning-section">
-        <h2>Siapa Itu Yesus?</h2>
-        <div class="content">
-            <p>Kebenaran yang kekal.
-                Penggenapan janji.
-                Pribadi  yang lahir untuk memberikan keselamatan.
-            </p>
-    
-            <p><em>Terang yang melenyapkan segala kegelapan.
-                Penebus yang ajaib.
-                Pribadi yang mati untuk menghapuskan semua dosa.
-                </em>
-            </p>
-    
-            <p>Dia lah yang berjalan diatas air.
-                Dia lah yang berkata kepada badai, "Diam! Tenanglah!"
-                Dia lah yang berjalan di dalam api bersama ku.
-            </p>
-    
-            <p>Dia mengaum seperti singa,
-                tapi yang berdarah seperti anak domba.
-                Dia membawa kesembuhan di dalam tanganNya.
-            </p>
-    
-            <p>Mesias.
-                Juru Selamat ku.
-                Nama yang penuh kuasa.
-            </p>
-    
-            <p>Batu karang yang teguh.
-                Kota benteng dan perisai ku.
-                Penyelamat yang bangkit dan hidup.
-            </p>
-            
+        <div class="js-poem__line">
+          <p>Terang yang melenyapkan segala kegelapan. Penebus yang ajaib. Pribadi yang mati untuk menghapuskan semua dosa.</p>
         </div>
-    </section>
-
-    <!-- Tentang Yesus -->
-    <section class="new-section">
-        <h2>Tentang Yesus</h2>
-        <div class="content">
-            <p>
-            Yesus Kristus adalah pribadi Allah yang mengambil rupa manusia, Mesias yang dijanjikan, dan Juruselamat dunia. Ia lahir sekitar 2.000 tahun yang lalu di kota Betlehem, Yudea, dari seorang perawan bernama Maria, melalui karya Roh Kudus (Matius 1:18–25; Lukas 1:26–38). Kelahiran-Nya digenapi sesuai nubuat dalam Perjanjian Lama, dan menjadi titik awal penggenapan rencana keselamatan Allah bagi umat manusia.
-            </p>
-    
-            <p>
-            Yesus dibesarkan di kota kecil Nazaret, sebagai anak dari Yusuf, seorang tukang kayu. Meskipun hidup dalam kesederhanaan, sejak kecil Yesus menunjukkan hikmat dan kedekatan yang mendalam dengan Allah (Lukas 2:41–52). Ia mulai pelayanan publik-Nya pada usia sekitar 30 tahun, setelah dibaptis oleh Yohanes Pembaptis di Sungai Yordan. Pada saat baptisan-Nya, suara dari surga menyatakan, “Inilah Anak-Ku yang Kukasihi, kepada-Nyalah Aku berkenan” (Matius 3:17), menandai awal pelayanan ilahi-Nya.
-            </p>
-    
-            <p>
-            Selama tiga tahun pelayanan-Nya di bumi, Yesus mengajar tentang kasih, pertobatan, Kerajaan Allah, dan pengampunan dosa. Ia melakukan banyak mujizat menyembuhkan orang sakit, mengusir roh jahat, membangkitkan orang mati, memberi makan ribuan orang dengan makanan yang sedikit, serta berjalan di atas air. Ia menjangkau semua kalangan: orang miskin, berdosa, sakit, bahkan yang tersisih dari masyarakat, dengan penuh belas kasih dan kebenaran.
-            </p>
-    
-            <p>
-            Yesus juga mengajarkan bahwa Ia adalah “Jalan, Kebenaran, dan Hidup” (Yohanes 14:6), dan tidak seorang pun dapat datang kepada Bapa kecuali melalui Dia. Ajaran-Nya membawa harapan, tetapi juga menimbulkan perlawanan dari pemimpin agama Yahudi yang merasa terusik oleh kuasa dan kebenaran-Nya.
-            </p>
-    
-            <p>
-            Pada akhirnya, Yesus disalibkan di Golgota oleh keputusan penguasa Romawi, setelah ditolak oleh bangsanya sendiri. Namun, kematian-Nya bukan kekalahan, melainkan penggenapan dari rencana Allah, Yesus mati sebagai korban yang sempurna untuk menebus dosa manusia (Yesaya 53; 1 Petrus 2:24). Ia menanggung hukuman yang seharusnya kita terima, agar kita dapat menerima pengampunan dan diperdamaikan dengan Allah.
-            </p>
-
-            <p>
-            Pada hari ketiga setelah kematian-Nya, Yesus bangkit dari antara orang mati. Kebangkitan-Nya adalah bukti nyata bahwa Ia sungguh-sungguh adalah Allah, dan bahwa kuasa dosa dan maut telah dikalahkan. Setelah itu, Ia menampakkan diri kepada banyak orang, termasuk para murid-Nya, selama 40 hari, sebelum terangkat ke surga (Kisah Para Rasul 1:3–9). Ia kini duduk di sebelah kanan Allah Bapa dan akan datang kembali kelak.
-            </p>
-            
+        <div class="js-poem__line">
+          <p>Dia lah yang berjalan di atas air. Dia lah yang berkata kepada badai, <em>"Diam! Tenanglah!"</em> Dia lah yang berjalan di dalam api bersamaku.</p>
         </div>
-    </section>
-
-
-     <!-- PARALLAX DIVIDER -->
-     <div class="parallax-divider">
-        <div class="parallax-text-wrapper">
-          <p id="parallax-text">
-            Karena begitu besar kasih Allah akan dunia ini  sehingga Ia telah mengaruniakan  Anak-Nya  yang tunggal, supaya setiap orang yang percaya kepadaNya tidak binasa, melainkan beroleh hidup yang kekal.
-            <br>
-            Yohanes 3:16
-          </p>
+        <div class="js-poem__line">
+          <p>Dia mengaum seperti singa, tapi berdarah seperti anak domba. Dia membawa <em>kesembuhan</em> di dalam tangan-Nya.</p>
+        </div>
+        <div class="js-poem__line">
+          <p><em>Mesias. Juru Selamat ku. Nama yang penuh kuasa.</em> Batu karang yang teguh. Kota benteng dan perisai ku. Penyelamat yang bangkit dan hidup.</p>
         </div>
       </div>
-    
+    </div>
+  </section>
 
-    
-    <section class="follow-section">
-        <div class="content">
-            <h2>Langkah Awal</h2>
-             <a href="<?php echo site_url('vidioajakandoa/index'); ?>" class="btn-modern">Terima Yesus -></a>
-            
-        </div>
-        </div>
-     
-    </section>
-    
-        
+  <!-- TENTANG YESUS -->
+  <section class="js-about">
+    <div class="js-about__inner">
+      <div class="js-about__eyebrow">Mengenal Lebih Dalam</div>
+      <h2 class="js-about__title">Tentang Yesus</h2>
+      <div class="js-about__body">
+        <p>Yesus Kristus adalah pribadi Allah yang mengambil rupa manusia, Mesias yang dijanjikan, dan Juruselamat dunia. Ia lahir sekitar 2.000 tahun yang lalu di kota Betlehem dari seorang perawan bernama Maria melalui karya Roh Kudus (Matius 1:18–25).</p>
+        <p>Yesus dibesarkan di Nazaret sebagai anak seorang tukang kayu bernama Yusuf. Ia mulai pelayanan publik-Nya pada usia sekitar 30 tahun setelah dibaptis oleh Yohanes Pembaptis. Pada saat baptisan, suara dari surga menyatakan, "Inilah Anak-Ku yang Kukasihi, kepada-Nyalah Aku berkenan" (Matius 3:17).</p>
+        <p>Selama tiga tahun pelayanan-Nya, Yesus mengajar tentang kasih, pertobatan, dan Kerajaan Allah. Ia menyembuhkan orang sakit, mengusir roh jahat, membangkitkan orang mati, dan menjangkau semua kalangan dengan penuh belas kasih.</p>
+        <p>Yesus berkata bahwa Ia adalah "Jalan, Kebenaran, dan Hidup" (Yohanes 14:6). Ia disalibkan di Golgota sebagai korban yang sempurna untuk menebus dosa manusia agar kita dapat diperdamaikan dengan Allah.</p>
+        <p>Pada hari ketiga, Yesus bangkit dari antara orang mati. Kebangkitan-Nya adalah bukti bahwa Ia sungguh Allah dan bahwa kuasa dosa serta maut telah dikalahkan. Ia kini duduk di sebelah kanan Allah Bapa dan akan datang kembali kelak.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AYAT YOHANES 3:16 -->
+  <section class="js-verse">
+    <div class="js-verse__inner">
+      <div class="js-verse__divider"></div>
+      <p class="js-verse__text">
+        Karena begitu besar kasih Allah akan dunia ini, sehingga Ia telah mengaruniakan Anak-Nya yang tunggal, supaya setiap orang yang percaya kepada-Nya tidak binasa, melainkan beroleh hidup yang kekal.
+      </p>
+      <div class="js-verse__ref">Yohanes 3:16</div>
+      <div class="js-verse__divider"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="js-cta">
+    <div class="js-cta__eyebrow">Langkah Awal</div>
+    <h2 class="js-cta__title"></h2>
+    <p class="js-cta__sub">Mulailah perjalanan iman Anda</p>
+    <a class="js-cta__btn" href="<?php echo site_url('https://myesc.id/nextstep/kelas/foundation_class_1'); ?>">
+      Daftar Fc 1 →
+    </a>
+  </section>
 
 <?php $this->load->view('template/festavalive/footer'); ?>

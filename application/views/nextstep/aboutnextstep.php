@@ -52,8 +52,8 @@
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 700;
       color: #fff;
-      line-height: 1.15;
-      margin-bottom: 0;
+      line-height: 6.15;
+      margin-bottom: -90px;
     }
     .equip-hero__divider {
       width: 48px;

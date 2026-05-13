@@ -2,14 +2,11 @@
 
 <body>
 
-  <!-- FONTS -->
+  <!-- FONTS & LIBRARIES -->
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Owl Carousel CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
 
   <style>
     /* ===== RESET & BASE ===== */
@@ -17,7 +14,7 @@
     html, body { height: 100%; width: 100%; }
     body {
       font-family: 'Figtree', system-ui, -apple-system, sans-serif;
-      background: #aaa;
+      background: #f5f0e8; /* konsisten dgn semua halaman ESC */
       color: #111827;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -31,6 +28,20 @@
       min-height: 100vh;
       padding: 190px 0 60px;
     }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 20px;
+      transition: color .2s;
+    }
+    .back-btn:hover { color: #ef5008; }
+    .back-btn i { font-size: 12px; }
 
     /* ===== MAIN CARD ===== */
     .location-card {
@@ -54,12 +65,11 @@
       flex: 0 0 54%;
       max-width: 54%;
       position: relative;
-      background: #1a1a2e;
+      background: #111;
       border-radius: 24px 0 0 0;
       overflow: hidden;
     }
 
-    /* Main carousel */
     #sync1.owl-carousel { position: relative; height: 100%; }
     #sync1 .owl-stage-outer { overflow: hidden !important; height: 100%; }
     #sync1 .owl-stage { height: 100%; }
@@ -100,7 +110,7 @@
     #sync1.owl-theme .owl-prev span,
     #sync1.owl-theme .owl-next span { font-size: 20px; color: #333; line-height: 1; }
 
-    /* Dots */
+    /* Dots — oranye ESC */
     #sync1.owl-theme .owl-dots {
       position: absolute;
       bottom: 14px;
@@ -116,7 +126,7 @@
       transition: background .2s, transform .2s;
     }
     #sync1.owl-theme .owl-dots .owl-dot.active span {
-      background: #F59E0B;
+      background: #ef5008;
       transform: scale(1.2);
     }
 
@@ -124,7 +134,7 @@
     .info-side {
       flex: 0 0 46%;
       max-width: 46%;
-      padding: 36px 36px 32px 36px;
+      padding: 32px 32px 28px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -135,17 +145,16 @@
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #F59E0B;
+      color: #ef5008;
       margin-bottom: 10px;
     }
 
     .location-name {
-      font-size: 1rem;
+      font-size: 1.55rem;
       font-weight: 800;
       color: #0f172a;
-      line-height: 1.15;
+      line-height: 1.2;
       margin-bottom: 24px;
-      font-family: 'Baloo 2', cursive;
     }
 
     /* Info rows */
@@ -153,32 +162,29 @@
       display: flex;
       align-items: flex-start;
       gap: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .info-row:last-of-type { margin-bottom: 0; }
     .info-icon {
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: #FEF3C7;
+      background: #fff2ed;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .info-icon i {
-      font-size: 15px;
-      color: #D97706;
-    }
+    .info-icon i { font-size: 14px; color: #ef5008; }
     .info-text .info-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: #374151;
       margin-bottom: 2px;
     }
     .info-text .info-value {
-      font-size: 14px;
+      font-size: 13px;
       color: #4B5563;
       line-height: 1.5;
     }
@@ -187,28 +193,29 @@
     .action-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-top: 28px;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
     }
 
     .btn-route {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #F59E0B;
+      background: #ef5008;
       color: #fff;
       font-weight: 700;
-      font-size: 14px;
-      padding: 12px 22px;
+      font-size: 13px;
+      padding: 11px 20px;
       border-radius: 12px;
       border: none;
       cursor: pointer;
       text-decoration: none;
       transition: background .2s, transform .15s;
-      box-shadow: 0 4px 14px rgba(245,158,11,0.35);
+      box-shadow: 0 4px 14px rgba(239,80,8,0.3);
     }
     .btn-route:hover {
-      background: #D97706;
+      background: #c73e00;
       transform: translateY(-1px);
       color: #fff;
     }
@@ -218,107 +225,91 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 12px;
-      background: #F9FAFB;
-      border: 1.5px solid #E5E7EB;
+      background: #f9f9f9;
+      border: 1.5px solid #e5e7eb;
       color: #374151;
-      font-size: 18px;
+      font-size: 16px;
       transition: background .2s, transform .15s, border-color .2s;
       text-decoration: none;
     }
     .social-btn:hover {
-      background: #FEF3C7;
-      border-color: #FCD34D;
-      color: #D97706;
+      background: #fff2ed;
+      border-color: #ef5008;
+      color: #ef5008;
       transform: translateY(-2px);
     }
 
-    /* ===== BOTTOM SECTION: schedule + description ===== */
+    /* ===== BOTTOM SECTION: jadwal + deskripsi ===== */
     .location-bottom {
       border-top: 1px solid #F3F4F6;
       display: flex;
       flex-wrap: wrap;
-      padding: 36px;
-      gap: 36px;
+      padding: 32px;
+      gap: 32px;
     }
 
-    .bottom-left { flex: 1; min-width: 260px; }
-    .bottom-right { flex: 1; min-width: 260px; }
+    .bottom-left { flex: 1; min-width: 240px; }
+    .bottom-right { flex: 1; min-width: 240px; }
 
     .section-title {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .section-title .title-icon {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
-      background: #FEF3C7;
+      background: #fff2ed;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .section-title .title-icon i {
-      color: #D97706;
-      font-size: 16px;
-    }
-    .section-title h3 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #0f172a;
-    }
+    .section-title .title-icon i { color: #ef5008; font-size: 15px; }
+    .section-title h3 { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
 
-    /* Schedule table */
+    /* Schedule */
     .schedule-list { list-style: none; padding: 0; margin: 0; }
     .schedule-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 18px;
+      padding: 12px 16px;
       border-radius: 10px;
-      background: #F9FAFB;
-      margin-bottom: 10px;
+      background: #f9f9f9;
+      margin-bottom: 8px;
       transition: background .2s;
     }
     .schedule-item:last-child { margin-bottom: 0; }
-    .schedule-item:hover { background: #FEF9EC; }
-    .schedule-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: #374151;
-    }
-    .schedule-time {
-      font-size: 14px;
-      font-weight: 700;
-      color: #F59E0B;
-    }
+    .schedule-item:hover { background: #fff2ed; }
+    .schedule-name { font-size: 13px; font-weight: 600; color: #374151; }
+    .schedule-time { font-size: 13px; font-weight: 700; color: #ef5008; }
 
     /* Description */
-    .desc-text {
-      font-size: 14px;
-      line-height: 1.75;
-      color: #4B5563;
-    }
+    .desc-text { font-size: 14px; line-height: 1.8; color: #4B5563; }
     .desc-text p { margin-bottom: 12px; }
     .desc-text p:last-child { margin-bottom: 0; }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .page-wrapper { padding: 70px 12px 40px; }
+      .page-wrapper { padding: 80px 12px 40px; }
       .location-top { flex-direction: column; }
-      .carousel-side, .info-side {
-        flex: 0 0 100%;
-        max-width: 100%;
-      }
+      .carousel-side, .info-side { flex: 0 0 100%; max-width: 100%; }
       .carousel-side { border-radius: 24px 24px 0 0; }
-      #sync1 .frame { height: 260px; }
+      #sync1 .frame { height: 240px; }
       .info-side { padding: 24px 20px; }
-      .location-name { font-size: 1.5rem; }
-      .location-bottom { padding: 24px 20px; flex-direction: column; gap: 28px; }
+      .location-name { font-size: 1.3rem; }
+      .location-bottom { padding: 24px 20px; flex-direction: column; gap: 24px; }
+      .action-row { flex-direction: row; flex-wrap: wrap; }
+    }
+
+    @media (max-width: 480px) {
+      .page-wrapper { padding: 70px 10px 40px; }
+      #sync1 .frame { height: 200px; }
     }
   </style>
 
@@ -329,6 +320,11 @@
     <div class="page-wrapper">
       <div class="container">
 
+        <!-- BACK BUTTON -->
+        <!-- <a class="back-btn" href="javascript:history.back()">
+          <i class="fas fa-arrow-left"></i> Kembali ke Semua Lokasi
+        </a> -->
+
         <div class="location-card">
 
           <!-- ===== TOP ===== -->
@@ -337,15 +333,16 @@
             <!-- Carousel -->
             <div class="carousel-side">
               <?php
-                $gambarsampul = base_url('myesc.id/images/nofoto.png');
-                if (!empty($rowCabang->gambarsampul)) {
-                  $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
-                }
+              $gambarsampul = base_url('myesc.id/images/nofoto.png');
+              if (!empty($rowCabang->gambarsampul)) {
+                $gambarsampul = base_url('myesc.id/admin/uploads/cabanggereja/' . $rowCabang->gambarsampul);
+              }
               ?>
               <div id="sync1" class="owl-carousel owl-theme">
                 <div class="item">
                   <span class="frame">
-                    <img src="<?php echo $gambarsampul ?>" loading="lazy" alt="<?php echo htmlspecialchars($rowCabang->namacabang, ENT_QUOTES) ?>">
+                    <img src="<?php echo $gambarsampul ?>" loading="lazy"
+                         alt="<?php echo htmlspecialchars($rowCabang->namacabang, ENT_QUOTES) ?>">
                   </span>
                 </div>
                 <?php
@@ -356,10 +353,11 @@
                       ?>
                       <div class="item">
                         <span class="frame">
-                          <img src="<?php echo $filegallery ?>" loading="lazy" alt="<?php echo htmlspecialchars($rowCabang->namacabang, ENT_QUOTES) ?>">
+                          <img src="<?php echo $filegallery ?>" loading="lazy"
+                               alt="<?php echo htmlspecialchars($rowCabang->namacabang, ENT_QUOTES) ?>">
                         </span>
                       </div>
-                      <?php
+                <?php
                     }
                   }
                 }
@@ -407,100 +405,95 @@
 
               <!-- Action row -->
               <div class="action-row">
-                <!-- Dapatkan Rute: link ke Google Maps jika ada koordinat, atau fallback search -->
                 <?php
-                  $mapsUrl = '#';
-                  if (!empty($rowCabang->latitude) && !empty($rowCabang->longitude)) {
-                    $mapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' . $rowCabang->latitude . ',' . $rowCabang->longitude;
-                  } elseif (!empty($rowCabang->alamatlengkap)) {
-                    $mapsUrl = 'https://www.google.com/maps/search/' . urlencode($rowCabang->alamatlengkap);
-                  }
+                $mapsUrl = '#';
+                if (!empty($rowCabang->latitude) && !empty($rowCabang->longitude)) {
+                  $mapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' . $rowCabang->latitude . ',' . $rowCabang->longitude;
+                } elseif (!empty($rowCabang->alamatlengkap)) {
+                  $mapsUrl = 'https://www.google.com/maps/search/' . urlencode($rowCabang->alamatlengkap);
+                }
                 ?>
                 <a href="<?php echo $mapsUrl ?>" target="_blank" class="btn-route">
                   Dapatkan Rute <i class="fas fa-location-dot"></i>
                 </a>
 
                 <?php if (!empty($rowCabang->urlfacebook)) { ?>
-                  <a href="<?php echo $rowCabang->urlfacebook ?>" target="_blank" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                  <a href="<?php echo $rowCabang->urlfacebook ?>" target="_blank" class="social-btn" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
                 <?php } ?>
                 <?php if (!empty($rowCabang->urlinstagram)) { ?>
-                  <a href="<?php echo $rowCabang->urlinstagram ?>" target="_blank" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                  <a href="<?php echo $rowCabang->urlinstagram ?>" target="_blank" class="social-btn" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                  </a>
                 <?php } ?>
                 <?php if (!empty($rowCabang->urlyoutube)) { ?>
-                  <a href="<?php echo $rowCabang->urlyoutube ?>" target="_blank" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                  <a href="<?php echo $rowCabang->urlyoutube ?>" target="_blank" class="social-btn" aria-label="YouTube">
+                    <i class="fab fa-youtube"></i>
+                  </a>
                 <?php } ?>
                 <?php if (!empty($rowCabang->urltwitter)) { ?>
-                  <a href="<?php echo $rowCabang->urltwitter ?>" target="_blank" class="social-btn" aria-label="Twitter/X"><i class="fab fa-x-twitter"></i></a>
+                  <a href="<?php echo $rowCabang->urltwitter ?>" target="_blank" class="social-btn" aria-label="Twitter/X">
+                    <i class="fab fa-x-twitter"></i>
+                  </a>
                 <?php } ?>
                 <?php if (!empty($rowCabang->urllinkedin)) { ?>
-                  <a href="<?php echo $rowCabang->urllinkedin ?>" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                  <a href="<?php echo $rowCabang->urllinkedin ?>" target="_blank" class="social-btn" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
                 <?php } ?>
               </div>
 
             </div>
-          </div>
+          </div><!-- /.location-top -->
 
           <!-- ===== BOTTOM ===== -->
           <?php
-            // Parse jadwal ibadah – support JSON array or plain text
-            $jadwal = $rowCabang->jadwalibadah ?? '';
-            $jadwalItems = [];
-            if (!empty($jadwal)) {
-              $decoded = json_decode($jadwal, true);
-              if (is_array($decoded)) {
-                $jadwalItems = $decoded;
-              }
+          $jadwal = $rowCabang->jadwalibadah ?? '';
+          $jadwalItems = [];
+          if (!empty($jadwal)) {
+            $decoded = json_decode($jadwal, true);
+            if (is_array($decoded)) {
+              $jadwalItems = $decoded;
             }
+          }
           ?>
           <?php if (!empty($jadwal) || !empty($rowCabang->deskripsi)) { ?>
           <div class="location-bottom">
 
-          <!-- Jadwal Ibadah -->
-          <?php if (!empty($jadwal)) { ?>
+            <!-- Jadwal Ibadah -->
+            <?php if (!empty($jadwal)) { ?>
             <div class="bottom-left">
               <div class="section-title">
                 <div class="title-icon"><i class="fas fa-calendar-check"></i></div>
                 <h3>Jadwal Ibadah</h3>
               </div>
-
-              <?php 
-              // Bersihkan HTML tags dari database
+              <?php
               $jadwalClean = strip_tags($jadwal);
-              // Pisahkan per baris
               $jadwalLines = explode("\n", $jadwalClean);
               ?>
-
               <ul class="schedule-list">
-                <?php 
+                <?php
                 foreach ($jadwalLines as $line) {
-                    $line = trim($line);
-                    if (!empty($line)) {
-                        // Regex untuk mendeteksi jam (contoh: 07.30 - 09.00 atau Pukul 07.30 - 09.00)
-                        $timePattern = '/(?:Pukul\s*)?(\d{2}\.\d{2}\s*-\s*\d{2}\.\d{2})/';
-                        preg_match($timePattern, $line, $matches);
-                        
-                        $timeDisplay = '';
-                        $nameDisplay = $line;
-
-                        if (isset($matches[1])) {
-                            $timeDisplay = $matches[1];
-                            // Hapus jam dari nama ibadah agar tidak dobel
-                            $nameDisplay = trim(preg_replace($timePattern, '', $line));
-                            // Bersihkan kata "Pukul" jika ada
-                            $nameDisplay = str_replace('Pukul', '', $nameDisplay);
-                            $nameDisplay = trim($nameDisplay);
-                        }
-                        ?>
-                        <li class="schedule-item">
-                          <span class="schedule-name"><?php echo htmlspecialchars($nameDisplay, ENT_QUOTES); ?></span>
-                          <?php if($timeDisplay): ?>
-                              <span class="schedule-time"><?php echo $timeDisplay; ?></span>
-                          <?php else: ?>
-                              <span class="schedule-time">-</span>
-                          <?php endif; ?>
-                        </li>
-                        <?php
+                  $line = trim($line);
+                  if (!empty($line)) {
+                    $timePattern = '/(?:Pukul\s*)?(\d{2}[.:]\d{2}\s*[-–]\s*\d{2}[.:]\d{2})/';
+                    preg_match($timePattern, $line, $matches);
+                    $timeDisplay = '';
+                    $nameDisplay = $line;
+                    if (isset($matches[1])) {
+                      $timeDisplay = $matches[1];
+                      $nameDisplay = trim(preg_replace($timePattern, '', $line));
+                      $nameDisplay = str_replace('Pukul', '', $nameDisplay);
+                      $nameDisplay = trim($nameDisplay);
                     }
+                    ?>
+                    <li class="schedule-item">
+                      <span class="schedule-name"><?php echo htmlspecialchars($nameDisplay, ENT_QUOTES); ?></span>
+                      <span class="schedule-time"><?php echo $timeDisplay ?: '-'; ?></span>
+                    </li>
+                <?php
+                  }
                 }
                 ?>
               </ul>
@@ -531,29 +524,27 @@
   <?php $this->load->view('template/festavalive/footer'); ?>
 
   <!-- Owl Carousel JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" crossorigin="anonymous"></script>
 
   <script>
     $(document).ready(function () {
 
-      // ---- Main carousel ----
-      var sync1 = $("#sync1");
-
-      sync1.owlCarousel({
-        items       : 1,
-        slideSpeed  : 600,
-        nav         : true,
-        dots        : true,
-        loop        : true,
-        autoplay    : false,
-        autoHeight  : false,
-        navText: [
+      // Main carousel
+      $("#sync1").owlCarousel({
+        items      : 1,
+        slideSpeed : 600,
+        nav        : true,
+        dots       : true,
+        loop       : true,
+        autoplay   : false,
+        autoHeight : false,
+        navText    : [
           '<i class="fas fa-chevron-left"></i>',
           '<i class="fas fa-chevron-right"></i>'
         ],
       });
 
-      // ---- Route button fallback (jika koordinat tidak ada di backend) ----
+      // Fallback jika koordinat tidak ada
       var routeBtn = document.querySelector('.btn-route');
       if (routeBtn && routeBtn.getAttribute('href') === '#') {
         routeBtn.addEventListener('click', function(e) {
@@ -561,21 +552,22 @@
           alert('Koordinat lokasi belum tersedia.');
         });
       }
+
     });
   </script>
 
-  <!-- Cabang list (sidebar opsional, diload di background) -->
+  <!-- Load cabang list di background (opsional) -->
   <script>
     var idcabang = "<?php echo $idcabang ?>";
     var idmenu   = "<?php echo $this->encrypt->encode($menu) ?>";
 
     function loadCabangList() {
       $.ajax({
-        url      : '<?php echo site_url("ourlocation/getcabang") ?>',
+        url      : '<?php echo site_url('ourlocation/getcabang') ?>',
         type     : 'GET',
         dataType : 'json',
       }).done(function (data) {
-        // data tersedia untuk digunakan jika sidebar diaktifkan
+        // data tersedia jika sidebar diaktifkan
       }).fail(function () {
         console.log("error getcabang");
       });
@@ -585,4 +577,3 @@
   </script>
 
 </body>
-</html>

@@ -2,7 +2,8 @@
 
 use PhpParser\Node\Stmt\Echo_;
 
-$this->load->view('template/festavalive/header'); ?>
+$this->load->view('template/festavalive/header');
+?>
 
 <body>
 
@@ -677,7 +678,7 @@ $this->load->view('template/festavalive/header'); ?>
       .hero-dc-bg {
         position: absolute;
         inset: 0;
-        background-image: url('<?php echo base_url("myesc.id/assets/gambar/bgdc.jpg"); ?>');
+        background-image: url('<?php echo base_url('myesc.id/assets/gambar/bgdc.jpg'); ?>');
         background-size: cover;
         background-position: center;
         z-index: 1;
@@ -868,9 +869,9 @@ $this->load->view('template/festavalive/header'); ?>
         View All Groups →
       </a> -->
         </div>
-        <div class="section-image">
+        <!-- <div class="section-image">
           <img src="<?php echo base_url('myesc.id/assets/gambar/dc1.jpeg'); ?>" alt="Small Groups">
-        </div>
+        </div> -->
       </section>
 
       <!-- Section: Child Dedication -->
