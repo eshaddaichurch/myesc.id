@@ -77,6 +77,20 @@ class Dashboardkehadiran extends MY_controller
             }
         }
 
+        // ===== HITUNG TOTAL PER IBADAH =====
+        $totalIbadah1 = array_sum($datahadiribadah1);
+        $totalIbadah2 = array_sum($datahadiribadah2);
+        $totalIbadah3 = array_sum($datahadiribadah3);
+        $totalIbadah4 = array_sum($datahadiribadah4);
+        $totalIbadah5 = array_sum($datahadiribadah5);
+        $totalSemua = $totalIbadah1 + $totalIbadah2 + $totalIbadah3 + $totalIbadah4 + $totalIbadah5;
+
+        // ===== FORMAT PERIODE UNTUK DISPLAY =====
+        $periodeDisplay = '';
+        if ($tglawal && $tglakhir) {
+            $periodeDisplay = date('d M', strtotime($tglawal)) . ' - ' . date('d M Y', strtotime($tglakhir));
+        }
+
         // Hindari division by zero jika tidak ada data
         $jumlahPerMinggu = ($i > 0) ? number_format($jumlah / $i) : 0;
 
@@ -112,6 +126,14 @@ class Dashboardkehadiran extends MY_controller
             'jumlahPerMinggu' => $jumlahPerMinggu,
             'jumlahPerbulan' => $jumlahPerbulan,
             'jumlahi' => $i,
+            // ===== TAMBAHAN BARU: SCORECARD =====
+            'totalIbadah1' => $totalIbadah1,
+            'totalIbadah2' => $totalIbadah2,
+            'totalIbadah3' => $totalIbadah3,
+            'totalIbadah4' => $totalIbadah4,
+            'totalIbadah5' => $totalIbadah5,
+            'totalSemua' => $totalSemua,
+            'periodeDisplay' => $periodeDisplay
         );
         echo json_encode($data);
     }
@@ -198,6 +220,48 @@ class Dashboardkehadiran extends MY_controller
             'datapersentase' => $datapersentase,
             'ratarata' => $ratarata,
         );
+        echo json_encode($data);
+    }
+
+    public function getgrafikabsenperlokasi()
+    {
+        $idabsenjenis = $this->input->get('idabsenjenis');
+        $tglawal = $this->input->get('tglawal');
+        $tglakhir = $this->input->get('tglakhir');
+
+        // Query ini sudah terbukti berhasil di screenshot Anda
+        $sql = "SELECT 
+                    a.idabsenlokasi, 
+                    l.namaabsenlokasi, 
+                    a.idsesi, 
+                    s.namasesi, 
+                    SUM(a.jumlahhadir) as totalhadir 
+                FROM absen a 
+                LEFT JOIN absenlokasi l ON a.idabsenlokasi = l.idabsenlokasi 
+                LEFT JOIN sesiibadahminggu s ON a.idsesi = s.idsesi 
+                WHERE a.idabsenjenis = ? 
+                AND a.tglabsen BETWEEN ? AND ? 
+                AND a.idabsenlokasi IS NOT NULL 
+                AND a.idabsenlokasi != '' 
+                GROUP BY a.idabsenlokasi, l.namaabsenlokasi, a.idsesi, s.namasesi 
+                ORDER BY a.idabsenlokasi ASC";
+
+        $query = $this->db->query($sql, array($idabsenjenis, $tglawal, $tglakhir));
+
+        $data = array();
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = array(
+                    'idlokasi' => $row->idabsenlokasi,
+                    'namalokasi' => $row->namaabsenlokasi,
+                    'namasesi' => $row->namasesi ? $row->namasesi : 'Tanpa Sesi',
+                    'total' => (int) $row->totalhadir
+                );
+            }
+        }
+
+        // Return JSON murni
+        header('Content-Type: application/json');
         echo json_encode($data);
     }
 }

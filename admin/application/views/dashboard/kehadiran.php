@@ -122,8 +122,106 @@ $this->load->view('template/sidemenu');
                                         </div>
                                     </div>
 
+                                    <!-- SCORECARD BERTINGKAT: Ibadah → Ruangan -->
+                                    <div class="col-12 mb-3">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
+                                                <h5 class="card-title mb-0 text-dark">
+                                                    <i class="fas fa-layer-group text-primary mr-2"></i>
+                                                    Kehadiran per Ibadah & Ruangan
+                                                    <small class="text-muted ml-2" id="scorecard-periode"></small>
+                                                </h5>
+                                                <button class="btn btn-xs btn-outline-secondary" type="button" data-toggle="collapse" data-target="#scorecardContent" aria-expanded="true">
+                                                    <i class="fas fa-chevron-down"></i>
+                                                </button>
+                                            </div>
+                                            <div class="collapse show" id="scorecardContent">
+                                                <div class="card-body py-3">
+                                                    <div id="scorecard-container">
+                                                        <!-- Loading state -->
+                                                        <div class="text-center text-muted py-3">
+                                                            <i class="fas fa-spinner fa-spin mr-2"></i> Memuat data ruangan...
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SCORECARD: Total Kehadiran per Ibadah (Responsive Grid) -->
+                                    <div class="col-12 mb-3">
+                                        <div class="card shadow-sm">
+                                            <!-- <div class="card-header bg-white py-2">
+                                                <h5 class="card-title mb-0 text-dark">
+                                                    <i class="fas fa-chart-pie text-primary mr-2"></i>
+                                                    Total Kehadiran per Ibadah
+                                                    <small class="text-muted ml-2" id="scorecard-periode"></small>
+                                                </h5>
+                                            </div> -->
+                                            <div class="card-body py-3">
+                                                <div class="row text-center">
+                                                    
+                                                    <!-- Ibadah I -->
+                                                    <div class="col-6 col-sm-4 col-md-2 mb-2">
+                                                        <div class="p-2 border rounded bg-light">
+                                                            <div class="text-muted small">Ibadah I</div>
+                                                            <div class="h4 font-weight-bold text-primary mb-0" id="total-ibadah1">0</div>
+                                                            <div class="text-muted small">jemaat</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Ibadah II -->
+                                                    <div class="col-6 col-sm-4 col-md-2 mb-2">
+                                                        <div class="p-2 border rounded bg-light">
+                                                            <div class="text-muted small">Ibadah II</div>
+                                                            <div class="h4 font-weight-bold text-success mb-0" id="total-ibadah2">0</div>
+                                                            <div class="text-muted small">jemaat</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Ibadah III -->
+                                                    <div class="col-6 col-sm-4 col-md-2 mb-2">
+                                                        <div class="p-2 border rounded bg-light">
+                                                            <div class="text-muted small">Ibadah III</div>
+                                                            <div class="h4 font-weight-bold text-warning mb-0" id="total-ibadah3">0</div>
+                                                            <div class="text-muted small">jemaat</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Ibadah IV -->
+                                                    <div class="col-6 col-sm-4 col-md-2 mb-2">
+                                                        <div class="p-2 border rounded bg-light">
+                                                            <div class="text-muted small">Ibadah IV</div>
+                                                            <div class="h4 font-weight-bold text-danger mb-0" id="total-ibadah4">0</div>
+                                                            <div class="text-muted small">jemaat</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Ibadah V -->
+                                                    <!-- <div class="col-6 col-sm-4 col-md-2 mb-2">
+                                                        <div class="p-2 border rounded bg-light">
+                                                            <div class="text-muted small">Ibadah V</div>
+                                                            <div class="h4 font-weight-bold text-orange mb-0" id="total-ibadah5">0</div>
+                                                            <div class="text-muted small">jemaat</div>
+                                                        </div>
+                                                    </div> -->
+                                                    
+                                                    <!-- TOTAL ALL -->
+                                                    <div class="col-6 col-sm-4 col-md-2 mb-2">
+                                                        <div class="p-2 border rounded bg-primary text-white">
+                                                            <div class="text-white-50 small">TOTAL</div>
+                                                            <div class="h4 font-weight-bold mb-0" id="total-semua">0</div>
+                                                            <div class="text-white-50 small">jemaat</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Grafik Kehadiran per Ibadah -->
-                                    <div class="col-lg-6">
+                                    <!-- <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-header border-0">
                                                 <div class="d-flex justify-content-between">
@@ -149,11 +247,11 @@ $this->load->view('template/sidemenu');
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- Grafik Total Kehadiran -->
                                     <!-- FIX #2: id diubah dari "totalnewvisitor" → "totalkehadiran" (duplikat dihilangkan) -->
-                                    <div class="col-6">
+                                    <!-- <div class="col-6">
                                         <div class="card">
                                             <div class="card-header border-0">
                                                 <div class="d-flex justify-content-between">
@@ -177,7 +275,7 @@ $this->load->view('template/sidemenu');
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- Card per bulan Jan-Des -->
                                     <?php
@@ -216,10 +314,38 @@ $this->load->view('template/sidemenu');
     </div> <!-- /.col -->
 </div> <!-- /.row -->
 
+
+<style>
+    .text-orange { color: #FF5F00 !important; }
+    .bg-orange { background-color: #FF5F00 !important; }
+</style>
+
 <?php $this->load->view('template/footer') ?>
 
 <!-- ChartJS -->
 <script src="<?php echo base_url() ?>assets/adminlte/plugins/chart.js/Chart.min.js"></script>
+
+<!-- Tambahkan di atas script utama -->
+<script>
+// ===== ANIMATED COUNTER (Opsional) =====
+function animateValue(id, start, end, duration) {
+    if (start === end) return;
+    var range = end - start;
+    var current = start;
+    var increment = end > start ? 1 : -1;
+    var stepTime = Math.abs(Math.floor(duration / range));
+    if (stepTime < 10) stepTime = 10;
+    var obj = document.getElementById(id);
+    var timer = setInterval(function() {
+        current += increment;
+        obj.innerHTML = numberWithCommas(current);
+        if (current == end) clearInterval(timer);
+    }, stepTime);
+}
+
+// Pakai di update scorecard:
+// animateValue('total-ibadah1', 0, res.totalIbadah1, 1000);
+</script>
 
 <script>
     // FIX #1: Variabel chart dideklarasikan di luar fungsi
@@ -231,10 +357,12 @@ $this->load->view('template/sidemenu');
     $(document).ready(function () {
         loadInfoBox();
         loadGrafik();
+        loadScorecardLokasi();  // ← Tambahkan ini
     });
 
     $('#tglawal, #tglakhir, #idabsenjenis').change(function () {
         loadGrafik();
+        loadScorecardLokasi();  // ← Refresh scorecard lokasi juga
     });
 
     function loadInfoBox() {
@@ -359,6 +487,23 @@ $this->load->view('template/sidemenu');
                     $('#' + key).html(pb[key]);
                 }
             }
+
+            // ... setelah update card per bulan, tambahkan:
+
+            // ===== UPDATE SCORECARD PER IBADAH =====
+            if (res.totalIbadah1 !== undefined) {
+                $('#total-ibadah1').html(numberWithCommas(res.totalIbadah1));
+                $('#total-ibadah2').html(numberWithCommas(res.totalIbadah2));
+                $('#total-ibadah3').html(numberWithCommas(res.totalIbadah3));
+                $('#total-ibadah4').html(numberWithCommas(res.totalIbadah4));
+                $('#total-ibadah5').html(numberWithCommas(res.totalIbadah5));
+                $('#total-semua').html(numberWithCommas(res.totalSemua));
+                
+                // Update label periode di scorecard
+                if (res.periodeDisplay) {
+                    $('#scorecard-periode').html('(' + res.periodeDisplay + ')');
+                }
+            }
         })
         .fail(function () {
             console.log("error getgrafikabsen");
@@ -419,6 +564,75 @@ $this->load->view('template/sidemenu');
             }
         };
     }
+
+    
+    function loadScorecardLokasi() {
+    var idabsenjenis = $('#idabsenjenis').val();
+    var tglawal = $('#tglawal').val();
+    var tglakhir = $('#tglakhir').val();
+
+    $.ajax({
+        url: '<?php echo site_url('dashboardkehadiran/getgrafikabsenperlokasi') ?>',
+        type: 'GET',
+        dataType: 'json',
+        data: { idabsenjenis: idabsenjenis, tglawal: tglawal, tglakhir: tglakhir },
+    })
+    .done(function(res) {
+        console.log("Data Ruangan Berhasil:", res); // Cek Console Browser (F12)
+        
+        var container = $('#scorecard-container');
+        container.empty(); // Bersihkan loading
+
+        if (!res || res.length === 0) {
+            container.html('<div class="text-center text-muted py-3">Tidak ada data ruangan</div>');
+            return;
+        }
+
+        // Grouping data
+        var grouped = {};
+        res.forEach(function(item) {
+            var sesi = item.namasesi || 'Tanpa Sesi';
+            if (!grouped[sesi]) grouped[sesi] = [];
+            grouped[sesi].push(item);
+        });
+
+        // Render HTML
+        var html = '<div class="row">';
+        for (var sesi in grouped) {
+            var items = grouped[sesi];
+            var totalSesi = items.reduce((sum, item) => sum + item.total, 0);
+            
+            html += `
+            <div class="col-12 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light py-2 d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 font-weight-bold">${sesi}</h6>
+                        <span class="badge badge-primary badge-pill">${numberWithCommas(totalSesi)} Jemaat</span>
+                    </div>
+                    <div class="card-body py-2">
+                        <div class="row">`;
+            
+            items.forEach(function(loc) {
+                html += `
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
+                    <div class="p-2 border rounded text-center bg-white">
+                        <div class="text-muted small">${loc.namalokasi}</div>
+                        <div class="h5 font-weight-bold mb-0 text-primary">${numberWithCommas(loc.total)}</div>
+                    </div>
+                </div>`;
+            });
+
+            html += `</div></div></div></div>`;
+        }
+        html += '</div>';
+
+        container.html(html);
+    })
+    .fail(function(err) {
+        console.error("Gagal Load Ruangan:", err);
+        $('#scorecard-container').html('<div class="text-danger text-center">Gagal memuat data</div>');
+    });
+}
 </script>
 
 </body>
