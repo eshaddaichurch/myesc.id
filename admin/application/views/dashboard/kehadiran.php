@@ -566,7 +566,8 @@ function animateValue(id, start, end, duration) {
     }
 
     
-    function loadScorecardLokasi() {
+    // ===== FUNCTION: Load Scorecard per Lokasi (URUT 1-2-3-4) =====
+function loadScorecardLokasi() {
     var idabsenjenis = $('#idabsenjenis').val();
     var tglawal = $('#tglawal').val();
     var tglakhir = $('#tglakhir').val();
@@ -578,17 +579,15 @@ function animateValue(id, start, end, duration) {
         data: { idabsenjenis: idabsenjenis, tglawal: tglawal, tglakhir: tglakhir },
     })
     .done(function(res) {
-        console.log("Data Ruangan Berhasil:", res); // Cek Console Browser (F12)
-        
         var container = $('#scorecard-container');
-        container.empty(); // Bersihkan loading
+        container.empty();
 
         if (!res || res.length === 0) {
             container.html('<div class="text-center text-muted py-3">Tidak ada data ruangan</div>');
             return;
         }
 
-        // Grouping data
+        // 1. Grouping data per sesi
         var grouped = {};
         res.forEach(function(item) {
             var sesi = item.namasesi || 'Tanpa Sesi';
@@ -596,22 +595,40 @@ function animateValue(id, start, end, duration) {
             grouped[sesi].push(item);
         });
 
-        // Render HTML
+        // 2. HELPER: Ekstrak angka dari string "IBADAH I" atau "IBADAH 2"
+        function getSesiNumber(str) {
+            var match = str.match(/\d+/); // Cek angka arab dulu (1,2,3...)
+            if (match) return parseInt(match[0]);
+            
+            // Cek angka romawi (I, II, III, IV, V)
+            var roman = {'I':1, 'II':2, 'III':3, 'IV':4, 'V':5};
+            for (var r in roman) {
+                if (str.includes(r)) return roman[r];
+            }
+            return 0;
+        }
+
+        // 3. SORTING: Urutkan kunci berdasarkan angka sesi
+        var sortedKeys = Object.keys(grouped).sort(function(a, b) {
+            return getSesiNumber(a) - getSesiNumber(b);
+        });
+
+        // 4. Render HTML dengan urutan yang sudah di-sort
         var html = '<div class="row">';
-        for (var sesi in grouped) {
+        sortedKeys.forEach(function(sesi) {
             var items = grouped[sesi];
             var totalSesi = items.reduce((sum, item) => sum + item.total, 0);
-            
+
             html += `
             <div class="col-12 mb-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light py-2 d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0 font-weight-bold">${sesi}</h6>
+                        <h6 class="mb-0 font-weight-bold text-uppercase">${sesi}</h6>
                         <span class="badge badge-primary badge-pill">${numberWithCommas(totalSesi)} Jemaat</span>
                     </div>
                     <div class="card-body py-2">
                         <div class="row">`;
-            
+
             items.forEach(function(loc) {
                 html += `
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
@@ -623,7 +640,7 @@ function animateValue(id, start, end, duration) {
             });
 
             html += `</div></div></div></div>`;
-        }
+        });
         html += '</div>';
 
         container.html(html);
@@ -633,6 +650,7 @@ function animateValue(id, start, end, duration) {
         $('#scorecard-container').html('<div class="text-danger text-center">Gagal memuat data</div>');
     });
 }
+
 </script>
 
 </body>
