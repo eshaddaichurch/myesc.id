@@ -925,9 +925,9 @@ $this->load->view('template/festavalive/header');
               Lihat Semua DC →
             </a>
 
-            <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" download class="btn-dc-outline">
+            <!-- <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" download class="btn-dc-outline">
               Download Pedoman ⬇
-            </a>
+            </a> -->
           </div>
         </div>
       </section>

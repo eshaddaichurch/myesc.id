@@ -46,6 +46,7 @@ class Disciples_community extends MY_Controller
 		$idkabupaten = $this->input->get('idkabupaten', true);
 		$idkecamatan = $this->input->get('idkecamatan', true);
 		$cari = $this->input->get('cari', true);
+		$carinamadm = $this->input->get('carinamadm', true);
 
 		// Inisialisasi query builder
 		$this->db->select('*');
@@ -63,6 +64,9 @@ class Disciples_community extends MY_Controller
 		}
 		if (!empty($cari)) {
 			$this->db->like('namadc', $cari);
+		}
+		if (!empty($carinamadm)) {
+			$this->db->like('namadm', $carinamadm);
 		}
 
 		// Eksekusi query

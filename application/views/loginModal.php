@@ -1,73 +1,4 @@
-  <!-- <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="loginModal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-        <div class="modal-body">
-
-          <form action="<?php echo site_url('login/cek_login') ?>" method="post" id="formLogin">
-
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-12">
-                  <div class="form-group row">
-                    <div class="col-4 col-md-2">
-                      <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="" style="width: 50px;">
-                    </div>
-                    <div class="col-8 col-md-10">
-                      <h4>MYESC</h4>
-                      <p>Login</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-
-
-
-                  <div class="form-group row mt-5 p-1">
-                    <label for="" class="col-md-4 col-form-label">Email</label>
-                    <div class="col-md-8">
-                      <input type="text" name="emaillogin" id="emaillogin" class="form-control" placeholder="Masukan Email">
-                    </div>
-                  </div>
-                  <div class="form-group row p-1">
-                    <label for="" class="col-md-4 col-form-label">Password</label>
-                    <div class="col-md-8">
-                      <input type="password" name="passwordlogin" id="passwordlogin" class="form-control" placeholder="Masukan Password">
-                    </div>
-                  </div>
-
-                </div>
-                <div class="col-12 mt-5 mb-3" style="font-size: 12px;">
-                  <a href=""></a>
-                </div>
-
-                <div class="col-12 mb-3" style="font-size: 12px;">
-                  <a href="#" class="show-form-registrasi">Belum Punya Akun? Daftar Sekarang</a>
-                </div>
-
-                <div class="col-12" style="font-size: 12px;" id="divAlert">
-
-                </div>
-
-                <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary float-end" id="btnLogin">Login</button>
-                  <button type="button" class="btn btn-secondary float-end me-2" data-bs-dismiss="modal">Cancel</button>
-                </div>
-              </div>
-            </div>
-
-          </form>
-
-
-        </div>
-
-      </div>
-    </div>
-  </div> -->
-
-
-
-  <!-- Modal Login -->
+<!-- Modal Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 rounded-4 shadow-sm">
@@ -79,25 +10,21 @@
           <h4 class="fw-bold text-orange">MYESC</h4>
           <p class="text-muted small mb-4"></p>
 
-          <div class="form-group position-relative mb-3">
-            <input type="text" name="emaillogin" id="emaillogin" class="form-control rounded-pill ps-5" placeholder="Masukan Email atau Nomor Whatsapp">
+          <!-- Input Email -->
+          <div class="form-group position-relative mb-4">
+            <input type="text" name="emaillogin" id="emaillogin"
+              class="form-control rounded-pill ps-5"
+              placeholder="Masukan Email atau Nomor Whatsapp">
             <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
               <i class="fas fa-user"></i>
             </span>
           </div>
 
-          <!-- <div class="form-group position-relative mb-4">
-            <input type="password" name="passwordlogin" id="passwordlogin" class="form-control rounded-pill ps-5" placeholder="Masukan Password">
-            <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
-              <i class="fas fa-lock"></i>
-            </span>
-            <span class="position-absolute top-50 end-0 translate-middle-y pe-3 text-muted" style="cursor: pointer;">
-              <i class="fas fa-eye"></i>
-            </span>
-          </div> -->
-
+          <!-- Input Password -->
           <div class="form-group position-relative mb-4">
-            <input type="password" name="passwordlogin" id="passwordlogin" class="form-control rounded-pill ps-5" placeholder="Masukan Password">
+            <input type="password" name="passwordlogin" id="passwordlogin"
+              class="form-control rounded-pill ps-5"
+              placeholder="Masukan Password">
             <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-orange">
               <i class="fas fa-lock"></i>
             </span>
@@ -106,27 +33,22 @@
             </span>
           </div>
 
-          
-          
           <div id="divAlert" class="mb-3"></div>
-          
-          <a href="#" class="float-end text-info mb-3 show-form-lupapassword">Lupa Password?</a>
+
+          <a href="#" class="float-end text-info mb-3 show-form-lupapassword"
+            style="color: #ff5008 !important;">Lupa Password?</a>
 
           <button type="submit" class="btn btn-orange rounded-pill w-100 mb-2" id="btnLogin">LOGIN</button>
 
-          <p class="small mt-2">Belum Punya Akun? <a href="#" class="show-form-registrasi text-decoration-none fw-bold">Daftar Sekarang</a></p>
+          <p class="small mt-2">Belum Punya Akun?
+            <a href="#" class="show-form-registrasi text-decoration-none fw-bold"
+              style="color: #ff5008;">Daftar Sekarang</a>
+          </p>
 
           <div class="d-flex align-items-center my-3">
             <hr class="flex-grow-1">
             <span class="mx-2 small text-muted"></span>
             <hr class="flex-grow-1">
-          </div>
-
-          <p class="small text-muted mb-2"></p>
-          <div class="d-flex justify-content-center gap-3">
-            <!-- <a href="#" class="text-orange"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-orange"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-orange"><i class="fab fa-twitter"></i></a> -->
           </div>
 
         </form>
@@ -135,7 +57,6 @@
   </div>
 </div>
 
-<!-- CSS di file yang sama -->
 <style>
   .text-orange {
     color: #ff5008;
@@ -149,14 +70,21 @@
   }
 
   .btn-orange:hover {
-    background-color: #ff5008;
+    background-color: #e04400;
+    color: #fff;
   }
 
   .form-control {
     height: 48px;
     background: #f8f8f8;
-    border: none;
+    border: 1px solid #eee;
     font-size: 14px;
+  }
+
+  .form-control:focus {
+    background: #fff;
+    border-color: #ff5008;
+    box-shadow: 0 0 0 3px rgba(255, 80, 8, 0.1);
   }
 
   input::placeholder {
@@ -171,114 +99,96 @@
     font-size: 16px;
   }
 
-  .gap-3 > * {
-    margin-right: 10px;
+  /* ===== FIX BOOTSTRAP VALIDATOR ===== */
+  /* Sembunyikan icon bawaan bootstrapValidator */
+  #formLogin .form-control-feedback {
+    display: none !important;
+  }
+
+  /* Pesan error jadi absolute agar tidak geser layout */
+  #formLogin .help-block {
+    position: absolute;
+    bottom: -20px;
+    left: 12px;
+    font-size: 11px;
+    color: #ff5008;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* Tambah ruang bawah form-group agar pesan error tidak tertimpa elemen berikutnya */
+  #formLogin .form-group {
+    margin-bottom: 32px !important;
+  }
+
+  /* Hilangkan border merah/hijau bawaan bootstrapValidator */
+  #formLogin .has-error .form-control {
+    border-color: #ff5008 !important;
+    box-shadow: 0 0 0 3px rgba(255, 80, 8, 0.1) !important;
+  }
+
+  #formLogin .has-success .form-control {
+    border-color: #eee !important;
+    box-shadow: none !important;
   }
 </style>
 
-
-  <script>
-    $("#formLogin").bootstrapValidator({
-      feedbackIcons: {
-        valid: 'glyphicon glyphicon-ok',
-        invalid: 'glyphicon glyphicon-remove',
-        validating: 'glyphicon glyphicon-refresh'
-      },
-      fields: {
-        emaillogin: {
-          validators: {
-            notEmpty: {
-              message: "Silahkan masukan email atau nomor whatsapp yang terverifikasi"
-            },
-          }
-        },
-        passwordlogin: {
-          validators: {
-            notEmpty: {
-              message: "Silahkan masukan password"
-            },
-          }
-        },
-      }
-    }).on('success.form.bv', function(e) {
-      e.preventDefault();
-      var email = $("#emaillogin").val();
-      var password = $("#passwordlogin").val();
-
-      // console.log(password);
-
-      $.ajax({
-          url: '<?php echo site_url('login/cekLoginAjax') ?>',
-          type: 'POST',
-          dataType: 'json',
-          data: {
-            'email': email,
-            'password': password
+<script>
+  $("#formLogin").bootstrapValidator({
+    feedbackIcons: {
+      valid: null,
+      invalid: null,
+      validating: null
+    },
+    fields: {
+      emaillogin: {
+        validators: {
+          notEmpty: {
+            message: "Silahkan masukan email atau nomor whatsapp"
           },
-        })
-        .done(function(cekLoginResult) {
-          console.log("success");
-          if (cekLoginResult.success) {
-            window.open("<?php echo site_url() ?>", "_self");
-          } else {
-            swal('Informasi', cekLoginResult.msg, 'info');
-          }
-        })
-        .fail(function() {
-          $('#divAlert').empty();
-          var addText = `
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                          <i class="fas fa-exclamation-triangle"></i> 
-                          <div>
-                            error script!
-                          </div>
-                        </div>
-              `;
-          $('#divAlert').html(addText)
-        })
-    });
+        }
+      },
+      passwordlogin: {
+        validators: {
+          notEmpty: {
+            message: "Silahkan masukan password"
+          },
+        }
+      },
+    }
+  }).on('success.form.bv', function(e) {
+    e.preventDefault();
+    var email    = $("#emaillogin").val();
+    var password = $("#passwordlogin").val();
 
+    $.ajax({
+        url: '<?php echo site_url('login/cekLoginAjax') ?>',
+        type: 'POST',
+        dataType: 'json',
+        data: { 'email': email, 'password': password },
+      })
+      .done(function(cekLoginResult) {
+        if (cekLoginResult.success) {
+          window.open("<?php echo site_url() ?>", "_self");
+        } else {
+          swal('Informasi', cekLoginResult.msg, 'info');
+        }
+      })
+      .fail(function() {
+        $('#divAlert').html(`
+          <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <div>Terjadi kesalahan, coba lagi.</div>
+          </div>
+        `);
+      });
+  });
 
-    document.getElementById("togglePassword").addEventListener("click", function () {
-      const passwordInput = document.getElementById("passwordlogin");
-      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-      passwordInput.setAttribute("type", type);
-
-      // Toggle icon
-      this.classList.toggle("fa-eye");
-      this.classList.toggle("fa-eye-slash");
-    });
-
-    // $('#btnLogin').click(function(event) {
-    //   e.preventDefault();
-    //   var email = $("#emaillogin").val();
-    //   var password = $("#password").val();
-    //   $.ajax({
-    //     url: '<?php echo site_url('login/cekLogin') ?>',
-    //     type: 'POST',
-    //     dataType: 'json',
-    //     data: {'email': email, 'password': password},
-    //   })
-    //   .done(function(cekLoginResult) {
-    //     console.log("success");
-    //     if (cekLoginResult.success) {
-
-    //     }else{
-    //       $('#divAlert').empty();
-    //       var addText = `
-    //                 <div class="alert alert-danger d-flex align-items-center" role="alert">
-    //                   <i class="fas fa-exclamation-triangle"></i> 
-    //                   <div>
-    //                     `+cekLoginResult.msg+`
-    //                   </div>
-    //                 </div>
-    //       `;
-    //       $('#divAlert').html(addText)
-    //     }
-    //   })
-    //   .fail(function() {
-    //     console.log("error");
-    //   })
-
-    // });
-  </script>
+  document.getElementById("togglePassword").addEventListener("click", function () {
+    const passwordInput = document.getElementById("passwordlogin");
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    this.classList.toggle("fa-eye");
+    this.classList.toggle("fa-eye-slash");
+  });
+</script>

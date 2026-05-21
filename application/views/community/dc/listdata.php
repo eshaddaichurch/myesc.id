@@ -2,7 +2,8 @@
 
 use PhpParser\Node\Stmt\Echo_;
 
-$this->load->view('template/festavalive/header'); ?>
+$this->load->view('template/festavalive/header');
+?>
 
 <body>
 
@@ -584,6 +585,13 @@ $this->load->view('template/festavalive/header'); ?>
                                         placeholder="Cari berdasarkan nama DC...">
                                 </div>
 
+                                <div class="col-md-3">
+                                    <label>Cari Nama DM</label>
+                                    <input type="text" name="carinamadm" id="carinamadm"
+                                        class="form-control"
+                                        placeholder="Cari berdasarkan nama DM...">
+                                </div>
+
                                 <div class="col-md-3 d-grid">
                                     <button class="btn btn-search" id="btnCari">
                                     <i class="fa fa-search me-2"></i> Cari
@@ -602,7 +610,6 @@ $this->load->view('template/festavalive/header'); ?>
                                 <?php
                                 if ($rsDC->num_rows() > 0) {
                                     foreach ($rsDC->result() as $row) {
-
                                         if (!empty($row->fotodm)) {
                                             $fotodm = base_url('myesc.id/admin/uploads/jemaat/' . $row->fotodm);
                                         } else {
@@ -611,14 +618,14 @@ $this->load->view('template/festavalive/header'); ?>
 
                                         echo '
                                             <div class="col-md-4 col-sm-6">
-                                                <div class="dc-card btn-informasi-dc" data-iddc="'.$row->iddc.'">
-                                                    <img src="'.$fotodm.'" alt="Foto DM">
+                                                <div class="dc-card btn-informasi-dc" data-iddc="' . $row->iddc . '">
+                                                    <img src="' . $fotodm . '" alt="Foto DM">
                                                     <div class="dc-overlay"></div>
                                                     <div class="dc-info">
-                                                    <div class="dc-dm">'.$row->namadm.'</div>
+                                                    <div class="dc-dm">' . $row->namadm . '</div>
                                                     <div class="dc-name">
                                                     <i class="fa fa-users me-1 text-warning"></i>
-                                                    '.$row->namadc.'
+                                                    ' . $row->namadc . '
                                                     </div>
                                                     </div>
                                                 </div>
@@ -865,6 +872,7 @@ $this->load->view('template/festavalive/header'); ?>
             var idkabupaten = $('#idkabupaten').val();
             var idkecamatan = $('#idkecamatan').val();
             var cari = $('#carinamadc').val();
+            var carinamadm = $('#carinamadm').val(); 
 
             $('#divListDC').empty();
 
@@ -877,6 +885,7 @@ $this->load->view('template/festavalive/header'); ?>
                         'idkategoridc': idkategoridc,
                         'idkabupaten': idkabupaten,
                         'idkecamatan': idkecamatan,
+                        'carinamadm': carinamadm,
 
                         'cari': cari,
                     },
