@@ -1,5 +1,5 @@
 <?php
-//============================================================+
+// ============================================================+
 // File name   : example_051.php
 // Begin       : 2009-04-16
 // Last Update : 2013-05-14
@@ -14,7 +14,7 @@
 //               Tecnick.com LTD
 //               www.tecnick.com
 //               info@tecnick.com
-//============================================================+
+// ============================================================+
 
 /**
  * Creates an example PDF TEST document using TCPDF
@@ -27,11 +27,10 @@
 // Include the main TCPDF library (search for installation path).
 // require_once('tcpdf_include.php');
 
-
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF
 {
-    //Page header
+    // Page header
     public function Header()
     {
         // get the current page break margin
@@ -85,7 +84,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // set some language-dependent strings (optional)
 
 if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-    require_once(dirname(__FILE__) . '/lang/eng.php');
+    require_once (dirname(__FILE__) . '/lang/eng.php');
     $pdf->setLanguageArray($l);
 }
 
@@ -119,64 +118,55 @@ $css = '
 </style>
 ';
 
-
 $html = $css . '<span class="namasertifikat">' . $rsregistrasi->namalengkap . '</span>';
 $pdf->SetXY(10, 79);
 $pdf->writeHTML($html, true, false, true, false, '');
-
-
-
 
 // $html = $css. '<span class="tglsertifikat">'.tglindonesialengkap($rsregistrasi->tglsertifikat).'</span>';
 // $pdf->SetXY(10, 110);
 // $pdf->writeHTML($html, true, false, true, false, '');
 
+// $rsregistrasimateri = $this->db->query("select * from registrasikelasmateri where idregistrasikelas='" . $idregistrasikelas . "'");
 
+// if ($rsregistrasimateri->num_rows() > 0) {
 
+//     $html = $css . '
+//         <table border="0" width="100%" cellpadding="">
+//             <tbody>
+//                 <tr class="listmateri">';
 
-$rsregistrasimateri = $this->db->query("select * from registrasikelasmateri where idregistrasikelas='" . $idregistrasikelas . "'");
+//     $no = 1; //untuk pembagi
+//     foreach ($rsregistrasimateri->result() as $rowregistrasimateri) {
 
+//         if ($no > 2) {
+//             $html .= '
+//                 </tr>
+//                 <tr class="listmateri">
+//                 ';
+//             $no = 1;
+//         }
 
-if ($rsregistrasimateri->num_rows() > 0) {
+//         $html .= '
+//                         <td style="" width="50%">' . $rowregistrasimateri->judulmateri . '</td>
+//         ';
 
-    $html = $css . '
-        <table border="0" width="100%" cellpadding="">
-            <tbody>
-                <tr class="listmateri">';
+//         $no++;
+//     }
 
-    $no = 1; //untuk pembagi
-    foreach ($rsregistrasimateri->result() as $rowregistrasimateri) {
-
-        if ($no > 2) {
-            $html .= '
-                </tr>
-                <tr class="listmateri">
-                ';
-            $no = 1;
-        }
-
-        $html .= '
-                        <td style="" width="50%">' . $rowregistrasimateri->judulmateri . '</td>                    
-        ';
-
-        $no++;
-    }
-
-    $html .= '
-                    </tr>
-                </tbody>  
-            </table>
-    ';
-}
-$pdf->SetXY(25, 105);
-$pdf->writeHTML($html, true, false, true, false, '');
-
+//     $html .= '
+//                     </tr>
+//                 </tbody>
+//             </table>
+//     ';
+// }
+// $pdf->SetXY(25, 105);
+// $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
 
-//Close and output PDF document
+// Close and output PDF document
 $pdf->Output('example_051.pdf', 'I');
 
-//============================================================+
+// ============================================================+
 // END OF FILE
-//============================================================+
+// ============================================================+
