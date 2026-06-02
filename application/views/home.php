@@ -408,7 +408,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;      /* ← ini kuncinya, video mengisi penuh tanpa terpotong */
-    object-position: center center;
+    object-position: center top;
     pointer-events: none;
   }
 
