@@ -1,8 +1,8 @@
  <?php
-  $this->load->view("template/header");
-  $this->load->view("template/topmenu");
-  $this->load->view("template/sidemenu");
-  ?>
+$this->load->view('template/header');
+$this->load->view('template/topmenu');
+$this->load->view('template/sidemenu');
+?>
 
  <style>
    .table-jadwal-detail tr td {
@@ -38,11 +38,11 @@
 
              <div class="col-md-12">
                <?php
-                $pesan = $this->session->flashdata("pesan");
-                if (!empty($pesan)) {
-                  echo $pesan;
-                }
-                ?>
+$pesan = $this->session->flashdata('pesan');
+if (!empty($pesan)) {
+  echo $pesan;
+}
+?>
              </div>
 
 
@@ -110,7 +110,7 @@
                                    <div class="form-check mt-3">
                                      <input class="form-check-input" type="radio" name="jenisjadwal" id="exampleRadios2" value="Doa Bersama">
                                      <label class="form-check-label" for="exampleRadios2">
-                                       Doa Bersama
+                                       Doa Bersama/Menara Doa
                                      </label>
                                    </div>
                                    <div class="form-check mt-3">
@@ -199,17 +199,17 @@
                                        <select name="idkelas" id="idkelas" class="form-control select2">
                                          <option value="">Pilih nama kelas...</option>
                                          <?php
-                                          $rskelas = $this->db->query("
+$rskelas = $this->db->query("
                                                       select * from kelas where statusaktif='Aktif' order by idkelas
                                                     ");
-                                          if ($rskelas->num_rows() > 0) {
-                                            foreach ($rskelas->result() as $row) {
-                                              echo '
+if ($rskelas->num_rows() > 0) {
+  foreach ($rskelas->result() as $row) {
+    echo '
                                                           <option value="' . $row->idkelas . '">' . $row->namakelas . '</option>
                                                         ';
-                                            }
-                                          }
-                                          ?>
+  }
+}
+?>
                                        </select>
                                      </div>
                                    </div>
@@ -234,15 +234,15 @@
                                        <select name="iddepartement" id="iddepartement" class="form-control select2">
                                          <option value="">Pilih nama departemen...</option>
                                          <?php
-                                          $rsDepartement = $this->Departement_model->get_all();
-                                          if ($rsDepartement->num_rows() > 0) {
-                                            foreach ($rsDepartement->result() as $row) {
-                                              echo '
+$rsDepartement = $this->Departement_model->get_all();
+if ($rsDepartement->num_rows() > 0) {
+  foreach ($rsDepartement->result() as $row) {
+    echo '
                                                         <option value="' . $row->iddepartement . '">' . $row->namadepartement . '</option>
                                                       ';
-                                            }
-                                          }
-                                          ?>
+  }
+}
+?>
                                        </select>
                                      </div>
                                    </div>
@@ -253,15 +253,15 @@
                                        <select name="idpengkhotbah" id="idpengkhotbah" class="form-control select2">
                                          <option value="">Pilih nama pengkhotbah...</option>
                                          <?php
-                                          $rsPengkhotbah = $this->App->getPengkhotbah();
-                                          if ($rsPengkhotbah->num_rows() > 0) {
-                                            foreach ($rsPengkhotbah->result() as $row) {
-                                              echo '
+$rsPengkhotbah = $this->App->getPengkhotbah();
+if ($rsPengkhotbah->num_rows() > 0) {
+  foreach ($rsPengkhotbah->result() as $row) {
+    echo '
                                                         <option value="' . $row->idpengkhotbah . '">' . $row->namalengkap . '</option>
                                                       ';
-                                            }
-                                          }
-                                          ?>
+  }
+}
+?>
                                        </select>
                                      </div>
                                    </div>
@@ -273,15 +273,15 @@
                                          <option value="">Pilih nama penanggung jawab...</option>
 
                                          <?php
-                                          $rsDepartement = $this->App->getDepartement();
-                                          if ($rsDepartement->num_rows() > 0) {
-                                            foreach ($rsDepartement->result() as $row) {
-                                              echo '
+$rsDepartement = $this->App->getDepartement();
+if ($rsDepartement->num_rows() > 0) {
+  foreach ($rsDepartement->result() as $row) {
+    echo '
                                                         <option value="' . $row->namahead . '">' . $row->namahead . '</option>
                                                       ';
-                                            }
-                                          }
-                                          ?>
+  }
+}
+?>
                                        </select>
                                      </div>
                                    </div>
@@ -629,20 +629,18 @@
                                                  <label for="" class="col-md-5 col-form-label">Pengumuman Disampaikan Melalui</label>
                                                  <div class="col-md-7">
                                                    <?php
-                                                    $rsPengumuman = $this->App->getJenisPengumuman();
-                                                    if ($rsPengumuman->num_rows() > 0) {
-
-                                                      foreach ($rsPengumuman->result() as $rowPengumuman) {
-
-                                                        echo '
+$rsPengumuman = $this->App->getJenisPengumuman();
+if ($rsPengumuman->num_rows() > 0) {
+  foreach ($rsPengumuman->result() as $rowPengumuman) {
+    echo '
                                                                   <div class="form-check form-check-inline">
                                                                     <input class="form-check-input" type="checkbox" name="idjenispengumuman" id="idjenispengumuman' . $rowPengumuman->idjenispengumuman . '" value="' . $rowPengumuman->idjenispengumuman . '">
                                                                     <label class="form-check-label" for="idjenispengumuman' . $rowPengumuman->idjenispengumuman . '">' . $rowPengumuman->namajenispengumuman . '</label>
                                                                   </div>
                                                                 ';
-                                                      }
-                                                    }
-                                                    ?>
+  }
+}
+?>
                                                  </div>
                                                </div>
                                              </div>
@@ -837,7 +835,7 @@
 
 
 
- <?php $this->load->view("template/footer") ?>
+ <?php $this->load->view('template/footer') ?>
 
 
  <?php $this->load->view('pengajuanjadwal/modalkelengkapan'); ?>
@@ -918,7 +916,7 @@
 
        $.ajax({
            type: 'POST',
-           url: '<?php echo site_url("pengajuanjadwal/get_edit_data") ?>',
+           url: '<?php echo site_url('pengajuanjadwal/get_edit_data') ?>',
            data: {
              'idjadwalevent': idjadwalevent
            },
@@ -1448,7 +1446,7 @@
 
      $.ajax({
          type: 'POST',
-         url: '<?php echo site_url("pengajuanjadwal/simpanjadwalevent") ?>',
+         url: '<?php echo site_url('pengajuanjadwal/simpanjadwalevent') ?>',
          data: formData,
          dataType: 'json',
          encode: true,

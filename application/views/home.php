@@ -201,6 +201,18 @@
 
     #section_1 {
       height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Video Wrap */
+    .video-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
 
 
@@ -238,6 +250,17 @@
       font-size: 48px; /* ukuran normal di desktop */
     }
   }
+
+  /* Fix khusus mobile */
+@media (max-width: 768px) {
+  #section_1 {
+    height: 100svh; /* svh = small viewport height, fix iOS browser bar */
+  }
+
+  .custom-video {
+    object-position: center center; /* geser fokus video jika perlu */
+  }
+}
 
 
   /* @media screen and (max-width: 480px) {
@@ -382,6 +405,11 @@
   .custom-video {
     pointer-events: none;
     -webkit-playsinline: true; /* legacy iOS */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* ← ini kuncinya, video mengisi penuh tanpa terpotong */
+    object-position: center center;
+    pointer-events: none;
   }
 
 
