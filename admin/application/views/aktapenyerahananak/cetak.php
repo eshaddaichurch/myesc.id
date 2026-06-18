@@ -181,8 +181,8 @@ $html = $css . '<span class="default-text">Pontianak, ' . tglindonesialengkap($r
 $pdf->SetXY(111, 248);
 $pdf->writeHTML($html, true, false, true, false, '');
 
-// $html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
-$html = $css . '<span class="default-text text-bold">' . $rsakta->dilakukanoleh . '</span>';
+$html = $css . '<span class="default-text text-bold">' . GEMBALAGEREJA . '</span>';
+// $html = $css . '<span class="default-text text-bold">' . $rsakta->dilakukanoleh . '</span>';
 $pdf->SetXY(120, 275);
 $pdf->writeHTML($html, true, false, true, false, '');
 
