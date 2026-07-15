@@ -5,15 +5,7 @@
  * Kompatibel: Android Chrome, iOS Safari (iPhone 5s+)
  * Font: Figtree (Google Fonts)
  * Topbar: hitam | Drawer: putih
- *
- * UPDATE: sekarang pakai cache menu (get_all_menus_cached())
- * supaya tidak query v_frontmenus berulang-ulang di setiap request,
- * dan tidak dobel query untuk versi Desktop + Mobile.
  */
-
-// ===== AMBIL MENU DARI CACHE (1x untuk desktop & mobile) =====
-$menuTree = $this->Frontmenus_model->get_all_menus_cached();
-$menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
 ?>
 
 <!-- Google Fonts: Figtree -->
@@ -41,8 +33,9 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
             <ul class="navbar-nav align-items-lg-center ms-auto me-lg-5">
 
                 <?php
-                if (count($menuLevel1) > 0) {
-                    foreach ($menuLevel1 as $row1) {
+                $rsMenu1 = $this->db->query('SELECT * FROM v_frontmenus WHERE levels=1 ORDER BY nomorurut');
+                if ($rsMenu1->num_rows() > 0) {
+                    foreach ($rsMenu1->result() as $row1) {
                         $urlmenu = '';
                         $openinnewtab = ($row1->openinnewtab == '1') ? ' target="_blank" ' : '';
                         $active = ($menu == $row1->idmenu) ? 'active' : '';
@@ -69,10 +62,10 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
                                 $urlmenu = '#';
                         }
 
-                        $rsMenu2 = isset($menuTree[$row1->idmenu]) ? $menuTree[$row1->idmenu] : array();
-                        if (count($rsMenu2) > 0) {
+                        $rsMenu2 = $this->db->query("SELECT * FROM v_frontmenus WHERE parentidmenu='" . $row1->idmenu . "' ORDER BY nomorurut");
+                        if ($rsMenu2->num_rows() > 0) {
                             $active = '';
-                            foreach ($rsMenu2 as $rowCekActive) {
+                            foreach ($rsMenu2->result() as $rowCekActive) {
                                 if ($menu == $rowCekActive->idmenu) {
                                     $active = 'active';
                                     break;
@@ -81,7 +74,7 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
                             echo '<li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle ' . $active . '" id="navbarDropdown" data-bs-toggle="dropdown">' . $row1->namamenu . '</a>
                                 <div class="dropdown-menu m-0">';
-                            foreach ($rsMenu2 as $row2) {
+                            foreach ($rsMenu2->result() as $row2) {
                                 $openinnewtab = ($row2->openinnewtab == '1') ? ' target="_blank" ' : '';
                                 $urlmenu = '';
                                 switch ($row2->jenismenu) {
@@ -158,6 +151,7 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
     justify-content: space-between;
     padding: 0 1.25rem;
     border-bottom: 1px solid #1a1a1a;
+    /* Safe area iPhone notch/Dynamic Island */
     padding-left: max(1.25rem, env(safe-area-inset-left));
     padding-right: max(1.25rem, env(safe-area-inset-right));
 }
@@ -220,8 +214,10 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
 .mob-drawer {
     position: fixed;
     top: 0; right: 0;
+    /* Lebar: 82% layar, max 300px — pas di semua HP */
     width: min(300px, 82vw);
     height: 100%;
+    /* iOS: full height termasuk safe area */
     height: 100dvh;
     background: #fff;
     z-index: 1070;
@@ -231,6 +227,7 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
     flex-direction: column;
     border-left: 1px solid #e8e8e8;
     overflow: hidden;
+    /* Pastikan font tidak dioverride sistem */
     font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
@@ -285,12 +282,14 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
     list-style: none;
     margin: 0;
     padding: 4px 0;
+    /* Scrollbar tipis di Android */
     scrollbar-width: thin;
     scrollbar-color: #e0e0e0 transparent;
 }
 .mob-nav::-webkit-scrollbar { width: 3px; }
 .mob-nav::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 3px; }
 
+/* Item menu utama */
 .mob-nav > li {
     border-bottom: 1px solid #f2f2f2;
 }
@@ -307,6 +306,7 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
     transition: background 0.15s, color 0.15s;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    /* Minimal tap target 48px — aksesibilitas mobile */
     min-height: 52px;
 }
 .mob-nav > li > a:hover,
@@ -364,6 +364,7 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
     flex-shrink: 0;
     border-top: 1px solid #efefef;
     background: #fafafa;
+    /* Safe area iPhone home indicator */
     padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
 }
 
@@ -477,6 +478,7 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
 .mob-spacer {
     display: none;
     height: 56px;
+    /* iOS safe area */
     height: calc(56px + env(safe-area-inset-top, 0px));
 }
 
@@ -525,10 +527,9 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
     <!-- Nav List -->
     <ul class="mob-nav" id="mobNavList">
         <?php
-        // Pakai data yang sama dari cache — tidak query ulang ke database
-        $rsMenuMob = $menuLevel1;
-        if (count($rsMenuMob) > 0) {
-            foreach ($rsMenuMob as $rowMob) {
+        $rsMenuMob = $this->db->query('SELECT * FROM v_frontmenus WHERE levels=1 ORDER BY nomorurut');
+        if ($rsMenuMob->num_rows() > 0) {
+            foreach ($rsMenuMob->result() as $rowMob) {
                 $urlmenuMob = '';
                 $openinnewtabMob = ($rowMob->openinnewtab == '1') ? ' target="_blank" rel="noopener"' : '';
                 $activeMob = ($menu == $rowMob->idmenu) ? 'active' : '';
@@ -555,12 +556,12 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
                         $urlmenuMob = '#';
                 }
 
-                $rsMenu2Mob = isset($menuTree[$rowMob->idmenu]) ? $menuTree[$rowMob->idmenu] : array();
+                $rsMenu2Mob = $this->db->query("SELECT * FROM v_frontmenus WHERE parentidmenu='" . $rowMob->idmenu . "' ORDER BY nomorurut");
 
-                if (count($rsMenu2Mob) > 0) {
+                if ($rsMenu2Mob->num_rows() > 0) {
                     // Cek active dari submenu
                     $activeMob = '';
-                    foreach ($rsMenu2Mob as $rowCek) {
+                    foreach ($rsMenu2Mob->result() as $rowCek) {
                         if ($menu == $rowCek->idmenu) {
                             $activeMob = 'active';
                             break;
@@ -576,7 +577,7 @@ $menuLevel1 = isset($menuTree['__root__']) ? $menuTree['__root__'] : array();
                             <span class="mob-chevron" aria-hidden="true">&#9660;</span>
                         </a>
                         <ul class="mob-submenu" id="' . $subId . '">';
-                    foreach ($rsMenu2Mob as $row2Mob) {
+                    foreach ($rsMenu2Mob->result() as $row2Mob) {
                         $openinnewtab2 = ($row2Mob->openinnewtab == '1') ? ' target="_blank" rel="noopener"' : '';
                         $urlmenu2 = '';
                         switch ($row2Mob->jenismenu) {
@@ -699,6 +700,7 @@ else:
         isOpen = true;
         drawer.classList.add('open');
         overlay.style.display = 'block';
+        // Delay kecil agar transition opacity berjalan
         requestAnimationFrame(function () {
             requestAnimationFrame(function () {
                 overlay.classList.add('show');
@@ -707,6 +709,7 @@ else:
         hamburger.classList.add('open');
         hamburger.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+        // iOS: cegah scroll di belakang drawer
         document.body.style.position = '';
     }
 
@@ -728,16 +731,19 @@ else:
     overlay.addEventListener('click', closeDrawer);
     closeBtn.addEventListener('click', closeDrawer);
 
+    // Tutup drawer saat tap link login/registrasi/lupa password
     document.addEventListener('click', function (e) {
         if (e.target.closest('.show-form-login, .show-form-registrasi, .show-form-lupapassword')) {
             closeDrawer();
         }
     });
 
+    // Tutup drawer dengan tombol Escape (keyboard)
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && isOpen) closeDrawer();
     });
 
+    // iOS: cegah body scroll saat drawer dibuka (workaround iOS rubber-band)
     drawer.addEventListener('touchmove', function (e) {
         e.stopPropagation();
     }, { passive: true });
@@ -749,12 +755,14 @@ function toggleMobSub(el) {
     var sub = li.querySelector('.mob-submenu');
     var wasOpen = li.classList.contains('open');
 
+    // Tutup semua submenu lain
     document.querySelectorAll('.mob-has-sub.open').forEach(function (item) {
         item.classList.remove('open');
         item.querySelector('.mob-submenu').style.display = 'none';
         item.querySelector('a').setAttribute('aria-expanded', 'false');
     });
 
+    // Toggle yang dipilih
     if (!wasOpen) {
         li.classList.add('open');
         sub.style.display = 'block';
