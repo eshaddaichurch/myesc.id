@@ -75,6 +75,33 @@ class App extends CI_Model
         return $foto;
     }
 
+
+    public function uploadPdf($file, $namaFile, $namaFileLama, $foldername, $ukuran = '2000')
+    {
+        $this->load->library('image_lib');
+
+        if (!empty($file[$namaFile]['name'])) {
+            $config['upload_path']          = 'myesc.id/admin/uploads/' . $foldername . '/';
+            $config['allowed_types']        = 'pdf';
+            $config['remove_space']         = TRUE;
+            $config['max_size']            = $ukuran . 'KB'; //in KB
+
+
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload($namaFile)) {
+                $foto = $this->upload->data('file_name');
+                $size = $this->upload->data('file_size');
+                $ext  = $this->upload->data('file_ext');
+            } else {
+                $foto = $namaFileLama;
+            }
+        } else {
+            $foto = $namaFileLama;
+        }
+
+        return $foto;
+    }
+
     public function sudahLulusKelas($idjemaat, $idkelas)
     {
         $rsTemp = $this->db->query("

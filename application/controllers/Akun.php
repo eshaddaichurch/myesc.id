@@ -207,6 +207,10 @@ class Akun extends MY_Controller
 
         $foto_lama = $this->input->post('foto_lama');
         $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
+        
+        $filekartukeluarga_lama = $this->input->post('filekartukeluarga_lama');
+        $filekartukeluarga = $this->App->uploadPdf($_FILES, "filekartukeluarga", $filekartukeluarga_lama, 'jemaat', '5000');
+        
 
         if (empty($nohp)) {
             $nohp = null;
@@ -337,7 +341,7 @@ class Akun extends MY_Controller
         // var_dump($data);
         // exit();
 
-        $simpan = $this->Akun_model->update($data, $idjemaat);
+        $simpan = $this->Akun_model->update($data, $filekartukeluarga, $idjemaat);
 
         if ($simpan) {
             $pesan = "<script>
@@ -422,6 +426,17 @@ class Akun extends MY_Controller
         $RsData = $this->db->query(
             "select * from v_jemaat where idjemaat = '$idjemaat'"
         )->row();
+
+        $dokumen = $this->db->query(
+            "select * from jemaatdokumen where idjemaat = '$idjemaat'"
+        );
+        if ($dokumen->num_rows() > 0) {
+            $filekartukeluarga = $dokumen->row()->kartukeluarga;
+            $RsData->filekartukeluarga = $filekartukeluarga;
+        }else{
+            $RsData->filekartukeluarga = "";
+        }
+
         echo (json_encode($RsData));
     }
 

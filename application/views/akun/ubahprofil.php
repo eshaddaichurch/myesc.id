@@ -321,6 +321,11 @@ if (!empty($pesan))
             <div class="step-circle">5</div>
             <div class="step-label">Pendidikan</div>
           </div>
+          <div class="step-connector" id="conn-5"></div>
+          <div class="step-item" data-step="6">
+            <div class="step-circle">6</div>
+            <div class="step-label">Dokumen</div>
+          </div>
         </div>
 
         <!-- Progress bar -->
@@ -746,6 +751,54 @@ if ($rsProvinsi->num_rows() > 0) {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                 Sebelumnya
               </button>
+              <button type="button" class="btn-step next" onclick="goStep(6)">
+                Selanjutnya
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- STEP 6: DOKUMEN -->
+          <div class="step-panel" id="panel-6">
+            <div class="form-card-header">
+              <div class="form-card-header-icon">
+                <!-- svg icon file upload -->
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-width="3" stroke="#000000" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><polygon points="25.15 6.32 50.81 6.32 50.81 54.84 13.19 54.84 13.19 19.18 25.15 6.32" stroke-linecap="round"></polygon><polyline points="25.17 6.32 25.15 19.18 13.19 19.18"></polyline><path d="M40.26,34v7.4a.82.82,0,0,1-.82.81H24.56a.82.82,0,0,1-.82-.81V34"></path><polyline points="36.08 30.87 32 26.79 27.93 30.87"></polyline><line x1="32" y1="26.79" x2="32" y2="38.74"></line></g></svg>
+              </div>
+              <div>
+                <h5>Dokumen</h5>
+                <p>Dokumen-dokumen pendukung</p>
+              </div>
+            </div>
+            <div class="form-card-body">
+              <div class="row">
+
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Kartu Keluarga <strong class="text-danger">(PDF)</strong></label>
+                    <div class="col-md-9">
+                      <div class="display-block mb-3" id="filekartukeluarga_preview" style="display:none">
+                        <a href="#" target="_blank" id="filekartukeluarga_link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h22v19H1z"/><path d="M10 12l4-4-4-4v16z"/></svg> <span id="filekartukeluarga_name" class="text-primary">Kartu Keluarga</span></a>
+                      </div>
+                      <input type="file" name="filekartukeluarga" id="filekartukeluarga" class="form-control" accept=".pdf">
+                      <small class="text-muted">Ukuran maksimal dokumen: 5 MB</small>
+                      <input type="hidden" name="filekartukeluarga_lama" id="filekartukeluarga_lama">
+                      
+                    </div>
+                  </div>
+                </div>
+
+                
+                
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button type="button" class="btn-step prev" onclick="goStep(5)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Sebelumnya
+              </button>
               <button type="submit" class="btn-step save" id="btnSimpan">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
                 Simpan Data
@@ -765,7 +818,7 @@ if ($rsProvinsi->num_rows() > 0) {
 
 <script>
 /* ===== MULTI-STEP NAVIGATION ===== */
-var totalSteps = 5;
+var totalSteps = 6;
 var currentStep = 1;
 
 function goStep(n) {
@@ -805,6 +858,8 @@ $(document).ready(function() {
     encode: true
   })
   .done(function(result) {
+    console.log(result);
+
     $("#nikprofil").val(result.nik);
     $("#kewarganegaraan").val(result.kewarganegaraan);
     $("#namalengkapprofil").val(result.namalengkap);
@@ -856,6 +911,16 @@ $(document).ready(function() {
 
     $("#kodepos").val(result.kodepos);
     $("#foto_lama").val(result.foto);
+
+    if (result.filekartukeluarga != "" && result.filekartukeluarga != null) {
+      $('#filekartukeluarga_preview').show();
+      $('#filekartukeluarga_link').attr('href', "<?php echo base_url('myesc.id/admin/uploads/jemaat/') ?>" + result.filekartukeluarga);
+      $('#filekartukeluarga_name').html(result.filekartukeluarga);
+    }else{
+      $('#filekartukeluarga_preview').hide();
+      $('#filekartukeluarga_link').attr('href', 'javascript:void(0)');
+      $('#filekartukeluarga_name').html('');
+    }
 
     getKabupaten(result.propinsi, result.kotakabupaten);
     getKecamatan(result.kotakabupaten, result.kecamatan);

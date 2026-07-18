@@ -73,10 +73,34 @@ class Akun_model extends CI_Model
         return $this->db->update('jemaat', $dataUpload);
     }
 
-    public function update($data)
+    public function update($data, $filekartukeluarga, $idjemaat)
     {
-        $this->db->where("idjemaat", $this->session->userdata('idjemaat'));
-        return $this->db->update('jemaat', $data);
+        try {
+            $this->db->trans_begin();
+
+            $this->db->where("idjemaat", $this->session->userdata('idjemaat'));
+            $this->db->update('jemaat', $data);
+
+            //insert jemaatdokumen, on duplicate key update
+            if (!empty($filekartukeluarga)) {
+                $this->db->query("
+                    insert into jemaatdokumen (idjemaat, kartukeluarga) values('$idjemaat', '$filekartukeluarga')
+                    on duplicate key update kartukeluarga = '$filekartukeluarga'
+                ");                
+            }
+        
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                $this->db->trans_commit();
+                return true;
+            }
+        } catch (\Throwable $th) {
+            $this->db->trans_rollback();
+            return false;
+        }
+        
     }
 
     public function getInfoDC($idjemaat)
