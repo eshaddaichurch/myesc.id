@@ -11,7 +11,7 @@
     <!-- AOS animation CSS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('myesc.id/assets/gambar/esc10.png') ?>" rel="icon">
+    <link href="<?php echo base_url('assets/gambar/esc10.png') ?>" rel="icon">
     <title>El Shaddai Church</title>
 
 
@@ -25,21 +25,21 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;400;700&display=swap" rel="stylesheet">
 
-    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/bootstrap-icons.css" rel="stylesheet">
 
-    <link href="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>css/templatemo-festava-live.css" rel="stylesheet">
+    <link href="<?php echo base_url('assets/FestavaLive/') ?>css/templatemo-festava-live.css" rel="stylesheet">
 
     <!-- Font Awesome Icons 5.1 -->
-    <link rel="stylesheet" href="<?php echo (base_url()) ?>myesc.id/admin/assets/adminlte/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo (base_url()) ?>myesc.id/assets/adminlte/plugins/fontawesome-free/css/all.min.css">
 
     <!-- custom -->
-    <link href="<?php echo (base_url()) ?>myesc.id/admin/assets/custom/custom.css" rel="stylesheet" />
+    <link href="<?php echo (base_url()) ?>myesc.id/assets/custom/custom.css" rel="stylesheet" />
 
 
     <!-- select2 -->
-    <link href="<?php echo (base_url()) ?>myesc.id/admin/assets/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="<?php echo (base_url()) ?>myesc.id/assets/select2/css/select2.min.css" rel="stylesheet" />
     <style>
         /*** Navbar ***/
 

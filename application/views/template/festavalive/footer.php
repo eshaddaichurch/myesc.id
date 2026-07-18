@@ -146,39 +146,39 @@ T e m p l a t e M o
 
 
 <!-- JAVASCRIPT FILES -->
-<script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/jquery.min.js"></script>
+<script src="<?php echo base_url('assets/FestavaLive/') ?>js/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/jquery.sticky.js"></script>
-<script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/click-scroll.js"></script>
-<script src="<?php echo base_url('myesc.id/assets/FestavaLive/') ?>js/custom.js"></script>
+<script src="<?php echo base_url('assets/FestavaLive/') ?>js/jquery.sticky.js"></script>
+<script src="<?php echo base_url('assets/FestavaLive/') ?>js/click-scroll.js"></script>
+<script src="<?php echo base_url('assets/FestavaLive/') ?>js/custom.js"></script>
 
 <!-- AOS animation JS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
 <!-- datatables -->
-<script src="<?php echo (base_url()) ?>myesc.id/admin/assets/datatables2/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo (base_url()) ?>myesc.id/assets/datatables2/js/jquery.dataTables.min.js"></script>
 
-<script type="text/javascript" src="<?php echo base_url(); ?>myesc.id/admin/assets/bootbox/bootbox.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>myesc.id/assets/bootbox/bootbox.js"></script>
 
 <!-- jquery-confirm -->
-<script src="<?php echo (base_url('myesc.id/admin/assets/')) ?>jquery-confirm/js/jquery-confirm.min.js"></script>
+<script src="<?php echo (base_url('myesc.id/assets/')) ?>jquery-confirm/js/jquery-confirm.min.js"></script>
 
 <!-- jquery-mask -->
-<script type="text/javascript" src="<?php echo base_url('myesc.id/admin/assets/') ?>jquery_mask/jquery.mask.js"></script>
+<script type="text/javascript" src="<?php echo base_url('myesc.id/assets/') ?>jquery_mask/jquery.mask.js"></script>
 
 <!-- Bootstrap validator -->
-<script src="<?php echo (base_url('myesc.id/admin/assets/')) ?>bootstrap-validator/js/bootstrapValidator.js"></script>
+<script src="<?php echo (base_url('myesc.id/assets/')) ?>bootstrap-validator/js/bootstrapValidator.js"></script>
 
 <!-- jquery-ui -->
-<script src="<?php echo (base_url('myesc.id/admin/assets/')) ?>jquery-ui/jquery-ui-2.js"></script>
+<script src="<?php echo (base_url('myesc.id/assets/')) ?>jquery-ui/jquery-ui-2.js"></script>
 
 <!-- select2 -->
-<script src="<?php echo (base_url()) ?>myesc.id/admin/assets/select2/js/select2.min.js"></script>
+<script src="<?php echo (base_url()) ?>myesc.id/assets/select2/js/select2.min.js"></script>
 
 <!-- CK Editor -->
-<script src="<?php echo base_url(); ?>myesc.id/admin/assets/ckeditor/ckeditor.js"></script>
+<script src="<?php echo base_url(); ?>myesc.id/assets/ckeditor/ckeditor.js"></script>
 
-<script src="<?php echo (base_url()) ?>myesc.id/admin/assets/sweetalert/sweetalert.min.js"></script>
+<script src="<?php echo (base_url()) ?>myesc.id/assets/sweetalert/sweetalert.min.js"></script>
 <script>
   AOS.init();
 </script>
