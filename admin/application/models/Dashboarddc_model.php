@@ -128,38 +128,41 @@ class Dashboarddc_model extends CI_Model
     {
         $where = "dm.iddc = '$iddc' AND dm.statusaktif = 'Aktif'";
 
-        // Filter Jenis Kelamin
         if ($jeniskelamin != '') {
             $where .= " AND j.jeniskelamin = '" . $this->db->escape_str($jeniskelamin) . "'";
         }
 
-        // Filter Umur
         if ($umurRange != '') {
             $arrUmur = explode('-', $umurRange);
             if (count($arrUmur) == 2) {
                 $umurMin = (int) $arrUmur[0];
                 $umurMax = (int) $arrUmur[1];
-                $where .= " AND TIMESTAMPDIFF(YEAR, j.tgllahir, CURDATE()) BETWEEN $umurMin AND $umurMax";
+                $where .= " AND TIMESTAMPDIFF(YEAR, j.tanggallahir, CURDATE()) BETWEEN $umurMin AND $umurMax";
             }
         }
 
-        // Filter Status Keanggotaan
         if ($status != '') {
             $where .= " AND dm.statuskeanggotaan = '" . $this->db->escape_str($status) . "'";
         }
 
-        return $this->db->query("
-            SELECT 
-                j.namalengkap,
-                j.jeniskelamin,
-                TIMESTAMPDIFF(YEAR, j.tgllahir, CURDATE()) AS umur,
-                dm.statuskeanggotaan,
-                dm.tanggalinsert AS tglbergabung
-            FROM dcmember dm
-            JOIN jemaat j ON j.idjemaat = dm.idjemaat
-            WHERE $where
-            ORDER BY dm.statuskeanggotaan DESC, j.namalengkap ASC
-        ");
+        $query = $this->db->query("
+        SELECT 
+            j.namalengkap,
+            j.jeniskelamin,
+            TIMESTAMPDIFF(YEAR, j.tanggallahir, CURDATE()) AS umur,
+            dm.statuskeanggotaan,
+            dm.tanggalinsert AS tglbergabung
+        FROM dcmember dm
+        JOIN jemaat j ON j.idjemaat = dm.idjemaat
+        WHERE $where
+        ORDER BY dm.statuskeanggotaan DESC, j.namalengkap ASC
+    ");
+
+        if ($query === false) {
+            log_message('error', 'getAnggotaPerDc SQL Error: ' . print_r($this->db->error(), true));
+        }
+
+        return $query;
     }
 }
 
