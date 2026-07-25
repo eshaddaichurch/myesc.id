@@ -124,17 +124,40 @@ class Dashboarddc_model extends CI_Model
         ")->row()->jumlah;
     }
 
-    public function getAnggotaPerDc($iddc)
+    public function getAnggotaPerDc($iddc, $jeniskelamin = '', $umurRange = '', $status = '')
     {
+        $where = "dm.iddc = '$iddc' AND dm.statusaktif = 'Aktif'";
+
+        // Filter Jenis Kelamin
+        if ($jeniskelamin != '') {
+            $where .= " AND j.jeniskelamin = '" . $this->db->escape_str($jeniskelamin) . "'";
+        }
+
+        // Filter Umur
+        if ($umurRange != '') {
+            $arrUmur = explode('-', $umurRange);
+            if (count($arrUmur) == 2) {
+                $umurMin = (int) $arrUmur[0];
+                $umurMax = (int) $arrUmur[1];
+                $where .= " AND TIMESTAMPDIFF(YEAR, j.tgllahir, CURDATE()) BETWEEN $umurMin AND $umurMax";
+            }
+        }
+
+        // Filter Status Keanggotaan
+        if ($status != '') {
+            $where .= " AND dm.statuskeanggotaan = '" . $this->db->escape_str($status) . "'";
+        }
+
         return $this->db->query("
             SELECT 
                 j.namalengkap,
+                j.jeniskelamin,
+                TIMESTAMPDIFF(YEAR, j.tgllahir, CURDATE()) AS umur,
                 dm.statuskeanggotaan,
                 dm.tanggalinsert AS tglbergabung
             FROM dcmember dm
             JOIN jemaat j ON j.idjemaat = dm.idjemaat
-            WHERE dm.iddc       = '$iddc'
-            AND dm.statusaktif = 'Aktif'
+            WHERE $where
             ORDER BY dm.statuskeanggotaan DESC, j.namalengkap ASC
         ");
     }

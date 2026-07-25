@@ -21,7 +21,6 @@ $this->load->view('template/sidemenu');
             <div class="card-body">
                 <div class="row">
 
-                    <!-- Info Box: Member Baru Bulan Lalu -->
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box">
                             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
@@ -35,13 +34,11 @@ $this->load->view('template/sidemenu');
                         </div>
                     </div>
 
-                    <!-- Info Box: Member Baru Bulan Ini -->
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
                             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Member Baru<br>Bulan Ini</span>
-                                <!-- FIX: id="memberBaruIni" dipindah ke span wrapper yang benar -->
                                 <span class="info-box-number">
                                     <span id="memberBaruIni">0</span>
                                     <small>Orang</small>
@@ -52,7 +49,6 @@ $this->load->view('template/sidemenu');
 
                     <div class="clearfix hidden-md-up"></div>
 
-                    <!-- Info Box: Jumlah DC -->
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
                             <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
@@ -66,7 +62,6 @@ $this->load->view('template/sidemenu');
                         </div>
                     </div>
 
-                    <!-- Info Box: Jumlah Member -->
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
                             <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
@@ -80,15 +75,16 @@ $this->load->view('template/sidemenu');
                         </div>
                     </div>
 
-                    <!-- Card Grafik + Bulan -->
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
 
-                                    <!-- Filter Periode -->
+                                    <!-- Filter Periode + Tombol + Filter Anggota -->
                                     <div class="col-12 mb-3">
                                         <div class="card card-body shadow">
+
+                                            <!-- Baris 1: Periode + Tombol -->
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <div class="row">
@@ -96,24 +92,74 @@ $this->load->view('template/sidemenu');
                                                             <label>Periode</label>
                                                         </div>
                                                         <div class="col-5">
-                                                            <input type="date" name="tglawal" id="tglawal" class="form-control" value="<?php echo date('Y-m-01') ?>">
+                                                            <input type="date" name="tglawal" id="tglawal"
+                                                                class="form-control"
+                                                                value="<?php echo date('Y-m-01') ?>">
                                                         </div>
                                                         <div class="col-1 text-center">S/D</div>
                                                         <div class="col-5">
-                                                            <input type="date" name="tglakhir" id="tglakhir" class="form-control" value="<?php echo date('Y-m-t') ?>">
+                                                            <input type="date" name="tglakhir" id="tglakhir"
+                                                                class="form-control"
+                                                                value="<?php echo date('Y-m-t') ?>">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 pt-4">
-                                                    <a href="#" class="btn btn-success btn-sm" id="btnCetakExcel"><i class="fa fa-file-excel"></i> Cetak Excel</a>
-                                                    <a href="#" class="btn btn-danger btn-sm" id="btnCetakPdf"><i class="fa fa-file-pdf"></i> Cetak Pdf</a>
-
-                                                    <a href="<?= site_url('dashboarddc/cetakLaporanAnggota') ?>" 
-                                                    class="btn btn-dark btn-sm" target="_blank">
+                                                    <a href="#" class="btn btn-success btn-sm" id="btnCetakExcel">
+                                                        <i class="fa fa-file-excel"></i> Cetak Excel
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger btn-sm" id="btnCetakPdf">
+                                                        <i class="fa fa-file-pdf"></i> Cetak Pdf
+                                                    </a>
+                                                    <a href="#" class="btn btn-dark btn-sm" id="btnLaporanAnggota">
                                                         <i class="fa fa-users"></i> Laporan Anggota
                                                     </a>
                                                 </div>
                                             </div>
+
+                                            <!-- Baris 2: Filter Laporan Anggota -->
+                                            <hr>
+                                            <div class="row mt-1">
+                                                <div class="col-12 mb-2">
+                                                    <small class="text-muted font-weight-bold">
+                                                        <i class="fa fa-filter"></i> Filter Laporan Anggota
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group mb-0">
+                                                        <label class="small">Jenis Kelamin</label>
+                                                        <select id="filterJenisKelamin" class="form-control form-control-sm">
+                                                            <option value="">Semua</option>
+                                                            <option value="Laki-laki">Laki-laki</option>
+                                                            <option value="Perempuan">Perempuan</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group mb-0">
+                                                        <label class="small">Rentang Umur</label>
+                                                        <select id="filterUmur" class="form-control form-control-sm">
+                                                            <option value="">Semua</option>
+                                                            <option value="0-17">0 - 17 Tahun</option>
+                                                            <option value="18-25">18 - 25 Tahun</option>
+                                                            <option value="26-35">26 - 35 Tahun</option>
+                                                            <option value="36-45">36 - 45 Tahun</option>
+                                                            <option value="46-99">46 Tahun ke atas</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group mb-0">
+                                                        <label class="small">Status Keanggotaan</label>
+                                                        <select id="filterStatus" class="form-control form-control-sm">
+                                                            <option value="">Semua</option>
+                                                            <option value="Core Team">Core Team</option>
+                                                            <option value="Member">Member</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -128,8 +174,10 @@ $this->load->view('template/sidemenu');
                                             <div class="card-body">
                                                 <div class="d-flex">
                                                     <p class="d-flex flex-column">
-                                                        <span class="text-bold text-lg">Rata-rata Member Baru: <span id="rataratamember">0</span></span>
-                                                        <span id="jumlahi">0 Minggu</span>
+                                                        <span class="text-bold text-lg">
+                                                            Rata-rata Member Baru: <span id="rataratamember">0</span>
+                                                        </span>
+                                                        <span id="jumlahi">0 Hari</span>
                                                     </p>
                                                 </div>
                                                 <div class="position-relative mb-4">
@@ -158,10 +206,10 @@ $this->load->view('template/sidemenu');
                                                         <label><i class="fa fa-users text-primary"></i></label>
                                                     </div>
                                                     <div class="col-12 text-center">
-                                                        <span class="font-weight-bold" id="jumlah<?php echo $id ?>">0</span>
+                                                        <span class="font-weight-bold" id="jumlah<?= $id ?>">0</span>
                                                     </div>
                                                     <div class="col-12 text-center">
-                                                        <span class="text-muted"><?php echo $namaBulan[$m - 1] ?></span>
+                                                        <span class="text-muted"><?= $namaBulan[$m - 1] ?></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,11 +230,9 @@ $this->load->view('template/sidemenu');
 
 <?php $this->load->view('template/footer') ?>
 
-<!-- ChartJS -->
 <script src="<?php echo base_url(); ?>assets/adminlte/plugins/chart.js/Chart.min.js"></script>
 
 <script>
-    // FIX: Deklarasi instance di luar agar bisa di-destroy sebelum dibuat ulang
     var visitorsChartInstance = null;
 
     $(document).ready(function () {
@@ -199,10 +245,10 @@ $this->load->view('template/sidemenu');
         loadGrafik();
     });
 
-    // ===== INFO BOX =====
+    // INFO BOX
     function loadInfoBox() {
         $.ajax({
-            url: '<?php echo site_url('dashboarddc/getinfobox') ?>',
+            url: '<?= site_url('dashboarddc/getinfobox') ?>',
             type: 'GET',
             dataType: 'json',
         })
@@ -212,23 +258,17 @@ $this->load->view('template/sidemenu');
             $('#jumlahDc').html(numberWithCommas(data.jumlahDc));
             $('#jumlahMember').html(numberWithCommas(data.jumlahMember));
         })
-        .fail(function () {
-            console.error("AJAX Error: getinfobox");
-        });
+        .fail(function () { console.error("AJAX Error: getinfobox"); });
     }
 
-    // ===== GRAFIK LINE =====
+    // GRAFIK LINE
     function loadGrafik() {
         var tglawal  = $('#tglawal').val();
         var tglakhir = $('#tglakhir').val();
-
-        var ticksStyle = {
-            fontColor: '#495057',
-            fontStyle: 'bold'
-        };
+        var ticksStyle = { fontColor: '#495057', fontStyle: 'bold' };
 
         $.ajax({
-            url: '<?php echo site_url('dashboarddc/getgrafikmember') ?>',
+            url: '<?= site_url('dashboarddc/getgrafikmember') ?>',
             type: 'GET',
             dataType: 'json',
             data: { tglawal: tglawal, tglakhir: tglakhir },
@@ -237,10 +277,7 @@ $this->load->view('template/sidemenu');
             $('#rataratamember').html(data.ratarata + ' Jemaat');
             $('#jumlahi').html(data.jumlahi + ' Hari');
 
-            // FIX: Destroy chart lama sebelum buat yang baru
-            if (visitorsChartInstance) {
-                visitorsChartInstance.destroy();
-            }
+            if (visitorsChartInstance) visitorsChartInstance.destroy();
 
             var ctx = $('#visitors-chart').get(0).getContext('2d');
             visitorsChartInstance = new Chart(ctx, {
@@ -280,15 +317,13 @@ $this->load->view('template/sidemenu');
                 }
             });
         })
-        .fail(function () {
-            console.error("AJAX Error: getgrafikmember");
-        });
+        .fail(function () { console.error("AJAX Error: getgrafikmember"); });
     }
 
-    // ===== JUMLAH MEMBER PER BULAN =====
+    // JUMLAH MEMBER PER BULAN
     function loadJumlahMemberPerbulan() {
         $.ajax({
-            url: '<?php echo site_url('dashboarddc/getjumlahmemberperbulan') ?>',
+            url: '<?= site_url('dashboarddc/getjumlahmemberperbulan') ?>',
             type: 'GET',
             dataType: 'json',
         })
@@ -299,24 +334,38 @@ $this->load->view('template/sidemenu');
                 $('#' + id).html(data[key] || 0);
             }
         })
-        .fail(function () {
-            console.error("AJAX Error: getjumlahmemberperbulan");
-        });
+        .fail(function () { console.error("AJAX Error: getjumlahmemberperbulan"); });
     }
 
-    // ===== CETAK =====
+    // CETAK PDF (member baru)
     $(document).on('click', '#btnCetakPdf', function (e) {
         e.preventDefault();
         var tglawal  = $('#tglawal').val();
         var tglakhir = $('#tglakhir').val();
-        window.open('<?php echo site_url('dashboarddc/cetak/pdf/') ?>' + tglawal + '/' + tglakhir, '_blank');
+        window.open('<?= site_url('dashboarddc/cetak/pdf/') ?>' + tglawal + '/' + tglakhir, '_blank');
     });
 
+    // CETAK EXCEL
     $(document).on('click', '#btnCetakExcel', function (e) {
         e.preventDefault();
         var tglawal  = $('#tglawal').val();
         var tglakhir = $('#tglakhir').val();
-        window.open('<?php echo site_url('dashboarddc/cetak/excel/') ?>' + tglawal + '/' + tglakhir, '_blank');
+        window.open('<?= site_url('dashboarddc/cetak/excel/') ?>' + tglawal + '/' + tglakhir, '_blank');
+    });
+
+    // LAPORAN ANGGOTA (dengan filter)
+    $(document).on('click', '#btnLaporanAnggota', function (e) {
+        e.preventDefault();
+        var jeniskelamin = $('#filterJenisKelamin').val();
+        var umur         = $('#filterUmur').val();
+        var status       = $('#filterStatus').val();
+
+        var url = '<?= site_url('dashboarddc/cetakLaporanAnggota') ?>'
+                + '?jeniskelamin=' + encodeURIComponent(jeniskelamin)
+                + '&umur='         + encodeURIComponent(umur)
+                + '&status='       + encodeURIComponent(status);
+
+        window.open(url, '_blank');
     });
 </script>
 

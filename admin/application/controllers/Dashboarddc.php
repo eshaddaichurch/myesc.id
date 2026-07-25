@@ -141,6 +141,11 @@ class Dashboarddc extends MY_controller
 
         $this->load->library('Pdf');
 
+        // ✅ Ambil filter dari URL
+        $jeniskelamin = $this->input->get('jeniskelamin') ?? '';
+        $umur = $this->input->get('umur') ?? '';
+        $status = $this->input->get('status') ?? '';
+
         $rowInfoGereja = $this->db->query('SELECT * FROM infogereja')->row();
         $rsDc = $this->Dashboarddc_model->getDc();
         $jumlahDc = $this->Dashboarddc_model->jumlahDc();
@@ -151,6 +156,9 @@ class Dashboarddc extends MY_controller
             'rsDc' => $rsDc,
             'jumlahDc' => $jumlahDc,
             'jumlahMember' => $jumlahMember,
+            'filterJeniskelamin' => $jeniskelamin,  // ✅
+            'filterUmur' => $umur,  // ✅
+            'filterStatus' => $status,  // ✅
         );
 
         $this->load->view('dashboard/cetakdc_anggota_pdf', $data);
