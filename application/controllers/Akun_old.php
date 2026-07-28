@@ -11,76 +11,68 @@ class Akun extends MY_Controller
         $this->load->model('Akun_model');
     }
 
-    public function profil($idmenu = '')
+    public function profil($idmenu = "")
     {
         $idmenu = $this->encrypt->decode($idmenu);
         $rsDC = $this->Akun_model->getInfoDC($this->session->userdata('idjemaat'));
+        // var_dump($rsDC->result());
+        // exit();
         $data['rowProfil'] = $this->Akun_model->getInfoJemaat()->row();
         $data['rsDC'] = $this->Akun_model->getInfoDC($this->session->userdata('idjemaat'));
-        $data['rowinfogereja'] = $this->Home_model->get_infogereja();
+        $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $data['menu'] = 'Akun';
         $this->load->view('akun/profil', $data);
     }
 
-    public function ubahprofil($idmenu = '')
+    public function ubahprofil($idmenu = "")
     {
         $idmenu = $this->encrypt->decode($idmenu);
         $data['rowProfil'] = $this->Akun_model->getInfoJemaat()->row();
-        $data['rowinfogereja'] = $this->Home_model->get_infogereja();
+        $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $data['menu'] = 'Akun';
-        $this->load->view('akun/ubahprofil', $data);
+        $this->load->view('akun/ubahprofil', $data); 
     }
 
-    public function gantipassword($idmenu = '')
+    public function gantipassword($idmenu = "")
     {
         $idmenu = $this->encrypt->decode($idmenu);
         $data['rowProfil'] = $this->Akun_model->getInfoJemaat()->row();
-        $data['rowinfogereja'] = $this->Home_model->get_infogereja();
+        $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $data['menu'] = 'Akun';
         $this->load->view('akun/gantipassword', $data);
     }
 
-    public function kelas($idmenu = '')
+    public function kelas($idmenu = "")
     {
-        // FIX: SQL Injection - gunakan binding (?) untuk idjemaat dari session
-        $idjemaat = $this->session->userdata('idjemaat');
 
-        $rskelas = $this->db->query('
+        //data kelas
+        $rskelas = $this->db->query("
                 SELECT kelas.idkelas, kelas.namakelas, kelas.urlsertifikat,
                     registrasikelas.`statuslulus`, tglsertifikat, idregistrasikelas
                     FROM kelas 
-                    LEFT JOIN registrasikelas ON registrasikelas.`idkelas`=kelas.`idkelas` and idjemaat = ? AND statuslulus=1
+                    LEFT JOIN registrasikelas ON registrasikelas.`idkelas`=kelas.`idkelas` and idjemaat='" . $this->session->userdata('idjemaat') . "' AND statuslulus=1
                     GROUP BY kelas.idkelas, kelas.namakelas, kelas.urlsertifikat,
                     registrasikelas.`statuslulus`, tglsertifikat, idregistrasikelas
-            ', array($idjemaat));
+            ");
 
         $idmenu = $this->encrypt->decode($idmenu);
-        $data['rowinfogereja'] = $this->Home_model->get_infogereja();
+        $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $data['menu'] = 'Akun';
         $data['rskelas'] = $rskelas;
         $this->load->view('akun/kelas', $data);
     }
 
+
     public function sertifikat($idregistrasikelas)
     {
+
         // error_reporting(0);
         $this->load->library('Pdf');
 
-        $idjemaat = $this->session->userdata('idjemaat');
 
-        // FIX (IDOR + SQL Injection):
-        // - Query pakai binding (?), bukan concat string manual
-        // - Tambahkan filter idjemaat supaya user hanya bisa akses sertifikat miliknya sendiri
-        $rsregistrasi = $this->db->query('
-                                        select * from v_registrasikelas
-                                        where idregistrasikelas = ? and idjemaat = ?
-                                    ', array($idregistrasikelas, $idjemaat))->row();
-
-        // Kalau data tidak ditemukan / bukan milik user ini -> stop, jangan lanjut generate PDF
-        if (!$rsregistrasi) {
-            show_404();
-            return;
-        }
+        $rsregistrasi         = $this->db->query("
+                                        select * from v_registrasikelas where idregistrasikelas='" . $idregistrasikelas . "'
+                                    ")->row();
 
         $idkelas = $rsregistrasi->idkelas;
         switch ($idkelas) {
@@ -123,7 +115,7 @@ class Akun extends MY_Controller
         $idjemaat = $this->session->userdata('idjemaat');
 
         $foto_lama = $this->input->post('foto_lama');
-        $foto = $this->App->uploadImage($_FILES, 'foto', $foto_lama, 'jemaat');
+        $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
 
         $dataUpload = array(
             'foto' => $foto,
@@ -163,70 +155,140 @@ class Akun extends MY_Controller
         redirect('akun/profil');
     }
 
+
     public function simpanJemaat()
     {
-        $idjemaat = $this->session->userdata('idjemaat');
-        $nik = $this->input->post('nikprofil');
-        $kewarganegaraan = $this->input->post('kewarganegaraan');
-        $namalengkap = $this->input->post('namalengkapprofil');
-        $namapanggilan = $this->input->post('namapanggilan');
-        $tempatlahir = $this->input->post('tempatlahirprofil');
-        $tanggallahir = $this->input->post('tanggallahirprofil');
-        $jeniskelamin = $this->input->post('jeniskelaminprofil');
-        $statuspernikahan = $this->input->post('statuspernikahan');
-        $golongandarah = $this->input->post('golongandarah');
+        $idjemaat             = $this->session->userdata('idjemaat');
+        $nik        = $this->input->post('nikprofil');
+        $kewarganegaraan        = $this->input->post('kewarganegaraan');
+        $namalengkap        = $this->input->post('namalengkapprofil');
+        $namapanggilan        = $this->input->post('namapanggilan');
+        $tempatlahir        = $this->input->post('tempatlahirprofil');
+        $tanggallahir        = $this->input->post('tanggallahirprofil');
+        $jeniskelamin        = $this->input->post('jeniskelaminprofil');
+        $statuspernikahan        = $this->input->post('statuspernikahan');
+        $golongandarah        = $this->input->post('golongandarah');
         if (empty($golongandarah)) {
             $golongandarah = null;
         }
-        $notelp = $this->input->post('notelp');
-        $nohp = $this->input->post('nohpprofil');
-        $email = $this->input->post('emailprofil');
-        $facebook = $this->input->post('facebook');
-        $instagram = $this->input->post('instagram');
-        $alamatrumah = $this->input->post('alamatrumahprofil');
-        $rtrw = $this->input->post('rtrw');
-        $kelurahan = $this->input->post('kelurahan');
-        $kecamatan = $this->input->post('kecamatan');
-        $kotakabupaten = $this->input->post('kotakabupaten');
-        $propinsi = $this->input->post('propinsi');
-        $kodepos = $this->input->post('kodepos');
+        $notelp        = $this->input->post('notelp');
+        $nohp        = $this->input->post('nohpprofil');
+        $email        = $this->input->post('emailprofil');
+        $facebook        = $this->input->post('facebook');
+        $instagram        = $this->input->post('instagram');
+        $alamatrumah        = $this->input->post('alamatrumahprofil');
+        $rtrw        = $this->input->post('rtrw');
+        $kelurahan        = $this->input->post('kelurahan');
+        $kecamatan        = $this->input->post('kecamatan');
+        $kotakabupaten        = $this->input->post('kotakabupaten');
+        $propinsi        = $this->input->post('propinsi');
+        $kodepos        = $this->input->post('kodepos');
 
-        $namadarurat = $this->input->post('namadarurat');
-        $hubungan = $this->input->post('hubungan');
+        $namadarurat        = $this->input->post('namadarurat');
+        $hubungan        = $this->input->post('hubungan');
         if (empty($hubungan)) {
             $hubungan = null;
         }
-        $notelpdarurat = $this->input->post('notelpdarurat');
-        $pendidikanterakhir = $this->input->post('pendidikanterakhir');
+        $notelpdarurat        = $this->input->post('notelpdarurat');
+        $pendidikanterakhir        = $this->input->post('pendidikanterakhir');
         if (empty($pendidikanterakhir)) {
             $pendidikanterakhir = null;
         }
-        $namasekolah = $this->input->post('namasekolah');
-        $pekerjaan = $this->input->post('pekerjaan');
+        $namasekolah        = $this->input->post('namasekolah');
+        $pekerjaan        = $this->input->post('pekerjaan');
         if (empty($pekerjaan)) {
             $pekerjaan = null;
         }
-        $namaperusahaan = $this->input->post('namaperusahaan');
-        $sektorindustri = $this->input->post('sektorindustri');
-        $alamatkantor = $this->input->post('alamatkantor');
-        $notelpkantor = $this->input->post('notelpkantor');
-        $tanggalupdate = date('Y-m-d H:i:s');
+        $namaperusahaan        = $this->input->post('namaperusahaan');
+        $sektorindustri        = $this->input->post('sektorindustri');
+        $alamatkantor        = $this->input->post('alamatkantor');
+        $notelpkantor        = $this->input->post('notelpkantor');
+        $tanggalupdate        = date('Y-m-d H:i:s');
 
         $foto_lama = $this->input->post('foto_lama');
-        $foto = $this->App->uploadImage($_FILES, 'foto', $foto_lama, 'jemaat');
-
+        $foto = $this->App->uploadImage($_FILES, "foto", $foto_lama, 'jemaat');
+        
         $filekartukeluarga_lama = $this->input->post('filekartukeluarga_lama');
-        $filekartukeluarga = $this->App->uploadPdf($_FILES, 'filekartukeluarga', $filekartukeluarga_lama, 'jemaat', '5000');
+        $filekartukeluarga = $this->App->uploadPdf($_FILES, "filekartukeluarga", $filekartukeluarga_lama, 'jemaat', '5000');
+        
 
         if (empty($nohp)) {
             $nohp = null;
         }
 
-        // FIX: SQL Injection - gunakan binding (?) untuk idjemaat
         $rowJemaat = $this->db->query(
-            'select * from v_jemaat where idjemaat = ?',
-            array($idjemaat)
+            "select * from v_jemaat where idjemaat = '$idjemaat'"
         )->row();
+
+        // hanya registred yang bisa ubah profile
+        // if ($rowJemaat->statusjemaat == 'Registered') {
+
+        // // jemaat dengan status Simpatisan juga masih dapat merubah data pada profile
+        // if ($rowJemaat->statusjemaat == 'Registered' || $rowJemaat->statusjemaat == 'Simpatisan') {
+
+        //     $data['nik'] = $nik;
+        //     $data['kewarganegaraan'] = $kewarganegaraan;
+        //     $data['namalengkap'] = $namalengkap;
+        //     $data['namapanggilan'] = $namapanggilan;
+        //     $data['tempatlahir'] = $tempatlahir;
+        //     $data['tanggallahir'] = $tanggallahir;
+        //     $data['jeniskelamin'] = $jeniskelamin;
+        //     $data['statuspernikahan'] = $statuspernikahan;
+        //     $data['golongandarah'] = $golongandarah;
+
+        //     $data = array(
+        //         'notelp'   => $notelp,
+        //         'nohp'   => $nohp,
+        //         'facebook'   => $facebook,
+        //         'instagram'   => $instagram,
+        //         'namadarurat'   => $namadarurat,
+        //         'hubungan'   => $hubungan,
+        //         'notelpdarurat'   => $notelpdarurat,
+        //         'pendidikanterakhir'   => $pendidikanterakhir,
+        //         'namasekolah'   => $namasekolah,
+        //         'pekerjaan'   => $pekerjaan,
+        //         'namaperusahaan'   => $namaperusahaan,
+        //         'sektorindustri'   => $sektorindustri,
+        //         'alamatkantor'   => $alamatkantor,
+        //         'notelpkantor'   => $notelpkantor,
+        //         'alamatrumah'   => $alamatrumah,
+        //         'rtrw'   => $rtrw,
+        //         'kelurahan'   => $kelurahan,
+        //         'kecamatan'   => $kecamatan,
+        //         'kotakabupaten'   => $kotakabupaten,
+        //         'propinsi'   => $propinsi,
+        //         'kodepos'   => $kodepos,
+        //         'tanggalupdate'   => $tanggalupdate,
+        //         'foto'   => $foto,
+        //     );
+        // } else {
+        //     $data = array(
+        //         'notelp'   => $notelp,
+        //         'nohp'   => $nohp,
+        //         'facebook'   => $facebook,
+        //         'instagram'   => $instagram,
+        //         'namadarurat'   => $namadarurat,
+        //         'hubungan'   => $hubungan,
+        //         'notelpdarurat'   => $notelpdarurat,
+        //         'pendidikanterakhir'   => $pendidikanterakhir,
+        //         'namasekolah'   => $namasekolah,
+        //         'pekerjaan'   => $pekerjaan,
+        //         'namaperusahaan'   => $namaperusahaan,
+        //         'sektorindustri'   => $sektorindustri,
+        //         'alamatkantor'   => $alamatkantor,
+        //         'notelpkantor'   => $notelpkantor,
+        //         'alamatrumah'   => $alamatrumah,
+        //         'rtrw'   => $rtrw,
+        //         'kelurahan'   => $kelurahan,
+        //         'kecamatan'   => $kecamatan,
+        //         'kotakabupaten'   => $kotakabupaten,
+        //         'propinsi'   => $propinsi,
+        //         'kodepos'   => $kodepos,
+        //         'tanggalupdate'   => $tanggalupdate,
+        //         'foto'   => $foto,
+        //     );
+        // }
+
 
         // =======================================
         // DATA UMUM (boleh diubah semua status)
@@ -272,6 +334,13 @@ class Akun extends MY_Controller
             $data['golongandarah'] = $golongandarah;
         }
 
+
+
+        
+
+        // var_dump($data);
+        // exit();
+
         $simpan = $this->Akun_model->update($data, $filekartukeluarga, $idjemaat);
 
         if ($simpan) {
@@ -280,19 +349,16 @@ class Akun extends MY_Controller
                     </script>";
             $this->App->reloadSession($idjemaat);
         } else {
-            // FIX: jangan tampilkan detail error DB ke user (bisa bocorkan struktur database).
-            // Detail error dicatat ke log server, user hanya lihat pesan umum.
             $eror = $this->db->error();
-            log_message('error', 'simpanJemaat gagal untuk idjemaat=' . $idjemaat . ' - ' . json_encode($eror));
-
             $pesan = "<script>
-                        swal('Gagal', 'Data profil gagal disimpan. Silakan coba lagi atau hubungi admin.', 'warning');
+                        swal('Gagal', 'Data profil gagal disimpan. Error: " . $eror['code'] . " " . $eror['message'] . "', 'warning');
                     </script>";
         }
 
         $this->session->set_flashdata('pesan', $pesan);
         redirect('akun/ubahprofil');
     }
+
 
     public function simpanubahpassword()
     {
@@ -307,6 +373,7 @@ class Akun extends MY_Controller
             $this->session->set_flashdata('pesan', $pesan);
             redirect('akun/gantipassword');
         }
+
 
         if (empty($passwordbaru1) || empty($passwordbaru2)) {
             $pesan = "<script>
@@ -324,6 +391,7 @@ class Akun extends MY_Controller
             redirect('akun/gantipassword');
         }
 
+
         if ($passwordbaru1 != $passwordbaru2) {
             $pesan = "<script>
                         swal('Gagal', 'Ulangi Password tidak sama!', 'warning');
@@ -332,7 +400,7 @@ class Akun extends MY_Controller
             redirect('akun/gantipassword');
         }
 
-        // Tetap pakai md5, sesuai data existing yang sudah ada di database
+
         $data = array(
             'password' => md5($passwordbaru1),
         );
@@ -355,95 +423,72 @@ class Akun extends MY_Controller
     public function getJemaatId()
     {
         $idjemaat = $this->session->userdata('idjemaat');
-
-        // FIX: SQL Injection - gunakan binding (?)
         $RsData = $this->db->query(
-            'select * from v_jemaat where idjemaat = ?',
-            array($idjemaat)
+            "select * from v_jemaat where idjemaat = '$idjemaat'"
         )->row();
 
         $dokumen = $this->db->query(
-            'select * from jemaatdokumen where idjemaat = ?',
-            array($idjemaat)
+            "select * from jemaatdokumen where idjemaat = '$idjemaat'"
         );
         if ($dokumen->num_rows() > 0) {
             $filekartukeluarga = $dokumen->row()->kartukeluarga;
             $RsData->filekartukeluarga = $filekartukeluarga;
-        } else {
-            $RsData->filekartukeluarga = '';
+        }else{
+            $RsData->filekartukeluarga = "";
         }
 
         echo (json_encode($RsData));
     }
 
+
     public function getKabupaten()
     {
         $idprovinsi = $this->input->get('idprovinsi');
-
-        // FIX: SQL Injection - gunakan binding (?), input ini dari $_GET jadi paling rawan
-        $query = $this->db->query('
-            select * from kabupaten where idprovinsi = ? order by namakabupaten
-        ', array($idprovinsi));
+        $query = $this->db->query("
+            select * from kabupaten where idprovinsi='$idprovinsi' order by namakabupaten
+        ");
         echo json_encode($query->result());
     }
 
     public function getKecamatan()
     {
         $idkabupaten = $this->input->get('idkabupaten');
-
-        // FIX: SQL Injection - gunakan binding (?)
-        $query = $this->db->query('
-            select * from kecamatan where idkabupaten = ? order by namakecamatan
-        ', array($idkabupaten));
+        $query = $this->db->query("
+            select * from kecamatan where idkabupaten='$idkabupaten' order by namakecamatan
+        ");
         echo json_encode($query->result());
     }
 
     public function getKelurahan()
     {
         $idkecamatan = $this->input->get('idkecamatan');
-
-        // FIX: SQL Injection - gunakan binding (?)
-        $query = $this->db->query('
-            select * from desa where idkecamatan = ? order by namadesa
-        ', array($idkecamatan));
+        $query = $this->db->query("
+            select * from desa where idkecamatan='$idkecamatan' order by namadesa
+        ");
         echo json_encode($query->result());
     }
 
     public function sendverifikasiemail()
     {
+
         $email = $this->input->get('email');
         $namalengkap = $this->session->userdata('namalengkap');
-        $idjemaat = $this->session->userdata('idjemaat');
-
-        // FIX: validasi format email dulu sebelum diproses lebih lanjut
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo json_encode(array('msg' => 'Format email tidak valid.'));
-            exit();
-        }
 
         if ($this->Akun_model->emailsudahada($email)) {
-            echo json_encode(array('msg' => 'Email ' . $email . ' sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun.'));
+            echo json_encode(array('msg' => "Email " . $email . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
             exit();
         }
-
-        // FIX: cegah spam-klik, cooldown 60 detik antar pengiriman verifikasi email
-        $lastSentEmail = $this->session->userdata('last_email_verifikasi_time');
-        if ($lastSentEmail && (time() - $lastSentEmail) < 60) {
-            echo json_encode(array('msg' => 'Mohon tunggu sebentar sebelum meminta verifikasi ulang.'));
-            exit();
-        }
-
-        // FIX: SQL Injection - gunakan binding (?)
-        $this->db->query('
+        
+        $this->db->query("
             update jemaat set
-            email = ?
-            where idjemaat = ?
-        ', array($email, $idjemaat));
+            email = '$email'
+            where idjemaat = '" . $this->session->userdata('idjemaat') . "'
+        ");
 
-        $textemail =
+        $textemail = 
             '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
             <p>We’re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>
-                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
+                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email)) 
             . '">
             <div class= "btn btn-primary">
             Verify Email
@@ -453,7 +498,7 @@ class Akun extends MY_Controller
             <hr>
             <h4>Shalom! ' . $namalengkap . 'Selamat datang di MyEsc! </h4>
             <p>Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi email ini dengan satu klik cepat di bawah ini!</p>
-                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
+                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email)) 
             . '">
             <div class= "btn btn-primary">
             Verifikasi Email
@@ -462,56 +507,37 @@ class Akun extends MY_Controller
             <p>GBI EL SHADDAI</p>
             ';
         $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);
-
-        // FIX: catat waktu pengiriman terakhir untuk cooldown
-        $this->session->set_userdata('last_email_verifikasi_time', time());
-
         echo json_encode(array('success' => true));
     }
+
 
     public function sendverifikasihp()
     {
+
         $nohp = $this->input->get('nohp');
         $namalengkap = $this->session->userdata('namalengkap');
-        $idjemaat = $this->session->userdata('idjemaat');
-
-        // FIX: validasi format nomor HP Indonesia sebelum diproses
-        if (empty($nohp) || !preg_match('/^0[0-9]{9,14}$/', $nohp)) {
-            echo json_encode(array('msg' => 'Format nomor WhatsApp tidak valid.'));
-            exit();
-        }
-
         $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
-
+        
         if ($this->Akun_model->nomorwasudahada($nohp)) {
-            echo json_encode(array('msg' => 'Nomor Whatsapp ' . $nohp . ' sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun.'));
+            echo json_encode(array('msg' => "Nomor Whatsapp " . $nohp . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
             exit();
         }
 
-        // FIX: cegah spam-klik yang bikin nomor WA gateway rawan disuspend
-        // cooldown 60 detik antar pengiriman verifikasi WA
-        $lastSentWa = $this->session->userdata('last_wa_verifikasi_time');
-        if ($lastSentWa && (time() - $lastSentWa) < 60) {
-            echo json_encode(array('msg' => 'Mohon tunggu sebentar sebelum meminta verifikasi ulang.'));
-            exit();
-        }
-
-        // FIX: SQL Injection - gunakan binding (?)
-        $this->db->query('
+        $this->db->query("
             update jemaat set
-            nohp = ?
-            where idjemaat = ?
-        ', array($nohp, $idjemaat));
-
-        $pesanWA = 'Shalom ' . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi nomor whatsapp ini dengan satu klik cepat di bawah ini!\n\n" . $url;
+            nohp = '$nohp'
+            where idjemaat = '" . $this->session->userdata('idjemaat') . "'
+        ");
+        
+        
+        $pesanWA = "Shalom " . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi nomor whatsapp ini dengan satu klik cepat di bawah ini!\n\n" . $url;
 
         $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
 
-        // FIX: catat waktu pengiriman terakhir untuk cooldown
-        $this->session->set_userdata('last_wa_verifikasi_time', time());
-
         echo json_encode(array('success' => true));
     }
+
+    
 }
 
 /* End of file Akun.php */
