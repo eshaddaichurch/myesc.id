@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Jemaatbaru extends MY_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -56,6 +57,7 @@ class Jemaatbaru extends MY_Controller
 
         if ($RsData->num_rows() > 0) {
             foreach ($RsData->result() as $rowdata) {
+
                 if ($rowdata->status == 'Permohonan') {
                     $status = '<span class="badge badge-warning">' . $rowdata->status . '</span>';
                 } else {
@@ -75,93 +77,12 @@ class Jemaatbaru extends MY_Controller
         }
 
         $output = array(
-            'draw' => $_POST['draw'],
-            'recordsTotal' => $this->Jemaatbaru_model->count_all(),
-            'recordsFiltered' => $this->Jemaatbaru_model->count_filtered(),
-            'data' => $data,
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Jemaatbaru_model->count_all(),
+            "recordsFiltered" => $this->Jemaatbaru_model->count_filtered(),
+            "data" => $data,
         );
         echo json_encode($output);
-    }
-
-    // FITUR BARU: cetak PDF data Jemaat Baru sesuai filter periode (opsional).
-    // Diakses via GET, contoh:
-    //   jemaatbaru/cetakpdf                              -> semua data
-    //   jemaatbaru/cetakpdf?tgl_mulai=2026-01-01&tgl_akhir=2026-07-31 -> sesuai periode
-    public function cetakpdf()
-    {
-        $tglMulai = $this->input->get('tgl_mulai');
-        $tglAkhir = $this->input->get('tgl_akhir');
-
-        $rsData = $this->Jemaatbaru_model->get_all_for_pdf($tglMulai, $tglAkhir);
-
-        require_once APPPATH . 'third_party/tcpdf/tcpdf.php';
-
-        $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetCreator('MYESC');
-        $pdf->SetAuthor('GBI El Shaddai');
-        $pdf->SetTitle('Laporan Jemaat Baru');
-
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-        $pdf->SetMargins(10, 10, 10);
-        $pdf->AddPage();
-
-        $judulPeriode = 'Semua Periode';
-        if (!empty($tglMulai) && !empty($tglAkhir)) {
-            $judulPeriode = 'Periode ' . formatHariTanggal($tglMulai) . ' s/d ' . formatHariTanggal($tglAkhir);
-        } elseif (!empty($tglMulai)) {
-            $judulPeriode = 'Mulai ' . formatHariTanggal($tglMulai);
-        } elseif (!empty($tglAkhir)) {
-            $judulPeriode = 'Sampai ' . formatHariTanggal($tglAkhir);
-        }
-
-        $html = '
-            <h2 style="text-align:center;">Laporan Jemaat Baru</h2>
-            <p style="text-align:center;">GBI El Shaddai &mdash; ' . $judulPeriode . '</p>
-            <table border="1" cellpadding="4" style="font-size:10px;">
-                <thead>
-                    <tr style="background-color:#ff5008; color:#ffffff; font-weight:bold;">
-                        <th width="5%">No</th>
-                        <th width="20%">Nama Jemaat</th>
-                        <th width="8%">Jenis Kelamin</th>
-                        <th width="15%">Tgl Daftar</th>
-                        <th width="22%">Email</th>
-                        <th width="15%">No HP</th>
-                        <th width="15%">Status</th>
-                    </tr>
-                </thead>
-                <tbody>';
-
-        $no = 1;
-        if ($rsData->num_rows() > 0) {
-            foreach ($rsData->result() as $row) {
-                $html .= '
-                    <tr>
-                        <td align="center">' . $no++ . '</td>
-                        <td>' . htmlspecialchars($row->namajemaat) . '</td>
-                        <td align="center">' . htmlspecialchars($row->jeniskelamin) . '</td>
-                        <td align="center">' . formatHariTanggalJam($row->tglinsert) . '</td>
-                        <td>' . htmlspecialchars($row->email) . '</td>
-                        <td align="center">' . htmlspecialchars($row->nohp) . '</td>
-                        <td align="center">' . htmlspecialchars($row->status) . '</td>
-                    </tr>';
-            }
-        } else {
-            $html .= '
-                    <tr>
-                        <td colspan="7" align="center">Tidak ada data untuk periode ini.</td>
-                    </tr>';
-        }
-
-        $html .= '
-                </tbody>
-            </table>
-            <p style="font-size:9px; margin-top:10px;">
-                Total data: ' . ($no - 1) . ' orang &mdash; Dicetak pada ' . date('d-m-Y H:i') . '
-            </p>';
-
-        $pdf->writeHTML($html, true, false, true, false, '');
-        $pdf->Output('Laporan_Jemaat_Baru_' . date('YmdHis') . '.pdf', 'I');
     }
 
     public function delete($idcarejemaatbaru)
@@ -204,16 +125,18 @@ class Jemaatbaru extends MY_Controller
 
     public function simpan()
     {
-        $idcarejemaatbaru = $this->input->post('idcarejemaatbaru');
-        $keterangan = $this->input->post('keterangan');
+        $idcarejemaatbaru             = $this->input->post('idcarejemaatbaru');
+        $keterangan             = $this->input->post('keterangan');
 
         $dataCare = array(
-            'idcarejemaatbaru' => $idcarejemaatbaru,
-            'status' => 'Confirmed',
-            'tglstatus' => date('Y-m-d H:i:s'),
-            'idadmin' => $this->session->userdata('idjemaat'),
-            'keterangan' => $keterangan,
+            'idcarejemaatbaru'   => $idcarejemaatbaru,
+            'status'   => "Confirmed",
+            'tglstatus'   => date('Y-m-d H:i:s'),
+            'idadmin'   => $this->session->userdata('idjemaat'),
+            'keterangan'   => $keterangan,
         );
+
+
 
         // var_dump($data);
         // exit();
@@ -247,17 +170,19 @@ class Jemaatbaru extends MY_Controller
         $idcarejemaatbaru = $this->input->post('idcarejemaatbaru');
         $RsData = $this->Jemaatbaru_model->get_by_id($idcarejemaatbaru)->row();
 
+
+
         $data = array(
-            'idcarejemaatbaru' => $RsData->idcarejemaatbaru,
-            'noakta' => $RsData->noakta,
-            'tglakta' => $RsData->tglakta,
-            'tglcetak' => $RsData->tglcetak,
-            'dilakukanoleh' => $RsData->dilakukanoleh,
-            'idjemaat' => $RsData->idjemaat,
-            'namaayah' => $RsData->namaayah,
-            'namaibu' => $RsData->namaibu,
-            'iddaerahakta' => $RsData->iddaerahakta,
-            'idcabangakta' => $RsData->idcabangakta,
+            'idcarejemaatbaru'     =>  $RsData->idcarejemaatbaru,
+            'noakta'     =>  $RsData->noakta,
+            'tglakta'     =>  $RsData->tglakta,
+            'tglcetak'     =>  $RsData->tglcetak,
+            'dilakukanoleh'     =>  $RsData->dilakukanoleh,
+            'idjemaat'     =>  $RsData->idjemaat,
+            'namaayah'     =>  $RsData->namaayah,
+            'namaibu'     =>  $RsData->namaibu,
+            'iddaerahakta'     =>  $RsData->iddaerahakta,
+            'idcabangakta'     =>  $RsData->idcabangakta,
         );
 
         echo (json_encode($data));
@@ -276,7 +201,7 @@ class Jemaatbaru extends MY_Controller
         if ($simpan) {
             echo json_encode(array('success' => true));
         } else {
-            echo json_encode(array('msg' => 'Data gagal disimpan.'));
+            echo json_encode(array('msg' => "Data gagal disimpan."));
         }
     }
 
@@ -297,7 +222,7 @@ class Jemaatbaru extends MY_Controller
         if ($simpan) {
             echo json_encode(array('success' => true));
         } else {
-            echo json_encode(array('msg' => 'Data gagal disimpan.'));
+            echo json_encode(array('msg' => "Data gagal disimpan."));
         }
     }
 }

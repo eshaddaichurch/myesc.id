@@ -1,7 +1,7 @@
 <?php
-$this->load->view("template/header");
-$this->load->view("template/topmenu");
-$this->load->view("template/sidemenu");
+$this->load->view('template/header');
+$this->load->view('template/topmenu');
+$this->load->view('template/sidemenu');
 
 ?>
 
@@ -28,12 +28,38 @@ $this->load->view("template/sidemenu");
                 <div class="row">
                     <div class="col-md-12">
                         <?php
-                        $pesan = $this->session->flashdata("pesan");
+                        $pesan = $this->session->flashdata('pesan');
                         if (!empty($pesan)) {
                             echo $pesan;
                         }
                         ?>
                     </div>
+
+                    <!-- FITUR BARU: Filter periode tanggal + tombol cetak PDF -->
+                    <div class="col-md-12 mb-3">
+                        <div class="form-row align-items-end">
+                            <div class="form-group col-md-3 mb-2">
+                                <label for="filterTglMulai">Tgl Daftar Mulai</label>
+                                <input type="date" class="form-control" id="filterTglMulai">
+                            </div>
+                            <div class="form-group col-md-3 mb-2">
+                                <label for="filterTglAkhir">Tgl Daftar Akhir</label>
+                                <input type="date" class="form-control" id="filterTglAkhir">
+                            </div>
+                            <div class="form-group col-md-6 mb-2">
+                                <button type="button" class="btn btn-primary" id="btnFilter">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                                <button type="button" class="btn btn-default" id="btnResetFilter">
+                                    <i class="fas fa-undo"></i> Reset
+                                </button>
+                                <a href="#" target="_blank" class="btn btn-danger" id="btnCetakPdf">
+                                    <i class="fas fa-file-pdf"></i> Cetak PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-12">
                         <!-- datatable -->
                         <div class="table-responsive">
@@ -69,7 +95,7 @@ $this->load->view("template/sidemenu");
 
 
 
-<?php $this->load->view("template/footer") ?>
+<?php $this->load->view('template/footer') ?>
 
 
 
@@ -86,7 +112,13 @@ $this->load->view("template/sidemenu");
             "order": [],
             "ajax": {
                 "url": "<?php echo site_url('jemaatbaru/datatablesource') ?>",
-                "type": "POST"
+                "type": "POST",
+                // FITUR BARU: ikut kirim parameter filter periode setiap kali
+                // DataTables reload (search, ganti halaman, klik tombol Filter, dll)
+                "data": function(d) {
+                    d.tgl_mulai = $('#filterTglMulai').val();
+                    d.tgl_akhir = $('#filterTglAkhir').val();
+                }
             },
             "columnDefs": [{
                     "targets": [0],
@@ -120,6 +152,35 @@ $this->load->view("template/sidemenu");
                 },
             ],
 
+        });
+
+        // FITUR BARU: update link tombol cetak PDF supaya ikut bawa filter aktif
+        function updateLinkCetakPdf() {
+            var tglMulai = $('#filterTglMulai').val();
+            var tglAkhir = $('#filterTglAkhir').val();
+            var url = "<?php echo site_url('jemaatbaru/cetakpdf') ?>";
+            var params = [];
+            if (tglMulai) params.push('tgl_mulai=' + encodeURIComponent(tglMulai));
+            if (tglAkhir) params.push('tgl_akhir=' + encodeURIComponent(tglAkhir));
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+            $('#btnCetakPdf').attr('href', url);
+        }
+        updateLinkCetakPdf();
+
+        // FITUR BARU: tombol Filter -> reload DataTables dengan filter aktif
+        $('#btnFilter').on('click', function() {
+            table.ajax.reload();
+            updateLinkCetakPdf();
+        });
+
+        // FITUR BARU: tombol Reset -> kosongkan filter lalu reload
+        $('#btnResetFilter').on('click', function() {
+            $('#filterTglMulai').val('');
+            $('#filterTglAkhir').val('');
+            table.ajax.reload();
+            updateLinkCetakPdf();
         });
 
     }); //end (document).ready
