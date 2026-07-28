@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -31,30 +32,35 @@ class Login extends CI_Controller
         $password = $this->input->post('password');
 
         if (empty($email) and empty($password)) {
-            echo json_encode(array('msg' => 'Email atau password tidak boleh kosong'));
+            echo json_encode(array('msg' => "Email atau password tidak boleh kosong"));
         } else {
+
             $kirim = $this->Login_model->cekLoginAjax($email, md5($password));
             if ($kirim->num_rows() > 0) {
                 $result = $kirim->row();
 
-                // check email atau nomor whatsapp
+                //check email atau nomor whatsapp
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     if ($result->statusverifikasiemail == 0) {
-                        echo json_encode(array('msg' => 'Email anda belum di verifikasi.'));
+                        echo json_encode(array('msg' => "Email anda belum di verifikasi."));
                         exit();
                     }
                 } else {
                     if ($result->statusverifikasiwa == 0) {
-                        echo json_encode(array('msg' => 'Nomor whatsapp anda belum di verifikasi.'));
+                        echo json_encode(array('msg' => "Nomor whatsapp anda belum di verifikasi."));
                         exit();
                     }
                 }
+
+                
+
+                
 
                 $this->App->reloadSession($result->idjemaat);
 
                 echo json_encode(array('success' => true));
             } else {
-                echo json_encode(array('msg' => 'Password atau Email anda salah. harap periksa lagi'));
+                echo json_encode(array('msg' => "Password atau Email anda salah. harap periksa lagi"));
             }
         }
     }
@@ -74,18 +80,21 @@ class Login extends CI_Controller
         $sudahpernahfondationclass = $this->input->post('sudahpernahfondationclass');
         $tanggalinsert = date('Y-m-d H:i:s');
 
-        /* Periksa Email */
+        
+        /*Periksa Email*/
         if ($this->Login_model->emailsudahada($email)) {
-            echo json_encode(array('msg' => 'Email ' . $email . ' sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun.'));
+            echo json_encode(array('msg' => "Email " . $email . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
             exit();
         }
 
         if ($this->Login_model->nomorwasudahada($nohp)) {
-            echo json_encode(array('msg' => 'Nomor Whatsapp ' . $nohp . ' sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun.'));
+            echo json_encode(array('msg' => "Nomor Whatsapp " . $nohp . " sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun."));
             exit();
         }
 
+
         if ($alasanmembuatakun == 'Bergabung') {
+
             if (!empty($nik)) {
                 $sudahAdaNIK = $this->Login_model->sudahAdaNIK($nik);
                 $sudahAdaNIKTgllahir = $this->Login_model->sudahAdaNIKTgllahir($nik, $tanggallahir);
@@ -93,6 +102,9 @@ class Login extends CI_Controller
                 $sudahAdaNIK = false;
                 $sudahAdaNIKTgllahir = false;
             }
+
+
+
 
             if ($sudahAdaNIK && !$sudahAdaNIKTgllahir) {
                 $pesan = "<script>
@@ -105,6 +117,7 @@ class Login extends CI_Controller
             // echo json_encode("-1 test");
             // exit();
             if ($sudahAdaNIKTgllahir) {
+
                 $idjemaat = $this->Login_model->getIdJemaatByNIK($nik)->idjemaat;
 
                 $data = array(
@@ -121,6 +134,7 @@ class Login extends CI_Controller
 
                 $simpan = $this->Login_model->updateregistrasi($data, $idjemaat);
             } else {
+
                 $idjemaat = $this->db->query("select create_idjemaat('" . $tanggalinsert . "') as idjemaat")->row()->idjemaat;
 
                 $data = array(
@@ -164,35 +178,28 @@ class Login extends CI_Controller
                 'sudahpernahfondationclass' => $sudahpernahfondationclass,
             );
 
+
+
             $simpan = $this->Login_model->simpanregistrasi($data);
         }
 
         if ($simpan) {
-            // FIX: catat SEMUA pendaftaran akun yang berhasil ke carejemaatbaru,
-            // sebagai record/log pendaftaran (tanpa syarat alasanmembuatakun atau
-            // sudahpernahfondationclass, karena tabel ini sekarang berfungsi sebagai
-            // log jumlah pendaftar, bukan alur approval admin).
-            $dataCareJemaatBaru = array(
-                'tglinsert' => date('Y-m-d H:i:s'),
-                'idjemaat' => $idjemaat,
-                'status' => 'Registered',  // penanda: otomatis terdaftar, tidak menunggu approval admin
-                'idadmin' => null,
-            );
-            $simpanCare = $this->Login_model->kirimKeCare($dataCareJemaatBaru);
 
-            // FIX: kalau insert record gagal, catat ke log server supaya ketahuan,
-            // tanpa mengganggu proses pendaftaran akun user (yang sudah pasti berhasil
-            // di titik ini karena $simpan sudah true).
-            if (!$simpanCare) {
-                $errCare = $this->db->error();
-                log_message('error', 'Gagal insert carejemaatbaru untuk idjemaat=' . $idjemaat . ' - ' . json_encode($errCare));
+            if ($alasanmembuatakun == 'Bergabung' && $sudahpernahfondationclass == 'Belum') {
+                $dataCareJemaatBaru = array(
+                    'tglinsert' => date('Y-m-d H:i:s'),
+                    'idjemaat' => $idjemaat,
+                    'status' => 'Permohonan',
+                    'idadmin' => $this->session->userdata('idjemaat'),
+                );
+                $simpan = $this->Login_model->kirimKeCare($dataCareJemaatBaru);
             }
-
-            $textemail =
-                '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
+            
+            $textemail = 
+            '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
             <p>We’re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>
-                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
-                . '">
+                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email)) 
+            . '">
             <div class= "btn btn-primary">
             Verify Email
             </div></a> </p>
@@ -201,8 +208,8 @@ class Login extends CI_Controller
             <hr>
             <h4>Shalom! ' . $namalengkap . 'Selamat datang di MyEsc! </h4>
             <p>Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi email ini dengan satu klik cepat di bawah ini!</p>
-                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
-                . '">
+                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email)) 
+            . '">
             <div class= "btn btn-primary">
             Verifikasi Email
             </div></a> </p>
@@ -210,26 +217,28 @@ class Login extends CI_Controller
             <p>GBI EL SHADDAI</p>
             ';
             if (!isLocalhost()) {
-                $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);
+                $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);                
             }
 
             $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
-            $pesanWA = 'Shalom ' . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi pendaftaran ini dengan satu klik cepat di bawah ini!\n\n" . $url;
+            $pesanWA = "Shalom " . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi pendaftaran ini dengan satu klik cepat di bawah ini!\n\n" . $url;
 
-            $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
+             $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
             echo json_encode(array('success' => true));
         } else {
             $eror = $this->db->error();
-            echo json_encode(array('msg' => 'Data gagal disimpan! Pesan Error: ' . $eror['code'] . ' ' . $eror['message']));
+            echo json_encode(array('msg' => "Data gagal disimpan! Pesan Error: " . $eror['code'] . ' ' . $eror['message']));
         }
     }
+
 
     public function verifikasiemail($email)
     {
         $email = $this->encrypt->decode($email);
 
-        /* Periksa Email */
+        /*Periksa Email*/
         if ($this->Login_model->emailsudahada($email)) {
+
             $simpan = $this->db->query("update jemaat set statusverifikasiemail='1' where email='$email' ");
             if ($simpan) {
                 $pesan = "<script>
@@ -241,6 +250,7 @@ class Login extends CI_Controller
             $this->session->set_flashdata('pesan', $pesan);
             redirect(site_url());
         } else {
+
             $pesan = "<script>
                             swal('Sorry', 'Email not found.', 'warning');
                         </script>";
@@ -249,12 +259,14 @@ class Login extends CI_Controller
         }
     }
 
+
     public function verifikasiwa($nomorwa)
     {
         $nomorwa = $this->encrypt->decode($nomorwa);
 
-        /* Periksa Wa */
+        /*Periksa Wa*/
         if ($this->Login_model->whatsappsudahada($nomorwa)) {
+
             $simpan = $this->db->query("update jemaat set statusverifikasiwa='1' where nohp='$nomorwa' ");
             if ($simpan) {
                 $pesan = "<script>
@@ -281,6 +293,7 @@ class Login extends CI_Controller
         $kirim = $this->Login_model->kirimKodeResetPassword($email);
 
         echo json_encode($kirim);
+        
     }
 
     public function cekTokenResetPassword()
@@ -291,6 +304,7 @@ class Login extends CI_Controller
         $kirim = $this->Login_model->cekTokenResetPassword($email, $tokenResetPassword);
 
         echo json_encode($kirim);
+        
     }
 
     public function updateResetPassword()
