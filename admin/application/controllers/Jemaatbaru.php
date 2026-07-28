@@ -69,7 +69,7 @@ class Jemaatbaru extends MY_Controller
                 $row[] = $rowdata->email;
                 $row[] = $rowdata->nohp;
                 $row[] = $status;
-                $row[] = '<a href="' . site_url('jemaatbaru/proses/' . $this->encrypt->encode($rowdata->idcarejemaatbaru)) . '" class="btn btn-sm btn-primary btn-circle"><i class="fas fa-check-double"></i></a>';
+                $row[] = '<a href="' . site_url('jemaatbaru/proses/' . $this->encrypt->encode($rowdata->idcarejemaatbaru)) . '" class="btn btn-sm btn-info btn-circle" title="Lihat Detail"><i class="fas fa-eye"></i></a>';
                 $data[] = $row;
             }
         }
