@@ -864,9 +864,25 @@ function regValidasiStep2() {
     }
   }
 
+  function cekNomorHP() {
+    var val = $('#nohp').val().trim();
+    // Hanya boleh angka, wajib diawali 08, panjang wajar 10-15 digit
+    var isValid = /^08[0-9]{8,13}$/.test(val);
+
+    if (!isValid) {
+      $('#nohp').addClass('has-error');
+      $('#err_nohp')
+        .text('Nomor WhatsApp harus diawali 08 dan hanya berisi angka (tanpa +62, spasi, atau simbol)')
+        .addClass('show');
+      valid = false;
+    }
+  }
+
   cekField('namalengkap', 'err_namalengkap');
   cekField('jeniskelamin', 'err_jeniskelamin');
   cekField('email', 'err_email');
+  cekNomorHP();
+  cekField('tanggallahir', 'err_tanggallahir');
 
   // NIK, tempatlahir, alamatrumah hanya wajib kalau sudah
   if (isSudah) {
@@ -879,10 +895,6 @@ function regValidasiStep2() {
     cekField('tempatlahir', 'err_tempatlahir');
     cekField('alamatrumah', 'err_alamatrumah');
   }
-
-  // nohp & tanggallahir selalu wajib
-  cekField('nohp', 'err_nohp');
-  cekField('tanggallahir', 'err_tanggallahir');
 
   // password
   var pw  = $('#password').val();
@@ -950,6 +962,16 @@ $(document).ready(function() {
     $('#chkSyaratDanKetentuan').prop('checked', false);
     $('#sudahpernahfondationclass2').prop('checked', true).trigger('change');
   });
+});
+
+// ===== AUTO-NORMALISASI NOMOR WHATSAPP =====
+$(document).on('input', '#nohp', function() {
+  var val = $(this).val();
+  val = val.replace(/[^\d+]/g, '');       // buang semua kecuali angka dan '+'
+  val = val.replace(/^\+62/, '0');        // +62xxx -> 0xxx
+  val = val.replace(/^62/, '0');          // 62xxx  -> 0xxx
+  val = val.replace(/\+/g, '');           // buang sisa '+' yang nyangkut
+  $(this).val(val);
 });
 
 // ===== PASSWORD TOGGLE =====
@@ -1047,3 +1069,325 @@ function alasanmembuatakun() {
   }
 }
 </script>
+
+<!-- 
+<script>
+/* ============================================================
+   CUSTOM STEPPER LOGIC
+   Menggantikan SmartWizard sepenuhnya
+   ============================================================ */
+
+var regCurrentStep = 1;
+var regTotalSteps  = 3;
+
+// Daftar field wajib per step (diisi/disembunyikan sesuai kondisi)
+function getRequiredFields() {
+  var isSudah = $('#sudahpernahfondationclass1').prop('checked');
+  var fields = ['namalengkap', 'jeniskelamin', 'email', 'password', 'password2', 'nohp', 'tanggallahir'];
+  if (isSudah) {
+    fields.push('nik', 'tempatlahir', 'alamatrumah');
+  }
+  return fields;
+}
+
+function regGoTo(step) {
+  // Sembunyikan semua panel
+  for (var i = 1; i <= regTotalSteps; i++) {
+    $('#regPanel' + i).removeClass('active');
+  }
+  // Tampilkan panel aktif
+  $('#regPanel' + step).addClass('active');
+  regCurrentStep = step;
+
+  // Update step indicator
+  for (var i = 1; i <= regTotalSteps; i++) {
+    var circle = $('#stepCircle' + i);
+    var label  = $('#stepLabel' + i);
+    circle.removeClass('active done');
+    label.removeClass('active');
+
+    if (i < step) {
+      circle.addClass('done').html('<i class="fas fa-check" style="font-size:11px"></i>');
+    } else if (i === step) {
+      circle.addClass('active').html(i);
+      label.addClass('active');
+    } else {
+      circle.html(i);
+    }
+  }
+
+  // Update garis
+  for (var i = 1; i < regTotalSteps; i++) {
+    if (i < step) {
+      $('#stepLine' + i).addClass('done');
+    } else {
+      $('#stepLine' + i).removeClass('done');
+    }
+  }
+
+  // Update tombol
+  if (step === 1) {
+    $('#regBtnPrev').hide();
+    $('#regBtnCancel').show();
+    $('#regBtnNext').html('Selanjutnya <i class="fas fa-arrow-right"></i>');
+  } else if (step === regTotalSteps) {
+    $('#regBtnPrev').show();
+    $('#regBtnCancel').hide();
+    $('#regBtnNext').html('<i class="fas fa-paper-plane"></i> Daftar Sekarang');
+    // Isi data konfirmasi
+    regIsiKonfirmasi();
+  } else {
+    $('#regBtnPrev').show();
+    $('#regBtnCancel').hide();
+    $('#regBtnNext').html('Selanjutnya <i class="fas fa-arrow-right"></i>');
+  }
+
+  // Scroll ke atas modal
+  $('#registrasiModal .modal-content').scrollTop(0);
+}
+
+function regNext() {
+  if (regCurrentStep === 1) {
+    regGoTo(2);
+  } else if (regCurrentStep === 2) {
+    if (regValidasiStep2()) {
+      regGoTo(3);
+    }
+  } else if (regCurrentStep === 3) {
+    onFinish();
+  }
+}
+
+function regPrev() {
+  if (regCurrentStep > 1) {
+    regGoTo(regCurrentStep - 1);
+  }
+}
+
+// ===== VALIDASI STEP 2 =====
+function regValidasiStep2() {
+  var valid = true;
+  var isSudah = $('#sudahpernahfondationclass1').prop('checked');
+
+  // Reset semua error
+  $('.reg-input').removeClass('has-error');
+  $('.reg-error-msg').removeClass('show');
+
+  function cekField(id, errId, minLen) {
+    var val = $('#' + id).val().trim();
+    if (!val || (minLen && val.length < minLen)) {
+      $('#' + id).addClass('has-error');
+      $('#' + errId).addClass('show');
+      valid = false;
+    }
+  }
+
+  function cekNomorHP() {
+    var val = $('#nohp').val().trim();
+    // Hanya boleh angka, wajib diawali 08, panjang wajar 10-15 digit
+    var isValid = /^08[0-9]{8,13}$/.test(val);
+
+    if (!isValid) {
+      $('#nohp').addClass('has-error');
+      $('#err_nohp')
+        .text('Nomor WhatsApp harus diawali 08 dan hanya berisi angka (tanpa +62, spasi, atau simbol)')
+        .addClass('show');
+      valid = false;
+    }
+  }
+
+  cekField('namalengkap', 'err_namalengkap');
+  cekField('jeniskelamin', 'err_jeniskelamin');
+  cekField('email', 'err_email');
+  cekNomorHP();
+cekField('tanggallahir', 'err_tanggallahir');
+
+  // NIK, tempatlahir, alamatrumah hanya wajib kalau sudah
+  if (isSudah) {
+    var nik = $('#nik').val().trim();
+    if (nik.length !== 16) {
+      $('#nik').addClass('has-error');
+      $('#err_nik').addClass('show');
+      valid = false;
+    }
+    cekField('tempatlahir', 'err_tempatlahir');
+    cekField('alamatrumah', 'err_alamatrumah');
+  }
+
+  // nohp & tanggallahir selalu wajib
+  cekField('nohp', 'err_nohp');
+  cekField('tanggallahir', 'err_tanggallahir');
+
+  // password
+  var pw  = $('#password').val();
+  var pw2 = $('#password2').val();
+  if (pw.length < 6) {
+    $('#password').addClass('has-error');
+    $('#err_password').addClass('show');
+    valid = false;
+  }
+  if (pw !== pw2) {
+    $('#password2').addClass('has-error');
+    $('#err_password2').addClass('show');
+    valid = false;
+  }
+
+  if (!valid) {
+    var alertEl = $('#regAlert');
+    alertEl.text('Harap lengkapi semua field yang wajib diisi.').addClass('show');
+    setTimeout(function() { alertEl.removeClass('show'); }, 3000);
+  } else {
+    $('#regAlert').removeClass('show');
+  }
+
+  return valid;
+}
+
+// ===== ISI DATA KONFIRMASI =====
+function regIsiKonfirmasi() {
+  $('#tdDaftarNamaLengkap').text($('#namalengkap').val());
+  $('#tdDaftarNIK').text($('#nik').val());
+  $('#tdDaftarJenisKelamin').text($('#jeniskelamin').val());
+  $('#tdDaftarTempatLahir').text($('#tempatlahir').val());
+  $('#tdDaftarTanggalLahir').text($('#tanggallahir').val());
+  $('#tdDaftarAlamatRumah').text($('#alamatrumah').val());
+  $('#tdDaftarNomorHP').text($('#nohp').val());
+  $('#tdDaftarEmail').text($('#email').val());
+}
+
+// ===== TOGGLE PILIHAN CARD STEP 1 =====
+$(document).on('change', 'input[name="sudahpernahfondationclass"]', function() {
+  if ($('#sudahpernahfondationclass1').prop('checked')) {
+    $('#card_sudah').addClass('selected');
+    $('#card_belum').removeClass('selected');
+    $('.divnik, .divtempatlahir, .divalamatrumah').show();
+  } else {
+    $('#card_belum').addClass('selected');
+    $('#card_sudah').removeClass('selected');
+    $('.divnik, .divtempatlahir, .divalamatrumah').hide();
+  }
+  alasanmembuatakun();
+});
+
+// Set visual awal
+$(document).ready(function() {
+  // Default: belum → sembunyikan field nik dll
+  alasanmembuatakun();
+  regGoTo(1);
+  // Reset saat modal dibuka
+  $('#registrasiModal').on('show.bs.modal', function() {
+    regGoTo(1);
+    kosongkanText();
+    $('.reg-input').removeClass('has-error');
+    $('.reg-error-msg').removeClass('show');
+    $('#regAlert').removeClass('show');
+    $('#chkSyaratDanKetentuan').prop('checked', false);
+    $('#sudahpernahfondationclass2').prop('checked', true).trigger('change');
+  });
+});
+
+// ===== AUTO-NORMALISASI NOMOR WHATSAPP =====
+$(document).on('input', '#nohp', function() {
+  var val = $(this).val();
+  val = val.replace(/[^\d+]/g, '');       // buang semua kecuali angka dan '+'
+  val = val.replace(/^\+62/, '0');        // +62xxx -> 0xxx
+  val = val.replace(/^62/, '0');          // 62xxx  -> 0xxx
+  val = val.replace(/\+/g, '');           // buang sisa '+' yang nyangkut
+  $(this).val(val);
+});
+
+// ===== PASSWORD TOGGLE =====
+function togglePw(inputId, btn) {
+  var input = document.getElementById(inputId);
+  var icon  = btn.querySelector('i');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.replace('fa-eye', 'fa-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.replace('fa-eye-slash', 'fa-eye');
+  }
+}
+
+// ===== onFinish - KIRIM DATA (tetap seperti aslinya) =====
+function onFinish() {
+  if (!$('#chkSyaratDanKetentuan').prop('checked')) {
+    swal("Syarat Dan Ketentuan",
+         "Anda harus membaca dan menyetujui syarat dan ketentuan terlebih dahulu", "info");
+    return;
+  }
+
+  var sudahpernahfondationclass = $('#sudahpernahfondationclass1').prop('checked') ? 'Sudah' : 'Belum';
+  var alasanmembuatakun         = $('#alasanmembuatakun1').prop('checked') ? 'Berkunjung' : 'Bergabung';
+
+  var formData = {
+    namalengkap             : $('#namalengkap').val(),
+    nik                     : $('#nik').val(),
+    jeniskelamin            : $('#jeniskelamin').val(),
+    tempatlahir             : $('#tempatlahir').val(),
+    tanggallahir            : $('#tanggallahir').val(),
+    alamatrumah             : $('#alamatrumah').val(),
+    nohp                    : $('#nohp').val(),
+    email                   : $('#email').val(),
+    password                : $('#password').val(),
+    alasanmembuatakun       : alasanmembuatakun,
+    sudahpernahfondationclass: sudahpernahfondationclass,
+  };
+
+  $('#regBtnNext').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Memproses...');
+
+  $.ajax({
+      url     : '<?= site_url('login/simpanregistrasi') ?>',
+      type    : 'POST',
+      dataType: 'json',
+      data    : formData,
+    })
+    .done(function(response) {
+      if (response.success) {
+        swal("Berhasil!",
+             "Pendaftaran berhasil! Silahkan cek kotak masuk atau spam Email Anda untuk verifikasi.", "success")
+          .then(function() {
+            $('#registrasiModal').modal('hide');
+          });
+      } else {
+        swal("Gagal", response.msg, "info");
+      }
+    })
+    .fail(function() {
+      swal("Error", "Terjadi kesalahan, coba lagi.", "error");
+    })
+    .always(function() {
+      $('#regBtnNext').prop('disabled', false)
+        .html('<i class="fas fa-paper-plane"></i> Daftar Sekarang');
+    });
+}
+
+// ===== onCancel =====
+function onCancel() {
+  $('#registrasiModal').modal('hide');
+}
+
+// ===== kosongkanText (tetap seperti aslinya) =====
+function kosongkanText() {
+  $('#namalengkap, #nik, #tempatlahir, #alamatrumah, #nohp, #email, #password, #password2')
+    .val('');
+  $('#jeniskelamin').val('');
+  $('#tanggallahir').val('');
+}
+
+// ===== alasanmembuatakun (tetap seperti aslinya, untuk kompatibilitas) =====
+function alasanmembuatakun() {
+  if ($('#alasanmembuatakun1').prop('checked')) {
+    $('.divsudahpernahfondationclass').hide();
+    $('.divnik, .divtempatlahir, .divtgllahir, .divnohp, .divalamatrumah').hide();
+  } else {
+    $('.divsudahpernahfondationclass').show();
+    if ($('#sudahpernahfondationclass1').prop('checked')) {
+      $('.divnik, .divtempatlahir, .divtgllahir, .divalamatrumah').show();
+    } else {
+      $('.divnik, .divtempatlahir, .divalamatrumah').hide();
+      $('.divtgllahir, .divnohp').show();
+    }
+  }
+}
+</script> -->
