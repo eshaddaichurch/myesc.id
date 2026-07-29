@@ -56,11 +56,6 @@ class Jemaatbaru extends MY_Controller
 
         if ($RsData->num_rows() > 0) {
             foreach ($RsData->result() as $rowdata) {
-                if ($rowdata->status == 'Permohonan') {
-                    $status = '<span class="badge badge-warning">' . $rowdata->status . '</span>';
-                } else {
-                    $status = '<span class="badge badge-success">' . $rowdata->status . '</span>';
-                }
                 $no++;
                 $row = array();
                 $row[] = $no;
@@ -68,7 +63,6 @@ class Jemaatbaru extends MY_Controller
                 $row[] = formatHariTanggalJam($rowdata->tglinsert);
                 $row[] = $rowdata->email;
                 $row[] = $rowdata->nohp;
-                $row[] = $status;
                 $row[] = '<a href="' . site_url('jemaatbaru/proses/' . $this->encrypt->encode($rowdata->idcarejemaatbaru)) . '" class="btn btn-sm btn-info btn-circle" title="Lihat Detail"><i class="fas fa-eye"></i></a>';
                 $data[] = $row;
             }

@@ -6,8 +6,8 @@ class Jemaatbaru_model extends CI_Model
     var $tabelview = 'v_carejemaatbaru';
     var $tabel = 'carejemaatbaru';
     var $idcarejemaatbaru = 'idcarejemaatbaru';
-    var $column_order = array(null, 'namajemaat', 'tglinsert', 'email', 'nohp', 'status', null);
-    var $column_search = array('namajemaat', 'tglinsert', 'email', 'nohp', 'status');
+    var $column_order = array(null, 'namajemaat', 'tglinsert', 'email', 'nohp', null);
+    var $column_search = array('namajemaat', 'tglinsert', 'email', 'nohp');
     var $order = array('idcarejemaatbaru' => 'desc');  // default order
 
     function get_datatables()

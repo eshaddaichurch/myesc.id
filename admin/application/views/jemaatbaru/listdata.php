@@ -71,7 +71,6 @@ $this->load->view('template/sidemenu');
                                         <th style="text-align: center;">Tgl Daftar</th>
                                         <th style="text-align: center;">Email</th>
                                         <th style="text-align: center;">No HP</th>
-                                        <!-- <th style="text-align: center;">Status</th> -->
                                         <th style="text-align: center; width: 10%;">Aksi</th>
                                     </tr>
                                 </thead>
@@ -143,10 +142,6 @@ $this->load->view('template/sidemenu');
                 },
                 {
                     "targets": [5],
-                    "className": "dt-body-center"
-                },
-                {
-                    "targets": [6],
                     "orderable": false,
                     "className": "dt-body-center"
                 },

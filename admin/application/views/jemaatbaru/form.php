@@ -20,20 +20,20 @@ $this->load->view('template/sidemenu');
  </div>
 
  <div class="row" id="toni-content">
-            <div class="col-md-12">
+     <div class="col-md-12">
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card" id="cardcontent">
-                            <div class="card-body">
+         <div class="row">
+             <div class="col-md-12">
+                 <div class="card" id="cardcontent">
+                     <div class="card-body">
 
-                                <div class="col-md-12">
-                                    <?php
-                                    $pesan = $this->session->flashdata('pesan');
-                                    if (!empty($pesan)) {
-                                        echo $pesan;
-                                    }
-                                    ?>
+                         <div class="col-md-12">
+                             <?php
+$pesan = $this->session->flashdata('pesan');
+if (!empty($pesan)) {
+    echo $pesan;
+}
+?>
                          </div>
 
                          <h3 class="text-gray">Data Jemaat</h3>
@@ -74,11 +74,11 @@ $this->load->view('template/sidemenu');
                                                  <td style="width: 5%;">:</td>
                                                  <td style="width: 75%;"><?php echo $rowJemaatBaru->nohp; ?></td>
                                              </tr>
-                                             <!-- <tr>
+                                             <tr>
                                                  <td style="width: 20%;">Status</td>
                                                  <td style="width: 5%;">:</td>
                                                  <td style="width: 75%;"><?php echo $rowJemaatBaru->status; ?></td>
-                                             </tr> -->
+                                             </tr>
                                          </tbody>
 
                                      </table>
