@@ -71,7 +71,7 @@ $this->load->view('template/sidemenu');
                                         <th style="text-align: center;">Tgl Daftar</th>
                                         <th style="text-align: center;">Email</th>
                                         <th style="text-align: center;">No HP</th>
-                                        <th style="text-align: center;">Status</th>
+                                        <!-- <th style="text-align: center;">Status</th> -->
                                         <th style="text-align: center; width: 10%;">Aksi</th>
                                     </tr>
                                 </thead>
