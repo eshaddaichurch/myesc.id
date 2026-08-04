@@ -863,7 +863,7 @@ $(document).ready(function() {
     encode: true
   })
   .done(function(result) {
-    console.log(result);
+    // console.log(result);
 
     $("#nikprofil").val(result.nik);
     $("#kewarganegaraan").val(result.kewarganegaraan);
