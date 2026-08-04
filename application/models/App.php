@@ -41,12 +41,12 @@ class App extends CI_Model
         $this->load->library('image_lib');
 
         if (!empty($file[$namaFile]['name'])) {
-            // FIX: path absolut pakai FCPATH (path folder index.php yang aktif),
-            // bukan path relatif lagi. Path relatif sebelumnya salah resolve
-            // tergantung dari mana script dieksekusi (frontend vs admin),
-            // menyebabkan folder tujuan "tidak ditemukan" dan upload gagal
-            // diam-diam tanpa error yang terlihat ke user.
-            $config['upload_path'] = FCPATH . 'admin/uploads/' . $foldername . '/';
+            // FIX: path absolut pakai FCPATH + segmen 'myesc.id/', karena
+            // struktur folder fisik di server adalah
+            // public_html/myesc.id/admin/uploads/..., bukan langsung
+            // public_html/admin/uploads/... (FCPATH mengarah ke public_html/,
+            // satu level di atas folder aplikasi ini).
+            $config['upload_path'] = FCPATH . 'myesc.id/admin/uploads/' . $foldername . '/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['remove_space'] = TRUE;
             $config['max_size'] = '2000KB';
@@ -76,8 +76,10 @@ class App extends CI_Model
         $this->load->library('image_lib');
 
         if (!empty($file[$namaFile]['name'])) {
-            // FIX: sama seperti uploadImage() - pakai path absolut FCPATH.
-            $config['upload_path'] = FCPATH . 'admin/uploads/' . $foldername . '/';
+            // FIX: sama seperti uploadImage() - pakai path absolut FCPATH
+            // + segmen 'myesc.id/' supaya cocok dengan struktur folder asli
+            // di server (public_html/myesc.id/admin/uploads/jemaat/).
+            $config['upload_path'] = FCPATH . 'myesc.id/admin/uploads/' . $foldername . '/';
             $config['allowed_types'] = 'pdf';
             $config['remove_space'] = TRUE;
             $config['max_size'] = $ukuran . 'KB';  // in KB
@@ -127,7 +129,7 @@ class App extends CI_Model
         if (empty($rsTemp->foto)) {
             $foto = base_url('admin/images/user-01.png');
         } else {
-            $foto = base_url('admin/uploads/jemaat/' . $rsTemp->foto);
+            $foto = base_url('myesc.id/admin/uploads/jemaat/' . $rsTemp->foto);
         }
 
         $data = array(
