@@ -17,8 +17,7 @@ class Login extends CI_Controller
 
     private function cekRecaptcha($token)
     {
-        $this->config->load('recaptcha', TRUE);
-        $secret = $this->config->item('recaptcha_secret_key', 'recaptcha');
+        $secret = '6Lee0W8tAAAAAHV9JHkL5WlMVfdYVL9gs9ApJbDd';
 
         if (empty($token)) {
             return false;

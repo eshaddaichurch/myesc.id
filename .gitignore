@@ -20,7 +20,6 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 application/config/config.php
-application/config/recaptcha.php
 application/config/database.php
 application/ci_session/*
 uploads/*
@@ -29,7 +28,6 @@ admin/application/config/database.php
 admin/application/ci_session/*
 admin/uploads/*
 community/uploads/*
-application/config/recaptcha.php
 ### CodeIgniter Patch ###
 
 ### SublimeText ###
