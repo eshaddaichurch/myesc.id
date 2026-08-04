@@ -20,6 +20,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 application/config/config.php
+application/config/recaptcha.php/*
 application/config/database.php
 application/ci_session/*
 uploads/*
