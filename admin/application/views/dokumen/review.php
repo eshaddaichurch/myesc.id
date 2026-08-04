@@ -119,11 +119,11 @@ $this->load->view('template/sidemenu');
                     <div class="card-body">
                         <?php if (!empty($rowDokumen->namafile)) { ?>
                             <iframe
-                                src="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowDokumen->namafile) ?>"
+                                src="<?php echo base_url('uploads/jemaat/' . $rowDokumen->namafile) ?>"
                                 width="100%" height="700px" style="border:1px solid #ddd; border-radius:6px;">
                             </iframe>
                             <div class="mt-2">
-                                <a href="<?php echo base_url('myesc.id/admin/uploads/jemaat/' . $rowDokumen->namafile) ?>"
+                                <a href="<?php echo base_url('uploads/jemaat/' . $rowDokumen->namafile) ?>"
                                    target="_blank" class="btn btn-sm btn-outline-primary">
                                     <i class="fa fa-external-link-alt"></i> Buka di Tab Baru
                                 </a>
