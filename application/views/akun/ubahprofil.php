@@ -291,8 +291,8 @@ textarea.form-control { resize: vertical; }
         <!-- Flash message -->
         <div class="mb-3">
           <?php $pesan = $this->session->flashdata('pesan');
-if (!empty($pesan))
-    echo $pesan; ?>
+          if (!empty($pesan))
+            echo $pesan; ?>
         </div>
 
         <!-- ===== STEPPER ===== -->
@@ -564,13 +564,13 @@ if (!empty($pesan))
                     <select name="propinsi" id="propinsi" class="form-control select2">
                       <option value="">Pilih provinsi...</option>
                       <?php
-$rsProvinsi = $this->db->query('select * from provinsi order by namaprovinsi');
-if ($rsProvinsi->num_rows() > 0) {
-    foreach ($rsProvinsi->result() as $row) {
-        echo '<option value="' . $row->idprovinsi . '">' . $row->namaprovinsi . '</option>';
-    }
-}
-?>
+                      $rsProvinsi = $this->db->query('select * from provinsi order by namaprovinsi');
+                      if ($rsProvinsi->num_rows() > 0) {
+                        foreach ($rsProvinsi->result() as $row) {
+                          echo '<option value="' . $row->idprovinsi . '">' . $row->namaprovinsi . '</option>';
+                        }
+                      }
+                      ?>
                     </select>
                   </div>
                 </div>
@@ -774,6 +774,7 @@ if ($rsProvinsi->num_rows() > 0) {
             <div class="form-card-body">
               <div class="row">
 
+                <!-- GANTI blok "Kartu Keluarga" yang lama dengan versi ini -->
                 <div class="col-md-12">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label">Kartu Keluarga <strong class="text-danger">(PDF)</strong></label>
@@ -781,10 +782,14 @@ if ($rsProvinsi->num_rows() > 0) {
                       <div class="display-block mb-3" id="filekartukeluarga_preview" style="display:none">
                         <a href="#" target="_blank" id="filekartukeluarga_link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h22v19H1z"/><path d="M10 12l4-4-4-4v16z"/></svg> <span id="filekartukeluarga_name" class="text-primary">Kartu Keluarga</span></a>
                       </div>
+
+                      <!-- FITUR BARU: status review KK -->
+                      <div id="statuskk_pill" class="mb-2" style="display:none;"></div>
+                      <div id="statuskk_catatan" class="mb-2" style="display:none; font-size:12px; color:#e04607; background:#fff3ee; border:1px solid #ffd0b8; border-radius:8px; padding:8px 12px;"></div>
+
                       <input type="file" name="filekartukeluarga" id="filekartukeluarga" class="form-control" accept=".pdf">
                       <small class="text-muted">Ukuran maksimal dokumen: 5 MB</small>
                       <input type="hidden" name="filekartukeluarga_lama" id="filekartukeluarga_lama">
-                      
                     </div>
                   </div>
                 </div>
@@ -920,6 +925,25 @@ $(document).ready(function() {
       $('#filekartukeluarga_preview').hide();
       $('#filekartukeluarga_link').attr('href', 'javascript:void(0)');
       $('#filekartukeluarga_name').html('');
+    }
+
+    // FITUR BARU: tampilkan status review KK ke jemaat
+    if (result.statuskk == 'Menunggu Review') {
+      $('#statuskk_pill').html('<span class="status-pill-form" style="background:#fff8e1;border-color:#ffe082;color:#f9a825;">Menunggu Review</span>').show();
+      $('#statuskk_catatan').hide();
+    } else if (result.statuskk == 'Disetujui') {
+      $('#statuskk_pill').html('<span class="status-pill-form" style="background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;">Disetujui</span>').show();
+      $('#statuskk_catatan').hide();
+    } else if (result.statuskk == 'Ditolak') {
+      $('#statuskk_pill').html('<span class="status-pill-form" style="background:#fdecea;border-color:#f5c6cb;color:#c62828;">Ditolak - Mohon upload ulang</span>').show();
+      if (result.catatanreviewkk) {
+        $('#statuskk_catatan').html('<strong>Catatan Admin:</strong> ' + result.catatanreviewkk).show();
+      } else {
+        $('#statuskk_catatan').hide();
+      }
+    } else {
+      $('#statuskk_pill').hide();
+      $('#statuskk_catatan').hide();
     }
 
     getKabupaten(result.propinsi, result.kotakabupaten);

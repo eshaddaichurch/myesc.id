@@ -42,7 +42,6 @@ class Akun extends MY_Controller
 
     public function kelas($idmenu = '')
     {
-        // FIX: SQL Injection - gunakan binding (?) untuk idjemaat dari session
         $idjemaat = $this->session->userdata('idjemaat');
 
         $rskelas = $this->db->query('
@@ -63,20 +62,15 @@ class Akun extends MY_Controller
 
     public function sertifikat($idregistrasikelas)
     {
-        // error_reporting(0);
         $this->load->library('Pdf');
 
         $idjemaat = $this->session->userdata('idjemaat');
 
-        // FIX (IDOR + SQL Injection):
-        // - Query pakai binding (?), bukan concat string manual
-        // - Tambahkan filter idjemaat supaya user hanya bisa akses sertifikat miliknya sendiri
         $rsregistrasi = $this->db->query('
                                         select * from v_registrasikelas
                                         where idregistrasikelas = ? and idjemaat = ?
                                     ', array($idregistrasikelas, $idjemaat))->row();
 
-        // Kalau data tidak ditemukan / bukan milik user ini -> stop, jangan lanjut generate PDF
         if (!$rsregistrasi) {
             show_404();
             return;
@@ -222,7 +216,6 @@ class Akun extends MY_Controller
             $nohp = null;
         }
 
-        // FIX: SQL Injection - gunakan binding (?) untuk idjemaat
         $rowJemaat = $this->db->query(
             'select * from v_jemaat where idjemaat = ?',
             array($idjemaat)
@@ -280,8 +273,6 @@ class Akun extends MY_Controller
                     </script>";
             $this->App->reloadSession($idjemaat);
         } else {
-            // FIX: jangan tampilkan detail error DB ke user (bisa bocorkan struktur database).
-            // Detail error dicatat ke log server, user hanya lihat pesan umum.
             $eror = $this->db->error();
             log_message('error', 'simpanJemaat gagal untuk idjemaat=' . $idjemaat . ' - ' . json_encode($eror));
 
@@ -332,7 +323,6 @@ class Akun extends MY_Controller
             redirect('akun/gantipassword');
         }
 
-        // Tetap pakai md5, sesuai data existing yang sudah ada di database
         $data = array(
             'password' => md5($passwordbaru1),
         );
@@ -356,22 +346,35 @@ class Akun extends MY_Controller
     {
         $idjemaat = $this->session->userdata('idjemaat');
 
-        // FIX: SQL Injection - gunakan binding (?)
         $RsData = $this->db->query(
             'select * from v_jemaat where idjemaat = ?',
             array($idjemaat)
         )->row();
 
+        // FITUR BARU: ambil SEMUA jenis dokumen milik jemaat ini (generik),
+        // disusun sebagai array asosiatif per kodedokumen supaya frontend
+        // bisa menampilkan status masing-masing jenis dokumen (KK, KTP, dst)
+        // begitu jenis dokumen baru ditambahkan ke form nanti.
         $dokumen = $this->db->query(
             'select * from jemaatdokumen where idjemaat = ?',
             array($idjemaat)
         );
+        $RsData->dokumen = array();
         if ($dokumen->num_rows() > 0) {
-            $filekartukeluarga = $dokumen->row()->kartukeluarga;
-            $RsData->filekartukeluarga = $filekartukeluarga;
-        } else {
-            $RsData->filekartukeluarga = '';
+            foreach ($dokumen->result() as $rowDok) {
+                $RsData->dokumen[$rowDok->kodedokumen] = array(
+                    'namafile' => $rowDok->namafile,
+                    'status' => $rowDok->statusdokumen,
+                    'catatan' => $rowDok->catatanreview,
+                );
+            }
         }
+
+        // Kompatibilitas dengan frontend yang sudah ada (masih memakai nama
+        // field lama khusus KK: filekartukeluarga, statuskk, catatanreviewkk)
+        $RsData->filekartukeluarga = isset($RsData->dokumen['KK']) ? $RsData->dokumen['KK']['namafile'] : '';
+        $RsData->statuskk = isset($RsData->dokumen['KK']) ? $RsData->dokumen['KK']['status'] : '';
+        $RsData->catatanreviewkk = isset($RsData->dokumen['KK']) ? $RsData->dokumen['KK']['catatan'] : '';
 
         echo (json_encode($RsData));
     }
@@ -380,7 +383,6 @@ class Akun extends MY_Controller
     {
         $idprovinsi = $this->input->get('idprovinsi');
 
-        // FIX: SQL Injection - gunakan binding (?), input ini dari $_GET jadi paling rawan
         $query = $this->db->query('
             select * from kabupaten where idprovinsi = ? order by namakabupaten
         ', array($idprovinsi));
@@ -391,7 +393,6 @@ class Akun extends MY_Controller
     {
         $idkabupaten = $this->input->get('idkabupaten');
 
-        // FIX: SQL Injection - gunakan binding (?)
         $query = $this->db->query('
             select * from kecamatan where idkabupaten = ? order by namakecamatan
         ', array($idkabupaten));
@@ -402,7 +403,6 @@ class Akun extends MY_Controller
     {
         $idkecamatan = $this->input->get('idkecamatan');
 
-        // FIX: SQL Injection - gunakan binding (?)
         $query = $this->db->query('
             select * from desa where idkecamatan = ? order by namadesa
         ', array($idkecamatan));
@@ -414,8 +414,8 @@ class Akun extends MY_Controller
         $email = $this->input->get('email');
         $namalengkap = $this->session->userdata('namalengkap');
         $idjemaat = $this->session->userdata('idjemaat');
+        $ip = $this->input->ip_address();
 
-        // FIX: validasi format email dulu sebelum diproses lebih lanjut
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo json_encode(array('msg' => 'Format email tidak valid.'));
             exit();
@@ -426,45 +426,66 @@ class Akun extends MY_Controller
             exit();
         }
 
-        // FIX: cegah spam-klik, cooldown 60 detik antar pengiriman verifikasi email
-        $lastSentEmail = $this->session->userdata('last_email_verifikasi_time');
-        if ($lastSentEmail && (time() - $lastSentEmail) < 60) {
+        // === RATE LIMIT 1: email ini sendiri, minimal jeda 60 detik ===
+        $lastByEmail = $this->db->query('
+        SELECT created_at FROM otp_log
+        WHERE tipe = "email" AND tujuan = ?
+        ORDER BY created_at DESC LIMIT 1
+    ', array($email))->row();
+
+        if ($lastByEmail && (time() - strtotime($lastByEmail->created_at)) < 60) {
             echo json_encode(array('msg' => 'Mohon tunggu sebentar sebelum meminta verifikasi ulang.'));
             exit();
         }
 
-        // FIX: SQL Injection - gunakan binding (?)
+        // === RATE LIMIT 2: dari IP ini, maksimal 5x kirim email per jam ===
+        $countIp = $this->db->query('
+        SELECT COUNT(*) as jumlah FROM otp_log
+        WHERE tipe = "email" AND ip_address = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+    ', array($ip))->row()->jumlah;
+
+        if ($countIp >= 5) {
+            echo json_encode(array('msg' => 'Terlalu banyak percobaan verifikasi email. Silakan coba lagi nanti.'));
+            exit();
+        }
+
         $this->db->query('
-            update jemaat set
-            email = ?
-            where idjemaat = ?
-        ', array($email, $idjemaat));
+        update jemaat set
+        email = ?
+        where idjemaat = ?
+    ', array($email, $idjemaat));
 
         $textemail =
             '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
-            <p>We’re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>
-                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
+        <p>We\xe2\x80\x99re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>
+            <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
             . '">
-            <div class= "btn btn-primary">
-            Verify Email
-            </div></a> </p>
-            <p>Thank You,</p>
-            <p>EL SHADDAI CHURCH</p>
-            <hr>
-            <h4>Shalom! ' . $namalengkap . 'Selamat datang di MyEsc! </h4>
-            <p>Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi email ini dengan satu klik cepat di bawah ini!</p>
-                <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
+        <div class= "btn btn-primary">
+        Verify Email
+        </div></a> </p>
+        <p>Thank You,</p>
+        <p>EL SHADDAI CHURCH</p>
+        <hr>
+        <h4>Shalom! ' . $namalengkap . 'Selamat datang di MyEsc! </h4>
+        <p>Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi email ini dengan satu klik cepat di bawah ini!</p>
+            <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
             . '">
-            <div class= "btn btn-primary">
-            Verifikasi Email
-            </div></a> </p>
-            <p>Terima Kasih,</p>
-            <p>GBI EL SHADDAI</p>
-            ';
+        <div class= "btn btn-primary">
+        Verifikasi Email
+        </div></a> </p>
+        <p>Terima Kasih,</p>
+        <p>GBI EL SHADDAI</p>
+        ';
         $this->App->sendEmailDaftar($email, 'Email Verification', $textemail);
 
-        // FIX: catat waktu pengiriman terakhir untuk cooldown
-        $this->session->set_userdata('last_email_verifikasi_time', time());
+        // catat log setelah berhasil kirim
+        $this->db->insert('otp_log', array(
+            'idjemaat' => $idjemaat,
+            'tipe' => 'email',
+            'tujuan' => $email,
+            'ip_address' => $ip,
+            'created_at' => date('Y-m-d H:i:s'),
+        ));
 
         echo json_encode(array('success' => true));
     }
@@ -474,41 +495,61 @@ class Akun extends MY_Controller
         $nohp = $this->input->get('nohp');
         $namalengkap = $this->session->userdata('namalengkap');
         $idjemaat = $this->session->userdata('idjemaat');
+        $ip = $this->input->ip_address();
 
-        // FIX: validasi format nomor HP Indonesia sebelum diproses
         if (empty($nohp) || !preg_match('/^0[0-9]{9,14}$/', $nohp)) {
             echo json_encode(array('msg' => 'Format nomor WhatsApp tidak valid.'));
             exit();
         }
-
-        $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
 
         if ($this->Akun_model->nomorwasudahada($nohp)) {
             echo json_encode(array('msg' => 'Nomor Whatsapp ' . $nohp . ' sudah pernah terdaftar! Jika anda merasa belum pernah mendaftar hubungi hotline gereja WhatsApp 085550001187 untuk konfirmasi akun.'));
             exit();
         }
 
-        // FIX: cegah spam-klik yang bikin nomor WA gateway rawan disuspend
-        // cooldown 60 detik antar pengiriman verifikasi WA
-        $lastSentWa = $this->session->userdata('last_wa_verifikasi_time');
-        if ($lastSentWa && (time() - $lastSentWa) < 60) {
+        // === RATE LIMIT 1: nomor ini sendiri, minimal jeda 60 detik ===
+        $lastByNomor = $this->db->query('
+        SELECT created_at FROM otp_log
+        WHERE tipe = "wa" AND tujuan = ?
+        ORDER BY created_at DESC LIMIT 1
+    ', array($nohp))->row();
+
+        if ($lastByNomor && (time() - strtotime($lastByNomor->created_at)) < 60) {
             echo json_encode(array('msg' => 'Mohon tunggu sebentar sebelum meminta verifikasi ulang.'));
             exit();
         }
 
-        // FIX: SQL Injection - gunakan binding (?)
+        // === RATE LIMIT 2: dari IP ini, maksimal 5x kirim WA per jam ===
+        $countIp = $this->db->query('
+        SELECT COUNT(*) as jumlah FROM otp_log
+        WHERE tipe = "wa" AND ip_address = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+    ', array($ip))->row()->jumlah;
+
+        if ($countIp >= 5) {
+            echo json_encode(array('msg' => 'Terlalu banyak percobaan verifikasi WhatsApp. Silakan coba lagi nanti.'));
+            exit();
+        }
+
+        $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
+
         $this->db->query('
-            update jemaat set
-            nohp = ?
-            where idjemaat = ?
-        ', array($nohp, $idjemaat));
+        update jemaat set
+        nohp = ?
+        where idjemaat = ?
+    ', array($nohp, $idjemaat));
 
         $pesanWA = 'Shalom ' . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi nomor whatsapp ini dengan satu klik cepat di bawah ini!\n\n" . $url;
 
         $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
 
-        // FIX: catat waktu pengiriman terakhir untuk cooldown
-        $this->session->set_userdata('last_wa_verifikasi_time', time());
+        // catat log setelah berhasil kirim
+        $this->db->insert('otp_log', array(
+            'idjemaat' => $idjemaat,
+            'tipe' => 'wa',
+            'tujuan' => $nohp,
+            'ip_address' => $ip,
+            'created_at' => date('Y-m-d H:i:s'),
+        ));
 
         echo json_encode(array('success' => true));
     }

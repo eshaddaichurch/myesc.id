@@ -40,6 +40,9 @@
 
     <!-- select2 -->
     <link href="<?php echo (base_url()) ?>myesc.id/admin/assets/select2/css/select2.min.css" rel="stylesheet" />
+
+     <!-- Google reCAPTCHA v3 -->
+     <script src="https://www.google.com/recaptcha/api.js?render=6Lee0W8tAAAAABG8ld1IaYBdmW2IN0xM3lIH5NON"></script>
     <style>
         /*** Navbar ***/
 

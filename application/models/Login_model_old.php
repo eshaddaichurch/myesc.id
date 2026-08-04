@@ -3,18 +3,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login_model extends CI_Model
 {
+
     public function cekLoginAjax($email, $password)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $field = 'email';
         } else {
             $email = preg_replace('/[^0-9]/', '', $email);
-            $field = 'nohp';
+            $field = 'nohp'; 
         }
 
-        // $field aman ditempel langsung karena nilainya hardcoded dari logic PHP di atas,
-        // bukan dari input user secara langsung. $email & $password tetap di-bind.
-        return $this->db->query("SELECT * FROM jemaat WHERE $field = ? AND password = ?", array($email, $password));
+        $query = "select * from jemaat where $field='" . $email . "' and password='" . $password . "'";
+        return $this->db->query($query);
     }
 
     public function simpanregistrasi($data)
@@ -26,40 +26,62 @@ class Login_model extends CI_Model
     {
         $this->db->where('email', $email);
         $rsCekEmail = $this->db->get('jemaat');
-        return $rsCekEmail->num_rows() > 0;
+        if ($rsCekEmail->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function nomorwasudahada($nohp)
     {
         $this->db->where('nohp', $nohp);
         $rsCekNoHP = $this->db->get('jemaat');
-        return $rsCekNoHP->num_rows() > 0;
+        if ($rsCekNoHP->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
 
     public function whatsappsudahada($nomorwa)
     {
         $this->db->where('nohp', $nomorwa);
         $rsCekWa = $this->db->get('jemaat');
-        return $rsCekWa->num_rows() > 0;
+        if ($rsCekWa->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function sudahAdaNIK($nik)
     {
-        $query = $this->db->query('SELECT * FROM jemaat WHERE nik = ?', array($nik));
-        return $query->num_rows() > 0;
+        $query = "select * from jemaat where nik='" . $nik . "'";
+        $rsTest = $this->db->query($query);
+        if ($rsTest->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function sudahAdaNIKTgllahir($nik, $tanggallahir)
     {
-        $query = $this->db->query('
-            SELECT * FROM jemaat WHERE nik = ? AND tanggallahir = ?
-        ', array($nik, date('Y-m-d', strtotime($tanggallahir))));
-        return $query->num_rows() > 0;
+        $query = "select * from jemaat where nik='" . $nik . "' and tanggallahir='" . date('Y-m-d', strtotime($tanggallahir)) . "'";
+        $rsTest = $this->db->query($query);
+        if ($rsTest->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getIdJemaatByNIK($nik)
     {
-        return $this->db->query('SELECT * FROM jemaat WHERE nik = ?', array($nik))->row();
+        $query = "select * from jemaat where nik='" . $nik . "'";
+        return $this->db->query($query)->row();
     }
 
     public function updateregistrasi($data, $idjemaat)
@@ -67,6 +89,7 @@ class Login_model extends CI_Model
         $this->db->where('idjemaat', $idjemaat);
         return $this->db->update('jemaat', $data);
     }
+
 
     public function kirimKeCare($dataCareJemaatBaru)
     {
@@ -77,57 +100,58 @@ class Login_model extends CI_Model
     {
         try {
             $this->db->trans_begin();
+            
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $field = 'email';
             } else {
                 $email = preg_replace('/[^0-9]/', '', $email);
-                $field = 'nohp';
+                $field = 'nohp'; 
             }
 
-            // $field hardcoded dari logic PHP, aman ditempel; $email di-bind
-            $rsJemaat = $this->db->query("SELECT * FROM jemaat WHERE $field = ?", array($email));
-
-            if ($rsJemaat->num_rows() == 0) {
+            $query = "select * from jemaat where $field='" . $email . "'";
+            $rsJemaat = $this->db->query($query);
+            if ($rsJemaat->num_rows()==0) {
                 return array('success' => false, 'msg' => 'Email atau nomor whatsapp tidak ditemukan.');
             }
 
             $rowJemaat = $rsJemaat->row();
 
-            // email harus sudah diverifikasi sebelumnya
+            //email harus sudah diverifikasi sebelumnya 
             if ($field == 'email') {
                 if ($rowJemaat->statusverifikasiemail == 0) {
                     return array('success' => false, 'msg' => 'Email anda belum di verifikasi.');
                 }
             }
 
-            // whatsapp harus sudah diverifikasi sebelumnya
+            //whatsapp harus sudah diverifikasi sebelumnya 
             if ($field == 'nohp') {
                 if ($rowJemaat->statusverifikasiwa == 0) {
                     return array('success' => false, 'msg' => 'Nomor whatsapp anda belum di verifikasi.');
                 }
             }
 
-            // random string 6 digit
+            //random string 6 digit
             $idjemaat = $rowJemaat->idjemaat;
-            $tokenlupapassword = random_int(100000, 999999);
+            $tokenlupapassword = rand(100000, 999999);
             $dataToken = array(
-                'tokenlupapassword' => $tokenlupapassword,
-                'tgltokenlupapassword' => date('Y-m-d H:i:s'),
-            );
+                            'tokenlupapassword' => $tokenlupapassword,
+                            'tgltokenlupapassword' => date('Y-m-d H:i:s')
+                        );
             $this->db->where('idjemaat', $idjemaat);
             $this->db->update('jemaat', $dataToken);
 
             $dataEmail = array(
-                'idjemaat' => $idjemaat,
-                'email' => $email,
-                'tokenlupapassword' => $tokenlupapassword,
-                'tgltokenlupapassword' => date('Y-m-d H:i:s'),
-            );
+                            'idjemaat' => $idjemaat,
+                            'email' => $email,
+                            'tokenlupapassword' => $tokenlupapassword,
+                            'tgltokenlupapassword' => date('Y-m-d H:i:s')
+                        );
             $this->db->insert('jemaatresetpassword', $dataEmail);
+            
 
             if ($field == 'email') {
-                // kirim pesan email
+                //kirim pesan email
                 $pesanEmail = "
                     <!DOCTYPE html>
                     <html>
@@ -146,18 +170,18 @@ class Login_model extends CI_Model
                                                 <h1 style='color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;'>🔐 Reset Password</h1>
                                             </td>
                                         </tr>
-
+                                        
                                         <!-- Content -->
                                         <tr>
                                             <td style='padding: 30px 40px;'>
                                                 <p style='margin: 0 0 20px 0; font-size: 16px; line-height: 1.6; color: #333333;'>
-                                                    Shalom <strong style='color: #2a5298;'>" . htmlspecialchars($rowJemaat->namalengkap) . "</strong>,
+                                                    Shalom <strong style='color: #2a5298;'>" . $rowJemaat->namalengkap . "</strong>,
                                                 </p>
-
+                                                
                                                 <p style='margin: 0 0 25px 0; font-size: 16px; line-height: 1.6; color: #555555;'>
                                                     Berikut adalah kode reset password untuk akun kamu:
                                                 </p>
-
+                                                
                                                 <!-- Token Box -->
                                                 <table width='100%' cellpadding='0' cellspacing='0'>
                                                     <tr>
@@ -167,17 +191,17 @@ class Login_model extends CI_Model
                                                         </td>
                                                     </tr>
                                                 </table>
-
+                                                
                                                 <p style='margin: 25px 0 15px 0; font-size: 14px; line-height: 1.6; color: #777777;'>
                                                     ⏰ <strong style='color: #ff6b6b;'>Kode ini berlaku selama 15 menit.</strong>
                                                 </p>
-
+                                                
                                                 <p style='margin: 15px 0 0 0; font-size: 14px; line-height: 1.6; color: #777777;'>
                                                     Jika kamu tidak merasa mengirim permintaan mereset password, abaikan pesan ini.
                                                 </p>
                                             </td>
                                         </tr>
-
+                                        
                                         <!-- Footer -->
                                         <tr>
                                             <td style='background-color: #f8f9fa; padding: 20px 40px; border-radius: 0 0 8px 8px; text-align: center; border-top: 1px solid #e9ecef;'>
@@ -188,7 +212,7 @@ class Login_model extends CI_Model
                                             </td>
                                         </tr>
                                     </table>
-
+                                    
                                     <!-- Disclaimer -->
                                     <p style='margin-top: 20px; font-size: 12px; color: #999999;'>
                                         Email ini dikirim secara otomatis. Mohon tidak membalas email ini.
@@ -200,21 +224,22 @@ class Login_model extends CI_Model
                     </html>
                     ";
                 if (!isLocalhost()) {
-                    $this->App->sendEmailDaftar($email, 'Reset Password Myesc.id', $pesanEmail);
+                    $this->App->sendEmailDaftar($email, 'Reset Password Myesc.id', $pesanEmail);                
                 }
-            } else {
-                // kirim pesan whatsapp
-                $pesanWA = "🔐 *RESET PASSWORD*\n\n"
-                    . 'Shalom *' . $rowJemaat->namalengkap . "*!\n\n"
-                    . "Berikut adalah kode reset password untuk akun kamu:\n\n"
-                    . "━━━━━━━━━━━━━━━━━━\n"
-                    . "🔢 *KODE RESET:*\n"
-                    . '   *' . $tokenlupapassword . "*\n"
-                    . "━━━━━━━━━━━━━━━━━━\n\n"
-                    . "⏰ *Kode ini berlaku selama 15 menit*\n\n"
-                    . "❗ Jika kamu *tidak* merasa mengirim permintaan mereset password, abaikan pesan ini.\n\n"
-                    . "Terima kasih.\n"
-                    . 'Tim GBI Elshaddai';
+
+            }else{
+                //kirim pesan whatsapp
+                $pesanWA = "🔐 *RESET PASSWORD*\n\n".
+                        "Shalom *". $rowJemaat->namalengkap ."*!\n\n".
+                        "Berikut adalah kode reset password untuk akun kamu:\n\n".
+                        "━━━━━━━━━━━━━━━━━━\n".
+                        "🔢 *KODE RESET:*\n".
+                        "   *" . $tokenlupapassword . "*\n".
+                        "━━━━━━━━━━━━━━━━━━\n\n".
+                        "⏰ *Kode ini berlaku selama 15 menit*\n\n".
+                        "❗ Jika kamu *tidak* merasa mengirim permintaan mereset password, abaikan pesan ini.\n\n".
+                        "Terima kasih.\n".
+                        "Tim GBI Elshaddai";
                 $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
             }
 
@@ -229,6 +254,8 @@ class Login_model extends CI_Model
             $this->db->trans_rollback();
             return array('success' => false, 'msg' => $th->getMessage());
         }
+
+        
     }
 
     public function cekTokenResetPassword($email, $tokenResetPassword)
@@ -238,20 +265,19 @@ class Login_model extends CI_Model
                 $field = 'email';
             } else {
                 $email = preg_replace('/[^0-9]/', '', $email);
-                $field = 'nohp';
+                $field = 'nohp'; 
             }
 
-            $rsCekEmail = $this->db->query(
-                "SELECT * FROM jemaat WHERE $field = ? AND tokenlupapassword = ?",
-                array($email, $tokenResetPassword)
-            );
-
+            $query = "select * from jemaat where $field='" . $email . "' and tokenlupapassword='" . $tokenResetPassword . "'";
+            $rsCekEmail = $this->db->query($query);
             if ($rsCekEmail->num_rows() == 0) {
                 return array('success' => false, 'msg' => 'Token reset password salah.');
             }
 
             return array('success' => true);
+
         } catch (\Throwable $th) {
+            $this->db->trans_rollback();
             return array('success' => false, 'msg' => $th->getMessage());
         }
     }
@@ -265,12 +291,12 @@ class Login_model extends CI_Model
                 $field = 'email';
             } else {
                 $email = preg_replace('/[^0-9]/', '', $email);
-                $field = 'nohp';
+                $field = 'nohp'; 
             }
 
             $this->db->where($field, $email);
             $this->db->update('jemaat', array('password' => md5($password), 'tokenlupapassword' => null));
-
+        
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 return array('success' => false, 'msg' => 'Gagal mengganti password.');

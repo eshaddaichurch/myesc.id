@@ -28,7 +28,7 @@ admin/application/config/database.php
 admin/application/ci_session/*
 admin/uploads/*
 community/uploads/*
-
+application/config/recaptcha.php
 ### CodeIgniter Patch ###
 
 ### SublimeText ###
