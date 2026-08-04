@@ -84,12 +84,6 @@ class App extends CI_Model
             $config['remove_space'] = TRUE;
             $config['max_size'] = $ukuran . 'KB';  // in KB
 
-            // DEBUG SEMENTARA: cetak path absolut persis yang dihitung,
-            // supaya bisa dicocokkan langsung dengan struktur folder asli
-            // di server lewat File Manager. Hapus baris ini setelah masalah
-            // path selesai ditemukan.
-            log_message('debug', 'uploadPdf DEBUG - FCPATH=' . FCPATH . ' | upload_path dihitung=' . $config['upload_path'] . ' | is_dir=' . (is_dir($config['upload_path']) ? 'YA' : 'TIDAK'));
-
             $this->load->library('upload', $config);
             if ($this->upload->do_upload($namaFile)) {
                 $foto = $this->upload->data('file_name');
