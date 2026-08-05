@@ -177,6 +177,30 @@
             font-size: 0.8rem;
             margin-left: 10px;
         }
+
+
+        /* ===== SEMBUNYIKAN BADGE reCAPTCHA v3 ===== */
+        .grecaptcha-badge {
+            visibility: hidden !important;
+        }
+
+        /* ===== Disclaimer reCAPTCHA (wajib ada sesuai ToS Google) ===== */
+        .recaptcha-disclaimer {
+            font-size: 11px;
+            color: var(--gray-text);
+            text-align: center;
+            line-height: 1.5;
+            margin-top: 14px;
+        }
+
+        .recaptcha-disclaimer a {
+            color: var(--gray-text);
+            text-decoration: underline;
+        }
+
+        .recaptcha-disclaimer a:hover {
+            color: var(--orange);
+        }
     </style>
 
 

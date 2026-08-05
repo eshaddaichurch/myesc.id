@@ -513,6 +513,51 @@
   .reg-alert.show {
     display: block;
   }
+
+
+  /* ===== FIX TOMBOL FOOTER DI MOBILE ===== */
+  .reg-btn {
+    white-space: nowrap;
+  }
+
+  .reg-footer {
+    flex-wrap: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .reg-footer {
+      padding: 10px 14px 14px;
+      gap: 8px;
+    }
+
+    .reg-btn {
+      height: 46px;
+      font-size: 13px;
+      padding: 0 8px;
+      gap: 5px;
+    }
+
+    .reg-btn svg,
+    .reg-btn i {
+      font-size: 12px;
+    }
+
+    .reg-btn-cancel {
+      flex: 0 0 auto;
+      width: 64px;
+      font-size: 12px;
+    }
+
+    .reg-btn-prev {
+      flex: 0 0 auto;
+      width: 90px;
+    }
+
+    .reg-btn-next {
+      flex: 1;
+      min-width: 0;
+    }
+  }
 </style>
 
 
@@ -737,6 +782,15 @@
                  target="_blank">Syarat dan Ketentuan GBI El Shaddai</a>
             </span>
           </label>
+
+          <p class="recaptcha-disclaimer">
+            Situs ini dilindungi reCAPTCHA dan
+            <a href="https://policies.google.com/privacy" target="_blank">Kebijakan Privasi</a>
+            dan
+            <a href="https://policies.google.com/terms" target="_blank">Persyaratan Layanan</a>
+            Google.
+          </p>
+        
         </div>
 
         <!-- ========== STEP 4: VERIFIKASI OTP (SATU KARTU, TAB WA/EMAIL) ========== -->
@@ -776,7 +830,7 @@
             </div>
 
             <button type="button" class="reg-btn reg-btn-next" id="btnVerifikasiOtp" style="width:100%; height:48px;">
-              Verifikasi Kode
+              <i class="fas fa-check"></i> Verifikasi & Selesaikan Pendaftaran
             </button>
 
             <div style="text-align: center; margin-top: 14px;">
@@ -790,7 +844,7 @@
           </div>
 
           <div id="otpSelesaiHint" style="text-align:center; margin-top:16px; font-size:12px; color: var(--gray-text);">
-            Verifikasi kode untuk melanjutkan. Kamu bisa beralih kanal kapan saja lewat tab di atas.
+            Pastikan anda memiliki akses ke WhatsApp atau Email yang terdaftar. jika anda tidak menerima kode, silahkan kirim ulang.
           </div>
         </div>
 
@@ -870,6 +924,8 @@ function regGoTo(step) {
   }
 
   // Update tombol sesuai step
+  $('#regFooter').show(); // pastikan footer tampil lagi kalau kembali dari step 4
+
   if (step === 1) {
     $('#regBtnPrev').hide();
     $('#regBtnCancel').show();
@@ -883,19 +939,16 @@ function regGoTo(step) {
     // Isi data konfirmasi
     regIsiKonfirmasi();
   } else if (step === 4) {
-    // Step OTP: sembunyikan tombol kembali & batal, tombol next jadi "Selesai"
-    // dan disabled sampai minimal salah satu (WA/Email) terverifikasi
-    $('#regBtnPrev').hide();
-    $('#regBtnCancel').hide();
-    $('#regBtnNext').show();
-    $('#regBtnNext').html('<i class="fas fa-check"></i> Selesai');
-    updateTombolSelesai();
+    // Step OTP: sembunyikan SELURUH footer, satu-satunya aksi adalah
+    // tombol "Verifikasi Kode" di dalam kartu (menghindari 2 tombol membingungkan)
+    $('#regFooter').hide();
   } else {
     $('#regBtnPrev').show();
     $('#regBtnCancel').hide();
     $('#regBtnNext').show();
     $('#regBtnNext').html('Selanjutnya <i class="fas fa-arrow-right"></i>');
   }
+
 
   // Scroll ke atas modal
   $('#registrasiModal .modal-content').scrollTop(0);
@@ -1145,30 +1198,6 @@ function onFinish() {
   });
 }
 
-// ===== Update tombol "Selesai" - aktif jika minimal satu kanal terverifikasi =====
-function updateTombolSelesai() {
-  var adaYangVerified = window.otpWaVerified || window.otpEmailVerified;
-  $('#regBtnNext').prop('disabled', !adaYangVerified);
-
-  if (adaYangVerified) {
-    $('#otpSelesaiHint').text('Verifikasi berhasil. Klik Selesai untuk menutup pendaftaran.').css('color', '#2e7d32');
-  } else {
-    $('#otpSelesaiHint').text('Verifikasi kode untuk melanjutkan. Kamu bisa beralih kanal kapan saja lewat tab di atas.').css('color', '');
-  }
-}
-
-// ===== onSelesaiRegistrasi - tutup modal setelah minimal 1 kanal terverifikasi =====
-function onSelesaiRegistrasi() {
-  if (!window.otpWaVerified && !window.otpEmailVerified) {
-    swal("Belum Terverifikasi", "Silakan verifikasi kode terlebih dahulu.", "info");
-    return;
-  }
-
-  swal("Berhasil!", "Pendaftaran berhasil! Akun kamu sudah aktif dan siap digunakan.", "success")
-    .then(function() {
-      $('#registrasiModal').modal('hide');
-    });
-}
 
 // ===== SWITCH TAB (WA <-> Email) =====
 function switchOtpTab(tipe) {
@@ -1207,7 +1236,6 @@ $(document).on('click', '#tabOtpEmail', function() {
   if (window.otpTabAktif !== 'email') switchOtpTab('email');
 });
 
-// ===== VERIFIKASI OTP (kanal mengikuti tab aktif) =====
 $(document).on('click', '#btnVerifikasiOtp', function() {
   var otp = $('#otpInput').val().trim();
   $('#otpAlert').removeClass('show');
@@ -1233,25 +1261,27 @@ $(document).on('click', '#btnVerifikasiOtp', function() {
     })
     .done(function(response) {
       if (response.success) {
-        if (tipe === 'wa') {
-          window.otpWaVerified = true;
-          $('#iconCheckWa').show();
-        } else {
-          window.otpEmailVerified = true;
-          $('#iconCheckEmail').show();
-        }
-        $('#otpInput').prop('disabled', true).val('••••••');
-        btn.prop('disabled', true).html('<i class="fas fa-check"></i> Sudah Terverifikasi');
-        $('#btnKirimUlangOtp, #otpCountdown').hide();
-        updateTombolSelesai();
+        // Berhasil: langsung selesai, tidak perlu tombol tambahan lagi
+        swal({
+          title: "Berhasil!",
+          text: "Akun kamu sudah aktif. Silakan login untuk melanjutkan.",
+          icon: "success",
+          button: "Login Sekarang"
+        }).then(function() {
+          $('#registrasiModal').modal('hide');
+          // Buka modal login supaya user bisa langsung masuk
+          setTimeout(function() {
+            $('#loginModal').modal('show');
+          }, 300);
+        });
       } else {
         $('#otpAlert').text(response.msg).addClass('show');
-        btn.prop('disabled', false).html('Verifikasi Kode');
+        btn.prop('disabled', false).html('<i class="fas fa-check"></i> Verifikasi & Selesaikan Pendaftaran');
       }
     })
     .fail(function() {
       $('#otpAlert').text('Terjadi kesalahan, coba lagi.').addClass('show');
-      btn.prop('disabled', false).html('Verifikasi Kode');
+      btn.prop('disabled', false).html('<i class="fas fa-check"></i> Verifikasi & Selesaikan Pendaftaran');
     });
 });
 
@@ -1313,6 +1343,7 @@ $(document).on('input', '#otpInput', function() {
   $(this).val($(this).val().replace(/[^0-9]/g, ''));
   $('#otpAlert').removeClass('show');
 });
+
 
 // ===== onCancel =====
 function onCancel() {
