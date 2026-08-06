@@ -158,6 +158,54 @@ class Bookingruangan extends MY_Controller
         redirect('bookingruangan/riwayat');
     }
 
+    // =========================================
+
+    // 5️⃣ RUANGAN TERPAKAI SELAMA SEMINGGU
+    // =========================================
+    public function getRuanganMinggu()
+    {
+        $tglawal = $this->input->get('tglawal');
+        $tglakhir = $this->input->get('tglakhir');
+
+        if (!$tglawal || !$tglakhir) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Parameter tglawal dan tglakhir wajib diisi'
+            ]);
+            return;
+        }
+
+        $rsRuanganTerpakai = $this->Bookingruangan_model->getRuanganTerpakaiRange($tglawal, $tglakhir);
+
+        $terpakai = [];
+        foreach ($rsRuanganTerpakai->result() as $row) {
+            $foto = !empty($row->foto)
+                ? 'https://admin.myesc.id/uploads/ruangan/' . $row->foto
+                : 'https://admin.myesc.id/images/nofoto.png';
+
+            $terpakai[] = [
+                'idruangan' => $row->idruangan,
+                'namaruangan' => $row->namaruangan,
+                'kapasitas' => $row->kapasitas,
+                'lokasi' => $row->lokasi,
+                'fasilitas' => $row->fasilitas,
+                'foto' => $foto,
+                'tanggal' => $row->tanggal,  // ✅ untuk grouping per hari di FE
+                'namadc' => $row->namadc,
+                'namapembooking' => $row->namapembooking,
+                'jamulai' => $row->jamulai,
+                'jamselesai' => $row->jamselesai,
+                'keperluan' => $row->keperluan,
+                'jenispakai' => $row->jenispakai,
+            ];
+        }
+
+        echo json_encode([
+            'status' => true,
+            'terpakai' => $terpakai,
+        ]);
+    }
+
     public function riwayat()
     {
         $tglawal = $this->input->get('tglawal') ?? date('Y-m-01');

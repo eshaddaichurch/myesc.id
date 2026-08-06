@@ -125,6 +125,48 @@ class Bookingruangan_model extends CI_Model
         ));
     }
 
+    public function getRuanganTerpakaiRange($tglawal, $tglakhir)
+    {
+        $sql = "
+        SELECT
+            r.idruangan,        r.namaruangan,  r.kapasitas,
+            r.lokasi,           r.fasilitas,    r.foto,
+            b.tanggalbooking    AS tanggal,
+            b.jamulai,          b.jamselesai,   b.keperluan,
+            dc.namadc,
+            j.namalengkap       AS namapembooking,
+            'booking'           AS jenispakai
+        FROM   booking_ruangan    b
+        JOIN   ruangan            r   ON r.idruangan  = b.idruangan
+        JOIN   disciplescommunity dc  ON dc.iddc      = b.iddc
+        JOIN   jemaat             j   ON j.idjemaat   = b.idjemaat
+        WHERE  b.tanggalbooking >= ?
+          AND  b.tanggalbooking <= ?
+          AND  b.status         != 'Dibatalkan'
+
+        UNION ALL
+
+        SELECT
+            r.idruangan,        r.namaruangan,  r.kapasitas,
+            r.lokasi,           r.fasilitas,    r.foto,
+            bl.tanggalblokir    AS tanggal,
+            bl.jamulai,         bl.jamselesai,  bl.keterangan AS keperluan,
+            'Admin'             AS namadc,
+            'Admin'             AS namapembooking,
+            'blokir'            AS jenispakai
+        FROM   blokir_ruangan bl
+        JOIN   ruangan        r   ON r.idruangan = bl.idruangan
+        WHERE  bl.tanggalblokir >= ?
+          AND  bl.tanggalblokir <= ?
+
+        ORDER BY tanggal ASC, jamulai ASC
+    ";
+        return $this->db->query($sql, array(
+            $tglawal, $tglakhir,
+            $tglawal, $tglakhir
+        ));
+    }
+
     public function simpanBooking($data)
     {
         return $this->db->insert('booking_ruangan', $data);
