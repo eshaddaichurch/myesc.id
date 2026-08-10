@@ -14,8 +14,8 @@ class AppVersion extends CI_Controller
         echo json_encode([
             'status' => true,
             'data' => [
-                'versi_minimum' => '1.0.14',
-                'versi_terbaru' => '1.0.14',
+                'versi_minimum' => '1.0.17',
+                'versi_terbaru' => '1.0.17',
                 'pesan' => 'Shalom DM. versi baru mydc+ tersedia, silakan update aplikasi untuk mendapatkan fitur terbaru.',
                 'url_playstore' => 'https://play.google.com/store/apps/details?id=com.escIntech.mydcplus',
             ]
