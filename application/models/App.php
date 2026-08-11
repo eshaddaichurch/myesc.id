@@ -9,7 +9,7 @@ class App extends CI_Model
 
         $smtp_host = 'mail.myesc.id';
         $smtp_port = '465';
-        $smtp_user = 'registrasi@myesc.id';
+        $smtp_user = 'connect@myesc.id';
         $smtp_pass = 'Elshaddaichurch1';
         $namapengirim = 'Elshaddai Church';
 

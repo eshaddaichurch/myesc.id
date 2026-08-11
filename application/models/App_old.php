@@ -3,14 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class App extends CI_Model
 {
-
     public function sendEmailDaftar($email, $subject, $textemail)
     {
         $this->load->library('email');
 
         // $pengaturan = $this->db->query("select * from infousaha")->row();
-
-
 
         // $smtp_host = $pengaturan->smtphost_daftar;
         // $smtp_port = $pengaturan->smtpport_daftar;
@@ -20,17 +17,16 @@ class App extends CI_Model
 
         $smtp_host = 'mail.myesc.id';
         $smtp_port = '465';
-        $smtp_user = 'registrasi@myesc.id';
+        $smtp_user = 'connect@myesc.id';
         $smtp_pass = 'Elshaddaichurch1';
         $namapengirim = 'Elshaddai Church';
 
-
         $config = array();
-        $config['protocol'] = "smtp";
+        $config['protocol'] = 'smtp';
         $config['mailtype'] = 'html';
         $config['smtp_host'] = $smtp_host;
         $config['smtp_port'] = $smtp_port;
-        $config['smtp_timeout'] = "5";
+        $config['smtp_timeout'] = '5';
         $config['smtp_user'] = $smtp_user;
         $config['smtp_pass'] = $smtp_pass;
         $config['smtp_crypto'] = 'ssl';
@@ -48,23 +44,21 @@ class App extends CI_Model
         return $this->email->send();
     }
 
-
     public function uploadImage($file, $namaFile, $namaFileLama, $foldername)
     {
         $this->load->library('image_lib');
 
         if (!empty($file[$namaFile]['name'])) {
-            $config['upload_path']          = 'myesc.id/admin/uploads/' . $foldername . '/';
-            $config['allowed_types']        = 'gif|jpg|png|jpeg';
-            $config['remove_space']         = TRUE;
-            $config['max_size']            = '2000KB';
-
+            $config['upload_path'] = 'myesc.id/admin/uploads/' . $foldername . '/';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $config['remove_space'] = TRUE;
+            $config['max_size'] = '2000KB';
 
             $this->load->library('upload', $config);
             if ($this->upload->do_upload($namaFile)) {
                 $foto = $this->upload->data('file_name');
                 $size = $this->upload->data('file_size');
-                $ext  = $this->upload->data('file_ext');
+                $ext = $this->upload->data('file_ext');
             } else {
                 $foto = $namaFileLama;
             }
@@ -75,23 +69,21 @@ class App extends CI_Model
         return $foto;
     }
 
-
     public function uploadPdf($file, $namaFile, $namaFileLama, $foldername, $ukuran = '2000')
     {
         $this->load->library('image_lib');
 
         if (!empty($file[$namaFile]['name'])) {
-            $config['upload_path']          = 'myesc.id/admin/uploads/' . $foldername . '/';
-            $config['allowed_types']        = 'pdf';
-            $config['remove_space']         = TRUE;
-            $config['max_size']            = $ukuran . 'KB'; //in KB
-
+            $config['upload_path'] = 'myesc.id/admin/uploads/' . $foldername . '/';
+            $config['allowed_types'] = 'pdf';
+            $config['remove_space'] = TRUE;
+            $config['max_size'] = $ukuran . 'KB';  // in KB
 
             $this->load->library('upload', $config);
             if ($this->upload->do_upload($namaFile)) {
                 $foto = $this->upload->data('file_name');
                 $size = $this->upload->data('file_size');
-                $ext  = $this->upload->data('file_ext');
+                $ext = $this->upload->data('file_ext');
             } else {
                 $foto = $namaFileLama;
             }
@@ -107,21 +99,18 @@ class App extends CI_Model
         $rsTemp = $this->db->query("
             select * from v_registrasikelas_sudahlulus where idjemaat='$idjemaat' and idkelas = '$idkelas'
         ");
-        if ($rsTemp->num_rows()>0) {
+        if ($rsTemp->num_rows() > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-
     public function reloadSession($idjemaat)
     {
-
         $rsTemp = $this->db->query("
             select * from jemaat where idjemaat='$idjemaat'
         ")->row();
-
 
         if (empty($rsTemp->foto)) {
             $foto = base_url('admin/images/user-01.png');
@@ -150,12 +139,12 @@ class App extends CI_Model
         $this->session->set_userdata($data);
     }
 
-    public function getInfoJemaat($idjemaat = "")
+    public function getInfoJemaat($idjemaat = '')
     {
         return $this->db->get_where('jemaat', array('idjemaat' => $idjemaat))->row();
     }
 
-    public function getInfoKelas($idkelas = "")
+    public function getInfoKelas($idkelas = '')
     {
         return $this->db->get_where('kelas', array('idkelas' => $idkelas))->row();
     }
