@@ -226,9 +226,9 @@ Tuhan Yesus memberkati';
 
 			$pesanWADM = 'Shalom DM ' . ucwords(strtolower($rowDc->namadm)) . ',
 Ada *pendaftaran DCM baru atas nama ' . ucwords(strtolower($rowJemaat->namalengkap)) . '* yang menunggu untuk ditindaklanjuti.
-Mohon segera melakukan pengecekan dan approval melalui *Website https://dc.myesc.id*, agar proses pemuridan dapat berjalan tepat waktu.
-Terima kasih atas kesediaan dan kesetiaan DM dalam melayani dan membangun murid Kristus.
-Tuhan memberkati pelayanan Saudara';
+Mohon segera melakukan pengecekan dan approval melalui Aplikasi MyDC+, agar proses pemuridan dapat berjalan tepat waktu.
+Terima kasih atas kesediaan dan kesetiaan DM dalam melayani.
+Tuhan memberkati';
 			$this->whatsapp->send_message(formatNomorWhatsapp($rowDc->nohpdm), $pesanWADM);
 
 			// ✅ TAMBAHKAN DI SINI - Kirim Push Notification ke DM
