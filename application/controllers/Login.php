@@ -611,9 +611,40 @@ class Login extends CI_Controller
         }
     }
 
+    // public function kirimKodeResetPassword()
+    // {
+    //     $email = $this->input->post('email');
+
+    //     $kirim = $this->Login_model->kirimKodeResetPassword($email);
+
+    //     echo json_encode($kirim);
+    // }
+
     public function kirimKodeResetPassword()
     {
+        $ip = $this->input->ip_address();
+
+        // === RATE LIMIT PER IP: maksimal 5 percobaan reset password per IP per jam ===
+        $countIp = $this->db->query('
+            SELECT COUNT(*) as jumlah FROM otp_log
+            WHERE tipe = "resetpw" AND ip_address = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+        ', array($ip))->row()->jumlah;
+
+        if ($countIp >= 5) {
+            echo json_encode(array('success' => false, 'msg' => 'Terlalu banyak percobaan dari perangkat/koneksi ini. Silakan coba lagi dalam 1 jam, atau hubungi hotline gereja WhatsApp 085550001187.'));
+            exit();
+        }
+
         $email = $this->input->post('email');
+
+        // catat percobaan (baik nanti berhasil atau gagal di step berikutnya)
+        $this->db->insert('otp_log', array(
+            'idjemaat' => null,
+            'tipe' => 'resetpw',
+            'tujuan' => $email,
+            'ip_address' => $ip,
+            'created_at' => date('Y-m-d H:i:s'),
+        ));
 
         $kirim = $this->Login_model->kirimKodeResetPassword($email);
 

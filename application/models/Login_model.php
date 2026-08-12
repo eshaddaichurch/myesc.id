@@ -94,6 +94,24 @@ class Login_model extends CI_Model
 
             $rowJemaat = $rsJemaat->row();
 
+            // === RATE LIMIT 1: minimal jeda 60 detik antar permintaan reset ===
+            if (!empty($rowJemaat->tgltokenlupapassword)) {
+                $selisihDetik = time() - strtotime($rowJemaat->tgltokenlupapassword);
+                if ($selisihDetik < 60) {
+                    return array('success' => false, 'msg' => 'Mohon tunggu sebentar sebelum meminta kode baru.');
+                }
+            }
+
+            // === RATE LIMIT 2: maksimal 5x permintaan reset per jam per jemaat ===
+            $countReset = $this->db->query('
+                SELECT COUNT(*) as jumlah FROM jemaatresetpassword
+                WHERE idjemaat = ? AND tgltokenlupapassword > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+            ', array($rowJemaat->idjemaat))->row()->jumlah;
+
+            if ($countReset >= 5) {
+                return array('success' => false, 'msg' => 'Terlalu banyak percobaan reset password. Silakan coba lagi dalam 1 jam, atau hubungi hotline gereja WhatsApp 085550001187.');
+            }
+
             // email harus sudah diverifikasi sebelumnya
             if ($field == 'email') {
                 if ($rowJemaat->statusverifikasiemail == 0) {
@@ -215,7 +233,13 @@ class Login_model extends CI_Model
                     . "❗ Jika kamu *tidak* merasa mengirim permintaan mereset password, abaikan pesan ini.\n\n"
                     . "Terima kasih.\n"
                     . 'Tim GBI Elshaddai';
-                $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+
+                try {
+                    $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+                } catch (\Throwable $e) {
+                    log_message('error', 'Gagal kirim WA reset password (gateway belum tersambung?): ' . $e->getMessage());
+                    log_message('debug', 'Token reset password WA (fallback log): ' . $tokenlupapassword);
+                }
             }
 
             if ($this->db->trans_status() === FALSE) {
