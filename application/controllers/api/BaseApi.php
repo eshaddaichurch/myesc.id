@@ -21,6 +21,38 @@ class BaseApi extends CI_Controller
         }
         echo json_encode(array('success' => false, 'msg' => $msg));
     }
+
+    /**
+     * Cek token dari header Authorization: Bearer xxxxx
+     * Return idjemaat kalau valid, atau kirim error JSON + exit kalau tidak valid.
+     */
+    protected function requireAuth()
+    {
+        $header = $this->input->get_request_header('Authorization', true);
+
+        if (empty($header) || stripos($header, 'Bearer ') !== 0) {
+            $this->jsonError('Token tidak ditemukan. Silakan login ulang.', 401);
+            exit();
+        }
+
+        $token = trim(substr($header, 7));
+
+        $row = $this->db->query('
+            SELECT idjemaat, expired_at FROM apptoken WHERE token = ?
+        ', array($token))->row();
+
+        if (!$row) {
+            $this->jsonError('Token tidak valid. Silakan login ulang.', 401);
+            exit();
+        }
+
+        if (strtotime($row->expired_at) < time()) {
+            $this->jsonError('Sesi anda sudah berakhir. Silakan login ulang.', 401);
+            exit();
+        }
+
+        return $row->idjemaat;
+    }
 }
 
 /* End of file BaseApi.php */
