@@ -10,14 +10,15 @@ class Equip extends BaseApi
         $idjemaat = $this->requireAuth();
 
         $rsKelas = $this->db->query('
-            SELECT kelas.idkelas, kelas.namakelas, kelas.kelas_slug, kelas.urlsertifikat,
-                registrasikelas.statuslulus, tglsertifikat, idregistrasikelas
-            FROM kelas 
-            LEFT JOIN registrasikelas ON registrasikelas.idkelas = kelas.idkelas 
-                AND idjemaat = ? AND statuslulus = 1
-            GROUP BY kelas.idkelas, kelas.namakelas, kelas.kelas_slug, kelas.urlsertifikat,
-                registrasikelas.statuslulus, tglsertifikat, idregistrasikelas
-        ', array($idjemaat));
+        SELECT kelas.idkelas, kelas.namakelas, kelas.kelas_slug, kelas.urlsertifikat,
+            registrasikelas.statuslulus, tglsertifikat, idregistrasikelas
+        FROM kelas 
+        LEFT JOIN registrasikelas ON registrasikelas.idkelas = kelas.idkelas 
+            AND idjemaat = ? AND statuslulus = 1
+        WHERE kelas.statusaktif = 1
+        GROUP BY kelas.idkelas, kelas.namakelas, kelas.kelas_slug, kelas.urlsertifikat,
+            registrasikelas.statuslulus, tglsertifikat, idregistrasikelas
+    ', array($idjemaat));
 
         $kelasArr = array();
         foreach ($rsKelas->result() as $row) {
