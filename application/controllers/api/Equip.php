@@ -5,7 +5,6 @@ require_once APPPATH . 'controllers/api/BaseApi.php';
 
 class Equip extends BaseApi
 {
-    // idkelas => [idkelas prasyarat, pesan kalau belum lulus]
     private $prasyarat = array(
         'KL003' => array('KL001', 'Anda harus mengikuti kelas Membership terlebih dahulu!'),
         'KL004' => array('KL001', 'Anda harus mengikuti kelas Membership terlebih dahulu!'),
@@ -45,7 +44,7 @@ class Equip extends BaseApi
         $this->jsonSuccess(array('kelas' => $kelasArr));
     }
 
-    // GET /api/equip/kelas/{slug} — detail kelas + jadwal yang bisa didaftar
+    // GET /api/equip/kelas/{slug}
     public function kelas($kelas_slug = '')
     {
         $idjemaat = $this->requireAuth();
@@ -65,6 +64,22 @@ class Equip extends BaseApi
         }
 
         $idkelas = $rowKelas->idkelas;
+
+        // sudah lulus kelas ini?
+        $sudahLulus = $this->db->query('
+            SELECT * FROM registrasikelas WHERE idjemaat = ? AND idkelas = ? AND statuslulus = 1
+        ', array($idjemaat, $idkelas))->num_rows() > 0;
+
+        // punya registrasi aktif (belum ditolak) di JADWAL MANAPUN untuk kelas ini?
+        $rowRegistrasiAktif = $this->db->query('
+            SELECT jadwaleventregistrasi.idjadwalevent, jadwaleventregistrasi.statuskonfirmasi
+            FROM jadwaleventregistrasi
+            JOIN jadwalevent ON jadwalevent.idjadwalevent = jadwaleventregistrasi.idjadwalevent
+            WHERE jadwaleventregistrasi.idjemaat = ? AND jadwalevent.idkelas = ?
+                AND jadwaleventregistrasi.statuskonfirmasi <> "Ditolak"
+            ORDER BY jadwaleventregistrasi.tglregistrasi DESC LIMIT 1
+        ', array($idjemaat, $idkelas))->row();
+
         $tglsekarang = date('Y-m-d H:i:00');
 
         if ($idkelas == 'KL004') {
@@ -94,9 +109,14 @@ class Equip extends BaseApi
                 SELECT lokasievent FROM jadwaleventdetailtanggal WHERE idjadwalevent = ? LIMIT 1
             ', array($row->idjadwalevent))->row();
 
-            $rowRegistrasiSaya = $this->db->query('
-                SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent = ? AND idjemaat = ?
-            ', array($row->idjadwalevent, $idjemaat))->row();
+            $iniJadwalSaya = $rowRegistrasiAktif && $rowRegistrasiAktif->idjadwalevent == $row->idjadwalevent;
+
+            $rowRegistrasiSaya = null;
+            if ($iniJadwalSaya) {
+                $rowRegistrasiSaya = $this->db->query('
+                    SELECT * FROM v_jadwaleventregistrasi WHERE idjadwalevent = ? AND idjemaat = ?
+                ', array($row->idjadwalevent, $idjemaat))->row();
+            }
 
             $jadwalArr[] = array(
                 'idjadwalevent' => $row->idjadwalevent,
@@ -107,9 +127,10 @@ class Equip extends BaseApi
                 'maxjemaat' => $maxJemaat,
                 'jumlahdaftar' => $jumlahDaftar,
                 'penuh' => $maxJemaat > 0 && $jumlahDaftar >= $maxJemaat,
-                'sudahdaftar' => !empty($rowRegistrasiSaya),
+                'sudahdaftar' => $iniJadwalSaya,
                 'statuskonfirmasi' => $rowRegistrasiSaya ? $rowRegistrasiSaya->statuskonfirmasi : null,
                 'keterangankonfirmasi' => $rowRegistrasiSaya ? $rowRegistrasiSaya->keterangankonfirmasi : null,
+                'terkuncijadwallain' => (bool) ($rowRegistrasiAktif && !$iniJadwalSaya),
             );
         }
 
@@ -123,6 +144,7 @@ class Equip extends BaseApi
                 'namakelas' => $rowKelas->namakelas,
                 'kelas_slug' => $rowKelas->kelas_slug,
             ),
+            'sudahlulus' => $sudahLulus,
             'jadwal' => $jadwalArr,
             'statusverifikasiwa' => !empty($rowJemaat->statusverifikasiwa),
         ));
@@ -150,16 +172,6 @@ class Equip extends BaseApi
             return;
         }
 
-        $sudahDaftar = $this->db->query('
-            SELECT * FROM jadwaleventregistrasi 
-            WHERE idjadwalevent = ? AND idjemaat = ? AND statuskonfirmasi <> "Ditolak"
-        ', array($idjadwalevent, $idjemaat))->num_rows() > 0;
-
-        if ($sudahDaftar) {
-            $this->jsonError('Anda sudah pernah mendaftar di jadwal kelas ini.');
-            return;
-        }
-
         $rowJadwal = $this->db->query('
             SELECT jadwalevent.idkelas, kelas.namakelas, kelas.kelas_slug
             FROM jadwalevent JOIN kelas ON kelas.idkelas = jadwalevent.idkelas
@@ -173,14 +185,38 @@ class Equip extends BaseApi
 
         $idkelas = $rowJadwal->idkelas;
 
+        // sudah lulus kelas ini? tidak boleh daftar lagi
+        $sudahLulus = $this->db->query('
+            SELECT * FROM registrasikelas WHERE idjemaat = ? AND idkelas = ? AND statuslulus = 1
+        ', array($idjemaat, $idkelas))->num_rows() > 0;
+
+        if ($sudahLulus) {
+            $this->jsonError('Anda sudah lulus kelas ini.');
+            return;
+        }
+
+        // sudah punya registrasi aktif (belum ditolak) di JADWAL MANAPUN untuk kelas ini?
+        $sudahDaftarKelasIni = $this->db->query('
+            SELECT jadwaleventregistrasi.idregistrasi
+            FROM jadwaleventregistrasi
+            JOIN jadwalevent ON jadwalevent.idjadwalevent = jadwaleventregistrasi.idjadwalevent
+            WHERE jadwaleventregistrasi.idjemaat = ? AND jadwalevent.idkelas = ?
+                AND jadwaleventregistrasi.statuskonfirmasi <> "Ditolak"
+        ', array($idjemaat, $idkelas))->num_rows() > 0;
+
+        if ($sudahDaftarKelasIni) {
+            $this->jsonError('Anda sudah terdaftar di salah satu jadwal kelas ini.');
+            return;
+        }
+
         if (isset($this->prasyarat[$idkelas])) {
             list($idkelasPrasyarat, $pesanPrasyarat) = $this->prasyarat[$idkelas];
 
-            $sudahLulus = $this->db->query('
+            $sudahLulusPrasyarat = $this->db->query('
                 SELECT * FROM registrasikelas WHERE idjemaat = ? AND idkelas = ? AND statuslulus = 1
             ', array($idjemaat, $idkelasPrasyarat))->num_rows() > 0;
 
-            if (!$sudahLulus) {
+            if (!$sudahLulusPrasyarat) {
                 $this->jsonError($pesanPrasyarat);
                 return;
             }
