@@ -1,340 +1,45 @@
-<!--text/x-generic carekonseling.php ( PHP script, UTF-8 Unicode text, with very long lines )-->
 <?php
-
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
-
-<body>
-
-  <main>
-
-
-
-    <?php $this->load->view('template/festavalive/topmenu'); ?>
-
-
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Georgia&display=swap");
-      $main-green: #eaca62 !default; /*#79dd09*/
-      $main-green-rgb-015: rgba(121, 221, 9, 0.1) !default;
-      $main-yellow: #bdbb49 !default;
-      $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
-      $main-red: #bd150b !default;
-      $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
-      $main-blue: #0076bd !default;
-      $main-blue-rgb-015: rgba(0, 118, 189, 0.1) !default;
-
-      /* This pen */
-
-
-      .dark {
-        background: #110f16;
-      }
-
-      /*--------------------------------------------------------------
-                    # Breadcrumbs
-                    --------------------------------------------------------------*/
-      .breadcrumbs {
-        padding: 140px 0 60px 0;
-        min-height: 30vh;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      .breadcrumbs:before {
-        content: "";
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        inset: 0;
-      }
-
-      .breadcrumbs h2 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #fff;
-        font-family: var(--font-secondary);
-      }
-
-      .breadcrumbs ol {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0 0 10px 0;
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-primary);
-      }
-
-      .breadcrumbs ol a {
-        color: rgba(255, 255, 255, 0.8);
-        transition: 0.3s;
-      }
-
-      .breadcrumbs ol a:hover {
-        text-decoration: underline;
-      }
-
-      .breadcrumbs ol li+li {
-        padding-left: 10px;
-      }
-
-      .breadcrumbs ol li+li::before {
-        display: inline-block;
-        padding-right: 10px;
-        color: #fff;
-        content: "/";
-      }
-
-
-      .light {
-        background: #f3f5f7;
-      }
-
-      a,
-      a:hover {
-        text-decoration: none;
-        transition: color 0.3s ease-in-out;
-      }
-
-      #pageHeaderTitle {
-        margin: 2rem 0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2.5rem;
-      }
-
-      /* Cards */
-      .postcard {
-        flex-wrap: wrap;
-        display: flex;
-
-        box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-        border-radius: 10px;
-        margin: 0 0 4rem 0;
-        overflow: hidden;
-        position: relative;
-        color: #ffffff;
-
-        &.dark {
-          background-color: #18151f;
-        }
-
-        &.light {
-          background-color: #e1e5ea;
-        }
-
-        .t-dark {
-          color: #18151f;
-        }
-
-        a {
-          color: inherit;
-        }
-
-        h1,
-        .h1 {
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          line-height: 1.2;
-        }
-
-        .small {
-          font-size: 80%;
-        }
-
-        .postcard__title {
-          font-size: 1.75rem;
-          padding-left: 10px;
-        }
-
-        .postcard__img {
-          max-height: 180px;
-          width: 100%;
-          object-fit: cover;
-          position: relative;
-        }
-
-        .postcard__img_link {
-          display: contents;
-        }
-
-        .postcard__bar {
-          width: 50px;
-          height: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          background-color: #424242;
-          transition: width 0.2s ease;
-        }
-
-        .postcard__text {
-          padding: 2.5rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .postcard__preview-txt {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          height: 100%;
-        }
-
-        .postcard__tagbox {
-          display: flex;
-          flex-flow: row wrap;
-          font-size: 14px;
-          margin: 20px 0 0 0;
-          padding: 0;
-          justify-content: center;
-
-          .tag__item {
-
-            display: inline-block;
-            background: #FAF0E6;
-            border-radius: 3px;
-            padding: 2.5px 10px;
-            margin: 0 5px 5px 0;
-            cursor: default;
-            user-select: none;
-            transition: background-color 0.3s;
-
-            &:hover {
-              background: #FFD09B;
-            }
-          }
-        }
-
-        &:before {
-          content: "";
-          position: abslute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-image: linear-gradient(-70deg, #424242, transparent 50%);
-          opacity: 1;
-          border-radius: 10px;
-        }
-
-        &:hover .postcard__bar {
-          width: 100px;
-        }
-      }
-
-      @media screen and (min-width: 769px) {
-        .postcard {
-          flex-wrap: inherit;
-
-          .postcard__title {
-            font-size: 2rem;
-          }
-
-          .postcard__tagbox {
-            justify-content: start;
-          }
-
-          .postcard__img {
-            max-width: 300px;
-            max-height: 100%;
-            transition: transform 0.3s ease;
-          }
-
-          .postcard__text {
-            padding-left: 4rem;
-            width: 100%;
-
-          }
-
-          .media.postcard__text:before {
-            content: "";
-            position: absolute;
-            display: block;
-            background: #18151f;
-            top: -20%;
-            height: 130%;
-            width: 55px;
-          }
-
-          &:hover .postcard__img {
-            transform: scale(1.1);
-          }
-
-          &:nth-child(2n+1) {
-            flex-direction: row;
-          }
-
-          &:nth-child(2n+0) {
-            flex-direction: row-reverse;
-          }
-
-          &:nth-child(2n+1) .postcard__text::before {
-            left: -12px !important;
-            transform: rotate(4deg);
-          }
-
-          &:nth-child(2n+0) .postcard__text::before {
-            right: -12px !important;
-            transform: rotate(-4deg);
-          }
-        }
-      }
-
-      /*  */
-
-      @media screen and (min-width: 1024px) {
-        .postcard__text {
-          padding: 2rem 3.5rem;
-        }
-
-        .postcard__text:before {
-          content: "";
-          position: absolute;
-          display: block;
-
-          top: -20%;
-          height: 130%;
-          width: 55px;
-        }
-
-        .postcard.dark {
-          .postcard__text:before {
-            background: #18151f;
-          }
-        }
-
-        .postcard.light {
-          .postcard__text:before {
-            background: #e1e5ea;
-          }
-        }
-      }
-    </style>
-
-
-    <style>
-     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+$this->load->view('template/festavalive/header');
+?>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body, html {
+    font-family: 'Figtree', sans-serif !important;
+    overflow-x: hidden;
+    background-color: #fff;
+    color: #444;
+  }
+
+  h1, h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+
+  @media (max-width: 768px) {
+    p {
+      line-height: 1.8;
+      color: #000000;
     }
+  }
 
-    body, html {
-      font-family: 'Figtree', sans-serif !important;
-      overflow-x: hidden; /* Tambahkan ini */
-    }
-
-    .parallax-section {
-    /* background-image: url('myesc.id/assets/gambar/pernikahan1.jpg'); */
-    background-image: url('<?php echo base_url("myesc.id/assets/gambar/pernikahan1.jpg"); ?>');
-    height: 70vh; /* Default untuk desktop */
+  /* ---------- Hero / Parallax ---------- */
+  .parallax-section {
+    background-image: url('<?php echo base_url('myesc.id/assets/gambar/pernikahan1.jpg'); ?>');
+    height: 60vh;
+    min-height: 320px;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -344,32 +49,39 @@ $this->load->view('template/festavalive/header'); ?>
     justify-content: center;
     color: white;
     text-align: center;
-    }
-
-    /* Tambahkan ini untuk tampilan mobile */
-    @media (max-width: 768px) {
-      .parallax-section {
-      /* background-image: url('myesc.id/assets/gambar/pernikahan1.jpg'); */
-      background-image: url('<?php echo base_url("myesc.id/assets/gambar/pernikahan1.jpg"); ?>');
-      height: 40vh; /* Default untuk desktop */
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
-      }
-    }
-
-
-    
-    .parallax-divider {
     position: relative;
-    height: 400px; /* default untuk desktop */
-    background-image: url('<?php echo base_url("myesc.id/assets/gambar/bgpernikahan1.jpg"); ?>');
+  }
+
+  .parallax-section:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .parallax-section h1 {
+    position: relative;
+    font-size: clamp(28px, 5vw, 48px);
+    color: #fefefe;
+    padding: 0 20px;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 768px) {
+    .parallax-section {
+      height: 40vh;
+      min-height: 220px;
+      /* fixed attachment is unreliable on mobile browsers (esp. iOS Safari) */
+      background-attachment: scroll;
+    }
+  }
+
+  .parallax-divider {
+    position: relative;
+    height: 320px;
+    background-image: url('<?php echo base_url('myesc.id/assets/gambar/bgpernikahan1.jpg'); ?>');
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -378,533 +90,349 @@ $this->load->view('template/festavalive/header'); ?>
     align-items: center;
     overflow: hidden;
     text-align: center;
-    }
+  }
 
-    /* Untuk layar kecil seperti handphone */
-    @media (max-width: 767px) {
+  @media (max-width: 767px) {
     .parallax-divider {
-        height: 150px; /* atau 200px, sesuaikan dengan konten */
-        background-attachment: scroll; /* fallback karena background-attachment: fixed sering tidak berfungsi di mobile */
+      height: 200px;
+      background-attachment: scroll;
     }
-    }
+  }
 
+  .parallax-divider:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+  }
 
-    .parallax-divider p {
-    font-size: 19px;
-    color: #ffffff; /* putih terang */
-    max-width: 70%;
-    line-height: 1.6;
+  .parallax-text-wrapper {
     position: relative;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6); /* bayangan agar teks tetap kontras */
-    }
+    padding: 40px 30px;
+    border-radius: 10px;
+    max-width: 780px;
+  }
 
-    #parallax-text {
+  @media (min-width: 768px) {
+    .parallax-text-wrapper {
+      padding: 50px 60px;
+    }
+  }
+
+  #parallax-text {
     color: #ffffff;
-    font-size: 12px; /* default untuk handphone */
+    font-size: 15px;
     text-align: center;
-    line-height: 1.6;
+    line-height: 1.7;
     max-width: 100%;
     margin: 0 auto;
-    position: relative;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-    }
+  }
 
-    /* Ukuran font lebih besar untuk tablet dan desktop */
-    @media (min-width: 768px) {
-    #parallax-text {
-        font-size: 20px;
-    }
-    }
+  @media (min-width: 768px) {
+    #parallax-text { font-size: 20px; }
+  }
 
-    @media (min-width: 1024px) {
-    #parallax-text {
-        font-size: 25px;
-    }
-    }
+  @media (min-width: 1024px) {
+    #parallax-text { font-size: 24px; }
+  }
 
+  /* ---------- Section: Ajakan / Video ---------- */
+  .section {
+    padding: 50px 20px;
+    text-align: center;
+  }
 
-    .parallax-text-wrapper {
-    padding: 100px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px); /* efek blur untuk kesan modern */
-    }
+  .section.light { background-color: #fefefe; }
 
-    /* Tambahkan media query untuk layar besar (desktop) */
-    @media (min-width: 768px) {
-        .parallax-text-wrapper {
-            padding: 70px;
-        }
-    }
+  h2 { font-size: clamp(20px, 3vw, 22px); font-weight: 700; }
 
-
-
-    .parallax-section h1 {
-      font-size: 48px;
-      /* background: rgba(0,0,0,0.5); */
-      padding: 40px 40px;
-      border-radius: 10px;
-    }
-
-    @media (max-width: 768px) {
-      .parallax-section h1 {
-      font-size: 40px;
-      /* background: rgba(0,0,0,0.5); */
-      padding: 40px 40px;
-      border-radius: 10px;
-      }
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Figtree', sans-serif !important;
-      background-color: #fff;
-      color: #444;
-    }
-
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .section.light {
-      background-color: #fefefe;
-    }
-
-    h1, h2 {
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 26px;
-      font-weight: 700;
-    }
-
-    h2 {
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    p {
-      font-size: 17px;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto 20px;
-    }
-
-    @media (max-width: 768px) {
-      p {
-        margin-bottom: 20px;
-        line-height: 1.8;
-        color: #000000;
-      }
-    }
-
-    .button {
-      display: inline-block;
-      padding: 10px 24px;
-      border: 1px solid #999;
-      border-radius: 24px;
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: #eaca62;
-      background-color: transparent;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .button:hover {
-      background-color: #eaca62;
-      color: #fff;
-    }
-
-    /* Child Dedication Section */
-    .section.light.dedication {
+  .section.light.dedication {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 40px;
-    padding: 60px 20px;
-    }
-
-    .dedication-text {
-    flex: 1 1 400px;
-    max-width: 600px;
-    text-align: left;
-    }
-
-    .dedication-text blockquote {
-    font-style: italic;
-    color: #333;
-    margin-top: 20px;
-    border-left: 4px solid #ef5008;
-    padding-left: 16px;
-    }
-
-    .dedication-video {
-    flex: 1 1 400px;
-    max-width: 560px;
-    }
-
-    .dedication-video iframe {
-    width: 100%;
-    height: 315px;
-    border: none;
-    }
-
-
-    .who-is-care {
-      padding: 60px 20px;
-      background: #fff;
-    }
-
-    .who-is-care .section-title {
-      color: #eaca62;
-      text-align: center;
-      margin-bottom: 40px;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    .who-is-care .content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* Kolom gambar */
-    .image-wrapper {
-      flex: 1 1 45%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .dedication-slideshow {
-      width: 100%;
-      max-width: 560px;
-      aspect-ratio: 16/9;
-      overflow: hidden;
-      position: relative;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .dedication-slideshow img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      inset: 0;
-    }
-
-    /* Kolom teks */
-    .text-wrapper {
-      flex: 1 1 50%;
-    }
-
-    .text-wrapper p {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #444;
-      margin-bottom: 15px;
-    }
-
-    .text-wrapper .esc-btn-light {
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 25px;
-      background: #e04607;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.3s ease;
-    }
-
-    .text-wrapper .esc-btn-light:hover {
-      background: #c23c05;
-    }
-
-    /* Responsif */
-    @media (max-width: 768px) {
-      .who-is-care .content {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .text-wrapper {
-        margin-top: 20px;
-      }
-    }
-
-
-    .container {
     max-width: 1200px;
     margin: 0 auto;
-    }
+  }
 
-    .content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    }
-
-    .left, .right {
-    flex: 1 1 500px;
+  .dedication-text {
+    flex: 1 1 400px;
     max-width: 600px;
     text-align: left;
-    }
+  }
 
-    .left p, .right p {
-    margin-bottom: 20px;
-    line-height: 1.8;
-    color: #000000;
-    }
+  .dedication-video {
+    flex: 1 1 400px;
+    max-width: 560px;
+    width: 100%;
+  }
 
-    .slide {
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
-    .slide.active {
-        opacity: 1;
-    }
-
-
-     /*perhatian*/
-     .itineraries {
-    max-width: 2000px;
-    background-color: #eaca62;
-    margin: auto;
-    padding: 32px 330px;
-    }
-
-    /* Media Query untuk perangkat dengan lebar layar kurang dari 768px (tablet atau mobile) */
-    @media (max-width: 768px) {
-        .itineraries {
-            padding: 32px 16px;  /* Mengurangi padding agar lebih pas di layar kecil */
-            max-width: 100%; /* Membuat lebar konten lebih responsif */
-        }
-    }
-
-    /* Media Query untuk perangkat dengan lebar layar kurang dari 480px (smartphone) */
-    @media (max-width: 480px) {
-        .itineraries {
-            padding: 16px;  /* Mengurangi padding lebih jauh */
-        }
-    }
-
-
-    .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    }
-
-    .header h1 {
-    font-size: 48px;
-    font-family: 'Figtree', sans-serif !important;
-    }
-
-    .filter {
-    cursor: pointer;
-    font-size: 16px;
-    }
-
-    .itinerary {
-    background-color: #f6f6f6;
-    border-radius: 4px;
+  /* responsive 16:9 video wrapper instead of a fixed 560x315 iframe */
+  .video-frame {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 20px;
-    transition: 0.3s;
-    }
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  }
 
-    .summary {
+  .video-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* ---------- Who is care / Pemberkatan Pernikahan ---------- */
+  .who-is-care {
+    padding: 60px 20px;
+    background: #fff;
+  }
+
+  .who-is-care .section-title {
+    color: #eaca62;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: bold;
+  }
+
+  .who-is-care .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .image-wrapper {
+    flex: 1 1 45%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .dedication-slideshow {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .dedication-slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .dedication-slideshow img.active { opacity: 1; }
+
+  .text-wrapper { flex: 1 1 50%; text-align: left; }
+
+  .text-wrapper p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 15px;
+    max-width: none;
+    text-align: left;
+  }
+
+  .esc-btn-light {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 25px;
+    background: #e04607;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .esc-btn-light:hover {
+    background: #c23c05;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 768px) {
+    .who-is-care .content { flex-direction: column; text-align: center; }
+    .text-wrapper { margin-top: 20px; text-align: center; }
+    .text-wrapper p { text-align: center; }
+  }
+
+  /* ---------- Itineraries / Accordion ---------- */
+  .itineraries {
+    max-width: 1100px;
+    background-color: #eaca62;
+    margin: 40px auto 0;
+    padding: 40px;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .itineraries {
+      padding: 28px 18px;
+      margin: 24px 16px 0;
+      border-radius: 8px;
+    }
+  }
+
+  .header { margin-bottom: 24px; }
+
+  .header h1 {
+    font-size: clamp(26px, 4vw, 40px);
+    font-family: 'Figtree', sans-serif !important;
+    color: #2b2b2b;
+  }
+
+  .itinerary {
+    background-color: #f6f6f6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: 0.3s;
+  }
+
+  .summary {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 18px 20px;
     cursor: pointer;
-    flex-wrap: wrap;
-    }
+    gap: 12px;
+  }
 
-    .summary .left,
-    .summary .right {
-    min-width: 200px;
-    }
-
-    .summary h2 {
-    margin: 0 0 5px 0;
-    font-size: 20px;
-    }
-
-    .summary p {
+  .summary h2 {
     margin: 0;
-    color: #555;
-    }
+    font-size: 18px;
+    text-align: left;
+  }
 
-    .toggle-icon {
-    font-size: 20px;
-    margin-left: 10px;
+  .toggle-icon {
+    font-size: 18px;
+    flex-shrink: 0;
     transition: transform 0.3s;
-    }
+  }
 
-    .details {
+  .summary.active .toggle-icon { transform: rotate(180deg); }
+
+  .details {
     display: none;
-    padding: 20px;
+    padding: 0 20px 20px;
     border-top: 1px solid #ddd;
     background-color: #fff;
     animation: fadeIn 0.3s ease-in-out;
-    }
+  }
 
-    @keyframes fadeIn {
+  .details p {
+    text-align: left;
+    max-width: none;
+    margin: 14px 0 0;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-    }
+  }
 
-    .summary.active .toggle-icon {
-    transform: rotate(180deg);
-    }
-
-    @media (max-width: 600px) {
-    .summary {
-        
-        align-items: flex-start;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .header h1 {
-        font-size: 36px;
-        margin-bottom: 10px;
-    }
-    }
-
-    .indented-list {
-        margin-left: 92px; /* atau padding-left */
-        margin-bottom: 36px;
-    }
-    /*perhatian*/
-
-    .download-btn {
+  .download-btn {
     display: inline-flex;
     align-items: center;
     background-color: #000000;
     color: white;
-    padding: 8px 16px;
+    padding: 10px 18px;
     text-decoration: none;
     border-radius: 8px;
     font-weight: bold;
+    font-size: 14px;
+    margin-top: 16px;
     transition: background 0.3s;
-    }
+  }
 
-    /* Media Query untuk perangkat dengan lebar layar kurang dari 768px (tablet atau mobile) */
-    @media (max-width: 768px) {
-        .download-btn {
-            margin-left: 16px;  /* Memberikan margin kiri untuk menggeser tombol lebih ke kiri */
-            margin-right: 16px; /* Memberikan margin kanan agar tidak terlalu mepet ke tepi */
-        }
-    }
+  .download-btn:hover { background-color: #b8933f; }
+  .download-btn svg { margin-right: 8px; flex-shrink: 0; }
 
-    /* Media Query untuk perangkat dengan lebar layar kurang dari 480px (smartphone) */
-    @media (max-width: 480px) {
-        .download-btn {
-            margin-left: 8px;  /* Mengurangi margin kiri lebih dekat ke tepi */
-            margin-right: 8px; /* Mengurangi margin kanan agar pas di layar kecil */
-        }
-    }
+  /* ---------- Scroll reveal ---------- */
+  .scroll-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
 
+  .scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
 
-    .download-btn:hover {
-      background-color: #eaca62;
-    }
-    .download-btn svg {
-      margin-right: 8px;
-    }
+<body>
 
-    /* Awalnya elemen tidak terlihat */
-    .scroll-animate {
-        opacity: 0;
-        transform: translateY(40px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
+  <main>
 
-    /* Ketika terlihat di layar */
-    .scroll-animate.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-    </style>
-    </head>
-
-    <body>
-
-       <!-- Parallax Header -->
+    <!-- Hero -->
     <div class="parallax-section">
-      <h1 style="color: #fefefe;">Pemberkatan Pernikahan</h1>
+      <h1>Pemberkatan Pernikahan</h1>
     </div>
 
- <!-- Konten -->
+    <!-- Section: Video Pengantar -->
+    <div class="section light dedication">
+      <div class="dedication-text">
+        <h2 style="color: #eaca62;">Shalom, Saudara terkasih!</h2>
+        <p style="text-align: justify;">
+          Bagi Saudara yang merindukan untuk menjalani pemberkatan pernikahan di Gereja GBI El Shaddai, kami mengundang Anda untuk menyimak video berikut.
+        </p>
+        <p style="text-align: justify;">
+          Video ini akan membantu menjelaskan proses, persiapan, serta makna mendalam dari pemberkatan pernikahan yang berlaku pada Gereja GBI El Shaddai serta sejalan dengan nilai-nilai Firman Tuhan.
+        </p>
+      </div>
 
-     <!-- Section: Child Dedication -->
-     <div class="section light dedication">
-        <div class="dedication-text">
-            <h2 style="color: #eaca62;">Shalom, Saudara terkasih!</h2>
-            <p style="text-align: justify;">
-                Bagi Saudara yang merindukan untuk menjalani pemberkatan pernikahan di Gereja GBI El Shaddai, kami mengundang Anda untuk menyimak video berikut.
-            </p>
-            <p style="text-align: justify;">
-                Video ini akan membantu menjelaskan proses, persiapan, serta makna mendalam dari pemberkatan pernikahan yang berlaku pada Gereja GBI El Shaddai serta sejalan dengan nilai-nilai Firman Tuhan.
-            </p>
-        </div>
-    
-        <div class="dedication-video">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/DQhiViSMiRs?si=hlzROK2WjXuCIAm3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-    </div>
-
-
-      <!-- PARALLAX DIVIDER -->
-      <div class="parallax-divider">
-        <div class="parallax-text-wrapper">
-          <p id="parallax-text">
-            “Sebab itu laki-laki akan meninggalkan ayahnya dan ibunya dan bersatu dengan isterinya, sehingga keduanya menjadi satu daging.”<br>
-            - Kejadian 2:24
-          </p>
+      <div class="dedication-video">
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/DQhiViSMiRs?si=hlzROK2WjXuCIAm3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
-      
-  
+    </div>
 
-    
+    <!-- Parallax Divider -->
+    <div class="parallax-divider">
+      <div class="parallax-text-wrapper">
+        <p id="parallax-text">
+          "Sebab itu laki-laki akan meninggalkan ayahnya dan ibunya dan bersatu dengan isterinya, sehingga keduanya menjadi satu daging."<br>
+          - Kejadian 2:24
+        </p>
+      </div>
+    </div>
 
-
-      <section class="who-is-care">
+    <!-- Section: Pemberkatan Pernikahan -->
+    <section class="who-is-care">
       <div class="container">
         <h2 class="section-title">Pemberkatan Pernikahan</h2>
         <div class="content">
-          
-          <!-- Kolom Gambar -->
+
           <div class="image-wrapper scroll-animate">
             <div class="dedication-slideshow">
-              <img src="<?php echo base_url('myesc.id/assets/gambar/marriage2.jpg'); ?>" 
-                  alt="Pemberkatan Pernikahan" class="slide active">
+              <img src="<?php echo base_url('myesc.id/assets/gambar/marriage2.jpg'); ?>"
+                   alt="Pemberkatan Pernikahan" class="active" loading="lazy">
             </div>
           </div>
 
-          <!-- Kolom Teks -->
           <div class="text-wrapper scroll-animate">
             <p>
               Pemberkatan pernikahan adalah upacara rohani di mana sepasang calon suami-istri menyatakan janji setia mereka di hadapan Tuhan dan jemaat.
@@ -913,7 +441,7 @@ $this->load->view('template/festavalive/header'); ?>
               Dalam momen ini, gereja bukan hanya menjadi saksi, tetapi juga mendoakan dan meneguhkan pernikahan sebagai perjanjian kudus yang diberkati Tuhan.
             </p>
             <a href="<?php echo site_url('pernikahan/tambah'); ?>" class="esc-btn-light">
-              Ajukan Permohonan →
+              Ajukan Permohonan &rarr;
             </a>
           </div>
 
@@ -921,98 +449,82 @@ $this->load->view('template/festavalive/header'); ?>
       </div>
     </section>
 
-  
-    
-    <!-- Section 2: Ajakan Kirim Doa -->
+    <!-- Section: Hal yang Perlu Diperhatikan -->
     <section class="itineraries">
       <div class="header">
         <h1>Hal Yang Perlu Diperhatikan</h1>
       </div>
-    
+
       <div class="itinerary">
         <div class="summary" onclick="toggleDetails(this)">
-          <!-- <div class="left">
-            <h2>Steve Backlund</h2>
-            <p>Revive SF</p>
-          </div> -->
-          <div class="right">
-            <h2>Persyaratan dan Informasi Pemberkatan Nikah.</h2>
-          </div>
-          <div class="toggle-icon">▼</div>
+          <h2>Persyaratan dan Informasi Pemberkatan Nikah</h2>
+          <div class="toggle-icon">&#9660;</div>
         </div>
         <div class="details">
-          <p><strong>1:</strong> Berkas wajib diserahkan 5 bulan sebelum hari H di receptionist ataupun pada jam kantor gereja.</p>
-          <p><strong>2:</strong> Silahkan Mendownload file Formulir Pernikahan.</p>              
-          <p><strong>3:</strong> Formulir akan diterima jika sudah lengkap.</p>
-          <p><strong>4:</strong> Silahkan Ajukan Pemberkatan Pernikahan Pada Tombol Ajukan Permohonan.</p>
-          <br>
-          <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" class="download-btn" style="margin-left: 0px;" download>
+          <p><strong>1.</strong> Berkas wajib diserahkan 5 bulan sebelum hari H di receptionist ataupun pada jam kantor gereja.</p>
+          <p><strong>2.</strong> Silahkan mendownload file Formulir Pernikahan.</p>
+          <p><strong>3.</strong> Formulir akan diterima jika sudah lengkap.</p>
+          <p><strong>4.</strong> Silahkan ajukan pemberkatan pernikahan pada tombol Ajukan Permohonan.</p>
+
+          <a href="<?php echo base_url('myesc.id/assets/gambar/formulir.pdf'); ?>" class="download-btn" download>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 16l4-5h-3V4h-2v7H8z"/><path d="M20 18H4v-2h16v2z"/></svg>
             Download Formulir
-          </a>     
+          </a>
         </div>
       </div>
     </section>
 
-   
+  </main>
 
-    
-      <script>
-        
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-    
-        setInterval(() => {
+  <script>
+    window.addEventListener('scroll', function () {
+      const parallax = document.querySelector('.parallax-divider');
+      const text = document.getElementById('parallax-text');
+      const rect = parallax.getBoundingClientRect();
+
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        const scrollPercent = Math.min(1, Math.max(0, 0 - rect.top / (window.innerHeight * 0.2)));
+        const translateY = scrollPercent * 50;
+        const opacity = Math.max(0.6, 1 - scrollPercent * 0.8);
+
+        text.style.transform = `translateY(${translateY}px)`;
+        text.style.opacity = opacity;
+        text.style.visibility = 'visible';
+      } else {
+        text.style.opacity = 0;
+        text.style.visibility = 'hidden';
+      }
+    });
+
+    function toggleDetails(element) {
+      const details = element.nextElementSibling;
+      details.style.display = details.style.display === 'block' ? 'none' : 'block';
+      element.classList.toggle('active');
+    }
+
+    // Slideshow (siap dipakai jika gambar ditambah lebih dari satu)
+    const slides = document.querySelectorAll('.dedication-slideshow img');
+    if (slides.length > 1) {
+      let currentSlide = 0;
+      setInterval(() => {
         slides[currentSlide].classList.remove('active');
-        slides[currentSlide].style.opacity = '0';
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add('active');
-        slides[currentSlide].style.opacity = '1';
-        }, 2000);
+      }, 3000);
+    }
 
-        window.addEventListener('scroll', function () {
-            const parallax = document.querySelector('.parallax-divider');
-            const text = document.getElementById('parallax-text');
-            const rect = parallax.getBoundingClientRect();
+    // Scroll reveal
+    const scrollElements = document.querySelectorAll('.scroll-animate');
+    function handleScrollAnimation() {
+      scrollElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', handleScrollAnimation);
+    window.addEventListener('load', handleScrollAnimation);
+  </script>
 
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const scrollPercent = Math.min(1, Math.max(0, 0 - rect.top / (window.innerHeight * 0.2)));
-                const translateY = scrollPercent * 50;
-                const opacity = Math.max(1.5, 1 - scrollPercent * 0.8); // tetap terlihat
-
-                text.style.transform = `translateY(${translateY}px)`;
-                text.style.opacity = opacity;
-                text.style.visibility = 'visible';
-            } else {
-                text.style.opacity = 0;
-                text.style.visibility = 'hidden';
-            }
-        });
-
-      function toggleDetails(element) {
-        const details = element.nextElementSibling;
-        const icon = element.querySelector('.toggle-icon');
-    
-        element.classList.toggle('active');
-        details.style.display = details.style.display === 'block' ? 'none' : 'block';
-      }
-
-
-      const scrollElements = document.querySelectorAll('.scroll-animate');
-
-      function handleScrollAnimation() {
-        scrollElements.forEach(el => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight - 100) {
-            el.classList.add('visible');
-          }
-        });
-      }
-
-      window.addEventListener('scroll', handleScrollAnimation);
-      window.addEventListener('load', handleScrollAnimation); // untuk saat pertama kali tampil
-
-
-      </script>
-
-      <?php $this->load->view('template/festavalive/footer'); ?>
+  <?php $this->load->view('template/festavalive/footer'); ?>
