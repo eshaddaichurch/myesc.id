@@ -4,19 +4,6 @@
   <main>
     <?php $this->load->view('template/festavalive/topmenu'); ?>
 
-    <?php
-    // ================================================
-    // LOGIKA QR CODE BERDASARKAN STATUS JEMAAT
-    // ================================================
-    // - Umum / Simpatisan  -> QR hanya idjemaat
-    // - Jemaat (+ noaj)    -> QR = idjemaat-noaj (permanen)
-    if ($rowProfil->statusjemaat == 'Jemaat' && !empty($rowProfil->noaj)) {
-        $qrContent = $rowProfil->idjemaat . '-' . $rowProfil->noaj;
-    } else {
-        $qrContent = $rowProfil->idjemaat;
-    }
-    ?>
-
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
 
@@ -196,84 +183,6 @@
         color: #1a1a1a;
       }
 
-      /* ===== QR CODE CARD (di dalam hero) ===== */
-      .qr-card {
-        background: rgba(255,255,255,0.14);
-        border: 1px solid rgba(255,255,255,0.3);
-        border-radius: 16px;
-        padding: 18px;
-        margin-top: 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        z-index: 1;
-      }
-
-      .qr-card-title {
-        font-size: 11px;
-        font-weight: 700;
-        color: rgba(255,255,255,0.85);
-        text-transform: uppercase;
-        letter-spacing: 0.6px;
-        margin-bottom: 12px;
-      }
-
-      #qrcode-box {
-        background: #fff;
-        padding: 12px;
-        border-radius: 12px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-        display: inline-flex;
-        cursor: pointer;
-        transition: transform 0.15s, box-shadow 0.15s;
-      }
-
-      #qrcode-box:hover {
-        transform: scale(1.03);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.22);
-      }
-
-      #qrcode-box:active {
-        transform: scale(0.98);
-      }
-
-      #qrcode-box img,
-      #qrcode-box canvas {
-        display: block;
-        border-radius: 4px;
-      }
-
-      .qr-card-caption {
-        margin-top: 10px;
-        font-size: 12px;
-        color: rgba(255,255,255,0.75);
-      }
-
-      .qr-card-id {
-        margin-top: 2px;
-        font-size: 13px;
-        font-weight: 700;
-        color: #fff;
-        letter-spacing: 0.5px;
-      }
-
-      .qr-card-download-hint {
-        margin-top: 8px;
-        font-size: 10px;
-        color: rgba(255,255,255,0.55);
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-
-      .qr-card-download-hint svg {
-        width: 11px;
-        height: 11px;
-        opacity: 0.8;
-      }
-
       /* ===== ACTION BUTTONS ===== */
       .action-list {
         display: flex;
@@ -392,25 +301,6 @@
               </div>
 
             </div>
-
-            <!-- ===== QR CODE (di bawah foto profil) ===== -->
-            <div class="qr-card">
-              <div class="qr-card-title">QR Code Anggota</div>
-              <div id="qrcode-box" title="Klik untuk download"></div>
-              <!-- <div class="qr-card-caption">
-                <?php echo ($rowProfil->statusjemaat == 'Jemaat') ? 'ID Jemaat + No. AJ' : 'ID Jemaat'; ?>
-              </div> -->
-              <!-- <div class="qr-card-id"><?php echo $qrContent; ?></div> -->
-              <div class="qr-card-download-hint">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                Ketuk QR untuk unduh
-              </div>
-            </div>
-
           </div>
 
           <!-- ===== DATA PROFIL + TOMBOL ===== -->
@@ -478,59 +368,7 @@
       </div><!-- /.container -->
     </section>
 
-    <!-- Library QR Code (client-side, ringan, tidak perlu install apapun di server) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-      // Data QR sudah ditentukan di PHP sesuai status jemaat (Umum/Simpatisan -> idjemaat saja,
-      // Jemaat -> idjemaat-noaj). json_encode dipakai agar aman dari karakter khusus.
-      var qrContent = <?php echo json_encode($qrContent); ?>;
-      var namaJemaat = <?php echo json_encode($rowProfil->namalengkap); ?>;
-
-      new QRCode(document.getElementById("qrcode-box"), {
-        text: qrContent,
-        width: 160,
-        height: 160,
-        colorDark: "#1a1a1a",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M
-      });
-
-      // ================================================
-      // FITUR DOWNLOAD QR CODE SAAT DIKLIK
-      // Nama file diambil dari nama lengkap jemaat, dibersihkan
-      // dari karakter yang tidak valid untuk nama file.
-      // ================================================
-      function sanitizeFileName(name) {
-        return name
-          .trim()
-          .toLowerCase()
-          .replace(/[^a-z0-9\s-]/g, '')   // buang karakter selain huruf/angka/spasi/strip
-          .replace(/\s+/g, '_');          // spasi jadi underscore
-      }
-
-      document.getElementById('qrcode-box').addEventListener('click', function () {
-        // qrcodejs merender <canvas> (utama) dan <img> (fallback). Kita ambil canvas dulu.
-        var canvas = this.querySelector('canvas');
-        var fileName = sanitizeFileName(namaJemaat || 'qrcode-jemaat') + '.png';
-
-        if (canvas) {
-          var link = document.createElement('a');
-          link.download = fileName;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        } else {
-          // fallback kalau browser hanya render <img> (jarang terjadi)
-          var img = this.querySelector('img');
-          if (img) {
-            var link2 = document.createElement('a');
-            link2.download = fileName;
-            link2.href = img.src;
-            link2.target = '_blank';
-            link2.click();
-          }
-        }
-      });
-
       $(document).on('change', '#foto', function(e) {
         $('#formUpload').submit();
       });
