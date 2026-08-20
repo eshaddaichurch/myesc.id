@@ -66,8 +66,13 @@ class Api_laravel_pcs extends CI_Controller {
         }
 
         $rsvolunteer = $this->db->query(
-            "SELECT iddepartement, namadepartement, idpelayanan, namapelayanan, statusaktif 
-             FROM v_jemaatvolunteer WHERE idjemaat = ? AND statusaktif = 'Aktif'",
+            "SELECT jv.iddepartement, d.namadepartement, d.idgroup, g.namagroup,
+                    jv.idpelayanan, p.namapelayanan, jv.statusaktif, jv.tanggalbergabung
+             FROM jemaatvolunteer jv
+             JOIN departement d ON jv.iddepartement = d.iddepartement
+             JOIN `group` g ON d.idgroup = g.idgroup
+             LEFT JOIN pelayanan p ON jv.idpelayanan = p.idpelayanan
+             WHERE jv.idjemaat = ? AND jv.statusaktif = 'Aktif'",
             array($idjemaat)
         )->result();
 
@@ -134,8 +139,13 @@ class Api_laravel_pcs extends CI_Controller {
         }
 
         $rows = $this->db->query(
-            "SELECT iddepartement, namadepartement, idpelayanan, namapelayanan, statusaktif 
-             FROM v_jemaatvolunteer WHERE idjemaat = ?",
+            "SELECT jv.iddepartement, d.namadepartement, d.idgroup, g.namagroup,
+                    jv.idpelayanan, p.namapelayanan, jv.statusaktif, jv.tanggalbergabung
+             FROM jemaatvolunteer jv
+             JOIN departement d ON jv.iddepartement = d.iddepartement
+             JOIN `group` g ON d.idgroup = g.idgroup
+             LEFT JOIN pelayanan p ON jv.idpelayanan = p.idpelayanan
+             WHERE jv.idjemaat = ?",
             array($idjemaat)
         )->result();
 
