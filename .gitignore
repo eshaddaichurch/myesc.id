@@ -21,6 +21,7 @@ application/logs/*
 !application/logs/.htaccess
 application/config/config.php
 application/config/database.php
+application/config/api.php
 application/ci_session/*
 uploads/*
 admin/application/config/config.php
