@@ -419,13 +419,13 @@
             <div class="info-grid">
               <!-- No AJ -->
               <div class="info-item">
-                <div class="info-lbl">No. AJ</div>
+                <div class="info-lbl">No. Anggota Jemaat</div>
                 <div class="info-val"><?php echo $rowProfil->noaj ? $rowProfil->noaj : '—'; ?></div>
               </div>
 
               <!-- Status Jemaat -->
               <div class="info-item">
-                <div class="info-lbl">Status Jemaat</div>
+                <div class="info-lbl">Status Keanggotaan</div>
                 <div class="info-val"><?php echo $rowProfil->statusjemaat; ?></div>
               </div>
 
