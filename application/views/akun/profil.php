@@ -384,7 +384,7 @@
 
               <div class="hero-info">
                 <p class="hero-name"><?php echo $rowProfil->namalengkap; ?></p>
-                <p class="hero-noaj">No. AJ: <?php echo $rowProfil->noaj ? $rowProfil->noaj : '—'; ?></p>
+                <p class="hero-noaj">No. Anggota Jemaat: <?php echo $rowProfil->noaj ? $rowProfil->noaj : '—'; ?></p>
                 <div class="status-pill">
                   <span class="status-pill-dot"></span>
                   <?php echo $rowProfil->statusjemaat; ?>
