@@ -47,6 +47,29 @@ class Login extends CI_Controller
         return isset($result->success) && $result->success && isset($result->score) && $result->score >= 0.5;
     }
 
+    /**
+     * FIX: Kirim email dengan aman — kalau SMTP gagal konek (fsockopen warning, dsb),
+     * warning PHP tidak akan bocor ke response JSON dan tidak menghentikan alur registrasi.
+     * Warning sementara diubah jadi Exception supaya bisa ditangkap try-catch,
+     * lalu dicatat ke log biasa (sama seperti pola yang sudah dipakai untuk WA).
+     */
+    private function kirimEmailAman($email, $subject, $textemail, $fallbackLogLabel = '')
+    {
+        set_error_handler(function ($severity, $message, $file, $line) {
+            throw new ErrorException($message, 0, $severity, $file, $line);
+        });
+
+        try {
+            $this->App->sendEmailDaftar($email, $subject, $textemail);
+            restore_error_handler();
+            return true;
+        } catch (\Throwable $e) {
+            restore_error_handler();
+            log_message('error', 'Gagal kirim email (' . $fallbackLogLabel . '): ' . $e->getMessage());
+            return false;
+        }
+    }
+
     public function index()
     {
         $idjemaat = $this->session->userdata('idjemaat');
@@ -303,7 +326,13 @@ class Login extends CI_Controller
                 ';
 
             if (!isLocalhost()) {
-                $this->App->sendEmailDaftar($email, 'Kode Verifikasi Email - MyESC', $textemail);
+                // FIX: kirim lewat helper aman — kalau SMTP gagal konek (misal DNS mail
+                // server belum di-setup setelah migrasi VPS), warning PHP tidak akan
+                // bocor ke response JSON dan registrasi tetap dianggap berhasil.
+                $emailTerkirim = $this->kirimEmailAman($email, 'Kode Verifikasi Email - MyESC', $textemail, 'OTP registrasi');
+                if (!$emailTerkirim) {
+                    log_message('debug', 'OTP EMAIL (gagal kirim, fallback log): ' . $otpEmail);
+                }
             } else {
                 log_message('debug', 'OTP EMAIL (localhost, tidak benar-benar dikirim): ' . $otpEmail);
             }
@@ -553,7 +582,12 @@ class Login extends CI_Controller
             <p>Berlaku 10 menit.</p>';
 
         if (!isLocalhost()) {
-            $this->App->sendEmailDaftar($rowJemaat->email, 'Kode Verifikasi Email - MyESC', $textemail);
+            // FIX: sama seperti simpanregistrasi() — pakai helper aman supaya SMTP
+            // gagal tidak membocorkan warning PHP ke response JSON.
+            $emailTerkirim = $this->kirimEmailAman($rowJemaat->email, 'Kode Verifikasi Email - MyESC', $textemail, 'OTP resend');
+            if (!$emailTerkirim) {
+                log_message('debug', 'OTP EMAIL resend (gagal kirim, fallback log): ' . $otp);
+            }
         } else {
             log_message('debug', 'OTP EMAIL resend (localhost): ' . $otp);
         }
@@ -610,15 +644,6 @@ class Login extends CI_Controller
             redirect(site_url());
         }
     }
-
-    // public function kirimKodeResetPassword()
-    // {
-    //     $email = $this->input->post('email');
-
-    //     $kirim = $this->Login_model->kirimKodeResetPassword($email);
-
-    //     echo json_encode($kirim);
-    // }
 
     public function kirimKodeResetPassword()
     {
