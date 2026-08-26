@@ -24,11 +24,11 @@ class Volunteer_model extends CI_Model {
     {   
         // -------------------------> Select dengan GROUP_CONCAT: 1 baris per jemaat,
         // semua kombinasi departemen+pelayanan dirangkum jadi 1 string dipisah ';;'
-        // format tiap item: idvolunteer|namadepartement|namapelayanan|statusaktif
+        // format tiap item: idvolunteer|namadepartement|namapelayanan|statusaktif|kategori
         $this->db->select("
             idjemaat, 
             namalengkap,
-            GROUP_CONCAT(DISTINCT CONCAT_WS('|', idvolunteer, namadepartement, IFNULL(namapelayanan,'-'), statusaktif) SEPARATOR ';;') as detail_pelayanan,
+            GROUP_CONCAT(DISTINCT CONCAT_WS('|', idvolunteer, namadepartement, IFNULL(namapelayanan,'-'), statusaktif, kategori) SEPARATOR ';;') as detail_pelayanan,
             MIN(tanggalbergabung) as tanggalbergabung_pertama,
             COUNT(*) as jml_pelayanan
         ", false);

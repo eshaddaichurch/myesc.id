@@ -60,7 +60,7 @@
                    <select name="idjemaat" id="idjemaat" class="form-control select2">
                      <option value="">Pilih nama jemaat...</option>
                      <?php
-                      
+                      // $rsjemaat = $this->db->query("select * from jemaat order by namalengkap");
                       $rsjemaat = $this->db->query("select * from jemaat where (statusjemaat != 'Hapus' or statusjemaat is null) order by namalengkap");
                       if ($rsjemaat->num_rows() > 0) {
                         foreach ($rsjemaat->result() as $rowjemaat) {
@@ -103,6 +103,17 @@
                      <option value="">Pilih departemen dulu...</option>
                    </select>
                    <small class="text-muted">Daftar pelayanan menyesuaikan Departemen yang dipilih di atas.</small>
+                 </div>
+               </div>
+
+               <div class="form-group row required">
+                 <label for="" class="col-md-3 col-form-label">Kategori</label>
+                 <div class="col-md-9">
+                   <select name="kategori" id="kategori" class="form-control">
+                     <option value="Mayor">Mayor</option>
+                     <option value="Minor">Minor</option>
+                   </select>
+                   <small class="text-muted">Mayor = peran inti/utama orang ini pada pelayanan tersebut, Minor = pendukung.</small>
                  </div>
                </div>
 
@@ -211,6 +222,7 @@
            $("#idvolunteer").val(result.idvolunteer);
            $("#idjemaat").val(result.idjemaat).trigger('change');
            $("#iddepartement").val(result.iddepartement).trigger('change.select2');
+           $("#kategori").val(result.kategori);
            $("#statusaktif").val(result.statusaktif);
            $("#tanggalbergabung").val(result.tanggalbergabung);
            $("#keterangan").val(result.keterangan);
@@ -258,6 +270,13 @@
            validators: {
              notEmpty: {
                message: "departement tidak boleh kosong"
+             },
+           }
+         },
+         kategori: {
+           validators: {
+             notEmpty: {
+               message: "kategori tidak boleh kosong"
              },
            }
          },

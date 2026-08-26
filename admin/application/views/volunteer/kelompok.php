@@ -108,6 +108,11 @@
                                     <?php } else { ?>
                                       <span class="badge badge-light border">Tidak Aktif</span>
                                     <?php } ?>
+                                    <?php if ($orang->kategori == 'Mayor') { ?>
+                                      <span class="badge badge-primary">Mayor</span>
+                                    <?php } else { ?>
+                                      <span class="badge badge-light border">Minor</span>
+                                    <?php } ?>
                                   </div>
                                 </div>
                                 <a href="<?php echo site_url('volunteer/edit/'.$this->encrypt->encode($orang->idvolunteer)) ?>" class="btn btn-xs btn-warning btn-circle" title="Edit"><i class="fa fa-edit"></i></a>

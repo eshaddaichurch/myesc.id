@@ -95,23 +95,28 @@ class Volunteer extends MY_Controller {
                 $row[] = '<a href="" id="tampilinfojemaat" data-idjemaat="' . $rowdata->idjemaat . '">' . $rowdata->namalengkap . '</a>';
 
                 // -------------------------> Parse detail_pelayanan (GROUP_CONCAT) jadi badge-badge
-                // format tiap item: idvolunteer|namadepartement|namapelayanan|statusaktif , dipisah ';;'
+                // format tiap item: idvolunteer|namadepartement|namapelayanan|statusaktif|kategori , dipisah ';;'
                 $badges = '';
                 $items = explode(';;', $rowdata->detail_pelayanan);
                 foreach ($items as $item) {
                     $pecah = explode('|', $item);
-                    if (count($pecah) < 4) continue;
+                    if (count($pecah) < 5) continue;
 
                     $idvol      = $pecah[0];
                     $namadept   = $pecah[1];
                     $namapel    = $pecah[2];
                     $status     = $pecah[3];
+                    $kategori   = $pecah[4];
 
                     $warnabadge = ($status == 'Aktif') ? 'badge-light border' : 'badge-light border text-muted';
                     $labelpel   = ($namapel != '-') ? $namadept . ' - ' . $namapel : $namadept;
 
+                    $labelkategori = ($kategori == 'Mayor')
+                        ? ' <span class="badge badge-primary" style="font-size:9px;">Mayor</span>'
+                        : ' <span class="badge badge-light border" style="font-size:9px;">Minor</span>';
+
                     $badges .= '<span class="badge '.$warnabadge.' mb-1 mr-1" style="font-weight:normal; font-size:11px;">
-                                    '.$labelpel.'
+                                    '.$labelpel.''.$labelkategori.'
                                     '. ($status != 'Aktif' ? '<i class="fa fa-pause-circle text-secondary ml-1" title="Tidak Aktif"></i>' : '') .'
                                     <a href="'.site_url('volunteer/edit/'.$this->encrypt->encode($idvol)).'" class="ml-1" title="Edit"><i class="fa fa-edit text-warning"></i></a>
                                     <a href="'.site_url('volunteer/delete/'.$this->encrypt->encode($idvol)).'" class="ml-1" id="hapus" title="Hapus"><i class="fa fa-trash text-danger"></i></a>
@@ -177,6 +182,7 @@ class Volunteer extends MY_Controller {
         $idjemaat           = $this->input->post('idjemaat');
         $iddepartement      = $this->input->post('iddepartement');
         $idpelayanan        = $this->input->post('idpelayanan');
+        $kategori           = $this->input->post('kategori');
         $statusaktif        = $this->input->post('statusaktif');
         $tanggalbergabung   = $this->input->post('tanggalbergabung');
         $keterangan         = $this->input->post('keterangan');
@@ -229,6 +235,7 @@ class Volunteer extends MY_Controller {
                             'idjemaat'          => $idjemaat, 
                             'iddepartement'     => $iddepartement, 
                             'idpelayanan'       => empty($idpelayanan) ? NULL : $idpelayanan, 
+                            'kategori'          => $kategori,
                             'statusaktif'       => $statusaktif, 
                             'tanggalbergabung'  => $tanggalbergabung, 
                             'keterangan'        => $keterangan, 
@@ -242,6 +249,7 @@ class Volunteer extends MY_Controller {
                             'idjemaat'          => $idjemaat, 
                             'iddepartement'     => $iddepartement, 
                             'idpelayanan'       => empty($idpelayanan) ? NULL : $idpelayanan, 
+                            'kategori'          => $kategori,
                             'statusaktif'       => $statusaktif, 
                             'tanggalbergabung'  => $tanggalbergabung, 
                             'keterangan'        => $keterangan, 
@@ -281,6 +289,7 @@ class Volunteer extends MY_Controller {
                             'idjemaat'          =>  $RsData->idjemaat,  
                             'iddepartement'     =>  $RsData->iddepartement,  
                             'idpelayanan'       =>  $RsData->idpelayanan,  
+                            'kategori'          =>  $RsData->kategori,  
                             'statusaktif'       =>  $RsData->statusaktif,  
                             'tanggalbergabung'  =>  $RsData->tanggalbergabung,  
                             'keterangan'        =>  $RsData->keterangan,  
