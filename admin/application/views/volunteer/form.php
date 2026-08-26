@@ -60,7 +60,8 @@
                    <select name="idjemaat" id="idjemaat" class="form-control select2">
                      <option value="">Pilih nama jemaat...</option>
                      <?php
-                      $rsjemaat = $this->db->query("select * from jemaat order by namalengkap");
+                      
+                      $rsjemaat = $this->db->query("select * from jemaat where (statusjemaat != 'Hapus' or statusjemaat is null) order by namalengkap");
                       if ($rsjemaat->num_rows() > 0) {
                         foreach ($rsjemaat->result() as $rowjemaat) {
                           echo '
