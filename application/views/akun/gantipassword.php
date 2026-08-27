@@ -343,7 +343,8 @@
           <!-- ===== FORM CARD ===== -->
           <div class="password-main-card">
 
-            <form action="<?php echo site_url('akun/simpanubahpassword') ?>" method="post" id="formUbahPassword">
+            <!-- data-bv="off" dipakai sebagai penanda supaya script global tidak menempelkan BootstrapValidator ke form ini -->
+            <form action="<?php echo site_url('akun/simpanubahpassword') ?>" method="post" id="formUbahPassword" data-bv="off">
 
               <!-- Info Box -->
               <div class="info-box">
@@ -351,7 +352,7 @@
               </div>
 
               <!-- Password Lama -->
-              <div class="form-group-custom">
+              <div class="form-group-custom form-group">
                 <label for="passwordlama" class="form-label">Password Lama</label>
                 <div class="password-wrapper">
                   <input 
@@ -371,7 +372,7 @@
               </div>
 
               <!-- Password Baru -->
-              <div class="form-group-custom">
+              <div class="form-group-custom form-group">
                 <label for="passwordbaru1" class="form-label">Password Baru</label>
                 <div class="password-wrapper">
                   <input 
@@ -396,7 +397,7 @@
               </div>
 
               <!-- Ulangi Password Baru -->
-              <div class="form-group-custom">
+              <div class="form-group-custom form-group">
                 <label for="passwordbaru2" class="form-label">Ulangi Password Baru</label>
                 <div class="password-wrapper">
                   <input 
@@ -442,6 +443,21 @@
     </section>
 
     <script>
+      // ===== GUARD: matikan BootstrapValidator kalau ke-attach otomatis oleh script global =====
+      // Form ini sudah punya validasi manual sendiri (checkPasswordStrength, validatePasswordMatch, dll),
+      // jadi BootstrapValidator tidak dibutuhkan dan justru menyebabkan error karena struktur
+      // form ini pakai class "form-group-custom", bukan struktur default Bootstrap yang diharapkan library itu.
+      (function () {
+        var $form = window.jQuery ? jQuery('#formUbahPassword') : null;
+        if ($form && $form.data('bootstrapValidator')) {
+          try {
+            $form.bootstrapValidator('destroy');
+          } catch (e) {
+            console.warn('Gagal destroy bootstrapValidator:', e);
+          }
+        }
+      })();
+
       // Toggle Show/Hide Password
       function togglePassword(fieldId) {
         const field = document.getElementById(fieldId);
