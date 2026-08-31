@@ -111,8 +111,8 @@ class Volunteer extends MY_Controller {
                     $warnabadge = ($status == 'Aktif') ? 'badge-light border' : 'badge-light border text-muted';
                     $labelpel   = ($namapel != '-') ? $namadept . ' - ' . $namapel : $namadept;
 
-                    $labelkategori = ($kategori == 'Mayor')
-                        ? ' <span class="badge badge-primary" style="font-size:9px;">Mayor</span>'
+                    $labelkategori = ($kategori == 'Major')
+                        ? ' <span class="badge badge-primary" style="font-size:9px;">Major</span>'
                         : ' <span class="badge badge-light border" style="font-size:9px;">Minor</span>';
 
                     $badges .= '<span class="badge '.$warnabadge.' mb-1 mr-1" style="font-weight:normal; font-size:11px;">

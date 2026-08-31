@@ -109,11 +109,11 @@
                <div class="form-group row required">
                  <label for="" class="col-md-3 col-form-label">Kategori</label>
                  <div class="col-md-9">
-                   <select name="kategori" id="kategori" class="form-control">
-                     <option value="Mayor">Mayor</option>
+                  <select name="kategori" id="kategori" class="form-control">
+                     <option value="Major">Major</option>
                      <option value="Minor">Minor</option>
-                   </select>
-                   <small class="text-muted">Mayor = peran inti/utama orang ini pada pelayanan tersebut, Minor = pendukung.</small>
+                  </select>
+                   <small class="text-muted">Major = peran inti/utama orang ini pada pelayanan tersebut, Minor = pendukung.</small>
                  </div>
                </div>
 

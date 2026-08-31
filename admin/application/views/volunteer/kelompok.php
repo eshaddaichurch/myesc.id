@@ -108,8 +108,8 @@
                                     <?php } else { ?>
                                       <span class="badge badge-light border">Tidak Aktif</span>
                                     <?php } ?>
-                                    <?php if ($orang->kategori == 'Mayor') { ?>
-                                      <span class="badge badge-primary">Mayor</span>
+                                    <?php if ($orang->kategori == 'Major') { ?>
+                                      <span class="badge badge-primary">Major</span>
                                     <?php } else { ?>
                                       <span class="badge badge-light border">Minor</span>
                                     <?php } ?>
