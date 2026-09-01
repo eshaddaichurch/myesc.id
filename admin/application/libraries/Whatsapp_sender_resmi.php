@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Whatsapp_sender {
+class Whatsapp_sender_resmi {
 
     protected $ci;
     protected $config;
