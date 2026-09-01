@@ -7,7 +7,7 @@ $config['whatsapp'] = array(
     
     'base_url'         => 'https://graph.facebook.com/v21.0',
     'phone_number_id'  => '1370683659455693',
-    'access_token'     => 'PASTE_ACCESS_TOKEN_ANDA_DISINI',
+    'access_token'     => 'EAAaL9FEph34BSQKn5SJQYHWG9l74qRTXJb1s7eHP5QJ6tprSf0tn4RZCmy33tIgW4BSWjoTZACaTwv2W58EvSz4SQnLDUXRv7xBZATWLbu2O5siIQwRKBujmpe2iXYOhhTF0Be6HKVYttOT7KFDvpeacK7Xyw2E0OYrCcw3APuziSbA0qSdZACarZBC3BhAuH8gZDZD',
     'verify_token'     => 'Elshaddaichurch270309',
 );
 
