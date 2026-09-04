@@ -73,6 +73,29 @@ class Login_model extends CI_Model
         return $this->db->insert('carejemaatbaru', $dataCareJemaatBaru);
     }
 
+    /**
+     * FIX: sama seperti kirimEmailAman() di Login.php controller.
+     * Warning PHP dari fsockopen (misal DNS/SMTP belum siap) diubah jadi
+     * Exception supaya bisa ditangkap try-catch, tidak bocor ke output,
+     * dan tidak menghentikan alur reset password.
+     */
+    private function kirimEmailAman($email, $subject, $textemail, $fallbackLogLabel = '')
+    {
+        set_error_handler(function ($severity, $message, $file, $line) {
+            throw new ErrorException($message, 0, $severity, $file, $line);
+        });
+
+        try {
+            $this->App->sendEmailDaftar($email, $subject, $textemail);
+            restore_error_handler();
+            return true;
+        } catch (\Throwable $e) {
+            restore_error_handler();
+            log_message('error', 'Gagal kirim email (' . $fallbackLogLabel . '): ' . $e->getMessage());
+            return false;
+        }
+    }
+
     public function kirimKodeResetPassword($email)
     {
         try {
@@ -218,7 +241,12 @@ class Login_model extends CI_Model
                     </html>
                     ";
                 if (!isLocalhost()) {
-                    $this->App->sendEmailDaftar($email, 'Reset Password Myesc.id', $pesanEmail);
+                    // FIX: pakai helper aman supaya kalau SMTP gagal konek,
+                    // warning PHP tidak bocor ke response JSON.
+                    $emailTerkirim = $this->kirimEmailAman($email, 'Reset Password Myesc.id', $pesanEmail, 'reset password');
+                    if (!$emailTerkirim) {
+                        log_message('debug', 'Token reset password EMAIL (gagal kirim, fallback log): ' . $tokenlupapassword);
+                    }
                 }
             } else {
                 // kirim pesan whatsapp
@@ -247,7 +275,11 @@ class Login_model extends CI_Model
                 return array('success' => false, 'msg' => 'Gagal mengirim kode reset password.');
             } else {
                 $this->db->trans_commit();
-                return array('success' => true, 'tokenlupapassword' => $tokenlupapassword);
+                // FIX KEAMANAN KRITIS: token TIDAK boleh pernah dikembalikan ke client.
+                // Sebelumnya baris ini ikut mengirim 'tokenlupapassword' => $tokenlupapassword,
+                // yang membuat siapapun bisa lihat token lewat tab Network browser tanpa
+                // perlu akses email/WA sama sekali. Sekarang hanya status berhasil yang dikirim.
+                return array('success' => true);
             }
         } catch (\Throwable $th) {
             $this->db->trans_rollback();
