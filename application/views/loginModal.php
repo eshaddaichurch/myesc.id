@@ -47,8 +47,29 @@
 
           <div class="d-flex align-items-center my-3">
             <hr class="flex-grow-1">
-            <span class="mx-2 small text-muted"></span>
+            <span class="mx-2 small text-muted">atau</span>
             <hr class="flex-grow-1">
+          </div>
+
+          <!-- ============================================================
+               TOMBOL SIGN-IN WITH GOOGLE
+               Hanya untuk akun yang SUDAH terdaftar & email-nya sudah
+               diverifikasi sebelumnya. Tidak membuat akun baru.
+               ============================================================ -->
+          <div id="g_id_onload"
+               data-client_id="950128025099-725a9km1sdk140v8op4a68girk9itai8.apps.googleusercontent.com"
+               data-callback="handleGoogleSignIn"
+               data-auto_prompt="false">
+          </div>
+
+          <div class="g_id_signin"
+               data-type="standard"
+               data-shape="pill"
+               data-theme="outline"
+               data-text="signin_with"
+               data-size="large"
+               data-logo_alignment="left"
+               style="display: flex; justify-content: center; margin-bottom: 8px;">
           </div>
 
         </form>
@@ -56,6 +77,9 @@
     </div>
   </div>
 </div>
+
+<!-- Script Google Identity Services (resmi dari Google) -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
   .text-orange {
@@ -191,4 +215,25 @@
     this.classList.toggle("fa-eye");
     this.classList.toggle("fa-eye-slash");
   });
+
+  // ===== HANDLER SIGN-IN WITH GOOGLE =====
+  function handleGoogleSignIn(response) {
+    // response.credential berisi token JWT dari Google, dikirim ke backend untuk diverifikasi
+    $.ajax({
+        url: '<?php echo site_url('login/loginWithGoogle') ?>',
+        type: 'POST',
+        dataType: 'json',
+        data: { credential: response.credential },
+      })
+      .done(function(res) {
+        if (res.success) {
+          window.open("<?php echo site_url() ?>", "_self");
+        } else {
+          swal('Informasi', res.msg, 'info');
+        }
+      })
+      .fail(function() {
+        swal('Error', 'Terjadi kesalahan, coba lagi.', 'error');
+      });
+  }
 </script>

@@ -3,6 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
+    // Google OAuth Client ID (dari Google Cloud Console > Credentials)
+    // Harus SAMA PERSIS dengan yang dipasang di data-client_id pada tombol Google di halaman login.
+    private $googleClientId = '950128025099-725a9km1sdk140v8op4a68girk9itai8.apps.googleusercontent.com';
+
     public function __construct()
     {
         parent::__construct();
@@ -112,6 +116,84 @@ class Login extends CI_Controller
                 echo json_encode(array('msg' => 'Password atau Email anda salah. harap periksa lagi'));
             }
         }
+    }
+
+    /**
+     * BARU: Login pakai akun Google — HANYA untuk akun yang sudah terdaftar &
+     * email-nya sudah pernah diverifikasi lewat OTP sebelumnya. Sama sekali
+     * TIDAK membuat akun baru — kalau email belum terdaftar/belum verified,
+     * request ditolak dan user diarahkan untuk daftar dulu lewat jalur biasa.
+     */
+    public function loginWithGoogle()
+    {
+        $credential = $this->input->post('credential');
+
+        if (empty($credential)) {
+            echo json_encode(array('msg' => 'Data tidak lengkap.'));
+            exit();
+        }
+
+        // === Verifikasi token ke server Google ===
+        // Google yang mengecek keaslian & masa berlaku token (JWT), kita tinggal
+        // baca hasilnya. Kalau token dipalsukan/kadaluarsa, Google akan
+        // mengembalikan response tanpa field 'email' (biasanya field 'error').
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://oauth2.googleapis.com/tokeninfo?id_token=' . urlencode($credential));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            log_message('error', 'loginWithGoogle: gagal menghubungi endpoint tokeninfo Google (curl error)');
+            echo json_encode(array('msg' => 'Gagal memverifikasi akun Google. Silakan coba lagi.'));
+            exit();
+        }
+
+        $payload = json_decode($response);
+
+        if (empty($payload) || !isset($payload->email)) {
+            echo json_encode(array('msg' => 'Verifikasi Google gagal atau kadaluarsa. Silakan coba lagi.'));
+            exit();
+        }
+
+        // WAJIB: pastikan token ini memang dikeluarkan untuk aplikasi MyESC kita,
+        // bukan token dari aplikasi Google lain (mencegah token disalahgunakan).
+        if (!isset($payload->aud) || $payload->aud !== $this->googleClientId) {
+            log_message('error', 'loginWithGoogle: aud token tidak cocok. Diterima: ' . (isset($payload->aud) ? $payload->aud : '(kosong)'));
+            echo json_encode(array('msg' => 'Verifikasi Google tidak valid.'));
+            exit();
+        }
+
+        // Pastikan Google sendiri sudah memverifikasi email ini (bukan email belum aktif)
+        if (empty($payload->email_verified) || $payload->email_verified !== 'true') {
+            echo json_encode(array('msg' => 'Email Google anda belum terverifikasi oleh Google.'));
+            exit();
+        }
+
+        $email = $payload->email;
+
+        // === Cek ke tabel jemaat: HARUS sudah terdaftar & email-nya HARUS sudah
+        // pernah diverifikasi lewat OTP sebelumnya. Jalur ini tidak pernah membuat
+        // akun baru — ini murni shortcut login, bukan jalur registrasi. ===
+        $rowJemaat = $this->db->query('
+            SELECT * FROM jemaat WHERE email = ?
+        ', array($email))->row();
+
+        if (!$rowJemaat) {
+            echo json_encode(array('msg' => 'Akun dengan email ' . $email . ' belum terdaftar di MyESC. Silakan daftar terlebih dahulu.'));
+            exit();
+        }
+
+        if ($rowJemaat->statusverifikasiemail != 1) {
+            echo json_encode(array('msg' => 'Email anda belum diverifikasi di MyESC. Silakan selesaikan verifikasi email terlebih dahulu lewat halaman pendaftaran.'));
+            exit();
+        }
+
+        // Lolos semua pengecekan -> login seperti biasa
+        $this->App->reloadSession($rowJemaat->idjemaat);
+
+        echo json_encode(array('success' => true));
     }
 
     public function simpanregistrasi()
