@@ -1,10 +1,23 @@
+# RewriteEngine On
+
+# # Tambahkan ini di paling atas, sebelum rule lainnya
+# RewriteCond %{REQUEST_URI} ^/myesc\.id/(.*)$
+# RewriteRule ^myesc\.id/(.*)$ $1 [L]
+
+# # Rule CI3 yang sudah ada
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ index.php/$1 [L]
+
+
+
 RewriteEngine On
 
-# Tambahkan ini di paling atas, sebelum rule lainnya
-RewriteCond %{REQUEST_URI} ^/myesc\.id/(.*)$
-RewriteRule ^myesc\.id/(.*)$ $1 [L]
+# 1. Teruskan header Authorization (Bearer Token) agar terbaca oleh PHP / CodeIgniter
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
 
-# Rule CI3 yang sudah ada
+# 2. Aturan Routing CodeIgniter 3 yang bersih
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]
