@@ -28,7 +28,30 @@ class BaseApi extends CI_Controller
      */
     protected function requireAuth()
     {
-        $header = $this->input->get_request_header('Authorization', true);
+        $header = '';
+        
+        // Cek dari fungsi apache_request_headers jika tersedia
+        if (function_exists('apache_request_headers')) {
+            $requestHeaders = apache_request_headers();
+            $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)), array_values($requestHeaders));
+            if (isset($requestHeaders['Authorization'])) {
+                $header = trim($requestHeaders['Authorization']);
+            }
+        }
+        
+        // Cek dari input bawaan CI
+        if (empty($header)) {
+            $header = $this->input->get_request_header('Authorization', true);
+        }
+        
+        // Cek dari server global variabel (hasil rewrite .htaccess)
+        if (empty($header) && isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $header = trim($_SERVER['HTTP_AUTHORIZATION']);
+        }
+        
+        if (empty($header) && isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            $header = trim($_SERVER['REDIRECT_HTTP_AUTHORIZATION']);
+        }
 
         if (empty($header) || stripos($header, 'Bearer ') !== 0) {
             $this->jsonError('Token tidak ditemukan. Silakan login ulang.', 401);
