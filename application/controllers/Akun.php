@@ -185,6 +185,20 @@ class Akun extends MY_Controller
         $propinsi = $this->input->post('propinsi');
         $kodepos = $this->input->post('kodepos');
 
+        // ===== TRANSLATE KODE WILAYAH KE NAMA (fix bug tampil kode) =====
+        $rowProv = $this->db->query('select namaprovinsi from provinsi where idprovinsi = ?', array($propinsi))->row();
+        if ($rowProv) $propinsi = $rowProv->namaprovinsi;
+
+        $rowKab = $this->db->query('select namakabupaten from kabupaten where idkabupaten = ?', array($kotakabupaten))->row();
+        if ($rowKab) $kotakabupaten = $rowKab->namakabupaten;
+
+        $rowKec = $this->db->query('select namakecamatan from kecamatan where idkecamatan = ?', array($kecamatan))->row();
+        if ($rowKec) $kecamatan = $rowKec->namakecamatan;
+
+        $rowDesa = $this->db->query('select namadesa from desa where iddesa = ?', array($kelurahan))->row();
+        if ($rowDesa) $kelurahan = $rowDesa->namadesa;
+        // ===== END FIX =====
+
         $namadarurat = $this->input->post('namadarurat');
         $hubungan = $this->input->post('hubungan');
         if (empty($hubungan)) {
