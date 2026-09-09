@@ -199,17 +199,26 @@ $('input[name="jenisblokir"]').on('change', function () {
 $(document).on('click', '.btnHapusBlokir', function (e) {
   e.preventDefault();
   var url = $(this).attr('href');
-  Swal.fire({
-    title             : 'Hapus Jadwal Blokir?',
-    text              : 'Ruangan akan bisa dibooking kembali pada tanggal ini!',
-    icon              : 'warning',
-    showCancelButton  : true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor : '#6c757d',
-    confirmButtonText : 'Ya, Hapus!',
-    cancelButtonText  : 'Batal',
-  }).then(function (result) {
-    if (result.isConfirmed) window.location.href = url;
+  swal({
+    title: 'Hapus Jadwal Blokir?',
+    text: 'Ruangan akan bisa dibooking kembali pada tanggal ini!',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Batal',
+        visible: true,
+        className: 'btn btn-secondary',
+      },
+      confirm: {
+        text: 'Ya, Hapus!',
+        className: 'btn btn-danger',
+      },
+    },
+    dangerMode: true,
+  }).then(function (willDelete) {
+    if (willDelete) {
+      window.location.href = url;
+    }
   });
 });
 </script>
