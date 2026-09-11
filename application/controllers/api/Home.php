@@ -9,6 +9,7 @@ class Home extends BaseApi
     {
         parent::__construct();
         $this->load->model('Home_model');
+        $this->load->model('Akun_model'); // dipakai untuk ambil data profil jemaat (sama seperti web)
     }
 
     // GET /api/home/infogereja
@@ -24,6 +25,35 @@ class Home extends BaseApi
         }
 
         $jumlahNotifikasi = $this->Home_model->getNotifikasi($idjemaat);
+
+        // ================================================
+        // DATA PROFIL SINGKAT UNTUK KARTU DI HOME (foto, no. anggota, status, QR)
+        // Sumbernya sama persis dengan halaman web akun/profil (Akun_model->getInfoJemaat()).
+        //
+        // LOGIKA QR CODE BERDASARKAN STATUS JEMAAT (disamakan dengan web):
+        // - Umum / Simpatisan  -> QR hanya idjemaat
+        // - Jemaat (+ noaj)    -> QR = idjemaat-noaj (permanen)
+        // ================================================
+        $rowProfil = $this->Akun_model->getInfoJemaat()->row();
+
+        $profil = null;
+        if ($rowProfil) {
+            $qrContent = $rowProfil->idjemaat;
+            if ($rowProfil->statusjemaat == 'Jemaat' && !empty($rowProfil->noaj)) {
+                $qrContent = $rowProfil->idjemaat . '-' . $rowProfil->noaj;
+            }
+
+            $profil = array(
+                'idjemaat'     => $rowProfil->idjemaat,
+                'namalengkap'  => $rowProfil->namalengkap,
+                'noaj'         => $rowProfil->noaj ? $rowProfil->noaj : null,
+                'statusjemaat' => $rowProfil->statusjemaat,
+                'foto'         => $rowProfil->foto
+                    ? base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto)
+                    : null,
+                'qrcontent'    => $qrContent,
+            );
+        }
 
         $this->jsonSuccess(array(
             'gereja' => array(
@@ -43,6 +73,7 @@ class Home extends BaseApi
                 'urltombol'   => $row->urlbuttonhomepage,
                 'tabbaru'     => (bool) $row->opennewtabbuttonhomepage,
             ),
+            'profil' => $profil,
             'jumlahnotifikasi' => (int) $jumlahNotifikasi,
         ));
     }
