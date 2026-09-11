@@ -3,6 +3,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login_model extends CI_Model
 {
+    // public function cekLoginAjax($email, $password)
+    // {
+    //     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //         $field = 'email';
+    //     } else {
+    //         $email = preg_replace('/[^0-9]/', '', $email);
+    //         $field = 'nohp';
+    //     }
+
+    //     // $field aman ditempel langsung karena nilainya hardcoded dari logic PHP di atas,
+    //     // bukan dari input user secara langsung. $email & $password tetap di-bind.
+    //     return $this->db->query("SELECT * FROM jemaat WHERE $field = ? AND password = ?", array($email, $password));
+    // }
+
     public function cekLoginAjax($email, $password)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -12,9 +26,7 @@ class Login_model extends CI_Model
             $field = 'nohp';
         }
 
-        // $field aman ditempel langsung karena nilainya hardcoded dari logic PHP di atas,
-        // bukan dari input user secara langsung. $email & $password tetap di-bind.
-        return $this->db->query("SELECT * FROM jemaat WHERE $field = ? AND password = ?", array($email, $password));
+        return $this->db->query("SELECT * FROM v_jemaat WHERE $field = ? AND password = ?", array($email, $password));
     }
 
     public function simpanregistrasi($data)
