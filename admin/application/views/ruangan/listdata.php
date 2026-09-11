@@ -88,17 +88,26 @@ $(document).ready(function () {
   $(document).on('click', '#hapus', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
-    Swal.fire({
-      title             : 'Yakin ingin menghapus?',
-      text              : 'Data ruangan akan dihapus permanen!',
-      icon              : 'warning',
-      showCancelButton  : true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor : '#6c757d',
-      confirmButtonText : 'Ya, Hapus!',
-      cancelButtonText  : 'Batal',
-    }).then(function (result) {
-      if (result.isConfirmed) window.location.href = url;
+    swal({
+    title: 'Hapus Ruangan?',
+    text: 'Ruangan akan dihapus permanen!',
+    icon: 'warning',
+    buttons: {
+      cancel: {
+        text: 'Batal',
+        visible: true,
+        className: 'btn btn-secondary',
+      },
+      confirm: {
+        text: 'Ya, Hapus!',
+        className: 'btn btn-danger',
+      },
+    },
+    dangerMode: true,
+  }).then(function (willDelete) {
+    if (willDelete) {
+      window.location.href = url;
+    }
     });
   });
 
