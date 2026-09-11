@@ -21,7 +21,7 @@ class MYPDF extends TCPDF
   }
 }
 
-$pdf = new MYPDF('P', PDF_UNIT, 'A4', true, 'UTF-8', false);
+$pdf = new MYPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
 $pdf->SetCreator('System');
 $pdf->SetTitle('Laporan Anggota DC');
 $pdf->SetMargins(10, 10, 10);
@@ -156,12 +156,14 @@ if ($rsDc->num_rows() > 0) {
         <table border="1" cellpadding="4">
           <thead>
             <tr style="font-size:10px; font-weight:bold; background-color:#bdc3c7;">
-              <th width="5%"  style="text-align:center;">No</th>
-              <th width="37%" style="text-align:center;">Nama Anggota</th>
-              <th width="10%" style="text-align:center;">JK</th>
-              <th width="8%"  style="text-align:center;">Umur</th>
-              <th width="18%" style="text-align:center;">Status</th>
-              <th width="22%" style="text-align:center;">Tgl Bergabung</th>
+              <th width="4%"  style="text-align:center;">No</th>
+              <th width="18%" style="text-align:center;">Nama Anggota</th>
+              <th width="6%"  style="text-align:center;">JK</th>
+              <th width="6%"  style="text-align:center;">Umur</th>
+              <th width="14%" style="text-align:center;">No HP</th>
+              <th width="20%" style="text-align:center;">Email</th>
+              <th width="14%" style="text-align:center;">Status</th>
+              <th width="18%" style="text-align:center;">Tgl Bergabung</th>
             </tr>
           </thead>
           <tbody>';
@@ -177,16 +179,18 @@ if ($rsDc->num_rows() > 0) {
 
         $tabelAnggota .= '
                 <tr style="font-size:10px; ' . $bgBaris . '">
-                  <td width="5%"  style="text-align:center;">' . $noAnggota++ . '</td>
-                  <td width="37%" style="text-align:left; padding-left:5px;">
+                  <td width="4%"  style="text-align:center;">' . $noAnggota++ . '</td>
+                  <td width="18%" style="text-align:left; padding-left:5px;">
                     ' . htmlspecialchars($rowAnggota->namalengkap) . '
                   </td>
-                  <td width="10%" style="text-align:center;">' . $jk . '</td>
-                  <td width="8%"  style="text-align:center;">' . ($rowAnggota->umur ?? '-') . '</td>
-                  <td width="18%" style="text-align:center;">
+                  <td width="6%"  style="text-align:center;">' . $jk . '</td>
+                  <td width="6%"  style="text-align:center;">' . ($rowAnggota->umur ?? '-') . '</td>
+                  <td width="14%" style="text-align:center;">' . ($rowAnggota->nohp ?? '-') . '</td>
+                  <td width="20%" style="text-align:left; padding-left:5px;">' . ($rowAnggota->email ?? '-') . '</td>
+                  <td width="14%" style="text-align:center;">
                     ' . htmlspecialchars($rowAnggota->statuskeanggotaan) . '
                   </td>
-                  <td width="22%" style="text-align:center;">
+                  <td width="18%" style="text-align:center;">
                     ' . date('d-m-Y', strtotime($rowAnggota->tglbergabung)) . '
                   </td>
                 </tr>';
@@ -194,7 +198,7 @@ if ($rsDc->num_rows() > 0) {
     } else {
       $tabelAnggota .= '
             <tr>
-              <td colspan="6" style="font-size:10px; text-align:center;
+              <td colspan="8" style="font-size:10px; text-align:center;
                   font-style:italic; color:#888; padding:8px;">
                 Tidak ada anggota.
               </td>

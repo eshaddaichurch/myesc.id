@@ -146,17 +146,19 @@ class Dashboarddc_model extends CI_Model
         }
 
         $query = $this->db->query("
-        SELECT 
-            j.namalengkap,
-            j.jeniskelamin,
-            TIMESTAMPDIFF(YEAR, j.tanggallahir, CURDATE()) AS umur,
-            dm.statuskeanggotaan,
-            dm.tanggalinsert AS tglbergabung
-        FROM dcmember dm
-        JOIN jemaat j ON j.idjemaat = dm.idjemaat
-        WHERE $where
-        ORDER BY dm.statuskeanggotaan DESC, j.namalengkap ASC
-    ");
+            SELECT 
+                j.namalengkap,
+                j.jeniskelamin,
+                TIMESTAMPDIFF(YEAR, j.tanggallahir, CURDATE()) AS umur,
+                j.nohp,
+                j.email,
+                dm.statuskeanggotaan,
+                dm.tanggalinsert AS tglbergabung
+            FROM dcmember dm
+            JOIN jemaat j ON j.idjemaat = dm.idjemaat
+            WHERE $where
+            ORDER BY dm.statuskeanggotaan DESC, j.namalengkap ASC
+        ");
 
         if ($query === false) {
             log_message('error', 'getAnggotaPerDc SQL Error: ' . print_r($this->db->error(), true));
