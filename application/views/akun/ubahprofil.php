@@ -200,6 +200,47 @@ textarea.form-control { resize: vertical; }
   color: #e04607;
 }
 
+/* ===== KOTAK OTP WA (BARU) ===== */
+.otp-box {
+  margin-top: 10px;
+  padding: 12px;
+  background: #fff8f5;
+  border: 1.5px dashed #ffb98a;
+  border-radius: 10px;
+}
+.otp-box-row {
+  display: flex;
+  gap: 8px;
+}
+.otp-box-input {
+  max-width: 160px;
+  letter-spacing: 6px;
+  text-align: center;
+  font-weight: 700;
+}
+.otp-box-btn {
+  background: #e04607;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.otp-box-btn:hover { background: #c73c00; }
+.otp-box-hint {
+  font-size: 11px;
+  color: #888;
+  margin-top: 6px;
+}
+.otp-box-hint a {
+  color: #e04607;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* ===== NAV BUTTONS ===== */
 .step-nav {
   display: flex;
@@ -490,6 +531,17 @@ textarea.form-control { resize: vertical; }
                   <div class="form-group">
                     <label>No Whatsapp</label>
                     <input type="text" name="nohpprofil" id="nohpprofil" class="form-control" placeholder="Contoh: 08123456789">
+
+                    <!-- KOTAK OTP WA (BARU) - hidden by default, muncul setelah kode dikirim -->
+                    <div id="otpWaBox" class="otp-box" style="display:none;">
+                      <div class="otp-box-row">
+                        <input type="text" id="otpWaInput" class="form-control otp-box-input" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="6 digit kode">
+                        <button type="button" class="otp-box-btn" id="btnVerifikasiOtpWa">Verifikasi</button>
+                      </div>
+                      <div class="otp-box-hint">
+                        Kode terkirim ke WhatsApp kamu, berlaku 10 menit. Tidak menerima? <a id="btnKirimUlangOtpWa">Kirim Ulang</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -853,7 +905,7 @@ function goStep(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ===== SEMUA JS FUNGSI ASLI (TIDAK DIUBAH) ===== */
+/* ===== SEMUA JS FUNGSI ASLI (TIDAK DIUBAH KECUALI BAGIAN WA -> OTP) ===== */
 $(document).ready(function() {
 
   $.ajax({
@@ -882,7 +934,8 @@ $(document).ready(function() {
       $("#nohpprofil").parent().find('label').html('No Whatsapp <span class="text-success ml-1 text-sm"><i class="fa fa-lock"></i> Terverifikasi</span>');
     } else {
       $("#nohpprofil").attr('readonly', false);
-      $("#nohpprofil").parent().find('label').html('No Whatsapp <span class="text-danger ml-1 text-sm">Belum Diverifikasi</span><button type="button" class="btn btn-sm btn-primary linkverifikasihp">Kirim Link Verifikasi</button>');
+      /* DIUBAH: dari "Kirim Link Verifikasi" jadi "Kirim Kode Verifikasi" */
+      $("#nohpprofil").parent().find('label').html('No Whatsapp <span class="text-danger ml-1 text-sm">Belum Diverifikasi</span><button type="button" class="btn btn-sm btn-primary linkverifikasihp">Kirim Kode Verifikasi</button>');
     }
 
     $("#emailprofil").val(result.email);
@@ -1004,6 +1057,8 @@ $(document).ready(function() {
     });
   });
 
+  /* ===== DIUBAH: klik "Kirim Kode Verifikasi" sekarang munculkan kotak input OTP,
+     bukan langsung tandai "sudah dikirim" seperti link dulu ===== */
   $(document).on('click', '.linkverifikasihp', function(e) {
     e.preventDefault();
     var thiss = $(this);
@@ -1012,9 +1067,57 @@ $(document).ready(function() {
     .done(function(response) {
       if (response.success) {
         thiss.hide();
-        thiss.parent().html(thiss.parent().html() + ' <span class="text-success">Sudah dikirim</span>');
+        $('#otpWaBox').show();
+        $('#otpWaInput').focus();
       } else { swal("Upss!", response.msg, "info"); }
     });
+  });
+
+  /* ===== BARU: tombol "Kirim Ulang" di dalam kotak OTP WA ===== */
+  $(document).on('click', '#btnKirimUlangOtpWa', function(e) {
+    e.preventDefault();
+    var nohp = $('#nohpprofil').val();
+    $.ajax({ url: '<?= site_url('akun/sendverifikasihp') ?>', type: 'GET', dataType: 'json', data: {'nohp': nohp} })
+    .done(function(response) {
+      if (response.success) {
+        swal("Terkirim", "Kode verifikasi baru telah dikirim ke WhatsApp kamu.", "success");
+        $('#otpWaInput').val('').focus();
+      } else { swal("Upss!", response.msg, "info"); }
+    });
+  });
+
+  /* ===== BARU: tombol "Verifikasi" untuk cek kode OTP WA yang diinput ===== */
+  $(document).on('click', '#btnVerifikasiOtpWa', function(e) {
+    e.preventDefault();
+    var otp = $('#otpWaInput').val().trim();
+
+    if (otp.length !== 6) {
+      swal("Informasi", "Masukkan 6 digit kode OTP.", "info");
+      return;
+    }
+
+    var btn = $(this);
+    btn.prop('disabled', true).text('Memverifikasi...');
+
+    $.ajax({ url: '<?= site_url('akun/verifikasiOtpHpProfil') ?>', type: 'POST', dataType: 'json', data: {'otp': otp} })
+    .done(function(response) {
+      if (response.success) {
+        $('#otpWaBox').hide();
+        $("#nohpprofil").attr('readonly', true);
+        $("#nohpprofil").parent().find('label').html('No Whatsapp <span class="text-success ml-1 text-sm"><i class="fa fa-lock"></i> Terverifikasi</span>');
+        swal("Berhasil", "Nomor WhatsApp berhasil diverifikasi.", "success");
+      } else {
+        swal("Gagal", response.msg, "info");
+      }
+    })
+    .always(function() {
+      btn.prop('disabled', false).text('Verifikasi');
+    });
+  });
+
+  /* Hanya boleh angka di input OTP WA */
+  $(document).on('input', '#otpWaInput', function() {
+    $(this).val($(this).val().replace(/[^0-9]/g, ''));
   });
 
 });

@@ -504,6 +504,13 @@ class Akun extends MY_Controller
         echo json_encode(array('success' => true));
     }
 
+    /**
+     * DIUBAH: dari kirim LINK menjadi kirim KODE OTP 6 digit.
+     * Pola dan rate limit sama seperti sebelumnya, hanya isi pesan WA dan
+     * mekanisme verifikasinya yang berubah (lihat verifikasiOtpHpProfil()).
+     * Alasan: WA gateway/WhatsApp Business API sering menandai pesan berisi
+     * link sebagai spam/phishing, yang bisa berujung nomor WA gereja diblokir.
+     */
     public function sendverifikasihp()
     {
         $nohp = $this->input->get('nohp');
@@ -529,7 +536,7 @@ class Akun extends MY_Controller
     ', array($nohp))->row();
 
         if ($lastByNomor && (time() - strtotime($lastByNomor->created_at)) < 60) {
-            echo json_encode(array('msg' => 'Mohon tunggu sebentar sebelum meminta verifikasi ulang.'));
+            echo json_encode(array('msg' => 'Mohon tunggu sebentar sebelum meminta kode baru.'));
             exit();
         }
 
@@ -544,26 +551,98 @@ class Akun extends MY_Controller
             exit();
         }
 
-        $url = site_url('login/verifikasiwa/' . $this->encrypt->encode($nohp));
-
+        // Simpan dulu nomor barunya ke tabel jemaat (statusverifikasiwa belum diubah di sini)
         $this->db->query('
         update jemaat set
         nohp = ?
         where idjemaat = ?
     ', array($nohp, $idjemaat));
 
-        $pesanWA = 'Shalom ' . $namalengkap . "! Welcome to myesc! Kami senang kamu sudah bergabung. Sebelum kamu bisa memulai perjalananmu bersama kami, yuk, verifikasi nomor whatsapp ini dengan satu klik cepat di bawah ini!\n\n" . $url;
+        // === GENERATE & SIMPAN OTP (bukan link lagi) ===
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
-        $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
-
-        // catat log setelah berhasil kirim
         $this->db->insert('otp_log', array(
             'idjemaat' => $idjemaat,
             'tipe' => 'wa',
             'tujuan' => $nohp,
+            'otp_hash' => password_hash($otp, PASSWORD_DEFAULT),
+            'expired_at' => date('Y-m-d H:i:s', strtotime('+10 minutes')),
+            'verified' => 0,
+            'percobaan_salah' => 0,
             'ip_address' => $ip,
             'created_at' => date('Y-m-d H:i:s'),
         ));
+
+        $pesanWA = 'Shalom ' . $namalengkap . '! Kode verifikasi WhatsApp untuk profil MyESC kamu: *' . $otp . "*\n\nMasukkan kode ini di halaman profil untuk menyelesaikan verifikasi. Kode berlaku 10 menit.";
+
+        try {
+            $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
+        } catch (\Throwable $e) {
+            // WA gateway belum tersambung / bermasalah: jangan gagalkan proses,
+            // tapi catat kode ke log supaya admin bisa bantu manual kalau perlu.
+            log_message('error', 'Gagal kirim OTP WA verifikasi profil (gateway belum tersambung?): ' . $e->getMessage());
+            log_message('debug', 'OTP WA verifikasi profil (fallback log): ' . $otp);
+        }
+
+        echo json_encode(array('success' => true));
+    }
+
+    /**
+     * BARU: verifikasi kode OTP WhatsApp yang diinput user di halaman ubah profil.
+     * idjemaat diambil dari session (user yang sedang login), bukan dari parameter
+     * yang dikirim client, supaya tidak bisa dipakai untuk verifikasi akun orang lain.
+     */
+    public function verifikasiOtpHpProfil()
+    {
+        $idjemaat = $this->session->userdata('idjemaat');
+        $otpInput = $this->input->post('otp');
+
+        if (empty($idjemaat) || empty($otpInput)) {
+            echo json_encode(array('msg' => 'Data tidak lengkap.'));
+            exit();
+        }
+
+        $row = $this->db->query('
+            SELECT * FROM otp_log
+            WHERE idjemaat = ? AND tipe = "wa" AND verified = 0
+            ORDER BY created_at DESC LIMIT 1
+        ', array($idjemaat))->row();
+
+        if (!$row) {
+            echo json_encode(array('msg' => 'Kode OTP tidak ditemukan. Silakan minta kode baru.'));
+            exit();
+        }
+
+        if (strtotime($row->expired_at) < time()) {
+            echo json_encode(array('msg' => 'Kode OTP sudah kadaluarsa. Silakan minta kode baru.'));
+            exit();
+        }
+
+        if ($row->percobaan_salah >= 5) {
+            echo json_encode(array('msg' => 'Terlalu banyak percobaan salah. Silakan minta kode baru.'));
+            exit();
+        }
+
+        if (!password_verify($otpInput, $row->otp_hash)) {
+            $this->db->query('
+                UPDATE otp_log SET percobaan_salah = percobaan_salah + 1 WHERE id = ?
+            ', array($row->id));
+
+            echo json_encode(array('msg' => 'Kode OTP salah. Silakan periksa kembali.'));
+            exit();
+        }
+
+        // OTP benar: tandai verified + update status di tabel jemaat
+        $this->db->query('
+            UPDATE otp_log SET verified = 1 WHERE id = ?
+        ', array($row->id));
+
+        $this->db->query('
+            UPDATE jemaat SET statusverifikasiwa = "1" WHERE idjemaat = ?
+        ', array($idjemaat));
+
+        // Refresh session supaya status verifikasi WA terbaru langsung terpakai
+        $this->App->reloadSession($idjemaat);
 
         echo json_encode(array('success' => true));
     }
