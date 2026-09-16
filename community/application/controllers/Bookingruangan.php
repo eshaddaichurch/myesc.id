@@ -1,144 +1,143 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class BookingRuangan extends CI_Controller
+class Bookingruangan extends MY_Controller
 {
+    private $iddc;
+    private $idjemaat;
+
     public function __construct()
     {
         parent::__construct();
-        header('Content-Type: application/json');
+        $this->islogin();
         $this->load->model('Bookingruangan_model');
-        $this->load->model('App'); // untuk App->sendEmailDaftar()
+        $this->iddc = $this->session->userdata('iddc');
+        $this->idjemaat = $this->session->userdata('idjemaat');
+
+        if (empty($this->iddc)) {
+            $this->session->set_flashdata('pesan', $this->_pesan('danger', 'Anda tidak terdaftar sebagai DM!'));
+            redirect('/');
+            exit();
+        }
     }
 
-    // =========================================
-    // 1️⃣ CARI RUANGAN
-    // =========================================
+    public function index()
+    {
+        $data['menu'] = 'bookingruangan';
+        $this->load->view('bookingruangan/index', $data);
+    }
+
     public function getRuangan()
     {
         $tanggal = $this->input->get('tanggal');
         $jamulai = $this->input->get('jamulai');
         $jamselesai = $this->input->get('jamselesai');
-        $iddc = $this->input->get('iddc');
-
-        if (!$tanggal || !$jamulai || !$jamselesai || !$iddc) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Parameter tidak lengkap'
-            ]);
-            return;
-        }
 
         if ($jamselesai <= $jamulai) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Jam selesai harus lebih besar dari jam mulai!'
-            ]);
+            echo json_encode(array('status' => 'error', 'message' => 'Jam selesai harus lebih besar dari jam mulai!'));
             return;
         }
 
-        $jumlahBooking = $this->Bookingruangan_model->getJumlahBookingHariIni($iddc, $tanggal);
+        $jumlahBooking = $this->Bookingruangan_model->getJumlahBookingHariIni($this->iddc, $tanggal);
         $sudahMaksimal = ($jumlahBooking >= 1);
 
         $rsRuanganTersedia = $this->Bookingruangan_model->getRuanganTersedia($tanggal, $jamulai, $jamselesai);
         $rsRuanganTerpakai = $this->Bookingruangan_model->getRuanganTerpakai($tanggal, $jamulai, $jamselesai);
 
-        $tersedia = [];
-        foreach ($rsRuanganTersedia->result() as $row) {
-            $foto = !empty($row->foto)
-                ? 'https://admin.myesc.id/uploads/ruangan/' . $row->foto
-                : 'https://admin.myesc.id/images/nofoto.png';
-
-            $tersedia[] = [
-                'idruangan' => $row->idruangan,
-                'namaruangan' => $row->namaruangan,
-                'kapasitas' => $row->kapasitas,
-                'lokasi' => $row->lokasi,
-                'fasilitas' => $row->fasilitas,
-                'foto' => $foto,
-            ];
+        $tersedia = array();
+        if ($rsRuanganTersedia->num_rows() > 0) {
+            foreach ($rsRuanganTersedia->result() as $row) {
+                // ✅ pakai domain admin
+                $foto = 'https://admin.myesc.id/images/nofoto.png';
+                if (!empty($row->foto)) {
+                    $foto = 'https://admin.myesc.id/uploads/ruangan/' . $row->foto;
+                }
+                $tersedia[] = array(
+                    'idruangan' => $row->idruangan,
+                    'namaruangan' => $row->namaruangan,
+                    'kapasitas' => $row->kapasitas,
+                    'lokasi' => $row->lokasi,
+                    'fasilitas' => $row->fasilitas,
+                    'foto' => $foto,
+                );
+            }
         }
 
-        $terpakai = [];
-        foreach ($rsRuanganTerpakai->result() as $row) {
-            $foto = !empty($row->foto)
-                ? 'https://admin.myesc.id/uploads/ruangan/' . $row->foto
-                : 'https://admin.myesc.id/images/nofoto.png';
-
-            $terpakai[] = [
-                'idruangan' => $row->idruangan,
-                'namaruangan' => $row->namaruangan,
-                'kapasitas' => $row->kapasitas,
-                'lokasi' => $row->lokasi,
-                'fasilitas' => $row->fasilitas,
-                'foto' => $foto,
-                'namadc' => $row->namadc,
-                'namapembooking' => $row->namapembooking,
-                'jamulai' => $row->jamulai,
-                'jamselesai' => $row->jamselesai,
-                'keperluan' => $row->keperluan,
-                'jenispakai' => $row->jenispakai,
-            ];
+        $terpakai = array();
+        if ($rsRuanganTerpakai->num_rows() > 0) {
+            foreach ($rsRuanganTerpakai->result() as $row) {
+                // ✅ pakai domain admin
+                $foto = 'https://admin.myesc.id/images/nofoto.png';
+                if (!empty($row->foto)) {
+                    $foto = 'https://admin.myesc.id/uploads/ruangan/' . $row->foto;
+                }
+                $terpakai[] = array(
+                    'idruangan' => $row->idruangan,
+                    'namaruangan' => $row->namaruangan,
+                    'kapasitas' => $row->kapasitas,
+                    'lokasi' => $row->lokasi,
+                    'fasilitas' => $row->fasilitas,
+                    'foto' => $foto,
+                    'namadc' => $row->namadc,
+                    'namapembooking' => $row->namapembooking,
+                    'jamulai' => $row->jamulai,
+                    'jamselesai' => $row->jamselesai,
+                    'keperluan' => $row->keperluan,
+                    'jenispakai' => $row->jenispakai,
+                );
+            }
         }
 
-        echo json_encode([
-            'status' => true,
+        echo json_encode(array(
+            'status' => 'ok',
             'tersedia' => $tersedia,
             'terpakai' => $terpakai,
             'sudahMaksimal' => $sudahMaksimal,
-            'jumlahBooking' => (int) $jumlahBooking,
-        ]);
+            'jumlahBooking' => $jumlahBooking,
+        ));
     }
 
-    // =========================================
-    // 2️⃣ SIMPAN BOOKING
-    // =========================================
     public function simpan()
     {
-        $raw = file_get_contents('php://input');
-        $input = json_decode($raw, true);
-
-        $idruangan = $input['idruangan'] ?? '';
-        $iddc = $input['iddc'] ?? '';
-        $idjemaat = $input['idjemaat'] ?? '';
-        $tanggal = $input['tanggal'] ?? '';
-        $jamulai = $input['jamulai'] ?? '';
-        $jamselesai = $input['jamselesai'] ?? '';
-        $keperluan = $input['keperluan'] ?? '';
-
-        if (!$idruangan || !$iddc || !$idjemaat || !$tanggal || !$jamulai || !$jamselesai) {
-            echo json_encode(['status' => false, 'message' => 'Data tidak lengkap']);
-            return;
-        }
+        $idruangan = $this->input->post('idruangan');
+        $tanggal = $this->input->post('tanggal');
+        $jamulai = $this->input->post('jamulai');
+        $jamselesai = $this->input->post('jamselesai');
+        $keperluan = $this->input->post('keperluan');
 
         if ($jamselesai <= $jamulai) {
-            echo json_encode(['status' => false, 'message' => 'Jam selesai harus lebih besar dari jam mulai!']);
+            $this->session->set_flashdata('pesan', $this->_pesan('danger', 'Jam selesai harus lebih besar dari jam mulai!'));
+            redirect('bookingruangan');
             return;
         }
 
-        $jumlahBooking = $this->Bookingruangan_model->getJumlahBookingHariIni($iddc, $tanggal);
+        $jumlahBooking = $this->Bookingruangan_model->getJumlahBookingHariIni($this->iddc, $tanggal);
         if ($jumlahBooking >= 1) {
-            echo json_encode(['status' => false, 'message' => 'DC Anda sudah memiliki booking aktif pada tanggal ini. Maksimal 1 booking per hari.']);
+            $this->session->set_flashdata('pesan', $this->_pesan('danger',
+                'DC Anda sudah memiliki booking aktif pada tanggal <b>' . $tanggal . '</b>. '
+                    . 'Maksimal 1 booking per hari. Batalkan booking sebelumnya jika ingin membooking ruangan lain.'));
+            redirect('bookingruangan');
             return;
         }
 
         $adaKonflik = $this->Bookingruangan_model->cekKonflikJam($idruangan, $tanggal, $jamulai, $jamselesai);
         if ($adaKonflik) {
             $rsKonflik = $this->Bookingruangan_model->getBookingKonflik($idruangan, $tanggal, $jamulai, $jamselesai)->row();
-            echo json_encode([
-                'status' => false,
-                'message' => 'Ruangan sudah dibooking oleh ' . $rsKonflik->namadc . ' pukul ' . $rsKonflik->jamulai . ' - ' . $rsKonflik->jamselesai
-            ]);
+            $pesanError = 'Ruangan sudah dibooking oleh <b>' . $rsKonflik->namadc . '</b>'
+                . ' pukul ' . $rsKonflik->jamulai . ' - ' . $rsKonflik->jamselesai
+                . '. Silakan pilih jam lain!';
+            $this->session->set_flashdata('pesan', $this->_pesan('danger', $pesanError));
+            redirect('bookingruangan');
             return;
         }
 
         $idbooking = $this->db->query('SELECT create_idbooking() AS idbooking')->row()->idbooking;
 
-        $data = [
+        $data = array(
             'idbooking' => $idbooking,
             'idruangan' => $idruangan,
-            'iddc' => $iddc,
-            'idjemaat' => $idjemaat,
+            'iddc' => $this->iddc,
+            'idjemaat' => $this->idjemaat,
             'tanggalbooking' => $tanggal,
             'jamulai' => $jamulai,
             'jamselesai' => $jamselesai,
@@ -146,192 +145,75 @@ class BookingRuangan extends CI_Controller
             'status' => 'Disetujui',
             'tanggalinsert' => date('Y-m-d H:i:s'),
             'tanggalupdate' => date('Y-m-d H:i:s'),
-        ];
+        );
 
         $simpan = $this->Bookingruangan_model->simpanBooking($data);
 
         if ($simpan) {
-            // FITUR BARU: kirim email detail booking ke admin.
-            // Dibungkus try/catch supaya kalau email gagal terkirim,
-            // response ke aplikasi mobile TETAP sukses (booking tidak batal).
-            try {
-                $rowBookingBaru = $this->Bookingruangan_model->getBookingById($idbooking)->row();
-
-                if (!empty($rowBookingBaru)) {
-                    $judul = 'Booking Ruangan Baru - ' . $rowBookingBaru->namaruangan;
-
-                    $textemail = '
-                        <h4>Ada Booking Ruangan Baru</h4>
-                        <p>Berikut detail booking yang baru saja masuk ke sistem:</p>
-                        <table style="border-collapse: collapse; width: 100%; max-width: 500px;">
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>ID Booking</b></td>
-                                <td style="padding: 4px 8px;">: ' . $rowBookingBaru->idbooking . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Ruangan</b></td>
-                                <td style="padding: 4px 8px;">: ' . $rowBookingBaru->namaruangan . ' (' . $rowBookingBaru->lokasi . ')</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>DC / DM</b></td>
-                                <td style="padding: 4px 8px;">: ' . $rowBookingBaru->namadc . ' / ' . $rowBookingBaru->namadm . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Tanggal</b></td>
-                                <td style="padding: 4px 8px;">: ' . date('d-m-Y', strtotime($rowBookingBaru->tanggalbooking)) . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Jam</b></td>
-                                <td style="padding: 4px 8px;">: ' . $rowBookingBaru->jamulai . ' - ' . $rowBookingBaru->jamselesai . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Keperluan</b></td>
-                                <td style="padding: 4px 8px;">: ' . $rowBookingBaru->keperluan . '</td>
-                            </tr>
-                        </table>
-                        <p>Silakan cek menu Monitoring Booking untuk detail lebih lanjut.</p>
-                    ';
-
-                    $this->App->sendEmailDaftar('yemimaceria@gmail.com', $judul, $textemail);
-                }
-            } catch (\Throwable $e) {
-                log_message('error', 'Gagal kirim email notifikasi booking ruangan (API): ' . $e->getMessage());
-            }
-
-            echo json_encode([
-                'status' => true,
-                'message' => 'Booking berhasil!',
-                'idbooking' => $idbooking,
-            ]);
+            $this->session->set_flashdata('pesan', $this->_pesan('success',
+                'Ruangan berhasil dibooking! ID Booking: <b>' . $idbooking . '</b>'));
         } else {
-            echo json_encode(['status' => false, 'message' => 'Booking gagal disimpan!']);
+            $this->session->set_flashdata('pesan', $this->_pesan('danger', 'Booking gagal disimpan!'));
         }
+        redirect('bookingruangan/riwayat');
     }
 
-    // =========================================
-    // 3️⃣ RIWAYAT BOOKING
-    // =========================================
     public function riwayat()
     {
-        $iddc = $this->input->get('iddc');
         $tglawal = $this->input->get('tglawal') ?? date('Y-m-01');
         $tglakhir = $this->input->get('tglakhir') ?? date('Y-m-t');
 
-        if (!$iddc) {
-            echo json_encode(['status' => false, 'message' => 'iddc wajib diisi']);
-            return;
-        }
+        $rsRiwayat = $this->Bookingruangan_model->getRiwayatByDc($this->iddc, $tglawal, $tglakhir);
 
-        $rs = $this->Bookingruangan_model->getRiwayatByDc($iddc, $tglawal, $tglakhir);
-        $result = [];
-
-        foreach ($rs->result() as $row) {
-            $result[] = [
-                'idbooking' => $row->idbooking,
-                'namaruangan' => $row->namaruangan,
-                'lokasi' => $row->lokasi,
-                'tanggalbooking' => $row->tanggalbooking,
-                'jamulai' => $row->jamulai,
-                'jamselesai' => $row->jamselesai,
-                'keperluan' => $row->keperluan,
-                'status' => $row->status,
-            ];
-        }
-
-        echo json_encode([
-            'status' => true,
-            'total' => count($result),
-            'data' => $result,
-        ]);
+        $data['rsRiwayat'] = $rsRiwayat;
+        $data['tglawal'] = $tglawal;
+        $data['tglakhir'] = $tglakhir;
+        $data['menu'] = 'bookingruangan';
+        $this->load->view('bookingruangan/riwayat', $data);
     }
 
-    // =========================================
-    // 4️⃣ BATALKAN BOOKING
-    // =========================================
-    public function batal()
+    public function batal($idbooking)
     {
-        $raw = file_get_contents('php://input');
-        $input = json_decode($raw, true);
-
-        $idbooking = $input['idbooking'] ?? '';
-        $iddc = $input['iddc'] ?? '';
-
-        if (!$idbooking || !$iddc) {
-            echo json_encode(['status' => false, 'message' => 'Data tidak lengkap']);
-            return;
-        }
-
+        $idbooking = $this->encrypt->decode($idbooking);
         $rsBooking = $this->Bookingruangan_model->getBookingById($idbooking);
 
         if ($rsBooking->num_rows() < 1) {
-            echo json_encode(['status' => false, 'message' => 'Data booking tidak ditemukan!']);
+            $this->session->set_flashdata('pesan', $this->_pesan('danger', 'Data booking tidak ditemukan!'));
+            redirect('bookingruangan/riwayat');
             return;
         }
 
         $row = $rsBooking->row();
 
-        if ($row->iddc != $iddc) {
-            echo json_encode(['status' => false, 'message' => 'Anda tidak berhak membatalkan booking ini!']);
+        if ($row->iddc != $this->iddc) {
+            $this->session->set_flashdata('pesan', $this->_pesan('danger', 'Anda tidak berhak membatalkan booking ini!'));
+            redirect('bookingruangan/riwayat');
             return;
         }
 
         if ($row->status == 'Selesai') {
-            echo json_encode(['status' => false, 'message' => 'Booking yang sudah selesai tidak dapat dibatalkan!']);
+            $this->session->set_flashdata('pesan', $this->_pesan('warning', 'Booking yang sudah selesai tidak dapat dibatalkan!'));
+            redirect('bookingruangan/riwayat');
             return;
         }
 
-        $batal = $this->Bookingruangan_model->batalkanBooking($idbooking, $iddc);
+        $batal = $this->Bookingruangan_model->batalkanBooking($idbooking, $this->iddc);
 
-        echo json_encode([
-            'status' => $batal ? true : false,
-            'message' => $batal ? 'Booking berhasil dibatalkan!' : 'Gagal membatalkan booking!',
-        ]);
+        if ($batal) {
+            $this->session->set_flashdata('pesan', $this->_pesan('success', 'Booking berhasil dibatalkan!'));
+        } else {
+            $this->session->set_flashdata('pesan', $this->_pesan('danger', 'Gagal membatalkan booking!'));
+        }
+        redirect('bookingruangan/riwayat');
     }
 
-    // =========================================
-    // 5️⃣ RUANGAN TERPAKAI SELAMA SEMINGGU
-    // =========================================
-    public function getRuanganMinggu()
+    private function _pesan($type, $text)
     {
-        $tglawal = $this->input->get('tglawal');
-        $tglakhir = $this->input->get('tglakhir');
-
-        if (!$tglawal || !$tglakhir) {
-            echo json_encode([
-                'status' => false,
-                'message' => 'Parameter tglawal dan tglakhir wajib diisi'
-            ]);
-            return;
-        }
-
-        $rsRuanganTerpakai = $this->Bookingruangan_model->getRuanganTerpakaiRange($tglawal, $tglakhir);
-
-        $terpakai = [];
-        foreach ($rsRuanganTerpakai->result() as $row) {
-            $foto = !empty($row->foto)
-                ? 'https://admin.myesc.id/uploads/ruangan/' . $row->foto
-                : 'https://admin.myesc.id/images/nofoto.png';
-
-            $terpakai[] = [
-                'idruangan' => $row->idruangan,
-                'namaruangan' => $row->namaruangan,
-                'kapasitas' => $row->kapasitas,
-                'lokasi' => $row->lokasi,
-                'fasilitas' => $row->fasilitas,
-                'foto' => $foto,
-                'tanggal' => $row->tanggal,
-                'namadc' => $row->namadc,
-                'namapembooking' => $row->namapembooking,
-                'jamulai' => $row->jamulai,
-                'jamselesai' => $row->jamselesai,
-                'keperluan' => $row->keperluan,
-                'jenispakai' => $row->jenispakai,
-            ];
-        }
-
-        echo json_encode([
-            'status' => true,
-            'terpakai' => $terpakai,
-        ]);
+        $label = ($type == 'success') ? 'Berhasil!' : ($type == 'warning' ? 'Perhatian!' : 'Gagal!');
+        return '
+        <div class="alert alert-' . $type . ' alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            <strong>' . $label . '</strong> ' . $text . '
+        </div>';
     }
 }
