@@ -48,4 +48,16 @@ class Konfigurasiwa extends MY_Controller {
             echo json_encode(array('success' => false, 'msg' => "Data gagal disimpan."));
         }        
     }
+
+    public function simpanWaDokumen()
+    {
+        $dokumenditolak = $this->input->post('dokumenditolak');
+
+        $simpan = $this->Konfigurasiwa_model->simpanWaDokumen($dokumenditolak);
+        if ($simpan) {
+            echo json_encode(array('success' => true, 'msg' => "Data berhasil disimpan."));
+        } else {
+            echo json_encode(array('success' => false, 'msg' => "Data gagal disimpan."));
+        }
+    }
 }

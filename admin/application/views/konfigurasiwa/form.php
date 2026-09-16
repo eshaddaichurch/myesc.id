@@ -49,6 +49,9 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="registrasi-tab" data-toggle="tab" data-target="#registrasi" type="button" role="tab" aria-controls="registrasi" aria-selected="false">Registrasi</button>
                             </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="dokumen-tab" data-toggle="tab" data-target="#dokumen" type="button" role="tab" aria-controls="dokumen" aria-selected="false">Dokumen</button>
+                            </li>
                         </ul>
 
                         <div class="tab-content" id="myTabContent">
@@ -98,6 +101,28 @@
                                             </div>  
                                         </div>
     
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> Simpan</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="dokumen" role="tabpanel" aria-labelledby="dokumen-tab">
+                                <form action="<?php echo site_url('konfigurasiwa/simpanWaDokumen') ?>" method="post" id="formDokumen">
+                                    <div class="row mt-5">
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="">Text WA Dokumen Ditolak</label>
+                                                <textarea name="dokumenditolak" id="dokumenditolak" class="form-control" placeholder="Text WA" rows="10"><?php echo $this->Settings->getValues('wa_dokumen_ditolak') ?></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-sm btn-default btn-add-field" data-idtextarea="dokumenditolak" data-field="namalengkap"><i class="fa fa-tag mr-1"></i>Nama Jemaat</button>
+                                                <button class="btn btn-sm btn-default btn-add-field" data-idtextarea="dokumenditolak" data-field="namadokumen"><i class="fa fa-tag mr-1"></i>Nama Dokumen</button>
+                                                <button class="btn btn-sm btn-default btn-add-field" data-idtextarea="dokumenditolak" data-field="catatan"><i class="fa fa-tag mr-1"></i>Catatan Penolakan</button>
+                                            </div>
+                                        </div>
+
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> Simpan</button>
                                         </div>
@@ -176,6 +201,36 @@
             })
         }
     });
+  })
+
+  $('#formDokumen').submit(function(e){
+      e.preventDefault();
+
+      var form = $(this);
+      var mydata = new FormData(this);
+
+      $.ajax({
+          url: form.attr('action'),
+          type: 'post',
+          data: mydata,
+          dataType: 'json',
+          contentType: false,
+          processData: false,
+          success: function(response){
+              if(response.success){
+                  swal("Berhasil", "Data berhasil disimpan", "success");
+              }else{
+                swal("Informasi", "Data gagal disimpan", "info");
+              }
+          },
+          error: function(){
+              swal({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Terjadi kesalahan saat penyimpanan data!',
+              })
+          }
+      });
   })
 
 

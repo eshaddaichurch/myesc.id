@@ -100,10 +100,10 @@ class Dokumen extends MY_Controller
 
     public function proses()
     {
-        $idjemaat = $this->input->post('idjemaat');
+        $idjemaat    = $this->input->post('idjemaat');
         $kodedokumen = $this->input->post('kodedokumen');
-        $aksi = $this->input->post('aksi');  // 'setuju' atau 'tolak'
-        $catatan = $this->input->post('catatan');
+        $aksi        = $this->input->post('aksi');  // 'setuju' atau 'tolak'
+        $catatan     = $this->input->post('catatan');
 
         $token = $this->encrypt->encode($idjemaat . '||' . $kodedokumen);
 
@@ -119,13 +119,16 @@ class Dokumen extends MY_Controller
             exit();
         }
 
+        // Ambil dulu data dokumen (untuk namadokumen) SEBELUM status diupdate
+        $rowDokumenLama = $this->Dokumen_model->get_by_idjemaat_kodedokumen($idjemaat, $kodedokumen);
+
         $statusdokumen = ($aksi == 'setuju') ? 'Disetujui' : 'Ditolak';
 
         $dataUpdate = array(
-            'statusdokumen' => $statusdokumen,
-            'catatanreview' => $catatan,
-            'tglreview' => date('Y-m-d H:i:s'),
-            'idadminreview' => $this->session->userdata('idjemaat'),
+            'statusdokumen'  => $statusdokumen,
+            'catatanreview'  => $catatan,
+            'tglreview'      => date('Y-m-d H:i:s'),
+            'idadminreview'  => $this->session->userdata('idjemaat'),
         );
 
         $simpan = $this->Dokumen_model->updateStatus($idjemaat, $kodedokumen, $dataUpdate);
@@ -138,6 +141,26 @@ class Dokumen extends MY_Controller
                             <strong>Berhasil!</strong> Dokumen ' . $labelStatus . '.
                         </div>
                     </div>';
+
+            // FITUR BARU: kirim WA notifikasi ke jemaat saat dokumen DITOLAK
+            if ($statusdokumen == 'Ditolak') {
+                $rowJemaat = $this->App->getJemaat($idjemaat)->row();
+
+                if (!empty($rowJemaat) && !empty($rowJemaat->nohp)) {
+                    $namadokumen = !empty($rowDokumenLama->namadokumen)
+                        ? $rowDokumenLama->namadokumen
+                        : $kodedokumen;
+
+                    $pesanWA = $this->Settings->getValues('wa_dokumen_ditolak');
+
+                    // replace tag sesuai konvensi [[ ]] yang dipakai di menu Konfigurasi WA
+                    $pesanWA = str_replace('[[namalengkap]]', $rowJemaat->namalengkap, $pesanWA);
+                    $pesanWA = str_replace('[[namadokumen]]', $namadokumen, $pesanWA);
+                    $pesanWA = str_replace('[[catatan]]', $catatan, $pesanWA);
+
+                    $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+                }
+            }
         } else {
             $eror = $this->db->error();
             $pesan = '<div>

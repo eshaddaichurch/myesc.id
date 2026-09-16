@@ -55,4 +55,42 @@ class Konfigurasiwa_model extends CI_Model {
         exit(); // Pastikan tidak ada output tambahan
     }
 
+    public function simpanWaDokumen()
+    {
+        $dokumenditolak = $this->input->post('dokumenditolak');
+
+        if ($dokumenditolak === null) {
+            echo json_encode(['success' => false, 'message' => 'Data tidak lengkap']);
+            exit();
+        }
+
+        $tglinsert = date('Y-m-d H:i:s');
+
+        try {
+            $this->db->trans_begin();
+
+            $sql = "INSERT INTO settings(prefix, deskripsi, `values`, tglinsert, tglupdate, issystem)
+                    VALUES('wa_dokumen_ditolak', '', ?, ?, ?, 1)
+                    ON DUPLICATE KEY UPDATE `values` = ?, tglupdate = ?";
+            $this->db->query($sql, [
+                $dokumenditolak, $tglinsert, $tglinsert,
+                $dokumenditolak, $tglinsert
+            ]);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode(['success' => false]);
+            } else {
+                $this->db->trans_commit();
+                echo json_encode(['success' => true]);
+            }
+
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+
+        exit();
+    }
+
 }
