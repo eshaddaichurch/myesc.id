@@ -150,62 +150,6 @@ class Bookingruangan extends MY_Controller
         $simpan = $this->Bookingruangan_model->simpanBooking($data);
 
         if ($simpan) {
-            // FITUR BARU: kirim email detail booking ke admin.
-            // Dibungkus try/catch + pengecekan berlapis supaya TIDAK PERNAH
-            // membuat halaman crash, walau ada masalah di proses email.
-            try {
-                $rsBookingBaru = $this->Bookingruangan_model->getBookingById($idbooking);
-
-                if ($rsBookingBaru && $rsBookingBaru->num_rows() > 0) {
-                    $rowBookingBaru = $rsBookingBaru->row();
-
-                    $namaruangan = isset($rowBookingBaru->namaruangan) ? $rowBookingBaru->namaruangan : '-';
-                    $lokasi      = isset($rowBookingBaru->lokasi) ? $rowBookingBaru->lokasi : '-';
-                    $namadc      = isset($rowBookingBaru->namadc) ? $rowBookingBaru->namadc : '-';
-                    $namadm      = isset($rowBookingBaru->namadm) ? $rowBookingBaru->namadm : '-';
-
-                    $judul = 'Booking Ruangan Baru - ' . $namaruangan;
-
-                    $textemail = '
-                        <h4>Ada Booking Ruangan Baru</h4>
-                        <p>Berikut detail booking yang baru saja masuk ke sistem:</p>
-                        <table style="border-collapse: collapse; width: 100%; max-width: 500px;">
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>ID Booking</b></td>
-                                <td style="padding: 4px 8px;">: ' . $idbooking . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Ruangan</b></td>
-                                <td style="padding: 4px 8px;">: ' . $namaruangan . ' (' . $lokasi . ')</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>DC / DM</b></td>
-                                <td style="padding: 4px 8px;">: ' . $namadc . ' / ' . $namadm . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Tanggal</b></td>
-                                <td style="padding: 4px 8px;">: ' . date('d-m-Y', strtotime($tanggal)) . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Jam</b></td>
-                                <td style="padding: 4px 8px;">: ' . $jamulai . ' - ' . $jamselesai . '</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 4px 8px;"><b>Keperluan</b></td>
-                                <td style="padding: 4px 8px;">: ' . $keperluan . '</td>
-                            </tr>
-                        </table>
-                        <p>Silakan cek menu Monitoring Booking untuk detail lebih lanjut.</p>
-                    ';
-
-                    $this->App->sendEmailDaftar('yemimaceria@gmail.com', $judul, $textemail);
-                } else {
-                    log_message('error', 'Booking berhasil disimpan (idbooking=' . $idbooking . ') tapi getBookingById tidak mengembalikan data, email tidak dikirim.');
-                }
-            } catch (Exception $e) {
-                log_message('error', 'Gagal kirim email notifikasi booking ruangan (web): ' . $e->getMessage());
-            }
-
             $this->session->set_flashdata('pesan', $this->_pesan('success',
                 'Ruangan berhasil dibooking! ID Booking: <b>' . $idbooking . '</b>'));
         } else {
