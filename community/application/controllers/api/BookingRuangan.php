@@ -8,7 +8,7 @@ class BookingRuangan extends CI_Controller
         parent::__construct();
         header('Content-Type: application/json');
         $this->load->model('Bookingruangan_model');
-        $this->load->model('App'); // untuk App->sendEmailDaftar()
+        
     }
 
     // =========================================
@@ -154,9 +154,12 @@ class BookingRuangan extends CI_Controller
 
         if ($simpan) {
             // FITUR BARU: kirim email detail booking ke admin.
-            // Dibungkus try/catch + pengecekan berlapis supaya endpoint
-            // TIDAK PERNAH gagal/crash gara-gara proses email ini.
+            // Dibungkus try/catch(Throwable) + pengecekan berlapis supaya
+            // endpoint TIDAK PERNAH gagal/crash gara-gara proses email ini,
+            // apapun jenis errornya (Exception biasa maupun fatal Error).
             try {
+                $this->load->model('App'); // WAJIB: load di sini, model App tidak di-autoload/tidak ada di constructor
+
                 $rsBookingBaru = $this->Bookingruangan_model->getBookingById($idbooking);
 
                 $namaruangan = '-';
@@ -213,7 +216,10 @@ class BookingRuangan extends CI_Controller
                 if (!$hasilKirim) {
                     log_message('error', 'API BookingRuangan: sendEmailDaftar return false untuk idbooking=' . $idbooking);
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
+                // Throwable menangkap Exception DAN Error (termasuk fatal error
+                // semacam "call to member function on null"), supaya proses
+                // booking TIDAK PERNAH gagal hanya gara-gara bagian email ini.
                 log_message('error', 'API BookingRuangan: gagal kirim email notifikasi booking - ' . $e->getMessage());
             }
 
