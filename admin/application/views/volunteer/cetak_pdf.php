@@ -88,6 +88,13 @@ $ringkasan = '
 $pdf->SetFont('times', '', 11);
 $pdf->writeHTML($ringkasan, true, false, false, false, '');
 
+// ── HELPER: Estimasi tinggi 1 blok orang, buat cegah kepotong antar halaman ──
+function estimasiTinggiBlok($jumlahBaris)
+{
+    // header nama+hp ~9mm, header tabel ~7mm, tiap baris data ~6.5mm, spacing bawah ~4mm
+    return 9 + 7 + ($jumlahBaris * 6.5) + 4;
+}
+
 // ── LOOP PER ORANG ─────────────────────────────────────────
 if (!empty($grouped)) {
   $noOrang = 1;
@@ -95,22 +102,27 @@ if (!empty($grouped)) {
 
     $jumlahPelayanan = count($datajemaat['pelayanan']);
 
-    // ── Header Nama + No HP ──────────────────────────────
+    // -------------------------> Cek dulu, kalau sisa halaman nggak cukup buat 1 blok utuh, pindah halaman baru
+    $tinggiButuh = estimasiTinggiBlok($jumlahPelayanan);
+    $sisaHalaman = $pdf->getPageHeight() - $pdf->GetY() - $pdf->getBreakMargin();
+    if ($tinggiButuh > $sisaHalaman) {
+        $pdf->AddPage();
+    }
+
+    // ── Header Nama + No HP digabung jadi satu baris ─────
     $headerOrang = '
         <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
           <tr>
-            <td style="background-color:#2c3e50; color:#fff; font-size:12px;
-                font-weight:bold; padding:6px 8px;">
+            <td width="70%" style="background-color:#2c3e50; color:#fff; font-size:11px;
+                font-weight:bold; padding:5px 8px;">
               ' . $noOrang++ . '. ' . htmlspecialchars($datajemaat['namalengkap']) . '
-              <span style="font-size:10px; font-weight:normal;">
-                &nbsp;( ' . $jumlahPelayanan . ' Pelayanan )
+              <span style="font-size:9px; font-weight:normal; color:#d0d0d0;">
+                &nbsp;(' . $jumlahPelayanan . ' Pelayanan)
               </span>
             </td>
-          </tr>
-          <tr>
-            <td style="background-color:#ecf0f1; font-size:10px;
-                padding:4px 8px; border-left:3px solid #2c3e50;">
-              <b>No HP :</b> ' . (!empty($datajemaat['nohp']) ? $datajemaat['nohp'] : '-') . '
+            <td width="30%" style="background-color:#34495e; color:#fff; font-size:10px;
+                text-align:right; padding:5px 8px;">
+              ' . (!empty($datajemaat['nohp']) ? $datajemaat['nohp'] : '-') . '
             </td>
           </tr>
         </table>';
@@ -118,39 +130,47 @@ if (!empty($grouped)) {
     $pdf->SetFont('times', '', 11);
     $pdf->writeHTML($headerOrang, true, false, false, false, '');
 
-    // ── Tabel Detail Pelayanan (mirip modal Riwayat Pelayanan) ──
+    // ── Tabel Detail Pelayanan — border tipis + zebra stripe ──
     $tabelPelayanan = '
-        <table border="1" cellpadding="4">
+        <table border="0" cellpadding="4" cellspacing="0" style="width:100%;">
           <thead>
-            <tr style="font-size:10px; font-weight:bold; background-color:#bdc3c7;">
-              <th width="25%" style="text-align:center;">Departement</th>
-              <th width="30%" style="text-align:center;">Pelayanan</th>
-              <th width="15%" style="text-align:center;">Kategori</th>
-              <th width="15%" style="text-align:center;">Status</th>
-              <th width="15%" style="text-align:center;">Tgl Bergabung</th>
+            <tr style="font-size:9px; font-weight:bold; background-color:#eceff1; color:#333;">
+              <th width="24%" style="text-align:left; padding-left:6px; border-bottom:1px solid #bbb;">Departement</th>
+              <th width="30%" style="text-align:left; padding-left:6px; border-bottom:1px solid #bbb;">Pelayanan</th>
+              <th width="14%" style="text-align:center; border-bottom:1px solid #bbb;">Kategori</th>
+              <th width="16%" style="text-align:center; border-bottom:1px solid #bbb;">Status</th>
+              <th width="16%" style="text-align:center; border-bottom:1px solid #bbb;">Bergabung</th>
             </tr>
           </thead>
           <tbody>';
 
+    $baris = 0;
     foreach ($datajemaat['pelayanan'] as $pel) {
       $namapel     = !empty($pel->namapelayanan) ? $pel->namapelayanan : '-';
       $statuslabel = ($pel->statusaktif == 'Aktif') ? 'Aktif' : 'Tidak Aktif';
       $tglgabung   = !empty($pel->tanggalbergabung) ? date('d-m-Y', strtotime($pel->tanggalbergabung)) : '-';
 
+      $bgBaris = ($baris % 2 == 1) ? 'background-color:#f7f8f9;' : '';
+      $warnakategori = ($pel->kategori == 'Major') ? 'color:#b8860b; font-weight:bold;' : 'color:#777;';
+
       $tabelPelayanan .= '
-                <tr style="font-size:10px;">
-                  <td width="25%" style="text-align:left; padding-left:5px;">' . htmlspecialchars($pel->namadepartement) . '</td>
-                  <td width="30%" style="text-align:left; padding-left:5px;">' . htmlspecialchars($namapel) . '</td>
-                  <td width="15%" style="text-align:center;">' . $pel->kategori . '</td>
-                  <td width="15%" style="text-align:center;">' . $statuslabel . '</td>
-                  <td width="15%" style="text-align:center;">' . $tglgabung . '</td>
+                <tr style="font-size:9.5px; ' . $bgBaris . '">
+                  <td width="24%" style="text-align:left; padding-left:6px; border-bottom:0.5px solid #e0e0e0;">' . htmlspecialchars($pel->namadepartement) . '</td>
+                  <td width="30%" style="text-align:left; padding-left:6px; border-bottom:0.5px solid #e0e0e0;">' . htmlspecialchars($namapel) . '</td>
+                  <td width="14%" style="text-align:center; border-bottom:0.5px solid #e0e0e0; ' . $warnakategori . '">' . $pel->kategori . '</td>
+                  <td width="16%" style="text-align:center; border-bottom:0.5px solid #e0e0e0;">' . $statuslabel . '</td>
+                  <td width="16%" style="text-align:center; border-bottom:0.5px solid #e0e0e0;">' . $tglgabung . '</td>
                 </tr>';
+      $baris++;
     }
 
-    $tabelPelayanan .= '</tbody></table><br>';
+    $tabelPelayanan .= '</tbody></table>';
 
     $pdf->SetFont('times', '', 10);
     $pdf->writeHTML($tabelPelayanan, true, false, false, false, '');
+
+    // -------------------------> Spacing antar blok orang (lebih ringkas dari <br> sebelumnya)
+    $pdf->Ln(3);
   }
 } else {
   $kosong = '<p style="text-align:center; font-style:italic; color:#888;">Tidak ada data volunteer untuk filter yang dipilih.</p>';
