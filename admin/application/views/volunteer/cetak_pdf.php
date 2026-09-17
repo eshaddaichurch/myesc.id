@@ -34,7 +34,7 @@ $titleHalaman = '
   <tbody>
     <tr>
       <td width="10%" style="text-align:center;">
-        <img src="' . base_url('images/icon.png') . '" alt="" width="55px;">
+        <img src="' . base_url('images/icon.png') . '" alt="Logo" width="55px;">
       </td>
       <td width="90%" style="text-align:left;">
         <span style="font-size:20px; font-weight:bold;">' . $rowInfoGereja->namagereja . '</span><br>
@@ -45,18 +45,23 @@ $titleHalaman = '
   </tbody>
 </table>';
 
-$pdf->SetFont('times', '', 16);
+$pdf->SetFont('helvetica', '', 16);
 $pdf->writeHTML($titleHalaman, true, false, false, false, '');
-$pdf->SetTopMargin(0);
+
+// Garis pemisah header
+$pdf->Ln(2);
+$pdf->SetDrawColor(200, 200, 200);
+$pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());
+$pdf->Ln(4);
 
 // ── JUDUL ──────────────────────────────────────────────────
-$judul = '<h3 style="text-align:center;">LAPORAN DATA VOLUNTEER</h3>';
-$pdf->SetFont('times', 'B', 14);
+$judul = '<h3 style="text-align:center; margin-top:0;">LAPORAN DATA VOLUNTEER</h3>';
+$pdf->SetFont('helvetica', 'B', 14);
 $pdf->writeHTML($judul, true, false, false, false, '');
 
 // ── RINGKASAN + INFO FILTER ────────────────────────────────
 $ringkasan = '
-<table border="0" cellpadding="3">
+<table border="0" cellpadding="4">
   <tr style="font-size:11px;">
     <td width="22%">Total Volunteer</td>
     <td width="3%">:</td>
@@ -85,14 +90,14 @@ $ringkasan = '
   </tr>
 </table><br>';
 
-$pdf->SetFont('times', '', 11);
+$pdf->SetFont('helvetica', '', 11);
 $pdf->writeHTML($ringkasan, true, false, false, false, '');
 
-// ── HELPER: Estimasi tinggi 1 blok orang, buat cegah kepotong antar halaman ──
+// ── HELPER: Estimasi tinggi 1 blok orang (disesuaikan dengan spacing baru) ──
 function estimasiTinggiBlok($jumlahBaris)
 {
-    // header nama+hp ~9mm, header tabel ~7mm, tiap baris data ~6.5mm, spacing bawah ~4mm
-    return 9 + 7 + ($jumlahBaris * 6.5) + 4;
+    // header nama+hp ~12mm, header tabel ~8mm, tiap baris data ~7mm, spacing & divider ~8mm
+    return 12 + 8 + ($jumlahBaris * 7) + 8;
 }
 
 // ── LOOP PER ORANG ─────────────────────────────────────────
@@ -102,45 +107,44 @@ if (!empty($grouped)) {
 
     $jumlahPelayanan = count($datajemaat['pelayanan']);
 
-    // -------------------------> Cek dulu, kalau sisa halaman nggak cukup buat 1 blok utuh, pindah halaman baru
+    // Cek sisa halaman
     $tinggiButuh = estimasiTinggiBlok($jumlahPelayanan);
     $sisaHalaman = $pdf->getPageHeight() - $pdf->GetY() - $pdf->getBreakMargin();
     if ($tinggiButuh > $sisaHalaman) {
         $pdf->AddPage();
     }
 
-    // ── Header Nama + No HP digabung jadi satu baris ─────
-        // ── Header Nama (baris gelap) + No HP (baris terang, kontras tinggi) ──
+    // ── Header Nama + No HP ──
     $headerOrang = '
         <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
           <tr>
-            <td style="background-color:#2c3e50; color:#fff; font-size:11px;
-                font-weight:bold; padding:5px 8px;">
+            <td style="background-color:#2c3e50; color:#ffffff; font-size:12px;
+                font-weight:bold; padding:6px 10px;">
               ' . $noOrang++ . '. ' . htmlspecialchars($datajemaat['namalengkap']) . '
-              <span style="font-size:9px; font-weight:normal; color:#d0d0d0;">
+              <span style="font-size:10px; font-weight:normal; color:#d0d0d0;">
                 &nbsp;(' . $jumlahPelayanan . ' Pelayanan)
               </span>
             </td>
           </tr>
           <tr>
             <td style="background-color:#fff3cd; color:#664d03; font-size:11px;
-                font-weight:bold; padding:4px 8px; border-left:3px solid #2c3e50;
+                font-weight:bold; padding:6px 10px; border-left:3px solid #2c3e50;
                 border-right:1px solid #e0e0e0; border-bottom:1px solid #e0e0e0;">
-              &#128222; No HP: ' . (!empty($datajemaat['nohp']) ? $datajemaat['nohp'] : '-') . '
+               No Whatsapp: ' . (!empty($datajemaat['nohp']) ? htmlspecialchars($datajemaat['nohp']) : '-') . '
             </td>
           </tr>
         </table>';
 
-    $pdf->SetFont('times', '', 11);
+    $pdf->SetFont('helvetica', '', 11);
     $pdf->writeHTML($headerOrang, true, false, false, false, '');
 
-    // ── Tabel Detail Pelayanan — border tipis + zebra stripe ──
+    // ── Tabel Detail Pelayanan ──
     $tabelPelayanan = '
-        <table border="0" cellpadding="4" cellspacing="0" style="width:100%;">
+        <table border="0" cellpadding="5" cellspacing="0" style="width:100%;">
           <thead>
-            <tr style="font-size:9px; font-weight:bold; background-color:#eceff1; color:#333;">
-              <th width="24%" style="text-align:left; padding-left:6px; border-bottom:1px solid #bbb;">Departement</th>
-              <th width="30%" style="text-align:left; padding-left:6px; border-bottom:1px solid #bbb;">Pelayanan</th>
+            <tr style="font-size:10px; font-weight:bold; background-color:#eceff1; color:#333;">
+              <th width="24%" style="text-align:left; padding-left:8px; border-bottom:1px solid #bbb;">Departement</th>
+              <th width="30%" style="text-align:left; padding-left:8px; border-bottom:1px solid #bbb;">Pelayanan</th>
               <th width="14%" style="text-align:center; border-bottom:1px solid #bbb;">Kategori</th>
               <th width="16%" style="text-align:center; border-bottom:1px solid #bbb;">Status</th>
               <th width="16%" style="text-align:center; border-bottom:1px solid #bbb;">Bergabung</th>
@@ -158,27 +162,30 @@ if (!empty($grouped)) {
       $warnakategori = ($pel->kategori == 'Major') ? 'color:#b8860b; font-weight:bold;' : 'color:#777;';
 
       $tabelPelayanan .= '
-                <tr style="font-size:9.5px; ' . $bgBaris . '">
-                  <td width="24%" style="text-align:left; padding-left:6px; border-bottom:0.5px solid #e0e0e0;">' . htmlspecialchars($pel->namadepartement) . '</td>
-                  <td width="30%" style="text-align:left; padding-left:6px; border-bottom:0.5px solid #e0e0e0;">' . htmlspecialchars($namapel) . '</td>
-                  <td width="14%" style="text-align:center; border-bottom:0.5px solid #e0e0e0; ' . $warnakategori . '">' . $pel->kategori . '</td>
-                  <td width="16%" style="text-align:center; border-bottom:0.5px solid #e0e0e0;">' . $statuslabel . '</td>
-                  <td width="16%" style="text-align:center; border-bottom:0.5px solid #e0e0e0;">' . $tglgabung . '</td>
+                <tr style="font-size:10px; ' . $bgBaris . '">
+                  <td width="24%" valign="middle" style="text-align:left; padding-left:8px; border-bottom:0.5px solid #e0e0e0;">' . htmlspecialchars($pel->namadepartement) . '</td>
+                  <td width="30%" valign="middle" style="text-align:left; padding-left:8px; border-bottom:0.5px solid #e0e0e0;">' . htmlspecialchars($namapel) . '</td>
+                  <td width="14%" valign="middle" style="text-align:center; border-bottom:0.5px solid #e0e0e0; ' . $warnakategori . '">' . $pel->kategori . '</td>
+                  <td width="16%" valign="middle" style="text-align:center; border-bottom:0.5px solid #e0e0e0;">' . $statuslabel . '</td>
+                  <td width="16%" valign="middle" style="text-align:center; border-bottom:0.5px solid #e0e0e0;">' . $tglgabung . '</td>
                 </tr>';
       $baris++;
     }
 
     $tabelPelayanan .= '</tbody></table>';
 
-    $pdf->SetFont('times', '', 10);
+    $pdf->SetFont('helvetica', '', 10);
     $pdf->writeHTML($tabelPelayanan, true, false, false, false, '');
 
-    // -------------------------> Spacing antar blok orang (lebih ringkas dari <br> sebelumnya)
-    $pdf->Ln(3);
+    // ── Spacing & Garis Pemisah Antar Orang ──
+    $pdf->Ln(6);
+    $pdf->SetDrawColor(220, 220, 220); // Warna abu-abu sangat muda
+    $pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());
+    $pdf->Ln(6);
   }
 } else {
   $kosong = '<p style="text-align:center; font-style:italic; color:#888;">Tidak ada data volunteer untuk filter yang dipilih.</p>';
-  $pdf->SetFont('times', '', 11);
+  $pdf->SetFont('helvetica', '', 11);
   $pdf->writeHTML($kosong, true, false, false, false, '');
 }
 
