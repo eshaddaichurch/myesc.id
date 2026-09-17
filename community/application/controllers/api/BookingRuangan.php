@@ -211,7 +211,8 @@ class BookingRuangan extends CI_Controller
                     <p>Silakan cek menu Monitoring Booking untuk detail lebih lanjut.</p>
                 ';
 
-                $hasilKirim = $this->App->sendEmailDaftar('yemimaceria@gmail.com', $judul, $textemail);
+                // $hasilKirim = $this->App->sendEmailDaftar('yemimaceria@gmail.com', $judul, $textemail);
+                $hasilKirim = $this->App->sendEmailAdmin('yemimaceria@gmail.com', $judul, $textemail);
 
                 if (!$hasilKirim) {
                     log_message('error', 'API BookingRuangan: sendEmailDaftar return false untuk idbooking=' . $idbooking);
