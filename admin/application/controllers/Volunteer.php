@@ -373,6 +373,47 @@ class Volunteer extends MY_Controller {
         ));
     }
 
+    public function cetak()
+    {
+        error_reporting(0);
+
+        $this->load->library('Pdf');
+
+        $filter_iddepartement = $this->input->get('iddepartement');
+        $filter_idpelayanan   = $this->input->get('idpelayanan');
+        $filter_statusaktif   = $this->input->get('statusaktif');
+
+        $rowInfoGereja = $this->db->query("SELECT * FROM infogereja")->row();
+
+        $rsData = $this->Volunteer_model->get_all_for_print($filter_iddepartement, $filter_idpelayanan, $filter_statusaktif);
+
+        // -------------------------> Susun label filter buat ditampilkan di kepala laporan
+        $labelDepartement = 'Semua Departement';
+        if (!empty($filter_iddepartement)) {
+            $rowdept = $this->db->query("SELECT namadepartement FROM departement WHERE iddepartement=" . $this->db->escape($filter_iddepartement))->row();
+            if ($rowdept) $labelDepartement = $rowdept->namadepartement;
+        }
+
+        $labelPelayanan = 'Semua Pelayanan';
+        if (!empty($filter_idpelayanan)) {
+            $rowpel = $this->db->query("SELECT namapelayanan FROM pelayanan WHERE idpelayanan=" . $this->db->escape($filter_idpelayanan))->row();
+            if ($rowpel) $labelPelayanan = $rowpel->namapelayanan;
+        }
+
+        $labelStatus = !empty($filter_statusaktif) ? $filter_statusaktif : 'Semua Status';
+
+        $data = array(
+            'rowInfoGereja'     => $rowInfoGereja,
+            'rsData'            => $rsData,
+            'labelDepartement'  => $labelDepartement,
+            'labelPelayanan'    => $labelPelayanan,
+            'labelStatus'       => $labelStatus,
+            'jumlahVolunteer'   => $rsData->num_rows(),
+        );
+
+        $this->load->view('volunteer/cetak_pdf', $data);
+    }
+
 }
 
 /* End of file Volunteer.php */

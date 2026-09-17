@@ -21,11 +21,12 @@
   <div class="row" id="toni-content">
     <div class="col-md-12">
       <div class="card" id="cardcontent">
-        <div class="card-header">
-          <h5 class="card-title">List Data Volunteer Gereja Elshaddai</h5>
-          <a href="<?php echo(site_url('volunteer/tambah')) ?>" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus-circle"></i> Tambah Data</a>
-          <a href="<?php echo(site_url('volunteer/kelompok')) ?>" class="btn btn-sm btn-default float-right mr-1"><i class="fa fa-sitemap"></i> Tampilan Kelompok</a>
-        </div>
+          <div class="card-header">
+            <h5 class="card-title">List Data Volunteer Gereja Elshaddai</h5>
+            <a href="<?php echo(site_url('volunteer/tambah')) ?>" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus-circle"></i> Tambah Data</a>
+            <a href="<?php echo(site_url('volunteer/kelompok')) ?>" class="btn btn-sm btn-default float-right mr-1"><i class="fa fa-sitemap"></i> Tampilan Kelompok</a>
+            <a href="#" id="btnCetakPdf" class="btn btn-sm btn-danger float-right mr-1"><i class="fa fa-file-pdf"></i> Cetak PDF</a>
+          </div>
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
@@ -262,6 +263,17 @@
       $('#filter_idpelayanan').val('').trigger('change.select2');
       $('#filter_statusaktif').val('');
       table.ajax.reload();
+    });
+
+        // -------------------------> Cetak PDF, ikut filter yang lagi aktif
+    $(document).on('click', '#btnCetakPdf', function(e) {
+      e.preventDefault();
+      var params = $.param({
+        iddepartement: $('#filter_iddepartement').val(),
+        idpelayanan:   $('#filter_idpelayanan').val(),
+        statusaktif:   $('#filter_statusaktif').val()
+      });
+      window.open('<?php echo site_url('volunteer/cetak') ?>?' + params, '_blank');
     });
 
   }); //end (document).ready
