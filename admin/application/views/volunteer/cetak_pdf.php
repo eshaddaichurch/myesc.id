@@ -21,7 +21,7 @@ class MYPDF extends TCPDF
   }
 }
 
-$pdf = new MYPDF('P', PDF_UNIT, 'A4', true, 'UTF-8', false);
+$pdf = new MYPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
 $pdf->SetCreator('System');
 $pdf->SetTitle('Laporan Data Volunteer');
 $pdf->SetMargins(10, 10, 10);
@@ -58,8 +58,13 @@ $pdf->writeHTML($judul, true, false, false, false, '');
 $ringkasan = '
 <table border="0" cellpadding="3">
   <tr style="font-size:11px;">
-    <td width="22%">Total Volunteer</td>
+    <td width="22%">Total Departemen Aktif</td>
     <td width="3%">:</td>
+    <td><b>' . $jumlahDepartement . ' Departemen</b></td>
+  </tr>
+  <tr style="font-size:11px;">
+    <td>Total Volunteer</td>
+    <td>:</td>
     <td><b>' . $jumlahVolunteer . ' Orang</b></td>
   </tr>
   <tr style="font-size:11px;">
@@ -68,11 +73,6 @@ $ringkasan = '
     <td>' . date('d-m-Y H:i:s') . '</td>
   </tr>
   <tr><td colspan="3">&nbsp;</td></tr>
-  <tr style="font-size:10px; color:#555;">
-    <td>Filter Departement</td>
-    <td>:</td>
-    <td>' . $labelDepartement . '</td>
-  </tr>
   <tr style="font-size:10px; color:#555;">
     <td>Filter Pelayanan</td>
     <td>:</td>
@@ -88,62 +88,77 @@ $ringkasan = '
 $pdf->SetFont('times', '', 11);
 $pdf->writeHTML($ringkasan, true, false, false, false, '');
 
-// ── TABEL VOLUNTEER ────────────────────────────────────────
-$tabel = '
-    <table border="1" cellpadding="4">
-      <thead>
-        <tr style="font-size:10px; font-weight:bold; background-color:#bdc3c7;">
-          <th width="5%"  style="text-align:center;">No</th>
-          <th width="25%" style="text-align:center;">Nama Volunteer</th>
-          <th width="15%" style="text-align:center;">No HP</th>
-          <th width="55%" style="text-align:center;">Detail Pelayanan</th>
-        </tr>
-      </thead>
-      <tbody>';
+// ── LOOP PER DEPARTEMEN ────────────────────────────────────
+if (!empty($grouped)) {
+  $noDept = 1;
+  foreach ($grouped as $namadept => $listorang) {
 
-if ($rsData->num_rows() > 0) {
-    $no = 1;
-    foreach ($rsData->result() as $row) {
+    $jumlahOrang = count($listorang);
 
-        // -------------------------> Susun detail pelayanan jadi list bertingkat dalam satu cell
-        // format tiap item: namadepartement|namapelayanan|kategori|statusaktif
-        $items = explode(';;', $row->detail_pelayanan);
-        $detailhtml = '';
-        foreach ($items as $item) {
-            $pecah = explode('|', $item);
-            if (count($pecah) < 4) continue;
+    // ── Header Departemen ──────────────────────────────
+    $headerDept = '
+        <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
+          <tr>
+            <td style="background-color:#2c3e50; color:#fff; font-size:12px;
+                font-weight:bold; padding:6px 8px;">
+              ' . $noDept++ . '. ' . htmlspecialchars($namadept) . '
+              <span style="font-size:10px; font-weight:normal;">
+                &nbsp;( ' . $jumlahOrang . ' Volunteer )
+              </span>
+            </td>
+          </tr>
+        </table>';
 
-            $namadept = $pecah[0];
-            $namapel  = $pecah[1];
-            $kategori = $pecah[2];
-            $status   = $pecah[3];
+    $pdf->SetFont('times', '', 11);
+    $pdf->writeHTML($headerDept, true, false, false, false, '');
 
-            $labelpel = ($namapel != '-') ? $namadept . ' - ' . $namapel : $namadept;
-            $labelstatus = ($status != 'Aktif') ? ' (Tidak Aktif)' : '';
+    // ── Tabel Volunteer per Departemen ───────────────────
+    $tabelVolunteer = '
+        <table border="1" cellpadding="4">
+          <thead>
+            <tr style="font-size:10px; font-weight:bold; background-color:#bdc3c7;">
+              <th width="4%"  style="text-align:center;">No</th>
+              <th width="20%" style="text-align:center;">Nama Volunteer</th>
+              <th width="13%" style="text-align:center;">No HP</th>
+              <th width="25%" style="text-align:center;">Pelayanan</th>
+              <th width="10%" style="text-align:center;">Kategori</th>
+              <th width="10%" style="text-align:center;">Status</th>
+              <th width="18%" style="text-align:center;">Tgl Bergabung</th>
+            </tr>
+          </thead>
+          <tbody>';
 
-            $detailhtml .= '&bull; ' . htmlspecialchars($labelpel) . ' [' . $kategori . ']' . $labelstatus . '<br>';
-        }
+    $noOrang = 1;
+    foreach ($listorang as $orang) {
+      $bgBaris = ($orang->kategori == 'Major') ? 'background-color:#fef9e7;' : '';
 
-        $tabel .= '
-            <tr style="font-size:10px;">
-              <td width="5%"  style="text-align:center;">' . $no++ . '</td>
-              <td width="25%" style="text-align:left; padding-left:5px;">' . htmlspecialchars($row->namalengkap) . '</td>
-              <td width="15%" style="text-align:center;">' . (!empty($row->nohp) ? $row->nohp : '-') . '</td>
-              <td width="55%" style="text-align:left; padding-left:5px;">' . $detailhtml . '</td>
-            </tr>';
+      $namapel = !empty($orang->namapelayanan) ? $orang->namapelayanan : '-';
+      $statusbadge = ($orang->statusaktif == 'Aktif') ? 'Aktif' : 'Tidak Aktif';
+      $tglgabung = !empty($orang->tanggalbergabung) ? date('d-m-Y', strtotime($orang->tanggalbergabung)) : '-';
+
+      $tabelVolunteer .= '
+                <tr style="font-size:10px; ' . $bgBaris . '">
+                  <td width="4%"  style="text-align:center;">' . $noOrang++ . '</td>
+                  <td width="20%" style="text-align:left; padding-left:5px;">
+                    ' . htmlspecialchars($orang->namalengkap) . '
+                  </td>
+                  <td width="13%" style="text-align:center;">' . (!empty($orang->nohp) ? $orang->nohp : '-') . '</td>
+                  <td width="25%" style="text-align:left; padding-left:5px;">' . htmlspecialchars($namapel) . '</td>
+                  <td width="10%" style="text-align:center;">' . $orang->kategori . '</td>
+                  <td width="10%" style="text-align:center;">' . $statusbadge . '</td>
+                  <td width="18%" style="text-align:center;">' . $tglgabung . '</td>
+                </tr>';
     }
+
+    $tabelVolunteer .= '</tbody></table><br>';
+
+    $pdf->SetFont('times', '', 10);
+    $pdf->writeHTML($tabelVolunteer, true, false, false, false, '');
+  }
 } else {
-    $tabel .= '
-        <tr>
-          <td colspan="4" style="font-size:10px; text-align:center; font-style:italic; color:#888; padding:8px;">
-            Tidak ada data volunteer untuk filter yang dipilih.
-          </td>
-        </tr>';
+  $kosong = '<p style="text-align:center; font-style:italic; color:#888;">Tidak ada data volunteer untuk filter yang dipilih.</p>';
+  $pdf->SetFont('times', '', 11);
+  $pdf->writeHTML($kosong, true, false, false, false, '');
 }
-
-$tabel .= '</tbody></table>';
-
-$pdf->SetFont('times', '', 10);
-$pdf->writeHTML($tabel, true, false, false, false, '');
 
 $pdf->Output('Laporan_Data_Volunteer_' . date('d-m-Y') . '.pdf', 'I');

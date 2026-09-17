@@ -149,38 +149,40 @@ class Volunteer_model extends CI_Model {
         return $this->db->update($this->tabel, $data);
     }	
 
-        // -------------------------> Dipakai untuk cetak PDF laporan volunteer
-    // Beda dari get_datatables(): tidak dipaginasi, dan ambil nohp langsung dari tabel jemaat
-    public function get_all_for_print($iddepartement = null, $idpelayanan = null, $statusaktif = null)
-    {
-        $sql = "
-            SELECT 
-                j.idjemaat,
+        // -------------------------> Dipakai untuk cetak PDF, dikelompokkan per Departemen (mirip pola Laporan DC)
+        public function get_grouped_for_print($iddepartement = null, $idpelayanan = null, $statusaktif = null)
+        {
+            $this->db->select("
+                d.iddepartement,
+                d.namadepartement,
                 j.namalengkap,
                 j.nohp,
-                GROUP_CONCAT(DISTINCT CONCAT_WS('|', d.namadepartement, IFNULL(p.namapelayanan,'-'), jv.kategori, jv.statusaktif) ORDER BY d.namadepartement, p.namapelayanan SEPARATOR ';;') as detail_pelayanan,
-                MIN(jv.tanggalbergabung) as tanggalbergabung_pertama
-            FROM jemaatvolunteer jv
-            JOIN jemaat j ON jv.idjemaat = j.idjemaat
-            JOIN departement d ON jv.iddepartement = d.iddepartement
-            LEFT JOIN pelayanan p ON jv.idpelayanan = p.idpelayanan
-            WHERE 1=1
-        ";
-
-        if (!empty($iddepartement)) {
-            $sql .= " AND jv.iddepartement = " . $this->db->escape($iddepartement);
+                p.namapelayanan,
+                jv.kategori,
+                jv.statusaktif,
+                jv.tanggalbergabung
+            ", false);
+            $this->db->from('jemaatvolunteer jv');
+            $this->db->join('jemaat j', 'jv.idjemaat = j.idjemaat');
+            $this->db->join('departement d', 'jv.iddepartement = d.iddepartement');
+            $this->db->join('pelayanan p', 'jv.idpelayanan = p.idpelayanan', 'left');
+    
+            if (!empty($iddepartement)) {
+                $this->db->where('jv.iddepartement', $iddepartement);
+            }
+            if (!empty($idpelayanan)) {
+                $this->db->where('jv.idpelayanan', $idpelayanan);
+            }
+            if (!empty($statusaktif)) {
+                $this->db->where('jv.statusaktif', $statusaktif);
+            }
+    
+            $this->db->order_by('d.namadepartement', 'asc');
+            $this->db->order_by('p.namapelayanan', 'asc');
+            $this->db->order_by('j.namalengkap', 'asc');
+    
+            return $this->db->get();
         }
-        if (!empty($idpelayanan)) {
-            $sql .= " AND jv.idpelayanan = " . $this->db->escape($idpelayanan);
-        }
-        if (!empty($statusaktif)) {
-            $sql .= " AND jv.statusaktif = " . $this->db->escape($statusaktif);
-        }
-
-        $sql .= " GROUP BY j.idjemaat, j.namalengkap, j.nohp ORDER BY j.namalengkap ASC";
-
-        return $this->db->query($sql);
-    }
 
 }
 

@@ -385,30 +385,38 @@ class Volunteer extends MY_Controller {
 
         $rowInfoGereja = $this->db->query("SELECT * FROM infogereja")->row();
 
-        $rsData = $this->Volunteer_model->get_all_for_print($filter_iddepartement, $filter_idpelayanan, $filter_statusaktif);
+        $RsData = $this->Volunteer_model->get_grouped_for_print($filter_iddepartement, $filter_idpelayanan, $filter_statusaktif);
 
-        // -------------------------> Susun label filter buat ditampilkan di kepala laporan
-        $labelDepartement = 'Semua Departement';
-        if (!empty($filter_iddepartement)) {
-            $rowdept = $this->db->query("SELECT namadepartement FROM departement WHERE iddepartement=" . $this->db->escape($filter_iddepartement))->row();
-            if ($rowdept) $labelDepartement = $rowdept->namadepartement;
+        // -------------------------> Susun data flat menjadi bertingkat per Departemen
+        $grouped = array();
+        if ($RsData->num_rows() > 0) {
+            foreach ($RsData->result() as $row) {
+                $namadept = $row->namadepartement;
+                if (!isset($grouped[$namadept])) {
+                    $grouped[$namadept] = array();
+                }
+                $grouped[$namadept][] = $row;
+            }
         }
 
+        // -------------------------> Label filter buat ditampilkan di kepala laporan
         $labelPelayanan = 'Semua Pelayanan';
         if (!empty($filter_idpelayanan)) {
             $rowpel = $this->db->query("SELECT namapelayanan FROM pelayanan WHERE idpelayanan=" . $this->db->escape($filter_idpelayanan))->row();
             if ($rowpel) $labelPelayanan = $rowpel->namapelayanan;
         }
-
         $labelStatus = !empty($filter_statusaktif) ? $filter_statusaktif : 'Semua Status';
+
+        $jumlahDepartement = $this->db->query("SELECT COUNT(*) as jlh FROM departement WHERE statusaktif='Aktif'")->row()->jlh;
+        $jumlahVolunteer   = $this->Volunteer_model->count_all();
 
         $data = array(
             'rowInfoGereja'     => $rowInfoGereja,
-            'rsData'            => $rsData,
-            'labelDepartement'  => $labelDepartement,
+            'grouped'           => $grouped,
             'labelPelayanan'    => $labelPelayanan,
             'labelStatus'       => $labelStatus,
-            'jumlahVolunteer'   => $rsData->num_rows(),
+            'jumlahDepartement' => $jumlahDepartement,
+            'jumlahVolunteer'   => $jumlahVolunteer,
         );
 
         $this->load->view('volunteer/cetak_pdf', $data);
