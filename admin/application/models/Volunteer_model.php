@@ -149,14 +149,14 @@ class Volunteer_model extends CI_Model {
         return $this->db->update($this->tabel, $data);
     }	
 
-        // -------------------------> Dipakai untuk cetak PDF, dikelompokkan per Departemen (mirip pola Laporan DC)
-        public function get_grouped_for_print($iddepartement = null, $idpelayanan = null, $statusaktif = null)
+        // -------------------------> Dipakai untuk cetak PDF, satu blok per orang (mirip modal Riwayat Pelayanan)
+        public function get_all_for_print($iddepartement = null, $idpelayanan = null, $statusaktif = null)
         {
             $this->db->select("
-                d.iddepartement,
-                d.namadepartement,
+                j.idjemaat,
                 j.namalengkap,
                 j.nohp,
+                d.namadepartement,
                 p.namapelayanan,
                 jv.kategori,
                 jv.statusaktif,
@@ -177,9 +177,8 @@ class Volunteer_model extends CI_Model {
                 $this->db->where('jv.statusaktif', $statusaktif);
             }
     
-            $this->db->order_by('d.namadepartement', 'asc');
-            $this->db->order_by('p.namapelayanan', 'asc');
             $this->db->order_by('j.namalengkap', 'asc');
+            $this->db->order_by('d.namadepartement', 'asc');
     
             return $this->db->get();
         }
