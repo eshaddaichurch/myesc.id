@@ -110,19 +110,23 @@ if (!empty($grouped)) {
     }
 
     // ── Header Nama + No HP digabung jadi satu baris ─────
+        // ── Header Nama (baris gelap) + No HP (baris terang, kontras tinggi) ──
     $headerOrang = '
         <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
           <tr>
-            <td width="70%" style="background-color:#2c3e50; color:#fff; font-size:11px;
+            <td style="background-color:#2c3e50; color:#fff; font-size:11px;
                 font-weight:bold; padding:5px 8px;">
               ' . $noOrang++ . '. ' . htmlspecialchars($datajemaat['namalengkap']) . '
               <span style="font-size:9px; font-weight:normal; color:#d0d0d0;">
                 &nbsp;(' . $jumlahPelayanan . ' Pelayanan)
               </span>
             </td>
-            <td width="30%" style="background-color:#34495e; color:#fff; font-size:10px;
-                text-align:right; padding:5px 8px;">
-              ' . (!empty($datajemaat['nohp']) ? $datajemaat['nohp'] : '-') . '
+          </tr>
+          <tr>
+            <td style="background-color:#fff3cd; color:#664d03; font-size:11px;
+                font-weight:bold; padding:4px 8px; border-left:3px solid #2c3e50;
+                border-right:1px solid #e0e0e0; border-bottom:1px solid #e0e0e0;">
+              &#128222; No HP: ' . (!empty($datajemaat['nohp']) ? $datajemaat['nohp'] : '-') . '
             </td>
           </tr>
         </table>';
