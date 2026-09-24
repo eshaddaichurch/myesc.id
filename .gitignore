@@ -29,6 +29,8 @@ admin/application/config/database.php
 admin/application/ci_session/*
 admin/uploads/*
 community/uploads/*
+application/config/smtp_credentials.php
+community/application/config/smtp_credentials.php
 ### CodeIgniter Patch ###
 
 ### SublimeText ###

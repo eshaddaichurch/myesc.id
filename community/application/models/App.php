@@ -91,17 +91,41 @@ class App extends CI_Model
 		return true;
 	}
 
+	/**
+	 * Load kredensial SMTP dari file config yang di-gitignore
+	 * (application/config/smtp_credentials.php).
+	 * Kalau file config belum ada, lempar exception supaya
+	 * ketahuan dari awal, bukan gagal diam-diam saat kirim email.
+	 */
+	private function getSmtpCredentials($key)
+	{
+		$configPath = APPPATH . 'config/smtp_credentials.php';
+
+		if (!file_exists($configPath)) {
+			log_message('error', 'File smtp_credentials.php tidak ditemukan. Lihat smtp_credentials.example.php');
+			throw new Exception('Konfigurasi SMTP belum di-setup. Hubungi admin server.');
+		}
+
+		include $configPath;
+
+		if (!isset($smtp_credentials[$key])) {
+			throw new Exception("Kredensial SMTP untuk '{$key}' tidak ditemukan di smtp_credentials.php");
+		}
+
+		return $smtp_credentials[$key];
+	}
 
 	public function sendEmailNextStep($email, $subject, $textemail)
 	{
 		$this->load->library('email');
 
+		$cred = $this->getSmtpCredentials('nextstep');
+
 		$smtp_host = 'mail.myesc.id';
 		$smtp_port = '465';
-		$smtp_user = 'nextstep@myesc.id';
-		$smtp_pass = 'Elshaddaichurch1';
+		$smtp_user = $cred['user'];
+		$smtp_pass = $cred['pass'];
 		$namapengirim = 'Next Step - Elshaddai Church';
-
 
 		$config = array();
 		$config['protocol'] = "smtp";
@@ -133,10 +157,12 @@ class App extends CI_Model
 	{
 		$this->load->library('email');
 
+		$cred = $this->getSmtpCredentials('connect');
+
 		$smtp_host = 'mail.myesc.id';
 		$smtp_port = '465';
-		$smtp_user = 'connect@myesc.id';
-		$smtp_pass = 'Elshaddaichurch1';
+		$smtp_user = $cred['user'];
+		$smtp_pass = $cred['pass'];
 		$namapengirim = 'Elshaddai Church';
 
 		$config = array();
