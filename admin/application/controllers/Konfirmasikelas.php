@@ -38,7 +38,10 @@ class Konfirmasikelas extends MY_Controller
         $idjemaat = $rowRegistrasi->idjemaat;
         $rowJemaat = $this->App->getJemaat($idjemaat)->row();
 
-        $rowJadwalEvent = $this->db->query("select * from v_jadwalevent where idjadwalevent='" . $rowRegistrasi->idjadwalevent . "'")->row();
+        $rowJadwalEvent = $this->db->query(
+            'select * from v_jadwalevent where idjadwalevent = ?',
+            array($rowRegistrasi->idjadwalevent)
+        )->row();
 
         $data['rowJadwalEvent'] = $rowJadwalEvent;
         $data['rowRegistrasi'] = $rowRegistrasi;
@@ -99,45 +102,61 @@ class Konfirmasikelas extends MY_Controller
 
     public function simpan()
     {
-        $idregistrasi                 = $this->input->post('idregistrasi');
-        $status                 = $this->input->post('status');
-        $keterangankonfirmasi                 = $this->input->post('keterangankonfirmasi');
+        $idregistrasi = $this->input->post('idregistrasi');
+        $status = $this->input->post('status');
+        $keterangankonfirmasi = $this->input->post('keterangankonfirmasi');
         $idpengguna = $this->session->userdata('idjemaat');
         $tglkonfirmasi = date('Y-m-d H:i:s');
 
+        // Status hanya boleh dua nilai ini
+        if (!in_array($status, array('Disetujui', 'Ditolak'), true)) {
+            echo json_encode(array('msg' => 'Status konfirmasi tidak valid.'));
+            return;
+        }
 
         $data = array(
-            'statuskonfirmasi'   => $status,
-            'tglkonfirmasi'   => $tglkonfirmasi,
-            'idpenggunakonfirmasi'   => $idpengguna,
-            'keterangankonfirmasi'   => $keterangankonfirmasi,
+            'statuskonfirmasi' => $status,
+            'tglkonfirmasi' => $tglkonfirmasi,
+            'idpenggunakonfirmasi' => $idpengguna,
+            'keterangankonfirmasi' => $keterangankonfirmasi,
         );
-
 
         $simpan = $this->Konfirmasikelas_model->update($data, $idregistrasi, $status);
 
         if ($simpan) {
 
             $judul = $status . ' - Pendaftaran Kelas Next Step';
-            $rsRegistrasi = $this->db->query("select * from v_pendaftarankelas where idregistrasi='$idregistrasi'")->row();
+            $rsRegistrasi = $this->db->query(
+                'select * from v_pendaftarankelas where idregistrasi = ?',
+                array($idregistrasi)
+            )->row();
+
+            if (!$rsRegistrasi) {
+                echo json_encode(array('msg' => 'Data pendaftaran tidak ditemukan.'));
+                return;
+            }
+
             $idjadwalevent = $rsRegistrasi->idjadwalevent;
             $namalengkap = $rsRegistrasi->namalengkap;
-            $rsJadwal = $this->db->query("select * from v_jadwalevent where idjadwalevent='$idjadwalevent'")->row();
-            $rowKelas = $this->db->query("select * from kelas where idkelas='$rsJadwal->idkelas'")->row();
+            $rsJadwal = $this->db->query(
+                'select * from v_jadwalevent where idjadwalevent = ?',
+                array($idjadwalevent)
+            )->row();
+            $rowKelas = $this->db->query(
+                'select * from kelas where idkelas = ?',
+                array($rsJadwal->idkelas)
+            )->row();
             $namakelas = $rowKelas->namakelas;
-
-            // echo json_encode($rsJadwal);
-            // exit();
 
             if ($status == 'Disetujui') {
                 $textemail = '
-                    <h5>Pengajuan Kelas '. $namakelas.' Saudara Disetujui!</h5>
+                    <h5>Pengajuan Kelas ' . $namakelas . ' Saudara Disetujui!</h5>
                       <p>Shalom ' . $namalengkap . ',</p>
 					 <P> Selamat! Pengajuan Saudara untuk mengikuti kelas ' . $namakelas . ' telah disetujui. Kami sangat senang Saudara dapat bergabung dalam perjalanan pertumbuhan rohani ini.</P>
 
 					 <p>Detail Kelas:</p>
 						<p> - Nama Kelas : ' . $namakelas . '</p>	
-						<p> - Tanggal & Waktu : ' . tglindonesialengkap($rsJadwal->tglmulai) .',' . date('H:i', strtotime($rsJadwal->tglmulai)) . '<p>
+						<p> - Tanggal & Waktu : ' . tglindonesialengkap($rsJadwal->tglmulai) . ',' . date('H:i', strtotime($rsJadwal->tglmulai)) . '<p>
                      <p> Jika ada pertanyaan, Saudara dapat menghubungi admin esc next step di nomor: +62 851-8302-3883.</p>
                       <p>Tuhan Yesus Memberkati. </p>
                       <p></p>
@@ -147,7 +166,7 @@ class Konfirmasikelas extends MY_Controller
                 ';
             } else {
                 $textemail = '
-                    <h5>Pengajuan Kelas  '. $namakelas.' Saudara Ditolak!</h5>
+                    <h5>Pengajuan Kelas  ' . $namakelas . ' Saudara Ditolak!</h5>
                       <p>Shalom ' . $namalengkap . ',</p>
                       <p>Pendaftaran Kelas ' . $namakelas . ' anda ditolak, adapun alasan penolakan anda sbb:</p>
                       <p>' . $rsRegistrasi->keterangankonfirmasi . ' </p>
@@ -161,18 +180,27 @@ class Konfirmasikelas extends MY_Controller
             // $this->App->sendEmailNextStep($rsRegistrasi->email, $judul, $textemail);
             // echo json_encode($textemail);
 
-             if ($status == 'Disetujui') {
-                 $idjemaat = $rsRegistrasi->idjemaat;
-                 
-                 $rowJemaat = $this->App->getJemaat($idjemaat)->row();            
-                 $pesanWA = $this->Settings->getValues('wa_nextstep_konfirmasi');
-                //  echo json_encode($pesanWA);
-                //  exit();
-                 $pesanWA = $this->App->replaceTagJemaat($pesanWA, $idjemaat);
-                 $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);  
-             }
+            // Kirim WhatsApp (via Fonnte) hanya untuk yang disetujui
+            $waTerkirim = true;
 
-            echo json_encode(array('success' => true));
+            if ($status == 'Disetujui') {
+                $idjemaat = $rsRegistrasi->idjemaat;
+
+                $rowJemaat = $this->App->getJemaat($idjemaat)->row();
+                $pesanWA = $this->Settings->getValues('wa_nextstep_konfirmasi');
+                $pesanWA = $this->App->replaceTagJemaat($pesanWA, $idjemaat);
+
+                $waTerkirim = $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+
+                if (!$waTerkirim) {
+                    log_message('error', 'Gagal kirim WA konfirmasi kelas, idregistrasi=' . $idregistrasi);
+                }
+            }
+
+            echo json_encode(array(
+                'success' => true,
+                'wa_terkirim' => (bool) $waTerkirim,
+            ));
         } else {
             echo json_encode(array('msg' => "Data gagal disimpan."));
         }
@@ -184,13 +212,13 @@ class Konfirmasikelas extends MY_Controller
         $RsData = $this->Konfirmasikelas_model->get_by_id($idregistrasi)->row();
 
         $data = array(
-            'idregistrasi'     =>  $RsData->idregistrasi,
-            'tglregistrasi'     =>  $RsData->tglregistrasi,
-            'tglsertifikat'     =>  $RsData->tglsertifikat,
-            'idjemaat'     =>  $RsData->idjemaat,
-            'idkelas'     =>  $RsData->idkelas,
-            'nomorsertifikat'     =>  $RsData->nomorsertifikat,
-            'linkurlsertifikat'     =>  $RsData->linkurlsertifikat,
+            'idregistrasi' => $RsData->idregistrasi,
+            'tglregistrasi' => $RsData->tglregistrasi,
+            'tglsertifikat' => $RsData->tglsertifikat,
+            'idjemaat' => $RsData->idjemaat,
+            'idkelas' => $RsData->idkelas,
+            'nomorsertifikat' => $RsData->nomorsertifikat,
+            'linkurlsertifikat' => $RsData->linkurlsertifikat,
         );
 
         echo (json_encode($data));
@@ -200,7 +228,10 @@ class Konfirmasikelas extends MY_Controller
     public function cekStatusTerakhir()
     {
         $idregistrasi = $this->input->get('idregistrasi');
-        $status = $this->db->query("select * from v_jadwaleventregistrasi where idregistrasi='$idregistrasi' ");
+        $status = $this->db->query(
+            'select * from v_jadwaleventregistrasi where idregistrasi = ?',
+            array($idregistrasi)
+        );
         $statuskonfirmasi = '';
         if ($status->num_rows() > 0) {
             $statuskonfirmasi = $status->row()->statuskonfirmasi;

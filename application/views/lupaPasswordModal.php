@@ -1,13 +1,11 @@
-
-
-  <!-- Modal Login -->
+<!-- Modal Lupa Password -->
 <div class="modal fade" id="lupaPasswordModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 rounded-4 shadow-sm">
 
       <div class="modal-body px-5 py-4 text-center">
 
-        <!-- form masukkan kode token -->
+        <!-- LANGKAH 1: masukkan email / nomor whatsapp -->
         <form action="#" method="post" id="formMasukkanEmail">
 
           <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="Logo" width="50" class="mb-3">
@@ -23,7 +21,7 @@
             </span>
           </div>
 
-          <div id="divAlert" class="mb-3"></div>
+          <div id="divAlertEmail" class="mb-3"></div>
 
           <button type="submit" class="btn btn-orange rounded-pill w-100 mb-2 mt-3">Kirim</button>
 
@@ -37,7 +35,7 @@
 
         </form>
 
-        <!-- form masukkan kode token -->
+        <!-- LANGKAH 2: masukkan kode token -->
         <form action="#" method="post" id="formMasukkanToken" style="display: none;">
 
           <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="Logo" width="50" class="mb-3">
@@ -47,18 +45,18 @@
           <p>Buka email/whatsapp anda dan masukkan token untuk mereset password.</p>
 
           <div class="form-group position-relative mb-3">
-            <input type="text" name="tokenResetPassword" id="tokenResetPassword" class="form-control rounded-pill ps-5" placeholder="Masukkan Token">
-            </span>
+            <input type="text" name="tokenResetPassword" id="tokenResetPassword" class="form-control rounded-pill ps-5"
+                   placeholder="Masukkan Token" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
           </div>
 
-          <div id="divAlert" class="mb-3"></div>
+          <div id="divAlertToken" class="mb-3"></div>
 
           <button type="submit" class="btn btn-orange rounded-pill w-100 mb-2 mt-3">Kirim</button>
 
         </form>
 
 
-        <!-- form masukkan kode token -->
+        <!-- LANGKAH 3: masukkan password baru -->
         <form action="#" method="post" id="formUbahPassword" style="display: none;">
 
           <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="Logo" width="50" class="mb-3">
@@ -88,7 +86,7 @@
           </div>
 
 
-          <div id="divAlert" class="mb-3"></div>
+          <div id="divAlertPassword" class="mb-3"></div>
 
           <button type="submit" class="btn btn-orange rounded-pill w-100 mb-2 mt-3">Simpan</button>
 
@@ -149,6 +147,20 @@
 
 
   <script>
+    // Template alert error umum untuk kegagalan request
+    function resetPwAlertError(targetId) {
+      var addText = `
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                      <i class="fas fa-exclamation-triangle"></i> 
+                      <div>
+                        error script!
+                      </div>
+                    </div>
+          `;
+      $('#' + targetId).empty().html(addText);
+    }
+
+    // ===== LANGKAH 1: kirim kode ke email / whatsapp =====
     $("#formMasukkanEmail").bootstrapValidator({
       feedbackIcons: {
         valid: 'glyphicon glyphicon-ok',
@@ -177,7 +189,6 @@
           },
         })
         .done(function(response) {
-          console.log("success");
           if (response.success) {
             $('#formMasukkanEmail').hide(); 
             $('#formMasukkanToken').show();
@@ -186,20 +197,12 @@
           }
         })
         .fail(function() {
-          $('#divAlert').empty();
-          var addText = `
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                          <i class="fas fa-exclamation-triangle"></i> 
-                          <div>
-                            error script!
-                          </div>
-                        </div>
-              `;
-          $('#divAlert').html(addText)
+          resetPwAlertError('divAlertEmail');
         })
     });
 
 
+    // ===== LANGKAH 2: cek token =====
     $("#formMasukkanToken").bootstrapValidator({
       feedbackIcons: {
         valid: 'glyphicon glyphicon-ok',
@@ -241,21 +244,13 @@
           }
         })
         .fail(function() {
-          $('#divAlert').empty();
-          var addText = `
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                          <i class="fas fa-exclamation-triangle"></i> 
-                          <div>
-                            error script!
-                          </div>
-                        </div>
-              `;
-          $('#divAlert').html(addText)
+          resetPwAlertError('divAlertToken');
         })
     });
 
 
 
+    // ===== LANGKAH 3: simpan password baru (token ikut dikirim & diverifikasi ulang di server) =====
     $("#formUbahPassword").bootstrapValidator({
       feedbackIcons: {
         valid: 'glyphicon glyphicon-ok',
@@ -283,7 +278,7 @@
         resetPasswordBaru2: {
           validators: {
             notEmpty: {
-              message: "Silahkan token reset password"
+              message: "Silahkan ulangi password baru"
             },
             identical: {
               field: 'resetPasswordBaru1',
@@ -295,6 +290,7 @@
     }).on('success.form.bv', function(e) {
       e.preventDefault();
       var email = $("#emailResetPassword").val();
+      var tokenResetPassword = $("#tokenResetPassword").val();
       var resetPasswordBaru1 = $("#resetPasswordBaru1").val();
 
       $.ajax({
@@ -303,6 +299,7 @@
           dataType: 'json',
           data: {
             'email': email,
+            'tokenResetPassword': tokenResetPassword,
             'password': resetPasswordBaru1
           },
         })
@@ -320,16 +317,7 @@
           }
         })
         .fail(function() {
-          $('#divAlert').empty();
-          var addText = `
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                          <i class="fas fa-exclamation-triangle"></i> 
-                          <div>
-                            error script!
-                          </div>
-                        </div>
-              `;
-          $('#divAlert').html(addText)
+          resetPwAlertError('divAlertPassword');
         })
     });
 

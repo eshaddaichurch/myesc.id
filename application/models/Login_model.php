@@ -3,6 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login_model extends CI_Model
 {
+    // Masa berlaku token reset password (menit) & batas tebakan salah
+    const RESET_TOKEN_MENIT = 15;
+    const RESET_MAKS_SALAH = 5;
+
     // public function cekLoginAjax($email, $password)
     // {
     //     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -108,17 +112,126 @@ class Login_model extends CI_Model
         }
     }
 
+    /**
+     * Pastikan kolom jemaat.percobaantokensalah ada. Kalau belum, dibuat otomatis
+     * (aman dipanggil berulang). Dengan begitu database lokal dan server tidak
+     * perlu diubah manual satu per satu setelah git pull.
+     *
+     * Butuh hak ALTER pada user database. Kalau gagal, fitur reset password
+     * ditolak (fail-closed) supaya tidak berjalan tanpa pembatas tebakan token.
+     *
+     * @return bool TRUE jika kolom tersedia
+     */
+    private function pastikanKolomReset()
+    {
+        static $sudahAda = false;
+        if ($sudahAda) {
+            return true;
+        }
+
+        $cek = "SHOW COLUMNS FROM jemaat LIKE 'percobaantokensalah'";
+
+        if ($this->db->query($cek)->num_rows() > 0) {
+            return $sudahAda = true;
+        }
+
+        // Matikan sementara db_debug supaya error ALTER tidak menampilkan halaman error CI
+        $debugLama = $this->db->db_debug;
+        $this->db->db_debug = FALSE;
+        $this->db->query('ALTER TABLE jemaat ADD COLUMN percobaantokensalah INT NOT NULL DEFAULT 0');
+        $this->db->db_debug = $debugLama;
+
+        if ($this->db->query($cek)->num_rows() > 0) {
+            log_message('info', 'Kolom jemaat.percobaantokensalah dibuat otomatis.');
+            return $sudahAda = true;
+        }
+
+        log_message('error', 'Kolom jemaat.percobaantokensalah tidak ada dan gagal dibuat otomatis. Jalankan: ALTER TABLE jemaat ADD COLUMN percobaantokensalah INT NOT NULL DEFAULT 0;');
+        return false;
+    }
+
+    /**
+     * Tentukan kolom pencarian (email / nohp) dari input user.
+     * Nomor HP dinormalisasi ke format 08xxxxxxxxxx (sama seperti saat registrasi).
+     *
+     * @return array [$field, $nilai]
+     */
+    private function tentukanFieldReset($input)
+    {
+        $input = trim((string) $input);
+
+        if (filter_var($input, FILTER_VALIDATE_EMAIL)) {
+            return array('email', $input);
+        }
+
+        $nomor = preg_replace('/[^0-9]/', '', $input);
+        if (strpos($nomor, '62') === 0) {
+            $nomor = '0' . substr($nomor, 2);
+        }
+
+        return array('nohp', $nomor);
+    }
+
+    /**
+     * Verifikasi token reset password: harus ada, belum kedaluwarsa,
+     * belum melewati batas tebakan salah, dan cocok.
+     * Tebakan salah dihitung di database (kolom percobaantokensalah).
+     *
+     * @return array ['success' => bool, 'msg' => string, 'idjemaat' => string|null]
+     */
+    private function verifikasiTokenReset($input, $token)
+    {
+        list($field, $nilai) = $this->tentukanFieldReset($input);
+        $token = preg_replace('/[^0-9]/', '', (string) $token);
+
+        $pesanUmum = 'Token reset password tidak valid. Silakan minta kode baru.';
+
+        if (!$this->pastikanKolomReset()) {
+            return array('success' => false, 'msg' => 'Fitur reset password sedang tidak tersedia. Silakan hubungi admin.', 'idjemaat' => null);
+        }
+
+        if ($nilai === '' || $token === '') {
+            return array('success' => false, 'msg' => $pesanUmum, 'idjemaat' => null);
+        }
+
+        $row = $this->db->query(
+            "SELECT idjemaat, tokenlupapassword, tgltokenlupapassword, percobaantokensalah
+             FROM jemaat WHERE $field = ?",
+            array($nilai)
+        )->row();
+
+        // Akun tidak ada / belum pernah minta token / token sudah dipakai
+        if (!$row || empty($row->tokenlupapassword) || empty($row->tgltokenlupapassword)) {
+            return array('success' => false, 'msg' => $pesanUmum, 'idjemaat' => null);
+        }
+
+        // Kedaluwarsa
+        $umurDetik = time() - strtotime($row->tgltokenlupapassword);
+        if ($umurDetik > self::RESET_TOKEN_MENIT * 60) {
+            return array('success' => false, 'msg' => 'Token sudah kadaluarsa. Silakan minta kode baru.', 'idjemaat' => null);
+        }
+
+        // Terlalu banyak tebakan salah
+        if ((int) $row->percobaantokensalah >= self::RESET_MAKS_SALAH) {
+            return array('success' => false, 'msg' => 'Terlalu banyak percobaan salah. Silakan minta kode baru.', 'idjemaat' => null);
+        }
+
+        // Cocokkan token (perbandingan aman)
+        if (!hash_equals((string) $row->tokenlupapassword, $token)) {
+            $this->db->query(
+                'UPDATE jemaat SET percobaantokensalah = percobaantokensalah + 1 WHERE idjemaat = ?',
+                array($row->idjemaat)
+            );
+            return array('success' => false, 'msg' => 'Token reset password salah.', 'idjemaat' => null);
+        }
+
+        return array('success' => true, 'msg' => '', 'idjemaat' => $row->idjemaat);
+    }
+
     public function kirimKodeResetPassword($email)
     {
         try {
-            $this->db->trans_begin();
-
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $field = 'email';
-            } else {
-                $email = preg_replace('/[^0-9]/', '', $email);
-                $field = 'nohp';
-            }
+            list($field, $email) = $this->tentukanFieldReset($email);
 
             // $field hardcoded dari logic PHP, aman ditempel; $email di-bind
             $rsJemaat = $this->db->query("SELECT * FROM jemaat WHERE $field = ?", array($email));
@@ -161,12 +274,21 @@ class Login_model extends CI_Model
                 }
             }
 
-            // random string 6 digit
+            // Pastikan kolom penghitung tebakan ada (dibuat otomatis kalau belum)
+            if (!$this->pastikanKolomReset()) {
+                return array('success' => false, 'msg' => 'Fitur reset password sedang tidak tersedia. Silakan hubungi admin.');
+            }
+
+            // Transaksi dimulai setelah semua validasi lolos
+            $this->db->trans_begin();
+
+            // random token 6 digit
             $idjemaat = $rowJemaat->idjemaat;
             $tokenlupapassword = random_int(100000, 999999);
             $dataToken = array(
                 'tokenlupapassword' => $tokenlupapassword,
                 'tgltokenlupapassword' => date('Y-m-d H:i:s'),
+                'percobaantokensalah' => 0,  // token baru = hitungan salah mulai dari nol
             );
             $this->db->where('idjemaat', $idjemaat);
             $this->db->update('jemaat', $dataToken);
@@ -252,16 +374,21 @@ class Login_model extends CI_Model
                     </body>
                     </html>
                     ";
+
                 if (!isLocalhost()) {
-                    // FIX: pakai helper aman supaya kalau SMTP gagal konek,
+                    // pakai helper aman supaya kalau SMTP gagal konek,
                     // warning PHP tidak bocor ke response JSON.
                     $emailTerkirim = $this->kirimEmailAman($email, 'Reset Password Myesc.id', $pesanEmail, 'reset password');
                     if (!$emailTerkirim) {
-                        log_message('debug', 'Token reset password EMAIL (gagal kirim, fallback log): ' . $tokenlupapassword);
+                        $this->db->trans_rollback();
+                        return array('success' => false, 'msg' => 'Gagal mengirim kode ke email. Silakan coba lagi beberapa saat lagi.');
                     }
+                } else {
+                    // hanya untuk pengembangan lokal, tidak pernah tercatat di produksi
+                    log_message('debug', 'Token reset password (localhost): ' . $tokenlupapassword);
                 }
             } else {
-                // kirim pesan whatsapp
+                // kirim pesan whatsapp (via Fonnte)
                 $pesanWA = "🔐 *RESET PASSWORD*\n\n"
                     . 'Shalom *' . $rowJemaat->namalengkap . "*!\n\n"
                     . "Berikut adalah kode reset password untuk akun kamu:\n\n"
@@ -274,11 +401,11 @@ class Login_model extends CI_Model
                     . "Terima kasih.\n"
                     . 'Tim GBI Elshaddai';
 
-                try {
-                    $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
-                } catch (\Throwable $e) {
-                    log_message('error', 'Gagal kirim WA reset password (gateway belum tersambung?): ' . $e->getMessage());
-                    log_message('debug', 'Token reset password WA (fallback log): ' . $tokenlupapassword);
+                $waTerkirim = $this->whatsapp->send_message(formatNomorWhatsapp($rowJemaat->nohp), $pesanWA);
+
+                if (!$waTerkirim) {
+                    $this->db->trans_rollback();
+                    return array('success' => false, 'msg' => 'Gagal mengirim kode ke WhatsApp. Silakan coba lagi beberapa saat lagi.');
                 }
             }
 
@@ -287,68 +414,74 @@ class Login_model extends CI_Model
                 return array('success' => false, 'msg' => 'Gagal mengirim kode reset password.');
             } else {
                 $this->db->trans_commit();
-                // FIX KEAMANAN KRITIS: token TIDAK boleh pernah dikembalikan ke client.
-                // Sebelumnya baris ini ikut mengirim 'tokenlupapassword' => $tokenlupapassword,
-                // yang membuat siapapun bisa lihat token lewat tab Network browser tanpa
-                // perlu akses email/WA sama sekali. Sekarang hanya status berhasil yang dikirim.
+                // KEAMANAN: token TIDAK boleh pernah dikembalikan ke client.
                 return array('success' => true);
             }
         } catch (\Throwable $th) {
             $this->db->trans_rollback();
-            return array('success' => false, 'msg' => $th->getMessage());
+            log_message('error', 'kirimKodeResetPassword error: ' . $th->getMessage());
+            return array('success' => false, 'msg' => 'Terjadi kesalahan, silakan coba lagi.');
         }
     }
 
+    /**
+     * Langkah 2: cek token. Token TIDAK dihapus di sini karena
+     * masih dibutuhkan (dan diverifikasi ulang) di langkah 3.
+     */
     public function cekTokenResetPassword($email, $tokenResetPassword)
     {
         try {
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $field = 'email';
-            } else {
-                $email = preg_replace('/[^0-9]/', '', $email);
-                $field = 'nohp';
-            }
+            $hasil = $this->verifikasiTokenReset($email, $tokenResetPassword);
 
-            $rsCekEmail = $this->db->query(
-                "SELECT * FROM jemaat WHERE $field = ? AND tokenlupapassword = ?",
-                array($email, $tokenResetPassword)
-            );
-
-            if ($rsCekEmail->num_rows() == 0) {
-                return array('success' => false, 'msg' => 'Token reset password salah.');
+            if (!$hasil['success']) {
+                return array('success' => false, 'msg' => $hasil['msg']);
             }
 
             return array('success' => true);
         } catch (\Throwable $th) {
-            return array('success' => false, 'msg' => $th->getMessage());
+            log_message('error', 'cekTokenResetPassword error: ' . $th->getMessage());
+            return array('success' => false, 'msg' => 'Terjadi kesalahan, silakan coba lagi.');
         }
     }
 
-    public function updateResetPassword($email, $password)
+    /**
+     * Langkah 3: ganti password. Token WAJIB dikirim dan diverifikasi ulang,
+     * sehingga endpoint ini tidak bisa dipanggil langsung tanpa kode dari email/WA.
+     */
+    public function updateResetPassword($email, $tokenResetPassword, $password)
     {
         try {
-            $this->db->trans_begin();
+            $hasil = $this->verifikasiTokenReset($email, $tokenResetPassword);
 
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $field = 'email';
-            } else {
-                $email = preg_replace('/[^0-9]/', '', $email);
-                $field = 'nohp';
+            if (!$hasil['success']) {
+                return array('success' => false, 'msg' => $hasil['msg']);
             }
 
-            $this->db->where($field, $email);
-            $this->db->update('jemaat', array('password' => md5($password), 'tokenlupapassword' => null));
+            if (strlen((string) $password) < 6) {
+                return array('success' => false, 'msg' => 'Password minimal 6 karakter.');
+            }
+
+            $this->db->trans_begin();
+
+            $this->db->where('idjemaat', $hasil['idjemaat']);
+            $this->db->update('jemaat', array(
+                'password' => md5($password),
+                'tokenlupapassword' => null,
+                'tgltokenlupapassword' => null,
+                'percobaantokensalah' => 0,
+            ));
 
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 return array('success' => false, 'msg' => 'Gagal mengganti password.');
-            } else {
-                $this->db->trans_commit();
-                return array('success' => true);
             }
+
+            $this->db->trans_commit();
+            return array('success' => true);
         } catch (\Throwable $th) {
             $this->db->trans_rollback();
-            return array('success' => false, 'msg' => $th->getMessage());
+            log_message('error', 'updateResetPassword error: ' . $th->getMessage());
+            return array('success' => false, 'msg' => 'Terjadi kesalahan, silakan coba lagi.');
         }
     }
 }

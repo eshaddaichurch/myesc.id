@@ -2,80 +2,116 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Library untuk mengirim pesan WhatsApp melalui API eksternal
- * 
- * Contoh penggunaan:
- * $this->load->library('whatsapp');
- * $response = $this->whatsapp->send_message('6289xxx', 'Halo, ini pesan uji coba!');
- * 
- * @author Your Name
+ * Library WhatsApp berbasis Fonnte (pengganti Woowa).
+ * Nama class & method send_message() sengaja dipertahankan
+ * supaya semua controller lama tetap jalan tanpa perubahan.
  */
 class Whatsapp
 {
-    protected $CI;
-    protected $base_url = 'https://notifapi.com';
-    protected $api_key = 'adpa493ec6c-b691-408a-9b92-177e3a001b3f';
+    protected $endpoint = 'https://api.fonnte.com/send';
+    protected $token = null;
+    public $last_error = '';
 
-    public function __construct($config = array())
+    protected function getToken()
     {
-        $this->CI =& get_instance();
-
-        if (empty($this->base_url) || empty($this->api_key)) {
-            show_error('Konfigurasi WhatsApp API tidak lengkap: base_url dan api_key harus diisi.');
+        if ($this->token === null) {
+            $CI =& get_instance();
+            $CI->config->load('fonnte', TRUE);
+            $this->token = (string) $CI->config->item('fonnte_token', 'fonnte');
         }
+        return $this->token;
     }
 
     /**
-     * Mengirim pesan WhatsApp ke nomor tujuan
+     * Kirim pesan WhatsApp.
      *
-     * @param string $phone_no   Nomor telepon (format internasional tanpa +, contoh: 6281234567890)
-     * @param string $message    Isi pesan
-     * @return array|bool        Response dari API dalam bentuk array, atau false jika gagal
+     * @param string       $nomor   08xxx / 62xxx / +62xxx / 62xxx@c.us (bisa array)
+     * @param string       $pesan   Isi pesan
+     * @param array        $options Parameter tambahan Fonnte (mis. url, delay, schedule)
+     * @return bool TRUE jika pesan berhasil masuk antrian Fonnte
      */
-    public function send_message($phone_no, $message)
+    public function send_message($nomor, $pesan, $options = array())
     {
-        $url = $this->base_url . '/send_message';
+        $this->last_error = '';
 
-        $data = array(
-            'phone_no' => $phone_no,
-            'key'      => $this->api_key,
-            'message'  => $message
-        );
+        $token = $this->getToken();
+        if ($token === '' || $token === 'ISI_TOKEN_DEVICE_KAMU') {
+            $this->last_error = 'Token Fonnte belum diisi';
+            log_message('error', 'Fonnte: ' . $this->last_error);
+            return FALSE;
+        }
 
-        $payload = json_encode($data);
+        $target = $this->normalize($nomor);
+        if ($target === '') {
+            $this->last_error = 'Nomor tujuan tidak valid';
+            log_message('error', 'Fonnte: ' . $this->last_error);
+            return FALSE;
+        }
 
-        // Inisialisasi cURL
+        $data = array_merge(array(
+            'target'  => $target,
+            'message' => $pesan,
+        ), $options);
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($payload)
+        curl_setopt_array($ch, array(
+            CURLOPT_URL            => $this->endpoint,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_POST           => TRUE,
+            CURLOPT_POSTFIELDS     => $data,
+            CURLOPT_HTTPHEADER     => array('Authorization: ' . $token),
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT        => 30,
         ));
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30); // timeout 30 detik
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // nonaktifkan jika SSL bermasalah (hanya untuk dev)
 
         $response = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
+        $curlErr  = curl_error($ch);
         curl_close($ch);
 
-        if ($error) {
-            log_message('error', 'WhatsApp API Error: ' . $error);
-            return false;
+        if ($response === FALSE) {
+            $this->last_error = 'cURL: ' . $curlErr;
+            log_message('error', 'Fonnte gagal (cURL): ' . $curlErr);
+            return FALSE;
         }
 
-        // Decode response
-        $result = json_decode($response, true);
+        $result = json_decode($response, TRUE);
 
-        // Jika decode gagal, kembalikan response asli
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            log_message('debug', 'WhatsApp API Response (non-JSON): ' . $response);
-            return array('raw_response' => $response, 'http_code' => $http_code);
+        if (!is_array($result) || empty($result['status'])) {
+            $reason = (is_array($result) && isset($result['reason'])) ? $result['reason'] : $response;
+            $this->last_error = $reason;
+            log_message('error', 'Fonnte gagal kirim ke ' . $target . ': ' . $reason);
+            return FALSE;
         }
 
-        return $result;
+        return TRUE;
+    }
+
+    /**
+     * Ubah berbagai format nomor menjadi 62xxxxxxxxxx.
+     * Aman untuk hasil formatNomorWhatsapp() lama (mis. berakhiran @c.us).
+     */
+    protected function normalize($nomor)
+    {
+        $list = is_array($nomor) ? $nomor : explode(',', $nomor);
+        $out  = array();
+
+        foreach ($list as $num) {
+            $num = preg_replace('/@.*$/', '', (string) $num);  // buang suffix @c.us dsb
+            $num = preg_replace('/\D/', '', $num);              // sisakan angka saja
+
+            if ($num === '') {
+                continue;
+            }
+
+            if (strpos($num, '0') === 0) {
+                $num = '62' . substr($num, 1);
+            } elseif (strpos($num, '8') === 0) {
+                $num = '62' . $num;
+            }
+
+            $out[] = $num;
+        }
+
+        return implode(',', $out);
     }
 }

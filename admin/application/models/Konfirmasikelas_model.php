@@ -17,13 +17,13 @@ class Konfirmasikelas_model extends CI_Model
     {
         $this->_get_datatables_query();
         if ($_POST['length'] != -1)
-            $this->db->limit($_POST['length'], $_POST['start']);
+            $this->db->limit((int) $_POST['length'], (int) $_POST['start']);
         return $this->db->get();
     }
 
     private function _get_datatables_query()
     {
-        $idkelas = $_POST['idkelas'];
+        $idkelas = isset($_POST['idkelas']) ? $_POST['idkelas'] : '';
         if (!empty($idkelas)) {
             $this->db->where('idkelas', $idkelas);
         }
@@ -43,9 +43,12 @@ class Konfirmasikelas_model extends CI_Model
             $i++;
         }
 
-        // -------------------------> Proses Order by        
-        if (isset($_POST['order'])) {
-            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        // -------------------------> Proses Order by
+        // Hanya kolom yang ada di whitelist $column_order yang boleh dipakai mengurutkan.
+        $kolomUrut = isset($_POST['order'][0]['column']) ? $_POST['order'][0]['column'] : null;
+
+        if ($kolomUrut !== null && isset($this->column_order[$kolomUrut])) {
+            $this->db->order_by($this->column_order[$kolomUrut], $_POST['order'][0]['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
@@ -79,16 +82,20 @@ class Konfirmasikelas_model extends CI_Model
 
     public function getKelas($limit, $offset)
     {
-        return $this->db->query("
-                SELECT * FROM kelas ORDER BY idkelas LIMIT $limit OFFSET $offset
-            ");
+        return $this->db->query(
+            'SELECT * FROM kelas ORDER BY idkelas LIMIT ? OFFSET ?',
+            array((int) $limit, (int) $offset)
+        );
     }
 
     public function getSertifikat($idjemaat, $idkelas)
     {
-        return $this->db->query("
-                SELECT * FROM registrasikelas where idjemaat='$idjemaat' and idkelas='$idkelas' and statuslulus='1' order by idregistrasikelas desc limit 1
-                ");
+        return $this->db->query(
+            "SELECT * FROM registrasikelas
+             WHERE idjemaat = ? AND idkelas = ? AND statuslulus = '1'
+             ORDER BY idregistrasikelas DESC LIMIT 1",
+            array($idjemaat, $idkelas)
+        );
     }
 
     public function update($data, $idregistrasi, $status)
@@ -101,7 +108,15 @@ class Konfirmasikelas_model extends CI_Model
             $this->db->update('jadwaleventregistrasi', $data);
 
             if ($status == 'Disetujui') {
-                $rsRegistrasi = $this->db->query("select * from v_pendaftarankelas where idregistrasi='$idregistrasi'")->row();
+                $rsRegistrasi = $this->db->query(
+                    'select * from v_pendaftarankelas where idregistrasi = ?',
+                    array($idregistrasi)
+                )->row();
+
+                if (!$rsRegistrasi) {
+                    $this->db->trans_rollback();
+                    return false;
+                }
 
                 $idkelas = $rsRegistrasi->idkelas;
                 $idjemaat = $rsRegistrasi->idjemaat;
@@ -134,8 +149,9 @@ class Konfirmasikelas_model extends CI_Model
                 $this->db->trans_commit();
                 return true;
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->db->trans_rollback();
+            log_message('error', 'Konfirmasikelas_model::update gagal: ' . $e->getMessage());
             return false;
         }
     }

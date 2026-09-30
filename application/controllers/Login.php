@@ -771,9 +771,10 @@ class Login extends CI_Controller
     public function updateResetPassword()
     {
         $email = $this->input->post('email');
+        $tokenResetPassword = $this->input->post('tokenResetPassword');
         $password = $this->input->post('password');
 
-        $kirim = $this->Login_model->updateResetPassword($email, $password);
+        $kirim = $this->Login_model->updateResetPassword($email, $tokenResetPassword, $password);
 
         echo json_encode($kirim);
     }
