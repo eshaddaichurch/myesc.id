@@ -111,9 +111,8 @@ class Ruangan extends MY_Controller
         $now = date('Y-m-d H:i:s');
 
         if ($idruangan == '') {
-            $idruangan = $this->db->query(
-                'SELECT create_idruangan() AS idruangan'
-            )->row()->idruangan;
+            // ID dibuat di PHP berdasarkan nilai MAX (bukan fungsi MySQL create_idruangan)
+            $idruangan = $this->_generate_idruangan();
 
             $foto = $this->_upload_foto($_FILES, 'foto');
 
@@ -275,6 +274,14 @@ class Ruangan extends MY_Controller
     }
 
     // ── HELPER ───────────────────────────────────────────────
+    private function _generate_idruangan()
+    {
+        $row = $this->db->query(
+            "SELECT IFNULL(MAX(CAST(SUBSTRING(idruangan, 3) AS UNSIGNED)), 0) + 1 AS nextnum FROM ruangan"
+        )->row();
+        return 'RG' . str_pad($row->nextnum, 3, '0', STR_PAD_LEFT);
+    }
+
     private function _upload_foto($file, $field)
     {
         if (!empty($file[$field]['name'])) {
