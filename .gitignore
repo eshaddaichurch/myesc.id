@@ -16,13 +16,23 @@ user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
 
 #codeigniter 3
+application/config/fonnte.php
+admin/application/config/fonnte.php
+community/application/config/fonnte.php
+admin/application/config/smtp_credentials.php
+community/application/config/config.php
+community/application/config/database.php
+admin/application/logs/*
+community/application/logs/*
+community/application/ci_session/*
+error_log
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 application/config/config.php
 application/config/database.php
 application/config/api.php
-application/ci_session/*
+application/ci_session/* 
 uploads/*
 admin/application/config/config.php
 admin/application/config/database.php
