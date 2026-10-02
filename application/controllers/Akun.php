@@ -301,11 +301,14 @@ class Akun extends MY_Controller
 
     public function simpanubahpassword()
     {
-        $passwordlama = htmlspecialchars($this->input->post('passwordlama'));
-        $passwordbaru1 = htmlspecialchars($this->input->post('passwordbaru1'));
-        $passwordbaru2 = htmlspecialchars($this->input->post('passwordbaru2'));
+        // PENTING: password diambil APA ADANYA. Jangan dilewatkan htmlspecialchars(),
+        // karena password berisi simbol (& < > " ') akan tersimpan dalam bentuk lain
+        // dan user tidak akan bisa login lagi dengan password yang dia ketik.
+        $passwordlama = (string) $this->input->post('passwordlama');
+        $passwordbaru1 = (string) $this->input->post('passwordbaru1');
+        $passwordbaru2 = (string) $this->input->post('passwordbaru2');
 
-        if (empty($passwordlama)) {
+        if ($passwordlama === '') {
             $pesan = "<script>
                         swal('Gagal', 'Password lama tidak boleh kosong!', 'warning');
                     </script>";
@@ -313,7 +316,7 @@ class Akun extends MY_Controller
             redirect('akun/gantipassword');
         }
 
-        if (empty($passwordbaru1) || empty($passwordbaru2)) {
+        if ($passwordbaru1 === '' || $passwordbaru2 === '') {
             $pesan = "<script>
                         swal('Gagal', 'Password baru tidak boleh kosong!', 'warning');
                     </script>";
@@ -329,9 +332,17 @@ class Akun extends MY_Controller
             redirect('akun/gantipassword');
         }
 
-        if ($passwordbaru1 != $passwordbaru2) {
+        if ($passwordbaru1 !== $passwordbaru2) {
             $pesan = "<script>
                         swal('Gagal', 'Ulangi Password tidak sama!', 'warning');
+                    </script>";
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('akun/gantipassword');
+        }
+
+        if (strlen($passwordbaru1) < 6) {
+            $pesan = "<script>
+                        swal('Gagal', 'Password baru minimal 6 karakter!', 'warning');
                     </script>";
             $this->session->set_flashdata('pesan', $pesan);
             redirect('akun/gantipassword');
@@ -344,11 +355,11 @@ class Akun extends MY_Controller
         $simpan = $this->Akun_model->update($data);
         if ($simpan) {
             $pesan = "<script>
-                            swal('Berhasil', 'Data berhasil disimpan.', 'success');
+                            swal('Berhasil', 'Password berhasil diubah.', 'success');
                         </script>";
         } else {
             $pesan = "<script>
-                            swal('Gagal', 'Data gagal disimpan.', 'warning');
+                            swal('Gagal', 'Password gagal disimpan.', 'warning');
                         </script>";
         }
 
@@ -471,7 +482,7 @@ class Akun extends MY_Controller
 
         $textemail =
             '<h4>Shalom! ' . $namalengkap . 'Welcome to myesc! </h4>
-        <p>We\xe2\x80\x99re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>
+        <p>We\'re thrilled to have you with us! Before you can start your journey with us, please verify your email with a quick click below!</p>
             <p> <a href="' . site_url('login/verifikasiemail/' . $this->encrypt->encode($email))
             . '">
         <div class= "btn btn-primary">
@@ -572,16 +583,21 @@ class Akun extends MY_Controller
             'ip_address' => $ip,
             'created_at' => date('Y-m-d H:i:s'),
         ));
+        $idOtpLog = $this->db->insert_id();
 
         $pesanWA = 'Shalom ' . $namalengkap . '! Kode verifikasi WhatsApp untuk profil MyESC kamu: *' . $otp . "*\n\nMasukkan kode ini di halaman profil untuk menyelesaikan verifikasi. Kode berlaku 10 menit.";
 
-        try {
-            $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
-        } catch (\Throwable $e) {
-            // WA gateway belum tersambung / bermasalah: jangan gagalkan proses,
-            // tapi catat kode ke log supaya admin bisa bantu manual kalau perlu.
-            log_message('error', 'Gagal kirim OTP WA verifikasi profil (gateway belum tersambung?): ' . $e->getMessage());
-            log_message('debug', 'OTP WA verifikasi profil (fallback log): ' . $otp);
+        $waTerkirim = $this->whatsapp->send_message(formatNomorWhatsapp($nohp), $pesanWA);
+
+        if (!$waTerkirim) {
+            // Gagal kirim: hapus catatan OTP supaya cooldown 60 detik tidak menghalangi user mencoba lagi
+            log_message('error', 'Gagal kirim OTP WA verifikasi profil untuk idjemaat=' . $idjemaat);
+            if (!empty($idOtpLog)) {
+                $this->db->delete('otp_log', array('id' => $idOtpLog));
+            }
+
+            echo json_encode(array('msg' => 'Gagal mengirim kode ke WhatsApp. Silakan coba lagi beberapa saat lagi.'));
+            exit();
         }
 
         echo json_encode(array('success' => true));

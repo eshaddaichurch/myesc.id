@@ -72,9 +72,20 @@ class Akun_model extends CI_Model
         return $this->db->update('jemaat', $dataUpload);
     }
 
-    public function update($data, $filekartukeluarga, $idjemaat)
+    /**
+     * Update data jemaat yang sedang login (selalu berdasarkan idjemaat di session).
+     *
+     * $filekartukeluarga dan $idjemaat bersifat OPSIONAL supaya pemanggil yang hanya
+     * mengubah beberapa kolom (ganti password, ubah nomor HP) cukup memanggil update($data).
+     * Kalau $filekartukeluarga kosong, simpanDokumen() otomatis dilewati.
+     */
+    public function update($data, $filekartukeluarga = null, $idjemaat = null)
     {
         try {
+            if (empty($idjemaat)) {
+                $idjemaat = $this->session->userdata('idjemaat');
+            }
+
             $this->db->trans_begin();
 
             $this->db->where('idjemaat', $this->session->userdata('idjemaat'));
@@ -98,6 +109,7 @@ class Akun_model extends CI_Model
             }
         } catch (\Throwable $th) {
             $this->db->trans_rollback();
+            log_message('error', 'Akun_model::update gagal: ' . $th->getMessage());
             return false;
         }
     }
