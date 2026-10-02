@@ -343,8 +343,12 @@
           <!-- ===== FORM CARD ===== -->
           <div class="password-main-card">
 
-            <!-- data-bv="off" dipakai sebagai penanda supaya script global tidak menempelkan BootstrapValidator ke form ini -->
-            <form action="<?php echo site_url('akun/simpanubahpassword') ?>" method="post" id="formUbahPassword" data-bv="off">
+            <!--
+              PENTING: id form ini HARUS unik. Modal "Lupa Password" (dimuat di template untuk semua halaman)
+              sudah memakai id "formUbahPassword" dan memasang handler yang memanggil login/updateResetPassword.
+              Kalau id ini sama, handler modal ikut mencegat form ini dan muncul "Token reset password tidak valid".
+            -->
+            <form action="<?php echo site_url('akun/simpanubahpassword') ?>" method="post" id="formGantiPasswordAkun">
 
               <!-- Info Box -->
               <div class="info-box">
@@ -443,21 +447,6 @@
     </section>
 
     <script>
-      // ===== GUARD: matikan BootstrapValidator kalau ke-attach otomatis oleh script global =====
-      // Form ini sudah punya validasi manual sendiri (checkPasswordStrength, validatePasswordMatch, dll),
-      // jadi BootstrapValidator tidak dibutuhkan dan justru menyebabkan error karena struktur
-      // form ini pakai class "form-group-custom", bukan struktur default Bootstrap yang diharapkan library itu.
-      (function () {
-        var $form = window.jQuery ? jQuery('#formUbahPassword') : null;
-        if ($form && $form.data('bootstrapValidator')) {
-          try {
-            $form.bootstrapValidator('destroy');
-          } catch (e) {
-            console.warn('Gagal destroy bootstrapValidator:', e);
-          }
-        }
-      })();
-
       // Toggle Show/Hide Password
       function togglePassword(fieldId) {
         const field = document.getElementById(fieldId);
@@ -524,7 +513,7 @@
       }
 
       // Form Submit Handler
-      document.getElementById('formUbahPassword').addEventListener('submit', function(e) {
+      document.getElementById('formGantiPasswordAkun').addEventListener('submit', function(e) {
         const passwordlama = document.getElementById('passwordlama').value;
         const passwordbaru1 = document.getElementById('passwordbaru1').value;
         const passwordbaru2 = document.getElementById('passwordbaru2').value;
