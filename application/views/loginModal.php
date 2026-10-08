@@ -212,7 +212,11 @@
             }, 400);
           });
         } else {
-          swal('Informasi', cekLoginResult.msg, 'info');
+          // Login gagal: ingatkan lagi supaya pakai metode yang sama dengan saat verifikasi
+          swal('Informasi',
+               cekLoginResult.msg +
+               '\n\nPastikan kamu login memakai nomor WhatsApp atau email yang sudah kamu verifikasi.',
+               'info');
         }
       })
       .fail(function() {
@@ -231,6 +235,36 @@
     passwordInput.setAttribute("type", type);
     this.classList.toggle("fa-eye");
     this.classList.toggle("fa-eye-slash");
+  });
+
+  // ===== POP UP PENGINGAT METODE LOGIN =====
+  // Muncul sekali setiap modal login dibuka, saat user menyentuh kolom username
+  var loginHintShown = false;
+
+  $('#loginModal').on('show.bs.modal', function () {
+    loginHintShown = false;   // reset setiap modal dibuka
+  });
+
+  $('#emaillogin').on('focus', function () {
+    if (loginHintShown) return;
+    loginHintShown = true;
+
+    var input = this;
+    input.blur();             // tutup keyboard HP supaya pop up tidak tertutup
+
+    swal({
+      title: "Login sesuai cara verifikasi",
+      text: "Gunakan cara login yang sama dengan saat kamu memverifikasi akun:\n\n" +
+            "• Verifikasi lewat WhatsApp → login dengan nomor WhatsApp (08xxxxxxxxxx)\n" +
+            "• Verifikasi lewat Email → login dengan alamat email\n" +
+            "• Sudah verifikasi WhatsApp dan Email → bebas login dengan salah satunya\n\n" +
+            "Login dengan cara yang belum diverifikasi akan gagal.",
+      icon: "info",
+      button: "Mengerti"
+    }).then(function () {
+      // kembalikan kursor ke kolom username setelah pop up ditutup
+      setTimeout(function () { input.focus(); }, 200);
+    });
   });
 
   // ===== HANDLER SIGN-IN WITH GOOGLE =====
