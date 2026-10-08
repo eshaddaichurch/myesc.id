@@ -868,15 +868,55 @@
 </div>
 
 
+
 <script>
 /* ============================================================
    CUSTOM STEPPER LOGIC
-   Menggantikan SmartWizard sepenuhnya
    Total 4 step: Mulai -> Data Diri -> Konfirmasi -> Verifikasi OTP
+   + Pending registrasi disimpan di localStorage supaya modal bisa
+     lanjut ke step OTP walau halaman di-refresh / tab dimatikan HP
    ============================================================ */
 
 var regCurrentStep = 1;
 var regTotalSteps  = 4;
+var regIsGuest     = <?= $this->session->userdata('idjemaat') ? 'false' : 'true' ?>;
+
+// ===== PENDING REGISTRASI (localStorage) =====
+var REG_PENDING_KEY    = 'myesc_reg_pending';
+var REG_PENDING_MAX_MS = 60 * 60 * 1000; // 1 jam
+
+function savePendingReg(data) {
+  try {
+    data.ts = Date.now();
+    localStorage.setItem(REG_PENDING_KEY, JSON.stringify(data));
+  } catch (e) {}
+}
+
+function getPendingReg() {
+  try {
+    var raw = localStorage.getItem(REG_PENDING_KEY);
+    if (!raw) return null;
+    var p = JSON.parse(raw);
+    if (!p || !p.idjemaat || (Date.now() - p.ts) > REG_PENDING_MAX_MS) {
+      clearPendingReg();
+      return null;
+    }
+    return p;
+  } catch (e) {
+    return null;
+  }
+}
+
+function clearPendingReg() {
+  try { localStorage.removeItem(REG_PENDING_KEY); } catch (e) {}
+}
+
+// Dipanggil dari tempat lain (mis. modal login) untuk membuka modal langsung di step OTP
+function bukaRegistrasiLanjutOtp(pending) {
+  savePendingReg(pending);
+  window.regResuming = true;
+  $('#registrasiModal').modal('show');
+}
 
 // Daftar field wajib per step (diisi/disembunyikan sesuai kondisi)
 function getRequiredFields() {
@@ -940,7 +980,7 @@ function regGoTo(step) {
     regIsiKonfirmasi();
   } else if (step === 4) {
     // Step OTP: sembunyikan SELURUH footer, satu-satunya aksi adalah
-    // tombol "Verifikasi Kode" di dalam kartu (menghindari 2 tombol membingungkan)
+    // tombol "Verifikasi" di dalam kartu (menghindari 2 tombol membingungkan)
     $('#regFooter').hide();
   } else {
     $('#regBtnPrev').show();
@@ -948,7 +988,6 @@ function regGoTo(step) {
     $('#regBtnNext').show();
     $('#regBtnNext').html('Selanjutnya <i class="fas fa-arrow-right"></i>');
   }
-
 
   // Scroll ke atas modal
   $('#registrasiModal .modal-content').scrollTop(0);
@@ -969,7 +1008,8 @@ function regNext() {
 }
 
 function regPrev() {
-  if (regCurrentStep > 1) {
+  // Dari step 4 tidak boleh mundur: akun sudah tersimpan di database
+  if (regCurrentStep > 1 && regCurrentStep < 4) {
     regGoTo(regCurrentStep - 1);
   }
 }
@@ -1075,13 +1115,37 @@ $(document).on('change', 'input[name="sudahpernahfondationclass"]', function() {
   alasanmembuatakun();
 });
 
-// Set visual awal
+var otpCountdownTimer = null;
+
 $(document).ready(function() {
-  // Default: belum → sembunyikan field nik dll
+  // Default: belum -> sembunyikan field nik dll
   alasanmembuatakun();
   regGoTo(1);
-  // Reset saat modal dibuka
+
+  // Saat modal akan dibuka
   $('#registrasiModal').on('show.bs.modal', function() {
+    clearInterval(otpCountdownTimer);
+
+    // ===== MODE LANJUT OTP (resume): jangan reset apa pun, langsung ke step 4 =====
+    if (window.regResuming) {
+      window.regResuming = false;
+      var p = getPendingReg();
+      if (p) {
+        window.currentIdJemaatEnc = p.idjemaat;
+        window.otpNohpTujuan      = p.nohp;
+        window.otpEmailTujuanVal  = p.email;
+        window.otpWaVerified      = false;
+        window.otpEmailVerified   = false;
+        $('#iconCheckWa, #iconCheckEmail').hide();
+        $('#otpAlert').removeClass('show');
+
+        regGoTo(4);
+        switchOtpTab(p.tipe || 'wa', true); // true = langsung tampilkan tombol Kirim Ulang
+        return;
+      }
+    }
+
+    // ===== MODE NORMAL: reset semuanya =====
     regGoTo(1);
     kosongkanText();
     $('.reg-input').removeClass('has-error');
@@ -1091,11 +1155,11 @@ $(document).ready(function() {
     // Reset state OTP
     $('#otpAlert').removeClass('show');
     $('#otpInput').val('').prop('disabled', false);
-    $('#btnVerifikasiOtp').prop('disabled', false).html('Verifikasi Kode');
+    $('#btnVerifikasiOtp').prop('disabled', false)
+      .html('<i class="fas fa-check"></i> Verifikasi & Selesaikan Pendaftaran');
     $('#btnKirimUlangOtp').show();
     $('#otpCountdown').hide();
     $('#iconCheckWa, #iconCheckEmail').hide();
-    clearInterval(otpCountdownTimer);
     window.otpWaVerified = false;
     window.otpEmailVerified = false;
     window.otpTabAktif = 'wa';
@@ -1103,6 +1167,15 @@ $(document).ready(function() {
     $('#chkSyaratDanKetentuan').prop('checked', false);
     $('#sudahpernahfondationclass2').prop('checked', true).trigger('change');
   });
+
+  // ===== AUTO-LANJUT: kalau ada pendaftaran yang belum selesai verifikasi OTP =====
+  if (regIsGuest) {
+    var pending = getPendingReg();
+    if (pending) {
+      // jeda sedikit supaya semua script halaman (bootstrap, swal) selesai dimuat
+      setTimeout(function() { bukaRegistrasiLanjutOtp(pending); }, 400);
+    }
+  }
 });
 
 // ===== AUTO-NORMALISASI NOMOR WHATSAPP =====
@@ -1180,6 +1253,15 @@ function onFinish() {
             window.otpEmailTujuanVal = $('#email').val();
             window.otpTabAktif = 'wa'; // default tab pertama kali dibuka
 
+            // SIMPAN ke localStorage: kalau halaman ke-refresh / tab dimatikan HP,
+            // modal otomatis kembali ke step OTP, jemaat tidak perlu daftar ulang
+            savePendingReg({
+              idjemaat: response.idjemaat,
+              nohp    : window.otpNohpTujuan,
+              email   : window.otpEmailTujuanVal,
+              tipe    : 'wa'
+            });
+
             switchOtpTab('wa');
             regGoTo(4);
           } else {
@@ -1198,9 +1280,9 @@ function onFinish() {
   });
 }
 
-
 // ===== SWITCH TAB (WA <-> Email) =====
-function switchOtpTab(tipe) {
+// skipCountdown = true -> langsung tampilkan tombol "Kirim Ulang" (dipakai saat resume)
+function switchOtpTab(tipe, skipCountdown) {
   window.otpTabAktif = tipe;
   $('#otpInput').val('');
   $('#otpAlert').removeClass('show');
@@ -1223,8 +1305,17 @@ function switchOtpTab(tipe) {
     $('#btnKirimUlangOtp, #otpCountdown').hide();
   } else {
     $('#otpInput').prop('disabled', false).val('');
-    $('#btnVerifikasiOtp').prop('disabled', false).html('Verifikasi Kode');
-    startOtpCountdown(tipe);
+    $('#btnVerifikasiOtp').prop('disabled', false)
+      .html('<i class="fas fa-check"></i> Verifikasi & Selesaikan Pendaftaran');
+
+    if (skipCountdown) {
+      // Resume: kode lama mungkin sudah kadaluarsa, biarkan jemaat langsung minta kode baru
+      clearInterval(otpCountdownTimer);
+      $('#otpCountdown').hide();
+      $('#btnKirimUlangOtp').show();
+    } else {
+      startOtpCountdown(tipe);
+    }
   }
 }
 
@@ -1261,7 +1352,9 @@ $(document).on('click', '#btnVerifikasiOtp', function() {
     })
     .done(function(response) {
       if (response.success) {
-        // Berhasil: langsung selesai, tidak perlu tombol tambahan lagi
+        // Berhasil: pendaftaran tuntas, hapus data pending
+        clearPendingReg();
+
         swal({
           title: "Berhasil!",
           text: "Akun kamu sudah aktif. Silakan login untuk melanjutkan.",
@@ -1286,8 +1379,6 @@ $(document).on('click', '#btnVerifikasiOtp', function() {
 });
 
 // ===== COUNTDOWN & KIRIM ULANG OTP (mengikuti tab aktif) =====
-var otpCountdownTimer = null;
-
 function startOtpCountdown(tipe) {
   var sisa = 60;
   $('#btnKirimUlangOtp').hide();
@@ -1344,10 +1435,30 @@ $(document).on('input', '#otpInput', function() {
   $('#otpAlert').removeClass('show');
 });
 
-
-// ===== onCancel =====
+// ===== onCancel (DENGAN PENJAGAAN di step OTP) =====
 function onCancel() {
-  $('#registrasiModal').modal('hide');
+  var belumSelesai = (regCurrentStep === 4)
+                     && getPendingReg()
+                     && !window.otpWaVerified
+                     && !window.otpEmailVerified;
+
+  if (!belumSelesai) {
+    $('#registrasiModal').modal('hide');
+    return;
+  }
+
+  swal({
+    title: "Pendaftaran belum selesai",
+    text: "Akun kamu sudah dibuat, tinggal verifikasi kode OTP. " +
+          "Kalau ditutup, kamu bisa melanjutkan nanti lewat Login.",
+    icon: "warning",
+    buttons: ["Lanjut Verifikasi", "Tutup"],
+    dangerMode: true
+  }).then(function(tutup) {
+    if (tutup) {
+      $('#registrasiModal').modal('hide');
+    }
+  });
 }
 
 // ===== kosongkanText (tetap seperti aslinya) =====

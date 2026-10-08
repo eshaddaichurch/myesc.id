@@ -157,6 +157,8 @@
   }
 </style>
 
+
+
 <script>
   $("#formLogin").bootstrapValidator({
     feedbackIcons: {
@@ -194,6 +196,21 @@
       .done(function(cekLoginResult) {
         if (cekLoginResult.success) {
           window.open("<?php echo site_url() ?>", "_self");
+        } else if (cekLoginResult.needverify) {
+          // Akun sudah ada tapi belum verifikasi -> lanjutkan ke step OTP, bukan daftar ulang
+          swal('Verifikasi Diperlukan',
+               'Akun kamu sudah terdaftar tapi belum diverifikasi. Silakan masukkan kode OTP.',
+               'info').then(function() {
+            $('#loginModal').modal('hide');
+            setTimeout(function() {
+              bukaRegistrasiLanjutOtp({
+                idjemaat: cekLoginResult.idjemaat,
+                nohp    : cekLoginResult.nohp,
+                email   : cekLoginResult.email,
+                tipe    : cekLoginResult.tipe
+              });
+            }, 400);
+          });
         } else {
           swal('Informasi', cekLoginResult.msg, 'info');
         }

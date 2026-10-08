@@ -84,6 +84,41 @@ class Login extends CI_Controller
         }
     }
 
+    // public function cekLoginAjax()
+    // {
+    //     $email = $this->input->post('email');
+    //     $password = $this->input->post('password');
+
+    //     if (empty($email) and empty($password)) {
+    //         echo json_encode(array('msg' => 'Email atau password tidak boleh kosong'));
+    //     } else {
+    //         $kirim = $this->Login_model->cekLoginAjax($email, md5($password));
+    //         if ($kirim->num_rows() > 0) {
+    //             $result = $kirim->row();
+
+    //             // check email atau nomor whatsapp
+    //             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //                 if ($result->statusverifikasiemail == 0) {
+    //                     echo json_encode(array('msg' => 'Email anda belum di verifikasi.'));
+    //                     exit();
+    //                 }
+    //             } else {
+    //                 if ($result->statusverifikasiwa == 0) {
+    //                     echo json_encode(array('msg' => 'Nomor whatsapp anda belum di verifikasi.'));
+    //                     exit();
+    //                 }
+    //             }
+
+    //             $this->App->reloadSession($result->idjemaat);
+
+    //             echo json_encode(array('success' => true));
+    //         } else {
+    //             echo json_encode(array('msg' => 'Password atau Email anda salah. harap periksa lagi'));
+    //         }
+    //     }
+    // }
+
+
     public function cekLoginAjax()
     {
         $email = $this->input->post('email');
@@ -98,15 +133,31 @@ class Login extends CI_Controller
 
                 // check email atau nomor whatsapp
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    if ($result->statusverifikasiemail == 0) {
-                        echo json_encode(array('msg' => 'Email anda belum di verifikasi.'));
-                        exit();
-                    }
+                    $belumVerifikasi = ($result->statusverifikasiemail == 0);
+                    $tipe = 'email';
+                    $pesan = 'Email anda belum di verifikasi.';
                 } else {
-                    if ($result->statusverifikasiwa == 0) {
-                        echo json_encode(array('msg' => 'Nomor whatsapp anda belum di verifikasi.'));
-                        exit();
-                    }
+                    $belumVerifikasi = ($result->statusverifikasiwa == 0);
+                    $tipe = 'wa';
+                    $pesan = 'Nomor whatsapp anda belum di verifikasi.';
+                }
+
+                if ($belumVerifikasi) {
+                    // Ambil kontak terbaru dari tabel jemaat untuk ditampilkan di step OTP
+                    $rowKontak = $this->db->query(
+                        'SELECT nohp, email FROM jemaat WHERE idjemaat = ?',
+                        array($result->idjemaat)
+                    )->row();
+
+                    echo json_encode(array(
+                        'needverify' => true,
+                        'tipe' => $tipe,
+                        'idjemaat' => $this->encrypt->encode($result->idjemaat),
+                        'nohp' => $rowKontak ? $rowKontak->nohp : '',
+                        'email' => $rowKontak ? $rowKontak->email : '',
+                        'msg' => $pesan,
+                    ));
+                    exit();
                 }
 
                 $this->App->reloadSession($result->idjemaat);
@@ -205,7 +256,7 @@ class Login extends CI_Controller
             WHERE ip_address = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)
         ', array($ip))->row()->jumlah;
 
-        if ($countIp >= 3) {
+        if ($countIp >= 10) {
             echo json_encode(array('msg' => 'Terlalu banyak percobaan pendaftaran dari perangkat/koneksi ini. Silakan coba lagi dalam 1 jam, atau hubungi hotline gereja WhatsApp 085550001187.'));
             exit();
         }
