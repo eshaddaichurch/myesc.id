@@ -1,8 +1,13 @@
 <!-- ============================================================
-     MODAL REGISTRASI - REDESIGN MOBILE-FRIENDLY
-     Mengganti SmartWizard dengan custom stepper ringan
-     Semua logic PHP/JS backend dipertahankan
-     + STEP 4: VERIFIKASI OTP WHATSAPP (ganti dari link ke kode)
+     MODAL REGISTRASI - REDESIGN MOBILE-FRIENDLY (APP-LIKE)
+     - Custom stepper ringan (tanpa SmartWizard)
+     - HP: layar penuh + safe area (notch & gesture bar)
+     - Layout: header (tetap) | body (scroll) | footer (tetap)
+     - Semua logic PHP/JS backend dipertahankan
+     - STEP 4: Verifikasi OTP (WhatsApp / Email)
+
+     PENTING: di <head> halaman harus ada:
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
      ============================================================ -->
 
      <style>
@@ -18,33 +23,30 @@
     --radius: 16px;
   }
 
-  /* ===== MODAL WRAPPER ===== */
+  /* ============================================================
+     LAYOUT MODAL (DESKTOP): kartu di tengah layar
+     ============================================================ */
+  #registrasiModal { padding: 0 !important; }
+
   #registrasiModal .modal-dialog {
-    margin: 0 auto;
     max-width: 520px;
+    margin: 16px auto;
   }
 
   #registrasiModal .modal-content {
+    display: flex;
+    flex-direction: column;
     border: none;
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-  }
-
-  @media (max-width: 576px) {
-    #registrasiModal .modal-dialog {
-      margin: 8px;
-      max-width: 100%;
-    }
-    #registrasiModal .modal-content {
-      border-radius: 20px;
-      max-height: 96vh;
-      overflow-y: auto;
-    }
+    max-height: calc(100vh - 32px);    /* fallback browser lama */
+    max-height: calc(100dvh - 32px);   /* tinggi layar yang benar-benar terlihat */
   }
 
   /* ===== HEADER ===== */
   .reg-header {
+    flex: 0 0 auto;
     background: linear-gradient(135deg, #ff6a20 0%, #ff5008 100%);
     padding: 28px 28px 20px;
     color: #fff;
@@ -100,12 +102,6 @@
     display: flex;
     align-items: center;
     gap: 0;
-  }
-
-  .reg-step-item {
-    display: flex;
-    align-items: center;
-    flex: 1;
   }
 
   .reg-step-circle {
@@ -169,8 +165,13 @@
     flex-shrink: 0;
   }
 
-  /* ===== BODY ===== */
+  /* ===== BODY (SATU-SATUNYA BAGIAN YANG SCROLL) ===== */
   .reg-body {
+    flex: 1 1 auto;
+    min-height: 0;                     /* wajib agar overflow jalan di flex */
+    overflow-y: auto;
+    overscroll-behavior: contain;      /* scroll tidak tembus ke halaman belakang */
+    -webkit-overflow-scrolling: touch;
     padding: 0;
     background: var(--gray-bg);
   }
@@ -178,7 +179,7 @@
   /* ===== PANEL PER STEP ===== */
   .reg-panel {
     display: none;
-    padding: 24px 28px 100px;
+    padding: 24px 28px;
     animation: fadeSlide 0.3s ease;
   }
 
@@ -189,12 +190,6 @@
   @keyframes fadeSlide {
     from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (max-width: 576px) {
-    .reg-panel {
-      padding: 20px 20px 110px;
-    }
   }
 
   /* ===== JUDUL STEP ===== */
@@ -226,11 +221,7 @@
     position: relative;
   }
 
-  .reg-choice-card:hover {
-    border-color: var(--orange);
-    background: var(--orange-light);
-  }
-
+  .reg-choice-card:hover,
   .reg-choice-card.selected {
     border-color: var(--orange);
     background: var(--orange-light);
@@ -293,7 +284,7 @@
     border: 1.5px solid var(--gray-border);
     border-radius: 12px;
     padding: 0 16px;
-    font-size: 15px;
+    font-size: 16px;                   /* 16px: cegah auto-zoom di iPhone */
     background: #fff;
     color: var(--dark);
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -332,6 +323,7 @@
   @media (max-width: 480px) {
     .reg-input-row {
       grid-template-columns: 1fr;
+      gap: 0;
     }
   }
 
@@ -410,7 +402,8 @@
     margin-top: 2px;
   }
 
-  .reg-syarat label {
+  .reg-syarat label,
+  .reg-syarat span {
     font-size: 13px;
     color: #374151;
     line-height: 1.6;
@@ -423,26 +416,30 @@
     text-decoration: underline;
   }
 
-  /* ===== FOOTER TOMBOL (FIXED) ===== */
-  .reg-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #fff;
-    padding: 14px 20px 20px;
-    box-shadow: 0 -6px 24px rgba(0,0,0,0.1);
-    z-index: 9999;
-    display: flex;
-    gap: 10px;
+  .recaptcha-disclaimer {
+    font-size: 11px;
+    color: var(--gray-text);
+    line-height: 1.5;
+    margin: 14px 2px 0;
   }
 
-  /* Di dalam modal, footer tidak fixed tapi sticky */
-  #registrasiModal .reg-footer {
-    position: sticky;
-    bottom: 0;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  .recaptcha-disclaimer a {
+    color: var(--gray-text);
+    text-decoration: underline;
+  }
+
+  /* ===== FOOTER TOMBOL (TETAP DI BAWAH, MENGHORMATI SAFE AREA) ===== */
+  .reg-footer {
+    position: static;
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    background: #fff;
     border-top: 1px solid var(--gray-border);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 2;
   }
 
   .reg-btn {
@@ -458,6 +455,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    white-space: nowrap;
   }
 
   .reg-btn-prev {
@@ -514,43 +512,77 @@
     display: block;
   }
 
+  /* ============================================================
+     HP: LAYAR PENUH SEPERTI APLIKASI + SAFE AREA
+     ============================================================ */
+  @media (max-width: 576px) {
+    #registrasiModal .modal-dialog {
+      margin: 0;
+      max-width: 100%;
+      width: 100%;
+      height: 100vh;                   /* fallback */
+      height: 100dvh;                  /* tinggi layar yang benar-benar terlihat */
+      min-height: 0;
+      align-items: stretch;
+    }
 
-  /* ===== FIX TOMBOL FOOTER DI MOBILE ===== */
-  .reg-btn {
-    white-space: nowrap;
-  }
+    #registrasiModal .modal-content {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
 
-  .reg-footer {
-    flex-wrap: nowrap;
-  }
+    /* Safe area ATAS: notch / status bar / punch-hole */
+    #registrasiModal .reg-header {
+      padding:
+        calc(16px + env(safe-area-inset-top, 0px))
+        calc(20px + env(safe-area-inset-right, 0px))
+        14px
+        calc(20px + env(safe-area-inset-left, 0px));
+      border-radius: 0 0 24px 24px;    /* lengkung bawah ala aplikasi */
+    }
 
-  @media (max-width: 480px) {
-    .reg-footer {
-      padding: 10px 14px 14px;
+    #registrasiModal .reg-header-top {
+      margin-bottom: 14px;
+    }
+
+    #registrasiModal .reg-panel {
+      padding:
+        20px
+        calc(20px + env(safe-area-inset-right, 0px))
+        24px
+        calc(20px + env(safe-area-inset-left, 0px));
+    }
+
+    /* Safe area BAWAH: gesture bar / tombol navigasi */
+    #registrasiModal .reg-footer {
       gap: 8px;
+      padding:
+        10px
+        calc(14px + env(safe-area-inset-right, 0px))
+        calc(12px + env(safe-area-inset-bottom, 0px))
+        calc(14px + env(safe-area-inset-left, 0px));
     }
 
     .reg-btn {
-      height: 46px;
-      font-size: 13px;
+      height: 48px;
+      font-size: 14px;
       padding: 0 8px;
       gap: 5px;
-    }
-
-    .reg-btn svg,
-    .reg-btn i {
-      font-size: 12px;
     }
 
     .reg-btn-cancel {
       flex: 0 0 auto;
       width: 64px;
-      font-size: 12px;
+      height: 48px;
+      font-size: 13px;
     }
 
     .reg-btn-prev {
       flex: 0 0 auto;
-      width: 90px;
+      width: 100px;
     }
 
     .reg-btn-next {
@@ -558,6 +590,16 @@
       min-width: 0;
     }
   }
+
+  /* ===== HP layar pendek / landscape ===== */
+  @media (max-height: 640px) {
+    #registrasiModal .reg-header-logo img { width: 28px; height: 28px; }
+    #registrasiModal .reg-step-label { display: none; }
+    #registrasiModal .reg-panel-subtitle { margin-bottom: 16px; }
+  }
+
+  /* Badge reCAPTCHA disembunyikan (disclaimer sudah ada di step 3) */
+  .grecaptcha-badge { visibility: hidden; }
 </style>
 
 
@@ -573,7 +615,7 @@
             <img src="<?php echo base_url('myesc.id/images/icon.png') ?>" alt="Logo">
             <span>MYESC</span>
           </div>
-          <button class="reg-header-close" onclick="onCancel()">
+          <button type="button" class="reg-header-close" onclick="onCancel()" aria-label="Tutup">
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -602,7 +644,7 @@
         </div>
       </div>
 
-      <!-- BODY -->
+      <!-- BODY (scroll) -->
       <div class="reg-body">
 
         <!-- ========== STEP 1 ========== -->
@@ -610,20 +652,20 @@
           <div class="reg-panel-title">Selamat Datang!</div>
           <div class="reg-panel-subtitle">Sudah pernah membuat Kartu Anggota Jemaat ESC?</div>
 
-          <label class="reg-choice-card selected" for="sudahpernahfondationclass1" id="card_sudah">
+          <label class="reg-choice-card" for="sudahpernahfondationclass1" id="card_sudah">
             <input type="radio" name="sudahpernahfondationclass"
                    id="sudahpernahfondationclass1" value="1">
-            
+
             <div class="reg-choice-text">
               <strong>Sudah Pernah</strong>
               <span>Saya sudah memiliki Kartu Anggota Jemaat ESC sebelumnya</span>
             </div>
           </label>
 
-          <label class="reg-choice-card" for="sudahpernahfondationclass2" id="card_belum">
+          <label class="reg-choice-card selected" for="sudahpernahfondationclass2" id="card_belum">
             <input type="radio" name="sudahpernahfondationclass"
                    id="sudahpernahfondationclass2" value="2" checked>
-            
+
             <div class="reg-choice-text">
               <strong>Belum Pernah</strong>
               <span>Ini pertama kali saya mendaftar di ESC</span>
@@ -654,7 +696,7 @@
             <div class="reg-field divnik">
               <label>NIK (KTP) <span class="req">*</span></label>
               <input type="text" class="reg-input" id="nik" name="nik"
-                     maxlength="16" placeholder="16 digit Nomor Induk Kependudukan">
+                     maxlength="16" inputmode="numeric" placeholder="16 digit Nomor Induk Kependudukan">
               <div class="reg-error-msg" id="err_nik">NIK harus 16 digit</div>
             </div>
 
@@ -687,7 +729,7 @@
               <div class="reg-field divnohp">
                 <label>Nomor WhatsApp <span class="req">*</span></label>
                 <input type="tel" class="reg-input" id="nohp" name="nohp"
-                       placeholder="08xxxxxxxxxx">
+                       inputmode="numeric" placeholder="08xxxxxxxxxx">
                 <div class="reg-error-msg" id="err_nohp">Nomor WhatsApp tidak boleh kosong</div>
               </div>
             </div>
@@ -790,7 +832,7 @@
             <a href="https://policies.google.com/terms" target="_blank">Persyaratan Layanan</a>
             Google.
           </p>
-        
+
         </div>
 
         <!-- ========== STEP 4: VERIFIKASI OTP (SATU KARTU, TAB WA/EMAIL) ========== -->
@@ -824,7 +866,7 @@
 
             <div class="reg-field" style="margin-bottom:12px;">
               <input type="text" class="reg-input" id="otpInput" maxlength="6"
-                     inputmode="numeric" pattern="[0-9]*"
+                     inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
                      placeholder="Masukkan 6 digit kode"
                      style="letter-spacing: 8px; font-size: 20px; text-align: center; font-weight: 700;">
             </div>
@@ -852,13 +894,13 @@
 
       <!-- FOOTER TOMBOL -->
       <div class="reg-footer" id="regFooter">
-        <button class="reg-btn reg-btn-cancel" onclick="onCancel()" id="regBtnCancel">
+        <button type="button" class="reg-btn reg-btn-cancel" onclick="onCancel()" id="regBtnCancel">
           Batal
         </button>
-        <button class="reg-btn reg-btn-prev" id="regBtnPrev" onclick="regPrev()" style="display:none">
+        <button type="button" class="reg-btn reg-btn-prev" id="regBtnPrev" onclick="regPrev()" style="display:none">
           <i class="fas fa-arrow-left"></i> Kembali
         </button>
-        <button class="reg-btn reg-btn-next" id="regBtnNext" onclick="regNext()">
+        <button type="button" class="reg-btn reg-btn-next" id="regBtnNext" onclick="regNext()">
           Selanjutnya <i class="fas fa-arrow-right"></i>
         </button>
       </div>
@@ -989,8 +1031,8 @@ function regGoTo(step) {
     $('#regBtnNext').html('Selanjutnya <i class="fas fa-arrow-right"></i>');
   }
 
-  // Scroll ke atas modal
-  $('#registrasiModal .modal-content').scrollTop(0);
+  // Scroll ke atas (yang scroll sekarang .reg-body, bukan .modal-content)
+  $('#registrasiModal .reg-body').scrollTop(0);
 }
 
 function regNext() {
@@ -1081,6 +1123,8 @@ function regValidasiStep2() {
   if (!valid) {
     var alertEl = $('#regAlert');
     alertEl.text('Harap lengkapi semua field yang wajib diisi.').addClass('show');
+    // Gulir ke atas supaya alert & error pertama terlihat
+    $('#registrasiModal .reg-body').scrollTop(0);
     setTimeout(function() { alertEl.removeClass('show'); }, 3000);
   } else {
     $('#regAlert').removeClass('show');
@@ -1113,6 +1157,16 @@ $(document).on('change', 'input[name="sudahpernahfondationclass"]', function() {
     $('.divnik, .divtempatlahir, .divalamatrumah').hide();
   }
   alasanmembuatakun();
+});
+
+// ===== KEYBOARD HP: field yang aktif digulir ke tengah area terlihat =====
+$(document).on('focus', '#registrasiModal .reg-input', function () {
+  var el = this;
+  setTimeout(function () {
+    if (el.scrollIntoView) {
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }, 300); // tunggu keyboard muncul
 });
 
 var otpCountdownTimer = null;
