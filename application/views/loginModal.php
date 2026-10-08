@@ -477,11 +477,36 @@
     $('#loginHint').removeClass('show').attr('aria-hidden', 'true');
   });
 
-  $('#emaillogin').on('focus', function () {
+  // PENTING: jangan buka pop up saat 'focus' yang dipicu mouse/sentuh.
+  // Kalau pop up muncul di tengah klik, mousedown terjadi di input tetapi mouseup
+  // jatuh di overlay. Browser lalu menembakkan 'click' ke elemen .modal, dan Bootstrap
+  // mengira itu klik di luar dialog, sehingga modal login ikut tertutup.
+  // Solusi: buka pop up SETELAH klik selesai (event 'click'),
+  // atau saat fokus lewat keyboard (Tab).
+  var loginHintPointer = false;
+
+  $('#emaillogin').on('mousedown touchstart', function () {
+    loginHintPointer = true;
+  });
+
+  $(document).on('mouseup touchend touchcancel', function () {
+    setTimeout(function () { loginHintPointer = false; }, 0);
+  });
+
+  function tampilkanLoginHint(input) {
     if (loginHintShown) return;
     loginHintShown = true;
-    this.blur();            // tutup keyboard HP supaya pop up tidak tertutup
+    input.blur();           // tutup keyboard HP supaya pop up tidak tertutup
     bukaLoginHint();
+  }
+
+  $('#emaillogin').on('click', function () {
+    tampilkanLoginHint(this);
+  });
+
+  $('#emaillogin').on('focus', function () {
+    if (loginHintPointer) return;   // fokus karena mouse/sentuh: tunggu event 'click'
+    tampilkanLoginHint(this);       // fokus lewat keyboard (Tab)
   });
 
   $('#loginHintBtn, #loginHintBackdrop').on('click', tutupLoginHint);
