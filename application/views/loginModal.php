@@ -109,13 +109,13 @@
           </div>
         </div>
 
-        <div class="login-hint-row">
+        <!-- <div class="login-hint-row">
           <div class="login-hint-row-icon"><i class="fas fa-check-double"></i></div>
           <div class="login-hint-row-text">
             <strong>Sudah verifikasi keduanya</strong>
             <span>Bebas login dengan salah satunya</span>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="login-hint-note">
