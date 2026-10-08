@@ -76,6 +76,56 @@
       </div>
     </div>
   </div>
+
+  <!-- ============================================================
+       POP UP PENGINGAT METODE LOGIN
+       Di HP tampil sebagai bottom sheet, di desktop sebagai kartu tengah
+       ============================================================ -->
+  <div id="loginHint" class="login-hint" role="dialog" aria-modal="true"
+       aria-labelledby="loginHintTitle" aria-hidden="true">
+    <div class="login-hint-backdrop" id="loginHintBackdrop"></div>
+
+    <div class="login-hint-sheet">
+      <div class="login-hint-handle"></div>
+
+      <div class="login-hint-icon"><i class="fas fa-info"></i></div>
+      <h5 class="login-hint-title" id="loginHintTitle">Login sesuai cara verifikasi</h5>
+      <p class="login-hint-sub">Gunakan cara yang sama dengan saat kamu memverifikasi akun.</p>
+
+      <div class="login-hint-list">
+        <div class="login-hint-row">
+          <div class="login-hint-row-icon"><i class="fab fa-whatsapp"></i></div>
+          <div class="login-hint-row-text">
+            <strong>Verifikasi lewat WhatsApp</strong>
+            <span>Login dengan nomor WhatsApp, contoh 08123456789</span>
+          </div>
+        </div>
+
+        <div class="login-hint-row">
+          <div class="login-hint-row-icon"><i class="fas fa-envelope"></i></div>
+          <div class="login-hint-row-text">
+            <strong>Verifikasi lewat Email</strong>
+            <span>Login dengan alamat email kamu</span>
+          </div>
+        </div>
+
+        <div class="login-hint-row">
+          <div class="login-hint-row-icon"><i class="fas fa-check-double"></i></div>
+          <div class="login-hint-row-text">
+            <strong>Sudah verifikasi keduanya</strong>
+            <span>Bebas login dengan salah satunya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-hint-note">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Login dengan cara yang belum diverifikasi akan gagal.</span>
+      </div>
+
+      <button type="button" class="btn btn-orange rounded-pill w-100" id="loginHintBtn">Mengerti</button>
+    </div>
+  </div>
 </div>
 
 <!-- Script Google Identity Services (resmi dari Google) -->
@@ -154,6 +204,175 @@
   #formLogin .has-success .form-control {
     border-color: #eee !important;
     box-shadow: none !important;
+  }
+
+  /* ============================================================
+     POP UP PENGINGAT METODE LOGIN
+     ============================================================ */
+  .login-hint {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: flex-end;           /* HP: menempel di bawah (bottom sheet) */
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease, visibility 0.25s;
+    text-align: left;
+  }
+
+  .login-hint.show {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .login-hint-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.55);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+  }
+
+  .login-hint-sheet {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    background: #fff;
+    border-radius: 28px 28px 0 0;
+    padding: 12px 24px calc(24px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(40px);
+    transition: transform 0.3s cubic-bezier(.2, .8, .2, 1);
+    max-height: 92vh;
+    max-height: 92dvh;
+    overflow-y: auto;
+  }
+
+  .login-hint.show .login-hint-sheet {
+    transform: translateY(0);
+  }
+
+  .login-hint-handle {
+    width: 40px;
+    height: 4px;
+    border-radius: 4px;
+    background: #e5e7eb;
+    margin: 0 auto 18px;
+  }
+
+  .login-hint-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6a20, #ff5008);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 14px;
+    box-shadow: 0 8px 20px rgba(255, 80, 8, 0.3);
+  }
+
+  .login-hint-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+    margin: 0 0 6px;
+  }
+
+  .login-hint-sub {
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6b7280;
+    margin: 0 0 20px;
+  }
+
+  .login-hint-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .login-hint-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: #f7f8fa;
+    border: 1.5px solid #e8eaed;
+    border-radius: 16px;
+  }
+
+  .login-hint-row-icon {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #fff3ee;
+    color: #ff5008;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .login-hint-row-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 2px;
+  }
+
+  .login-hint-row-text span {
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #6b7280;
+  }
+
+  .login-hint-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    background: #fff3ee;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #c2410c;
+    font-weight: 600;
+  }
+
+  .login-hint-note i {
+    margin-top: 2px;
+    color: #ff5008;
+  }
+
+  #loginHintBtn {
+    height: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(255, 80, 8, 0.3);
+  }
+
+  /* Desktop: kartu di tengah layar */
+  @media (min-width: 576px) {
+    .login-hint { align-items: center; }
+    .login-hint-sheet {
+      border-radius: 24px;
+      padding-bottom: 24px;
+      transform: translateY(16px) scale(0.97);
+    }
+    .login-hint.show .login-hint-sheet { transform: none; }
+    .login-hint-handle { display: none; }
   }
 </style>
 
@@ -241,30 +460,38 @@
   // Muncul sekali setiap modal login dibuka, saat user menyentuh kolom username
   var loginHintShown = false;
 
+  function bukaLoginHint() {
+    $('#loginHint').addClass('show').attr('aria-hidden', 'false');
+    setTimeout(function () { $('#loginHintBtn').trigger('focus'); }, 80);
+  }
+
+  function tutupLoginHint() {
+    $('#loginHint').removeClass('show').attr('aria-hidden', 'true');
+    // kembalikan kursor ke kolom username (flag sudah true, jadi tidak muncul lagi)
+    setTimeout(function () { $('#emaillogin').trigger('focus'); }, 250);
+  }
+
+  // Reset setiap modal login dibuka
   $('#loginModal').on('show.bs.modal', function () {
-    loginHintShown = false;   // reset setiap modal dibuka
+    loginHintShown = false;
+    $('#loginHint').removeClass('show').attr('aria-hidden', 'true');
   });
 
   $('#emaillogin').on('focus', function () {
     if (loginHintShown) return;
     loginHintShown = true;
+    this.blur();            // tutup keyboard HP supaya pop up tidak tertutup
+    bukaLoginHint();
+  });
 
-    var input = this;
-    input.blur();             // tutup keyboard HP supaya pop up tidak tertutup
+  $('#loginHintBtn, #loginHintBackdrop').on('click', tutupLoginHint);
 
-    swal({
-      title: "Login sesuai cara verifikasi",
-      text: "Gunakan cara login yang sama dengan saat kamu memverifikasi akun:\n\n" +
-            "• Verifikasi lewat WhatsApp → login dengan nomor WhatsApp (08xxxxxxxxxx)\n" +
-            "• Verifikasi lewat Email → login dengan alamat email\n" +
-            "• Sudah verifikasi WhatsApp dan Email → bebas login dengan salah satunya\n\n" +
-            "Login dengan cara yang belum diverifikasi akan gagal.",
-      icon: "info",
-      button: "Mengerti"
-    }).then(function () {
-      // kembalikan kursor ke kolom username setelah pop up ditutup
-      setTimeout(function () { input.focus(); }, 200);
-    });
+  // Tombol Esc menutup pop up saja (bukan seluruh modal login)
+  $('#loginHint').on('keydown', function (e) {
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      tutupLoginHint();
+    }
   });
 
   // ===== HANDLER SIGN-IN WITH GOOGLE =====
