@@ -155,7 +155,7 @@
       transition: all var(--transition);
       cursor: pointer;
       position: relative;
-      overflow: visible; /* Ubah dari hidden ke visible */
+      overflow: visible;
       display: flex;
       flex-direction: column;
       min-height: fit-content;
@@ -180,8 +180,8 @@
     .loc-card__top {
       display: flex; align-items: flex-start; gap: 12px;
       overflow: hidden;
-      padding-bottom: 24px; /* Tambah ruang di bawah untuk tombol */
-      margin-bottom: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 4px;
     }
     .loc-card__pin {
       width: 34px; height: 34px; flex-shrink: 0;
@@ -211,11 +211,12 @@
       overflow: hidden;
     }
     .loc-card__actions {
-      
-      margin-top: auto; /* Dorong ke bawah jika konten pendek */
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
       padding-left: 46px;
-      padding-bottom: 4px; /* Beri ruang aman di bawah */
-      flex-wrap: wrap; /* Agar tombol turun ke baris baru jika sempit */
+      padding-bottom: 4px;
+      flex-wrap: wrap;
     }
     .loc-card__btn-dir {
       flex: 1; background: var(--orange); color: #fff; border: none;
@@ -371,22 +372,8 @@
     }
     .loc-count-badge span { color: var(--orange); font-weight: 800; }
 
-
-    /* Efek halus untuk marker logo ESC */
-    .esc-marker-icon {
-      transition: filter 0.2s ease, transform 0.2s ease;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-    }
-    .esc-marker-icon:hover {
-      filter: drop-shadow(0 4px 8px rgba(255,80,8,0.4));
-      transform: scale(1.05);
-    }
-
-    /* Pastikan popup tetap rapi dengan font Figtree */
-    .leaflet-popup-content {
-      font-family: var(--sans) !important;
-      margin: 12px 16px !important;
-    }
+    /* Info window Google Maps pakai font Figtree */
+    .gm-style .gm-style-iw-c { font-family: var(--sans) !important; }
   </style>
 
   <!-- HERO -->
@@ -472,107 +459,141 @@
 
 <?php $this->load->view('template/festavalive/footer'); ?>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-
 <script>
   var idmenu = "<?php echo $this->encrypt->encode($menu) ?>";
-  const centerMap = [0.03718835906169617, 110.35766601562501];
-  var map = L.map('map').setView(centerMap, 8);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap © CARTO',
-    subdomains: 'abcd', maxZoom: 19
-  }).addTo(map);
+  const centerMap = { lat: 0.03718835906169617, lng: 110.35766601562501 };
 
+  var map, infoWindow;
   var allData    = [];
   var allMarkers = [];
 
+  // Dipanggil otomatis oleh Google Maps setelah script selesai dimuat
   function initMap() {
-  $.ajax({
-    url: '<?php echo site_url('ourlocation/getcabang') ?>',
-    type: 'GET',
-    dataType: 'json'
-  }).done(function(dataCabang) {
-    $('#branchList').empty();
-    $('#emptyState').hide();
-
-    if (!dataCabang || !dataCabang.length) {
-      $('#branchList').html('<div class="loc-empty" style="display:block"><div class="loc-empty-icon">📍</div><p>Belum ada lokasi tersedia.</p></div>');
-      return;
-    }
-
-    allData = dataCabang;
-    $('#countNum').text(dataCabang.length);
-    $('#mapSubLabel').text(dataCabang.length + ' lokasi ditemukan');
-
-    // ✅ Icon marker dengan logo ESC
-    const escIcon = L.icon({
-      iconUrl: 'https://myesc.id/myesc.id/assets/FestavaLive/video/esc10.png',
-      iconSize: [36, 36],
-      iconAnchor: [18, 36],
-      popupAnchor: [0, -36]
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: centerMap,
+      zoom: 8,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false
     });
+    infoWindow = new google.maps.InfoWindow();
+    loadCabang();
+  }
 
-    dataCabang.forEach((cabang, i) => {
-      const lat = parseFloat(cabang.latitude);
-      const lng = parseFloat(cabang.longitude);
+  function popupHtml(c) {
+    return `<div style="font-family:'Figtree',sans-serif;padding:2px">
+      <strong style="font-size:13px;color:#111">${c.namacabang}</strong><br>
+      <span style="font-size:12px;color:#666;line-height:1.5">${c.alamatlengkap}</span></div>`;
+  }
 
-      // Gunakan icon yang sama untuk semua marker
-      const marker = L.marker([lat, lng], { icon: escIcon }).addTo(map)
-        .bindPopup(`<div style="font-family:'Figtree',sans-serif;padding:4px"><strong style="font-size:13px;color:#111">${cabang.namacabang}</strong><br><span style="font-size:12px;color:#666;line-height:1.5">${cabang.alamatlengkap}</span></div>`);
-      allMarkers.push(marker);
+  function loadCabang() {
+    $.ajax({
+      url: '<?php echo site_url('ourlocation/getcabang') ?>',
+      type: 'GET',
+      dataType: 'json'
+    }).done(function(dataCabang) {
+      $('#branchList').empty();
+      $('#emptyState').hide();
 
-      const card = `
-        <div class="loc-card ${i === 0 ? 'active' : ''}" id="card-${i}" onclick="focusMap(${lat},${lng},this,${i})">
-          <div class="loc-card__top">
-            <div class="loc-card__pin">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-              </svg>
+      if (!dataCabang || !dataCabang.length) {
+        $('#branchList').html('<div class="loc-empty" style="display:block"><div class="loc-empty-icon">📍</div><p>Belum ada lokasi tersedia.</p></div>');
+        return;
+      }
+
+      allData = dataCabang;
+      $('#countNum').text(dataCabang.length);
+      $('#mapSubLabel').text(dataCabang.length + ' lokasi ditemukan');
+
+      // Icon marker dengan logo ESC
+      const escIcon = {
+        url: 'https://myesc.id/myesc.id/assets/FestavaLive/video/esc10.png',
+        scaledSize: new google.maps.Size(36, 36),
+        anchor: new google.maps.Point(18, 36)
+      };
+
+      dataCabang.forEach((cabang, i) => {
+        const lat = parseFloat(cabang.latitude);
+        const lng = parseFloat(cabang.longitude);
+
+        const marker = new google.maps.Marker({
+          position: { lat: lat, lng: lng },
+          map: map,
+          title: cabang.namacabang,
+          icon: escIcon
+        });
+        marker.addListener('click', function() {
+          openInfo(i);
+          setActiveCard(i, true);
+        });
+        allMarkers.push(marker);
+
+        const card = `
+          <div class="loc-card ${i === 0 ? 'active' : ''}" id="card-${i}" onclick="focusMap(${lat},${lng},this,${i})">
+            <div class="loc-card__top">
+              <div class="loc-card__pin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="loc-card__meta">
+                <div class="loc-card__num-badge"></div>
+                <div class="loc-card__title">${cabang.namacabang}</div>
+              </div>
             </div>
-            <div class="loc-card__meta">
-              <div class="loc-card__num-badge"></div>
-              <div class="loc-card__title">${cabang.namacabang}</div>
+            <div class="loc-card__address">${cabang.alamatlengkap}</div>
+            <div class="loc-card__actions">
+              <button class="loc-card__btn-dir" onclick="event.stopPropagation();openDir(${lat},${lng})">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                </svg>
+                Petunjuk Arah
+              </button>
+              <a class="loc-card__btn-detail" href="<?php echo site_url('ourlocation/detail/') ?>${cabang.namacabang_slug}/${idmenu}">
+                Detail →
+              </a>
             </div>
-          </div>
-          <div class="loc-card__address">${cabang.alamatlengkap}</div>
-          <div class="loc-card__actions">
-            <button class="loc-card__btn-dir" onclick="event.stopPropagation();openDir(${lat},${lng})">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-              </svg>
-              Petunjuk Arah
-            </button>
-            <a class="loc-card__btn-detail" href="<?php echo site_url('ourlocation/detail/') ?>${cabang.namacabang_slug}/${idmenu}">
-              Detail →
-            </a>
-          </div>
-        </div>`;
-      $('#branchList').append(card);
+          </div>`;
+        $('#branchList').append(card);
+      });
+
+      map.setCenter({ lat: parseFloat(dataCabang[0].latitude), lng: parseFloat(dataCabang[0].longitude) });
+      map.setZoom(12);
+      openInfo(0);
     });
+  }
 
-    if (dataCabang[0]) {
-      map.setView([parseFloat(dataCabang[0].latitude), parseFloat(dataCabang[0].longitude)], 12);
-      allMarkers[0] && allMarkers[0].openPopup();
+  function openInfo(idx) {
+    if (!allMarkers[idx] || !allData[idx]) return;
+    infoWindow.setContent(popupHtml(allData[idx]));
+    infoWindow.open({ map: map, anchor: allMarkers[idx] });
+  }
+
+  function setActiveCard(idx, scroll) {
+    document.querySelectorAll('.loc-card').forEach(c => c.classList.remove('active'));
+    const el = document.getElementById('card-' + idx);
+    if (el) {
+      el.classList.add('active');
+      if (scroll) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  });
-}
+  }
 
   function openDir(lat, lng) {
     window.open('https://www.google.com/maps/dir/?api=1&destination=' + lat + ',' + lng, '_blank');
   }
 
   function focusMap(lat, lng, el, idx) {
-    map.setView([lat, lng], 15, { animate: true });
-    document.querySelectorAll('.loc-card').forEach(c => c.classList.remove('active'));
-    if (el) el.classList.add('active');
-    if (allMarkers[idx]) allMarkers[idx].openPopup();
+    map.panTo({ lat: lat, lng: lng });
+    map.setZoom(15);
+    setActiveCard(idx, false);
+    openInfo(idx);
     // Mobile: auto-switch to map tab
     if (window.innerWidth <= 900) switchTab('map', document.querySelectorAll('.loc-tab')[1]);
   }
 
   function resetMapView() {
-    map.setView(centerMap, 8, { animate: true });
+    infoWindow.close();
+    map.setCenter(centerMap);
+    map.setZoom(8);
     document.querySelectorAll('.loc-card').forEach(c => c.classList.remove('active'));
   }
 
@@ -586,6 +607,7 @@
       const addr = (allData[i]?.alamatlengkap || '').toLowerCase();
       const match = !q || name.includes(q) || addr.includes(q);
       card.style.display = match ? '' : 'none';
+      if (allMarkers[i]) allMarkers[i].setVisible(match);
       if (match) visible++;
     });
     document.getElementById('searchCount').textContent = q ? visible + ' hasil' : '';
@@ -602,10 +624,18 @@
     } else {
       document.getElementById('mapPanel').classList.add('active');
       document.getElementById('listPanel').classList.remove('active');
-      setTimeout(() => map.invalidateSize(), 100);
+      setTimeout(() => {
+        if (!map) return;
+        const c = map.getCenter();
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter(c);
+      }, 100);
     }
   }
-
-  initMap();
 </script>
-</body>
+
+<!-- GANTI YOUR_API_KEY dengan API key kamu (hanya di sini) -->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDL_VPQafdHymj72LW9LsQIns5awIY6Bpo&callback=initMap&loading=async">
+</script>
+</body></html>
