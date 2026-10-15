@@ -8,8 +8,8 @@ class Whatsapp_sender_resmi {
 
     public function __construct() {
         $this->ci =& get_instance();
-        $this->ci->config->load('whatsapp');
-        $this->config = $this->ci->config->item('whatsapp');
+        $this->ci->config->load('whatsapp_resmi');
+        $this->config = $this->ci->config->item('whatsapp_resmi');
     }
 
     // Kirim pesan teks biasa

@@ -5,7 +5,8 @@ class Whatsapp_webhook extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->config->load('whatsapp');
+        // $this->config->load('whatsapp');
+        $this->config->load('whatsapp_resmi');
     }
 
     // Menangani verifikasi awal dari Meta (GET) dan pesan masuk (POST)
@@ -21,7 +22,7 @@ class Whatsapp_webhook extends CI_Controller {
 
     // Step verifikasi webhook (dipanggil sekali saat Anda klik "Verify and save" di dashboard Meta)
     private function verify() {
-        $verify_token = $this->config->item('whatsapp')['verify_token'];
+        $verify_token = $this->config->item('whatsapp_resmi')['verify_token'];
 
         $mode      = $this->input->get('hub_mode');
         $token     = $this->input->get('hub_verify_token');
@@ -50,7 +51,7 @@ class Whatsapp_webhook extends CI_Controller {
         $value   = $changes['value'] ?? null;
         $message = $value['messages'][0] ?? null;
 
-        if ($message) {
+        if ($message && ($message['type'] ?? '') === 'text') {
             $from = $message['from']; // nomor pengirim
             $text = strtolower(trim($message['text']['body'] ?? ''));
 
