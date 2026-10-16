@@ -15,6 +15,11 @@
     } else {
         $qrContent = $rowProfil->idjemaat;
     }
+
+    // URL foto profil (kosong jika belum ada foto)
+    $fotoUrl = !empty($rowProfil->foto)
+        ? base_url('myesc.id/admin/uploads/jemaat/' . $rowProfil->foto)
+        : '';
     ?>
 
     <style>
@@ -481,11 +486,16 @@
     <!-- Library QR Code (client-side, ringan, tidak perlu install apapun di server) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-      // Data QR sudah ditentukan di PHP sesuai status jemaat (Umum/Simpatisan -> idjemaat saja,
-      // Jemaat -> idjemaat-noaj). json_encode dipakai agar aman dari karakter khusus.
-      var qrContent = <?php echo json_encode($qrContent); ?>;
-      var namaJemaat = <?php echo json_encode($rowProfil->namalengkap); ?>;
+      // ================================================
+      // DATA DARI PHP (json_encode supaya aman dari karakter khusus)
+      // ================================================
+      var qrContent    = <?php echo json_encode($qrContent); ?>;
+      var namaJemaat   = <?php echo json_encode($rowProfil->namalengkap); ?>;
+      var noajJemaat   = <?php echo json_encode($rowProfil->noaj ? $rowProfil->noaj : '—'); ?>;
+      var statusJemaat = <?php echo json_encode($rowProfil->statusjemaat); ?>;
+      var fotoUrl      = <?php echo json_encode($fotoUrl); ?>;
 
+      // QR untuk TAMPILAN di halaman (ukuran kecil, tidak berubah)
       new QRCode(document.getElementById("qrcode-box"), {
         text: qrContent,
         width: 160,
@@ -496,9 +506,10 @@
       });
 
       // ================================================
-      // FITUR DOWNLOAD QR CODE SAAT DIKLIK
-      // Nama file diambil dari nama lengkap jemaat, dibersihkan
-      // dari karakter yang tidak valid untuk nama file.
+      // FITUR DOWNLOAD: KARTU ANGGOTA (foto + nama + QR)
+      // Kartu digambar di <canvas> 1080 x 1450 px.
+      // QR hitam pekat di atas kotak putih dengan margin lebar
+      // supaya tetap mudah di-scan.
       // ================================================
       function sanitizeFileName(name) {
         return name
@@ -508,27 +519,211 @@
           .replace(/\s+/g, '_');          // spasi jadi underscore
       }
 
-      document.getElementById('qrcode-box').addEventListener('click', function () {
-        // qrcodejs merender <canvas> (utama) dan <img> (fallback). Kita ambil canvas dulu.
-        var canvas = this.querySelector('canvas');
-        var fileName = sanitizeFileName(namaJemaat || 'qrcode-jemaat') + '.png';
+      // Helper: gambar persegi dengan sudut membulat
+      function roundRectPath(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      }
 
-        if (canvas) {
-          var link = document.createElement('a');
-          link.download = fileName;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
+      // Helper: muat gambar, hasilnya null kalau gagal
+      function loadImage(src) {
+        return new Promise(function (resolve) {
+          if (!src) { resolve(null); return; }
+          var img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload  = function () { resolve(img); };
+          img.onerror = function () { resolve(null); };
+          img.src = src;
+        });
+      }
+
+      // Helper: buat canvas QR hitam-putih berukuran persis `size` px
+      function makeQRCanvas(text, size) {
+        var tmp = document.createElement('div');
+        tmp.style.position = 'absolute';
+        tmp.style.left = '-9999px';
+        tmp.style.top = '-9999px';
+        document.body.appendChild(tmp);
+
+        new QRCode(tmp, {
+          text: text,
+          width: size,
+          height: size,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+
+        var c = tmp.querySelector('canvas');
+        // salin ke canvas baru supaya aman setelah elemen sementara dihapus
+        var copy = document.createElement('canvas');
+        copy.width = size;
+        copy.height = size;
+        copy.getContext('2d').drawImage(c, 0, 0);
+
+        document.body.removeChild(tmp);
+        return copy;
+      }
+
+      async function buildMemberCard() {
+        var W = 1080, H = 1450;
+
+        // Pastikan font Figtree sudah siap dipakai canvas
+        try {
+          await Promise.all([
+            document.fonts.load('700 40px Figtree'),
+            document.fonts.load('600 30px Figtree')
+          ]);
+        } catch (e) { /* kalau gagal, pakai font cadangan */ }
+
+        var FONT = 'Figtree, Arial, sans-serif';
+        var photo = await loadImage(fotoUrl);
+
+        var cv = document.createElement('canvas');
+        cv.width = W;
+        cv.height = H;
+        var ctx = cv.getContext('2d');
+
+        // ---------- Latar gradien oranye ----------
+        var g = ctx.createLinearGradient(0, 0, W, H);
+        g.addColorStop(0, '#e04607');
+        g.addColorStop(0.55, '#ff6b35');
+        g.addColorStop(1, '#ffb347');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+
+        // Lingkaran dekorasi
+        ctx.fillStyle = 'rgba(255,255,255,0.07)';
+        ctx.beginPath(); ctx.arc(W - 40, 20, 260, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+        ctx.beginPath(); ctx.arc(60, H - 40, 200, 0, Math.PI * 2); ctx.fill();
+
+        // ---------- Brand ----------
+        ctx.textBaseline = 'alphabetic';
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.font = '700 30px ' + FONT;
+        ctx.fillText('EL SHADDAI CHURCH', 80, 120);
+
+        // ---------- Foto profil (lingkaran) ----------
+        var ax = 80 + 100, ay = 300, ar = 100;   // pusat x, pusat y, radius
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(ax, ay, ar, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        if (photo) {
+          // object-fit: cover
+          var s = Math.max((ar * 2) / photo.width, (ar * 2) / photo.height);
+          var dw = photo.width * s, dh = photo.height * s;
+          ctx.drawImage(photo, ax - dw / 2, ay - dh / 2, dw, dh);
         } else {
-          // fallback kalau browser hanya render <img> (jarang terjadi)
-          var img = this.querySelector('img');
-          if (img) {
-            var link2 = document.createElement('a');
-            link2.download = fileName;
-            link2.href = img.src;
-            link2.target = '_blank';
-            link2.click();
-          }
+          ctx.fillStyle = 'rgba(255,255,255,0.18)';
+          ctx.fillRect(ax - ar, ay - ar, ar * 2, ar * 2);
+          // ikon orang sederhana
+          ctx.fillStyle = 'rgba(255,255,255,0.9)';
+          ctx.beginPath(); ctx.arc(ax, ay - 20, 32, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(ax, ay + 55, 55, 38, 0, Math.PI, 0); ctx.fill();
         }
+        ctx.restore();
+        // Border foto
+        ctx.beginPath();
+        ctx.arc(ax, ay, ar, 0, Math.PI * 2);
+        ctx.lineWidth = 7;
+        ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+        ctx.stroke();
+
+        // ---------- Nama, No. AJ, status ----------
+        var tx = ax + ar + 45;            // posisi teks (x)
+        var maxTextW = W - 80 - tx;       // lebar maksimal teks
+
+        // Nama: kecilkan font otomatis kalau terlalu panjang
+        var nameSize = 56;
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 ' + nameSize + 'px ' + FONT;
+        while (ctx.measureText(namaJemaat).width > maxTextW && nameSize > 30) {
+          nameSize -= 2;
+          ctx.font = '700 ' + nameSize + 'px ' + FONT;
+        }
+        ctx.fillText(namaJemaat, tx, 270);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '500 30px ' + FONT;
+        ctx.fillText('No. Anggota Jemaat: ' + noajJemaat, tx, 325);
+
+        // Pill status
+        ctx.font = '700 28px ' + FONT;
+        var pillText = String(statusJemaat);
+        var pillTextW = ctx.measureText(pillText).width;
+        var pillX = tx, pillY = 355, pillH = 60;
+        var pillW = 28 + 22 + 14 + pillTextW + 28;
+        roundRectPath(ctx, pillX, pillY, pillW, pillH, pillH / 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.2)';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.stroke();
+        ctx.fillStyle = '#b8ffb8';
+        ctx.beginPath(); ctx.arc(pillX + 28 + 9, pillY + pillH / 2, 9, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(pillText, pillX + 28 + 22 + 14, pillY + pillH / 2 + 10);
+
+        // ---------- Kartu QR (transparan) ----------
+        var cardX = 80, cardY = 470, cardW = W - 160, cardH = 900;
+        roundRectPath(ctx, cardX, cardY, cardW, cardH, 40);
+        ctx.fillStyle = 'rgba(255,255,255,0.14)';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.font = '700 28px ' + FONT;
+        ctx.textAlign = 'center';
+        ctx.fillText('QR CODE ANGGOTA', W / 2, cardY + 75);
+
+        // ---------- Kotak putih + QR ----------
+        var qrSize = 600;                 // ukuran QR (px)
+        var pad = 60;                     // margin putih di sekeliling QR (quiet zone)
+        var boxSize = qrSize + pad * 2;   // 720 px
+        var boxX = (W - boxSize) / 2;
+        var boxY = cardY + 120;
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.2)';
+        ctx.shadowBlur = 30;
+        ctx.shadowOffsetY = 10;
+        roundRectPath(ctx, boxX, boxY, boxSize, boxSize, 36);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.restore();
+
+        var qrCanvas = makeQRCanvas(qrContent, qrSize);
+        ctx.imageSmoothingEnabled = false;  // jaga kotak QR tetap tajam
+        ctx.drawImage(qrCanvas, boxX + pad, boxY + pad, qrSize, qrSize);
+
+        return cv;
+      }
+
+      document.getElementById('qrcode-box').addEventListener('click', async function () {
+        var fileName = sanitizeFileName(namaJemaat || 'qrcode-jemaat') + '.png';
+        var cv = await buildMemberCard();
+
+        var link = document.createElement('a');
+        link.download = fileName;
+        link.href = cv.toDataURL('image/png');
+        document.body.appendChild(link); // supaya jalan juga di Firefox
+        link.click();
+        document.body.removeChild(link);
       });
 
       $(document).on('change', '#foto', function(e) {
