@@ -1,8 +1,4 @@
-<?php
-
-use PhpParser\Node\Stmt\Echo_;
-
-$this->load->view('template/festavalive/header'); ?>
+<?php $this->load->view('template/festavalive/header'); ?>
 
 <body>
 
@@ -602,6 +598,19 @@ $this->load->view('template/festavalive/header'); ?>
             background: #c23c05;
             }
 
+            /* Keterangan jika jemaat sudah dibaptis */
+            .esc-sudah-baptis {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: #fff3ec;
+            border: 1px solid #e04607;
+            color: #c23c05;
+            font-weight: 500;
+            line-height: 1.5;
+            margin-bottom: 0;
+            }
+
             /* Responsif */
             @media (max-width: 768px) {
             .esc-container {
@@ -677,11 +686,20 @@ $this->load->view('template/festavalive/header'); ?>
                         Melalui baptisan, kita menyatakan komitmen untuk hidup sebagai ciptaan baru, terlepas dari kuasa dosa,
                         dan hidup dalam kemenangan untuk memuliakan Tuhan dalam seluruh aspek kehidupan kita.
                     </p>
-                    <div class="esc-buttons">
-                        <a href="<?php echo site_url('baptisan/tambah'); ?>" class="esc-btn-light">
-                        Ajukan Permohonan →
-                        </a>
-                    </div>
+
+                    <?php if (!empty($sudahBaptis)) { ?>
+                        <!-- Jemaat sudah punya akta baptis: tombol disembunyikan -->
+                        <p class="esc-sudah-baptis">
+                            Anda sudah dibaptis dan memiliki akta baptis, sehingga tidak perlu mengajukan permohonan baptisan lagi.
+                        </p>
+                    <?php } else { ?>
+                        <div class="esc-buttons">
+                            <a href="<?php echo site_url('baptisan/tambah'); ?>" class="esc-btn-light">
+                            Ajukan Permohonan →
+                            </a>
+                        </div>
+                    <?php } ?>
+
                     </div>
 
                 </div>

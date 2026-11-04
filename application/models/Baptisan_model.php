@@ -28,6 +28,16 @@ class Baptisan_model extends CI_Model
         }
     }
 
+        // Cek apakah jemaat sudah punya akta baptis (berarti sudah dibaptis)
+    public function sudahPunyaAkta($idjemaat)
+    {
+        $rs = $this->db->query(
+            "select idakta from v_aktabaptisan where idjemaat = ? limit 1",
+            array($idjemaat)
+        );
+        return $rs->num_rows() > 0;
+    }
+
 
     public function simpan($data)
     {
