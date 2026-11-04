@@ -16,18 +16,41 @@ class Baptisan extends MY_Controller
     {
         $rsBaptisan = $this->Baptisan_model->getAll();
         $idmenu = $this->encrypt->decode($idmenu);
+
+        // Cek apakah jemaat yang login sudah punya akta baptis
+        $idjemaat = $this->session->userdata('idjemaat');
+        $sudahBaptis = false;
+        if (!empty($idjemaat)) {
+            $sudahBaptis = $this->Baptisan_model->sudahPunyaAkta($idjemaat);
+        }
+
         $data['rsBaptisan'] = $rsBaptisan;
+        $data['sudahBaptis'] = $sudahBaptis;
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $this->load->view('baptisan/baptisanesc', $data);
     }
 
+    // Jika jemaat sudah punya akta baptis, tolak dan arahkan kembali
+    private function tolakJikaSudahBaptis()
+    {
+        if ($this->Baptisan_model->sudahPunyaAkta($this->session->userdata('idjemaat'))) {
+            $pesan = "<script>
+                            swal('Sudah Dibaptis', 'Anda sudah memiliki akta baptis, sehingga tidak dapat mengajukan permohonan baptisan lagi.', 'info');
+                        </script>";
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('baptisan');
+        }
+    }
 
     public function tambah($idmenu = "")
     {
         $this->wajibLogin();
 
         $this->cekStatusWhatsApp();
+
+        // Cek apakah jemaat sudah punya akta baptis
+        $this->tolakJikaSudahBaptis();
 
         //Cek apakah ada permohonan sebelumnya
         if ($this->Baptisan_model->adaPermohonanSebelumnya()) {
@@ -62,7 +85,7 @@ class Baptisan extends MY_Controller
 
         if ($rowBaptisan->status != "Permohonan") {
             $pesan = "<script>
-                            swal('Sudah " . $rowBaptisan->status . "', 'Status permohonan baptisan sudah " . $rowBaptisan->status . ", sehingga tidak boleh dihapus lagi.', 'warning');
+                            swal('Sudah " . $rowBaptisan->status . "', 'Status permohonan baptisan sudah " . $rowBaptisan->status . ", sehingga tidak boleh diubah lagi.', 'warning');
                         </script>";
             $this->session->set_flashdata('pesan', $pesan);
             redirect('baptisan');
@@ -87,6 +110,9 @@ class Baptisan extends MY_Controller
         $status = 'Permohonan';
 
         if (empty($idcarebaptisan)) {
+
+            // Permohonan baru: tolak jika sudah punya akta baptis
+            $this->tolakJikaSudahBaptis();
 
             $data = array(
                 'tglinsert' => $tglinsert,
@@ -147,7 +173,7 @@ class Baptisan extends MY_Controller
                         </script>";
         } else {
             $pesan = "<script>
-                            swal('Gagal', 'Permohonan gagal dihapus. Error: " . $simpan['message'] . "', 'warning');
+                            swal('Gagal', 'Permohonan gagal dihapus. Error: " . $hapus['message'] . "', 'warning');
                         </script>";
         }
         $this->session->set_flashdata('pesan', $pesan);
