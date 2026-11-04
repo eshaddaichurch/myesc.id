@@ -3,8 +3,8 @@
   @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
 
   :root {
-    --pm-primary: #0076bd;
-    --pm-primary-soft: rgba(0, 118, 189, 0.08);
+    --pm-primary: #ea580c;
+    --pm-primary-soft: rgba(234, 88, 12, 0.08);
     --pm-text: #1f2937;
     --pm-muted: #6b7280;
     --pm-border: #e5e7eb;
@@ -14,14 +14,31 @@
     --pm-warning-soft: #fef3c7;
     --pm-danger: #dc2626;
     --pm-danger-soft: #fee2e2;
-    --pm-info: #0284c7;
-    --pm-info-soft: #e0f2fe;
+    --pm-info: #111827;
+    --pm-info-soft: #f3f4f6;
   }
 
   body {
     font-family: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
     background: #f4f6fa;
     color: var(--pm-text);
+    position: relative;
+  }
+
+  /* Hero band berwarna di belakang navbar */
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 280px;
+    background: linear-gradient(135deg, #111111 0%, #1f1f1f 60%, #ea580c 100%);
+    z-index: 0;
+  }
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
   }
 
   .pm-page {
@@ -37,9 +54,10 @@
     font-weight: 800;
     margin: 0 0 6px;
     letter-spacing: -0.3px;
+    color: #fff;
   }
   .pm-header p {
-    color: var(--pm-muted);
+    color: rgba(255, 255, 255, 0.85);
     margin: 0;
     font-size: 15px;
   }
@@ -55,7 +73,7 @@
   .pm-card {
     background: #fff;
     border: 1px solid var(--pm-border);
-    border-left: 4px solid var(--pm-info);
+    border-left: 4px solid #111827;
     border-radius: 14px;
     padding: 20px 22px;
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
@@ -147,7 +165,7 @@
   .pm-btn.edit {
     color: var(--pm-primary);
     background: var(--pm-primary-soft);
-    border-color: rgba(0, 118, 189, 0.2);
+    border-color: rgba(234, 88, 12, 0.25);
   }
   .pm-btn.edit:hover {
     background: var(--pm-primary);
