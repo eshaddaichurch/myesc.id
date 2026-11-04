@@ -690,7 +690,7 @@
                     <?php if (!empty($sudahBaptis)) { ?>
                         <!-- Jemaat sudah punya akta baptis: tombol disembunyikan -->
                         <p class="esc-sudah-baptis">
-                            Anda sudah dibaptis dan sudah memiliki akta baptis, sehingga tidak perlu mengajukan permohonan baptisan lagi.
+                            akta baptis anda sudah di cetak, sehingga tidak perlu mengajukan permohonan baptisan lagi.
                         </p>
                     <?php } else { ?>
                         <div class="esc-buttons">
