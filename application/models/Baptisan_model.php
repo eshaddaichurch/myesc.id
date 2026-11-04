@@ -38,6 +38,16 @@ class Baptisan_model extends CI_Model
         return $rs->num_rows() > 0;
     }
 
+        // Cek apakah jemaat sudah punya sertifikat Foundation Class 1 (KL002)
+    public function sudahPunyaSertifikatFC1($idjemaat)
+    {
+        $rs = $this->db->query(
+            "select idregistrasikelas from registrasikelas where idjemaat = ? and idkelas = 'KL002' limit 1",
+            array($idjemaat)
+        );
+        return $rs->num_rows() > 0;
+    }
+
 
     public function simpan($data)
     {

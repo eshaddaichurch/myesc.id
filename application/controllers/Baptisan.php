@@ -17,15 +17,20 @@ class Baptisan extends MY_Controller
         $rsBaptisan = $this->Baptisan_model->getAll();
         $idmenu = $this->encrypt->decode($idmenu);
 
-        // Cek apakah jemaat yang login sudah punya akta baptis
+        // Cek status jemaat yang login
         $idjemaat = $this->session->userdata('idjemaat');
         $sudahBaptis = false;
+        $belumFC1 = false;
         if (!empty($idjemaat)) {
             $sudahBaptis = $this->Baptisan_model->sudahPunyaAkta($idjemaat);
+            if (!$sudahBaptis) {
+                $belumFC1 = !$this->Baptisan_model->sudahPunyaSertifikatFC1($idjemaat);
+            }
         }
 
         $data['rsBaptisan'] = $rsBaptisan;
         $data['sudahBaptis'] = $sudahBaptis;
+        $data['belumFC1'] = $belumFC1;
         $data['menu'] = $idmenu;
         $data["rowinfogereja"] = $this->Home_model->get_infogereja();
         $this->load->view('baptisan/baptisanesc', $data);
@@ -43,6 +48,21 @@ class Baptisan extends MY_Controller
         }
     }
 
+    // Jika jemaat belum punya sertifikat Foundation Class 1, arahkan ke halaman pendaftaran FC1
+    private function tolakJikaBelumFC1()
+    {
+        // Pastikan sudah login, kalau belum arahkan ke login
+        $this->wajibLogin();
+
+        if (!$this->Baptisan_model->sudahPunyaSertifikatFC1($this->session->userdata('idjemaat'))) {
+            $pesan = "<script>
+                            swal('Belum Memenuhi Syarat', 'Untuk mengajukan permohonan baptisan, Anda harus sudah memiliki sertifikat Foundation Class 1. Silakan daftar Foundation Class 1 terlebih dahulu.', 'warning');
+                        </script>";
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('nextstep/kelas/foundation_class_1');
+        }
+    }
+
     public function tambah($idmenu = "")
     {
         $this->wajibLogin();
@@ -51,6 +71,9 @@ class Baptisan extends MY_Controller
 
         // Cek apakah jemaat sudah punya akta baptis
         $this->tolakJikaSudahBaptis();
+
+        // Cek apakah jemaat sudah punya sertifikat Foundation Class 1
+        $this->tolakJikaBelumFC1();
 
         //Cek apakah ada permohonan sebelumnya
         if ($this->Baptisan_model->adaPermohonanSebelumnya()) {
@@ -102,6 +125,9 @@ class Baptisan extends MY_Controller
 
     public function simpan()
     {
+        // Wajib login sebelum menyimpan
+        $this->wajibLogin();
+
         $idcarebaptisan = $this->input->post("idcarebaptisan");
         $tglpermohonan = date('Y-m-d H:i:s');
         $nohpyangbisadihubungi = $this->input->post("nohpyangbisadihubungi");
@@ -113,6 +139,9 @@ class Baptisan extends MY_Controller
 
             // Permohonan baru: tolak jika sudah punya akta baptis
             $this->tolakJikaSudahBaptis();
+
+            // Permohonan baru: tolak jika belum punya sertifikat Foundation Class 1
+            $this->tolakJikaBelumFC1();
 
             $data = array(
                 'tglinsert' => $tglinsert,
