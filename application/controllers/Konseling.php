@@ -192,8 +192,13 @@ class Konseling extends MY_Controller
                         </script>";
         }
 
+        // $this->session->set_flashdata('pesan', $pesan);
+        // redirect('konseling');
+
         $this->session->set_flashdata('pesan', $pesan);
-        redirect('konseling');
+        redirect('permohonansaya');
+
+        
     }
 
     public function hapus($idcarekonseling)
