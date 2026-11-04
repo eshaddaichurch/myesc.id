@@ -76,6 +76,72 @@ class Konseling extends MY_Controller
         $this->load->view('konseling/form', $data);
     }
 
+    // Kirim notifikasi WhatsApp ke admin lewat Fonnte (tidak boleh menggagalkan proses simpan)
+    private function kirimWAAdminKonseling($idjemaat, $nohp, $keterangan)
+    {
+        try {
+            $this->config->load('fonnte', TRUE);
+            $token = $this->config->item('fonnte_token', 'fonnte');
+            $target = $this->config->item('fonnte_admin_konseling', 'fonnte');
+
+            if (empty($token) || empty($target)) {
+                log_message('error', 'Fonnte: token atau nomor admin konseling belum diset di config/fonnte.php');
+                return false;
+            }
+
+            // Ambil nama jemaat yang mengajukan
+            $rowJemaat = $this->db->query(
+                "select namalengkap from jemaat where idjemaat = ? limit 1",
+                array($idjemaat)
+            )->row();
+            $nama = $rowJemaat ? $rowJemaat->namalengkap : '-';
+
+            $keterangan = trim((string) $keterangan);
+            if ($keterangan === '') {
+                $keterangan = '-';
+            }
+
+            $pesan = "*Permohonan Konseling Baru*\n\n"
+                . "Nama: " . $nama . "\n"
+                . "No HP: " . $nohp . "\n"
+                . "Keterangan: " . $keterangan . "\n\n"
+                . "Silakan konfirmasi permohonan ini di halaman admin.";
+
+            $ch = curl_init();
+            curl_setopt_array($ch, array(
+                CURLOPT_URL => 'https://api.fonnte.com/send',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => array(
+                    'target' => $target,
+                    'message' => $pesan,
+                    'countryCode' => '62',
+                ),
+                CURLOPT_HTTPHEADER => array('Authorization: ' . $token),
+                CURLOPT_CONNECTTIMEOUT => 5,
+                CURLOPT_TIMEOUT => 10,
+            ));
+            $response = curl_exec($ch);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            if ($error) {
+                log_message('error', 'Fonnte curl error: ' . $error);
+                return false;
+            }
+
+            $hasil = json_decode($response, true);
+            if (empty($hasil['status'])) {
+                log_message('error', 'Fonnte gagal kirim WA admin konseling: ' . $response);
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            log_message('error', 'Fonnte exception: ' . $e->getMessage());
+            return false;
+        }
+    }
+
     public function simpan()
     {
         $idcarekonseling = $this->input->post("idcarekonseling");
@@ -84,6 +150,7 @@ class Konseling extends MY_Controller
         $keteranganpermohonan = $this->input->post("keteranganpermohonan");
         $tglinsert = date('Y-m-d H:i:s');
         $status = 'Permohonan';
+        $permohonanBaru = false;
 
         if (empty($idcarekonseling)) {
 
@@ -96,6 +163,7 @@ class Konseling extends MY_Controller
                 'keteranganpermohonan' => $keteranganpermohonan,
             );
             $simpan = $this->Konseling_model->simpan($data);
+            $permohonanBaru = true;
         } else {
             $data = array(
                 'tglpermohonan' => $tglpermohonan,
@@ -106,6 +174,15 @@ class Konseling extends MY_Controller
         }
 
         if ($simpan) {
+            // Permohonan baru berhasil: beri tahu admin lewat WhatsApp
+            if ($permohonanBaru) {
+                $this->kirimWAAdminKonseling(
+                    $this->session->userdata('idjemaat'),
+                    $nohpyangbisadihubungi,
+                    $keteranganpermohonan
+                );
+            }
+
             $pesan = "<script>
                             swal('Berhasil', 'Permohonan berhasil disimpan.', 'success');
                         </script>";
