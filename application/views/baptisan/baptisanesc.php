@@ -687,11 +687,23 @@
                         dan hidup dalam kemenangan untuk memuliakan Tuhan dalam seluruh aspek kehidupan kita.
                     </p>
 
+                    
+
                     <?php if (!empty($sudahBaptis)) { ?>
                         <!-- Jemaat sudah punya akta baptis: tombol disembunyikan -->
                         <p class="esc-sudah-baptis">
-                            akta baptis anda sudah di cetak, sehingga tidak perlu mengajukan permohonan baptisan lagi.
+                            Akta baptis Anda sudah dicetak, sehingga tidak perlu mengajukan permohonan baptisan lagi.
                         </p>
+                    <?php } else if (!empty($belumFC1)) { ?>
+                        <!-- Jemaat belum punya sertifikat Foundation Class 1 -->
+                        <p class="esc-sudah-baptis">
+                            Untuk mengajukan permohonan baptisan, Anda harus sudah menyelesaikan Foundation Class 1 dan memiliki sertifikatnya.
+                        </p>
+                        <div class="esc-buttons mt-3">
+                            <a href="<?php echo site_url('nextstep/kelas/foundation_class_1'); ?>" class="esc-btn-light">
+                            Daftar Foundation Class 1 →
+                            </a>
+                        </div>
                     <?php } else { ?>
                         <div class="esc-buttons">
                             <a href="<?php echo site_url('baptisan/tambah'); ?>" class="esc-btn-light">
