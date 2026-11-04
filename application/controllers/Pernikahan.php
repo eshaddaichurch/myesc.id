@@ -78,6 +78,74 @@ class Pernikahan extends MY_Controller
         $this->load->view('pernikahan/form', $data);
     }
 
+    // Kirim notifikasi WhatsApp ke admin lewat Fonnte (tidak boleh menggagalkan proses simpan)
+    private function kirimWAAdminPernikahan($idjemaat, $nohp, $keterangan, $namamempelaipria, $namamempelaiwanita)
+    {
+        try {
+            $this->config->load('fonnte', TRUE);
+            $token = $this->config->item('fonnte_token', 'fonnte');
+            $target = $this->config->item('fonnte_admin_pernikahan', 'fonnte');
+
+            if (empty($token) || empty($target)) {
+                log_message('error', 'Fonnte: token atau nomor admin pernikahan belum diset di config/fonnte.php');
+                return false;
+            }
+
+            // Ambil nama jemaat yang mengajukan
+            $rowJemaat = $this->db->query(
+                "select namalengkap from jemaat where idjemaat = ? limit 1",
+                array($idjemaat)
+            )->row();
+            $nama = $rowJemaat ? $rowJemaat->namalengkap : '-';
+
+            $keterangan = trim((string) $keterangan);
+            if ($keterangan === '') {
+                $keterangan = '-';
+            }
+
+            $pesan = "*Permohonan Pernikahan Baru*\n\n"
+                . "Nama Pemohon: " . $nama . "\n"
+                . "No HP: " . $nohp . "\n"
+                . "Mempelai Pria: " . $namamempelaipria . "\n"
+                . "Mempelai Wanita: " . $namamempelaiwanita . "\n"
+                . "Keterangan: " . $keterangan . "\n\n"
+                . "Silakan konfirmasi permohonan ini di halaman admin.";
+
+            $ch = curl_init();
+            curl_setopt_array($ch, array(
+                CURLOPT_URL => 'https://api.fonnte.com/send',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => array(
+                    'target' => $target,
+                    'message' => $pesan,
+                    'countryCode' => '62',
+                ),
+                CURLOPT_HTTPHEADER => array('Authorization: ' . $token),
+                CURLOPT_CONNECTTIMEOUT => 5,
+                CURLOPT_TIMEOUT => 10,
+            ));
+            $response = curl_exec($ch);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            if ($error) {
+                log_message('error', 'Fonnte curl error: ' . $error);
+                return false;
+            }
+
+            $hasil = json_decode($response, true);
+            if (empty($hasil['status'])) {
+                log_message('error', 'Fonnte gagal kirim WA admin pernikahan: ' . $response);
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            log_message('error', 'Fonnte exception: ' . $e->getMessage());
+            return false;
+        }
+    }
+
     public function simpan()
     {
         $idpernikahan = $this->input->post("idpernikahan");
@@ -91,6 +159,7 @@ class Pernikahan extends MY_Controller
         $namaibuwanita = $this->input->post("namaibuwanita");
         $tglinsert = date('Y-m-d H:i:s');
         $status = 'Permohonan';
+        $permohonanBaru = false;
 
         if (empty($idpernikahan)) {
 
@@ -108,6 +177,7 @@ class Pernikahan extends MY_Controller
                 'namaibuwanita' => $namaibuwanita,
             );
             $simpan = $this->Pernikahan_model->simpan($data);
+            $permohonanBaru = true;
         } else {
             $data = array(
                 'idjemaat' => $this->session->userdata('idjemaat'),
@@ -124,6 +194,17 @@ class Pernikahan extends MY_Controller
         }
 
         if ($simpan['status']) {
+            // Permohonan baru berhasil: beri tahu admin lewat WhatsApp
+            if ($permohonanBaru) {
+                $this->kirimWAAdminPernikahan(
+                    $this->session->userdata('idjemaat'),
+                    $nohpyangbisadihubungi,
+                    $keterangan,
+                    $namamempelaipria,
+                    $namamempelaiwanita
+                );
+            }
+
             $pesan = "<script>
                             swal('Berhasil', 'Permohonan berhasil disimpan.', 'success');
                         </script>";
@@ -165,7 +246,7 @@ class Pernikahan extends MY_Controller
                         </script>";
         } else {
             $pesan = "<script>
-                            swal('Gagal', 'Permohonan gagal dihapus. Error: " . $simpan['message'] . "', 'warning');
+                            swal('Gagal', 'Permohonan gagal dihapus. Error: " . $hapus['message'] . "', 'warning');
                         </script>";
         }
         $this->session->set_flashdata('pesan', $pesan);
