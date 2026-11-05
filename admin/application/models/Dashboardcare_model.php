@@ -64,12 +64,15 @@ class Dashboardcare_model extends CI_Model
     }
 
     /**
-     * Jumlah per bulan dalam rentang tanggal (untuk laporan PDF).
-     * Return: array asosiatif ['YYYY-MM' => jumlah], hanya bulan yang ada datanya.
+     * Daftar detail (nama per baris) dalam rentang tanggal, untuk laporan PDF.
+     * $namaExpr dan $detailExpr berupa ekspresi SQL (kolom atau CONCAT, dll).
+     * Return: array baris ['tanggal', 'nama', 'keterangan'], urut tanggal.
      */
-    public function grafikPeriode($table, $kolomTanggal, $tglMulai, $tglAkhir, $where = array())
+    public function listRincian($table, $kolomTanggal, $tglMulai, $tglAkhir, $namaExpr, $detailExpr, $where = array())
     {
-        $sql = "SELECT DATE_FORMAT($kolomTanggal, '%Y-%m') AS periode, COUNT(*) AS total
+        $sql = "SELECT $kolomTanggal AS tanggal,
+                       ($namaExpr) AS nama,
+                       ($detailExpr) AS keterangan
                 FROM $table
                 WHERE $kolomTanggal IS NOT NULL
                   AND DATE($kolomTanggal) BETWEEN " . $this->db->escape($tglMulai) . "
@@ -78,21 +81,14 @@ class Dashboardcare_model extends CI_Model
         foreach ($where as $kolom => $nilai) {
             $sql .= " AND $kolom = " . $this->db->escape($nilai);
         }
-        $sql .= " GROUP BY DATE_FORMAT($kolomTanggal, '%Y-%m')";
+        $sql .= " ORDER BY $kolomTanggal ASC";
 
-        $hasil = array();
         $q = $this->_query($sql);
-        if ($q !== FALSE) {
-            foreach ($q->result() as $r) {
-                $hasil[$r->periode] = (int) $r->total;
-            }
-        }
-        return $hasil;
+        return $q === FALSE ? array() : $q->result_array();
     }
 
     /**
      * Daftar bulan dari tanggal mulai sampai tanggal akhir, format 'YYYY-MM'.
-     * Bulan tanpa data tetap ada di daftar agar kolom laporan selalu lengkap.
      */
     public function daftarBulan($tglMulai, $tglAkhir)
     {

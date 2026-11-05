@@ -5,11 +5,17 @@ class Dashboardcare extends MY_controller
 {
     private $namabulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
 
+    private $namabulanpanjang = array(
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    );
+
     public function __construct()
     {
         parent::__construct();
         $this->islogin();
         $this->session->set_userdata('IDMENUSELECTED', 'D004');
+        $this->cekOtorisasi();
         $this->load->model('Dashboardcare_model');
     }
 
@@ -34,10 +40,8 @@ class Dashboardcare extends MY_controller
         $summary = array();
 
         foreach ($this->_sumberData() as $kunci => $s) {
-            list($table, $kolom, $where) = $s;
-
-            $series[$kunci]  = $m->grafikBulanan($table, $kolom, $tahun, $where);
-            $tahunlalu       = $m->grafikBulanan($table, $kolom, $tahun - 1, $where);
+            $series[$kunci] = $m->grafikBulanan($s['table'], $s['tanggal'], $tahun, $s['where']);
+            $tahunlalu      = $m->grafikBulanan($s['table'], $s['tanggal'], $tahun - 1, $s['where']);
 
             $summary[$kunci] = array(
                 'total'     => array_sum($series[$kunci]),
@@ -62,8 +66,8 @@ class Dashboardcare extends MY_controller
     }
 
     // =========================================================
-    // CETAK PDF (laporan per periode dan kategori)
-    // URL: dashboardcare/cetak?tgl_mulai=2026-01-01&tgl_akhir=2026-03-31&kategori[]=jemaatbaru&kategori[]=baptis
+    // CETAK PDF (ringkasan + rincian nama per bulan)
+    // URL: dashboardcare/cetak?tgl_mulai=2026-01-01&tgl_akhir=2026-03-31&kategori[]=jemaatbaru
     // =========================================================
     public function cetak()
     {
@@ -77,30 +81,37 @@ class Dashboardcare extends MY_controller
 
         $this->load->library('Pdf');
 
-        $m = $this->Dashboardcare_model;
+        $m         = $this->Dashboardcare_model;
+        $sumber    = $this->_sumberData();
         $bulanKeys = $m->daftarBulan($f['mulai'], $f['akhir']);
 
         $labelBulan = array();
-        foreach ($bulanKeys as $p) {
-            $labelBulan[] = $this->namabulan[(int) substr($p, 5, 2) - 1] . ' ' . substr($p, 0, 4);
+        $rincian    = array();
+        foreach ($bulanKeys as $ym) {
+            $labelBulan[$ym] = $this->namabulanpanjang[(int) substr($ym, 5, 2) - 1] . ' ' . substr($ym, 0, 4);
+            $rincian[$ym]    = array();
         }
 
-        $sumber  = $this->_sumberData();
         $labels  = array();
-        $series  = array();
         $summary = array();
 
         foreach ($f['kategori'] as $key) {
-            list($table, $kolom, $where, $label) = $sumber[$key];
-            $labels[$key] = $label;
+            $s = $sumber[$key];
+            $labels[$key] = $s['label'];
 
-            $raw = $m->grafikPeriode($table, $kolom, $f['mulai'], $f['akhir'], $where);
+            $rows = $m->listRincian(
+                $s['table'], $s['tanggal'], $f['mulai'], $f['akhir'],
+                $s['nama'], $s['detail'], $s['where']
+            );
 
-            $series[$key] = array();
-            foreach ($bulanKeys as $p) {
-                $series[$key][] = isset($raw[$p]) ? $raw[$p] : 0;
+            $summary[$key] = count($rows);
+
+            foreach ($rows as $r) {
+                $ym = substr($r['tanggal'], 0, 7);
+                if (isset($rincian[$ym])) {
+                    $rincian[$ym][$key][] = $r;
+                }
             }
-            $summary[$key] = array_sum($series[$key]);
         }
 
         $data = array(
@@ -109,14 +120,10 @@ class Dashboardcare extends MY_controller
             'akhir'         => $f['akhir'],
             'kategori'      => $f['kategori'],
             'labels'        => $labels,
-            'labelBulan'    => $labelBulan,
-            'series'        => $series,
             'summary'       => $summary,
-            'komposisi'     => array(
-                'jemaat'     => $m->getTotalJemaat(),
-                'simpatisan' => $m->getTotalSimpatisan(),
-                'umum'       => $m->getTotalUmum(),
-            ),
+            'bulanKeys'     => $bulanKeys,
+            'labelBulan'    => $labelBulan,
+            'rincian'       => $rincian,
             'errors'        => array_values(array_unique($m->errors)),
         );
 
@@ -128,21 +135,53 @@ class Dashboardcare extends MY_controller
     // =========================================================
 
     /**
-     * Daftar sumber data: key => [tabel, kolom tanggal, filter tambahan, label]
-     * CEK: sesuaikan nama tabel dan kolom dengan database.
+     * Daftar sumber data.
+     * table   : tabel/view sumber
+     * tanggal : kolom tanggal acuan
+     * where   : filter tambahan
+     * nama    : ekspresi SQL untuk nama yang dicetak
+     * detail  : ekspresi SQL untuk keterangan tambahan
      */
     private function _sumberData()
     {
         return array(
-            'jemaatbaru'     => array('carejemaatbaru', 'tglinsert', array(), 'Pendaftar Akun'),
-            'pernikahan'     => array('aktanikah', 'tglakta', array(), 'Pernikahan'),
-            'penyerahananak' => array('aktapenyerahananak', 'tglakta', array(), 'Penyerahan Anak'),
-            'baptis'         => array('aktabaptisan', 'tglakta', array(), 'Baptis'),
+            'jemaatbaru' => array(
+                'label'   => 'Pendaftar Akun',
+                'table'   => 'v_carejemaatbaru',
+                'tanggal' => 'tglinsert',
+                'where'   => array(),
+                'nama'    => 'namajemaat',
+                'detail'  => "IFNULL(nohp, '-')",
+            ),
+            'pernikahan' => array(
+                'label'   => 'Pernikahan',
+                'table'   => 'v_aktanikah',
+                'tanggal' => 'tglakta',
+                'where'   => array(),
+                'nama'    => "CONCAT(namajemaatpria, ' & ', namajemaatwanita)",
+                'detail'  => "IFNULL(noakta, '-')",
+            ),
+            'penyerahananak' => array(
+                'label'   => 'Penyerahan Anak',
+                'table'   => 'v_aktapenyerahananak',
+                'tanggal' => 'tglakta',
+                'where'   => array(),
+                'nama'    => 'namajemaatanak',
+                'detail'  => "IFNULL(namagereja, '-')",
+            ),
+            'baptis' => array(
+                'label'   => 'Baptis',
+                'table'   => 'v_aktabaptisan',
+                'tanggal' => 'tglakta',
+                'where'   => array(),
+                'nama'    => 'namalengkap',
+                'detail'  => "IFNULL(noakta, '-')",
+            ),
         );
     }
 
     /**
-     * Validasi filter cetak. Return array berisi mulai, akhir, kategori,
+     * Validasi filter cetak. Return array mulai, akhir, kategori,
      * atau array berisi 'error' jika tidak valid.
      */
     private function _parseFilter()
@@ -168,7 +207,6 @@ class Dashboardcare extends MY_controller
             return array('error' => 'Rentang laporan maksimal 5 tahun (60 bulan).');
         }
 
-        // Kategori: terima array (kategori[]) atau string dipisah koma
         $kat = $this->input->get('kategori');
         if (is_string($kat)) {
             $kat = explode(',', $kat);

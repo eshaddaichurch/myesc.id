@@ -2,15 +2,15 @@
 
 /*
  * Variabel dari Dashboardcare::cetak():
- *   $rowInfoGereja  - object (namagereja, alamatgereja, emailgereja)
- *   $mulai, $akhir  - string Y-m-d
- *   $kategori       - array key kategori (urutan tampil)
- *   $labels         - array key => label kategori
- *   $labelBulan     - array label bulan ('Jan 2026', ...)
- *   $series         - array key => array jumlah per bulan (sejajar $labelBulan)
- *   $summary        - array key => total periode
- *   $komposisi      - array (jemaat, simpatisan, umum) kondisi saat cetak
- *   $errors         - array pesan error query (jika ada)
+ *   $rowInfoGereja - object (namagereja, alamatgereja, emailgereja)
+ *   $mulai, $akhir - string Y-m-d
+ *   $kategori      - array key kategori (urutan tampil)
+ *   $labels        - key => label
+ *   $summary       - key => jumlah data dalam periode
+ *   $bulanKeys     - array 'YYYY-MM'
+ *   $labelBulan    - 'YYYY-MM' => 'Januari 2026'
+ *   $rincian       - 'YYYY-MM' => key => array baris ['tanggal','nama','keterangan']
+ *   $errors        - array pesan error query
  */
 
 class MYPDF extends TCPDF
@@ -62,7 +62,6 @@ $headerHtml = '
 
 $pdf->SetFont('times', 'B', 14);
 $pdf->writeHTML($headerHtml, true, false, false, false, '');
-$pdf->SetTopMargin(0);
 
 $pdf->SetLineWidth(0.5);
 $pdf->Line(PDF_MARGIN_LEFT, $pdf->GetY() + 1, $pdf->getPageWidth() - PDF_MARGIN_RIGHT, $pdf->GetY() + 1);
@@ -103,7 +102,7 @@ $pdf->SetFont('times', '', 11);
 $pdf->writeHTML($infoHtml, true, false, false, false, '');
 
 // =========================================================
-// 1. RINGKASAN PER KATEGORI
+// A. RINGKASAN PER KATEGORI
 // =========================================================
 $totalSemua = array_sum($summary);
 
@@ -112,23 +111,20 @@ $ringkasanHtml = '<br><h5 style="font-weight:bold;">A. RINGKASAN PER KATEGORI</h
     <thead>
         <tr style="font-size:11px; font-weight:bold; background-color:#dddddd;">
             <th width="8%"  style="text-align:center;">No</th>
-            <th width="52%" style="text-align:center;">Kategori</th>
+            <th width="72%" style="text-align:center;">Kategori</th>
             <th width="20%" style="text-align:center;">Jumlah</th>
-            <th width="20%" style="text-align:center;">Persentase</th>
         </tr>
     </thead>
     <tbody>';
 
 $no = 1;
 foreach ($kategori as $k) {
-    $pct = $totalSemua > 0 ? round($summary[$k] / $totalSemua * 100, 1) : 0;
-    $bg  = ($no % 2 === 0) ? '#f5f5f5' : '#ffffff';
+    $bg = ($no % 2 === 0) ? '#f5f5f5' : '#ffffff';
     $ringkasanHtml .= '
         <tr style="font-size:11px; background-color:' . $bg . ';">
             <td width="8%"  style="text-align:center;">' . $no . '</td>
-            <td width="52%">' . htmlspecialchars($labels[$k]) . '</td>
+            <td width="72%">' . htmlspecialchars($labels[$k]) . '</td>
             <td width="20%" style="text-align:center;">' . number_format($summary[$k]) . '</td>
-            <td width="20%" style="text-align:center;">' . $pct . '%</td>
         </tr>';
     $no++;
 }
@@ -137,102 +133,88 @@ $ringkasanHtml .= '
         <tr style="font-size:11px; font-weight:bold; background-color:#eeeeee;">
             <td colspan="2" style="text-align:center;">TOTAL</td>
             <td width="20%" style="text-align:center;">' . number_format($totalSemua) . '</td>
-            <td width="20%" style="text-align:center;">100%</td>
         </tr>
     </tbody>
 </table>';
 
-$pdf->SetFont('times', '', 11);
 $pdf->writeHTML($ringkasanHtml, true, false, false, false, '');
 
 // =========================================================
-// 2. KOMPOSISI JEMAAT (kondisi saat cetak)
+// B. RINCIAN PER BULAN (dengan nama)
 // =========================================================
-$komposisiHtml = '<br><h5 style="font-weight:bold;">B. KOMPOSISI JEMAAT SAAT INI</h5><br>
-<table border="1" cellpadding="4">
-    <thead>
-        <tr style="font-size:11px; font-weight:bold; background-color:#dddddd;">
-            <th width="8%"  style="text-align:center;">No</th>
-            <th width="62%" style="text-align:center;">Status</th>
-            <th width="30%" style="text-align:center;">Jumlah</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr style="font-size:11px;">
-            <td width="8%"  style="text-align:center;">1</td>
-            <td width="62%">Jemaat</td>
-            <td width="30%" style="text-align:center;">' . number_format($komposisi['jemaat']) . '</td>
-        </tr>
-        <tr style="font-size:11px; background-color:#f5f5f5;">
-            <td width="8%"  style="text-align:center;">2</td>
-            <td width="62%">Simpatisan</td>
-            <td width="30%" style="text-align:center;">' . number_format($komposisi['simpatisan']) . '</td>
-        </tr>
-        <tr style="font-size:11px;">
-            <td width="8%"  style="text-align:center;">3</td>
-            <td width="62%">Umum</td>
-            <td width="30%" style="text-align:center;">' . number_format($komposisi['umum']) . '</td>
-        </tr>
-    </tbody>
-</table>';
+$pdf->writeHTML('<br><h5 style="font-weight:bold;">B. RINCIAN PER BULAN</h5>', true, false, false, false, '');
 
-$pdf->writeHTML($komposisiHtml, true, false, false, false, '');
+$adaData = false;
 
-// =========================================================
-// 3. RINCIAN PER BULAN
-// =========================================================
-$wKolom = count($kategori) > 0 ? round(78 / count($kategori), 2) : 78;
+foreach ($bulanKeys as $ym) {
+    // Lewati bulan yang tidak punya data di kategori yang dipilih
+    $adaBulan = false;
+    foreach ($kategori as $k) {
+        if (!empty($rincian[$ym][$k])) {
+            $adaBulan = true;
+            break;
+        }
+    }
+    if (!$adaBulan) {
+        continue;
+    }
+    $adaData = true;
 
-$rincianHtml = '<br><h5 style="font-weight:bold;">C. RINCIAN PER BULAN</h5><br>
-<table border="1" cellpadding="4">
+    $html = '<br><h5 style="font-weight:bold; background-color:#e8eef8;">' . $labelBulan[$ym] . '</h5>';
+
+    foreach ($kategori as $k) {
+        $rows = isset($rincian[$ym][$k]) ? $rincian[$ym][$k] : array();
+        if (empty($rows)) {
+            continue;
+        }
+
+        $html .= '<p style="font-size:10px; font-weight:bold;">' . htmlspecialchars($labels[$k])
+               . ' (' . count($rows) . ' data)</p>';
+
+        $html .= '
+<table border="1" cellpadding="3">
     <thead>
         <tr style="font-size:10px; font-weight:bold; background-color:#dddddd;">
-            <th width="22%" style="text-align:center;">Bulan</th>';
-foreach ($kategori as $k) {
-    $rincianHtml .= '<th width="' . $wKolom . '%" style="text-align:center;">' . htmlspecialchars($labels[$k]) . '</th>';
-}
-$rincianHtml .= '
+            <th width="7%"  style="text-align:center;">No</th>
+            <th width="23%" style="text-align:center;">Tanggal</th>
+            <th width="45%" style="text-align:center;">Nama</th>
+            <th width="25%" style="text-align:center;">Keterangan</th>
         </tr>
     </thead>
     <tbody>';
 
-$totalKolom = array();
-foreach ($kategori as $k) {
-    $totalKolom[$k] = 0;
-}
+        $i = 1;
+        foreach ($rows as $r) {
+            $bg = ($i % 2 === 0) ? '#f5f5f5' : '#ffffff';
+            $html .= '
+        <tr style="font-size:10px; background-color:' . $bg . ';">
+            <td width="7%"  style="text-align:center;">' . $i . '</td>
+            <td width="23%" style="text-align:center;">' . tglindonesia($r['tanggal']) . '</td>
+            <td width="45%">' . htmlspecialchars((string) $r['nama']) . '</td>
+            <td width="25%">' . htmlspecialchars((string) $r['keterangan']) . '</td>
+        </tr>';
+            $i++;
+        }
 
-foreach ($labelBulan as $i => $namaBulan) {
-    $bg = ($i % 2 === 1) ? '#f5f5f5' : '#ffffff';
-    $rincianHtml .= '<tr style="font-size:10px; background-color:' . $bg . ';">
-            <td width="22%">' . $namaBulan . '</td>';
-    foreach ($kategori as $k) {
-        $v = $series[$k][$i];
-        $totalKolom[$k] += $v;
-        $rincianHtml .= '<td width="' . $wKolom . '%" style="text-align:center;">' . number_format($v) . '</td>';
+        $html .= '</tbody></table><br>';
     }
-    $rincianHtml .= '</tr>';
+
+    $pdf->writeHTML($html, true, false, false, false, '');
 }
 
-$rincianHtml .= '
-        <tr style="font-size:10px; font-weight:bold; background-color:#eeeeee;">
-            <td width="22%" style="text-align:center;">TOTAL</td>';
-foreach ($kategori as $k) {
-    $rincianHtml .= '<td width="' . $wKolom . '%" style="text-align:center;">' . number_format($totalKolom[$k]) . '</td>';
+if (!$adaData) {
+    $pdf->writeHTML(
+        '<p style="font-size:11px; font-style:italic; text-align:center;">Tidak ada data pada periode ini.</p>',
+        true, false, false, false, ''
+    );
 }
-$rincianHtml .= '
-        </tr>
-    </tbody>
-</table>';
-
-$pdf->writeHTML($rincianHtml, true, false, false, false, '');
 
 // =========================================================
-// CATATAN ERROR (jika ada sumber data yang gagal dibaca)
+// CATATAN ERROR
 // =========================================================
 if (!empty($errors)) {
-    $pdf->SetFont('times', 'I', 9);
     $pdf->writeHTML(
-        '<br><span style="color:#b00020;">Catatan: sebagian data gagal dibaca dari database. Periksa log sistem.</span>',
+        '<br><span style="font-size:9px; color:#b00020;">Catatan: sebagian data gagal dibaca dari database. Periksa log sistem.</span>',
         true, false, false, false, ''
     );
 }
@@ -255,7 +237,6 @@ $ttdHtml = '
         </tr>
     </tbody>
 </table>';
-$pdf->SetFont('times', '', 11);
 $pdf->writeHTML($ttdHtml, true, false, false, false, '');
 
 // 'I' = tampil di browser
