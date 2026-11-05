@@ -129,8 +129,9 @@ class Dashboardcare extends MY_controller
     private function _sumberData()
     {
         return array(
-            'pendaftar'      => array('jemaatbaru', 'tglinsert', array()),
-            'jemaatbaru'     => array('jemaat', 'tanggalinsert', array('statusjemaat' => 'Jemaat')),
+            // Jemaat baru = semua pendaftar (tidak ada konfirmasi admin)
+            // Sumber: tabel carejemaatbaru, kolom tglinsert (sesuai Jemaatbaru_model)
+            'jemaatbaru'     => array('carejemaatbaru', 'tglinsert', array()),
             'pernikahan'     => array('aktanikah', 'tglakta', array()),
             'penyerahananak' => array('aktapenyerahananak', 'tglakta', array()),
             'baptis'         => array('aktabaptisan', 'tglakta', array()),

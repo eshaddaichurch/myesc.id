@@ -5,11 +5,10 @@ $this->load->view('template/sidemenu');
 
 // Konfigurasi kartu aktivitas (key harus sama dengan _sumberData() di controller)
 $kartuAktivitas = array(
-    array('key' => 'pendaftar',      'label' => 'Pendaftar',       'desc' => 'Pendaftaran akun baru',    'icon' => 'fa-user-plus',  'warna' => '#17a2b8'),
-    array('key' => 'jemaatbaru',     'label' => 'Jemaat Baru',     'desc' => 'Status jemaat baru',        'icon' => 'fa-user-check', 'warna' => '#007bff'),
-    array('key' => 'pernikahan',     'label' => 'Pernikahan',      'desc' => 'Dari akta nikah',           'icon' => 'fa-ring',       'warna' => '#dc3545'),
-    array('key' => 'penyerahananak', 'label' => 'Penyerahan Anak', 'desc' => 'Dari akta penyerahan anak', 'icon' => 'fa-baby',       'warna' => '#fd7e14'),
-    array('key' => 'baptis',         'label' => 'Baptis',          'desc' => 'Dari akta baptisan',        'icon' => 'fa-water',      'warna' => '#6f42c1'),
+    array('key' => 'jemaatbaru',     'label' => 'Pendaftar Akun',  'desc' => 'Pendaftaran akun baru',     'icon' => 'fa-user-plus', 'warna' => '#17a2b8'),
+    array('key' => 'pernikahan',     'label' => 'Pernikahan',      'desc' => 'Dari akta nikah',           'icon' => 'fa-ring',      'warna' => '#dc3545'),
+    array('key' => 'penyerahananak', 'label' => 'Penyerahan Anak', 'desc' => 'Dari akta penyerahan anak', 'icon' => 'fa-baby',      'warna' => '#fd7e14'),
+    array('key' => 'baptis',         'label' => 'Baptis',          'desc' => 'Dari akta baptisan',        'icon' => 'fa-water',     'warna' => '#6f42c1'),
 );
 ?>
 
@@ -267,7 +266,7 @@ $kartuAktivitas = array(
                         </tr>
                     </thead>
                     <tbody id="tbodyRincian">
-                        <tr><td colspan="6" class="text-center text-muted py-4">Memuat data...</td></tr>
+                        <tr><td colspan="5" class="text-center text-muted py-4">Memuat data...</td></tr>
                     </tbody>
                     <tfoot id="tfootRincian"></tfoot>
                 </table>
@@ -342,8 +341,7 @@ $kartuAktivitas = array(
     var TAHUN     = <?php echo (int) $tahun; ?>;
 
     var CONFIG = {
-        pendaftar:      { label: 'Pendaftar',       warna: '#17a2b8' },
-        jemaatbaru:     { label: 'Jemaat Baru',     warna: '#007bff' },
+        jemaatbaru:     { label: 'Pendaftar Akun',  warna: '#17a2b8' },
         pernikahan:     { label: 'Pernikahan',      warna: '#dc3545' },
         penyerahananak: { label: 'Penyerahan Anak', warna: '#fd7e14' },
         baptis:         { label: 'Baptis',          warna: '#6f42c1' }
