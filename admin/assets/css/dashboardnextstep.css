@@ -1,0 +1,59 @@
+.dns-hero {
+    background: linear-gradient(135deg, #134e4a 0%, #0f766e 55%, #14b8a6 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 6px 18px rgba(15, 118, 110, .25);
+}
+.dns-hero .dns-stat {
+    background: rgba(255, 255, 255, .14);
+    border-radius: 10px;
+    padding: .75rem 1rem;
+    height: 100%;
+}
+.dns-hero .dns-stat-val { font-size: 1.5rem; font-weight: 700; line-height: 1.1; }
+.dns-hero .dns-stat-label { font-size: .8rem; opacity: .9; }
+
+.dns-card { border: 0; border-radius: 12px; box-shadow: 0 2px 10px rgba(0, 0, 0, .06); }
+
+.dns-kpi {
+    transition: transform .15s ease, box-shadow .15s ease;
+    padding: 1rem !important;
+}
+.dns-kpi:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .12);
+}
+.dns-kpi-link, .dns-kpi-link:hover { text-decoration: none; color: inherit; }
+.dns-ico {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.1rem; flex-shrink: 0;
+}
+.dns-label { font-size: .85rem; font-weight: 600; color: #495057; }
+.dns-val { font-size: 1.75rem; font-weight: 700; line-height: 1; color: #212529; }
+
+.dns-dot {
+    display: inline-block; width: 10px; height: 10px;
+    border-radius: 50%; margin-right: 6px;
+}
+.dns-total { font-size: 1.5rem; font-weight: 700; color: #134e4a; line-height: 1; }
+.dns-insight {
+    background: #ecfdf5; color: #134e4a; border-radius: 8px;
+    padding: .4rem .75rem; font-size: .85rem;
+}
+.dns-chart-box { position: relative; height: 260px; }
+.dns-detail .dns-chart-box { height: 340px; }
+
+.dns-notif-list { max-height: 260px; overflow-y: auto; padding-left: 1.1rem; margin-bottom: 0; }
+.dns-notif-list li { padding: .25rem 0; }
+
+.dns-table th { white-space: nowrap; font-size: .85rem; }
+.dns-table td { font-size: .9rem; }
+.dns-table tbody tr:hover { background: #f0fdfa; }
+.dns-table tfoot td { font-weight: 700; background: #f4f6f9; }
+
+@media (max-width: 576px) {
+    .dns-val { font-size: 1.4rem; }
+    .dns-chart-box { height: 220px; }
+}
