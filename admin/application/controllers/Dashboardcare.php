@@ -3,6 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboardcare extends MY_controller
 {
+    private $namabulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
+
     public function __construct()
     {
         parent::__construct();
@@ -14,153 +16,48 @@ class Dashboardcare extends MY_controller
     public function index()
     {
         $data['menu'] = 'dashboardcare';
+        $data['tahun'] = $this->_tahun();
+        $data['daftartahun'] = range((int) date('Y'), 2020);
         $this->load->view('dashboard/care', $data);
     }
 
     // =========================================================
-    // INFO BOX
+    // DATA DASHBOARD (satu request untuk semua kartu, grafik, tabel)
+    // URL: dashboardcare/getdata?tahun=2026
     // =========================================================
-
-    public function getinfobox()
+    public function getdata()
     {
-        $data = array(
-            'jumlahjemaatbaru' => $this->Dashboardcare_model->getJemaatBaru() ?? 0,
-            'jumlahjemaatsemua' => $this->Dashboardcare_model->getTotalJemaat() ?? 0,
-            'jumlahjemaatsimpatisan' => $this->Dashboardcare_model->getTotalSimpatisan() ?? 0,
-            'jumlahjemaatumum' => $this->Dashboardcare_model->getTotalUmum() ?? 0,
-            'jumlahjemaatbaptis' => $this->Dashboardcare_model->getTotalBaptis() ?? 0,
-        );
-        echo json_encode($data);
-    }
+        $tahun = $this->_tahun();
+        $m = $this->Dashboardcare_model;
 
-    // =========================================================
-    // GRAFIK JEMAAT BARU
-    // =========================================================
+        $series = array();
+        $summary = array();
 
-    public function getgrafikjemaatbaru()
-    {
-        $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
+        foreach ($this->_sumberData() as $kunci => $s) {
+            list($table, $kolom, $where) = $s;
 
-        try {
-            $result = $this->Dashboardcare_model->getgrafikjemaatbaru();
+            $series[$kunci] = $m->grafikBulanan($table, $kolom, $tahun, $where);
+            $tahunlalu = $m->grafikBulanan($table, $kolom, $tahun - 1, $where);
 
-            if (!$result) {
-                $this->_sendErrorResponse('Query gagal dijalankan', 500);
-                return;
-            }
-
-            // Jika tidak ada baris, kembalikan data kosong agar chart tidak error
-            if ($result->num_rows() === 0) {
-                echo json_encode(array(
-                    'success' => true,
-                    'datatanggal' => $bulan,
-                    'jumlahjemaat' => array_fill(0, 12, 0),
-                    'totaljemaat' => 0,
-                ));
-                return;
-            }
-
-            $rskelas = $result->row();
-            $jumlahjemaat = array();
-            foreach ($bulan as $b) {
-                $jumlahjemaat[] = isset($rskelas->$b) ? intval($rskelas->$b) : 0;
-            }
-
-            echo json_encode(array(
-                'success' => true,
-                'datatanggal' => $bulan,
-                'jumlahjemaat' => $jumlahjemaat,
-                'totaljemaat' => array_sum($jumlahjemaat),
-            ));
-        } catch (Exception $e) {
-            $this->_sendErrorResponse('Error: ' . $e->getMessage(), 500);
+            $summary[$kunci] = array(
+                'total'     => array_sum($series[$kunci]),
+                'tahunlalu' => array_sum($tahunlalu),
+            );
         }
-    }
 
-    // =========================================================
-    // GRAFIK MARRIAGE
-    // =========================================================
-
-    public function getgrafikmarriage()
-    {
-        $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-
-        try {
-            $result = $this->Dashboardcare_model->getgrafikmarriage();
-
-            if (!$result) {
-                $this->_sendErrorResponse('Query gagal dijalankan', 500);
-                return;
-            }
-
-            if ($result->num_rows() === 0) {
-                echo json_encode(array(
-                    'success' => true,
-                    'datatanggal' => $bulan,
-                    'jumlahjemaat' => array_fill(0, 12, 0),
-                    'totaljemaat' => 0,
-                ));
-                return;
-            }
-
-            $rskelas = $result->row();
-            $jumlahjemaat = array();
-            foreach ($bulan as $b) {
-                $jumlahjemaat[] = isset($rskelas->$b) ? intval($rskelas->$b) : 0;
-            }
-
-            echo json_encode(array(
-                'success' => true,
-                'datatanggal' => $bulan,
-                'jumlahjemaat' => $jumlahjemaat,
-                'totaljemaat' => array_sum($jumlahjemaat),
-            ));
-        } catch (Exception $e) {
-            $this->_sendErrorResponse('Error: ' . $e->getMessage(), 500);
-        }
-    }
-
-    // =========================================================
-    // GRAFIK BAPTIS
-    // =========================================================
-
-    public function getgrafikbaptis()
-    {
-        $bulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-
-        try {
-            $result = $this->Dashboardcare_model->getgrafikbaptis();
-
-            if (!$result) {
-                $this->_sendErrorResponse('Query gagal dijalankan', 500);
-                return;
-            }
-
-            if ($result->num_rows() === 0) {
-                echo json_encode(array(
-                    'success' => true,
-                    'datatanggal' => $bulan,
-                    'jumlahjemaat' => array_fill(0, 12, 0),
-                    'totaljemaat' => 0,
-                ));
-                return;
-            }
-
-            $rsAkta = $result->row();
-            $jumlahjemaat = array();
-            foreach ($bulan as $b) {
-                $jumlahjemaat[] = isset($rsAkta->$b) ? intval($rsAkta->$b) : 0;
-            }
-
-            echo json_encode(array(
-                'success' => true,
-                'datatanggal' => $bulan,
-                'jumlahjemaat' => $jumlahjemaat,
-                'totaljemaat' => array_sum($jumlahjemaat),
-            ));
-        } catch (Exception $e) {
-            $this->_sendErrorResponse('Error: ' . $e->getMessage(), 500);
-        }
+        $this->_json(array(
+            'success'         => true,
+            'tahun'           => $tahun,
+            'bulan'           => $this->namabulan,
+            'series'          => $series,
+            'summary'         => $summary,
+            'komposisi'       => array(
+                'jemaat'     => $m->getTotalJemaat(),
+                'simpatisan' => $m->getTotalSimpatisan(),
+                'umum'       => $m->getTotalUmum(),
+            ),
+            'totalbaptisakta' => $m->getTotalBaptis(),
+        ));
     }
 
     // =========================================================
@@ -168,13 +65,10 @@ class Dashboardcare extends MY_controller
     // URL: dashboardcare/cetak/pdf/2025-01-01/2025-01-31
     // URL: dashboardcare/cetak/excel/2025-01-01/2025-01-31
     // =========================================================
-
     public function cetak($jenisCetakan = 'pdf', $tglawal = '', $tglakhir = '')
     {
-        // Suppress warning agar tidak merusak output PDF/Excel
         error_reporting(0);
 
-        // Validasi parameter tanggal
         if (empty($tglawal) || empty($tglakhir)) {
             show_error('Parameter tanggal tidak valid.', 400);
             return;
@@ -184,18 +78,12 @@ class Dashboardcare extends MY_controller
             return;
         }
 
-        // Load library PDF hanya jika cetak PDF
         if ($jenisCetakan === 'pdf') {
             $this->load->library('Pdf');
         }
 
-        // Ambil data untuk dikirim ke view
         $rsJemaatBaru = $this->Dashboardcare_model->getJemaatBaruPeriode($tglawal, $tglakhir);
 
-        // -------------------------------------------------------
-        // GUARD: Jika query gagal (tabel/kolom tidak ditemukan),
-        // tampilkan pesan error yang jelas daripada crash
-        // -------------------------------------------------------
         if ($rsJemaatBaru === false || $rsJemaatBaru === null) {
             $lastQuery = $this->db->last_query();
             $dbError = $this->db->error();
@@ -210,13 +98,13 @@ class Dashboardcare extends MY_controller
         }
 
         $data = array(
-            'rowInfoGereja' => $this->_getInfoGereja(),
-            'rsJemaatBaru' => $rsJemaatBaru,
-            'tglawal' => $tglawal,
-            'tglakhir' => $tglakhir,
-            'totalJemaat' => $this->Dashboardcare_model->getTotalJemaat() ?? 0,
-            'totalSimpatisan' => $this->Dashboardcare_model->getTotalSimpatisan() ?? 0,
-            'totalBaptis' => $this->Dashboardcare_model->getTotalBaptis() ?? 0,
+            'rowInfoGereja'     => $this->_getInfoGereja(),
+            'rsJemaatBaru'      => $rsJemaatBaru,
+            'tglawal'           => $tglawal,
+            'tglakhir'          => $tglakhir,
+            'totalJemaat'       => $this->Dashboardcare_model->getTotalJemaat() ?? 0,
+            'totalSimpatisan'   => $this->Dashboardcare_model->getTotalSimpatisan() ?? 0,
+            'totalBaptis'       => $this->Dashboardcare_model->getTotalBaptis() ?? 0,
             'jemaatBaruPeriode' => $rsJemaatBaru->num_rows(),
         );
 
@@ -232,6 +120,38 @@ class Dashboardcare extends MY_controller
     // =========================================================
 
     /**
+     * Daftar sumber data dashboard.
+     * Format: key => [tabel, kolom tanggal, filter tambahan]
+     * CEK: sesuaikan nama tabel/kolom jika berbeda dengan database Anda
+     */
+    private function _sumberData()
+    {
+        return array(
+            'pendaftar'      => array('jemaatbaru', 'tglinsert', array()),
+            'jemaatbaru'     => array('jemaat', 'tanggalinsert', array('statusjemaat' => 'Jemaat')),
+            'pernikahan'     => array('aktanikah', 'tglakta', array()),
+            'penyerahananak' => array('aktapenyerahananak', 'tglakta', array()),
+            'baptis'         => array('aktabaptisan', 'tglakta', array()),
+        );
+    }
+
+    private function _tahun()
+    {
+        $t = (int) $this->input->get('tahun');
+        if ($t >= 2000 && $t <= 2100) {
+            return $t;
+        }
+        return (int) date('Y');
+    }
+
+    private function _json($data)
+    {
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
+    }
+
+    /**
      * Ambil info gereja dari tabel infogereja
      * Return object kosong jika tabel kosong agar view tidak error
      */
@@ -242,23 +162,10 @@ class Dashboardcare extends MY_controller
             return $result->row();
         }
         return (object) array(
-            'namagereja' => 'Nama Gereja',
+            'namagereja'   => 'Nama Gereja',
             'alamatgereja' => '',
-            'emailgereja' => '',
+            'emailgereja'  => '',
         );
-    }
-
-    /**
-     * Standardized JSON error response
-     */
-    private function _sendErrorResponse($message, $code = 400)
-    {
-        http_response_code($code);
-        echo json_encode(array(
-            'success' => false,
-            'message' => $message,
-            'code' => $code,
-        ));
     }
 }
 

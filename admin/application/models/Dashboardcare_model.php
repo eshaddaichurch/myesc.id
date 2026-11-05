@@ -3,124 +3,59 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboardcare_model extends CI_Model
 {
-    function __construct() {}
-
-    public function getJemaatBaru()
+    // ==========================================================
+    // Jumlah data per bulan dalam satu tahun.
+    // Return: array 12 elemen (Jan..Des), selalu lengkap walau bulan kosong.
+    // ==========================================================
+    public function grafikBulanan($table, $kolomTanggal, $tahun, $where = array())
     {
-        return $this->db->query(
-            "SELECT count(*) as jumlah FROM jemaat 
-             WHERE statusjemaat='Jemaat' 
-             AND YEAR(tanggalinsert) = '" . date('Y') . "'"
-        )->row()->jumlah;
+        $this->db->select("MONTH($kolomTanggal) AS bulan, COUNT(*) AS total", false);
+        $this->db->from($table);
+        $this->db->where("$kolomTanggal IS NOT NULL", null, false);
+        $this->db->where("YEAR($kolomTanggal) = " . (int) $tahun, null, false);
+        foreach ($where as $kolom => $nilai) {
+            $this->db->where($kolom, $nilai);
+        }
+        $this->db->group_by("MONTH($kolomTanggal)", false);
+        $rows = $this->db->get()->result();
+
+        $hasil = array_fill(1, 12, 0);
+        foreach ($rows as $r) {
+            $hasil[(int) $r->bulan] = (int) $r->total;
+        }
+        return array_values($hasil);
     }
 
+    // ----------------------------------------------------------
+    // TOTAL (dipakai dashboard dan cetak())
+    // ----------------------------------------------------------
     public function getTotalJemaat()
     {
-        return $this->db->query(
-            "SELECT count(*) as jumlah FROM jemaat WHERE statusjemaat='Jemaat'"
-        )->row()->jumlah;
+        return (int) $this->db->query("SELECT COUNT(*) AS jumlah FROM jemaat WHERE statusjemaat = 'Jemaat'")->row()->jumlah;
     }
 
     public function getTotalSimpatisan()
     {
-        return $this->db->query(
-            "SELECT count(*) as jumlah FROM jemaat WHERE statusjemaat='Simpatisan'"
-        )->row()->jumlah;
+        return (int) $this->db->query("SELECT COUNT(*) AS jumlah FROM jemaat WHERE statusjemaat = 'Simpatisan'")->row()->jumlah;
     }
 
     public function getTotalUmum()
     {
-        return $this->db->query(
-            "SELECT count(*) as jumlah FROM jemaat WHERE statusjemaat='Umum'"
-        )->row()->jumlah;
+        return (int) $this->db->query("SELECT COUNT(*) AS jumlah FROM jemaat WHERE statusjemaat = 'Umum'")->row()->jumlah;
     }
 
     public function getTotalBaptis()
     {
-        return $this->db->query(
-            'SELECT count(*) as jumlah FROM aktabaptisan'
-        )->row()->jumlah;
+        return (int) $this->db->query("SELECT COUNT(*) AS jumlah FROM aktabaptisan")->row()->jumlah;
     }
 
-    public function getgrafikjemaatbaru()
-    {
-        $query = "
-            SELECT 
-                SUM(CASE WHEN MONTH(tanggalinsert)=1  THEN 1 ELSE 0 END) AS Jan,
-                SUM(CASE WHEN MONTH(tanggalinsert)=2  THEN 1 ELSE 0 END) AS Feb,
-                SUM(CASE WHEN MONTH(tanggalinsert)=3  THEN 1 ELSE 0 END) AS Mar,
-                SUM(CASE WHEN MONTH(tanggalinsert)=4  THEN 1 ELSE 0 END) AS Apr,
-                SUM(CASE WHEN MONTH(tanggalinsert)=5  THEN 1 ELSE 0 END) AS Mei,
-                SUM(CASE WHEN MONTH(tanggalinsert)=6  THEN 1 ELSE 0 END) AS Jun,
-                SUM(CASE WHEN MONTH(tanggalinsert)=7  THEN 1 ELSE 0 END) AS Jul,
-                SUM(CASE WHEN MONTH(tanggalinsert)=8  THEN 1 ELSE 0 END) AS Ags,
-                SUM(CASE WHEN MONTH(tanggalinsert)=9  THEN 1 ELSE 0 END) AS Sep,
-                SUM(CASE WHEN MONTH(tanggalinsert)=10 THEN 1 ELSE 0 END) AS Okt,
-                SUM(CASE WHEN MONTH(tanggalinsert)=11 THEN 1 ELSE 0 END) AS Nov,
-                SUM(CASE WHEN MONTH(tanggalinsert)=12 THEN 1 ELSE 0 END) AS Des
-            FROM jemaat
-            WHERE statusjemaat='Jemaat' 
-                AND tanggalinsert IS NOT NULL
-                AND YEAR(tanggalinsert) = '" . date('Y') . "'
-        ";
-        return $this->db->query($query);
-    }
-
-    public function getgrafikmarriage()
-    {
-        $query = "
-            SELECT 
-                SUM(CASE WHEN MONTH(tglpernikahan)=1  THEN 1 ELSE 0 END) AS Jan,
-                SUM(CASE WHEN MONTH(tglpernikahan)=2  THEN 1 ELSE 0 END) AS Feb,
-                SUM(CASE WHEN MONTH(tglpernikahan)=3  THEN 1 ELSE 0 END) AS Mar,
-                SUM(CASE WHEN MONTH(tglpernikahan)=4  THEN 1 ELSE 0 END) AS Apr,
-                SUM(CASE WHEN MONTH(tglpernikahan)=5  THEN 1 ELSE 0 END) AS Mei,
-                SUM(CASE WHEN MONTH(tglpernikahan)=6  THEN 1 ELSE 0 END) AS Jun,
-                SUM(CASE WHEN MONTH(tglpernikahan)=7  THEN 1 ELSE 0 END) AS Jul,
-                SUM(CASE WHEN MONTH(tglpernikahan)=8  THEN 1 ELSE 0 END) AS Ags,
-                SUM(CASE WHEN MONTH(tglpernikahan)=9  THEN 1 ELSE 0 END) AS Sep,
-                SUM(CASE WHEN MONTH(tglpernikahan)=10 THEN 1 ELSE 0 END) AS Okt,
-                SUM(CASE WHEN MONTH(tglpernikahan)=11 THEN 1 ELSE 0 END) AS Nov,
-                SUM(CASE WHEN MONTH(tglpernikahan)=12 THEN 1 ELSE 0 END) AS Des
-            FROM carepernikahan
-            WHERE status = 'Disetujui' 
-                AND tglpernikahan IS NOT NULL
-                AND YEAR(tglpernikahan) = '" . date('Y') . "'
-        ";
-        return $this->db->query($query);
-    }
-
-    public function getgrafikbaptis()
-    {
-        $query = "
-            SELECT 
-                SUM(CASE WHEN MONTH(tglakta)=1  THEN 1 ELSE 0 END) AS Jan,
-                SUM(CASE WHEN MONTH(tglakta)=2  THEN 1 ELSE 0 END) AS Feb,
-                SUM(CASE WHEN MONTH(tglakta)=3  THEN 1 ELSE 0 END) AS Mar,
-                SUM(CASE WHEN MONTH(tglakta)=4  THEN 1 ELSE 0 END) AS Apr,
-                SUM(CASE WHEN MONTH(tglakta)=5  THEN 1 ELSE 0 END) AS Mei,
-                SUM(CASE WHEN MONTH(tglakta)=6  THEN 1 ELSE 0 END) AS Jun,
-                SUM(CASE WHEN MONTH(tglakta)=7  THEN 1 ELSE 0 END) AS Jul,
-                SUM(CASE WHEN MONTH(tglakta)=8  THEN 1 ELSE 0 END) AS Ags,
-                SUM(CASE WHEN MONTH(tglakta)=9  THEN 1 ELSE 0 END) AS Sep,
-                SUM(CASE WHEN MONTH(tglakta)=10 THEN 1 ELSE 0 END) AS Okt,
-                SUM(CASE WHEN MONTH(tglakta)=11 THEN 1 ELSE 0 END) AS Nov,
-                SUM(CASE WHEN MONTH(tglakta)=12 THEN 1 ELSE 0 END) AS Des
-            FROM aktabaptisan
-            WHERE tglakta IS NOT NULL 
-                AND YEAR(tglakta) = '" . date('Y') . "'
-        ";
-        return $this->db->query($query);
-    }
-
-    /**
-     * Ambil data jemaat baru berdasarkan range tanggal untuk cetak PDF
-     * Kolom tanggal pakai: tanggalinsert (sesuai tabel jemaat)
-     */
+    // ----------------------------------------------------------
+    // Dipakai oleh cetak() (PDF). Tidak diubah.
+    // ----------------------------------------------------------
     public function getJemaatBaruPeriode($tglawal, $tglakhir)
     {
         $sql = "
-            SELECT 
+            SELECT
                 j.namalengkap,
                 j.jeniskelamin,
                 j.tanggalinsert,
