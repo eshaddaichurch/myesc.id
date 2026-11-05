@@ -63,16 +63,21 @@
     }
 
     function renderHero() {
+        function n(v) { return parseInt(v, 10) || 0; }
+
         var total = 0;
-        KELAS.forEach(function (c) { total += parseInt(infobox[c.info], 10) || 0; });
-        var fondation = (infobox.FondationClass1 || 0) + (infobox.FondationClass2 || 0) + (infobox.FondationClass3 || 0);
-        var grade = (infobox.Grade1 || 0) + (infobox.Grade2 || 0) + (infobox.Grade3 || 0);
+        KELAS.forEach(function (c) { total += n(infobox[c.info]); });
+
+        var fondation = n(infobox.FondationClass1) + n(infobox.FondationClass2) + n(infobox.FondationClass3);
+        var grade = n(infobox.Grade1) + n(infobox.Grade2) + n(infobox.Grade3);
 
         $('#heroTotal').text(fmt(total));
-        $('#heroMembership').text(fmt(infobox.MembershipClass));
+        $('#heroMembership').text(fmt(n(infobox.MembershipClass)));
         $('#heroFoundation').text(fmt(fondation));
         $('#heroGrade').text(fmt(grade));
     }
+
+    
 
     // ===================== KARTU GRAFIK =====================
     function renderCards() {

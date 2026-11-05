@@ -35,7 +35,12 @@ class Dashboardnextstep extends MY_controller
     public function getinfobox()
     {
         $rsinfobox = $this->Dashboardnextstep_model->getinfobox();
-        echo json_encode($rsinfobox->result());
+        $row = $rsinfobox->row_array();
+        $hasil = array();
+        foreach ((array) $row as $kunci => $nilai) {
+            $hasil[$kunci] = (int) $nilai;
+        }
+        echo json_encode(array($hasil));
     }
 
     public function getgrafikmembership()
