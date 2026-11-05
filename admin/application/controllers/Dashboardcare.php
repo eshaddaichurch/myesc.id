@@ -30,14 +30,14 @@ class Dashboardcare extends MY_controller
         $tahun = $this->_tahun();
         $m = $this->Dashboardcare_model;
 
-        $series = array();
+        $series  = array();
         $summary = array();
 
         foreach ($this->_sumberData() as $kunci => $s) {
             list($table, $kolom, $where) = $s;
 
             $series[$kunci] = $m->grafikBulanan($table, $kolom, $tahun, $where);
-            $tahunlalu = $m->grafikBulanan($table, $kolom, $tahun - 1, $where);
+            $tahunlalu      = $m->grafikBulanan($table, $kolom, $tahun - 1, $where);
 
             $summary[$kunci] = array(
                 'total'     => array_sum($series[$kunci]),
@@ -57,6 +57,7 @@ class Dashboardcare extends MY_controller
                 'umum'       => $m->getTotalUmum(),
             ),
             'totalbaptisakta' => $m->getTotalBaptis(),
+            'errors'          => array_values(array_unique($m->errors)),
         ));
     }
 
@@ -102,9 +103,9 @@ class Dashboardcare extends MY_controller
             'rsJemaatBaru'      => $rsJemaatBaru,
             'tglawal'           => $tglawal,
             'tglakhir'          => $tglakhir,
-            'totalJemaat'       => $this->Dashboardcare_model->getTotalJemaat() ?? 0,
-            'totalSimpatisan'   => $this->Dashboardcare_model->getTotalSimpatisan() ?? 0,
-            'totalBaptis'       => $this->Dashboardcare_model->getTotalBaptis() ?? 0,
+            'totalJemaat'       => $this->Dashboardcare_model->getTotalJemaat(),
+            'totalSimpatisan'   => $this->Dashboardcare_model->getTotalSimpatisan(),
+            'totalBaptis'       => $this->Dashboardcare_model->getTotalBaptis(),
             'jemaatBaruPeriode' => $rsJemaatBaru->num_rows(),
         );
 
@@ -122,7 +123,8 @@ class Dashboardcare extends MY_controller
     /**
      * Daftar sumber data dashboard.
      * Format: key => [tabel, kolom tanggal, filter tambahan]
-     * CEK: sesuaikan nama tabel/kolom jika berbeda dengan database Anda
+     * CEK: sesuaikan nama tabel dan kolom dengan database.
+     * Error query akan tampil di dashboard (field "errors").
      */
     private function _sumberData()
     {

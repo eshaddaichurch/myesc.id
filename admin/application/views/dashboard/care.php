@@ -5,11 +5,11 @@ $this->load->view('template/sidemenu');
 
 // Konfigurasi kartu aktivitas (key harus sama dengan _sumberData() di controller)
 $kartuAktivitas = array(
-    array('key' => 'pendaftar',      'label' => 'Pendaftar',        'desc' => 'Pendaftaran akun baru',     'icon' => 'fa-user-plus',   'warna' => '#17a2b8'),
-    array('key' => 'jemaatbaru',     'label' => 'Jemaat Baru',      'desc' => 'Status jemaat baru',         'icon' => 'fa-user-check',  'warna' => '#007bff'),
-    array('key' => 'pernikahan',     'label' => 'Pernikahan',       'desc' => 'Dari akta nikah',            'icon' => 'fa-ring',        'warna' => '#dc3545'),
-    array('key' => 'penyerahananak', 'label' => 'Penyerahan Anak',  'desc' => 'Dari akta penyerahan anak',  'icon' => 'fa-baby',        'warna' => '#fd7e14'),
-    array('key' => 'baptis',         'label' => 'Baptis',           'desc' => 'Dari akta baptisan',         'icon' => 'fa-water',       'warna' => '#6f42c1'),
+    array('key' => 'pendaftar',      'label' => 'Pendaftar',       'desc' => 'Pendaftaran akun baru',    'icon' => 'fa-user-plus',  'warna' => '#17a2b8'),
+    array('key' => 'jemaatbaru',     'label' => 'Jemaat Baru',     'desc' => 'Status jemaat baru',        'icon' => 'fa-user-check', 'warna' => '#007bff'),
+    array('key' => 'pernikahan',     'label' => 'Pernikahan',      'desc' => 'Dari akta nikah',           'icon' => 'fa-ring',       'warna' => '#dc3545'),
+    array('key' => 'penyerahananak', 'label' => 'Penyerahan Anak', 'desc' => 'Dari akta penyerahan anak', 'icon' => 'fa-baby',       'warna' => '#fd7e14'),
+    array('key' => 'baptis',         'label' => 'Baptis',          'desc' => 'Dari akta baptisan',        'icon' => 'fa-water',      'warna' => '#6f42c1'),
 );
 ?>
 
@@ -319,10 +319,27 @@ $kartuAktivitas = array(
 <script src="<?php echo base_url(); ?>assets/adminlte/plugins/chart.js/Chart.min.js"></script>
 
 <script>
+    // ===================== NOTIFIKASI (aman walau SweetAlert2 belum dimuat) =====================
+    function notify(title, text, icon, isToast) {
+        if (typeof Swal !== 'undefined' && Swal.fire) {
+            if (isToast) {
+                Swal.fire({ toast: true, position: 'top-end', icon: icon || 'info', title: title, showConfirmButton: false, timer: 2000 });
+            } else {
+                Swal.fire(title, text || '', icon || 'info');
+            }
+        } else {
+            if (isToast) {
+                console.warn(title);
+            } else {
+                alert(title + (text ? '\n\n' + text : ''));
+            }
+        }
+    }
+
     // ===================== KONFIGURASI =====================
-    var DC_URL = '<?php echo site_url('dashboardcare/getdata') ?>';
+    var DC_URL    = '<?php echo site_url('dashboardcare/getdata') ?>';
     var CETAK_URL = '<?php echo site_url('dashboardcare/cetak') ?>';
-    var TAHUN = <?php echo (int) $tahun; ?>;
+    var TAHUN     = <?php echo (int) $tahun; ?>;
 
     var CONFIG = {
         pendaftar:      { label: 'Pendaftar',       warna: '#17a2b8' },
@@ -377,18 +394,21 @@ $kartuAktivitas = array(
         setLoading(true);
         $.getJSON(DC_URL, { tahun: TAHUN })
             .done(function (res) {
+                setLoading(false);
                 if (!res || !res.success) {
-                    Swal.fire('Gagal', 'Format data tidak valid.', 'error');
+                    notify('Gagal', 'Format data tidak valid.', 'error');
                     return;
                 }
                 lastData = res;
                 renderAll();
+
+                if (res.errors && res.errors.length) {
+                    notify('Sebagian data gagal dimuat', res.errors.join('\n'), 'warning');
+                }
             })
-            .fail(function () {
-                Swal.fire('Gagal', 'Data dashboard gagal dimuat. Coba muat ulang halaman.', 'error');
-            })
-            .always(function () {
+            .fail(function (xhr) {
                 setLoading(false);
+                notify('Gagal', 'Data dashboard gagal dimuat (HTTP ' + xhr.status + ').', 'error');
             });
     }
 
@@ -444,7 +464,7 @@ $kartuAktivitas = array(
     function toggleKpi(key) {
         var akanDisembunyikan = !hiddenKeys[key];
         if (akanDisembunyikan && visibleKeys().length <= 1) {
-            Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: 'Minimal satu kategori harus ditampilkan', showConfirmButton: false, timer: 2000 });
+            notify('Minimal satu kategori harus ditampilkan', '', 'info', true);
             return;
         }
         hiddenKeys[key] = akanDisembunyikan;
@@ -539,7 +559,7 @@ $kartuAktivitas = array(
         );
     }
 
-    // Tombol Bar / Garis
+    // Tombol Batang / Garis
     $(document).on('change', 'input[name="chartType"]', function () {
         chartType = $(this).closest('label').data('type');
         if (lastData) renderMainChart();
@@ -598,14 +618,12 @@ $kartuAktivitas = array(
 
     // ===================== TABEL =====================
     function renderTable() {
-        var keys = visibleKeys();
-
         // Sembunyikan kolom yang kategorinya disembunyikan
         $('#theadRincian th[data-key]').each(function () {
             $(this).toggleClass('d-none', !!hiddenKeys[$(this).data('key')]);
         });
 
-        // Bulan tertinggi per kolom
+        // Nilai tertinggi per kolom
         var maksKolom = {};
         KEYS.forEach(function (k) {
             maksKolom[k] = Math.max.apply(null, lastData.series[k]);
@@ -620,9 +638,9 @@ $kartuAktivitas = array(
             KEYS.forEach(function (k) {
                 var v = lastData.series[k][i] || 0;
                 totalKolom[k] += v;
-                var cls = (v > 0 && v === maksKolom[k]) ? 'dc-peak' : '';
-                html += '<td class="text-right ' + cls + (hiddenKeys[k] ? ' d-none' : '') + '">' +
-                        (v > 0 && v === maksKolom[k] ? '<i class="fas fa-star text-warning small"></i> ' : '') +
+                var puncak = (v > 0 && v === maksKolom[k]);
+                html += '<td class="text-right ' + (puncak ? 'dc-peak' : '') + (hiddenKeys[k] ? ' d-none' : '') + '">' +
+                        (puncak ? '<i class="fas fa-star text-warning small"></i> ' : '') +
                         fmt(v) + '</td>';
             });
             html += '</tr>';
@@ -698,11 +716,11 @@ $kartuAktivitas = array(
         var tglakhir = $('#cetakTglakhir').val();
 
         if (!tglawal || !tglakhir) {
-            Swal.fire('Perhatian', 'Tanggal awal dan akhir harus diisi!', 'warning');
+            notify('Perhatian', 'Tanggal awal dan akhir harus diisi!', 'warning');
             return;
         }
         if (tglawal > tglakhir) {
-            Swal.fire('Perhatian', 'Tanggal awal tidak boleh lebih besar dari tanggal akhir!', 'warning');
+            notify('Perhatian', 'Tanggal awal tidak boleh lebih besar dari tanggal akhir!', 'warning');
             return;
         }
 
