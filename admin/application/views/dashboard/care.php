@@ -120,14 +120,8 @@ $kartuAktivitas = array(
                             <option value="<?php echo $th; ?>" <?php echo $th == $tahun ? 'selected' : ''; ?>><?php echo $th; ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <button type="button" class="btn btn-light btn-sm mr-1 mb-1" id="btnRefresh" title="Muat ulang">
+                    <button type="button" class="btn btn-light btn-sm mb-1" id="btnRefresh" title="Muat ulang">
                         <i class="fas fa-sync-alt" id="iconRefresh"></i>
-                    </button>
-                    <button type="button" class="btn btn-success btn-sm mr-1 mb-1" onclick="showModalCetak('excel')">
-                        <i class="fas fa-file-excel"></i> Excel
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm mb-1" onclick="showModalCetak('pdf')">
-                        <i class="fas fa-file-pdf"></i> PDF
                     </button>
                 </div>
             </div>
@@ -249,6 +243,48 @@ $kartuAktivitas = array(
             </div>
         </div>
 
+        <!-- ================= PANEL CETAK LAPORAN ================= -->
+        <div class="card dc-card mb-4" id="cardCetak">
+            <div class="card-header bg-white border-0 pt-3">
+                <h6 class="font-weight-bold mb-0"><i class="fas fa-file-pdf text-danger"></i> Cetak Laporan PDF</h6>
+                <small class="text-muted">Berisi ringkasan per kategori dan rincian per bulan untuk periode yang dipilih.</small>
+            </div>
+            <div class="card-body">
+                <form id="formCetak" method="get" action="<?php echo site_url('dashboardcare/cetak'); ?>" target="_blank">
+                    <div class="form-row align-items-end">
+                        <div class="form-group col-md-2 mb-2">
+                            <label for="cetakMulai" class="small font-weight-bold">Tanggal Awal</label>
+                            <input type="date" name="tgl_mulai" id="cetakMulai" class="form-control"
+                                   value="<?php echo $tahun . '-01-01'; ?>" required>
+                        </div>
+                        <div class="form-group col-md-2 mb-2">
+                            <label for="cetakAkhir" class="small font-weight-bold">Tanggal Akhir</label>
+                            <input type="date" name="tgl_akhir" id="cetakAkhir" class="form-control"
+                                   value="<?php echo $tahun . '-12-31'; ?>" required>
+                        </div>
+                        <div class="form-group col-md-5 mb-2">
+                            <label class="small font-weight-bold d-block">Kategori</label>
+                            <?php foreach ($kartuAktivitas as $k): ?>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input cetak-kategori"
+                                           id="ck-<?php echo $k['key']; ?>" name="kategori[]"
+                                           value="<?php echo $k['key']; ?>" checked>
+                                    <label class="custom-control-label" for="ck-<?php echo $k['key']; ?>">
+                                        <?php echo $k['label']; ?>
+                                    </label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="form-group col-md-3 mb-2">
+                            <button type="submit" class="btn btn-danger btn-block">
+                                <i class="fas fa-file-pdf"></i> Cetak PDF
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- ================= TABEL RINCIAN ================= -->
         <div class="card dc-card mb-4">
             <div class="card-header bg-white border-0 pt-3 d-flex justify-content-between align-items-center">
@@ -276,43 +312,6 @@ $kartuAktivitas = array(
     </div>
 </div>
 
-<!-- MODAL CETAK -->
-<div class="modal fade" id="modalCetak" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-white" id="modalCetakHeader">
-                <h5 class="modal-title">
-                    <i id="modalCetakIcon" class="fas fa-file-pdf"></i>
-                    <span id="modalCetakTitle">Cetak Laporan Dashboard Care</span>
-                </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="cetakTglawal"><i class="fas fa-calendar-alt"></i> Tanggal Awal</label>
-                    <input type="date" class="form-control" id="cetakTglawal" value="<?php echo $tahun . '-01-01'; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="cetakTglakhir"><i class="fas fa-calendar-alt"></i> Tanggal Akhir</label>
-                    <input type="date" class="form-control" id="cetakTglakhir" value="<?php echo $tahun . '-12-31'; ?>">
-                </div>
-                <div class="alert alert-info mb-0" id="modalCetakInfo"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="button" class="btn" id="modalCetakBtn" onclick="doCetak()">
-                    <i id="modalCetakBtnIcon" class="fas fa-file-pdf"></i>
-                    <span id="modalCetakBtnText">Cetak PDF</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <?php $this->load->view('template/footer') ?>
 
 <script src="<?php echo base_url(); ?>assets/adminlte/plugins/chart.js/Chart.min.js"></script>
@@ -336,9 +335,8 @@ $kartuAktivitas = array(
     }
 
     // ===================== KONFIGURASI =====================
-    var DC_URL    = '<?php echo site_url('dashboardcare/getdata') ?>';
-    var CETAK_URL = '<?php echo site_url('dashboardcare/cetak') ?>';
-    var TAHUN     = <?php echo (int) $tahun; ?>;
+    var DC_URL = '<?php echo site_url('dashboardcare/getdata') ?>';
+    var TAHUN  = <?php echo (int) $tahun; ?>;
 
     var CONFIG = {
         jemaatbaru:     { label: 'Pendaftar Akun',  warna: '#17a2b8' },
@@ -653,6 +651,34 @@ $kartuAktivitas = array(
         $('#tfootRincian').html(foot);
     }
 
+    // ===================== PANEL CETAK LAPORAN =====================
+    function selisihBulan(mulai, akhir) {
+        var a = mulai.split('-'), b = akhir.split('-');
+        return (parseInt(b[0], 10) * 12 + parseInt(b[1], 10)) -
+               (parseInt(a[0], 10) * 12 + parseInt(a[1], 10));
+    }
+
+    $('#formCetak').on('submit', function (e) {
+        var mulai = $('#cetakMulai').val();
+        var akhir = $('#cetakAkhir').val();
+        var pesan = '';
+
+        if (!mulai || !akhir) {
+            pesan = 'Tanggal awal dan akhir harus diisi.';
+        } else if (mulai > akhir) {
+            pesan = 'Tanggal awal tidak boleh lebih besar dari tanggal akhir.';
+        } else if (selisihBulan(mulai, akhir) > 60) {
+            pesan = 'Rentang laporan maksimal 5 tahun (60 bulan).';
+        } else if ($('.cetak-kategori:checked').length === 0) {
+            pesan = 'Pilih minimal satu kategori.';
+        }
+
+        if (pesan) {
+            e.preventDefault();
+            notify('Perhatian', pesan, 'warning');
+        }
+    });
+
     // ===================== EVENT =====================
     $(function () {
         loadData();
@@ -683,48 +709,11 @@ $kartuAktivitas = array(
             history.replaceState(null, '', '?tahun=' + TAHUN);
             $('.lbl-tahun').text(TAHUN);
             $('.lbl-tahunlalu').text(TAHUN - 1);
-            $('#cetakTglawal').val(TAHUN + '-01-01');
-            $('#cetakTglakhir').val(TAHUN + '-12-31');
+            $('#cetakMulai').val(TAHUN + '-01-01');
+            $('#cetakAkhir').val(TAHUN + '-12-31');
             loadData();
         });
     });
-
-    // ===================== MODAL CETAK =====================
-    var _jenisCetakan = 'pdf';
-
-    function showModalCetak(jenis) {
-        _jenisCetakan = jenis || 'pdf';
-        var isExcel = _jenisCetakan === 'excel';
-
-        $('#modalCetakHeader').toggleClass('bg-success', isExcel).toggleClass('bg-danger', !isExcel);
-        $('#modalCetakIcon').attr('class', isExcel ? 'fas fa-file-excel' : 'fas fa-file-pdf');
-        $('#modalCetakTitle').text(isExcel ? 'Cetak Excel - Dashboard Care' : 'Cetak PDF - Dashboard Care');
-        $('#modalCetakBtn').toggleClass('btn-success', isExcel).toggleClass('btn-danger', !isExcel);
-        $('#modalCetakBtnIcon').attr('class', isExcel ? 'fas fa-file-excel' : 'fas fa-file-pdf');
-        $('#modalCetakBtnText').text(isExcel ? 'Cetak Excel' : 'Cetak PDF');
-        $('#modalCetakInfo').html(isExcel
-            ? '<i class="fas fa-info-circle"></i> Laporan diunduh sebagai file Excel.'
-            : '<i class="fas fa-info-circle"></i> Laporan ditampilkan sebagai PDF di tab baru.');
-
-        $('#modalCetak').modal('show');
-    }
-
-    function doCetak() {
-        var tglawal  = $('#cetakTglawal').val();
-        var tglakhir = $('#cetakTglakhir').val();
-
-        if (!tglawal || !tglakhir) {
-            notify('Perhatian', 'Tanggal awal dan akhir harus diisi!', 'warning');
-            return;
-        }
-        if (tglawal > tglakhir) {
-            notify('Perhatian', 'Tanggal awal tidak boleh lebih besar dari tanggal akhir!', 'warning');
-            return;
-        }
-
-        $('#modalCetak').modal('hide');
-        window.open(CETAK_URL + '/' + _jenisCetakan + '/' + tglawal + '/' + tglakhir, '_blank');
-    }
 </script>
 
 </body>

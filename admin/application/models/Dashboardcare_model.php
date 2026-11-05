@@ -3,12 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboardcare_model extends CI_Model
 {
-    // Daftar error query, dikirim ke view agar mudah dilacak
     public $errors = array();
 
     /**
      * Jalankan query tanpa melempar error halaman CI.
-     * Return FALSE jika query gagal, dan error dicatat di $this->errors.
+     * Return FALSE jika gagal, dan pesan error dicatat di $this->errors.
      */
     private function _query($sql)
     {
@@ -37,8 +36,8 @@ class Dashboardcare_model extends CI_Model
     }
 
     /**
-     * Jumlah data per bulan dalam satu tahun.
-     * Return: array 12 elemen (Jan..Des), selalu lengkap.
+     * Jumlah per bulan dalam satu tahun (untuk dashboard).
+     * Return: array 12 elemen (Jan..Des).
      */
     public function grafikBulanan($table, $kolomTanggal, $tahun, $where = array())
     {
@@ -58,11 +57,54 @@ class Dashboardcare_model extends CI_Model
         if ($q === FALSE) {
             return array_values($hasil);
         }
-
         foreach ($q->result() as $r) {
             $hasil[(int) $r->bulan] = (int) $r->total;
         }
         return array_values($hasil);
+    }
+
+    /**
+     * Jumlah per bulan dalam rentang tanggal (untuk laporan PDF).
+     * Return: array asosiatif ['YYYY-MM' => jumlah], hanya bulan yang ada datanya.
+     */
+    public function grafikPeriode($table, $kolomTanggal, $tglMulai, $tglAkhir, $where = array())
+    {
+        $sql = "SELECT DATE_FORMAT($kolomTanggal, '%Y-%m') AS periode, COUNT(*) AS total
+                FROM $table
+                WHERE $kolomTanggal IS NOT NULL
+                  AND DATE($kolomTanggal) BETWEEN " . $this->db->escape($tglMulai) . "
+                                              AND " . $this->db->escape($tglAkhir);
+
+        foreach ($where as $kolom => $nilai) {
+            $sql .= " AND $kolom = " . $this->db->escape($nilai);
+        }
+        $sql .= " GROUP BY DATE_FORMAT($kolomTanggal, '%Y-%m')";
+
+        $hasil = array();
+        $q = $this->_query($sql);
+        if ($q !== FALSE) {
+            foreach ($q->result() as $r) {
+                $hasil[$r->periode] = (int) $r->total;
+            }
+        }
+        return $hasil;
+    }
+
+    /**
+     * Daftar bulan dari tanggal mulai sampai tanggal akhir, format 'YYYY-MM'.
+     * Bulan tanpa data tetap ada di daftar agar kolom laporan selalu lengkap.
+     */
+    public function daftarBulan($tglMulai, $tglAkhir)
+    {
+        $awal  = new DateTime(date('Y-m-01', strtotime($tglMulai)));
+        $akhir = new DateTime(date('Y-m-01', strtotime($tglAkhir)));
+        $list  = array();
+
+        while ($awal <= $akhir) {
+            $list[] = $awal->format('Y-m');
+            $awal->modify('+1 month');
+        }
+        return $list;
     }
 
     public function getTotalJemaat()
@@ -83,25 +125,6 @@ class Dashboardcare_model extends CI_Model
     public function getTotalBaptis()
     {
         return $this->_scalar("SELECT COUNT(*) AS jumlah FROM aktabaptisan");
-    }
-
-    /**
-     * Dipakai oleh cetak() (PDF). Tidak diubah.
-     */
-    public function getJemaatBaruPeriode($tglawal, $tglakhir)
-    {
-        $sql = "
-            SELECT
-                j.namalengkap,
-                j.jeniskelamin,
-                j.tanggalinsert,
-                TIMESTAMPDIFF(YEAR, j.tanggallahir, CURDATE()) AS umur
-            FROM jemaat j
-            WHERE j.statusjemaat = 'Jemaat'
-                AND j.tanggalinsert BETWEEN ? AND ?
-            ORDER BY j.tanggalinsert ASC
-        ";
-        return $this->db->query($sql, array($tglawal, $tglakhir));
     }
 }
 

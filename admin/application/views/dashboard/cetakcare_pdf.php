@@ -1,17 +1,16 @@
 <?php
 
 /*
- * FILE: application/views/dashboard/cetakcare_pdf.php
- *
- * Variabel dari controller Dashboardcare::cetak():
- *   $rowInfoGereja     - object (namagereja, alamatgereja, emailgereja)
- *   $rsJemaatBaru      - CI_DB_result
- *   $tglawal           - string Y-m-d
- *   $tglakhir          - string Y-m-d
- *   $totalJemaat       - int
- *   $totalSimpatisan   - int
- *   $totalBaptis       - int
- *   $jemaatBaruPeriode - int
+ * Variabel dari Dashboardcare::cetak():
+ *   $rowInfoGereja  - object (namagereja, alamatgereja, emailgereja)
+ *   $mulai, $akhir  - string Y-m-d
+ *   $kategori       - array key kategori (urutan tampil)
+ *   $labels         - array key => label kategori
+ *   $labelBulan     - array label bulan ('Jan 2026', ...)
+ *   $series         - array key => array jumlah per bulan (sejajar $labelBulan)
+ *   $summary        - array key => total periode
+ *   $komposisi      - array (jemaat, simpatisan, umum) kondisi saat cetak
+ *   $errors         - array pesan error query (jika ada)
  */
 
 class MYPDF extends TCPDF
@@ -36,9 +35,6 @@ class MYPDF extends TCPDF
     }
 }
 
-// =========================================================
-// BUAT DOKUMEN PDF
-// =========================================================
 $pdf = new MYPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->SetCreator('ESC App');
 $pdf->SetAuthor($rowInfoGereja->namagereja ?? 'ESC');
@@ -46,7 +42,7 @@ $pdf->SetTitle('Laporan Dashboard Care');
 $pdf->AddPage();
 
 // =========================================================
-// HEADER LOGO + INFO GEREJA
+// KOP
 // =========================================================
 $headerHtml = '
 <table cellpadding="5">
@@ -68,119 +64,190 @@ $pdf->SetFont('times', 'B', 14);
 $pdf->writeHTML($headerHtml, true, false, false, false, '');
 $pdf->SetTopMargin(0);
 
-// Garis pemisah
 $pdf->SetLineWidth(0.5);
 $pdf->Line(PDF_MARGIN_LEFT, $pdf->GetY() + 1, $pdf->getPageWidth() - PDF_MARGIN_RIGHT, $pdf->GetY() + 1);
 $pdf->Ln(3);
 
 // =========================================================
-// JUDUL
+// JUDUL + INFO PERIODE
 // =========================================================
+$periodeTeks = ($mulai !== $akhir)
+    ? tglindonesia($mulai) . ' s/d ' . tglindonesia($akhir)
+    : tglindonesia($mulai);
+
+$namaKategori = array();
+foreach ($kategori as $k) {
+    $namaKategori[] = $labels[$k];
+}
+
 $pdf->SetFont('times', 'B', 14);
 $pdf->writeHTML('<h3 style="text-align:center;">LAPORAN DASHBOARD CARE</h3>', true, false, false, false, '');
 
-// =========================================================
-// PERIODE
-// =========================================================
-if ($tglawal !== $tglakhir) {
-    $periodeTeks = tglindonesia($tglawal) . ' s/d ' . tglindonesia($tglakhir);
-} else {
-    $periodeTeks = tglindonesia($tglawal);
-}
-
-// =========================================================
-// TABEL SUMMARY
-// =========================================================
-$summaryHtml = '
+$infoHtml = '
 <br>
 <table border="0" cellpadding="4">
     <tbody>
         <tr style="font-size:11px;">
-            <td width="35%" style="font-weight:bold;">PERIODE LAPORAN</td>
-            <td width="5%"  style="text-align:center;">:</td>
-            <td width="60%">' . $periodeTeks . '</td>
+            <td width="25%" style="font-weight:bold;">PERIODE</td>
+            <td width="3%"  style="text-align:center;">:</td>
+            <td width="72%">' . $periodeTeks . '</td>
         </tr>
         <tr style="font-size:11px;">
-            <td width="35%" style="font-weight:bold;">TOTAL JEMAAT (SELURUH)</td>
-            <td width="5%"  style="text-align:center;">:</td>
-            <td width="60%">' . number_format($totalJemaat) . ' Orang</td>
-        </tr>
-        <tr style="font-size:11px;">
-            <td width="35%" style="font-weight:bold;">TOTAL SIMPATISAN</td>
-            <td width="5%"  style="text-align:center;">:</td>
-            <td width="60%">' . number_format($totalSimpatisan) . ' Orang</td>
-        </tr>
-        <tr style="font-size:11px;">
-            <td width="35%" style="font-weight:bold;">SUDAH DIBAPTIS</td>
-            <td width="5%"  style="text-align:center;">:</td>
-            <td width="60%">' . number_format($totalBaptis) . ' Orang</td>
-        </tr>
-        <tr style="font-size:11px;">
-            <td width="35%" style="font-weight:bold;">JEMAAT BARU PERIODE INI</td>
-            <td width="5%"  style="text-align:center;">:</td>
-            <td width="60%">' . number_format($jemaatBaruPeriode) . ' Orang</td>
+            <td width="25%" style="font-weight:bold;">KATEGORI</td>
+            <td width="3%"  style="text-align:center;">:</td>
+            <td width="72%">' . htmlspecialchars(implode(', ', $namaKategori)) . '</td>
         </tr>
     </tbody>
 </table>';
-
 $pdf->SetFont('times', '', 11);
-$pdf->writeHTML($summaryHtml, true, false, false, false, '');
+$pdf->writeHTML($infoHtml, true, false, false, false, '');
 
 // =========================================================
-// TABEL DATA JEMAAT BARU
+// 1. RINGKASAN PER KATEGORI
 // =========================================================
-$tabelHtml = '<br><h5 style="font-weight:bold;">DATA JEMAAT BARU PERIODE ' . strtoupper($periodeTeks) . '</h5><br>';
-$tabelHtml .= '
+$totalSemua = array_sum($summary);
+
+$ringkasanHtml = '<br><h5 style="font-weight:bold;">A. RINGKASAN PER KATEGORI</h5><br>
 <table border="1" cellpadding="4">
     <thead>
         <tr style="font-size:11px; font-weight:bold; background-color:#dddddd;">
-            <th width="5%"  style="text-align:center;">No</th>
-            <th width="20%" style="text-align:center;">Tgl Bergabung</th>
-            <th width="50%" style="text-align:center;">Nama Lengkap</th>
-            <th width="10%" style="text-align:center;">JK</th>
-            <th width="15%" style="text-align:center;">Umur</th>
+            <th width="8%"  style="text-align:center;">No</th>
+            <th width="52%" style="text-align:center;">Kategori</th>
+            <th width="20%" style="text-align:center;">Jumlah</th>
+            <th width="20%" style="text-align:center;">Persentase</th>
         </tr>
     </thead>
     <tbody>';
 
 $no = 1;
-if ($rsJemaatBaru->num_rows() > 0) {
-    foreach ($rsJemaatBaru->result() as $row) {
-        $jk = ($row->jeniskelamin === 'Laki-laki') ? 'L' : 'P';
-        $bgColor = ($no % 2 === 0) ? '#f5f5f5' : '#ffffff';
-
-        $tabelHtml .= '
-        <tr style="font-size:11px; background-color:' . $bgColor . ';">
-            <td width="5%"  style="text-align:center;">' . $no . '</td>
-            <td width="20%" style="text-align:center;">' . tglindonesia($row->tanggalinsert) . '</td>
-            <td width="50%" style="text-align:left;">' . htmlspecialchars($row->namalengkap) . '</td>
-            <td width="10%" style="text-align:center;">' . $jk . '</td>
-            <td width="15%" style="text-align:center;">' . ($row->umur ?? '-') . '</td>
+foreach ($kategori as $k) {
+    $pct = $totalSemua > 0 ? round($summary[$k] / $totalSemua * 100, 1) : 0;
+    $bg  = ($no % 2 === 0) ? '#f5f5f5' : '#ffffff';
+    $ringkasanHtml .= '
+        <tr style="font-size:11px; background-color:' . $bg . ';">
+            <td width="8%"  style="text-align:center;">' . $no . '</td>
+            <td width="52%">' . htmlspecialchars($labels[$k]) . '</td>
+            <td width="20%" style="text-align:center;">' . number_format($summary[$k]) . '</td>
+            <td width="20%" style="text-align:center;">' . $pct . '%</td>
         </tr>';
-        $no++;
-    }
-} else {
-    $tabelHtml .= '
-        <tr>
-            <td colspan="5" style="font-size:11px; text-align:center; font-style:italic; padding:8px;">
-                Tidak ada data jemaat baru pada periode ini.
-            </td>
-        </tr>';
+    $no++;
 }
 
-$tabelHtml .= '</tbody></table>';
+$ringkasanHtml .= '
+        <tr style="font-size:11px; font-weight:bold; background-color:#eeeeee;">
+            <td colspan="2" style="text-align:center;">TOTAL</td>
+            <td width="20%" style="text-align:center;">' . number_format($totalSemua) . '</td>
+            <td width="20%" style="text-align:center;">100%</td>
+        </tr>
+    </tbody>
+</table>';
+
+$pdf->SetFont('times', '', 11);
+$pdf->writeHTML($ringkasanHtml, true, false, false, false, '');
+
+// =========================================================
+// 2. KOMPOSISI JEMAAT (kondisi saat cetak)
+// =========================================================
+$komposisiHtml = '<br><h5 style="font-weight:bold;">B. KOMPOSISI JEMAAT SAAT INI</h5><br>
+<table border="1" cellpadding="4">
+    <thead>
+        <tr style="font-size:11px; font-weight:bold; background-color:#dddddd;">
+            <th width="8%"  style="text-align:center;">No</th>
+            <th width="62%" style="text-align:center;">Status</th>
+            <th width="30%" style="text-align:center;">Jumlah</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="font-size:11px;">
+            <td width="8%"  style="text-align:center;">1</td>
+            <td width="62%">Jemaat</td>
+            <td width="30%" style="text-align:center;">' . number_format($komposisi['jemaat']) . '</td>
+        </tr>
+        <tr style="font-size:11px; background-color:#f5f5f5;">
+            <td width="8%"  style="text-align:center;">2</td>
+            <td width="62%">Simpatisan</td>
+            <td width="30%" style="text-align:center;">' . number_format($komposisi['simpatisan']) . '</td>
+        </tr>
+        <tr style="font-size:11px;">
+            <td width="8%"  style="text-align:center;">3</td>
+            <td width="62%">Umum</td>
+            <td width="30%" style="text-align:center;">' . number_format($komposisi['umum']) . '</td>
+        </tr>
+    </tbody>
+</table>';
+
+$pdf->writeHTML($komposisiHtml, true, false, false, false, '');
+
+// =========================================================
+// 3. RINCIAN PER BULAN
+// =========================================================
+$wKolom = count($kategori) > 0 ? round(78 / count($kategori), 2) : 78;
+
+$rincianHtml = '<br><h5 style="font-weight:bold;">C. RINCIAN PER BULAN</h5><br>
+<table border="1" cellpadding="4">
+    <thead>
+        <tr style="font-size:10px; font-weight:bold; background-color:#dddddd;">
+            <th width="22%" style="text-align:center;">Bulan</th>';
+foreach ($kategori as $k) {
+    $rincianHtml .= '<th width="' . $wKolom . '%" style="text-align:center;">' . htmlspecialchars($labels[$k]) . '</th>';
+}
+$rincianHtml .= '
+        </tr>
+    </thead>
+    <tbody>';
+
+$totalKolom = array();
+foreach ($kategori as $k) {
+    $totalKolom[$k] = 0;
+}
+
+foreach ($labelBulan as $i => $namaBulan) {
+    $bg = ($i % 2 === 1) ? '#f5f5f5' : '#ffffff';
+    $rincianHtml .= '<tr style="font-size:10px; background-color:' . $bg . ';">
+            <td width="22%">' . $namaBulan . '</td>';
+    foreach ($kategori as $k) {
+        $v = $series[$k][$i];
+        $totalKolom[$k] += $v;
+        $rincianHtml .= '<td width="' . $wKolom . '%" style="text-align:center;">' . number_format($v) . '</td>';
+    }
+    $rincianHtml .= '</tr>';
+}
+
+$rincianHtml .= '
+        <tr style="font-size:10px; font-weight:bold; background-color:#eeeeee;">
+            <td width="22%" style="text-align:center;">TOTAL</td>';
+foreach ($kategori as $k) {
+    $rincianHtml .= '<td width="' . $wKolom . '%" style="text-align:center;">' . number_format($totalKolom[$k]) . '</td>';
+}
+$rincianHtml .= '
+        </tr>
+    </tbody>
+</table>';
+
+$pdf->writeHTML($rincianHtml, true, false, false, false, '');
+
+// =========================================================
+// CATATAN ERROR (jika ada sumber data yang gagal dibaca)
+// =========================================================
+if (!empty($errors)) {
+    $pdf->SetFont('times', 'I', 9);
+    $pdf->writeHTML(
+        '<br><span style="color:#b00020;">Catatan: sebagian data gagal dibaca dari database. Periksa log sistem.</span>',
+        true, false, false, false, ''
+    );
+}
 
 // =========================================================
 // TANDA TANGAN
 // =========================================================
 $tglCetak = date('d-m-Y H:i');
-$tabelHtml .= '
+$ttdHtml = '
 <br><br>
 <table border="0" cellpadding="5">
     <tbody>
         <tr style="font-size:11px;">
-            <td width="65%"></td>
-            <td width="35%" style="text-align:center;">
+            <td width="60%"></td>
+            <td width="40%" style="text-align:center;">
                 Dicetak pada ' . $tglCetak . '<br><br><br><br>
                 (________________________)<br>
                 <b>Penanggung Jawab</b>
@@ -188,13 +255,8 @@ $tabelHtml .= '
         </tr>
     </tbody>
 </table>';
-
-// =========================================================
-// OUTPUT PDF
-// =========================================================
-$pdf->SetTopMargin(35);
 $pdf->SetFont('times', '', 11);
-$pdf->writeHTML($tabelHtml, true, false, false, false, '');
+$pdf->writeHTML($ttdHtml, true, false, false, false, '');
 
-// 'I' = tampil di browser | 'D' = langsung download
-$pdf->Output('Laporan_Care_' . $tglawal . '_sd_' . $tglakhir . '.pdf', 'I');
+// 'I' = tampil di browser
+$pdf->Output('Laporan_Care_' . $mulai . '_sd_' . $akhir . '.pdf', 'I');
