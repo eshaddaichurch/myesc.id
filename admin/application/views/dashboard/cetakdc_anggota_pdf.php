@@ -191,7 +191,7 @@ if ($rsDc->num_rows() > 0) {
                     ' . htmlspecialchars($rowAnggota->statuskeanggotaan) . '
                   </td>
                   <td width="18%" style="text-align:center;">
-                    ' . date('d-m-Y', strtotime($rowAnggota->tglbergabung)) . '
+                    ' . (!empty($rowAnggota->tglbergabung) ? date('d-m-Y', strtotime($rowAnggota->tglbergabung)) : '-') . '
                   </td>
                 </tr>';
       }

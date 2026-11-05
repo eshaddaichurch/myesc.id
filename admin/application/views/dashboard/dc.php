@@ -4,370 +4,249 @@ $this->load->view('template/topmenu');
 $this->load->view('template/sidemenu');
 ?>
 
+<style>
+    .ddc-hero {
+        background: linear-gradient(135deg, #831843 0%, #be185d 55%, #f472b6 100%);
+        color: #fff;
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 6px 18px rgba(131, 24, 67, .25);
+    }
+    .ddc-stat { background: rgba(255,255,255,.14); border-radius: 10px; padding: .75rem 1rem; height: 100%; }
+    .ddc-stat-val { font-size: 1.5rem; font-weight: 700; line-height: 1.1; }
+    .ddc-stat-label { font-size: .8rem; opacity: .9; }
+
+    .ddc-card { border: 0; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+    .ddc-val { font-size: 1.6rem; font-weight: 700; line-height: 1.1; color: #212529; }
+    .ddc-label { font-size: .85rem; font-weight: 600; color: #495057; }
+    .ddc-chart { position: relative; height: 300px; }
+    .ddc-table th, .ddc-table td { font-size: .85rem; white-space: nowrap; }
+    .ddc-table tbody tr:hover { background: #fdf2f8; }
+    .ddc-table tfoot td { font-weight: 700; background: #f4f6f9; }
+    .ddc-peak { font-weight: 700; color: #be185d; }
+
+    @media (max-width: 576px) {
+        .ddc-val { font-size: 1.3rem; }
+        .ddc-chart { height: 240px; }
+    }
+</style>
+
 <div class="row" id="toni-breadcrumb">
-    <div class="col-6">
-        <h4 class="text-dark mt-2">Dashboard Disciples Community</h4>
-    </div>
-    <div class="col-6">
-        <ol class="breadcrumb float-sm-right">
+    <div class="col-12">
+        <ol class="breadcrumb float-sm-right bg-transparent p-0 mb-1">
             <li class="breadcrumb-item active">Dashboard Disciples Community</li>
         </ol>
+        <h4 class="text-dark mb-0">Dashboard Disciples Community</h4>
     </div>
 </div>
 
-<div class="row" id="toni-content">
-    <div class="col-md-12">
-        <div class="card" id="cardcontent">
+<div class="row mt-3" id="toni-content">
+    <div class="col-12">
+
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-warning"><?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+
+        <!-- ================= FILTER ================= -->
+        <div class="card ddc-card mb-4">
             <div class="card-body">
-                <div class="row">
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Member Baru<br>Bulan Lalu</span>
-                                <span class="info-box-number">
-                                    <span id="memberBaruLalu">0</span>
-                                    <small>Orang</small>
-                                </span>
-                            </div>
-                        </div>
+                <div class="form-row align-items-end">
+                    <div class="form-group col-md-4 mb-2">
+                        <label for="fAwal" class="small font-weight-bold">Tanggal Awal</label>
+                        <input type="date" id="fAwal" class="form-control" value="<?php echo $tglawal; ?>">
                     </div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Member Baru<br>Bulan Ini</span>
-                                <span class="info-box-number">
-                                    <span id="memberBaruIni">0</span>
-                                    <small>Orang</small>
-                                </span>
-                            </div>
-                        </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label for="fAkhir" class="small font-weight-bold">Tanggal Akhir</label>
+                        <input type="date" id="fAkhir" class="form-control" value="<?php echo $tglakhir; ?>">
                     </div>
-
-                    <div class="clearfix hidden-md-up"></div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Jumlah <br>DC</span>
-                                <span class="info-box-number">
-                                    <span id="jumlahDc">0</span>
-                                    <small>DC</small>
-                                </span>
-                            </div>
-                        </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <button type="button" class="btn btn-primary btn-block" id="btnTerapkan">
+                            <i class="fas fa-filter"></i> Terapkan
+                        </button>
                     </div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Jumlah <br>Member</span>
-                                <span class="info-box-number">
-                                    <span id="jumlahMember">0</span>
-                                    <small>Orang</small>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-
-                                    <!-- Filter Periode + Tombol + Filter Anggota -->
-                                    <div class="col-12 mb-3">
-                                        <div class="card card-body shadow">
-
-                                            <!-- Baris 1: Periode + Tombol -->
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <label>Periode</label>
-                                                        </div>
-                                                        <div class="col-5">
-                                                            <input type="date" name="tglawal" id="tglawal"
-                                                                class="form-control"
-                                                                value="<?php echo date('Y-m-01') ?>">
-                                                        </div>
-                                                        <div class="col-1 text-center">S/D</div>
-                                                        <div class="col-5">
-                                                            <input type="date" name="tglakhir" id="tglakhir"
-                                                                class="form-control"
-                                                                value="<?php echo date('Y-m-t') ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 pt-4">
-                                                    <a href="#" class="btn btn-success btn-sm" id="btnCetakExcel">
-                                                        <i class="fa fa-file-excel"></i> Cetak Excel
-                                                    </a>
-                                                    <a href="#" class="btn btn-danger btn-sm" id="btnCetakPdf">
-                                                        <i class="fa fa-file-pdf"></i> Cetak Pdf
-                                                    </a>
-                                                    <a href="#" class="btn btn-dark btn-sm" id="btnLaporanAnggota">
-                                                        <i class="fa fa-users"></i> Laporan Anggota
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            <!-- Baris 2: Filter Laporan Anggota -->
-                                            <hr>
-                                            <div class="row mt-1">
-                                                <div class="col-12 mb-2">
-                                                    <small class="text-muted font-weight-bold">
-                                                        <i class="fa fa-filter"></i> Filter Laporan Anggota
-                                                    </small>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group mb-0">
-                                                        <label class="small">Jenis Kelamin</label>
-                                                        <select id="filterJenisKelamin" class="form-control form-control-sm">
-                                                            <option value="">Semua</option>
-                                                            <option value="Laki-laki">Laki-laki</option>
-                                                            <option value="Perempuan">Perempuan</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group mb-0">
-                                                        <label class="small">Rentang Umur</label>
-                                                        <select id="filterUmur" class="form-control form-control-sm">
-                                                            <option value="">Semua</option>
-                                                            <option value="0-17">0 - 17 Tahun</option>
-                                                            <option value="18-25">18 - 25 Tahun</option>
-                                                            <option value="26-35">26 - 35 Tahun</option>
-                                                            <option value="36-45">36 - 45 Tahun</option>
-                                                            <option value="46-99">46 Tahun ke atas</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group mb-0">
-                                                        <label class="small">Status Keanggotaan</label>
-                                                        <select id="filterStatus" class="form-control form-control-sm">
-                                                            <option value="">Semua</option>
-                                                            <option value="Core Team">Core Team</option>
-                                                            <option value="Member">Member</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <!-- Grafik Line -->
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-header border-0">
-                                                <div class="d-flex justify-content-between">
-                                                    <h3 class="card-title">Grafik Jumlah Member Baru</h3>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="d-flex">
-                                                    <p class="d-flex flex-column">
-                                                        <span class="text-bold text-lg">
-                                                            Rata-rata Member Baru: <span id="rataratamember">0</span>
-                                                        </span>
-                                                        <span id="jumlahi">0 Hari</span>
-                                                    </p>
-                                                </div>
-                                                <div class="position-relative mb-4">
-                                                    <canvas id="visitors-chart" height="200"></canvas>
-                                                </div>
-                                                <div class="d-flex flex-row justify-content-end">
-                                                    <span class="mr-2">
-                                                        <i class="fas fa-square" style="color: #007bff;"></i> Member Baru DC
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Kotak Jumlah per Bulan -->
-                                    <?php
-                                    $namaBulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-                                    for ($m = 1; $m <= 12; $m++):
-                                        $id = str_pad($m, 2, '0', STR_PAD_LEFT);
-                                        ?>
-                                    <div class="col-2">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-12 text-center">
-                                                        <label><i class="fa fa-users text-primary"></i></label>
-                                                    </div>
-                                                    <div class="col-12 text-center">
-                                                        <span class="font-weight-bold" id="jumlah<?= $id ?>">0</span>
-                                                    </div>
-                                                    <div class="col-12 text-center">
-                                                        <span class="text-muted"><?= $namaBulan[$m - 1] ?></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php endfor; ?>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                </div>
+                <div class="d-flex flex-wrap align-items-center">
+                    <small class="text-muted mr-2">Pintasan:</small>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="ini">Bulan ini</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="lalu">Bulan lalu</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="3bln">3 bulan terakhir</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="tahun">Tahun ini</button>
                 </div>
             </div>
         </div>
+
+        <!-- ================= HERO ================= -->
+        <div class="ddc-hero mb-4">
+            <div class="mb-3">
+                <h5 class="mb-1 font-weight-bold">Ringkasan Disciples Community</h5>
+                <small>Periode: <span id="hPeriode"><?php echo $tglawal; ?> s/d <?php echo $tglakhir; ?></span></small>
+            </div>
+            <div class="row">
+                <div class="col-6 col-lg-3 mb-2">
+                    <div class="ddc-stat">
+                        <div class="ddc-stat-val" id="hBaru">0</div>
+                        <div class="ddc-stat-label"><i class="fas fa-user-plus"></i> Member Baru pada Periode</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 mb-2">
+                    <div class="ddc-stat">
+                        <div class="ddc-stat-val" id="hRata">0</div>
+                        <div class="ddc-stat-label"><i class="fas fa-chart-line"></i> Rata-rata per Hari</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 mb-2">
+                    <div class="ddc-stat">
+                        <div class="ddc-stat-val" id="hDc">0</div>
+                        <div class="ddc-stat-label"><i class="fas fa-people-group"></i> DC Aktif</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 mb-2">
+                    <div class="ddc-stat">
+                        <div class="ddc-stat-val" id="hMember">0</div>
+                        <div class="ddc-stat-label"><i class="fas fa-users"></i> Member Aktif</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= INFO BULAN & PERBANDINGAN ================= -->
+        <div class="row">
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card ddc-card h-100 p-3">
+                    <div class="ddc-label">Member Baru Bulan Ini <small class="text-muted" id="infoIniNama"></small></div>
+                    <div class="ddc-val" id="infoIni">0</div>
+                    <small id="pctIni" class="text-muted">Memuat...</small>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card ddc-card h-100 p-3">
+                    <div class="ddc-label">Member Baru Bulan Lalu <small class="text-muted" id="infoLaluNama"></small></div>
+                    <div class="ddc-val" id="infoLalu">0</div>
+                    <small id="pctLalu" class="text-muted">Memuat...</small>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-6 mb-4">
+                <div class="card ddc-card h-100 p-3">
+                    <div class="ddc-label">Periode Terpilih vs Periode Sebelumnya</div>
+                    <div class="ddc-val" id="bNow">0</div>
+                    <small id="bInfo" class="text-muted">Memuat...</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= GRAFIK HARIAN ================= -->
+        <div class="card ddc-card mb-4">
+            <div class="card-header bg-white border-0 pt-3 d-flex flex-wrap justify-content-between align-items-center">
+                <div class="mb-2">
+                    <h6 class="font-weight-bold mb-0">Member Baru per Hari</h6>
+                    <small class="text-muted">Jumlah permohonan yang disetujui, per tanggal konfirmasi</small>
+                </div>
+                <div class="btn-group btn-group-toggle btn-group-sm mb-2" data-toggle="buttons">
+                    <label class="btn btn-outline-primary active" data-type="bar">
+                        <input type="radio" name="tipeTren" checked> <i class="fas fa-chart-bar"></i> Batang
+                    </label>
+                    <label class="btn btn-outline-primary" data-type="line">
+                        <input type="radio" name="tipeTren"> <i class="fas fa-chart-line"></i> Garis
+                    </label>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="catatanKosong" class="alert alert-light border text-center d-none mb-3">
+                    Tidak ada member baru pada periode ini.
+                </div>
+                <div class="ddc-chart"><canvas id="cvHarian"></canvas></div>
+                <div class="mt-2"><span class="small text-muted" id="infoTertinggi"></span></div>
+            </div>
+        </div>
+
+        <!-- ================= GRAFIK PER BULAN ================= -->
+        <div class="card ddc-card mb-4">
+            <div class="card-header bg-white border-0 pt-3">
+                <h6 class="font-weight-bold mb-0">Member Baru per Bulan, <span id="judulBulan">-</span></h6>
+            </div>
+            <div class="card-body">
+                <div class="ddc-chart"><canvas id="cvBulan"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ================= TABEL DC ================= -->
+        <div class="card ddc-card mb-4">
+            <div class="card-header bg-white border-0 pt-3 d-flex justify-content-between align-items-center">
+                <h6 class="font-weight-bold mb-0">Daftar Disciples Community</h6>
+                <small class="text-muted">Jumlah member aktif per DC</small>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover ddc-table mb-0" id="tabelDc"></table>
+            </div>
+        </div>
+
+        <!-- ================= CETAK LAPORAN ================= -->
+        <div class="card ddc-card mb-4">
+            <div class="card-header bg-white border-0 pt-3">
+                <h6 class="font-weight-bold mb-0"><i class="fas fa-file-pdf text-danger"></i> Cetak Laporan</h6>
+                <small class="text-muted">PDF dan Excel memuat member baru pada periode di atas. Laporan Anggota memuat daftar anggota per DC.</small>
+            </div>
+            <div class="card-body">
+                <div class="form-row align-items-end">
+                    <div class="form-group col-md-3 mb-2">
+                        <label class="small font-weight-bold">Jenis Kelamin (anggota)</label>
+                        <select id="fJk" class="form-control form-control-sm">
+                            <option value="">Semua</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <label class="small font-weight-bold">Rentang Umur (anggota)</label>
+                        <select id="fUmur" class="form-control form-control-sm">
+                            <option value="">Semua</option>
+                            <option value="0-17">0 - 17 Tahun</option>
+                            <option value="18-25">18 - 25 Tahun</option>
+                            <option value="26-35">26 - 35 Tahun</option>
+                            <option value="36-45">36 - 45 Tahun</option>
+                            <option value="46-99">46 Tahun ke atas</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <label class="small font-weight-bold">Status Keanggotaan</label>
+                        <select id="fStatus" class="form-control form-control-sm">
+                            <option value="">Semua</option>
+                            <option value="Core Team">Core Team</option>
+                            <option value="Member">Member</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <button type="button" class="btn btn-danger btn-block mb-2" id="btnCetak">
+                            <i class="fas fa-file-pdf"></i> Cetak PDF
+                        </button>
+                        <button type="button" class="btn btn-success btn-block mb-2" id="btnExcel">
+                            <i class="fas fa-file-excel"></i> Cetak Excel
+                        </button>
+                        <button type="button" class="btn btn-dark btn-block" id="btnLaporanAnggota">
+                            <i class="fas fa-users"></i> Laporan Anggota
+                        </button>
+                    </div>
+                </div>
+                <small class="text-muted">Periode tanggal berlaku untuk PDF dan Excel member baru. Filter jenis kelamin, umur, dan status hanya berlaku untuk Laporan Anggota.</small>
+            </div>
+        </div>
+
     </div>
 </div>
 
-<?php $this->load->view('template/footer') ?>
+<?php $this->load->view('template/footer'); ?>
 
-<script src="<?php echo base_url(); ?>assets/adminlte/plugins/chart.js/Chart.min.js"></script>
-
+<script src="<?php echo base_url('assets/adminlte/plugins/chart.js/Chart.min.js'); ?>"></script>
 <script>
-    var visitorsChartInstance = null;
-
-    $(document).ready(function () {
-        loadInfoBox();
-        loadGrafik();
-        loadJumlahMemberPerbulan();
-    });
-
-    $('#tglawal, #tglakhir').on('change', function () {
-        loadGrafik();
-    });
-
-    // INFO BOX
-    function loadInfoBox() {
-        $.ajax({
-            url: '<?= site_url('dashboarddc/getinfobox') ?>',
-            type: 'GET',
-            dataType: 'json',
-        })
-        .done(function (data) {
-            $('#memberBaruLalu').html(numberWithCommas(data.memberBaruLalu));
-            $('#memberBaruIni').html(numberWithCommas(data.memberBaruIni));
-            $('#jumlahDc').html(numberWithCommas(data.jumlahDc));
-            $('#jumlahMember').html(numberWithCommas(data.jumlahMember));
-        })
-        .fail(function () { console.error("AJAX Error: getinfobox"); });
-    }
-
-    // GRAFIK LINE
-    function loadGrafik() {
-        var tglawal  = $('#tglawal').val();
-        var tglakhir = $('#tglakhir').val();
-        var ticksStyle = { fontColor: '#495057', fontStyle: 'bold' };
-
-        $.ajax({
-            url: '<?= site_url('dashboarddc/getgrafikmember') ?>',
-            type: 'GET',
-            dataType: 'json',
-            data: { tglawal: tglawal, tglakhir: tglakhir },
-        })
-        .done(function (data) {
-            $('#rataratamember').html(data.ratarata + ' Jemaat');
-            $('#jumlahi').html(data.jumlahi + ' Hari');
-
-            if (visitorsChartInstance) visitorsChartInstance.destroy();
-
-            var ctx = $('#visitors-chart').get(0).getContext('2d');
-            visitorsChartInstance = new Chart(ctx, {
-                data: {
-                    labels: data.datatanggal,
-                    datasets: [{
-                        type: 'line',
-                        data: data.jumlahmember,
-                        backgroundColor: 'transparent',
-                        borderColor: '#007bff',
-                        pointBorderColor: '#007bff',
-                        pointBackgroundColor: '#007bff',
-                        fill: false
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    tooltips: { mode: 'index', intersect: true },
-                    hover:    { mode: 'index', intersect: true },
-                    legend:   { display: false },
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                                display: true,
-                                lineWidth: '4px',
-                                color: 'rgba(0, 0, 0, .2)',
-                                zeroLineColor: 'transparent'
-                            },
-                            ticks: $.extend({ beginAtZero: true, suggestedMax: 10 }, ticksStyle)
-                        }],
-                        xAxes: [{
-                            display: true,
-                            gridLines: { display: false },
-                            ticks: ticksStyle
-                        }]
-                    }
-                }
-            });
-        })
-        .fail(function () { console.error("AJAX Error: getgrafikmember"); });
-    }
-
-    // JUMLAH MEMBER PER BULAN
-    function loadJumlahMemberPerbulan() {
-        $.ajax({
-            url: '<?= site_url('dashboarddc/getjumlahmemberperbulan') ?>',
-            type: 'GET',
-            dataType: 'json',
-        })
-        .done(function (data) {
-            for (var m = 1; m <= 12; m++) {
-                var key = 'm' + (m < 10 ? '0' + m : m);
-                var id  = 'jumlah' + (m < 10 ? '0' + m : m);
-                $('#' + id).html(data[key] || 0);
-            }
-        })
-        .fail(function () { console.error("AJAX Error: getjumlahmemberperbulan"); });
-    }
-
-    // CETAK PDF (member baru)
-    $(document).on('click', '#btnCetakPdf', function (e) {
-        e.preventDefault();
-        var tglawal  = $('#tglawal').val();
-        var tglakhir = $('#tglakhir').val();
-        window.open('<?= site_url('dashboarddc/cetak/pdf/') ?>' + tglawal + '/' + tglakhir, '_blank');
-    });
-
-    // CETAK EXCEL
-    $(document).on('click', '#btnCetakExcel', function (e) {
-        e.preventDefault();
-        var tglawal  = $('#tglawal').val();
-        var tglakhir = $('#tglakhir').val();
-        window.open('<?= site_url('dashboarddc/cetak/excel/') ?>' + tglawal + '/' + tglakhir, '_blank');
-    });
-
-    // LAPORAN ANGGOTA (dengan filter)
-    $(document).on('click', '#btnLaporanAnggota', function (e) {
-        e.preventDefault();
-        var jeniskelamin = $('#filterJenisKelamin').val();
-        var umur         = $('#filterUmur').val();
-        var status       = $('#filterStatus').val();
-
-        var url = '<?= site_url('dashboarddc/cetakLaporanAnggota') ?>'
-                + '?jeniskelamin=' + encodeURIComponent(jeniskelamin)
-                + '&umur='         + encodeURIComponent(umur)
-                + '&status='       + encodeURIComponent(status);
-
-        window.open(url, '_blank');
-    });
+    window.DDC = {
+        base:    '<?php echo site_url("dashboarddc/"); ?>',
+        self:    '<?php echo site_url("dashboarddc"); ?>',
+        cetak:   '<?php echo site_url("dashboarddc/cetak"); ?>',
+        excel:   '<?php echo site_url("dashboarddc/cetakexcel"); ?>',
+        anggota: '<?php echo site_url("dashboarddc/cetaklaporananggota"); ?>'
+    };
 </script>
+<script src="<?php echo base_url('assets/js/dashboarddc.js'); ?>"></script>
 
 </body>
 </html>
