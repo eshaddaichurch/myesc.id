@@ -3,121 +3,110 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboardkehadiran_model extends CI_Model
 {
-
-    function __construct()
+    public function getAbsenJenis()
     {
+        return $this->db->query(
+            "SELECT idabsenjenis, namaabsenjenis FROM absenjenis WHERE statusaktif = 'Aktif' ORDER BY idabsenjenis"
+        )->result_array();
     }
 
-    public function kehadiranbulanini()
+    public function getSesi()
     {
-        $jumlah = $this->db->query("
-    			SELECT SUM(jumlahhadir) as jumlah FROM absen WHERE MONTH(tglabsen) = " . date('m') . " and YEAR(tglabsen)='" . date('Y') . "'
-    		")->row()->jumlah;
-        $jumlah = (empty($jumlah)) ? 0 : $jumlah;
-        return $jumlah;
+        return $this->db->query(
+            "SELECT idsesi, namasesi FROM sesiibadahminggu ORDER BY idsesi"
+        )->result_array();
     }
 
-    public function kehadiranbulanlalu()
+    // Total kehadiran satu bulan penuh
+    public function totalBulan($idjenis, DateTime $bulan)
     {
+        $awal  = $bulan->format('Y-m-01');
+        $akhir = $bulan->format('Y-m-t');
 
-        if (date('m') == '1') {
-            $where = " WHERE MONTH(tglabsen) = 12 and YEAR(tglabsen)=" . (date('Y')) - 1;
-        } else {
+        return $this->totalPeriode($idjenis, $awal, $akhir);
+    }
 
-            $where = " WHERE MONTH(tglabsen) = " . (date('m') - 1) . " and YEAR(tglabsen)='" . date('Y') . "'";
+    // Total kehadiran dalam rentang tanggal (inklusif)
+    public function totalPeriode($idjenis, $tglawal, $tglakhir)
+    {
+        $row = $this->db->query(
+            "SELECT COALESCE(SUM(jumlahhadir), 0) AS jumlah
+             FROM absen
+             WHERE idabsenjenis = ?
+               AND tglabsen >= ?
+               AND tglabsen < DATE_ADD(?, INTERVAL 1 DAY)",
+            array($idjenis, $tglawal, $tglakhir)
+        )->row();
+
+        return (int) $row->jumlah;
+    }
+
+    // Daftar tanggal (Y-m-d) yang sudah punya catatan absen untuk jenis ini
+    public function tanggalAda($idjenis, $tglawal, $tglakhir)
+    {
+        $rows = $this->db->query(
+            "SELECT DISTINCT DATE(tglabsen) AS tgl
+             FROM absen
+             WHERE idabsenjenis = ?
+               AND tglabsen >= ?
+               AND tglabsen < DATE_ADD(?, INTERVAL 1 DAY)",
+            array($idjenis, $tglawal, $tglakhir)
+        )->result_array();
+
+        return array_column($rows, 'tgl');
+    }
+
+    // Total per tanggal dan sesi dalam periode
+    public function getHarian($idjenis, $tglawal, $tglakhir)
+    {
+        return $this->db->query(
+            "SELECT DATE(tglabsen) AS tgl, idsesi, SUM(jumlahhadir) AS jumlah
+             FROM absen
+             WHERE idabsenjenis = ?
+               AND tglabsen >= ?
+               AND tglabsen < DATE_ADD(?, INTERVAL 1 DAY)
+             GROUP BY DATE(tglabsen), idsesi
+             ORDER BY DATE(tglabsen)",
+            array($idjenis, $tglawal, $tglakhir)
+        )->result_array();
+    }
+
+    // Total per lokasi dan sesi dalam periode
+    public function getLokasi($idjenis, $tglawal, $tglakhir)
+    {
+        return $this->db->query(
+            "SELECT a.idabsenlokasi, l.namaabsenlokasi, a.idsesi, s.namasesi,
+                    SUM(a.jumlahhadir) AS totalhadir
+             FROM absen a
+             LEFT JOIN absenlokasi l ON a.idabsenlokasi = l.idabsenlokasi
+             LEFT JOIN sesiibadahminggu s ON a.idsesi = s.idsesi
+             WHERE a.idabsenjenis = ?
+               AND a.tglabsen >= ?
+               AND a.tglabsen < DATE_ADD(?, INTERVAL 1 DAY)
+               AND a.idabsenlokasi IS NOT NULL
+               AND a.idabsenlokasi != ''
+             GROUP BY a.idabsenlokasi, l.namaabsenlokasi, a.idsesi, s.namasesi
+             ORDER BY a.idsesi, a.idabsenlokasi",
+            array($idjenis, $tglawal, $tglakhir)
+        )->result_array();
+    }
+
+    // Total per bulan (12 elemen) untuk satu tahun
+    public function getPerBulan($idjenis, $tahun)
+    {
+        $per  = array_fill(0, 12, 0);
+        $rows = $this->db->query(
+            "SELECT MONTH(tglabsen) AS bln, SUM(jumlahhadir) AS jumlah
+             FROM absen
+             WHERE idabsenjenis = ? AND YEAR(tglabsen) = ?
+             GROUP BY MONTH(tglabsen)",
+            array($idjenis, (int) $tahun)
+        )->result_array();
+
+        foreach ($rows as $r) {
+            $per[(int) $r['bln'] - 1] = (int) $r['jumlah'];
         }
-        $jumlah = $this->db->query("
-    			SELECT SUM(jumlahhadir) as jumlah FROM absen $where
-    		")->row()->jumlah;
-        $jumlah = (empty($jumlah)) ? 0 : $jumlah;
-        return $jumlah;
-    }
-
-    public function kenaikanbulanlalu($kehadiranbulanlalu)
-    {
-        if (date('m') == '2') {
-            $where = " WHERE MONTH(tglabsen) = 12 and YEAR(tglabsen)=" . (date('Y')) - 1;
-        } else {
-            $where = " WHERE MONTH(tglabsen) = " . (date('m') - 2) . " and YEAR(tglabsen)='" . date('Y') . "'";
-        }
-        $jumlah2BulanLalu = $this->db->query("
-    			SELECT SUM(jumlahhadir) as jumlah FROM absen $where
-    		")->row()->jumlah;
-        $jumlah2BulanLalu = (empty($jumlah2BulanLalu)) ? 0 : $jumlah2BulanLalu;
-
-        if ($jumlah2BulanLalu == 0 || $kehadiranbulanlalu == 0) {
-            $lebihkurang = 0;
-        } else {
-            $persen = ($kehadiranbulanlalu / $jumlah2BulanLalu) * 100;
-            $lebihkurang = $persen - 100;
-        }
-        return $lebihkurang;
-    }
-
-    public function kenaikanbulanini($kehadiranbulanini, $kehadiranbulanlalu)
-    {
-        if ($kehadiranbulanini == 0 || $kehadiranbulanlalu == 0) {
-            $lebihkurang = 0;
-        } else {
-            $persen = ($kehadiranbulanini / $kehadiranbulanlalu) * 100;
-            $lebihkurang = $persen - 100;
-        }
-        return $lebihkurang;
-    }
-
-    public function getgrafikabsen($idabsenjenis, $tglawal, $tglakhir)
-    {
-        $sql = "SELECT tglabsen, idabsenjenis, sum(jumlahhadir) as jumlahhadir,
-					SUM(CASE WHEN idsesi='001' THEN jumlahhadir ELSE 0 END) AS jumlahibadah1, 
-					SUM(CASE WHEN idsesi='002' THEN jumlahhadir ELSE 0 END) AS jumlahibadah2,
-					SUM(CASE WHEN idsesi='003' THEN jumlahhadir ELSE 0 END) AS jumlahibadah3,
-					SUM(CASE WHEN idsesi='004' THEN jumlahhadir ELSE 0 END) AS jumlahibadah4,	
-					SUM(CASE WHEN idsesi='005' THEN jumlahhadir ELSE 0 END) AS jumlahibadah5	
-				FROM absen
-				WHERE idabsenjenis='$idabsenjenis' AND convert(tglabsen, date) between '" . date('Y-m-d', strtotime($tglawal)) . "' and '" . date('Y-m-d', strtotime($tglakhir)) . "'
-				GROUP BY tglabsen, idabsenjenis
-				ORDER BY tglabsen";
-        $rsAbsen = $this->db->query($sql);
-
-        return $rsAbsen;
-    }
-
-    public function getgrafikabsenperbulan($idabsenjenis)
-    {
-        // $tahun = '2023';
-        $tahun = date('Y'); //tahun berjalan
-
-        $sql = "SELECT idabsenjenis, SUM(jumlahhadir) AS jumlahhadir,
-					SUM(CASE WHEN MONTH(tglabsen)=1  THEN jumlahhadir ELSE 0 END) AS jumlah01,	
-					SUM(CASE WHEN MONTH(tglabsen)=2  THEN jumlahhadir ELSE 0 END) AS jumlah02,	
-					SUM(CASE WHEN MONTH(tglabsen)=3  THEN jumlahhadir ELSE 0 END) AS jumlah03,	
-					SUM(CASE WHEN MONTH(tglabsen)=4  THEN jumlahhadir ELSE 0 END) AS jumlah04,	
-					SUM(CASE WHEN MONTH(tglabsen)=5  THEN jumlahhadir ELSE 0 END) AS jumlah05,	
-					SUM(CASE WHEN MONTH(tglabsen)=6  THEN jumlahhadir ELSE 0 END) AS jumlah06,	
-					SUM(CASE WHEN MONTH(tglabsen)=7  THEN jumlahhadir ELSE 0 END) AS jumlah07,	
-					SUM(CASE WHEN MONTH(tglabsen)=8  THEN jumlahhadir ELSE 0 END) AS jumlah08,	
-					SUM(CASE WHEN MONTH(tglabsen)=9  THEN jumlahhadir ELSE 0 END) AS jumlah09,	
-					SUM(CASE WHEN MONTH(tglabsen)=10  THEN jumlahhadir ELSE 0 END) AS jumlah10,	
-					SUM(CASE WHEN MONTH(tglabsen)=11  THEN jumlahhadir ELSE 0 END) AS jumlah11,	
-					SUM(CASE WHEN MONTH(tglabsen)=12  THEN jumlahhadir ELSE 0 END) AS jumlah12		
-				FROM absen
-				WHERE idabsenjenis='$idabsenjenis' AND year(tglabsen)='$tahun'
-				GROUP BY idabsenjenis
-				ORDER BY tglabsen";
-        $rsAbsen = $this->db->query($sql);
-
-        return $rsAbsen;
-    }
-
-    public function getescwomengrafik()
-    {
-        $sql = "SELECT tglabsen, idabsenjenis, idsesi,sum(jumlahhadir) as jumlahhadir
-                FROM absen
-                WHERE idabsenjenis='A06' AND tglabsen >= NOW() - INTERVAL 6 MONTH
-                GROUP BY tglabsen, idabsenjenis,idsesi
-                ORDER BY tglabsen";
-        $rsAbsen = $this->db->query($sql);
-        return $rsAbsen;
+        return $per;
     }
 }
 
