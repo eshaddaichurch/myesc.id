@@ -14,7 +14,7 @@
         { key: 'grade1',     label: 'Grade 1',            url: 'getgrafikgrade1',     info: 'Grade1',          kl: 'KL005', warna: '#36b9cc', icon: 'fa-book-open',      chart: true },
         { key: 'grade2',     label: 'Grade 2',            url: 'getgrafikgrade2',     info: 'Grade2',          kl: 'KL006', warna: '#fd7e14', icon: 'fa-book-open',      chart: true },
         { key: 'grade3',     label: 'Grade 3',            url: 'getgrafikgrade3',     info: 'Grade3',          kl: 'KL007', warna: '#6f42c1', icon: 'fa-book-open',      chart: true },
-        { key: 'folunteer',  label: 'Folunteer Class',    url: 'getgrafikfolunteer',  info: 'FolunteerClass',  kl: 'KL008', warna: '#20c997', icon: 'fa-hands-helping',  chart: true },
+        { key: 'volunteer',  label: 'Volunteer Class',    url: 'getgrafikfolunteer',  info: 'FolunteerClass',  kl: 'KL008', warna: '#20c997', icon: 'fa-hands-helping',  chart: true },
         { key: 'marriage',   label: 'Marriage Class',     url: null,                  info: 'MarriageClass',   kl: 'KL101', warna: '#e83e8c', icon: 'fa-ring',           chart: false }
     ];
 
