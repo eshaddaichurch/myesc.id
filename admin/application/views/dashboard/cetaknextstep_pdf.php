@@ -31,7 +31,7 @@ class MYPDF extends TCPDF
 $pdf = new MYPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->SetCreator('ESC App');
 $pdf->SetAuthor($info->namagereja ?? 'ESC');
-$pdf->SetTitle('Laporan Dashboard Next Step');
+$pdf->SetTitle('Laporan Dashboard Equip');
 $pdf->AddPage();
 
 // KOP
@@ -67,7 +67,7 @@ foreach ($kelas as $k) {
     $namaKelas[] = $labels[$k];
 }
 
-$pdf->writeHTML('<h3 style="text-align:center;">LAPORAN DASHBOARD NEXT STEP</h3>', true, false, false, false, '');
+$pdf->writeHTML('<h3 style="text-align:center;">LAPORAN DASHBOARD EQUIP</h3>', true, false, false, false, '');
 
 $infoHtml = '
 <br>
