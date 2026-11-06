@@ -213,11 +213,39 @@
             });
     }
 
+    // function loadChart(c) {
+    //     pending++;
+    //     $.getJSON(cfg.base + c.url)
+    //         .done(function (res) {
+    //             data[c.key] = res;
+    //             drawChart(c);
+    //         })
+    //         .fail(function (xhr) {
+    //             $('#tot-' + c.key).text('–');
+    //             $('#ft-' + c.key).html('<span class="text-danger">Gagal dimuat (HTTP ' + xhr.status + ')</span>');
+    //         })
+    //         .always(function () {
+    //             pending--;
+    //             renderTabel();
+    //         });
+    // }
+
+
+
+    function toInt(v) {
+    return parseInt(v, 10) || 0;
+    }
+
     function loadChart(c) {
         pending++;
         $.getJSON(cfg.base + c.url)
             .done(function (res) {
-                data[c.key] = res;
+                // Normalisasi: nilai dari server bisa berupa string, jadi dikonversi ke integer
+                data[c.key] = {
+                    datatanggal: res.datatanggal,
+                    jumlahmurid: (res.jumlahmurid || []).map(toInt),
+                    totalsiswa:  toInt(res.totalsiswa)
+                };
                 drawChart(c);
             })
             .fail(function (xhr) {
