@@ -229,6 +229,58 @@ class Dashboardnextstep_model extends CI_Model
         ";
         return $this->db->query($query);
     }
+
+        // Ringkasan jumlah lulus per kelas dalam rentang tanggal sertifikat
+    public function ringkasPeriode($tglawal, $tglakhir, $kelas)
+    {
+        if (empty($kelas)) {
+            return array();
+        }
+        $ph = implode(',', array_fill(0, count($kelas), '?'));
+        $binds = array_merge(array($tglawal, $tglakhir), $kelas);
+
+        return $this->db->query(
+            "SELECT idkelas, COUNT(*) AS jumlah
+             FROM registrasikelas
+             WHERE statuslulus = 1
+               AND tglsertifikat IS NOT NULL
+               AND DATE(tglsertifikat) BETWEEN ? AND ?
+               AND idkelas IN ($ph)
+             GROUP BY idkelas",
+            $binds
+        )->result_array();
+    }
+
+    // Daftar lulusan per kelas dalam rentang tanggal, untuk rincian PDF
+    public function listLulusan($tglawal, $tglakhir, $kelas)
+    {
+        if (empty($kelas)) {
+            return array();
+        }
+        $ph = implode(',', array_fill(0, count($kelas), '?'));
+        $binds = array_merge(array($tglawal, $tglakhir), $kelas);
+
+        return $this->db->query(
+            "SELECT rk.idkelas, rk.tglsertifikat, rk.idregistrasi,
+                    j.namalengkap, j.jeniskelamin
+             FROM registrasikelas rk
+             LEFT JOIN jemaat j ON j.idjemaat = rk.idjemaat
+             WHERE rk.statuslulus = 1
+               AND rk.tglsertifikat IS NOT NULL
+               AND DATE(rk.tglsertifikat) BETWEEN ? AND ?
+               AND rk.idkelas IN ($ph)
+             ORDER BY rk.tglsertifikat ASC, j.namalengkap ASC",
+            $binds
+        )->result_array();
+    }
+
+    // Daftar kelas (kode dan nama) untuk pilihan filter
+    public function getDaftarKelas()
+    {
+        return $this->db->query(
+            "SELECT idkelas, namakelas FROM kelas ORDER BY idkelas"
+        )->result_array();
+    }
 }
 
 /* End of file Dashboardnextstep_model.php */

@@ -59,6 +59,63 @@ $this->load->view("template/sidemenu");
             </div>
         </div>
 
+                <!-- ================= FILTER & CETAK ================= -->
+        <div class="card dns-card mb-4">
+            <div class="card-body">
+                <div class="form-row align-items-end">
+                    <div class="form-group col-md-3 mb-2">
+                        <label for="fAwal" class="small font-weight-bold">Tanggal Awal</label>
+                        <input type="date" id="fAwal" class="form-control" value="<?php echo $tglawal; ?>">
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <label for="fAkhir" class="small font-weight-bold">Tanggal Akhir</label>
+                        <input type="date" id="fAkhir" class="form-control" value="<?php echo $tglakhir; ?>">
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <button type="button" class="btn btn-primary btn-block" id="btnTerapkan">
+                            <i class="fas fa-filter"></i> Terapkan
+                        </button>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <button type="button" class="btn btn-danger btn-block" id="btnCetak">
+                            <i class="fas fa-file-pdf"></i> Cetak PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center mb-2">
+                    <small class="text-muted mr-2">Pintasan:</small>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="ini">Bulan ini</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="lalu">Bulan lalu</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="3bln">3 bulan terakhir</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mr-1 mb-1" data-preset="tahun">Tahun ini</button>
+                </div>
+
+                <div class="small font-weight-bold mb-1">Kelas yang dicetak</div>
+                <div class="d-flex flex-wrap">
+                    <?php foreach ($kelas as $k): ?>
+                        <div class="custom-control custom-checkbox custom-control-inline mb-1">
+                            <input type="checkbox" class="custom-control-input cetak-kelas"
+                                   id="ck-<?php echo $k['idkelas']; ?>"
+                                   value="<?php echo $k['idkelas']; ?>" checked>
+                            <label class="custom-control-label" for="ck-<?php echo $k['idkelas']; ?>">
+                                <?php echo htmlspecialchars($k['namakelas']); ?>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mt-1">
+                    <a href="#" id="btnPilihSemua" class="small">Pilih semua</a>
+                    <span class="text-muted small">&middot;</span>
+                    <a href="#" id="btnHapusPilihan" class="small">Kosongkan</a>
+                </div>
+            </div>
+        </div>
+
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-warning"><?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+
         <!-- ================= NOTIFIKASI PENDAFTARAN ================= -->
         <?php if ($rsMenunggu->num_rows() > 0): ?>
             <div class="card dns-card mb-4">
@@ -84,6 +141,15 @@ $this->load->view("template/sidemenu");
 
         <!-- ================= KPI KELAS ================= -->
         <div class="font-weight-bold text-dark mb-2">Jumlah Lulus per Kelas</div>
+                <div class="card dns-card mb-3">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="dns-label">Lulus pada periode terpilih (kelas yang dipilih)</div>
+                    <small class="text-muted" id="periodeInfo"></small>
+                </div>
+                <div class="dns-val" id="periodeTotal">0</div>
+            </div>
+        </div>
         <div class="row mb-2" id="rowKpi">
             <div class="col-12 text-muted mb-3">Memuat data...</div>
         </div>
@@ -119,6 +185,8 @@ $this->load->view("template/sidemenu");
 <script>
     window.DNS = {
         base:      '<?php echo site_url("dashboardnextstep/"); ?>',
+        self:      '<?php echo site_url("dashboardnextstep"); ?>',
+        cetak:     '<?php echo site_url("dashboardnextstep/cetak"); ?>',
         registrasi:'<?php echo site_url("registrasikelas/index/"); ?>',
         tahun:     '<?php echo date("Y"); ?>',
         mode:      'index'

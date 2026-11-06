@@ -39,6 +39,102 @@
         return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
     }
 
+        var MAKS_HARI = 400;
+
+    function formatTanggal(d) {
+        return d.getFullYear() + '-' +
+            String(d.getMonth() + 1).padStart(2, '0') + '-' +
+            String(d.getDate()).padStart(2, '0');
+    }
+
+    function notify(title, text, icon) {
+        if (typeof Swal !== 'undefined' && Swal.fire) {
+            Swal.fire(title, text || '', icon || 'info');
+        } else {
+            alert(title + (text ? '\n\n' + text : ''));
+        }
+    }
+
+    // Kelas yang dipilih di checkbox
+    function getKelasPilih() {
+        return $('.cetak-kelas:checked').map(function () { return this.value; }).get();
+    }
+
+    function getFilter() {
+        return {
+            tglawal:  $('#fAwal').val(),
+            tglakhir: $('#fAkhir').val()
+        };
+    }
+
+    function validFilter(f) {
+        if (!f.tglawal || !f.tglakhir) {
+            notify('Perhatian', 'Tanggal awal dan akhir harus diisi.', 'warning');
+            return false;
+        }
+        if (f.tglawal > f.tglakhir) {
+            notify('Perhatian', 'Tanggal awal tidak boleh lebih besar dari tanggal akhir.', 'warning');
+            return false;
+        }
+        var hari = (new Date(f.tglakhir) - new Date(f.tglawal)) / 86400000;
+        if (hari > MAKS_HARI) {
+            notify('Perhatian', 'Rentang periode maksimal ' + MAKS_HARI + ' hari.', 'warning');
+            return false;
+        }
+        return true;
+    }
+
+    function setPreset(kind) {
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = now.getMonth();
+        var awal, akhir;
+
+        switch (kind) {
+            case 'ini':   awal = new Date(y, m, 1);     akhir = new Date(y, m + 1, 0); break;
+            case 'lalu':  awal = new Date(y, m - 1, 1); akhir = new Date(y, m, 0);     break;
+            case '3bln':  awal = new Date(y, m - 2, 1); akhir = new Date(y, m + 1, 0); break;
+            case 'tahun': awal = new Date(y, 0, 1);     akhir = new Date(y, 11, 31);   break;
+            default: return;
+        }
+        $('#fAwal').val(formatTanggal(awal));
+        $('#fAkhir').val(formatTanggal(akhir));
+        terapkan();
+    }
+
+    // Terapkan periode: simpan ke URL dan muat ulang data kartu
+    function terapkan() {
+        var f = getFilter();
+        if (!validFilter(f)) return;
+        history.replaceState(null, '', cfg.self + '?' + $.param(f));
+        loadPeriode();
+    }
+
+    // Ringkasan per kelas untuk periode terpilih, ditampilkan di kartu KPI
+    function loadPeriode() {
+        var f = getFilter();
+        $.getJSON(cfg.base + 'getperiode', $.extend({}, f, { kelas: getKelasPilih() }))
+            .done(function (r) {
+                if (r.error) notify('Perhatian', r.error, 'warning');
+                animateNumber($('#periodeTotal'), r.total);
+            })
+            .fail(function (xhr) {
+                notify('Gagal', 'Data periode gagal dimuat (HTTP ' + xhr.status + ').', 'error');
+            });
+    }
+
+    function cetakPdf() {
+        var f = getFilter();
+        if (!validFilter(f)) return;
+
+        var kelas = getKelasPilih();
+        if (!kelas.length) {
+            notify('Perhatian', 'Pilih minimal satu kelas.', 'warning');
+            return;
+        }
+        window.open(cfg.cetak + '?' + $.param($.extend({}, f, { kelas: kelas })), '_blank');
+    }
+
     // Angka bergerak dari nilai sebelumnya ke nilai baru
     function animateNumber($el, to) {
         if (!$el.length) return;
@@ -259,11 +355,33 @@
             });
     }
 
-    // ===================== INIT =====================
+        // ===================== INIT =====================
     $(function () {
         renderCards();
         loadInfobox();
         CHARTS.forEach(loadChart);
+        loadPeriode();
+
+        $('#btnTerapkan').on('click', terapkan);
+        $('#btnCetak').on('click', cetakPdf);
+
+        $('[data-preset]').on('click', function () {
+            setPreset($(this).data('preset'));
+        });
+
+        $('#btnPilihSemua').on('click', function (e) {
+            e.preventDefault();
+            $('.cetak-kelas').prop('checked', true);
+            loadPeriode();
+        });
+
+        $('#btnHapusPilihan').on('click', function (e) {
+            e.preventDefault();
+            $('.cetak-kelas').prop('checked', false);
+            loadPeriode();
+        });
+
+        $('.cetak-kelas').on('change', loadPeriode);
 
         $('input[name="chartType"]').on('change', function () {
             chartType = $(this).closest('label').data('type');
@@ -276,3 +394,4 @@
     });
 
 })(jQuery);
+
