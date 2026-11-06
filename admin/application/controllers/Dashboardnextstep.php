@@ -304,7 +304,7 @@ class Dashboardnextstep extends MY_controller
         $kelas = $f['kelas'];
 
         $daftar = array();
-        foreach ($m->getDaftarKelas() as $k) {
+        foreach ($this->_daftarKelas() as $k) {
             $daftar[$k['idkelas']] = $k['namakelas'];
         }
 
