@@ -5,6 +5,7 @@
     var BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
     var PALET = ['#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#36b9cc', '#fd7e14', '#6f42c1', '#20c997'];
     var MAKS_HARI = 400;
+    var REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     var charts = {};
     var dataTren = null;
@@ -31,6 +32,34 @@
 
     function warnaSesi(i) {
         return PALET[i % PALET.length];
+    }
+
+    // Angka bergerak dari nilai sebelumnya ke nilai baru
+    function animateNumber($el, to) {
+        if (!$el.length) return;
+        to = Math.round(parseFloat(to)) || 0;
+        var from = parseInt($el.attr('data-val'), 10) || 0;
+        $el.attr('data-val', to);
+
+        var prev = $el.data('raf');
+        if (prev) cancelAnimationFrame(prev);
+
+        if (REDUCE_MOTION || from === to) {
+            $el.text(fmt(to));
+            return;
+        }
+
+        var start = null, dur = 600;
+        function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            $el.text(fmt(Math.round(from + (to - from) * eased)));
+            if (p < 1) {
+                $el.data('raf', requestAnimationFrame(step));
+            }
+        }
+        $el.data('raf', requestAnimationFrame(step));
     }
 
     function notify(title, text, icon) {
@@ -124,11 +153,11 @@
     function muatInfo(f) {
         ajax('getinfobox', f)
             .done(function (r) {
-                $('#infoIni').text(fmt(r.kehadiranbulanini));
+                animateNumber($('#infoIni'), r.kehadiranbulanini);
                 $('#infoIniNama').text(r.namabulanini);
                 tampilPct('#pctIni', r.kenaikanbulanini, 'dibanding bulan sebelumnya');
 
-                $('#infoLalu').text(fmt(r.kehadiranbulanlalu));
+                animateNumber($('#infoLalu'), r.kehadiranbulanlalu);
                 $('#infoLaluNama').text(r.namabulanlalu);
                 tampilPct('#pctLalu', r.kenaikanbulanlalu, 'dibanding dua bulan sebelumnya');
             })
@@ -142,7 +171,8 @@
     function muatBanding(f) {
         ajax('getbanding', f)
             .done(function (r) {
-                $('#bNow').text(fmt(r.now));
+                animateNumber($('#bNow'), r.now);
+
                 var selisih = parseInt(r.selisih, 10) || 0;
                 var teks = 'Periode sebelumnya (' + r.prevawal + ' s/d ' + r.prevakhir + '): ' +
                     fmt(r.prev) + ' &middot; selisih ' + (selisih > 0 ? '+' : '') + fmt(selisih) +
@@ -211,9 +241,9 @@
     }
 
     function isiRingkas(s) {
-        $('#hTotal').text(fmt(s.total));
-        $('#hRata').text(fmt(s.rata));
-        $('#hHari').text(fmt(s.hari));
+        animateNumber($('#hTotal'), s.total);
+        animateNumber($('#hRata'), s.rata);
+        animateNumber($('#hHari'), s.hari);
         $('#hSesi').text(s.sesi_terbesar.nama);
         $('#hSesiSub').text(s.sesi_terbesar.total ? '(' + fmt(s.sesi_terbesar.total) + ' hadir)' : '');
     }
@@ -225,11 +255,15 @@
             html += '<div class="col-6 col-md-4 col-xl mb-3">' +
                 '<div class="card dk-card h-100 p-3" style="border-top:4px solid ' + warnaSesi(i) + '">' +
                     '<div class="dk-label">' + esc(s.nama) + '</div>' +
-                    '<div class="dk-val">' + fmt(s.total) + '</div>' +
+                    '<div class="dk-val" data-val="0">0</div>' +
                     '<small class="text-muted">' + pct + '% dari total periode</small>' +
                 '</div></div>';
         });
         $('#gridSesi').html(html || '<div class="col-12 text-muted mb-3">Belum ada data ibadah.</div>');
+
+        sesi.forEach(function (s, i) {
+            animateNumber($('#gridSesi .dk-val').eq(i), s.total);
+        });
     }
 
     function gambarTren() {

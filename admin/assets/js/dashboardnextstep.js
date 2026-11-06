@@ -3,18 +3,19 @@
 
     var cfg = window.DNS || {};
     var BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+    var REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Satu sumber konfigurasi untuk KPI, grafik, dan tabel
     var KELAS = [
-        { key: 'membership', label: 'Membership Class', url: 'getgrafikmembership', info: 'MembershipClass', kl: 'KL001', warna: '#4e73df', icon: 'fa-id-badge',      chart: true },
-        { key: 'fc1',        label: 'Foundation Class 1', url: 'getgrafikfc1',      info: 'FondationClass1', kl: 'KL002', warna: '#e74a3b', icon: 'fa-user-graduate', chart: true },
-        { key: 'fc2',        label: 'Foundation Class 2', url: 'getgrafikfc2',      info: 'FondationClass2', kl: 'KL003', warna: '#1cc88a', icon: 'fa-user-graduate', chart: true },
-        { key: 'fc3',        label: 'Foundation Class 3', url: 'getgrafikfc3',      info: 'FondationClass3', kl: 'KL004', warna: '#f6c23e', icon: 'fa-user-graduate', chart: true },
-        { key: 'grade1',     label: 'Grade 1',            url: 'getgrafikgrade1',   info: 'Grade1',          kl: 'KL005', warna: '#36b9cc', icon: 'fa-book-open',     chart: true },
-        { key: 'grade2',     label: 'Grade 2',            url: 'getgrafikgrade2',   info: 'Grade2',          kl: 'KL006', warna: '#fd7e14', icon: 'fa-book-open',     chart: true },
-        { key: 'grade3',     label: 'Grade 3',            url: 'getgrafikgrade3',   info: 'Grade3',          kl: 'KL007', warna: '#6f42c1', icon: 'fa-book-open',     chart: true },
-        { key: 'folunteer',  label: 'Folunteer Class',    url: 'getgrafikfolunteer', info: 'FolunteerClass', kl: 'KL008', warna: '#20c997', icon: 'fa-hands-helping', chart: true },
-        { key: 'marriage',   label: 'Marriage Class',     url: null,                info: 'MarriageClass',   kl: 'KL101', warna: '#e83e8c', icon: 'fa-ring',          chart: false }
+        { key: 'membership', label: 'Membership Class',   url: 'getgrafikmembership', info: 'MembershipClass', kl: 'KL001', warna: '#4e73df', icon: 'fa-id-badge',       chart: true },
+        { key: 'fc1',        label: 'Foundation Class 1', url: 'getgrafikfc1',        info: 'FondationClass1', kl: 'KL002', warna: '#e74a3b', icon: 'fa-user-graduate',  chart: true },
+        { key: 'fc2',        label: 'Foundation Class 2', url: 'getgrafikfc2',        info: 'FondationClass2', kl: 'KL003', warna: '#1cc88a', icon: 'fa-user-graduate',  chart: true },
+        { key: 'fc3',        label: 'Foundation Class 3', url: 'getgrafikfc3',        info: 'FondationClass3', kl: 'KL004', warna: '#f6c23e', icon: 'fa-user-graduate',  chart: true },
+        { key: 'grade1',     label: 'Grade 1',            url: 'getgrafikgrade1',     info: 'Grade1',          kl: 'KL005', warna: '#36b9cc', icon: 'fa-book-open',      chart: true },
+        { key: 'grade2',     label: 'Grade 2',            url: 'getgrafikgrade2',     info: 'Grade2',          kl: 'KL006', warna: '#fd7e14', icon: 'fa-book-open',      chart: true },
+        { key: 'grade3',     label: 'Grade 3',            url: 'getgrafikgrade3',     info: 'Grade3',          kl: 'KL007', warna: '#6f42c1', icon: 'fa-book-open',      chart: true },
+        { key: 'folunteer',  label: 'Folunteer Class',    url: 'getgrafikfolunteer',  info: 'FolunteerClass',  kl: 'KL008', warna: '#20c997', icon: 'fa-hands-helping',  chart: true },
+        { key: 'marriage',   label: 'Marriage Class',     url: null,                  info: 'MarriageClass',   kl: 'KL101', warna: '#e83e8c', icon: 'fa-ring',           chart: false }
     ];
 
     var CHARTS = KELAS.filter(function (c) { return c.chart; });
@@ -29,24 +30,47 @@
         return (parseInt(n, 10) || 0).toLocaleString('id-ID');
     }
 
+    function toInt(v) {
+        return parseInt(v, 10) || 0;
+    }
+
     function rgba(hex, a) {
         var n = parseInt(hex.slice(1), 16);
         return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
     }
 
-    function notify(title, text, icon) {
-        if (typeof Swal !== 'undefined' && Swal.fire) {
-            Swal.fire(title, text || '', icon || 'info');
-        } else {
-            alert(title + (text ? '\n\n' + text : ''));
+    // Angka bergerak dari nilai sebelumnya ke nilai baru
+    function animateNumber($el, to) {
+        if (!$el.length) return;
+        to = Math.round(parseFloat(to)) || 0;
+        var from = parseInt($el.attr('data-val'), 10) || 0;
+        $el.attr('data-val', to);
+
+        var prev = $el.data('raf');
+        if (prev) cancelAnimationFrame(prev);
+
+        if (REDUCE_MOTION || from === to) {
+            $el.text(fmt(to));
+            return;
         }
+
+        var start = null, dur = 600;
+        function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            $el.text(fmt(Math.round(from + (to - from) * eased)));
+            if (p < 1) {
+                $el.data('raf', requestAnimationFrame(step));
+            }
+        }
+        $el.data('raf', requestAnimationFrame(step));
     }
 
     // ===================== KPI =====================
     function renderKpi() {
         var html = '';
         KELAS.forEach(function (c) {
-            var v = infobox[c.info] || 0;
             html += '<div class="col-xl col-md-4 col-6 mb-3">' +
                 '<a href="' + cfg.registrasi + c.kl + '" class="dns-kpi-link">' +
                     '<div class="card dns-card dns-kpi h-100">' +
@@ -54,30 +78,30 @@
                             '<div class="dns-ico mr-2" style="background:' + c.warna + '"><i class="fas ' + c.icon + '"></i></div>' +
                             '<div class="dns-label">' + c.label + '</div>' +
                         '</div>' +
-                        '<div class="dns-val">' + fmt(v) + '</div>' +
+                        '<div class="dns-val">0</div>' +
                         '<small class="text-muted d-block mt-1">Total lulus</small>' +
                     '</div>' +
                 '</a></div>';
         });
         $('#rowKpi').html(html);
+
+        KELAS.forEach(function (c, i) {
+            animateNumber($('#rowKpi .dns-val').eq(i), toInt(infobox[c.info]));
+        });
     }
 
     function renderHero() {
-        function n(v) { return parseInt(v, 10) || 0; }
-
         var total = 0;
-        KELAS.forEach(function (c) { total += n(infobox[c.info]); });
+        KELAS.forEach(function (c) { total += toInt(infobox[c.info]); });
 
-        var fondation = n(infobox.FondationClass1) + n(infobox.FondationClass2) + n(infobox.FondationClass3);
-        var grade = n(infobox.Grade1) + n(infobox.Grade2) + n(infobox.Grade3);
+        var fondation = toInt(infobox.FondationClass1) + toInt(infobox.FondationClass2) + toInt(infobox.FondationClass3);
+        var grade = toInt(infobox.Grade1) + toInt(infobox.Grade2) + toInt(infobox.Grade3);
 
-        $('#heroTotal').text(fmt(total));
-        $('#heroMembership').text(fmt(n(infobox.MembershipClass)));
-        $('#heroFoundation').text(fmt(fondation));
-        $('#heroGrade').text(fmt(grade));
+        animateNumber($('#heroTotal'), total);
+        animateNumber($('#heroMembership'), toInt(infobox.MembershipClass));
+        animateNumber($('#heroFoundation'), fondation);
+        animateNumber($('#heroGrade'), grade);
     }
-
-    
 
     // ===================== KARTU GRAFIK =====================
     function renderCards() {
@@ -113,7 +137,7 @@
         var puncak = Math.max.apply(null, res.jumlahmurid);
         var idx = res.jumlahmurid.indexOf(puncak);
 
-        $('#tot-' + c.key).text(fmt(res.totalsiswa));
+        animateNumber($('#tot-' + c.key), res.totalsiswa);
         $('#ft-' + c.key).html(puncak > 0
             ? '<i class="fas fa-lightbulb"></i> Puncak: <b>' + BULAN[idx] + '</b> dengan <b>' + fmt(puncak) + '</b> sertifikat'
             : 'Belum ada sertifikat tahun ini.');
@@ -213,34 +237,11 @@
             });
     }
 
-    // function loadChart(c) {
-    //     pending++;
-    //     $.getJSON(cfg.base + c.url)
-    //         .done(function (res) {
-    //             data[c.key] = res;
-    //             drawChart(c);
-    //         })
-    //         .fail(function (xhr) {
-    //             $('#tot-' + c.key).text('–');
-    //             $('#ft-' + c.key).html('<span class="text-danger">Gagal dimuat (HTTP ' + xhr.status + ')</span>');
-    //         })
-    //         .always(function () {
-    //             pending--;
-    //             renderTabel();
-    //         });
-    // }
-
-
-
-    function toInt(v) {
-    return parseInt(v, 10) || 0;
-    }
-
     function loadChart(c) {
         pending++;
         $.getJSON(cfg.base + c.url)
             .done(function (res) {
-                // Normalisasi: nilai dari server bisa berupa string, jadi dikonversi ke integer
+                // Nilai dari server bisa berupa string, jadi dinormalisasi ke integer
                 data[c.key] = {
                     datatanggal: res.datatanggal,
                     jumlahmurid: (res.jumlahmurid || []).map(toInt),

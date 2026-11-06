@@ -5,6 +5,7 @@
     var BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
     var WARNA = '#be185d';
     var MAKS_HARI = 400;
+    var REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     var charts = {};
     var dataHarian = null;
@@ -27,6 +28,34 @@
     function rgba(hex, a) {
         var n = parseInt(hex.slice(1), 16);
         return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+    }
+
+    // Angka bergerak dari nilai sebelumnya ke nilai baru
+    function animateNumber($el, to) {
+        if (!$el.length) return;
+        to = Math.round(parseFloat(to)) || 0;
+        var from = parseInt($el.attr('data-val'), 10) || 0;
+        $el.attr('data-val', to);
+
+        var prev = $el.data('raf');
+        if (prev) cancelAnimationFrame(prev);
+
+        if (REDUCE_MOTION || from === to) {
+            $el.text(fmt(to));
+            return;
+        }
+
+        var start = null, dur = 600;
+        function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            $el.text(fmt(Math.round(from + (to - from) * eased)));
+            if (p < 1) {
+                $el.data('raf', requestAnimationFrame(step));
+            }
+        }
+        $el.data('raf', requestAnimationFrame(step));
     }
 
     function notify(title, text, icon) {
@@ -117,14 +146,14 @@
     function muatInfo() {
         ajax('getinfobox')
             .done(function (r) {
-                $('#hDc').text(fmt(r.jumlahDc));
-                $('#hMember').text(fmt(r.jumlahMember));
+                animateNumber($('#hDc'), r.jumlahDc);
+                animateNumber($('#hMember'), r.jumlahMember);
 
-                $('#infoIni').text(fmt(r.memberBaruIni));
+                animateNumber($('#infoIni'), r.memberBaruIni);
                 $('#infoIniNama').text(r.namabulanini);
                 tampilPct('#pctIni', r.pctIni, 'dibanding bulan lalu');
 
-                $('#infoLalu').text(fmt(r.memberBaruLalu));
+                animateNumber($('#infoLalu'), r.memberBaruLalu);
                 $('#infoLaluNama').text(r.namabulanlalu);
                 tampilPct('#pctLalu', r.pctLalu, 'dibanding dua bulan lalu');
             })
@@ -138,8 +167,8 @@
     function muatBanding(f) {
         ajax('getbanding', f)
             .done(function (r) {
-                $('#hBaru').text(fmt(r.now));
-                $('#bNow').text(fmt(r.now));
+                animateNumber($('#hBaru'), r.now);
+                animateNumber($('#bNow'), r.now);
 
                 var selisih = parseInt(r.selisih, 10) || 0;
                 var teks = 'Periode sebelumnya (' + r.prevawal + ' s/d ' + r.prevakhir + '): ' +
@@ -217,7 +246,8 @@
             .done(function (r) {
                 if (r.error) notify('Perhatian', r.error, 'warning');
 
-                $('#hRata').text(fmt(r.ringkas.rata));
+                animateNumber($('#hRata'), r.ringkas.rata);
+
                 var t = r.ringkas.tertinggi;
                 $('#infoTertinggi').html(t.jumlah > 0
                     ? '<i class="fas fa-star text-warning"></i> Hari tertinggi: <b>' + esc(t.tgl) + '</b> dengan <b>' + fmt(t.jumlah) + '</b> member baru'
@@ -281,7 +311,7 @@
             });
     }
 
-        // ===================== CETAK =====================
+    // ===================== CETAK =====================
     function bukaCetak(url, params) {
         window.open(url + '?' + $.param(params), '_blank');
     }
