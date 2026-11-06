@@ -3,6 +3,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboardnextstep extends MY_controller
 {
+    private $namabulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
+
+    private $namabulanpanjang = array(
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    );
+
+    private $maksHari = 400;
 
     public function __construct()
     {
@@ -14,7 +22,6 @@ class Dashboardnextstep extends MY_controller
 
     public function index()
     {
-
         $f = $this->_filter();
 
         $data['rsMenunggu'] = $this->Dashboardnextstep_model->getStatusMenunggu();
@@ -24,250 +31,35 @@ class Dashboardnextstep extends MY_controller
         $data['tglakhir']   = $f['tglakhir'];
         $data['error']      = $f['error'];
         $this->load->view('dashboard/nextstep', $data);
-
-        $rsMenunggu = $this->Dashboardnextstep_model->getStatusMenunggu();
-        // var_dump($rsMenunggu);
-        // exit;
-        $data['rsMenunggu'] = $rsMenunggu;
-        $data["menu"] = "dashboardnextstep";
-        $this->load->view("dashboard/nextstep", $data);
     }
 
     public function detail()
     {
-        $rsMenunggu = $this->Dashboardnextstep_model->getStatusMenunggu();
-        // var_dump($rsMenunggu);
-        // exit;
-        $data['rsMenunggu'] = $rsMenunggu;
-        $data["menu"] = "dashboardnextstep";
-        $this->load->view("dashboard/nextstepdetail", $data);
+        $data['rsMenunggu'] = $this->Dashboardnextstep_model->getStatusMenunggu();
+        $data['menu']       = 'dashboardnextstep';
+        $this->load->view('dashboard/nextstepdetail', $data);
     }
 
     public function getinfobox()
     {
-        $rsinfobox = $this->Dashboardnextstep_model->getinfobox();
-        $row = $rsinfobox->row_array();
+        $row   = $this->Dashboardnextstep_model->getinfobox()->row_array();
         $hasil = array();
         foreach ((array) $row as $kunci => $nilai) {
             $hasil[$kunci] = (int) $nilai;
         }
-        echo json_encode(array($hasil));
+        $this->_json(array($hasil));
     }
 
-    public function getgrafikmembership()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikmembership()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
+    public function getgrafikmembership() { $this->_grafik('getgrafikmembership'); }
+    public function getgrafikfc1()        { $this->_grafik('getgrafikfc1'); }
+    public function getgrafikfc2()        { $this->_grafik('getgrafikfc2'); }
+    public function getgrafikfc3()        { $this->_grafik('getgrafikfc3'); }
+    public function getgrafikgrade1()     { $this->_grafik('getgrafikgrade1'); }
+    public function getgrafikgrade2()     { $this->_grafik('getgrafikgrade2'); }
+    public function getgrafikgrade3()     { $this->_grafik('getgrafikgrade3'); }
+    public function getgrafikfolunteer()  { $this->_grafik('getgrafikfolunteer'); }
 
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-
-    public function getgrafikfc1()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikfc1()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-
-    public function getgrafikfc2()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikfc2()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-
-
-    public function getgrafikfc3()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikfc3()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-
-
-    public function getgrafikgrade1()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikgrade1()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-
-    public function getgrafikgrade2()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikgrade2()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-
-
-    public function getgrafikgrade3()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikgrade3()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-
-    public function getgrafikfolunteer()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikfolunteer()->row();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-
-        $datatanggal = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des');
-        $jumlahmurid = array($rskelas->Jan, $rskelas->Feb, $rskelas->Mar, $rskelas->Apr, $rskelas->Mei, $rskelas->Jun, $rskelas->Jul, $rskelas->Ags, $rskelas->Sep, $rskelas->Okt, $rskelas->Nov, $rskelas->Des);
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'totalsiswa' => $rskelas->Jan + $rskelas->Feb + $rskelas->Mar + $rskelas->Apr + $rskelas->Mei + $rskelas->Jun + $rskelas->Jul + $rskelas->Ags + $rskelas->Sep + $rskelas->Okt + $rskelas->Nov + $rskelas->Des
-        );
-        echo json_encode($data);
-    }
-    public function getgrafikfc2_old()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikfc2();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-        if ($rskelas->num_rows() > 0) {
-            $i = 1;
-            foreach ($rskelas->result() as $row) {
-                $datatanggal[] = 'Tgl-' . date('d-m-Y', strtotime($row->tglsertifikat));
-                $jumlahmurid[] = $row->jumlah;
-                $ratarata[] = ($jumlah + $row->jumlah) / $i;
-
-                $jumlah += $row->jumlah;
-                $i++;
-            }
-        }
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'ratarata' => $ratarata,
-            'totalsiswa' => $jumlah,
-        );
-
-        echo json_encode($data);
-    }
-
-
-    public function getgrafikfc3_old()
-    {
-        $rskelas = $this->Dashboardnextstep_model->getgrafikfc3();
-        $datatanggal = array();
-        $jumlahmurid = array();
-        $ratarata = array();
-        $jumlah = 0;
-        if ($rskelas->num_rows() > 0) {
-            $i = 1;
-            foreach ($rskelas->result() as $row) {
-                $datatanggal[] = 'Tgl-' . date('d-m-Y', strtotime($row->tglsertifikat));
-                $jumlahmurid[] = $row->jumlah;
-                $ratarata[] = ($jumlah + $row->jumlah) / $i;
-
-                $jumlah += $row->jumlah;
-                $i++;
-            }
-        }
-
-        $data = array(
-            'datatanggal' => $datatanggal,
-            'jumlahmurid' => $jumlahmurid,
-            'ratarata' => $ratarata,
-            'totalsiswa' => $jumlah,
-        );
-
-        echo json_encode($data);
-    }
-
-        // Ringkasan jumlah lulus per kelas untuk periode terpilih (dipakai kartu periode)
+    // Ringkasan jumlah lulus per kelas untuk periode terpilih
     public function getperiode()
     {
         $f     = $this->_filter();
@@ -354,14 +146,24 @@ class Dashboardnextstep extends MY_controller
     // PRIVATE HELPER
     // =========================================================
 
-    private $namabulanpanjang = array(
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    );
+    // Satu helper untuk semua grafik pivot 12 bulan
+    private function _grafik($metode)
+    {
+        $row = $this->Dashboardnextstep_model->$metode()->row();
 
-    private $maksHari = 400;
+        $jumlah = array();
+        foreach ($this->namabulan as $b) {
+            $jumlah[] = ($row && isset($row->$b)) ? (int) $row->$b : 0;
+        }
 
-    // Kode kelas yang boleh dicetak. Daftar ini tetap, dari kode yang dipakai grafik.
+        $this->_json(array(
+            'datatanggal' => $this->namabulan,
+            'jumlahmurid' => $jumlah,
+            'totalsiswa'  => array_sum($jumlah),
+        ));
+    }
+
+    // Kode kelas yang boleh dipakai. Daftar tetap, bukan dari input user.
     private function _kodeKelas()
     {
         return array('KL001', 'KL002', 'KL003', 'KL004', 'KL005', 'KL006', 'KL007', 'KL008', 'KL101');
@@ -409,13 +211,13 @@ class Dashboardnextstep extends MY_controller
             $tglakhir = $defAkhir;
         }
 
-        // Kelas: array kelas[]=KL001&kelas[]=KL002. Hanya kode yang dikenal yang diterima.
+        // Kelas: kelas[]=KL001&kelas[]=KL002. Hanya kode yang dikenal yang diterima.
         $kelasInput = $this->input->get('kelas');
         if (is_string($kelasInput)) {
             $kelasInput = explode(',', $kelasInput);
         }
         $kelasInput = is_array($kelasInput) ? $kelasInput : array();
-        $kelas = array_values(array_intersect($this->_kodeKelas(), $kelasInput));
+        $kelas      = array_values(array_intersect($this->_kodeKelas(), $kelasInput));
         if (empty($kelas)) {
             $kelas = $this->_kodeKelas();
         }
