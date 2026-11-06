@@ -59,7 +59,7 @@ class Dashboardnextstep extends MY_controller
     public function getgrafikgrade3()     { $this->_grafik('getgrafikgrade3'); }
     public function getgrafikfolunteer()  { $this->_grafik('getgrafikfolunteer'); }
 
-    // Ringkasan jumlah lulus per kelas untuk periode terpilih
+    // Jumlah sertifikat per kelas untuk periode terpilih
     public function getperiode()
     {
         $f     = $this->_filter();
@@ -79,7 +79,7 @@ class Dashboardnextstep extends MY_controller
         ));
     }
 
-    // Cetak PDF: ringkasan per kelas dan rincian lulusan per bulan dengan nama
+    // Cetak PDF: ringkasan per kelas dan rincian nama per bulan
     public function cetak()
     {
         error_reporting(0);
@@ -95,19 +95,19 @@ class Dashboardnextstep extends MY_controller
         $m     = $this->Dashboardnextstep_model;
         $kelas = $f['kelas'];
 
-        $daftar = array();
+        $labels = array();
         foreach ($this->_daftarKelas() as $k) {
-            $daftar[$k['idkelas']] = $k['namakelas'];
+            $labels[$k['idkelas']] = $k['namakelas'];
         }
 
-        $rows = $m->listLulusan($f['tglawal'], $f['tglakhir'], $kelas);
-
-        log_message('error', 'DEBUG rows=' . count($rows) . ' kelas=' . implode(',', $kelas) . ' | ' . $this->db->last_query());
+        $rows = $m->listSertifikat($f['tglawal'], $f['tglakhir'], $kelas);
 
         $bulanKeys = $this->_daftarBulan($f['tglawal'], $f['tglakhir']);
         $rincian   = array();
+        $labelBulan = array();
         foreach ($bulanKeys as $ym) {
-            $rincian[$ym] = array();
+            $rincian[$ym]    = array();
+            $labelBulan[$ym] = $this->namabulanpanjang[(int) substr($ym, 5, 2) - 1] . ' ' . substr($ym, 0, 4);
         }
 
         $summary = array_fill_keys($kelas, 0);
@@ -117,16 +117,6 @@ class Dashboardnextstep extends MY_controller
             if (isset($rincian[$ym])) {
                 $rincian[$ym][$r['idkelas']][] = $r;
             }
-        }
-
-        $labelBulan = array();
-        foreach ($bulanKeys as $ym) {
-            $labelBulan[$ym] = $this->namabulanpanjang[(int) substr($ym, 5, 2) - 1] . ' ' . substr($ym, 0, 4);
-        }
-
-        $labels = array();
-        foreach ($kelas as $k) {
-            $labels[$k] = isset($daftar[$k]) ? $daftar[$k] : $k;
         }
 
         $data = array(

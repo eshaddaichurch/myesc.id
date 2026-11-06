@@ -76,7 +76,7 @@ class Dashboardnextstep_model extends CI_Model
         return $q->result_array();
     }
 
-    // Ringkasan jumlah lulus per kelas dalam rentang tanggal sertifikat
+    // Jumlah sertifikat terbit per kelas dalam rentang tanggal
     public function ringkasPeriode($tglawal, $tglakhir, $kelas)
     {
         if (empty($kelas)) {
@@ -87,9 +87,8 @@ class Dashboardnextstep_model extends CI_Model
 
         return $this->_rows(
             "SELECT idkelas, COUNT(*) AS jumlah
-             FROM registrasikelas
-             WHERE statuslulus = 1
-               AND tglsertifikat IS NOT NULL
+             FROM v_registrasikelas
+             WHERE tglsertifikat IS NOT NULL
                AND DATE(tglsertifikat) BETWEEN ? AND ?
                AND idkelas IN ($ph)
              GROUP BY idkelas",
@@ -97,8 +96,8 @@ class Dashboardnextstep_model extends CI_Model
         );
     }
 
-    // Daftar lulusan per kelas dalam rentang tanggal, untuk rincian PDF
-    public function listLulusan($tglawal, $tglakhir, $kelas)
+    // Daftar sertifikat terbit per kelas dalam rentang tanggal, untuk rincian PDF
+    public function listSertifikat($tglawal, $tglakhir, $kelas)
     {
         if (empty($kelas)) {
             return array();
@@ -107,13 +106,12 @@ class Dashboardnextstep_model extends CI_Model
         $binds = array_merge(array($tglawal, $tglakhir), $kelas);
 
         return $this->_rows(
-            "SELECT v.idkelas, v.tglsertifikat, v.namalengkap, v.jeniskelamin
-             FROM v_pendaftarankelas v
-             WHERE v.statuslulus = 1
-               AND v.tglsertifikat IS NOT NULL
-               AND DATE(v.tglsertifikat) BETWEEN ? AND ?
-               AND v.idkelas IN ($ph)
-             ORDER BY v.tglsertifikat ASC, v.namalengkap ASC",
+            "SELECT idkelas, tglsertifikat, namalengkap, jeniskelamin, nomorsertifikat
+             FROM v_registrasikelas
+             WHERE tglsertifikat IS NOT NULL
+               AND DATE(tglsertifikat) BETWEEN ? AND ?
+               AND idkelas IN ($ph)
+             ORDER BY tglsertifikat ASC, namalengkap ASC",
             $binds
         );
     }

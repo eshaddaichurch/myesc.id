@@ -97,7 +97,7 @@ $ringkasHtml = '<br><h5 style="font-weight:bold;">A. RINGKASAN PER KELAS</h5><br
         <tr style="font-size:11px; font-weight:bold; background-color:#dddddd;">
             <th width="8%" style="text-align:center;">No</th>
             <th width="72%" style="text-align:center;">Kelas</th>
-            <th width="20%" style="text-align:center;">Lulus</th>
+            <th width="20%" style="text-align:center;">Sertifikat</th>
         </tr>
     </thead>
     <tbody>';
@@ -155,9 +155,10 @@ foreach ($bulanKeys as $ym) {
             <thead>
                 <tr style="font-size:9px; font-weight:bold; background-color:#dddddd;">
                     <th width="7%" style="text-align:center;">No</th>
-                    <th width="23%" style="text-align:center;">Tanggal</th>
-                    <th width="50%" style="text-align:center;">Nama</th>
-                    <th width="20%" style="text-align:center;">JK</th>
+                    <th width="18%" style="text-align:center;">Tanggal</th>
+                    <th width="43%" style="text-align:center;">Nama</th>
+                    <th width="10%" style="text-align:center;">JK</th>
+                    <th width="22%" style="text-align:center;">No. Sertifikat</th>
                 </tr>
             </thead>
             <tbody>';
@@ -168,9 +169,10 @@ foreach ($bulanKeys as $ym) {
             $jk = (isset($r['jeniskelamin']) && $r['jeniskelamin'] === 'Laki-laki') ? 'L' : 'P';
             $html .= '<tr style="font-size:9px; background-color:' . $bg . ';">
                 <td width="7%" style="text-align:center;">' . $i . '</td>
-                <td width="23%" style="text-align:center;">' . tglindonesia($r['tglsertifikat']) . '</td>
-                <td width="50%">' . htmlspecialchars((string) ($r['namalengkap'] ?? '-')) . '</td>
-                <td width="20%" style="text-align:center;">' . $jk . '</td>
+                <td width="18%" style="text-align:center;">' . tglindonesia($r['tglsertifikat']) . '</td>
+                <td width="43%">' . htmlspecialchars((string) ($r['namalengkap'] ?? '-')) . '</td>
+                <td width="10%" style="text-align:center;">' . $jk . '</td>
+                <td width="22%" style="text-align:center;">' . htmlspecialchars((string) ($r['nomorsertifikat'] ?? '-')) . '</td>
             </tr>';
             $i++;
         }
@@ -183,7 +185,7 @@ foreach ($bulanKeys as $ym) {
 
 if (!$adaData) {
     $pdf->writeHTML(
-        '<p style="font-size:11px; font-style:italic; text-align:center;">Tidak ada lulusan pada periode ini.</p>',
+        '<p style="font-size:11px; font-style:italic; text-align:center;">Tidak ada sertifikat terbit pada periode ini.</p>',
         true, false, false, false, ''
     );
 }
