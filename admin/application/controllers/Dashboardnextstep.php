@@ -102,6 +102,8 @@ class Dashboardnextstep extends MY_controller
 
         $rows = $m->listLulusan($f['tglawal'], $f['tglakhir'], $kelas);
 
+        log_message('error', 'DEBUG rows=' . count($rows) . ' kelas=' . implode(',', $kelas) . ' | ' . $this->db->last_query());
+
         $bulanKeys = $this->_daftarBulan($f['tglawal'], $f['tglakhir']);
         $rincian   = array();
         foreach ($bulanKeys as $ym) {
