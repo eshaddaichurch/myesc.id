@@ -8,6 +8,29 @@ class Akun extends BaseApi
     // Hanya status ini yang boleh mengubah data identitas (sama seperti web)
     const STATUS_BOLEH_IDENTITAS = array('Registered', 'Simpatisan');
 
+    // Kolom yang boleh diubah oleh semua status jemaat
+    const KOLOM_UMUM = array(
+        'notelp', 'facebook', 'instagram', 'alamatrumah', 'rtrw', 'kodepos',
+        'namadarurat', 'hubungan', 'notelpdarurat',
+        'pendidikanterakhir', 'namasekolah', 'pekerjaan', 'namaperusahaan',
+        'sektorindustri', 'alamatkantor', 'notelpkantor',
+    );
+
+    // Kolom identitas (hanya untuk status Registered / Simpatisan)
+    const KOLOM_IDENTITAS = array(
+        'nik', 'kewarganegaraan', 'namalengkap', 'namapanggilan', 'tempatlahir',
+        'tanggallahir', 'jeniskelamin', 'statuspernikahan', 'golongandarah',
+    );
+
+    // Kolom identitas yang tidak boleh kosong bila ikut dikirim
+    const KOLOM_IDENTITAS_WAJIB = array(
+        'nik', 'kewarganegaraan', 'namalengkap', 'namapanggilan', 'tempatlahir',
+        'tanggallahir', 'jeniskelamin', 'statuspernikahan',
+    );
+
+    // Daftar wilayah jarang berubah, boleh disimpan di perangkat selama 1 hari
+    const CACHE_WILAYAH = 'private, max-age=86400';
+
     // GET /api/akun/profil
     public function profil()
     {
@@ -23,6 +46,7 @@ class Akun extends BaseApi
     }
 
     // POST /api/akun/update
+    // Hanya kolom yang dikirim yang diubah. Kolom lain dibiarkan seperti semula.
     // Nomor WhatsApp TIDAK disimpan di sini. Harus lewat otpKirim lalu otpVerifikasi.
     public function update()
     {
@@ -37,59 +61,55 @@ class Akun extends BaseApi
             return;
         }
 
-        $tanggallahir = $this->_post('tanggallahir');
-        if ($tanggallahir !== null && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $tanggallahir)) {
-            $this->jsonError('Format tanggal lahir harus YYYY-MM-DD.');
-            return;
+        $data = array();
+
+        foreach (self::KOLOM_UMUM as $kolom) {
+            if ($this->_dikirim($kolom)) {
+                $data[$kolom] = $this->_post($kolom);
+            }
         }
 
-        $data = array(
-            'notelp' => $this->_post('notelp'),
-            'facebook' => $this->_post('facebook'),
-            'instagram' => $this->_post('instagram'),
-            'alamatrumah' => $this->_post('alamatrumah'),
-            'rtrw' => $this->_post('rtrw'),
-            'kodepos' => $this->_post('kodepos'),
-            'propinsi' => $this->_namaWilayah('provinsi', 'idprovinsi', 'namaprovinsi', $this->_post('propinsi')),
-            'kotakabupaten' => $this->_namaWilayah('kabupaten', 'idkabupaten', 'namakabupaten', $this->_post('kotakabupaten')),
-            'kecamatan' => $this->_namaWilayah('kecamatan', 'idkecamatan', 'namakecamatan', $this->_post('kecamatan')),
-            'kelurahan' => $this->_namaWilayah('desa', 'iddesa', 'namadesa', $this->_post('kelurahan')),
-            'namadarurat' => $this->_post('namadarurat'),
-            'hubungan' => $this->_post('hubungan'),
-            'notelpdarurat' => $this->_post('notelpdarurat'),
-            'pendidikanterakhir' => $this->_post('pendidikanterakhir'),
-            'namasekolah' => $this->_post('namasekolah'),
-            'pekerjaan' => $this->_post('pekerjaan'),
-            'namaperusahaan' => $this->_post('namaperusahaan'),
-            'sektorindustri' => $this->_post('sektorindustri'),
-            'alamatkantor' => $this->_post('alamatkantor'),
-            'notelpkantor' => $this->_post('notelpkantor'),
-            'tanggalupdate' => date('Y-m-d H:i:s'),
-        );
+        // Wilayah: web menyimpan nama, bukan kode
+        if ($this->_dikirim('propinsi')) {
+            $data['propinsi'] = $this->_namaWilayah('provinsi', 'idprovinsi', 'namaprovinsi', $this->_post('propinsi'));
+        }
+        if ($this->_dikirim('kotakabupaten')) {
+            $data['kotakabupaten'] = $this->_namaWilayah('kabupaten', 'idkabupaten', 'namakabupaten', $this->_post('kotakabupaten'));
+        }
+        if ($this->_dikirim('kecamatan')) {
+            $data['kecamatan'] = $this->_namaWilayah('kecamatan', 'idkecamatan', 'namakecamatan', $this->_post('kecamatan'));
+        }
+        if ($this->_dikirim('kelurahan')) {
+            $data['kelurahan'] = $this->_namaWilayah('desa', 'iddesa', 'namadesa', $this->_post('kelurahan'));
+        }
 
         if (in_array($rowJemaat->statusjemaat, self::STATUS_BOLEH_IDENTITAS, true)) {
-            $identitas = array(
-                'nik' => $this->_post('nik'),
-                'kewarganegaraan' => $this->_post('kewarganegaraan'),
-                'namalengkap' => $this->_post('namalengkap'),
-                'namapanggilan' => $this->_post('namapanggilan'),
-                'tempatlahir' => $this->_post('tempatlahir'),
-                'tanggallahir' => $tanggallahir,
-                'jeniskelamin' => $this->_post('jeniskelamin'),
-                'statuspernikahan' => $this->_post('statuspernikahan'),
-                'golongandarah' => $this->_post('golongandarah'),
-            );
+            foreach (self::KOLOM_IDENTITAS as $kolom) {
+                if ($this->_dikirim($kolom)) {
+                    $data[$kolom] = $this->_post($kolom);
+                }
+            }
 
-            $wajib = array('nik', 'kewarganegaraan', 'namalengkap', 'namapanggilan', 'tempatlahir', 'tanggallahir', 'jeniskelamin', 'statuspernikahan');
-            foreach ($wajib as $kolom) {
-                if ($identitas[$kolom] === null) {
+            foreach (self::KOLOM_IDENTITAS_WAJIB as $kolom) {
+                if (array_key_exists($kolom, $data) && $data[$kolom] === null) {
                     $this->jsonError('Mohon lengkapi data identitas.');
                     return;
                 }
             }
 
-            $data = array_merge($data, $identitas);
+            if (array_key_exists('tanggallahir', $data) && $data['tanggallahir'] !== null
+                && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['tanggallahir'])) {
+                $this->jsonError('Format tanggal lahir harus YYYY-MM-DD.');
+                return;
+            }
         }
+
+        if (empty($data)) {
+            $this->jsonSuccess(array('msg' => 'Tidak ada perubahan.'));
+            return;
+        }
+
+        $data['tanggalupdate'] = date('Y-m-d H:i:s');
 
         $this->db->where('idjemaat', $idjemaat);
         $simpan = $this->db->update('jemaat', $data);
@@ -315,6 +335,12 @@ class Akun extends BaseApi
     // Helper
     // ============================================================
 
+    // Kolom dianggap dikirim kalau ada di request, walaupun nilainya kosong
+    private function _dikirim($key)
+    {
+        return $this->input->post($key) !== null;
+    }
+
     private function _post($key)
     {
         $nilai = trim((string) $this->input->post($key));
@@ -339,6 +365,8 @@ class Akun extends BaseApi
 
     private function _kirimDaftar($sql, $params)
     {
+        header('Cache-Control: ' . self::CACHE_WILAYAH);
+
         $rows = $this->db->query($sql, $params)->result();
         $this->jsonSuccess(array('data' => $rows));
     }
