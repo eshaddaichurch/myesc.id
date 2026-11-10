@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once APPPATH . 'controllers/api/BaseApi.php';
 
+// Data Giving bersifat publik, sama seperti halaman Giving di web (tanpa login).
 class Give extends BaseApi
 {
     private function categories()
@@ -52,18 +53,15 @@ class Give extends BaseApi
         );
     }
 
-    // GET /api/give/list
+    // GET /api/give/list  (publik)
     public function list()
     {
-        $this->requireAuth();
         $this->jsonSuccess(array('kategori' => $this->categories()));
     }
 
-    // GET /api/give/detail/{slug}
+    // GET /api/give/detail/{slug}  (publik)
     public function detail($slug = '')
     {
-        $this->requireAuth();
-
         foreach ($this->categories() as $kategori) {
             if ($kategori['slug'] === $slug) {
                 $this->jsonSuccess(array('kategori' => $kategori));
@@ -71,7 +69,7 @@ class Give extends BaseApi
             }
         }
 
-        $this->jsonError('Kategori persembahan tidak ditemukan.');
+        $this->jsonError('Kategori persembahan tidak ditemukan.', 404);
     }
 }
 
