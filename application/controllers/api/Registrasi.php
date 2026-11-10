@@ -55,15 +55,17 @@ class Registrasi extends BaseApi
             return;
         }
 
-        // NIK sudah ada dan tanggal lahir cocok: data digabung ke akun lama
+        // Hanya untuk "Sudah Pernah": jika NIK sudah ada dan tanggal lahir cocok, data digabung ke akun lama
         $idMerge = null;
-        $nikRow = $this->db->query('SELECT idjemaat, tanggallahir FROM jemaat WHERE nik = ? LIMIT 1', array($d['nik']))->row();
-        if ($nikRow) {
-            if ((string) $nikRow->tanggallahir !== $d['tanggallahir']) {
-                $this->jsonError('NIK tidak cocok dengan tanggal lahir Anda. Silakan hubungi hotline gereja WhatsApp 085550001187.');
-                return;
+        if ($d['nik'] !== null) {
+            $nikRow = $this->db->query('SELECT idjemaat, tanggallahir FROM jemaat WHERE nik = ? LIMIT 1', array($d['nik']))->row();
+            if ($nikRow) {
+                if ((string) $nikRow->tanggallahir !== $d['tanggallahir']) {
+                    $this->jsonError('NIK tidak cocok dengan tanggal lahir Anda. Silakan hubungi hotline gereja WhatsApp 085550001187.');
+                    return;
+                }
+                $idMerge = $nikRow->idjemaat;
             }
-            $idMerge = $nikRow->idjemaat;
         }
 
         $cekEmail = $this->_akunPemakai('email', $d['email']);
@@ -259,11 +261,19 @@ class Registrasi extends BaseApi
     // Helper
     // ============================================================
 
+    // Field NIK, tempat lahir, dan alamat hanya wajib untuk "Sudah Pernah", sama seperti web
     private function _validasiData(&$err)
     {
         $get = function ($k) {
             return trim((string) $this->input->post($k));
         };
+
+        $pernah = $get('sudahpernahfondationclass');
+        if (!in_array($pernah, array('Sudah', 'Belum'), true)) {
+            $err = 'Pilih apakah Anda sudah pernah memiliki Kartu Anggota Jemaat.';
+            return null;
+        }
+        $sudah = $pernah === 'Sudah';
 
         $nama = $get('namalengkap');
         $nik = $get('nik');
@@ -273,7 +283,6 @@ class Registrasi extends BaseApi
         $alamat = $get('alamatrumah');
         $hp = $get('nohp');
         $email = $get('email');
-        $pernah = $get('sudahpernahfondationclass');
         $pw = (string) $this->input->post('password');
         $pw2 = (string) $this->input->post('password2');
 
@@ -281,7 +290,7 @@ class Registrasi extends BaseApi
             $err = 'Nama lengkap wajib diisi (maksimal 150 karakter).';
             return null;
         }
-        if (!preg_match('/^[0-9]{16}$/', $nik)) {
+        if ($sudah && !preg_match('/^[0-9]{16}$/', $nik)) {
             $err = 'NIK harus 16 digit angka.';
             return null;
         }
@@ -289,7 +298,7 @@ class Registrasi extends BaseApi
             $err = 'Pilih jenis kelamin.';
             return null;
         }
-        if ($tempat === '' || mb_strlen($tempat) > 100) {
+        if ($sudah && ($tempat === '' || mb_strlen($tempat) > 100)) {
             $err = 'Tempat lahir wajib diisi (maksimal 100 karakter).';
             return null;
         }
@@ -302,7 +311,7 @@ class Registrasi extends BaseApi
             $err = 'Tanggal lahir tidak valid.';
             return null;
         }
-        if ($alamat === '' || mb_strlen($alamat) > 255) {
+        if ($sudah && ($alamat === '' || mb_strlen($alamat) > 255)) {
             $err = 'Alamat rumah wajib diisi (maksimal 255 karakter).';
             return null;
         }
@@ -322,18 +331,14 @@ class Registrasi extends BaseApi
             $err = 'Ulangi password tidak sama.';
             return null;
         }
-        if (!in_array($pernah, array('Sudah', 'Belum'), true)) {
-            $err = 'Pilih apakah Anda sudah pernah memiliki Kartu Anggota Jemaat.';
-            return null;
-        }
 
         return array(
             'namalengkap' => $nama,
-            'nik' => $nik,
+            'nik' => $sudah ? $nik : null,
             'jeniskelamin' => $jk,
-            'tempatlahir' => $tempat,
+            'tempatlahir' => $sudah ? $tempat : null,
             'tanggallahir' => $tgl,
-            'alamatrumah' => $alamat,
+            'alamatrumah' => $sudah ? $alamat : null,
             'nohp' => $hp,
             'email' => $email,
             'password' => $pw,
