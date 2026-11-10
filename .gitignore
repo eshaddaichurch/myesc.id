@@ -17,6 +17,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 #codeigniter 3
 # WhatsApp Cloud API & gateway
+application/recaptcha-app.html
 admin/application/config/whatsapp_resmi.php
 admin/application/config/whatsapp.php
 application/config/whatsapp_resmi.php
