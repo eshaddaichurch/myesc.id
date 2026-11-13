@@ -5,13 +5,22 @@ require_once APPPATH . 'controllers/api/BaseApi.php';
 
 class DcRecap extends BaseApi
 {
-    // Berapa minggu ke belakang yang ditampilkan
-    const JUMLAH_MINGGU = 8;
+    // Recap untuk jemaat yang tergabung DC
+    const JUMLAH_MINGGU_MEMBER = 12;
+    const MAKS_FOTO_PER_MINGGU_MEMBER = 50;
+
+    // Recap umum (tanpa login): hanya minggu terbaru, dibatasi jumlahnya
+    const JUMLAH_MINGGU_PUBLIK = 1;
+    const MAKS_FOTO_PUBLIK = 12;
+
+    // Batas baris yang dibaca dari database
+    const BATAS_BARIS = 300;
 
     // Masa berlaku URL foto (detik). 86400 = 24 jam
     const MASA_BERLAKU_FOTO = 86400;
 
-    // GET /api/dcrecap
+    // GET /api/dcrecap  (wajib login)
+    // status: ada | kosong | bukan_member
     public function index()
     {
         $idjemaat = $this->requireAuth();
@@ -23,23 +32,67 @@ class DcRecap extends BaseApi
         )->row();
 
         if (!$member) {
-            $this->jsonSuccess(array('minggu' => array(), 'msg' => 'Anda belum tergabung dalam DC.'));
+            $this->jsonSuccess(array('status' => 'bukan_member', 'minggu' => array()));
             return;
         }
 
-        $jumlahMinggu = (int) self::JUMLAH_MINGGU;
+        $batas = (int) self::BATAS_BARIS;
 
         $rows = $this->db->query(
             "SELECT idabsen, tglabsen, keterangan, foto
              FROM dcabsen
              WHERE iddc = ?
                AND foto IS NOT NULL AND foto <> ''
-               AND tglabsen >= DATE_SUB(CURDATE(), INTERVAL {$jumlahMinggu} WEEK)
-             ORDER BY tglabsen DESC",
+             ORDER BY tglabsen DESC
+             LIMIT {$batas}",
             array($member->iddc)
         )->result();
 
+        $minggu = $this->_kelompokkan(
+            $rows,
+            self::JUMLAH_MINGGU_MEMBER,
+            self::MAKS_FOTO_PER_MINGGU_MEMBER,
+            true
+        );
+
+        $this->jsonSuccess(array(
+            'status' => count($minggu) > 0 ? 'ada' : 'kosong',
+            'minggu' => $minggu,
+        ));
+    }
+
+    // GET /api/dcrecap/publik  (tanpa login)
+    // Foto minggu terbaru dari semua DC. Tanpa keterangan dan tanpa nama DC.
+    public function publik()
+    {
+        $batas = (int) self::BATAS_BARIS;
+
+        $rows = $this->db->query(
+            "SELECT idabsen, tglabsen, foto
+             FROM dcabsen
+             WHERE foto IS NOT NULL AND foto <> ''
+             ORDER BY tglabsen DESC
+             LIMIT {$batas}"
+        )->result();
+
+        $minggu = $this->_kelompokkan(
+            $rows,
+            self::JUMLAH_MINGGU_PUBLIK,
+            self::MAKS_FOTO_PUBLIK,
+            false
+        );
+
+        $this->jsonSuccess(array(
+            'status' => count($minggu) > 0 ? 'ada' : 'kosong',
+            'minggu' => $minggu,
+        ));
+    }
+
+    // Mengelompokkan foto per minggu ISO (Senin sampai Minggu), dari yang terbaru
+    private function _kelompokkan($rows, $jumlahMinggu, $maksFoto, $sertakanKeterangan)
+    {
         $minggu = array();
+
         foreach ($rows as $r) {
             $ts = strtotime($r->tglabsen);
             if ($ts === false) {
@@ -48,6 +101,10 @@ class DcRecap extends BaseApi
 
             $kunci = date('o-W', $ts);
             if (!isset($minggu[$kunci])) {
+                if (count($minggu) >= $jumlahMinggu) {
+                    break;
+                }
+
                 $senin = $ts - (((int) date('N', $ts)) - 1) * 86400;
                 $minggu[$kunci] = array(
                     'kunci' => $kunci,
@@ -57,15 +114,23 @@ class DcRecap extends BaseApi
                 );
             }
 
-            $minggu[$kunci]['foto'][] = array(
+            if (count($minggu[$kunci]['foto']) >= $maksFoto) {
+                continue;
+            }
+
+            $item = array(
                 'idabsen' => $r->idabsen,
                 'tglabsen' => $r->tglabsen,
-                'keterangan' => $r->keterangan,
                 'url' => $this->_urlFoto($r->foto),
             );
+            if ($sertakanKeterangan) {
+                $item['keterangan'] = $r->keterangan;
+            }
+
+            $minggu[$kunci]['foto'][] = $item;
         }
 
-        $this->jsonSuccess(array('minggu' => array_values($minggu)));
+        return array_values($minggu);
     }
 
     // URL foto yang hanya berlaku untuk waktu tertentu dan harus ditandatangani
