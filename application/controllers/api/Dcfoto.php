@@ -5,6 +5,7 @@ require_once APPPATH . 'helpers/dcfoto_helper.php';
 
 class Dcfoto extends CI_Controller
 {
+    // Folder foto absensi, relatif dari root myesc.id (FCPATH)
     const FOLDER_ABSENSI = 'community/uploads/absensi/';
 
     // GET /api/dcfoto?f=nama.jpg&e=timestamp&s=signature
@@ -14,10 +15,8 @@ class Dcfoto extends CI_Controller
         $exp = (int) $this->input->get('e');
         $sig = (string) $this->input->get('s');
 
-        try {
-            dcfoto_secret();
-        } catch (RuntimeException $e) {
-            log_message('error', 'Dcfoto: ' . $e->getMessage());
+        if (dcfoto_secret() === '') {
+            log_message('error', 'Dcfoto: DC_FOTO_SECRET kosong di PHP');
             $this->output->set_status_header(500);
             exit;
         }
@@ -31,13 +30,14 @@ class Dcfoto extends CI_Controller
         $path = $base ? realpath($base . DIRECTORY_SEPARATOR . $file) : false;
 
         if ($path === false || strpos($path, $base . DIRECTORY_SEPARATOR) !== 0 || !is_file($path)) {
-            log_message('error', 'Dcfoto: file tidak ditemukan: ' . $file);
+            log_message('error', 'Dcfoto: file tidak ditemukan. base=' . var_export($base, true) . ' file=' . $file);
             $this->output->set_status_header(404);
             exit;
         }
 
         $info = @getimagesize($path);
         if ($info === false) {
+            log_message('error', 'Dcfoto: bukan gambar valid: ' . $path . ' size=' . filesize($path));
             $this->output->set_status_header(404);
             exit;
         }
