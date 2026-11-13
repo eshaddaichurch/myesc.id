@@ -1,9 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once APPPATH . 'helpers/dcfoto_helper.php';
+
 class Dcfoto extends CI_Controller
 {
-    // Folder foto absensi, relatif dari root myesc.id (FCPATH)
     const FOLDER_ABSENSI = 'community/uploads/absensi/';
 
     // GET /api/dcfoto?f=nama.jpg&e=timestamp&s=signature
@@ -13,6 +14,14 @@ class Dcfoto extends CI_Controller
         $exp = (int) $this->input->get('e');
         $sig = (string) $this->input->get('s');
 
+        try {
+            dcfoto_secret();
+        } catch (RuntimeException $e) {
+            log_message('error', 'Dcfoto: ' . $e->getMessage());
+            $this->output->set_status_header(500);
+            exit;
+        }
+
         if (!$this->_valid($file, $exp, $sig)) {
             $this->output->set_status_header(403);
             exit;
@@ -21,8 +30,8 @@ class Dcfoto extends CI_Controller
         $base = realpath(FCPATH . self::FOLDER_ABSENSI);
         $path = $base ? realpath($base . DIRECTORY_SEPARATOR . $file) : false;
 
-        // Pastikan file benar-benar berada di folder absensi
         if ($path === false || strpos($path, $base . DIRECTORY_SEPARATOR) !== 0 || !is_file($path)) {
+            log_message('error', 'Dcfoto: file tidak ditemukan: ' . $file);
             $this->output->set_status_header(404);
             exit;
         }
@@ -43,18 +52,15 @@ class Dcfoto extends CI_Controller
 
     private function _valid($file, $exp, $sig)
     {
-        $secret = getenv('DC_FOTO_SECRET') ?: '';
-        if ($secret === '' || $file === '' || $exp < time()) {
+        if ($file === '' || $exp < time()) {
             return false;
         }
 
-        // Nama file hanya huruf, angka, titik, garis bawah, dan strip
         if (!preg_match('/^[A-Za-z0-9._-]+$/', $file) || basename($file) !== $file) {
             return false;
         }
 
-        $expected = hash_hmac('sha256', $file . '|' . $exp, $secret);
-        return hash_equals($expected, $sig);
+        return hash_equals(dcfoto_sign($file, $exp), $sig);
     }
 }
 

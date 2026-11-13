@@ -2,18 +2,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once APPPATH . 'controllers/api/BaseApi.php';
+require_once APPPATH . 'helpers/dcfoto_helper.php';
 
 class Dcrecap extends BaseApi
 {
-    // Recap untuk jemaat yang tergabung DC
     const JUMLAH_MINGGU_MEMBER = 12;
     const MAKS_FOTO_PER_MINGGU_MEMBER = 50;
 
-    // Recap umum (tanpa login): hanya minggu terbaru, dibatasi jumlahnya
     const JUMLAH_MINGGU_PUBLIK = 1;
     const MAKS_FOTO_PUBLIK = 12;
 
-    // Batas baris yang dibaca dari database
     const BATAS_BARIS = 300;
 
     // Masa berlaku URL foto (detik). 86400 = 24 jam
@@ -25,7 +23,10 @@ class Dcrecap extends BaseApi
     {
         $idjemaat = $this->requireAuth();
 
-        // Hanya jemaat yang tergabung dalam DC yang bisa melihat recap DC-nya
+        if (!$this->_konfigurasiSiap()) {
+            return;
+        }
+
         $member = $this->db->query(
             'SELECT iddc FROM v_dcmember WHERE idjemaat = ? LIMIT 1',
             array($idjemaat)
@@ -62,9 +63,12 @@ class Dcrecap extends BaseApi
     }
 
     // GET /api/dcrecap/publik  (tanpa login)
-    // Foto minggu terbaru dari semua DC. Tanpa keterangan dan tanpa nama DC.
     public function publik()
     {
+        if (!$this->_konfigurasiSiap()) {
+            return;
+        }
+
         $batas = (int) self::BATAS_BARIS;
 
         $rows = $this->db->query(
@@ -88,7 +92,25 @@ class Dcrecap extends BaseApi
         ));
     }
 
-    // Mengelompokkan foto per minggu ISO (Senin sampai Minggu), dari yang terbaru
+    // Gagal dengan jelas jika secret belum di-set, bukan mengirim URL yang pasti ditolak
+    private function _konfigurasiSiap()
+    {
+        try {
+            dcfoto_secret();
+            return true;
+        } catch (RuntimeException $e) {
+            log_message('error', 'Dcrecap: ' . $e->getMessage());
+            $this->output
+                ->set_status_header(500)
+                ->set_content_type('application/json')
+                ->set_output(json_encode(array(
+                    'success' => false,
+                    'msg' => 'Konfigurasi server belum lengkap.',
+                )));
+            return false;
+        }
+    }
+
     private function _kelompokkan($rows, $jumlahMinggu, $maksFoto, $sertakanKeterangan)
     {
         $minggu = array();
@@ -133,23 +155,15 @@ class Dcrecap extends BaseApi
         return array_values($minggu);
     }
 
-    // URL foto yang hanya berlaku untuk waktu tertentu dan harus ditandatangani
     private function _urlFoto($file)
     {
         $exp = time() + self::MASA_BERLAKU_FOTO;
-        $sig = $this->_tandaTangan($file, $exp);
 
         return 'https://myesc.id/api/dcfoto?' . http_build_query(array(
             'f' => $file,
             'e' => $exp,
-            's' => $sig,
+            's' => dcfoto_sign($file, $exp),
         ));
-    }
-
-    private function _tandaTangan($file, $exp)
-    {
-        $secret = getenv('DC_FOTO_SECRET') ?: '';
-        return hash_hmac('sha256', $file . '|' . $exp, $secret);
     }
 }
 
