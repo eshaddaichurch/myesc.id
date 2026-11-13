@@ -23,10 +23,6 @@ class Dcrecap extends BaseApi
     {
         $idjemaat = $this->requireAuth();
 
-        if (!$this->_konfigurasiSiap()) {
-            return;
-        }
-
         $member = $this->db->query(
             'SELECT iddc FROM v_dcmember WHERE idjemaat = ? LIMIT 1',
             array($idjemaat)
@@ -65,10 +61,6 @@ class Dcrecap extends BaseApi
     // GET /api/dcrecap/publik  (tanpa login)
     public function publik()
     {
-        if (!$this->_konfigurasiSiap()) {
-            return;
-        }
-
         $batas = (int) self::BATAS_BARIS;
 
         $rows = $this->db->query(
@@ -90,25 +82,6 @@ class Dcrecap extends BaseApi
             'status' => count($minggu) > 0 ? 'ada' : 'kosong',
             'minggu' => $minggu,
         ));
-    }
-
-    // Gagal dengan jelas jika secret belum di-set, bukan mengirim URL yang pasti ditolak
-    private function _konfigurasiSiap()
-    {
-        try {
-            dcfoto_secret();
-            return true;
-        } catch (RuntimeException $e) {
-            log_message('error', 'Dcrecap: ' . $e->getMessage());
-            $this->output
-                ->set_status_header(500)
-                ->set_content_type('application/json')
-                ->set_output(json_encode(array(
-                    'success' => false,
-                    'msg' => 'Konfigurasi server belum lengkap.',
-                )));
-            return false;
-        }
     }
 
     private function _kelompokkan($rows, $jumlahMinggu, $maksFoto, $sertakanKeterangan)
