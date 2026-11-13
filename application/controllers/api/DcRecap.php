@@ -5,17 +5,18 @@ require_once APPPATH . 'controllers/api/BaseApi.php';
 
 class DcRecap extends BaseApi
 {
-    // Foto absensi disimpan di aplikasi DC (community)
-    const BASE_FOTO = 'https://dc.myesc.id/uploads/absensi/';
-
-    // Jumlah minggu ke belakang yang ditampilkan
+    // Berapa minggu ke belakang yang ditampilkan
     const JUMLAH_MINGGU = 8;
+
+    // Masa berlaku URL foto (detik). 86400 = 24 jam
+    const MASA_BERLAKU_FOTO = 86400;
 
     // GET /api/dcrecap
     public function index()
     {
         $idjemaat = $this->requireAuth();
 
+        // Hanya jemaat yang tergabung dalam DC yang bisa melihat recap DC-nya
         $member = $this->db->query(
             'SELECT iddc FROM v_dcmember WHERE idjemaat = ? LIMIT 1',
             array($idjemaat)
@@ -26,7 +27,6 @@ class DcRecap extends BaseApi
             return;
         }
 
-        // Dicast ke integer agar aman dimasukkan ke query
         $jumlahMinggu = (int) self::JUMLAH_MINGGU;
 
         $rows = $this->db->query(
@@ -39,7 +39,6 @@ class DcRecap extends BaseApi
             array($member->iddc)
         )->result();
 
-        // Kelompokkan per minggu ISO (Senin sampai Minggu)
         $minggu = array();
         foreach ($rows as $r) {
             $ts = strtotime($r->tglabsen);
@@ -62,12 +61,30 @@ class DcRecap extends BaseApi
                 'idabsen' => $r->idabsen,
                 'tglabsen' => $r->tglabsen,
                 'keterangan' => $r->keterangan,
-                'url' => self::BASE_FOTO . rawurlencode($r->foto),
+                'url' => $this->_urlFoto($r->foto),
             );
         }
 
-        // Urutan dari minggu terbaru
         $this->jsonSuccess(array('minggu' => array_values($minggu)));
+    }
+
+    // URL foto yang hanya berlaku untuk waktu tertentu dan harus ditandatangani
+    private function _urlFoto($file)
+    {
+        $exp = time() + self::MASA_BERLAKU_FOTO;
+        $sig = $this->_tandaTangan($file, $exp);
+
+        return 'https://myesc.id/api/dcfoto?' . http_build_query(array(
+            'f' => $file,
+            'e' => $exp,
+            's' => $sig,
+        ));
+    }
+
+    private function _tandaTangan($file, $exp)
+    {
+        $secret = getenv('DC_FOTO_SECRET') ?: '';
+        return hash_hmac('sha256', $file . '|' . $exp, $secret);
     }
 }
 
