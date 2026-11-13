@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DcFoto extends CI_Controller
+class Dcfoto extends CI_Controller
 {
     // Folder foto absensi, relatif dari root myesc.id (FCPATH)
     const FOLDER_ABSENSI = 'community/uploads/absensi/';
@@ -58,5 +58,5 @@ class DcFoto extends CI_Controller
     }
 }
 
-/* End of file DcFoto.php */
-/* Location: ./application/controllers/api/DcFoto.php */
+/* End of file Dcfoto.php */
+/* Location: ./application/controllers/api/Dcfoto.php */

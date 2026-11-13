@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once APPPATH . 'controllers/api/BaseApi.php';
 
-class DcRecap extends BaseApi
+class Dcrecap extends BaseApi
 {
     // Recap untuk jemaat yang tergabung DC
     const JUMLAH_MINGGU_MEMBER = 12;
@@ -153,5 +153,5 @@ class DcRecap extends BaseApi
     }
 }
 
-/* End of file DcRecap.php */
-/* Location: ./application/controllers/api/DcRecap.php */
+/* End of file Dcrecap.php */
+/* Location: ./application/controllers/api/Dcrecap.php */
