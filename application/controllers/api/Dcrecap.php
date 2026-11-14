@@ -6,9 +6,11 @@ require_once APPPATH . 'helpers/dcfoto_helper.php';
 
 class Dcrecap extends BaseApi
 {
+    // Untuk jemaat yang tergabung DC
     const JUMLAH_MINGGU_MEMBER = 12;
     const MAKS_FOTO_PER_MINGGU_MEMBER = 50;
 
+    // Tanpa login: hanya minggu terbaru, dibatasi jumlahnya
     const JUMLAH_MINGGU_PUBLIK = 1;
     const MAKS_FOTO_PUBLIK = 12;
 
@@ -17,7 +19,7 @@ class Dcrecap extends BaseApi
     // Masa berlaku URL foto (detik). 86400 = 24 jam
     const MASA_BERLAKU_FOTO = 86400;
 
-    // GET /api/dcrecap  (wajib login)
+    // GET /api/dcrecap (wajib login)
     // status: ada | kosong | bukan_member
     public function index()
     {
@@ -58,7 +60,8 @@ class Dcrecap extends BaseApi
         ));
     }
 
-    // GET /api/dcrecap/publik  (tanpa login)
+    // GET /api/dcrecap/publik (tanpa login)
+    // Foto minggu terbaru dari semua DC. Tanpa keterangan dan tanpa nama DC.
     public function publik()
     {
         $batas = (int) self::BATAS_BARIS;
@@ -84,6 +87,7 @@ class Dcrecap extends BaseApi
         ));
     }
 
+    // Mengelompokkan foto per minggu ISO (Senin sampai Minggu), dari yang terbaru
     private function _kelompokkan($rows, $jumlahMinggu, $maksFoto, $sertakanKeterangan)
     {
         $minggu = array();
@@ -128,11 +132,12 @@ class Dcrecap extends BaseApi
         return array_values($minggu);
     }
 
+    // URL foto yang berlaku sementara dan harus ditandatangani
     private function _urlFoto($file)
     {
         $exp = time() + self::MASA_BERLAKU_FOTO;
 
-        return 'https://myesc.id/api/dcfoto?' . http_build_query(array(
+        return site_url('api/dcfoto') . '?' . http_build_query(array(
             'f' => $file,
             'e' => $exp,
             's' => dcfoto_sign($file, $exp),

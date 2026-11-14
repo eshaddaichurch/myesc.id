@@ -1,3 +1,4 @@
+SetEnv DC_FOTO_SECRET 7c3e64bf508912da
 RewriteEngine On
 
 # Tambahkan ini di paling atas, sebelum rule lainnya
