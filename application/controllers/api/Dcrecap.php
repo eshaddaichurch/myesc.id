@@ -6,11 +6,9 @@ require_once APPPATH . 'helpers/dcfoto_helper.php';
 
 class Dcrecap extends BaseApi
 {
-    // Untuk jemaat yang tergabung DC
     const JUMLAH_MINGGU_MEMBER = 12;
     const MAKS_FOTO_PER_MINGGU_MEMBER = 50;
 
-    // Tanpa login: hanya minggu terbaru, dibatasi jumlahnya
     const JUMLAH_MINGGU_PUBLIK = 1;
     const MAKS_FOTO_PUBLIK = 12;
 
@@ -20,7 +18,6 @@ class Dcrecap extends BaseApi
     const MASA_BERLAKU_FOTO = 86400;
 
     // GET /api/dcrecap (wajib login)
-    // status: ada | kosong | bukan_member
     public function index()
     {
         $idjemaat = $this->requireAuth();
@@ -37,11 +34,14 @@ class Dcrecap extends BaseApi
 
         $batas = (int) self::BATAS_BARIS;
 
+        // Hanya nama file. Nilai base64 atau data URI tidak ikut.
         $rows = $this->db->query(
             "SELECT idabsen, tglabsen, keterangan, foto
              FROM dcabsen
              WHERE iddc = ?
                AND foto IS NOT NULL AND foto <> ''
+               AND foto NOT LIKE 'data:%'
+               AND foto NOT LIKE 'image/%'
              ORDER BY tglabsen DESC
              LIMIT {$batas}",
             array($member->iddc)
@@ -61,7 +61,6 @@ class Dcrecap extends BaseApi
     }
 
     // GET /api/dcrecap/publik (tanpa login)
-    // Foto minggu terbaru dari semua DC. Tanpa keterangan dan tanpa nama DC.
     public function publik()
     {
         $batas = (int) self::BATAS_BARIS;
@@ -70,6 +69,8 @@ class Dcrecap extends BaseApi
             "SELECT idabsen, tglabsen, foto
              FROM dcabsen
              WHERE foto IS NOT NULL AND foto <> ''
+               AND foto NOT LIKE 'data:%'
+               AND foto NOT LIKE 'image/%'
              ORDER BY tglabsen DESC
              LIMIT {$batas}"
         )->result();
@@ -87,12 +88,17 @@ class Dcrecap extends BaseApi
         ));
     }
 
-    // Mengelompokkan foto per minggu ISO (Senin sampai Minggu), dari yang terbaru
+    // Mengelompokkan foto per minggu ISO, dari yang terbaru.
+    // Foto yang file-nya tidak ada di server dilewati.
     private function _kelompokkan($rows, $jumlahMinggu, $maksFoto, $sertakanKeterangan)
     {
         $minggu = array();
 
         foreach ($rows as $r) {
+            if (!dcfoto_exists($r->foto)) {
+                continue;
+            }
+
             $ts = strtotime($r->tglabsen);
             if ($ts === false) {
                 continue;
@@ -132,7 +138,6 @@ class Dcrecap extends BaseApi
         return array_values($minggu);
     }
 
-    // URL foto yang berlaku sementara dan harus ditandatangani
     private function _urlFoto($file)
     {
         $exp = time() + self::MASA_BERLAKU_FOTO;
