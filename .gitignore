@@ -20,6 +20,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 application/recaptcha-app.html
 admin/application/config/whatsapp_resmi.php
 admin/application/config/whatsapp.php
+admin/application/config/api.php
 application/config/whatsapp_resmi.php
 application/config/whatsapp.php
 application/config/fonnte.php
