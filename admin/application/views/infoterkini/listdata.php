@@ -45,9 +45,9 @@ $this->load->view('template/sidemenu');
             </tr>
           </thead>
           <tbody>
-            <?php if ($rsInfo->num_rows() > 0): ?>
+            <?php if ($rsInfo && $rsInfo->num_rows() > 0): ?>
               <?php $no = 1;
-    foreach ($rsInfo->result() as $row): ?>
+              foreach ($rsInfo->result() as $row): ?>
                 <tr>
                   <td class="text-center"><?= $no++ ?></td>
                   <td>
