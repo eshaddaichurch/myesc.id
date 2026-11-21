@@ -1,15 +1,35 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+// Aturan gambar info terkini. Ini satu-satunya sumber aturan:
+// dipakai oleh validasi upload, form, dan halaman daftar.
+if (!function_exists('info_aturan_gambar')) {
+    function info_aturan_gambar()
+    {
+        return array(
+            'maks_byte'   => 2 * 1024 * 1024,
+            'lebar_min'   => 800,
+            'lebar_maks'  => 2400,
+            'tinggi_min'  => 400,
+            'tinggi_maks' => 1200,
+            'rasio'       => 2.0,   // lebar : tinggi
+            'toleransi'   => 0.10,  // selisih rasio yang masih diterima (10%)
+            'rekomendasi' => '1200 x 600 px (rasio 2:1)',
+            'format'      => 'JPG, PNG, atau WEBP',
+            'maks_teks'   => '2 MB',
+        );
+    }
+}
+
 if (!function_exists('info_upload_gambar')) {
     // Menyimpan gambar info terkini. Mengembalikan nama file yang tersimpan.
     // Melempar RuntimeException dengan pesan yang aman ditampilkan ke admin.
     function info_upload_gambar($field)
     {
-        $maksByte = 2 * 1024 * 1024;
+        $aturan = info_aturan_gambar();
         $mimeTerizin = array(
             'image/jpeg' => 'jpg',
-            'image/png' => 'png',
+            'image/png'  => 'png',
             'image/webp' => 'webp',
         );
 
@@ -17,17 +37,39 @@ if (!function_exists('info_upload_gambar')) {
             throw new RuntimeException('Gambar wajib diunggah.');
         }
 
-        $tmp = $_FILES[$field]['tmp_name'];
+        $tmp  = $_FILES[$field]['tmp_name'];
         $size = (int) $_FILES[$field]['size'];
 
-        if ($size <= 0 || $size > $maksByte) {
-            throw new RuntimeException('Ukuran gambar maksimal 2 MB.');
+        if ($size <= 0 || $size > $aturan['maks_byte']) {
+            throw new RuntimeException('Ukuran file maksimal ' . $aturan['maks_teks'] . '.');
         }
 
         // Periksa isi file, bukan hanya ekstensi
         $info = @getimagesize($tmp);
         if ($info === false || !isset($mimeTerizin[$info['mime']])) {
-            throw new RuntimeException('Format gambar harus JPG, PNG, atau WEBP.');
+            throw new RuntimeException('Format gambar harus ' . $aturan['format'] . '.');
+        }
+
+        // Periksa ukuran piksel dan rasio
+        $lebar  = (int) $info[0];
+        $tinggi = (int) $info[1];
+
+        if ($lebar < $aturan['lebar_min'] || $lebar > $aturan['lebar_maks']
+            || $tinggi < $aturan['tinggi_min'] || $tinggi > $aturan['tinggi_maks']) {
+            throw new RuntimeException(
+                'Ukuran gambar harus antara ' . $aturan['lebar_min'] . ' sampai ' . $aturan['lebar_maks']
+                . ' px (lebar) dan ' . $aturan['tinggi_min'] . ' sampai ' . $aturan['tinggi_maks']
+                . ' px (tinggi). Rekomendasi: ' . $aturan['rekomendasi'] . '.'
+            );
+        }
+
+        $rasioGambar = $lebar / $tinggi;
+        $selisih = abs($rasioGambar - $aturan['rasio']) / $aturan['rasio'];
+        if ($selisih > $aturan['toleransi']) {
+            throw new RuntimeException(
+                'Rasio gambar harus mendekati 2:1 (lebar dua kali tinggi). Rekomendasi: '
+                . $aturan['rekomendasi'] . '.'
+            );
         }
 
         $folder = FCPATH . 'uploads/info/';
@@ -48,7 +90,7 @@ if (!function_exists('info_upload_gambar')) {
 }
 
 if (!function_exists('info_hapus_gambar')) {
-    // Menghapus file gambar lama. Nama file dicek dulu agar tidak bisa dipakai untuk menghapus file lain.
+    // Menghapus file gambar. Nama file dicek dulu agar tidak bisa dipakai untuk menghapus file lain.
     function info_hapus_gambar($nama)
     {
         if (!is_string($nama) || !preg_match('/^info_[0-9A-Za-z_]+\.(jpg|png|webp)$/', $nama)) {

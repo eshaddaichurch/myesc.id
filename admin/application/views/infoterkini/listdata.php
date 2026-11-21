@@ -3,60 +3,42 @@ $this->load->view('template/header');
 $this->load->view('template/topmenu');
 $this->load->view('template/sidemenu');
 
-// Hitung ringkasan sekali saja
-$rows = ($rsInfo && $rsInfo->num_rows() > 0) ? $rsInfo->result() : array();
-$total = count($rows);
-$aktif = 0;
+$aturan = info_aturan_gambar();
+$rows = ($rsInfo) ? $rsInfo->result() : array();
+$totalInfo = count($rows);
+$totalAktif = 0;
 foreach ($rows as $r) {
-  if (!empty($r->statusaktif)) $aktif++;
+  if (!empty($r->statusaktif)) {
+    $totalAktif++;
+  }
 }
-$nonaktif = $total - $aktif;
+$totalNonaktif = $totalInfo - $totalAktif;
 ?>
 
 <style>
-  .it-stat { display:flex; align-items:center; gap:14px; background:#fff; border:1px solid #eef0f4; border-radius:14px; padding:16px 18px; height:100%; }
-  .it-stat-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-  .it-stat-icon.all  { background:#fff1e8; color:#ff5008; }
-  .it-stat-icon.on   { background:#e8f7ee; color:#22a559; }
-  .it-stat-icon.off  { background:#f1f3f6; color:#8a93a3; }
-  .it-stat-num { font-size:22px; font-weight:700; line-height:1.1; color:#1c1b1a; }
-  .it-stat-lbl { font-size:12px; color:#8a93a3; }
-
-  .it-card { border:1px solid #eef0f4; border-radius:16px; box-shadow:0 2px 14px rgba(20,20,40,.04); overflow:hidden; }
-  .it-card-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; padding:18px 22px; border-bottom:1px solid #f1f3f6; background:#fff; }
-  .it-card-head h5 { margin:0; font-weight:700; color:#1c1b1a; }
-  .it-hint { font-size:12px; color:#8a93a3; margin:2px 0 0; }
-  .it-hint b { color:#ff5008; }
-
-  .it-btn-add { background:linear-gradient(135deg,#ff5008,#ff7c42); border:0; color:#fff !important; border-radius:10px; padding:9px 18px; font-weight:600; box-shadow:0 4px 12px rgba(255,80,8,.25); }
-  .it-btn-add:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(255,80,8,.32); }
-
-  .it-table { margin:0; }
-  .it-table thead th { background:#fafbfc; color:#8a93a3; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; border-top:0; border-bottom:1px solid #eef0f4; padding:12px 16px; }
-  .it-table td { vertical-align:middle; padding:14px 16px; border-top:1px solid #f4f5f8; }
-  .it-table tbody tr:hover { background:#fffaf6; }
-
-  .it-thumb { width:176px; aspect-ratio:1200/520; object-fit:cover; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,.12); display:block; background:#f0e6d9; }
-  .it-title { font-weight:700; color:#1c1b1a; margin-bottom:2px; }
-  .it-sub { font-size:12.5px; color:#6b7280; }
-  .it-link { display:inline-flex; align-items:center; gap:5px; margin-top:6px; font-size:11.5px; color:#ff5008; background:#fff1e8; border-radius:999px; padding:2px 10px; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-
-  .it-order { display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:34px; border-radius:10px; background:#f1f3f6; font-weight:700; color:#3a362f; }
-
-  .it-status { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:999px; font-size:12px; font-weight:600; }
-  .it-status::before { content:''; width:7px; height:7px; border-radius:50%; background:currentColor; }
-  .it-status.on  { background:#e8f7ee; color:#22a559; }
-  .it-status.off { background:#f1f3f6; color:#8a93a3; }
-
-  .it-act { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:10px; border:0; color:#fff !important; margin:0 2px; transition:transform .15s; }
-  .it-act:hover { transform:translateY(-2px); text-decoration:none; }
-  .it-act.edit   { background:#f5a623; }
-  .it-act.toggle { background:#3b82f6; }
-  .it-act.del    { background:#ef4444; }
-
-  .it-empty { text-align:center; padding:56px 20px; color:#8a93a3; }
-  .it-empty i { font-size:42px; color:#d9dde3; margin-bottom:12px; display:block; }
-  .it-empty b { display:block; color:#3a362f; font-size:15px; margin-bottom:4px; }
+  .it-stat { border: 0; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+  .it-stat-body { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
+  .it-ico { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; flex-shrink: 0; }
+  .it-val { font-size: 22px; font-weight: 800; line-height: 1; color: #1C1B1A; }
+  .it-lbl { font-size: 12px; color: #8A8A8A; margin-top: 4px; }
+  .it-card { border: 0; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.06); overflow: hidden; }
+  .it-table thead th { border-bottom: 0; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; background: #1C1B1A; color: #fff; }
+  .it-table td { vertical-align: middle; }
+  .it-thumb { width: 160px; height: 80px; object-fit: cover; border-radius: 10px; background: #F5F4F2; box-shadow: 0 2px 8px rgba(0,0,0,.12); display: block; }
+  .it-judul { font-weight: 700; color: #1C1B1A; font-size: 14px; line-height: 1.3; }
+  .it-sub { font-size: 12px; color: #8A8A8A; }
+  .it-link { font-size: 12px; color: #FF5008; max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; }
+  .it-urutan { display: inline-block; min-width: 36px; padding: 4px 10px; border-radius: 999px; background: #FFEFE5; color: #FF5008; font-weight: 800; font-size: 13px; }
+  .it-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+  .it-badge.aktif { background: #E6F7EE; color: #1E8E4E; }
+  .it-badge.nonaktif { background: #F1F1F1; color: #7A7A7A; }
+  .it-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .it-aksi .btn { width: 34px; height: 34px; padding: 0; line-height: 34px; border-radius: 10px; margin: 0 2px; }
+  .it-aksi .btn:active { transform: scale(.94); }
+  .it-tip { border-radius: 12px; border: 0; background: #FFF6F0; color: #7A4A2E; font-size: 13px; }
+  .it-empty { padding: 40px 20px; text-align: center; color: #8A8A8A; }
+  .it-empty .it-empty-ico { width: 72px; height: 72px; border-radius: 22px; background: #FFEFE5; color: #FF5008; display: inline-flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 14px; }
+  .it-no { font-weight: 700; color: #8A8A8A; }
 </style>
 
 <div class="row" id="toni-breadcrumb">
@@ -82,81 +64,119 @@ $nonaktif = $total - $aktif;
 
     <!-- Ringkasan -->
     <div class="row mb-3">
-      <div class="col-md-4 mb-2 mb-md-0">
-        <div class="it-stat">
-          <div class="it-stat-icon all"><i class="fa fa-images"></i></div>
-          <div><div class="it-stat-num"><?= $total ?></div><div class="it-stat-lbl">Total banner</div></div>
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card it-stat">
+          <div class="it-stat-body">
+            <div class="it-ico" style="background:#1C1B1A;"><i class="fa fa-layer-group"></i></div>
+            <div>
+              <div class="it-val"><?= $totalInfo ?></div>
+              <div class="it-lbl">Total info</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-4 mb-2 mb-md-0">
-        <div class="it-stat">
-          <div class="it-stat-icon on"><i class="fa fa-eye"></i></div>
-          <div><div class="it-stat-num"><?= $aktif ?></div><div class="it-stat-lbl">Tampil di aplikasi</div></div>
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card it-stat">
+          <div class="it-stat-body">
+            <div class="it-ico" style="background:#1E8E4E;"><i class="fa fa-eye"></i></div>
+            <div>
+              <div class="it-val"><?= $totalAktif ?></div>
+              <div class="it-lbl">Tampil di aplikasi</div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="it-stat">
-          <div class="it-stat-icon off"><i class="fa fa-eye-slash"></i></div>
-          <div><div class="it-stat-num"><?= $nonaktif ?></div><div class="it-stat-lbl">Nonaktif</div></div>
+        <div class="card it-stat">
+          <div class="it-stat-body">
+            <div class="it-ico" style="background:#8A8A8A;"><i class="fa fa-eye-slash"></i></div>
+            <div>
+              <div class="it-val"><?= $totalNonaktif ?></div>
+              <div class="it-lbl">Nonaktif</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Aturan gambar -->
+    <div class="alert it-tip mb-3">
+      <i class="fa fa-info-circle"></i>
+      <strong>Aturan gambar:</strong> rekomendasi <b><?= $aturan['rekomendasi'] ?></b>,
+      format <?= $aturan['format'] ?>, maksimal <?= $aturan['maks_teks'] ?>.
+      Gambar tampil sebagai kartu di aplikasi.
+    </div>
+
     <div class="card it-card">
-      <div class="it-card-head">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center py-3" style="border-bottom:1px solid #F1ECE7;">
         <div>
-          <h5>Daftar Banner</h5>
-          <p class="it-hint">Ukuran gambar wajib <b>1200 × 520 px</b> (rasio 2,31 : 1), maks. 2 MB.</p>
+          <strong style="font-size:16px;">Daftar Info Terkini</strong>
+          <div class="it-sub">Urut sesuai kolom Urutan, lalu yang terbaru</div>
         </div>
-        <a href="<?= site_url('infoterkini/tambah') ?>" class="btn it-btn-add">
-          <i class="fa fa-plus mr-1"></i> Tambah Info
+        <a href="<?= site_url('infoterkini/tambah') ?>" class="btn btn-primary" style="border-radius:12px;">
+          <i class="fa fa-plus"></i> Tambah Info
         </a>
       </div>
 
       <div class="table-responsive">
-        <table class="table it-table">
+        <table class="table it-table mb-0">
           <thead>
             <tr>
-              <th width="5%" class="text-center">No</th>
-              <th width="22%">Banner</th>
+              <th class="text-center" style="width:60px;">No</th>
+              <th style="width:190px;">Gambar</th>
               <th>Judul</th>
-              <th width="9%" class="text-center">Urutan</th>
-              <th width="12%" class="text-center">Status</th>
-              <th width="15%" class="text-center">Aksi</th>
+              <th class="text-center" style="width:100px;">Urutan</th>
+              <th class="text-center" style="width:130px;">Status</th>
+              <th class="text-center" style="width:150px;">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            <?php if ($total > 0): ?>
+            <?php if ($totalInfo > 0): ?>
               <?php $no = 1; foreach ($rows as $row): ?>
                 <?php $enc = $this->encrypt->encode($row->idinfo); ?>
                 <tr>
-                  <td class="text-center text-muted"><?= $no++ ?></td>
+                  <td class="text-center it-no"><?= $no++ ?></td>
                   <td>
-                    <img class="it-thumb" src="<?= base_url('uploads/info/' . $row->gambar) ?>" alt="">
+                    <img class="it-thumb"
+                      src="<?= base_url('uploads/info/' . $row->gambar) ?>"
+                      alt="<?= html_escape($row->judul) ?>"
+                      loading="lazy"
+                      onerror="this.style.opacity='.3';this.alt='Gambar tidak ditemukan';">
                   </td>
                   <td>
-                    <div class="it-title"><?= html_escape($row->judul) ?></div>
+                    <div class="it-judul"><?= html_escape($row->judul) ?></div>
                     <?php if (!empty($row->subjudul)): ?>
                       <div class="it-sub"><?= html_escape($row->subjudul) ?></div>
                     <?php endif; ?>
                     <?php if (!empty($row->urltombol)): ?>
-                      <span class="it-link" title="<?= html_escape($row->urltombol) ?>">
-                        <i class="fa fa-link"></i> <?= html_escape($row->urltombol) ?>
-                      </span>
+                      <div class="mt-1">
+                        <i class="fa fa-link" style="color:#FF5008;font-size:11px;"></i>
+                        <span class="it-link" title="<?= html_escape($row->urltombol) ?>"><?= html_escape($row->urltombol) ?></span>
+                      </div>
                     <?php endif; ?>
                   </td>
-                  <td class="text-center"><span class="it-order"><?= (int) $row->urutan ?></span></td>
                   <td class="text-center">
-                    <?php if ($row->statusaktif): ?>
-                      <span class="it-status on">Aktif</span>
+                    <span class="it-urutan"><?= (int) $row->urutan ?></span>
+                  </td>
+                  <td class="text-center">
+                    <?php if (!empty($row->statusaktif)): ?>
+                      <span class="it-badge aktif"><span class="dot"></span>Aktif</span>
                     <?php else: ?>
-                      <span class="it-status off">Nonaktif</span>
+                      <span class="it-badge nonaktif"><span class="dot"></span>Nonaktif</span>
                     <?php endif; ?>
                   </td>
-                  <td class="text-center">
-                    <a href="<?= site_url('infoterkini/edit/' . $enc) ?>" class="it-act edit" title="Edit"><i class="fa fa-edit"></i></a>
-                    <a href="<?= site_url('infoterkini/toggle/' . $enc) ?>" class="it-act toggle" title="Aktif / nonaktifkan"><i class="fa fa-power-off"></i></a>
-                    <a href="<?= site_url('infoterkini/hapus/' . $enc) ?>" class="it-act del btnHapus" title="Hapus"><i class="fa fa-trash"></i></a>
+                  <td class="text-center it-aksi">
+                    <a href="<?= site_url('infoterkini/edit/' . $enc) ?>" class="btn btn-warning" title="Edit">
+                      <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="<?= site_url('infoterkini/toggle/' . $enc) ?>"
+                      class="btn <?= !empty($row->statusaktif) ? 'btn-secondary' : 'btn-success' ?>"
+                      title="<?= !empty($row->statusaktif) ? 'Nonaktifkan' : 'Aktifkan' ?>">
+                      <i class="fa <?= !empty($row->statusaktif) ? 'fa-eye-slash' : 'fa-eye' ?>"></i>
+                    </a>
+                    <a href="<?= site_url('infoterkini/hapus/' . $enc) ?>" class="btn btn-danger btnHapus" title="Hapus">
+                      <i class="fa fa-trash"></i>
+                    </a>
                   </td>
                 </tr>
               <?php endforeach; ?>
@@ -164,9 +184,12 @@ $nonaktif = $total - $aktif;
               <tr>
                 <td colspan="6">
                   <div class="it-empty">
-                    <i class="fa fa-inbox"></i>
-                    <b>Belum ada info terkini</b>
-                    Klik tombol <b style="display:inline;color:#ff5008">Tambah Info</b> untuk membuat banner pertama.
+                    <div class="it-empty-ico"><i class="fa fa-newspaper"></i></div>
+                    <div><strong style="color:#1C1B1A;">Belum ada info terkini</strong></div>
+                    <div class="it-sub mb-3">Tambahkan info pertama untuk ditampilkan di aplikasi.</div>
+                    <a href="<?= site_url('infoterkini/tambah') ?>" class="btn btn-primary btn-sm" style="border-radius:10px;">
+                      <i class="fa fa-plus"></i> Tambah Info
+                    </a>
                   </div>
                 </td>
               </tr>
@@ -196,6 +219,10 @@ $(document).on('click', '.btnHapus', function (e) {
   }).then(function (result) {
     if (result.isConfirmed) window.location.href = url;
   });
+});
+
+$(function () {
+  $('[title]').tooltip({ container: 'body' });
 });
 </script>
 
