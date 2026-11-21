@@ -261,12 +261,18 @@ class Registrasi extends BaseApi
     // Helper
     // ============================================================
 
-    // Field NIK, tempat lahir, dan alamat hanya wajib untuk "Sudah Pernah", sama seperti web
+    // Field NIK, tempat lahir, dan alamat hanya wajib untuk "Sudah Pernah", sama seperti web.
+    // Persetujuan syarat dan ketentuan wajib dikirim sebagai setujui = '1'.
     private function _validasiData(&$err)
     {
         $get = function ($k) {
             return trim((string) $this->input->post($k));
         };
+
+        if ($get('setujui') !== '1') {
+            $err = 'Anda harus menyetujui syarat dan ketentuan terlebih dahulu.';
+            return null;
+        }
 
         $pernah = $get('sudahpernahfondationclass');
         if (!in_array($pernah, array('Sudah', 'Belum'), true)) {
