@@ -11,8 +11,9 @@ class Infoterkini extends BaseApi
     // URL publik folder gambar (admin.myesc.id/uploads/info/)
     const BASE_GAMBAR = 'https://admin.myesc.id/uploads/info/';
 
-    // Lokasi fisik folder gambar, relatif terhadap FCPATH (root myesc.id)
-    const FOLDER_GAMBAR = 'admin/uploads/info/';
+    // Folder fisik gambar, relatif terhadap APPPATH (folder application/)
+    // Tidak memakai FCPATH karena nilainya tidak konsisten saat diakses lewat web.
+    const FOLDER_GAMBAR = '../admin/uploads/info/';
 
     // Masa simpan respons di perangkat/CDN (detik)
     const CACHE_DETIK = 300;
@@ -30,7 +31,7 @@ class Infoterkini extends BaseApi
             ->get()
             ->result();
 
-        $folder = realpath(FCPATH . self::FOLDER_GAMBAR);
+        $folder = $this->_folderGambar();
         $items = array();
 
         foreach ($rows as $r) {
@@ -40,7 +41,7 @@ class Infoterkini extends BaseApi
             }
 
             // Lewati item jika file gambarnya tidak ada di server
-            if ($folder === false || !is_file($folder . DIRECTORY_SEPARATOR . $r->gambar)) {
+            if ($folder === '' || !is_file($folder . $r->gambar)) {
                 continue;
             }
 
@@ -65,6 +66,13 @@ class Infoterkini extends BaseApi
             'status' => count($items) > 0 ? 'ada' : 'kosong',
             'items'  => $items,
         ));
+    }
+
+    // Folder gambar dalam bentuk path absolut, diakhiri separator. Kosong jika folder tidak ada.
+    private function _folderGambar()
+    {
+        $dir = realpath(APPPATH . self::FOLDER_GAMBAR);
+        return $dir === false ? '' : $dir . DIRECTORY_SEPARATOR;
     }
 }
 
