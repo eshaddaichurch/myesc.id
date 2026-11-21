@@ -5,12 +5,14 @@ require_once APPPATH . 'controllers/api/BaseApi.php';
 
 class Registrasi extends BaseApi
 {
-    const MAKS_PERCOBAAN_PER_JAM = 10;
-    const RECAPTCHA_MIN_SKOR = 0.5;
-    const RECAPTCHA_ACTION = 'registrasi';
-    const OTP_MAKS_SALAH = 5;
-    const OTP_JEDA_DETIK = 60;
-    const PATTERN_HP = '/^0[0-9]{9,14}$/';
+    // Rate limit (semua dihitung di server)
+    const MAKS_PERCOBAAN_IP_PER_JAM = 10;   // percobaan daftar per IP
+    const MAKS_DAFTAR_HP_PER_HARI = 3;      // percobaan daftar per nomor WhatsApp
+    const MAKS_OTP_PER_TUJUAN_PER_HARI = 5; // OTP terkirim per nomor/email per hari
+    const OTP_MAKS_SALAH = 5;               // salah input per kode OTP
+    const OTP_JEDA_DETIK = 60;              // jeda minimal kirim ulang OTP
+
+    const PATTERN_HP = '/^08[0-9]{8,13}$/';
     const PATTERN_TGL = '/^\d{4}-\d{2}-\d{2}$/';
     const PATTERN_ID = '/^[A-Za-z0-9\-_]{1,40}$/';
     const KOLOM_VERIFIKASI = array('wa' => 'statusverifikasiwa', 'email' => 'statusverifikasiemail');
@@ -25,28 +27,38 @@ class Registrasi extends BaseApi
     public function daftar()
     {
         $ip = $this->input->ip_address();
+        $nohp = trim((string) $this->input->post('nohp'));
 
-        $jumlah = (int) $this->db->query(
+        // Batas percobaan per IP dalam 1 jam
+        $jumlahIp = (int) $this->db->query(
             'SELECT COUNT(*) AS jml FROM registrasi_log WHERE ip_address = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)',
             array($ip)
         )->row()->jml;
 
-        if ($jumlah >= self::MAKS_PERCOBAAN_PER_JAM) {
+        if ($jumlahIp >= self::MAKS_PERCOBAAN_IP_PER_JAM) {
             $this->jsonError('Terlalu banyak percobaan pendaftaran dari koneksi ini. Silakan coba lagi dalam 1 jam, atau hubungi hotline gereja WhatsApp 085550001187.');
             return;
         }
 
-        // Setiap percobaan dicatat, bukan hanya yang berhasil
+        // Batas percobaan per nomor WhatsApp dalam 24 jam
+        if ($nohp !== '') {
+            $jumlahHp = (int) $this->db->query(
+                'SELECT COUNT(*) AS jml FROM registrasi_log WHERE nohp = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 DAY)',
+                array($nohp)
+            )->row()->jml;
+
+            if ($jumlahHp >= self::MAKS_DAFTAR_HP_PER_HARI) {
+                $this->jsonError('Terlalu banyak percobaan untuk nomor WhatsApp ini hari ini. Silakan coba lagi besok, atau hubungi hotline gereja WhatsApp 085550001187.');
+                return;
+            }
+        }
+
+        // Setiap percobaan dicatat, termasuk yang gagal validasi
         $this->db->insert('registrasi_log', array(
             'ip_address' => $ip,
-            'nohp' => (string) $this->input->post('nohp'),
+            'nohp' => $nohp,
             'created_at' => date('Y-m-d H:i:s'),
         ));
-
-        if (!$this->_verifikasiRecaptcha($this->input->post('recaptcha_token'))) {
-            $this->jsonError('Verifikasi keamanan gagal. Silakan coba lagi.');
-            return;
-        }
 
         $err = null;
         $d = $this->_validasiData($err);
@@ -68,24 +80,31 @@ class Registrasi extends BaseApi
             }
         }
 
+        // Email atau nomor WhatsApp yang sudah terverifikasi tidak boleh dipakai lagi
         $cekEmail = $this->_akunPemakai('email', $d['email']);
-        if ($cekEmail && $cekEmail->idjemaat !== $idMerge) {
-            if ($this->_sudahVerifikasi($cekEmail)) {
-                $this->jsonError('Email ' . $d['email'] . ' sudah pernah terdaftar! Jika Anda merasa belum pernah mendaftar, hubungi hotline gereja WhatsApp 085550001187.');
-            } else {
-                $this->jsonError('Email ini sudah dipakai pendaftaran lain yang belum diverifikasi. Silakan hubungi hotline gereja WhatsApp 085550001187.');
+        $cekHp    = $this->_akunPemakai('nohp', $d['nohp']);
+
+        foreach (array(array($cekEmail, 'Email'), array($cekHp, 'Nomor WhatsApp')) as $pair) {
+            list($row, $label) = $pair;
+            if ($row && $row->idjemaat !== $idMerge && $this->_sudahVerifikasi($row)) {
+                $this->jsonError($label . ' sudah pernah terdaftar! Jika Anda merasa belum pernah mendaftar, hubungi hotline gereja WhatsApp 085550001187.');
+                return;
             }
-            return;
         }
 
-        $cekHp = $this->_akunPemakai('nohp', $d['nohp']);
-        if ($cekHp && $cekHp->idjemaat !== $idMerge) {
-            if ($this->_sudahVerifikasi($cekHp)) {
-                $this->jsonError('Nomor WhatsApp ' . $d['nohp'] . ' sudah pernah terdaftar! Jika Anda merasa belum pernah mendaftar, hubungi hotline gereja WhatsApp 085550001187.');
-            } else {
-                $this->jsonError('Nomor WhatsApp ini sudah dipakai pendaftaran lain yang belum diverifikasi. Silakan hubungi hotline gereja WhatsApp 085550001187.');
+        // Akun belum terverifikasi yang memakai email/nomor ini boleh ditimpa
+        $calonTimpa = null;
+        foreach (array($cekEmail, $cekHp) as $row) {
+            if ($row && $row->idjemaat !== $idMerge) {
+                if ($calonTimpa !== null && $calonTimpa !== $row->idjemaat) {
+                    $this->jsonError('Email dan nomor WhatsApp ini dipakai dua pendaftaran berbeda. Silakan hubungi hotline gereja WhatsApp 085550001187.');
+                    return;
+                }
+                $calonTimpa = $row->idjemaat;
             }
-            return;
+        }
+        if ($calonTimpa !== null && $idMerge === null) {
+            $idMerge = $calonTimpa;
         }
 
         $sekarang = date('Y-m-d H:i:s');
@@ -100,6 +119,8 @@ class Registrasi extends BaseApi
                 'nik' => $d['nik'],
                 'jeniskelamin' => $d['jeniskelamin'],
                 'tempatlahir' => $d['tempatlahir'],
+                'tanggallahir' => $d['tanggallahir'],
+                'alamatrumah' => $d['alamatrumah'],
                 'nohp' => $d['nohp'],
                 'email' => $d['email'],
                 'password' => md5($d['password']),
@@ -127,6 +148,9 @@ class Registrasi extends BaseApi
                 'sudahpernahfondationclass' => $d['sudahpernah'],
             ));
         }
+
+        // Kode OTP lama yang belum terpakai dihapus, hanya kode terbaru yang berlaku
+        $this->db->where('idjemaat', $idjemaat)->where('verified', 0)->delete('otp_log');
 
         $this->db->insert('carejemaatbaru', array(
             'tglinsert' => $sekarang,
@@ -232,6 +256,7 @@ class Registrasi extends BaseApi
             return;
         }
 
+        // Jeda minimal antar kiriman, dicek di server
         $terakhir = $this->db->query(
             'SELECT created_at FROM otp_log WHERE idjemaat = ? AND tipe = ? ORDER BY created_at DESC LIMIT 1',
             array($idjemaat, $tipe)
@@ -249,6 +274,13 @@ class Registrasi extends BaseApi
         }
 
         $tujuan = $tipe === 'wa' ? $jemaat->nohp : $jemaat->email;
+
+        // Batas OTP per nomor/email per hari, untuk mencegah spam biaya WhatsApp
+        if ($this->_sudahMelebihiBatasOtp($tipe, $tujuan)) {
+            $this->jsonError('Batas pengiriman kode hari ini sudah tercapai. Silakan coba lagi besok, atau hubungi hotline gereja WhatsApp 085550001187.');
+            return;
+        }
+
         if (!$this->_buatDanKirimOtp($idjemaat, $tipe, $tujuan, $jemaat->namalengkap)) {
             $this->jsonError('Gagal mengirim kode. Silakan coba lagi beberapa saat lagi.');
             return;
@@ -261,7 +293,7 @@ class Registrasi extends BaseApi
     // Helper
     // ============================================================
 
-    // Field NIK, tempat lahir, dan alamat hanya wajib untuk "Sudah Pernah", sama seperti web.
+    // Field NIK, tempat lahir, dan alamat hanya wajib untuk "Sudah Pernah".
     // Persetujuan syarat dan ketentuan wajib dikirim sebagai setujui = '1'.
     private function _validasiData(&$err)
     {
@@ -322,7 +354,7 @@ class Registrasi extends BaseApi
             return null;
         }
         if (!preg_match(self::PATTERN_HP, $hp)) {
-            $err = 'Format nomor WhatsApp tidak valid.';
+            $err = 'Format nomor WhatsApp tidak valid (08xxxxxxxxxx).';
             return null;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 150) {
@@ -333,7 +365,7 @@ class Registrasi extends BaseApi
             $err = 'Password minimal 6 karakter.';
             return null;
         }
-        if ($pw2 !== '' && $pw !== $pw2) {
+        if ($pw !== $pw2) {
             $err = 'Ulangi password tidak sama.';
             return null;
         }
@@ -382,6 +414,17 @@ class Registrasi extends BaseApi
 
         $ada = $this->db->query('SELECT idjemaat FROM jemaat WHERE idjemaat = ? LIMIT 1', array($id))->row();
         return $ada ? $ada->idjemaat : null;
+    }
+
+    // Menghitung OTP yang sudah terkirim ke satu tujuan dalam 24 jam terakhir
+    private function _sudahMelebihiBatasOtp($tipe, $tujuan)
+    {
+        $jumlah = (int) $this->db->query(
+            'SELECT COUNT(*) AS jml FROM otp_log WHERE tipe = ? AND tujuan = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 DAY)',
+            array($tipe, $tujuan)
+        )->row()->jml;
+
+        return $jumlah >= self::MAKS_OTP_PER_TUJUAN_PER_HARI;
     }
 
     private function _buatDanKirimOtp($idjemaat, $tipe, $tujuan, $nama)
@@ -440,42 +483,6 @@ class Registrasi extends BaseApi
             log_message('error', 'Registrasi: gagal kirim OTP WA - ' . $e->getMessage());
             return false;
         }
-    }
-
-    // reCAPTCHA v3. Jika Google tidak bisa dihubungi, pendaftaran ditolak (fail-closed).
-    private function _verifikasiRecaptcha($token)
-    {
-        $this->config->load('recaptcha', true);
-        $secret = $this->config->item('recaptcha_secret', 'recaptcha');
-        $token = trim((string) $token);
-
-        if (empty($secret) || $token === '') {
-            return false;
-        }
-
-        $ch = curl_init();
-        curl_setopt_array($ch, array(
-            CURLOPT_URL => 'https://www.google.com/recaptcha/api/siteverify',
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query(array('secret' => $secret, 'response' => $token)),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT => 8,
-        ));
-        $response = curl_exec($ch);
-        $error = curl_error($ch);
-        curl_close($ch);
-
-        if ($response === false || $error !== '') {
-            log_message('error', 'Registrasi: reCAPTCHA tidak bisa diverifikasi - ' . $error);
-            return false;
-        }
-
-        $hasil = json_decode($response, true);
-
-        return !empty($hasil['success'])
-            && isset($hasil['score']) && (float) $hasil['score'] >= self::RECAPTCHA_MIN_SKOR
-            && isset($hasil['action']) && $hasil['action'] === self::RECAPTCHA_ACTION;
     }
 }
 
