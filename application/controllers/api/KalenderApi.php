@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once APPPATH . 'controllers/api/BaseApi.php';
 
-class KalenderApi extends BaseApi
+class Kalenderapi extends BaseApi
 {
     const WARNA_DEFAULT = array(
         'ibadah'   => '#FF5008',
@@ -94,5 +94,5 @@ class KalenderApi extends BaseApi
     }
 }
 
-/* End of file KalenderApi.php */
-/* Location: ./application/controllers/api/KalenderApi.php */
+/* End of file Kalenderapi.php */
+/* Location: ./application/controllers/api/Kalenderapi.php */
