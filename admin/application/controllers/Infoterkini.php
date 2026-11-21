@@ -15,9 +15,84 @@ class Infoterkini extends MY_Controller
 
     public function index()
     {
-        $data['rsInfo'] = $this->Infoterkini_model->getAll();
+        $data['statistik'] = $this->Infoterkini_model->getStatistik();
         $data['menu'] = 'infoterkini';
         $this->load->view('infoterkini/listdata', $data);
+    }
+
+    // Sumber data DataTables (server-side)
+    public function datatablesource()
+    {
+        $draw = (int) $this->input->post('draw');
+        $start = max(0, (int) $this->input->post('start'));
+        $length = (int) $this->input->post('length');
+        if ($length != -1 && ($length < 1 || $length > 100)) {
+            $length = 10;
+        }
+
+        $searchInput = $this->input->post('search');
+        $search = (is_array($searchInput) && isset($searchInput['value']))
+            ? mb_substr(trim((string) $searchInput['value']), 0, 100)
+            : '';
+
+        $orderInput = $this->input->post('order');
+        $kolomUrut = (is_array($orderInput) && isset($orderInput[0]['column']))
+            ? (int) $orderInput[0]['column']
+            : null;
+        $arah = (is_array($orderInput) && isset($orderInput[0]['dir']) && $orderInput[0]['dir'] === 'desc')
+            ? 'desc'
+            : 'asc';
+
+        $rows = $this->Infoterkini_model->get_datatables($search, $kolomUrut, $arah, $start, $length);
+
+        $data = array();
+        $no = $start;
+        foreach ($rows as $r) {
+            $no++;
+            $enc = $this->encrypt->encode($r->idinfo);
+            $aktif = !empty($r->statusaktif);
+
+            $gambar = '<img class="it-thumb" src="' . html_escape(base_url('uploads/info/' . $r->gambar)) . '"'
+                . ' alt="' . html_escape($r->judul) . '" loading="lazy"'
+                . ' onerror="this.style.opacity=\'.3\';this.alt=\'Gambar tidak ditemukan\';">';
+
+            $judul = '<div class="it-judul">' . html_escape($r->judul) . '</div>';
+            if (!empty($r->subjudul)) {
+                $judul .= '<div class="it-sub">' . html_escape($r->subjudul) . '</div>';
+            }
+            if (!empty($r->urltombol)) {
+                $judul .= '<div class="mt-1"><i class="fa fa-link" style="color:#FF5008;font-size:11px;"></i> '
+                    . '<span class="it-link" title="' . html_escape($r->urltombol) . '">'
+                    . html_escape($r->urltombol) . '</span></div>';
+            }
+
+            $urutan = '<span class="it-urutan">' . (int) $r->urutan . '</span>';
+
+            $status = $aktif
+                ? '<span class="it-badge aktif"><span class="dot"></span>Aktif</span>'
+                : '<span class="it-badge nonaktif"><span class="dot"></span>Nonaktif</span>';
+
+            $aksi = '<div class="it-aksi">'
+                . '<a href="' . site_url('infoterkini/edit/' . $enc) . '" class="btn btn-warning" title="Edit"><i class="fa fa-edit"></i></a>'
+                . '<a href="' . site_url('infoterkini/toggle/' . $enc) . '" class="btn '
+                . ($aktif ? 'btn-secondary' : 'btn-success') . '" title="' . ($aktif ? 'Nonaktifkan' : 'Aktifkan') . '">'
+                . '<i class="fa ' . ($aktif ? 'fa-eye-slash' : 'fa-eye') . '"></i></a>'
+                . '<a href="' . site_url('infoterkini/hapus/' . $enc) . '" class="btn btn-danger btnHapus" title="Hapus"><i class="fa fa-trash"></i></a>'
+                . '</div>';
+
+            $data[] = array($no, $gambar, $judul, $urutan, $status, $aksi);
+        }
+
+        $output = array(
+            'draw' => $draw,
+            'recordsTotal' => $this->Infoterkini_model->count_all(),
+            'recordsFiltered' => $this->Infoterkini_model->count_filtered($search),
+            'data' => $data,
+        );
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($output));
     }
 
     public function tambah()
@@ -197,3 +272,6 @@ class Infoterkini extends MY_Controller
         </div>';
     }
 }
+
+/* End of file Infoterkini.php */
+/* Location: ./application/controllers/Infoterkini.php */

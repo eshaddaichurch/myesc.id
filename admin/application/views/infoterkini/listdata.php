@@ -4,15 +4,9 @@ $this->load->view('template/topmenu');
 $this->load->view('template/sidemenu');
 
 $aturan = info_aturan_gambar();
-$rows = ($rsInfo) ? $rsInfo->result() : array();
-$totalInfo = count($rows);
-$totalAktif = 0;
-foreach ($rows as $r) {
-  if (!empty($r->statusaktif)) {
-    $totalAktif++;
-  }
-}
-$totalNonaktif = $totalInfo - $totalAktif;
+$totalInfo = (int) $statistik['total'];
+$totalAktif = (int) $statistik['aktif'];
+$totalNonaktif = (int) $statistik['nonaktif'];
 ?>
 
 <style>
@@ -36,7 +30,6 @@ $totalNonaktif = $totalInfo - $totalAktif;
   .it-aksi .btn { width: 34px; height: 34px; padding: 0; line-height: 34px; border-radius: 10px; margin: 0 2px; }
   .it-aksi .btn:active { transform: scale(.94); }
   .it-tip { border-radius: 12px; border: 0; background: #FFF6F0; color: #7A4A2E; font-size: 13px; }
-  .it-no { font-weight: 700; color: #8A8A8A; }
 </style>
 
 <div class="row" id="toni-breadcrumb">
@@ -117,68 +110,21 @@ $totalNonaktif = $totalInfo - $totalAktif;
       </div>
 
       <div class="card-body p-3">
-        <table id="tabelInfoTerkini" class="table it-table table-hover mb-0" style="width:100%;">
-          <thead>
-            <tr>
-              <th class="text-center" style="width:60px;">No</th>
-              <th style="width:190px;">Gambar</th>
-              <th>Judul</th>
-              <th class="text-center" style="width:100px;">Urutan</th>
-              <th class="text-center" style="width:130px;">Status</th>
-              <th class="text-center" style="width:150px;">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php $no = 1; foreach ($rows as $row): ?>
-              <?php $enc = $this->encrypt->encode($row->idinfo); ?>
+        <div class="table-responsive">
+          <table id="tabelInfoTerkini" class="table it-table table-hover mb-0" style="width:100%;">
+            <thead>
               <tr>
-                <td class="text-center it-no"><?= $no++ ?></td>
-                <td>
-                  <img class="it-thumb"
-                    src="<?= base_url('uploads/info/' . $row->gambar) ?>"
-                    alt="<?= html_escape($row->judul) ?>"
-                    loading="lazy"
-                    onerror="this.style.opacity='.3';this.alt='Gambar tidak ditemukan';">
-                </td>
-                <td>
-                  <div class="it-judul"><?= html_escape($row->judul) ?></div>
-                  <?php if (!empty($row->subjudul)): ?>
-                    <div class="it-sub"><?= html_escape($row->subjudul) ?></div>
-                  <?php endif; ?>
-                  <?php if (!empty($row->urltombol)): ?>
-                    <div class="mt-1">
-                      <i class="fa fa-link" style="color:#FF5008;font-size:11px;"></i>
-                      <span class="it-link" title="<?= html_escape($row->urltombol) ?>"><?= html_escape($row->urltombol) ?></span>
-                    </div>
-                  <?php endif; ?>
-                </td>
-                <td class="text-center">
-                  <span class="it-urutan"><?= (int) $row->urutan ?></span>
-                </td>
-                <td class="text-center">
-                  <?php if (!empty($row->statusaktif)): ?>
-                    <span class="it-badge aktif"><span class="dot"></span>Aktif</span>
-                  <?php else: ?>
-                    <span class="it-badge nonaktif"><span class="dot"></span>Nonaktif</span>
-                  <?php endif; ?>
-                </td>
-                <td class="text-center it-aksi">
-                  <a href="<?= site_url('infoterkini/edit/' . $enc) ?>" class="btn btn-warning" title="Edit">
-                    <i class="fa fa-edit"></i>
-                  </a>
-                  <a href="<?= site_url('infoterkini/toggle/' . $enc) ?>"
-                    class="btn <?= !empty($row->statusaktif) ? 'btn-secondary' : 'btn-success' ?>"
-                    title="<?= !empty($row->statusaktif) ? 'Nonaktifkan' : 'Aktifkan' ?>">
-                    <i class="fa <?= !empty($row->statusaktif) ? 'fa-eye-slash' : 'fa-eye' ?>"></i>
-                  </a>
-                  <a href="<?= site_url('infoterkini/hapus/' . $enc) ?>" class="btn btn-danger btnHapus" title="Hapus">
-                    <i class="fa fa-trash"></i>
-                  </a>
-                </td>
+                <th class="text-center" style="width:60px;">No</th>
+                <th style="width:190px;">Gambar</th>
+                <th>Judul</th>
+                <th class="text-center" style="width:100px;">Urutan</th>
+                <th class="text-center" style="width:130px;">Status</th>
+                <th class="text-center" style="width:150px;">Aksi</th>
               </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -186,41 +132,51 @@ $totalNonaktif = $totalInfo - $totalAktif;
 
 <?php $this->load->view('template/footer') ?>
 
-<script>
-$(document).ready(function () {
-  $('#tabelInfoTerkini').DataTable({
-    order: [[3, 'asc']],
-    pageLength: 10,
-    columnDefs: [
-      { orderable: false, targets: [1, 5] }
-    ],
-    language: {
-      search: 'Cari:',
-      lengthMenu: 'Tampilkan _MENU_ data',
-      info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data',
-      infoEmpty: 'Tidak ada data',
-      zeroRecords: 'Data tidak ditemukan',
-      paginate: { first: 'Awal', last: 'Akhir', next: 'Lanjut', previous: 'Balik' }
-    }
-  });
+<script type="text/javascript">
+  var table;
 
-  $(document).on('click', '.btnHapus', function (e) {
-    e.preventDefault();
-    var url = $(this).attr('href');
-    Swal.fire({
-      title             : 'Hapus info ini?',
-      text              : 'Gambar juga akan ikut dihapus.',
-      icon              : 'warning',
-      showCancelButton  : true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor : '#6c757d',
-      confirmButtonText : 'Ya, hapus!',
-      cancelButtonText  : 'Batal',
-    }).then(function (result) {
-      if (result.isConfirmed) window.location.href = url;
+  $(document).ready(function () {
+    table = $('#tabelInfoTerkini').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "order": [[3, 'asc']],
+      "pageLength": 10,
+      "lengthMenu": [10, 25, 50, 100],
+      "ajax": {
+        "url": "<?= site_url('infoterkini/datatablesource') ?>",
+        "type": "POST"
+      },
+      "columnDefs": [
+        { "targets": [0], "orderable": false, "className": "dt-body-center" },
+        { "targets": [1], "orderable": false },
+        { "targets": [2], "className": "dt-body-left" },
+        { "targets": [3], "className": "dt-body-center" },
+        { "targets": [4], "className": "dt-body-center" },
+        { "targets": [5], "orderable": false, "className": "dt-body-center" }
+      ],
+      "language": {
+        "search": "Cari:",
+        "lengthMenu": "Tampilkan _MENU_ data",
+        "info": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+        "infoEmpty": "Tidak ada data",
+        "infoFiltered": "(disaring dari _MAX_ data)",
+        "zeroRecords": "Data tidak ditemukan",
+        "processing": "Memuat data...",
+        "paginate": { "first": "Awal", "last": "Akhir", "next": "Lanjut", "previous": "Balik" }
+      }
     });
   });
-});
+
+  $(document).on("click", ".btnHapus", function (e) {
+    e.preventDefault();
+    var link = $(this).attr("href");
+
+    bootbox.confirm("Anda yakin ingin menghapus info ini? Gambar juga akan ikut dihapus.", function (result) {
+      if (result) {
+        document.location.href = link;
+      }
+    });
+  });
 </script>
 
 </body>
