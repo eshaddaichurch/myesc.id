@@ -35,10 +35,10 @@ class Dcrecap extends BaseApi
         $batas = (int) self::BATAS_BARIS;
 
         // Hanya nama file. Nilai base64 atau data URI tidak ikut.
-        $rows = $this->db->query(
+        $query = $this->db->query(
             "SELECT a.idabsen, a.tglabsen, a.keterangan, a.foto, d.namadc
              FROM dcabsen a
-             LEFT JOIN dc d ON d.iddc = a.iddc
+             LEFT JOIN v_disciplescommunity d ON d.iddc = a.iddc
              WHERE a.iddc = ?
                AND a.foto IS NOT NULL AND a.foto <> ''
                AND a.foto NOT LIKE 'data:%'
@@ -46,10 +46,16 @@ class Dcrecap extends BaseApi
              ORDER BY a.tglabsen DESC
              LIMIT {$batas}",
             array($member->iddc)
-        )->result();
+        );
+
+        if ($query === false) {
+            log_message('error', 'Dcrecap::index gagal - ' . json_encode($this->db->error()));
+            $this->jsonError('Data recap belum bisa dimuat.');
+            return;
+        }
 
         $minggu = $this->_kelompokkan(
-            $rows,
+            $query->result(),
             self::JUMLAH_MINGGU_MEMBER,
             self::MAKS_FOTO_PER_MINGGU_MEMBER,
             true
@@ -66,19 +72,25 @@ class Dcrecap extends BaseApi
     {
         $batas = (int) self::BATAS_BARIS;
 
-        $rows = $this->db->query(
+        $query = $this->db->query(
             "SELECT a.idabsen, a.tglabsen, a.foto, d.namadc
              FROM dcabsen a
-             LEFT JOIN dc d ON d.iddc = a.iddc
+             LEFT JOIN v_disciplescommunity d ON d.iddc = a.iddc
              WHERE a.foto IS NOT NULL AND a.foto <> ''
                AND a.foto NOT LIKE 'data:%'
                AND a.foto NOT LIKE 'image/%'
              ORDER BY a.tglabsen DESC
              LIMIT {$batas}"
-        )->result();
+        );
+
+        if ($query === false) {
+            log_message('error', 'Dcrecap::publik gagal - ' . json_encode($this->db->error()));
+            $this->jsonError('Data recap belum bisa dimuat.');
+            return;
+        }
 
         $minggu = $this->_kelompokkan(
-            $rows,
+            $query->result(),
             self::JUMLAH_MINGGU_PUBLIK,
             self::MAKS_FOTO_PUBLIK,
             false
