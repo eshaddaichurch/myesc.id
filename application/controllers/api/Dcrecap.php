@@ -36,13 +36,14 @@ class Dcrecap extends BaseApi
 
         // Hanya nama file. Nilai base64 atau data URI tidak ikut.
         $rows = $this->db->query(
-            "SELECT idabsen, tglabsen, keterangan, foto
-             FROM dcabsen
-             WHERE iddc = ?
-               AND foto IS NOT NULL AND foto <> ''
-               AND foto NOT LIKE 'data:%'
-               AND foto NOT LIKE 'image/%'
-             ORDER BY tglabsen DESC
+            "SELECT a.idabsen, a.tglabsen, a.keterangan, a.foto, d.namadc
+             FROM dcabsen a
+             LEFT JOIN dc d ON d.iddc = a.iddc
+             WHERE a.iddc = ?
+               AND a.foto IS NOT NULL AND a.foto <> ''
+               AND a.foto NOT LIKE 'data:%'
+               AND a.foto NOT LIKE 'image/%'
+             ORDER BY a.tglabsen DESC
              LIMIT {$batas}",
             array($member->iddc)
         )->result();
@@ -66,12 +67,13 @@ class Dcrecap extends BaseApi
         $batas = (int) self::BATAS_BARIS;
 
         $rows = $this->db->query(
-            "SELECT idabsen, tglabsen, foto
-             FROM dcabsen
-             WHERE foto IS NOT NULL AND foto <> ''
-               AND foto NOT LIKE 'data:%'
-               AND foto NOT LIKE 'image/%'
-             ORDER BY tglabsen DESC
+            "SELECT a.idabsen, a.tglabsen, a.foto, d.namadc
+             FROM dcabsen a
+             LEFT JOIN dc d ON d.iddc = a.iddc
+             WHERE a.foto IS NOT NULL AND a.foto <> ''
+               AND a.foto NOT LIKE 'data:%'
+               AND a.foto NOT LIKE 'image/%'
+             ORDER BY a.tglabsen DESC
              LIMIT {$batas}"
         )->result();
 
@@ -126,6 +128,7 @@ class Dcrecap extends BaseApi
             $item = array(
                 'idabsen' => $r->idabsen,
                 'tglabsen' => $r->tglabsen,
+                'namadc' => isset($r->namadc) ? $r->namadc : null,
                 'url' => $this->_urlFoto($r->foto),
             );
             if ($sertakanKeterangan) {
