@@ -8,24 +8,23 @@ class Sermon extends BaseApi
     const CHANNEL_ID = 'UCRSh1ZxtGNjcILTGl2N_1jg';
     const CACHE_DETIK = 900; // 15 menit
     const MAKS_PLAYLIST = 50;
+    const MAKS_VIDEO = 50;
     const NAMA_CACHE = 'sermon_playlist';
 
-    // GET /api/sermon/playlist (publik, tanpa login)
+    // GET /api/sermon/playlist (publik)
     public function playlist()
     {
-        $this->output->set_content_type('application/json');
         header('Cache-Control: public, max-age=' . self::CACHE_DETIK);
 
-        $cache = $this->_bacaCache();
+        $cache = $this->_bacaCache(self::NAMA_CACHE);
         if ($cache !== null) {
             $this->jsonSuccess(array('playlist' => $cache));
             return;
         }
 
-        $data = $this->_ambilDariYoutube();
+        $data = $this->_ambilPlaylist();
         if ($data === null) {
-            // Jika YouTube gagal, pakai cache lama bila ada
-            $lama = $this->_bacaCache(true);
+            $lama = $this->_bacaCache(self::NAMA_CACHE, true);
             if ($lama !== null) {
                 $this->jsonSuccess(array('playlist' => $lama));
                 return;
@@ -34,24 +33,114 @@ class Sermon extends BaseApi
             return;
         }
 
-        $this->_simpanCache($data);
+        $this->_simpanCache(self::NAMA_CACHE, $data);
         $this->jsonSuccess(array('playlist' => $data));
     }
 
-    private function _ambilDariYoutube()
+    // GET /api/sermon/video?playlist=PLAYLIST_ID (publik)
+    public function video()
     {
-        $apiKey = $this->_apiKey();
-        if ($apiKey === '') {
-            log_message('error', 'Sermon: YOUTUBE_API_KEY belum diatur');
-            return null;
+        $playlistId = trim((string) $this->input->get('playlist', true));
+        if (!preg_match('/^[A-Za-z0-9_-]{5,64}$/', $playlistId)) {
+            $this->jsonError('Playlist tidak valid.');
+            return;
         }
 
-        $url = 'https://www.googleapis.com/youtube/v3/playlists?' . http_build_query(array(
+        header('Cache-Control: public, max-age=' . self::CACHE_DETIK);
+
+        $nama = 'sermon_video_' . md5($playlistId);
+        $cache = $this->_bacaCache($nama);
+        if ($cache !== null) {
+            $this->jsonSuccess(array('video' => $cache));
+            return;
+        }
+
+        $data = $this->_ambilVideo($playlistId);
+        if ($data === null) {
+            $lama = $this->_bacaCache($nama, true);
+            if ($lama !== null) {
+                $this->jsonSuccess(array('video' => $lama));
+                return;
+            }
+            $this->jsonError('Daftar video belum bisa dimuat. Coba lagi beberapa saat lagi.');
+            return;
+        }
+
+        $this->_simpanCache($nama, $data);
+        $this->jsonSuccess(array('video' => $data));
+    }
+
+    private function _ambilPlaylist()
+    {
+        $json = $this->_panggilYoutube('playlists', array(
             'part' => 'snippet,contentDetails',
             'channelId' => self::CHANNEL_ID,
             'maxResults' => self::MAKS_PLAYLIST,
-            'key' => $apiKey,
         ));
+        if ($json === null || !isset($json['items'])) {
+            return null;
+        }
+
+        $hasil = array();
+        foreach ($json['items'] as $item) {
+            $snip = isset($item['snippet']) ? $item['snippet'] : array();
+            $hasil[] = array(
+                'id' => $item['id'],
+                'judul' => isset($snip['title']) ? $snip['title'] : '',
+                'deskripsi' => isset($snip['description']) ? mb_substr($snip['description'], 0, 140) : '',
+                'thumbnail' => $this->_pilihThumbnail($snip),
+                'jumlahVideo' => isset($item['contentDetails']['itemCount']) ? (int) $item['contentDetails']['itemCount'] : 0,
+                'url' => 'https://www.youtube.com/playlist?list=' . $item['id'],
+            );
+        }
+        return $hasil;
+    }
+
+    private function _ambilVideo($playlistId)
+    {
+        $json = $this->_panggilYoutube('playlistItems', array(
+            'part' => 'snippet,contentDetails',
+            'playlistId' => $playlistId,
+            'maxResults' => self::MAKS_VIDEO,
+        ));
+        if ($json === null || !isset($json['items'])) {
+            return null;
+        }
+
+        $hasil = array();
+        foreach ($json['items'] as $item) {
+            $snip = isset($item['snippet']) ? $item['snippet'] : array();
+            $videoId = isset($item['contentDetails']['videoId']) ? $item['contentDetails']['videoId'] : null;
+            if ($videoId === null) {
+                continue;
+            }
+            $hasil[] = array(
+                'id' => $videoId,
+                'judul' => isset($snip['title']) ? $snip['title'] : '',
+                'thumbnail' => $this->_pilihThumbnail($snip),
+                'tanggal' => isset($snip['publishedAt']) ? $snip['publishedAt'] : '',
+                'url' => 'https://www.youtube.com/watch?v=' . $videoId . '&list=' . $playlistId,
+            );
+        }
+
+        // Terbaru di atas, berdasarkan tanggal publikasi
+        usort($hasil, function ($a, $b) {
+            return strcmp($b['tanggal'], $a['tanggal']);
+        });
+
+        return $hasil;
+    }
+
+    private function _panggilYoutube($resource, $params)
+    {
+        $apiKey = $this->_apiKey();
+        if ($apiKey === '') {
+            log_message('error', 'Sermon: API key YouTube belum diatur');
+            return null;
+        }
+
+        $params['key'] = $apiKey;
+        $url = 'https://www.googleapis.com/youtube/v3/' . $resource . '?' . http_build_query($params);
 
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
@@ -65,34 +154,22 @@ class Sermon extends BaseApi
         curl_close($ch);
 
         if ($response === false || $error !== '' || $status !== 200) {
-            log_message('error', 'Sermon: YouTube gagal, status=' . $status . ' err=' . $error);
+            log_message('error', 'Sermon: YouTube gagal, resource=' . $resource . ' status=' . $status . ' err=' . $error);
             return null;
         }
 
         $json = json_decode($response, true);
-        if (!is_array($json) || !isset($json['items'])) {
-            log_message('error', 'Sermon: respons YouTube tidak valid');
-            return null;
+        return is_array($json) ? $json : null;
+    }
+
+    private function _pilihThumbnail($snip)
+    {
+        foreach (array('high', 'medium', 'default') as $ukuran) {
+            if (isset($snip['thumbnails'][$ukuran]['url'])) {
+                return $snip['thumbnails'][$ukuran]['url'];
+            }
         }
-
-        $hasil = array();
-        foreach ($json['items'] as $item) {
-            $snip = isset($item['snippet']) ? $item['snippet'] : array();
-            $thumb = isset($snip['thumbnails']['medium']['url'])
-                ? $snip['thumbnails']['medium']['url']
-                : (isset($snip['thumbnails']['default']['url']) ? $snip['thumbnails']['default']['url'] : null);
-
-            $hasil[] = array(
-                'id' => $item['id'],
-                'judul' => isset($snip['title']) ? $snip['title'] : '',
-                'deskripsi' => isset($snip['description']) ? mb_substr($snip['description'], 0, 140) : '',
-                'thumbnail' => $thumb,
-                'jumlahVideo' => isset($item['contentDetails']['itemCount']) ? (int) $item['contentDetails']['itemCount'] : 0,
-                'url' => 'https://www.youtube.com/playlist?list=' . $item['id'],
-            );
-        }
-
-        return $hasil;
+        return null;
     }
 
     private function _apiKey()
@@ -107,14 +184,14 @@ class Sermon extends BaseApi
         return is_string($key) ? trim($key) : '';
     }
 
-    private function _pathCache()
+    private function _pathCache($nama)
     {
-        return APPPATH . 'cache/' . self::NAMA_CACHE . '.json';
+        return APPPATH . 'cache/' . $nama . '.json';
     }
 
-    private function _bacaCache($abaikanMasaBerlaku = false)
+    private function _bacaCache($nama, $abaikanMasaBerlaku = false)
     {
-        $path = $this->_pathCache();
+        $path = $this->_pathCache($nama);
         if (!is_file($path)) {
             return null;
         }
@@ -125,9 +202,9 @@ class Sermon extends BaseApi
         return is_array($isi) ? $isi : null;
     }
 
-    private function _simpanCache($data)
+    private function _simpanCache($nama, $data)
     {
-        @file_put_contents($this->_pathCache(), json_encode($data), LOCK_EX);
+        @file_put_contents($this->_pathCache($nama), json_encode($data), LOCK_EX);
     }
 }
 
