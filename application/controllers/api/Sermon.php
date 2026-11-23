@@ -131,7 +131,7 @@ class Sermon extends BaseApi
         return $hasil;
     }
 
-    private function _panggilYoutube($resource, $params)
+        private function _panggilYoutube($resource, $params)
     {
         $apiKey = $this->_apiKey();
         if ($apiKey === '') {
@@ -142,24 +142,32 @@ class Sermon extends BaseApi
         $params['key'] = $apiKey;
         $url = 'https://www.googleapis.com/youtube/v3/' . $resource . '?' . http_build_query($params);
 
-        $ch = curl_init($url);
-        curl_setopt_array($ch, array(
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT => 10,
-        ));
-        $response = curl_exec($ch);
-        $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
-        curl_close($ch);
+        for ($percobaan = 1; $percobaan <= 2; $percobaan++) {
+            $ch = curl_init($url);
+            curl_setopt_array($ch, array(
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CONNECTTIMEOUT => 8,
+                CURLOPT_TIMEOUT => 20,
+            ));
+            $response = curl_exec($ch);
+            $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $error = curl_error($ch);
+            curl_close($ch);
 
-        if ($response === false || $error !== '' || $status !== 200) {
-            log_message('error', 'Sermon: YouTube gagal, resource=' . $resource . ' status=' . $status . ' err=' . $error);
-            return null;
+            if ($response !== false && $error === '' && $status === 200) {
+                $json = json_decode($response, true);
+                return is_array($json) ? $json : null;
+            }
+
+            log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' err=' . $error);
+
+            // Error selain 5xx/timeout tidak perlu diulang
+            if ($status !== 0 && $status < 500) {
+                break;
+            }
         }
 
-        $json = json_decode($response, true);
-        return is_array($json) ? $json : null;
+        return null;
     }
 
     private function _pilihThumbnail($snip)
