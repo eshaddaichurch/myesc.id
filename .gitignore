@@ -39,6 +39,7 @@ application/logs/*
 application/config/config.php
 application/config/database.php
 application/config/api.php
+application/config/youtube.php
 application/ci_session/* 
 uploads/*
 admin/application/config/config.php
