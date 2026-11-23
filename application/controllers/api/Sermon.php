@@ -159,7 +159,10 @@ class Sermon extends BaseApi
                 return is_array($json) ? $json : null;
             }
 
-            log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' err=' . $error);
+            $pesanGoogle = is_string($response) ? substr($response, 0, 300) : '';
+            log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' body=' . $pesanGoogle);
+
+            // log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' err=' . $error);
 
             // Error selain 5xx/timeout tidak perlu diulang
             if ($status !== 0 && $status < 500) {
