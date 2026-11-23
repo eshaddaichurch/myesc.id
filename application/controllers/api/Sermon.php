@@ -114,16 +114,9 @@ class Sermon extends BaseApi
             if ($videoId === null) {
                 continue;
             }
-
-            // Lewati video privat atau yang sudah dihapus
-            $judul = isset($snip['title']) ? $snip['title'] : '';
-            if ($judul === 'Private video' || $judul === 'Deleted video' || $judul === '') {
-                continue;
-            }
-
             $hasil[] = array(
                 'id' => $videoId,
-                'judul' => $judul,
+                'judul' => isset($snip['title']) ? $snip['title'] : '',
                 'thumbnail' => $this->_pilihThumbnail($snip),
                 'tanggal' => isset($snip['publishedAt']) ? $snip['publishedAt'] : '',
                 'url' => 'https://www.youtube.com/watch?v=' . $videoId . '&list=' . $playlistId,
@@ -138,7 +131,7 @@ class Sermon extends BaseApi
         return $hasil;
     }
 
-    private function _panggilYoutube($resource, $params)
+        private function _panggilYoutube($resource, $params)
     {
         $apiKey = $this->_apiKey();
         if ($apiKey === '') {
@@ -168,6 +161,8 @@ class Sermon extends BaseApi
 
             $pesanGoogle = is_string($response) ? substr($response, 0, 300) : '';
             log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' body=' . $pesanGoogle);
+
+            // log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' err=' . $error);
 
             // Error selain 5xx/timeout tidak perlu diulang
             if ($status !== 0 && $status < 500) {
