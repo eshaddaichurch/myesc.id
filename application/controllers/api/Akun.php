@@ -123,6 +123,64 @@ class Akun extends BaseApi
         $this->jsonSuccess(array('msg' => 'Data profil berhasil disimpan.'));
     }
 
+    // POST /api/akun/foto  (multipart: foto)
+    // Pemilik diambil dari token, bukan dari parameter. Foto lama dihapus oleh App->uploadImage.
+    public function foto()
+    {
+        $idjemaat = $this->requireAuth();
+
+        if (empty($_FILES['foto']) || $_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
+            $this->jsonError('Foto tidak diterima. Pilih gambar lalu coba lagi.');
+            return;
+        }
+
+        $file = $_FILES['foto'];
+
+        // Validasi tipe dan ukuran di server (tidak cukup hanya dari aplikasi)
+        $maksBytes = 2 * 1024 * 1024; // 2 MB
+        if ($file['size'] <= 0 || $file['size'] > $maksBytes) {
+            $this->jsonError('Ukuran foto maksimal 2 MB.');
+            return;
+        }
+
+        $info = @getimagesize($file['tmp_name']);
+        $mimeIzin = array('image/jpeg', 'image/png');
+        if ($info === false || !in_array($info['mime'], $mimeIzin, true)) {
+            $this->jsonError('Format foto harus JPG atau PNG.');
+            return;
+        }
+
+        $rowJemaat = $this->db->query(
+            'SELECT foto FROM jemaat WHERE idjemaat = ?',
+            array($idjemaat)
+        )->row();
+        if (!$rowJemaat) {
+            $this->jsonError('Data jemaat tidak ditemukan.');
+            return;
+        }
+
+        try {
+            $namaFile = $this->App->uploadImage($_FILES, 'foto', $rowJemaat->foto, 'jemaat');
+        } catch (\Throwable $e) {
+            log_message('error', 'Akun::foto gagal untuk idjemaat=' . $idjemaat . ' - ' . $e->getMessage());
+            $this->jsonError('Foto gagal disimpan. Silakan coba lagi.');
+            return;
+        }
+
+        if (empty($namaFile)) {
+            $this->jsonError('Foto gagal disimpan. Silakan coba lagi.');
+            return;
+        }
+
+        $this->db->where('idjemaat', $idjemaat);
+        $this->db->update('jemaat', array('foto' => $namaFile));
+
+        $this->jsonSuccess(array(
+            'msg' => 'Foto profil berhasil diubah.',
+            'foto' => base_url('myesc.id/admin/uploads/jemaat/' . $namaFile),
+        ));
+    }
+
     // GET /api/akun/provinsi
     public function provinsi()
     {
