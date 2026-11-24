@@ -6,12 +6,12 @@ require_once APPPATH . 'controllers/api/BaseApi.php';
 class Sermon extends BaseApi
 {
     const CHANNEL_ID = 'UCRSh1ZxtGNjcILTGl2N_1jg';
-    const CACHE_DETIK = 900; // 15 menit
+    const CACHE_DETIK = 21600; // 6 jam, cache diperbarui oleh cron
     const MAKS_PLAYLIST = 50;
     const MAKS_VIDEO = 50;
     const NAMA_CACHE = 'sermon_playlist';
 
-    // GET /api/sermon/playlist (publik)
+    // GET /api/sermon/playlist (publik, hanya membaca cache)
     public function playlist()
     {
         header('Cache-Control: public, max-age=' . self::CACHE_DETIK);
@@ -22,22 +22,17 @@ class Sermon extends BaseApi
             return;
         }
 
-        $data = $this->_ambilPlaylist();
-        if ($data === null) {
-            $lama = $this->_bacaCache(self::NAMA_CACHE, true);
-            if ($lama !== null) {
-                $this->jsonSuccess(array('playlist' => $lama));
-                return;
-            }
-            $this->jsonError('Daftar sermon belum bisa dimuat. Coba lagi beberapa saat lagi.');
+        // Cache kosong atau kedaluwarsa: pakai cache lama jika ada, tanpa memanggil YouTube
+        $lama = $this->_bacaCache(self::NAMA_CACHE, true);
+        if ($lama !== null) {
+            $this->jsonSuccess(array('playlist' => $lama));
             return;
         }
 
-        $this->_simpanCache(self::NAMA_CACHE, $data);
-        $this->jsonSuccess(array('playlist' => $data));
+        $this->jsonError('Daftar sermon sedang diperbarui. Coba beberapa saat lagi.');
     }
 
-    // GET /api/sermon/video?playlist=PLAYLIST_ID (publik)
+    // GET /api/sermon/video?playlist=PLAYLIST_ID (publik, hanya membaca cache)
     public function video()
     {
         $playlistId = trim((string) $this->input->get('playlist', true));
@@ -55,19 +50,39 @@ class Sermon extends BaseApi
             return;
         }
 
-        $data = $this->_ambilVideo($playlistId);
-        if ($data === null) {
-            $lama = $this->_bacaCache($nama, true);
-            if ($lama !== null) {
-                $this->jsonSuccess(array('video' => $lama));
-                return;
-            }
-            $this->jsonError('Daftar video belum bisa dimuat. Coba lagi beberapa saat lagi.');
+        $lama = $this->_bacaCache($nama, true);
+        if ($lama !== null) {
+            $this->jsonSuccess(array('video' => $lama));
             return;
         }
 
-        $this->_simpanCache($nama, $data);
-        $this->jsonSuccess(array('video' => $data));
+        $this->jsonError('Daftar video sedang diperbarui. Coba beberapa saat lagi.');
+    }
+
+    // CLI only: php index.php api/Sermon cron_perbarui
+    // Dijalankan cron setiap 6 jam. Pengguna tidak pernah memicu panggilan ke YouTube.
+    public function cron_perbarui()
+    {
+        if (!$this->input->is_cli_request()) {
+            show_404();
+            return;
+        }
+
+        $playlist = $this->_ambilPlaylist();
+        if ($playlist !== null) {
+            $this->_simpanCache(self::NAMA_CACHE, $playlist);
+            foreach ($playlist as $p) {
+                $video = $this->_ambilVideo($p['id']);
+                if ($video !== null) {
+                    $this->_simpanCache('sermon_video_' . md5($p['id']), $video);
+                }
+                // Jeda kecil agar tidak memicu rate limit YouTube
+                usleep(500000);
+            }
+            log_message('info', 'Sermon: cache diperbarui, ' . count($playlist) . ' playlist');
+        } else {
+            log_message('error', 'Sermon: cron gagal memperbarui playlist, cache lama tetap dipakai');
+        }
     }
 
     private function _ambilPlaylist()
@@ -123,7 +138,6 @@ class Sermon extends BaseApi
             );
         }
 
-        // Terbaru di atas, berdasarkan tanggal publikasi
         usort($hasil, function ($a, $b) {
             return strcmp($b['tanggal'], $a['tanggal']);
         });
@@ -131,7 +145,7 @@ class Sermon extends BaseApi
         return $hasil;
     }
 
-        private function _panggilYoutube($resource, $params)
+    private function _panggilYoutube($resource, $params)
     {
         $apiKey = $this->_apiKey();
         if ($apiKey === '') {
@@ -161,8 +175,6 @@ class Sermon extends BaseApi
 
             $pesanGoogle = is_string($response) ? substr($response, 0, 300) : '';
             log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' body=' . $pesanGoogle);
-
-            // log_message('error', 'Sermon: YouTube gagal (percobaan ' . $percobaan . '), resource=' . $resource . ' status=' . $status . ' err=' . $error);
 
             // Error selain 5xx/timeout tidak perlu diulang
             if ($status !== 0 && $status < 500) {
