@@ -68,7 +68,7 @@
                       $rsjemaat = $this->db->query("select * from v_jemaat order by namalengkap");
                       if ($rsjemaat->num_rows() > 0) {
                         foreach ($rsjemaat->result() as $row) {
-                          echo '<option value="' . $row->idjemaat . '">' . $row->namalengkap . '</option>';
+                          echo '<option value="' . $row->idjemaat . '">' . $row->namalengkap . ' (' . $row->idjemaat . ')</option>';
                         }
                       }
                       ?>
